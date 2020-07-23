@@ -29,6 +29,9 @@ class ApiKeyTest(TestBase):
     def test_do_list(self):
         resp = ApiKey.do_list()
 
+    def test_do_find_current(self):
+        resp = ApiKey.do_find_current()
+
     def test_do_find(self):
         id = 12345
         params = {
@@ -36,11 +39,11 @@ class ApiKeyTest(TestBase):
         }
         ApiKey.do_find(id, params)
 
-    def test_do_find_current(self):
-        resp = ApiKey.do_find_current()
-
     def test_do_create(self):
         resp = ApiKey.do_create()
+
+    def test_do_update_current(self):
+        resp = ApiKey.do_update_current()
 
     def test_do_update(self):
         id = 12345
@@ -49,8 +52,8 @@ class ApiKeyTest(TestBase):
         }
         ApiKey.do_update(id, params)
 
-    def test_do_update_current(self):
-        resp = ApiKey.do_update_current()
+    def test_do_delete_current(self):
+        resp = ApiKey.do_delete_current()
 
     def test_do_delete(self):
         id = 12345
@@ -58,9 +61,6 @@ class ApiKeyTest(TestBase):
             "id" : 12345,
         }
         ApiKey.do_delete(id, params)
-
-    def test_do_delete_current(self):
-        resp = ApiKey.do_delete_current()
 
 if __name__ == '__main__':
     unittest.main()

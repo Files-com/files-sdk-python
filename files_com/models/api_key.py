@@ -126,6 +126,12 @@ class ApiKey:
     def do_all(params = {}):
         ApiKey.do_list(params)
     
+    @staticmethod
+    def do_find_current(params = {}, options = {}):
+
+        response, options = Api.send_request("GET", "/api_key", params, options)
+        return ApiKey(response.data, options)
+    
     # Parameters:
     #   id (required) - int64 - Api Key ID.
     @staticmethod
@@ -144,12 +150,6 @@ class ApiKey:
     @staticmethod
     def do_get(id, params = {}):
         ApiKey.do_find(id, params)
-    
-    @staticmethod
-    def do_find_current(params = {}, options = {}):
-
-        response, options = Api.send_request("GET", "/api_key", params, options)
-        return ApiKey(response.data, options)
     
     # Parameters:
     #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
@@ -171,6 +171,22 @@ class ApiKey:
             raise InvalidParameterError("Bad parameter: path must be an str")
 
         response, options = Api.send_request("POST", "/api_keys", params, options)
+        return ApiKey(response.data, options)
+    
+    # Parameters:
+    #   expires_at - string - API Key expiration date
+    #   name - string - Internal name for the API Key.  For your use.
+    #   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+    @staticmethod
+    def do_update_current(params = {}, options = {}):
+        if "expires_at" in params and not isinstance(params["expires_at"], str):
+            raise InvalidParameterError("Bad parameter: expires_at must be an str")
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
+        if "permission_set" in params and not isinstance(params["permission_set"], str):
+            raise InvalidParameterError("Bad parameter: permission_set must be an str")
+
+        response, options = Api.send_request("PATCH", "/api_key", params, options)
         return ApiKey(response.data, options)
     
     # Parameters:
@@ -196,21 +212,11 @@ class ApiKey:
         response, options = Api.send_request("PATCH", "/api_keys/{id}".format(id=params['id']), params, options)
         return ApiKey(response.data, options)
     
-    # Parameters:
-    #   expires_at - string - API Key expiration date
-    #   name - string - Internal name for the API Key.  For your use.
-    #   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
     @staticmethod
-    def do_update_current(params = {}, options = {}):
-        if "expires_at" in params and not isinstance(params["expires_at"], str):
-            raise InvalidParameterError("Bad parameter: expires_at must be an str")
-        if "name" in params and not isinstance(params["name"], str):
-            raise InvalidParameterError("Bad parameter: name must be an str")
-        if "permission_set" in params and not isinstance(params["permission_set"], str):
-            raise InvalidParameterError("Bad parameter: permission_set must be an str")
+    def do_delete_current(params = {}, options = {}):
 
-        response, options = Api.send_request("PATCH", "/api_key", params, options)
-        return ApiKey(response.data, options)
+        response, _options = Api.send_request("DELETE", "/api_key", params, options)
+        return response.data
     
     @staticmethod
     def do_delete(id, params = {}, options = {}):
@@ -228,10 +234,4 @@ class ApiKey:
     @staticmethod
     def do_destroy(id, params = {}):
         ApiKey.do_delete(id, params)
-    
-    @staticmethod
-    def do_delete_current(params = {}, options = {}):
-
-        response, _options = Api.send_request("DELETE", "/api_key", params, options)
-        return response.data
     
