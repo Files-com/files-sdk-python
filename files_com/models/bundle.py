@@ -9,6 +9,7 @@ class Bundle:
         'description': None,     # string - Public description
         'password_protected': None,     # boolean - Is this bundle password protected?
         'require_registration': None,     # boolean - Show a registration page that captures the downloader's name and email address?
+        'require_share_recipient': None,     # boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
         'clickwrap_body': None,     # string - Legal text that must be agreed to prior to accessing Bundle.
         'id': None,     # int64 - Bundle ID
         'created_at': None,     # date-time - Bundle created at date/time
@@ -61,14 +62,15 @@ class Bundle:
 
     # Parameters:
     #   password - string - Password for this bundle.
-    #   expires_at - string - Bundle expiration date/time
-    #   max_uses - int64 - Maximum number of times bundle can be accessed
-    #   description - string - Public description
-    #   note - string - Bundle internal note
-    #   code - string - Bundle code.  This code forms the end part of the Public URL.
-    #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
     #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
+    #   code - string - Bundle code.  This code forms the end part of the Public URL.
+    #   description - string - Public description
+    #   expires_at - string - Bundle expiration date/time
     #   inbox_id - int64 - ID of the associated inbox, if available.
+    #   max_uses - int64 - Maximum number of times bundle can be accessed
+    #   note - string - Bundle internal note
+    #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
+    #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
     def update(self, params = {}):
         if not isinstance(params, dict):
             params = {}
@@ -83,20 +85,20 @@ class Bundle:
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "password" in params and not isinstance(params["password"], str):
             raise InvalidParameterError("Bad parameter: password must be an str")
-        if "expires_at" in params and not isinstance(params["expires_at"], str):
-            raise InvalidParameterError("Bad parameter: expires_at must be an str")
-        if "max_uses" in params and not isinstance(params["max_uses"], int):
-            raise InvalidParameterError("Bad parameter: max_uses must be an int")
-        if "description" in params and not isinstance(params["description"], str):
-            raise InvalidParameterError("Bad parameter: description must be an str")
-        if "note" in params and not isinstance(params["note"], str):
-            raise InvalidParameterError("Bad parameter: note must be an str")
-        if "code" in params and not isinstance(params["code"], str):
-            raise InvalidParameterError("Bad parameter: code must be an str")
         if "clickwrap_id" in params and not isinstance(params["clickwrap_id"], int):
             raise InvalidParameterError("Bad parameter: clickwrap_id must be an int")
+        if "code" in params and not isinstance(params["code"], str):
+            raise InvalidParameterError("Bad parameter: code must be an str")
+        if "description" in params and not isinstance(params["description"], str):
+            raise InvalidParameterError("Bad parameter: description must be an str")
+        if "expires_at" in params and not isinstance(params["expires_at"], str):
+            raise InvalidParameterError("Bad parameter: expires_at must be an str")
         if "inbox_id" in params and not isinstance(params["inbox_id"], int):
             raise InvalidParameterError("Bad parameter: inbox_id must be an int")
+        if "max_uses" in params and not isinstance(params["max_uses"], int):
+            raise InvalidParameterError("Bad parameter: max_uses must be an int")
+        if "note" in params and not isinstance(params["note"], str):
+            raise InvalidParameterError("Bad parameter: note must be an str")
         return Api.send_request("PATCH", "/bundles/{id}".format(id=params['id']), params, self.options)
 
     def delete(self, params = {}):
@@ -204,6 +206,7 @@ class Bundle:
     #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
     #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
     #   inbox_id - int64 - ID of the associated inbox, if available.
+    #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
     @staticmethod
     def do_create(params = {}, options = {}):
         if "user_id" in params and not isinstance(params["user_id"], int):
@@ -258,14 +261,15 @@ class Bundle:
     
     # Parameters:
     #   password - string - Password for this bundle.
-    #   expires_at - string - Bundle expiration date/time
-    #   max_uses - int64 - Maximum number of times bundle can be accessed
-    #   description - string - Public description
-    #   note - string - Bundle internal note
-    #   code - string - Bundle code.  This code forms the end part of the Public URL.
-    #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
     #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
+    #   code - string - Bundle code.  This code forms the end part of the Public URL.
+    #   description - string - Public description
+    #   expires_at - string - Bundle expiration date/time
     #   inbox_id - int64 - ID of the associated inbox, if available.
+    #   max_uses - int64 - Maximum number of times bundle can be accessed
+    #   note - string - Bundle internal note
+    #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
+    #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
     @staticmethod
     def do_update(id, params = {}, options = {}):
         if not isinstance(params, dict):
@@ -275,20 +279,20 @@ class Bundle:
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "password" in params and not isinstance(params["password"], str):
             raise InvalidParameterError("Bad parameter: password must be an str")
-        if "expires_at" in params and not isinstance(params["expires_at"], str):
-            raise InvalidParameterError("Bad parameter: expires_at must be an str")
-        if "max_uses" in params and not isinstance(params["max_uses"], int):
-            raise InvalidParameterError("Bad parameter: max_uses must be an int")
-        if "description" in params and not isinstance(params["description"], str):
-            raise InvalidParameterError("Bad parameter: description must be an str")
-        if "note" in params and not isinstance(params["note"], str):
-            raise InvalidParameterError("Bad parameter: note must be an str")
-        if "code" in params and not isinstance(params["code"], str):
-            raise InvalidParameterError("Bad parameter: code must be an str")
         if "clickwrap_id" in params and not isinstance(params["clickwrap_id"], int):
             raise InvalidParameterError("Bad parameter: clickwrap_id must be an int")
+        if "code" in params and not isinstance(params["code"], str):
+            raise InvalidParameterError("Bad parameter: code must be an str")
+        if "description" in params and not isinstance(params["description"], str):
+            raise InvalidParameterError("Bad parameter: description must be an str")
+        if "expires_at" in params and not isinstance(params["expires_at"], str):
+            raise InvalidParameterError("Bad parameter: expires_at must be an str")
         if "inbox_id" in params and not isinstance(params["inbox_id"], int):
             raise InvalidParameterError("Bad parameter: inbox_id must be an int")
+        if "max_uses" in params and not isinstance(params["max_uses"], int):
+            raise InvalidParameterError("Bad parameter: max_uses must be an int")
+        if "note" in params and not isinstance(params["note"], str):
+            raise InvalidParameterError("Bad parameter: note must be an str")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
 
