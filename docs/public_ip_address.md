@@ -1,0 +1,13 @@
+# PublicIpAddress
+
+## Example PublicIpAddress Object
+
+```
+{
+  "ip_address": "1.1.1.1",
+  "server_name": "server-1"
+}
+```
+
+* `ip_address` (string): The public IP address.
+* `server_name` (string): The name of the frontend server.

@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import File
+from files_sdk.models import File
+from files_sdk import file
 
 class FileTest(TestBase):
     pass 
@@ -33,33 +34,33 @@ class FileTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_download(self):
+    def test_download(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        File.do_download(path, params)
+        file.download(path, params)
 
-    def test_do_create(self):
+    def test_create(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        File.do_create(path, params)
+        file.create(path, params)
 
-    def test_do_update(self):
+    def test_update(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        File.do_update(path, params)
+        file.update(path, params)
 
-    def test_do_delete(self):
+    def test_delete(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        File.do_delete(path, params)
+        file.delete(path, params)
 
 if __name__ == '__main__':
     unittest.main()

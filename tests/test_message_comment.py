@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import MessageComment
+from files_sdk.models import MessageComment
+from files_sdk import message_comment
 
 class MessageCommentTest(TestBase):
     pass 
@@ -27,39 +28,39 @@ class MessageCommentTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_list(self):
+    def test_list(self):
         params = {
             "message_id" : 12345,
         }
-        MessageComment.do_list(params)
+        message_comment.list(params)
 
-    def test_do_find(self):
+    def test_find(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        MessageComment.do_find(id, params)
+        message_comment.find(id, params)
 
-    def test_do_create(self):
+    def test_create(self):
         params = {
             "body" : "foo",
         }
-        MessageComment.do_create(params)
+        message_comment.create(params)
 
-    def test_do_update(self):
+    def test_update(self):
         id = 12345
         params = {
             "id" : 12345,
             "body" : "foo",
         }
-        MessageComment.do_update(id, params)
+        message_comment.update(id, params)
 
-    def test_do_delete(self):
+    def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        MessageComment.do_delete(id, params)
+        message_comment.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()

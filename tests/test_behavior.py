@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import Behavior
+from files_sdk.models import Behavior
+from files_sdk import behavior
 
 class BehaviorTest(TestBase):
     pass 
@@ -26,49 +27,49 @@ class BehaviorTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_list(self):
-        resp = Behavior.do_list()
+    def test_list(self):
+        resp = behavior.list()
 
-    def test_do_find(self):
+    def test_find(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        Behavior.do_find(id, params)
+        behavior.find(id, params)
 
-    def test_do_list_for(self):
+    def test_list_for(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        Behavior.do_list_for(path, params)
+        behavior.list_for(path, params)
 
-    def test_do_create(self):
+    def test_create(self):
         params = {
             "path" : "foo",
             "behavior" : "foo",
         }
-        Behavior.do_create(params)
+        behavior.create(params)
 
-    def test_do_webhook_test(self):
+    def test_webhook_test(self):
         params = {
             "url" : "foo",
         }
-        Behavior.do_webhook_test(params)
+        behavior.webhook_test(params)
 
-    def test_do_update(self):
+    def test_update(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        Behavior.do_update(id, params)
+        behavior.update(id, params)
 
-    def test_do_delete(self):
+    def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        Behavior.do_delete(id, params)
+        behavior.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()

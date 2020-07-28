@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import As2Key
+from files_sdk.models import As2Key
+from files_sdk import as2_key
 
 class As2KeyTest(TestBase):
     pass 
@@ -27,37 +28,37 @@ class As2KeyTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_list(self):
-        resp = As2Key.do_list()
+    def test_list(self):
+        resp = as2_key.list()
 
-    def test_do_find(self):
+    def test_find(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        As2Key.do_find(id, params)
+        as2_key.find(id, params)
 
-    def test_do_create(self):
+    def test_create(self):
         params = {
             "as2_partnership_name" : "foo",
             "public_key" : "foo",
         }
-        As2Key.do_create(params)
+        as2_key.create(params)
 
-    def test_do_update(self):
+    def test_update(self):
         id = 12345
         params = {
             "id" : 12345,
             "as2_partnership_name" : "foo",
         }
-        As2Key.do_update(id, params)
+        as2_key.update(id, params)
 
-    def test_do_delete(self):
+    def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        As2Key.do_delete(id, params)
+        as2_key.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()

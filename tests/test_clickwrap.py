@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import Clickwrap
+from files_sdk.models import Clickwrap
+from files_sdk import clickwrap
 
 class ClickwrapTest(TestBase):
     pass 
@@ -26,32 +27,32 @@ class ClickwrapTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_list(self):
-        resp = Clickwrap.do_list()
+    def test_list(self):
+        resp = clickwrap.list()
 
-    def test_do_find(self):
+    def test_find(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        Clickwrap.do_find(id, params)
+        clickwrap.find(id, params)
 
-    def test_do_create(self):
-        resp = Clickwrap.do_create()
+    def test_create(self):
+        resp = clickwrap.create()
 
-    def test_do_update(self):
+    def test_update(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        Clickwrap.do_update(id, params)
+        clickwrap.update(id, params)
 
-    def test_do_delete(self):
+    def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        Clickwrap.do_delete(id, params)
+        clickwrap.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()

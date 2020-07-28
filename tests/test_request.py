@@ -1,39 +1,40 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import Request
+from files_sdk.models import Request
+from files_sdk import request
 
 class RequestTest(TestBase):
     pass 
     # Instance Methods
 
     # Static Methods
-    def test_do_list(self):
+    def test_list(self):
         path = "foo"
-        resp = Request.do_list(path, )
+        resp = request.list(path, )
 
-    def test_do_find_folder(self):
+    def test_find_folder(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        Request.do_find_folder(path, params)
+        request.find_folder(path, params)
 
-    def test_do_create(self):
+    def test_create(self):
         path = "foo"
         params = {
             "path" : "foo",
             "destination" : "foo",
         }
-        Request.do_create(path, params)
+        request.create(path, params)
 
-    def test_do_delete(self):
+    def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        Request.do_delete(id, params)
+        request.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()

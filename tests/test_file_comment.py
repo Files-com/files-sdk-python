@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import FileComment
+from files_sdk.models import FileComment
+from files_sdk import file_comment
 
 class FileCommentTest(TestBase):
     pass 
@@ -27,34 +28,34 @@ class FileCommentTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_list_for(self):
+    def test_list_for(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        FileComment.do_list_for(path, params)
+        file_comment.list_for(path, params)
 
-    def test_do_create(self):
+    def test_create(self):
         params = {
             "body" : "foo",
             "path" : "foo",
         }
-        FileComment.do_create(params)
+        file_comment.create(params)
 
-    def test_do_update(self):
+    def test_update(self):
         id = 12345
         params = {
             "id" : 12345,
             "body" : "foo",
         }
-        FileComment.do_update(id, params)
+        file_comment.update(id, params)
 
-    def test_do_delete(self):
+    def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        FileComment.do_delete(id, params)
+        file_comment.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()

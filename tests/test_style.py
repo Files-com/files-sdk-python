@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import Style
+from files_sdk.models import Style
+from files_sdk import style
 
 class StyleTest(TestBase):
     pass 
@@ -19,20 +20,20 @@ class StyleTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_find(self):
+    def test_find(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        Style.do_find(path, params)
+        style.find(path, params)
 
 
-    def test_do_delete(self):
+    def test_delete(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        Style.do_delete(path, params)
+        style.delete(path, params)
 
 if __name__ == '__main__':
     unittest.main()

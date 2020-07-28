@@ -1,0 +1,191 @@
+import datetime
+from files_sdk.api import Api
+from files_sdk.exceptions import InvalidParameterError, MissingParameterError, NotImplementedError
+
+class HistoryExport:
+    default_attributes = {
+        'id': None,     # int64 - History Export ID
+        'start_at': None,     # date-time - Start date/time of export range.
+        'end_at': None,     # date-time - End date/time of export range.
+        'status': None,     # string - Status of export.  Will be: `building` or `ready`
+        'query_action': None,     # string - Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
+        'query_interface': None,     # string - Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`
+        'query_user_id': None,     # int64 - Return results that are actions performed by the user indiciated by this User ID
+        'query_file_id': None,     # int64 - Return results that are file actions related to the file indicated by this File ID
+        'query_parent_id': None,     # int64 - Return results that are file actions inside the parent folder specified by this folder ID
+        'query_path': None,     # string - Return results that are file actions related to this path.
+        'query_folder': None,     # string - Return results that are file actions related to files or folders inside this folder path.
+        'query_src': None,     # string - Return results that are file moves originating from this path.
+        'query_destination': None,     # string - Return results that are file moves with this path as destination.
+        'query_ip': None,     # string - Filter results by this IP address.
+        'query_username': None,     # string - Filter results by this username.
+        'query_failure_type': None,     # string - If searching for Histories about login failures, this parameter restricts results to failures of this specific type.  Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`
+        'query_target_id': None,     # int64 - If searching for Histories about specific objects (such as Users, or API Keys), this paremeter restricts results to objects that match this ID.
+        'query_target_name': None,     # string - If searching for Histories about Users, Groups or other objects with names, this parameter restricts results to objects with this name/username.
+        'query_target_permission': None,     # string - If searching for Histories about Permisisons, this parameter restricts results to permissions of this level.
+        'query_target_user_id': None,     # int64 - If searching for Histories about API keys, this parameter restricts results to API keys created by/for this user ID.
+        'query_target_username': None,     # string - If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.
+        'query_target_platform': None,     # string - If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
+        'query_target_permission_set': None,     # string - If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
+        'user_id': None,     # int64 - User ID.  Provide a value of `0` to operate the current session's user.
+    }
+
+    def __init__(self, attributes={}, options={}):
+        self.set_attributes(attributes)
+        self.options = options
+
+    def set_attributes(self, attributes):
+        for (attribute, default_value) in HistoryExport.default_attributes.items():
+            setattr(self, attribute, attributes.get(attribute, default_value))
+
+    def get_attributes(self):
+        return {k: getattr(self, k, None) for k in HistoryExport.default_attributes if getattr(self, k, None) is not None}
+
+    def delete(self, params = {}):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params['id'] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        response, _options = Api.send_request("DELETE", "/history_exports/{id}".format(id=params['id']), params, self.options)
+        return response.data
+
+    def destroy(self, params = {}):
+        self.delete(params)
+
+    def save(self):
+        if hasattr(self, "id") and self.id:
+            raise NotImplementedError("The HistoryExport object doesn't support updates.")
+        else:
+            new_obj = create(self.get_attributes(), self.options)
+            self.set_attributes(new_obj.get_attributes())
+
+# Parameters:
+#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+#   page - int64 - Current page number.
+#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
+def list(params = {}, options = {}):
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "page" in params and not isinstance(params["page"], int):
+        raise InvalidParameterError("Bad parameter: page must be an int")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    response, options = Api.send_request("GET", "/history_exports", params, options)
+    return [ HistoryExport(entity_data, options) for entity_data in response.data ]
+
+def all(params = {}, options = {}):
+    list(params, options)
+
+# Parameters:
+#   id (required) - int64 - History Export ID.
+def find(id, params = {}, options = {}):
+    if not isinstance(params, dict):
+        params = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request("GET", "/history_exports/{id}".format(id=params['id']), params, options)
+    return HistoryExport(response.data, options)
+
+def get(id, params = {}, options = {}):
+    find(id, params, options)
+
+# Parameters:
+#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+#   start_at - string - Start date/time of export range.
+#   end_at - string - End date/time of export range.
+#   query_action - string - Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
+#   query_interface - string - Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`
+#   query_user_id - int64 - Return results that are actions performed by the user indiciated by this User ID
+#   query_file_id - int64 - Return results that are file actions related to the file indicated by this File ID
+#   query_parent_id - int64 - Return results that are file actions inside the parent folder specified by this folder ID
+#   query_path - string - Return results that are file actions related to this path.
+#   query_folder - string - Return results that are file actions related to files or folders inside this folder path.
+#   query_src - string - Return results that are file moves originating from this path.
+#   query_destination - string - Return results that are file moves with this path as destination.
+#   query_ip - string - Filter results by this IP address.
+#   query_username - string - Filter results by this username.
+#   query_failure_type - string - If searching for Histories about login failures, this parameter restricts results to failures of this specific type.  Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`
+#   query_target_id - int64 - If searching for Histories about specific objects (such as Users, or API Keys), this paremeter restricts results to objects that match this ID.
+#   query_target_name - string - If searching for Histories about Users, Groups or other objects with names, this parameter restricts results to objects with this name/username.
+#   query_target_permission - string - If searching for Histories about Permisisons, this parameter restricts results to permissions of this level.
+#   query_target_user_id - int64 - If searching for Histories about API keys, this parameter restricts results to API keys created by/for this user ID.
+#   query_target_username - string - If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.
+#   query_target_platform - string - If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
+#   query_target_permission_set - string - If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
+def create(params = {}, options = {}):
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "start_at" in params and not isinstance(params["start_at"], str):
+        raise InvalidParameterError("Bad parameter: start_at must be an str")
+    if "end_at" in params and not isinstance(params["end_at"], str):
+        raise InvalidParameterError("Bad parameter: end_at must be an str")
+    if "query_action" in params and not isinstance(params["query_action"], str):
+        raise InvalidParameterError("Bad parameter: query_action must be an str")
+    if "query_interface" in params and not isinstance(params["query_interface"], str):
+        raise InvalidParameterError("Bad parameter: query_interface must be an str")
+    if "query_user_id" in params and not isinstance(params["query_user_id"], int):
+        raise InvalidParameterError("Bad parameter: query_user_id must be an int")
+    if "query_file_id" in params and not isinstance(params["query_file_id"], int):
+        raise InvalidParameterError("Bad parameter: query_file_id must be an int")
+    if "query_parent_id" in params and not isinstance(params["query_parent_id"], int):
+        raise InvalidParameterError("Bad parameter: query_parent_id must be an int")
+    if "query_path" in params and not isinstance(params["query_path"], str):
+        raise InvalidParameterError("Bad parameter: query_path must be an str")
+    if "query_folder" in params and not isinstance(params["query_folder"], str):
+        raise InvalidParameterError("Bad parameter: query_folder must be an str")
+    if "query_src" in params and not isinstance(params["query_src"], str):
+        raise InvalidParameterError("Bad parameter: query_src must be an str")
+    if "query_destination" in params and not isinstance(params["query_destination"], str):
+        raise InvalidParameterError("Bad parameter: query_destination must be an str")
+    if "query_ip" in params and not isinstance(params["query_ip"], str):
+        raise InvalidParameterError("Bad parameter: query_ip must be an str")
+    if "query_username" in params and not isinstance(params["query_username"], str):
+        raise InvalidParameterError("Bad parameter: query_username must be an str")
+    if "query_failure_type" in params and not isinstance(params["query_failure_type"], str):
+        raise InvalidParameterError("Bad parameter: query_failure_type must be an str")
+    if "query_target_id" in params and not isinstance(params["query_target_id"], int):
+        raise InvalidParameterError("Bad parameter: query_target_id must be an int")
+    if "query_target_name" in params and not isinstance(params["query_target_name"], str):
+        raise InvalidParameterError("Bad parameter: query_target_name must be an str")
+    if "query_target_permission" in params and not isinstance(params["query_target_permission"], str):
+        raise InvalidParameterError("Bad parameter: query_target_permission must be an str")
+    if "query_target_user_id" in params and not isinstance(params["query_target_user_id"], int):
+        raise InvalidParameterError("Bad parameter: query_target_user_id must be an int")
+    if "query_target_username" in params and not isinstance(params["query_target_username"], str):
+        raise InvalidParameterError("Bad parameter: query_target_username must be an str")
+    if "query_target_platform" in params and not isinstance(params["query_target_platform"], str):
+        raise InvalidParameterError("Bad parameter: query_target_platform must be an str")
+    if "query_target_permission_set" in params and not isinstance(params["query_target_permission_set"], str):
+        raise InvalidParameterError("Bad parameter: query_target_permission_set must be an str")
+    response, options = Api.send_request("POST", "/history_exports", params, options)
+    return HistoryExport(response.data, options)
+
+def delete(id, params = {}, options = {}):
+    if not isinstance(params, dict):
+        params = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, _options = Api.send_request("DELETE", "/history_exports/{id}".format(id=params['id']), params, options)
+    return response.data
+
+def destroy(id, params = {}, options = {}):
+    delete(id, params, options)
+
+def new(*args, **kwargs):
+    return HistoryExport(*args, **kwargs)

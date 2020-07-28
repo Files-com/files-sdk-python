@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import PublicIpAddress
+from files_sdk.models import PublicIpAddress
+from files_sdk import public_ip_address
 
 class PublicIpAddressTest(TestBase):
     pass 

@@ -1,23 +1,24 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import SsoStrategy
+from files_sdk.models import SsoStrategy
+from files_sdk import sso_strategy
 
 class SsoStrategyTest(TestBase):
     pass 
     # Instance Methods
 
     # Static Methods
-    def test_do_list(self):
-        resp = SsoStrategy.do_list()
+    def test_list(self):
+        resp = sso_strategy.list()
 
-    def test_do_find(self):
+    def test_find(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        SsoStrategy.do_find(id, params)
+        sso_strategy.find(id, params)
 
 if __name__ == '__main__':
     unittest.main()

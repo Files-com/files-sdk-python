@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import Message
+from files_sdk.models import Message
+from files_sdk import message
 
 class MessageTest(TestBase):
     pass 
@@ -29,43 +30,43 @@ class MessageTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_list(self):
+    def test_list(self):
         params = {
             "project_id" : 12345,
         }
-        Message.do_list(params)
+        message.list(params)
 
-    def test_do_find(self):
+    def test_find(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        Message.do_find(id, params)
+        message.find(id, params)
 
-    def test_do_create(self):
+    def test_create(self):
         params = {
-            "project_id" : 12345,
-            "subject" : "foo",
-            "body" : "foo",
-        }
-        Message.do_create(params)
-
-    def test_do_update(self):
-        id = 12345
-        params = {
-            "id" : 12345,
             "project_id" : 12345,
             "subject" : "foo",
             "body" : "foo",
         }
-        Message.do_update(id, params)
+        message.create(params)
 
-    def test_do_delete(self):
+    def test_update(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+            "project_id" : 12345,
+            "subject" : "foo",
+            "body" : "foo",
+        }
+        message.update(id, params)
+
+    def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        Message.do_delete(id, params)
+        message.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()

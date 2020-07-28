@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import FilePartUpload
+from files_sdk.models import FilePartUpload
+from files_sdk import file_part_upload
 
 class FilePartUploadTest(TestBase):
     pass 

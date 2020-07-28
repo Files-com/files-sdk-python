@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import HistoryExport
+from files_sdk.models import HistoryExport
+from files_sdk import history_export
 
 class HistoryExportTest(TestBase):
     pass 
@@ -19,25 +20,25 @@ class HistoryExportTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_list(self):
-        resp = HistoryExport.do_list()
+    def test_list(self):
+        resp = history_export.list()
 
-    def test_do_find(self):
+    def test_find(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        HistoryExport.do_find(id, params)
+        history_export.find(id, params)
 
-    def test_do_create(self):
-        resp = HistoryExport.do_create()
+    def test_create(self):
+        resp = history_export.create()
 
-    def test_do_delete(self):
+    def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        HistoryExport.do_delete(id, params)
+        history_export.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()

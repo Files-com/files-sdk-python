@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import RemoteServer
+from files_sdk.models import RemoteServer
+from files_sdk import remote_server
 
 class RemoteServerTest(TestBase):
     pass 
@@ -26,32 +27,32 @@ class RemoteServerTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_list(self):
-        resp = RemoteServer.do_list()
+    def test_list(self):
+        resp = remote_server.list()
 
-    def test_do_find(self):
+    def test_find(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        RemoteServer.do_find(id, params)
+        remote_server.find(id, params)
 
-    def test_do_create(self):
-        resp = RemoteServer.do_create()
+    def test_create(self):
+        resp = remote_server.create()
 
-    def test_do_update(self):
+    def test_update(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        RemoteServer.do_update(id, params)
+        remote_server.update(id, params)
 
-    def test_do_delete(self):
+    def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        RemoteServer.do_delete(id, params)
+        remote_server.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()

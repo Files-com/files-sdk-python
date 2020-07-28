@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import Image
+from files_sdk.models import Image
+from files_sdk import image
 
 class ImageTest(TestBase):
     pass 

@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import PaymentLineItem
+from files_sdk.models import PaymentLineItem
+from files_sdk import payment_line_item
 
 class PaymentLineItemTest(TestBase):
     pass 

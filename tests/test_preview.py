@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import Preview
+from files_sdk.models import Preview
+from files_sdk import preview
 
 class PreviewTest(TestBase):
     pass 

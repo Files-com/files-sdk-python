@@ -1,16 +1,17 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import DnsRecord
+from files_sdk.models import DnsRecord
+from files_sdk import dns_record
 
 class DnsRecordTest(TestBase):
     pass 
     # Instance Methods
 
     # Static Methods
-    def test_do_list(self):
-        resp = DnsRecord.do_list()
+    def test_list(self):
+        resp = dns_record.list()
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import User
+from files_sdk.models import User
+from files_sdk import user
 
 class UserTest(TestBase):
     pass 
@@ -47,53 +48,53 @@ class UserTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_list(self):
-        resp = User.do_list()
+    def test_list(self):
+        resp = user.list()
 
-    def test_do_find(self):
+    def test_find(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        User.do_find(id, params)
+        user.find(id, params)
 
-    def test_do_create(self):
-        resp = User.do_create()
+    def test_create(self):
+        resp = user.create()
 
-    def test_do_unlock(self):
+    def test_unlock(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        User.do_unlock(id, params)
+        user.unlock(id, params)
 
-    def test_do_resend_welcome_email(self):
+    def test_resend_welcome_email(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        User.do_resend_welcome_email(id, params)
+        user.resend_welcome_email(id, params)
 
-    def test_do_user_2fa_reset(self):
+    def test_user_2fa_reset(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        User.do_user_2fa_reset(id, params)
+        user.user_2fa_reset(id, params)
 
-    def test_do_update(self):
+    def test_update(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        User.do_update(id, params)
+        user.update(id, params)
 
-    def test_do_delete(self):
+    def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        User.do_delete(id, params)
+        user.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()

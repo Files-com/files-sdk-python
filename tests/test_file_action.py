@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import FileAction
+from files_sdk.models import FileAction
+from files_sdk import file_action
 
 class FileActionTest(TestBase):
     pass 
@@ -32,28 +33,28 @@ class FileActionTest(TestBase):
 
 
     # Static Methods
-    def test_do_copy(self):
+    def test_copy(self):
         path = "foo"
         params = {
             "path" : "foo",
             "destination" : "foo",
         }
-        FileAction.do_copy(path, params)
+        file_action.copy(path, params)
 
-    def test_do_move(self):
+    def test_move(self):
         path = "foo"
         params = {
             "path" : "foo",
             "destination" : "foo",
         }
-        FileAction.do_move(path, params)
+        file_action.move(path, params)
 
-    def test_do_begin_upload(self):
+    def test_begin_upload(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        FileAction.do_begin_upload(path, params)
+        file_action.begin_upload(path, params)
 
 if __name__ == '__main__':
     unittest.main()

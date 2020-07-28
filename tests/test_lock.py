@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import Lock
+from files_sdk.models import Lock
+from files_sdk import lock
 
 class LockTest(TestBase):
     pass 
@@ -20,27 +21,27 @@ class LockTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_list_for(self):
+    def test_list_for(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        Lock.do_list_for(path, params)
+        lock.list_for(path, params)
 
-    def test_do_create(self):
+    def test_create(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        Lock.do_create(path, params)
+        lock.create(path, params)
 
-    def test_do_delete(self):
+    def test_delete(self):
         path = "foo"
         params = {
             "path" : "foo",
             "token" : "foo",
         }
-        Lock.do_delete(path, params)
+        lock.delete(path, params)
 
 if __name__ == '__main__':
     unittest.main()

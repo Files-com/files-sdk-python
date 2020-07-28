@@ -1,19 +1,20 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import Session
+from files_sdk.models import Session
+from files_sdk import session
 
 class SessionTest(TestBase):
     pass 
     # Instance Methods
 
     # Static Methods
-    def test_do_create(self):
-        resp = Session.do_create()
+    def test_create(self):
+        resp = session.create()
 
-    def test_do_delete(self):
-        resp = Session.do_delete()
+    def test_delete(self):
+        resp = session.delete()
 
 if __name__ == '__main__':
     unittest.main()

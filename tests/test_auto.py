@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import Auto
+from files_sdk.models import Auto
+from files_sdk import auto
 
 class AutoTest(TestBase):
     pass 

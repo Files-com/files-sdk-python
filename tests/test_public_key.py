@@ -1,8 +1,9 @@
 import unittest
 import inspect
-import files_com
+import files_sdk
 from tests.base import TestBase
-from files_com import PublicKey
+from files_sdk.models import PublicKey
+from files_sdk import public_key
 
 class PublicKeyTest(TestBase):
     pass 
@@ -27,37 +28,37 @@ class PublicKeyTest(TestBase):
         pass
 
     # Static Methods
-    def test_do_list(self):
-        resp = PublicKey.do_list()
+    def test_list(self):
+        resp = public_key.list()
 
-    def test_do_find(self):
+    def test_find(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        PublicKey.do_find(id, params)
+        public_key.find(id, params)
 
-    def test_do_create(self):
+    def test_create(self):
         params = {
             "title" : "foo",
             "public_key" : "foo",
         }
-        PublicKey.do_create(params)
+        public_key.create(params)
 
-    def test_do_update(self):
+    def test_update(self):
         id = 12345
         params = {
             "id" : 12345,
             "title" : "foo",
         }
-        PublicKey.do_update(id, params)
+        public_key.update(id, params)
 
-    def test_do_delete(self):
+    def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        PublicKey.do_delete(id, params)
+        public_key.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()

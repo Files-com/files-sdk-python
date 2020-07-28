@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name='Files.com',
-    version='0.1rc0.dev0',
+    version='1.0rc1.',
     license='MIT',
     description="Python bindings for the Files.com API",
-    packages = find_packages(exclude = ('tests', 'doc')),
+    packages = find_packages(exclude = ('tests', 'tests.*', 'doc')),
     install_requires=[
         'requests >= 2.20; python_version >= "3.0"',
     ],
