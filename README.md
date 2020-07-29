@@ -2,30 +2,36 @@
 
 The Files.com Python client library provides convenient access to the Files.com API from applications written in the Python language.
 
+
 ## Installation
 
 To install the package:
 
     pip3 install Files.com
 
+
 ### Requirements
 
 * Python 3.5+
 * requests
 
+
 ## Usage
 
     import files_sdk
+
 
 ### Authentication
 
 There are multiple ways to authenticate to the API.
 
-#### Global API Key 
+
+#### Global API Key
 
 You can set an API key globally, like this:
 
     files_sdk.api_key = "my-key"
+
 
 #### Per-Request API Key
 
@@ -36,6 +42,7 @@ of every method.  Like this:
 
 That key will automatically be used for any followup actions that occur
 on models returned from the API.
+
 
 #### User Session
 
@@ -51,6 +58,7 @@ Or use if for all subsequent API calls globally like this:
 
     files_sdk.session = files_sdk.Session.create({"username": "uname", "password": "pwd"})
 
+
 ### Setting Global Options
 
 You can set the following global options directly on the `files_sdk` module:
@@ -65,6 +73,7 @@ You can set the following global options directly on the `files_sdk` module:
  * `files_sdk.console_log_level` - set to `None`, `info`, or `debug`, this enables printing
    of messages to stderr in addition to normal logging
 
+
 #### Log Level
 
 This SDK utilizes the standard Python logging framework. It will respect the global log level
@@ -72,12 +81,14 @@ and you can set the module specific log level and other logging settings by gett
 object in the standard manner as shown below:
 
     import logging
-    
+
     logging.getLogger("files_sdk")
+
 
 ### File Operations
 
 This SDK allows both file based transfer and data based transfer. Please see the examples below.
+
 
 #### File Download
 
@@ -85,36 +96,43 @@ The second parameter is optional and will simply use the remote filename by defa
 
     files_sdk.File.download_file("/remote.txt", "local.txt")
 
+
 #### File Upload
 
 The second parameter is optional and will simply use the local filename by default.
 
     files_sdk.File.upload_file("local.txt", "/remote.txt")
 
+
 #### List root folder
 
     for f in files_sdk.Folder.list_for("/").auto_paging_iter():
         print(f.type, f.path)
+
 
 #### Writing a file example (string)
 
     with File.open("foo.txt", 'w') as f:
         f.write("contents")
 
+
 #### Writing a file example (binary)
 
     with File.open("foo.txt", 'wb') as f:
         f.write(b"contents")
+
 
 #### Reading a file example (string)
 
     with File.open("foo.txt", 'r') as f:
         print(f.read())
 
+
 #### Reading a file example (binary)
 
     with File.open("foo.txt", 'rb') as f:
         print(f.read())
+
 
 ### List Responses and Cursor Paging
 
@@ -123,12 +141,14 @@ which contains a single page of records. It has a built-in `auto_paging_iter`
 method to iterate through the pages, making the additional API calls
 as needed.
 
+
 #### Iterating with with auto_paging_iter
 
     list_obj = files_sdk.Folder.list_for('/')
 
     for f in list_obj.auto_paging_iter():
         print(f.type, f.path)
+
 
 #### Iterating manually
 
@@ -142,14 +162,17 @@ as needed.
         for f in list_obj:
             print(f.type, f.path)
 
+
 ### Additional Object Documentation
 
 Additional docs are available at https://developers.files.com/ and also
 in the `docs/` subdirectory of this directory.
 
+
 ### Pydoc Generated Documentation coming in the future
 
 We hope to add Pydoc documentation to a future release.
+
 
 ## Getting Support
 
