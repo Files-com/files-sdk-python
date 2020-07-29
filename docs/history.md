@@ -5,7 +5,7 @@
 ```
 {
   "id": 1,
-  "path": "path",
+  "path": "",
   "when": "2000-01-01T01:00:00Z",
   "destination": "/to_path",
   "display": "Actual text of the action here.",

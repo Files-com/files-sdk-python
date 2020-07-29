@@ -5,8 +5,8 @@
 ```
 {
   "id": 1,
-  "amount": "",
-  "balance": "",
+  "amount": 1.0,
+  "balance": 1.0,
   "created_at": "2000-01-01T01:00:00Z",
   "currency": "USD",
   "download_uri": "https://url...",

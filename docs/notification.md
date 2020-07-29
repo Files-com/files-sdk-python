@@ -5,7 +5,7 @@
 ```
 {
   "id": 1,
-  "path": "path",
+  "path": "",
   "group_id": 1,
   "group_name": "",
   "notify_user_actions": True,
@@ -15,7 +15,7 @@
   "unsubscribed_reason": "",
   "user_id": 1,
   "username": "User",
-  "suppressed_email": "suppressed_email"
+  "suppressed_email": True
 }
 ```
 
@@ -43,7 +43,6 @@ files_sdk.notification.list({
   "page": 1,
   "per_page": 1,
   "group_id": 1,
-  "path": "path",
   "include_ancestors": True
 })
 ```
@@ -91,7 +90,6 @@ files_sdk.notification.create({
   "notify_user_actions": True,
   "send_interval": "daily",
   "group_id": 1,
-  "path": "path",
   "username": "User"
 })
 ```

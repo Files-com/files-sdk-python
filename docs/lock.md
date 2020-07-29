@@ -12,7 +12,7 @@
   "token": "17c54824e9931a4688ca032d03f6663c",
   "type": "write",
   "user_id": 1,
-  "username": "username"
+  "username": ""
 }
 ```
 

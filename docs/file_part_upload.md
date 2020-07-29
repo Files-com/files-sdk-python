@@ -15,7 +15,7 @@
   "parameters": "",
   "part_number": "",
   "partsize": "",
-  "path": "path",
+  "path": "",
   "ref": "upload-1",
   "upload_uri": ""
 }

@@ -62,7 +62,7 @@
   "login_help_text": "Login page help text.",
   "logo": "",
   "max_prior_passwords": 1,
-  "next_billing_amount": "",
+  "next_billing_amount": 1.0,
   "next_billing_date": "Apr 20",
   "office_integration_available": True,
   "opt_out_global": True,
