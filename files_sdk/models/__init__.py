@@ -8,6 +8,7 @@ from files_sdk.models.automation import Automation
 from files_sdk.models.behavior import Behavior
 from files_sdk.models.bundle import Bundle
 from files_sdk.models.bundle_download import BundleDownload
+from files_sdk.models.bundle_recipient import BundleRecipient
 from files_sdk.models.clickwrap import Clickwrap
 from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.errors import Errors
@@ -41,6 +42,7 @@ from files_sdk.models.public_key import PublicKey
 from files_sdk.models.remote_server import RemoteServer
 from files_sdk.models.request import Request
 from files_sdk.models.session import Session
+from files_sdk.models.settings_change import SettingsChange
 from files_sdk.models.site import Site
 from files_sdk.models.sso_strategy import SsoStrategy
 from files_sdk.models.status import Status
