@@ -2,7 +2,6 @@
 
 The Files.com Python client library provides convenient access to the Files.com API from applications written in the Python language.
 
-
 ## Installation
 
 To install the package:
