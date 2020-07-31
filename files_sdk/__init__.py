@@ -5,6 +5,7 @@ import files_sdk.models.app as app
 import files_sdk.models.as2_key as as2_key
 import files_sdk.models.auto as auto
 import files_sdk.models.automation as automation
+import files_sdk.models.bandwidth_snapshot as bandwidth_snapshot
 import files_sdk.models.behavior as behavior
 import files_sdk.models.bundle as bundle
 import files_sdk.models.bundle_download as bundle_download
