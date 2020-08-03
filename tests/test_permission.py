@@ -8,15 +8,23 @@ from files_sdk import permission
 class PermissionTest(TestBase):
     pass 
     # Instance Methods
+    def test_delete(self):
+        params = {
+            "id" : 12345,
+        }
+        permission = Permission(params)
+        permission.delete(params)
+
+    # Alias of delete
+    def test_destroy(self):
+        pass
 
     # Static Methods
     def test_list(self):
-        path = "foo"
-        resp = permission.list(path, )
+        resp = permission.list()
 
     def test_create(self):
-        path = "foo"
-        resp = permission.create(path, )
+        resp = permission.create()
 
     def test_delete(self):
         id = 12345

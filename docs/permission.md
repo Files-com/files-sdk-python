@@ -30,7 +30,7 @@
 ## List Permissions
 
 ```
-files_sdk.permission.list(path, {
+files_sdk.permission.list({
   "page": 1,
   "per_page": 1,
   "group_id": 1,
@@ -63,7 +63,7 @@ files_sdk.permission.list(path, {
 ## Create Permission
 
 ```
-files_sdk.permission.create(path, {
+files_sdk.permission.create({
   "group_id": 1,
   "permission": "full",
   "recursive": True,
@@ -88,6 +88,21 @@ files_sdk.permission.create(path, {
 
 ```
 files_sdk.permission.delete(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Permission ID.
+
+
+---
+
+## Delete Permission
+
+```
+permission = files_sdk.permission.list_for(path).first
+
+permission.delete()
 ```
 
 ### Parameters

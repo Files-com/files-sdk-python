@@ -8,26 +8,34 @@ from files_sdk import request
 class RequestTest(TestBase):
     pass 
     # Instance Methods
+    def test_delete(self):
+        params = {
+            "id" : 12345,
+        }
+        request = Request(params)
+        request.delete(params)
+
+    # Alias of delete
+    def test_destroy(self):
+        pass
 
     # Static Methods
     def test_list(self):
-        path = "foo"
-        resp = request.list(path, )
+        resp = request.list()
 
-    def test_find_folder(self):
+    def test_get_folder(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        request.find_folder(path, params)
+        request.get_folder(path, params)
 
     def test_create(self):
-        path = "foo"
         params = {
             "path" : "foo",
             "destination" : "foo",
         }
-        request.create(path, params)
+        request.create(params)
 
     def test_delete(self):
         id = 12345

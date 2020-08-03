@@ -28,7 +28,7 @@
 ## List Requests
 
 ```
-files_sdk.request.list(path, {
+files_sdk.request.list({
   "page": 1,
   "per_page": 1,
   "mine": True
@@ -51,7 +51,7 @@ files_sdk.request.list(path, {
 ## List Requests
 
 ```
-files_sdk.request.find_folder(path, {
+files_sdk.request.get_folder(path, {
   "page": 1,
   "per_page": 1,
   "mine": True
@@ -74,7 +74,8 @@ files_sdk.request.find_folder(path, {
 ## Create Request
 
 ```
-files_sdk.request.create(path, {
+files_sdk.request.create({
+  "path": "path",
   "destination": "destination"
 })
 ```
@@ -93,6 +94,21 @@ files_sdk.request.create(path, {
 
 ```
 files_sdk.request.delete(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Request ID.
+
+
+---
+
+## Delete Request
+
+```
+request = files_sdk.request.list_for(path).first
+
+request.delete()
 ```
 
 ### Parameters
