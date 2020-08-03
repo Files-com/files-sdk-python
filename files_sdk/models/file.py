@@ -310,11 +310,8 @@ def find(path, params = {}, options = {}):
         self.delete(params)
 
     def save(self):
-        if hasattr(self, "path") and self.path:
-            self.update(self.get_attributes())
-        else:
-            new_obj = create(self.get_attributes(), self.options)
-            self.set_attributes(new_obj.get_attributes())
+        new_obj = create(self.path, self.get_attributes(), self.options)
+        self.set_attributes(new_obj.get_attributes())
 
 # Download file
 #

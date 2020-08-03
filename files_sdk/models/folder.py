@@ -38,11 +38,8 @@ class Folder:
 
 
     def save(self):
-        if hasattr(self, "path") and self.path:
-            raise NotImplementedError("The Folder object doesn't support updates.")
-        else:
-            new_obj = create(self.get_attributes(), self.options)
-            self.set_attributes(new_obj.get_attributes())
+        new_obj = create(self.path, self.get_attributes(), self.options)
+        self.set_attributes(new_obj.get_attributes())
 
 # Parameters:
 #   page - int64 - Current page number.

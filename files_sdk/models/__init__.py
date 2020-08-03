@@ -23,6 +23,7 @@ from files_sdk.models.group import Group
 from files_sdk.models.group_user import GroupUser
 from files_sdk.models.history import History
 from files_sdk.models.history_export import HistoryExport
+from files_sdk.models.history_export_result import HistoryExportResult
 from files_sdk.models.image import Image
 from files_sdk.models.invoice import Invoice
 from files_sdk.models.invoice_line_item import InvoiceLineItem

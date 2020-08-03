@@ -26,7 +26,8 @@
   "query_target_user_id": 1,
   "query_target_username": "jerry",
   "query_target_platform": "windows",
-  "query_target_permission_set": "desktop_app"
+  "query_target_permission_set": "desktop_app",
+  "results_url": "https://files.com/history_results.csv"
 }
 ```
 
@@ -53,27 +54,8 @@
 * `query_target_username` (string): If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.
 * `query_target_platform` (string): If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
 * `query_target_permission_set` (string): If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
+* `results_url` (string): If `status` is `ready` and the query succeeded, this will be a URL where all the results can be downloaded at once as a CSV.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
-
-
----
-
-## List History Exports
-
-```
-files_sdk.history_export.list({
-  "user_id": 1,
-  "page": 1,
-  "per_page": 1
-})
-```
-
-### Parameters
-
-* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
-* `page` (int64): Current page number.
-* `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `action` (string): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
 
 
 ---
@@ -144,31 +126,3 @@ files_sdk.history_export.create({
 * `query_target_username` (string): If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.
 * `query_target_platform` (string): If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
 * `query_target_permission_set` (string): If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
-
-
----
-
-## Delete History Export
-
-```
-files_sdk.history_export.delete(id)
-```
-
-### Parameters
-
-* `id` (int64): Required - History Export ID.
-
-
----
-
-## Delete History Export
-
-```
-history_export = files_sdk.history_export.find(1)
-
-history_export.delete()
-```
-
-### Parameters
-
-* `id` (int64): Required - History Export ID.
