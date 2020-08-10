@@ -4,7 +4,7 @@ from datetime import datetime
 import json
 import io
 from pathlib import Path
-import files_sdk.models.file_action as file_action
+from . import file_action
 from files_sdk.api import Api
 from files_sdk.exceptions import InvalidParameterError, MissingParameterError, NotImplementedError
 

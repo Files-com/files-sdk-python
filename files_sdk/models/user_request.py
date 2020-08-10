@@ -4,6 +4,7 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class UserRequest:
     default_attributes = {
+        'id': None,     # int64 - ID
         'name': None,     # string - User's full name
         'email': None,     # email - User email address
         'details': None,     # string - Details of the user's request

@@ -4,12 +4,14 @@
 
 ```
 {
+  "id": 1,
   "name": "John Doe",
   "email": "john.doe@files.com",
   "details": "Changed Departments"
 }
 ```
 
+* `id` (int64): ID
 * `name` (string): User's full name
 * `email` (email): User email address
 * `details` (string): Details of the user's request
