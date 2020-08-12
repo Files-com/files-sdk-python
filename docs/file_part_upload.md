@@ -12,6 +12,7 @@
   "headers": "",
   "http_method": "POST",
   "next_partsize": "",
+  "parallel_parts": True,
   "parameters": "",
   "part_number": "",
   "partsize": "",
@@ -29,6 +30,7 @@
 * `headers` (object): Additional upload headers
 * `http_method` (string): Upload method, usually POST
 * `next_partsize` (string): Currently unused
+* `parallel_parts` (boolean): If true, parts may be uploaded in parallel
 * `parameters` (string): Additional upload parameters
 * `part_number` (string): Currently unused
 * `partsize` (string): Currently unused

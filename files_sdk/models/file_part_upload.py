@@ -12,6 +12,7 @@ class FilePartUpload:
         'headers': None,     # object - Additional upload headers
         'http_method': None,     # string - Upload method, usually POST
         'next_partsize': None,     # string - Currently unused
+        'parallel_parts': None,     # boolean - If true, parts may be uploaded in parallel
         'parameters': None,     # string - Additional upload parameters
         'part_number': None,     # string - Currently unused
         'partsize': None,     # string - Currently unused
