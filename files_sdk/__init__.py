@@ -13,6 +13,7 @@ import files_sdk.models.bundle_recipient as bundle_recipient
 import files_sdk.models.clickwrap as clickwrap
 import files_sdk.models.dns_record as dns_record
 import files_sdk.models.errors as errors
+import files_sdk.models.external_event as external_event
 import files_sdk.models.file as file
 import files_sdk.models.file_action as file_action
 import files_sdk.models.file_comment as file_comment

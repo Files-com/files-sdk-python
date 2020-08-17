@@ -129,11 +129,25 @@ class Site:
         return {k: getattr(self, k, None) for k in Site.default_attributes if getattr(self, k, None) is not None}
 
 
+# Parameters:
+#   format - string
+#   site - object
 def get(params = {}, options = {}):
+    if "format" in params and not isinstance(params["format"], str):
+        raise InvalidParameterError("Bad parameter: format must be an str")
+    if "site" in params and not isinstance(params["site"], dict):
+        raise InvalidParameterError("Bad parameter: site must be an dict")
     response, options = Api.send_request("GET", "/site", params, options)
     return Site(response.data, options)
 
+# Parameters:
+#   format - string
+#   site - object
 def get_usage(params = {}, options = {}):
+    if "format" in params and not isinstance(params["format"], str):
+        raise InvalidParameterError("Bad parameter: format must be an str")
+    if "site" in params and not isinstance(params["site"], dict):
+        raise InvalidParameterError("Bad parameter: site must be an dict")
     response, options = Api.send_request("GET", "/site/usage", params, options)
     return UsageSnapshot(response.data, options)
 

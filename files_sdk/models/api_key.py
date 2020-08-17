@@ -122,7 +122,14 @@ def list(params = {}, options = {}):
 def all(params = {}, options = {}):
     list(params, options)
 
+# Parameters:
+#   format - string
+#   api_key - object
 def find_current(params = {}, options = {}):
+    if "format" in params and not isinstance(params["format"], str):
+        raise InvalidParameterError("Bad parameter: format must be an str")
+    if "api_key" in params and not isinstance(params["api_key"], dict):
+        raise InvalidParameterError("Bad parameter: api_key must be an dict")
     response, options = Api.send_request("GET", "/api_key", params, options)
     return ApiKey(response.data, options)
 
@@ -197,7 +204,14 @@ def update(id, params = {}, options = {}):
     response, options = Api.send_request("PATCH", "/api_keys/{id}".format(id=params['id']), params, options)
     return ApiKey(response.data, options)
 
+# Parameters:
+#   format - string
+#   api_key - object
 def delete_current(params = {}, options = {}):
+    if "format" in params and not isinstance(params["format"], str):
+        raise InvalidParameterError("Bad parameter: format must be an str")
+    if "api_key" in params and not isinstance(params["api_key"], dict):
+        raise InvalidParameterError("Bad parameter: api_key must be an dict")
     response, _options = Api.send_request("DELETE", "/api_key", params, options)
     return response.data
 

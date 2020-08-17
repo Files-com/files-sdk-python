@@ -64,8 +64,16 @@ files_sdk.api_key.list({
 ## Show information about current API key.  (Requires current API connection to be using an API key.)
 
 ```
-files_sdk.api_key.find_current()
+files_sdk.api_key.find_current({
+  "format": "",
+  "api_key": ""
+})
 ```
+
+### Parameters
+
+* `format` (string): 
+* `api_key` (object): 
 
 
 ---
@@ -148,8 +156,16 @@ files_sdk.api_key.update(id, {
 ## Delete current API key.  (Requires current API connection to be using an API key.)
 
 ```
-files_sdk.api_key.delete_current()
+files_sdk.api_key.delete_current({
+  "format": "",
+  "api_key": ""
+})
 ```
+
+### Parameters
+
+* `format` (string): 
+* `api_key` (object): 
 
 
 ---

@@ -10,7 +10,7 @@
   "login_token_domain": "https://mysite.files.com",
   "max_dir_listing_size": 1,
   "multiple_regions": True,
-  "read_only": "en",
+  "read_only": True,
   "root_path": "",
   "site_id": 1,
   "ssl_required": True,
@@ -74,5 +74,13 @@ files_sdk.session.create({
 ## Delete user session (log out)
 
 ```
-files_sdk.session.delete()
+files_sdk.session.delete({
+  "format": "",
+  "session": ""
+})
 ```
+
+### Parameters
+
+* `format` (string): 
+* `session` (object): 
