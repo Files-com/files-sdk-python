@@ -22,6 +22,7 @@ class SsoStrategy:
         'provision_groups': None,     # boolean - Auto-provision group membership based on group memberships on the SSO side?
         'deprovision_users': None,     # boolean - Auto-deprovision users?
         'deprovision_groups': None,     # boolean - Auto-deprovision group membership based on group memberships on the SSO side?
+        'deprovision_behavior': None,     # string - Method used for deprovisioning users.
         'provision_group_default': None,     # string - Comma-separated list of group names for groups to automatically add all auto-provisioned users to.
         'provision_group_exclusion': None,     # string - Comma-separated list of group names for groups (with optional wildcards) that will be excluded from auto-provisioning.
         'provision_group_inclusion': None,     # string - Comma-separated list of group names for groups (with optional wildcards) that will be auto-provisioned.

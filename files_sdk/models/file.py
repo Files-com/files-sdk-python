@@ -290,7 +290,7 @@ def find(path, params = {}, options = {}):
         return response.data
 
     # Parameters:
-    #   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.  For legacy reasons, this parameter may also be provided as the HTTP header `Depth: Infinity`
+    #   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
     def delete(self, params = {}):
         if not isinstance(params, dict):
             params = {}
@@ -398,7 +398,7 @@ def update(path, params = {}, options = {}):
     return File(response.data, options)
 
 # Parameters:
-#   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.  For legacy reasons, this parameter may also be provided as the HTTP header `Depth: Infinity`
+#   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
 def delete(path, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}

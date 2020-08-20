@@ -138,7 +138,7 @@ files_sdk.file.delete(path, {
 ### Parameters
 
 * `path` (string): Required - Path to operate on.
-* `recursive` (boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.  For legacy reasons, this parameter may also be provided as the HTTP header `Depth: Infinity`
+* `recursive` (boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
 
 
 ---
@@ -198,4 +198,4 @@ file.delete({
 ### Parameters
 
 * `path` (string): Required - Path to operate on.
-* `recursive` (boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.  For legacy reasons, this parameter may also be provided as the HTTP header `Depth: Infinity`
+* `recursive` (boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
