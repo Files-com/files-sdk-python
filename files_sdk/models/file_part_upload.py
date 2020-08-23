@@ -7,15 +7,15 @@ class FilePartUpload:
         'send': None,     # object - Content-Type and File to send
         'action': None,     # string - Type of upload
         'ask_about_overwrites': None,     # boolean - If false, rename conflicting files instead of asking for overwrite confirmation
-        'available_parts': None,     # string - Currently unused
+        'available_parts': None,     # int64 - Currently unused
         'expires': None,     # string - Currently unused
         'headers': None,     # object - Additional upload headers
         'http_method': None,     # string - Upload method, usually POST
-        'next_partsize': None,     # string - Currently unused
+        'next_partsize': None,     # int64 - Currently unused
         'parallel_parts': None,     # boolean - If true, parts may be uploaded in parallel
-        'parameters': None,     # string - Additional upload parameters
-        'part_number': None,     # string - Currently unused
-        'partsize': None,     # string - Currently unused
+        'parameters': None,     # object - Additional upload parameters
+        'part_number': None,     # int64 - Currently unused
+        'partsize': None,     # int64 - Currently unused
         'path': None,     # string - Upload path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         'ref': None,     # string - Reference name for this upload part
         'upload_uri': None,     # string - URI to upload this part to

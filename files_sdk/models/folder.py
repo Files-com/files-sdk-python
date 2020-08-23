@@ -6,7 +6,6 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class Folder:
     default_attributes = {
-        'id': None,     # int64 - File/Folder ID
         'path': None,     # string - File/Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         'display_name': None,     # string - File/Folder display name
         'type': None,     # string - Type: `directory` or `file`.
