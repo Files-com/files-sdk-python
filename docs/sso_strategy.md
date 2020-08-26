@@ -13,6 +13,7 @@
   "id": 1,
   "saml_provider_cert_fingerprint": "",
   "saml_provider_issuer_url": "",
+  "saml_provider_metadata_content": "",
   "saml_provider_metadata_url": "",
   "saml_provider_slo_target_url": "",
   "saml_provider_sso_target_url": "",
@@ -53,6 +54,7 @@
 * `id` (int64): ID
 * `saml_provider_cert_fingerprint` (string): Identity provider sha256 cert fingerprint if saml_provider_metadata_url is not available.
 * `saml_provider_issuer_url` (string): Identity provider issuer url
+* `saml_provider_metadata_content` (string): Custom identity provider metadata
 * `saml_provider_metadata_url` (string): Metadata URL for the SAML identity provider
 * `saml_provider_slo_target_url` (string): Identity provider SLO endpoint
 * `saml_provider_sso_target_url` (string): Identity provider SSO endpoint if saml_provider_metadata_url is not available.

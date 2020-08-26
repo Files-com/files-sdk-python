@@ -12,6 +12,7 @@ class SsoStrategy:
         'id': None,     # int64 - ID
         'saml_provider_cert_fingerprint': None,     # string - Identity provider sha256 cert fingerprint if saml_provider_metadata_url is not available.
         'saml_provider_issuer_url': None,     # string - Identity provider issuer url
+        'saml_provider_metadata_content': None,     # string - Custom identity provider metadata
         'saml_provider_metadata_url': None,     # string - Metadata URL for the SAML identity provider
         'saml_provider_slo_target_url': None,     # string - Identity provider SLO endpoint
         'saml_provider_sso_target_url': None,     # string - Identity provider SSO endpoint if saml_provider_metadata_url is not available.
