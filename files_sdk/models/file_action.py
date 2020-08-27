@@ -1,5 +1,5 @@
 import datetime
-from files_sdk.models.file_part_upload import FilePartUpload
+from files_sdk.models.file_upload_part import FileUploadPart
 from files_sdk.api import Api
 from files_sdk.exceptions import InvalidParameterError, MissingParameterError, NotImplementedError
 
@@ -165,7 +165,7 @@ def begin_upload(path, params = {}, options = {}):
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request("POST", "/file_actions/begin_upload/{path}".format(path=params['path']), params, options)
-    return [ FilePartUpload(entity_data, options) for entity_data in response.data ]
+    return [ FileUploadPart(entity_data, options) for entity_data in response.data ]
 
 def new(*args, **kwargs):
     return FileAction(*args, **kwargs)

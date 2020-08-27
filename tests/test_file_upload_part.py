@@ -2,10 +2,10 @@ import unittest
 import inspect
 import files_sdk
 from tests.base import TestBase
-from files_sdk.models import FilePartUpload
-from files_sdk import file_part_upload
+from files_sdk.models import FileUploadPart
+from files_sdk import file_upload_part
 
-class FilePartUploadTest(TestBase):
+class FileUploadPartTest(TestBase):
     pass 
     # Instance Methods
 

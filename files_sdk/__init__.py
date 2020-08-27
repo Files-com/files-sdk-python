@@ -18,7 +18,7 @@ import files_sdk.models.file as file
 import files_sdk.models.file_action as file_action
 import files_sdk.models.file_comment as file_comment
 import files_sdk.models.file_comment_reaction as file_comment_reaction
-import files_sdk.models.file_part_upload as file_part_upload
+import files_sdk.models.file_upload_part as file_upload_part
 import files_sdk.models.folder as folder
 import files_sdk.models.group as group
 import files_sdk.models.group_user as group_user
@@ -76,7 +76,7 @@ from files_sdk.models.file import File
 from files_sdk.models.file_action import FileAction
 from files_sdk.models.file_comment import FileComment
 from files_sdk.models.file_comment_reaction import FileCommentReaction
-from files_sdk.models.file_part_upload import FilePartUpload
+from files_sdk.models.file_upload_part import FileUploadPart
 from files_sdk.models.folder import Folder
 from files_sdk.models.group import Group
 from files_sdk.models.group_user import GroupUser
