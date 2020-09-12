@@ -7,7 +7,7 @@ class HistoryExport:
         'id': None,     # int64 - History Export ID
         'start_at': None,     # date-time - Start date/time of export range.
         'end_at': None,     # date-time - End date/time of export range.
-        'status': None,     # string - Status of export.  Will be: `building` or `ready`
+        'status': None,     # string - Status of export.  Will be: `building`, `ready`, or `failed`
         'query_action': None,     # string - Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
         'query_interface': None,     # string - Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`
         'query_user_id': None,     # string - Return results that are actions performed by the user indiciated by this User ID

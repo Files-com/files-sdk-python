@@ -30,6 +30,7 @@
   "last_protocol_cipher": "",
   "lockout_expires": "2000-01-01T01:00:00Z",
   "name": "John Doe",
+  "company": "ACME Corp.",
   "notes": "Internal notes on this user.",
   "notification_daily_send_time": 18,
   "office_integration_enabled": True,
@@ -78,6 +79,7 @@
 * `last_protocol_cipher` (string): The last protocol and cipher used
 * `lockout_expires` (date-time): Time in the future that the user will no longer be locked out if applicable
 * `name` (string): User's full name
+* `company` (string): User's company
 * `notes` (string): Any internal notes on the user
 * `notification_daily_send_time` (int64): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
@@ -127,13 +129,13 @@ files_sdk.user.list({
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `action` (string): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
 * `cursor` (string): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
-* `sort_by` (object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `active`, `master_admin`, `site_id`, `authenticate_until`, `email`, `last_desktop_login_at`, `last_login_at`, `username`, `notes`, `site_admin`, `receive_admin_alerts`, `allowed_ips`, `password_validity_days`, `ssl_required` or `not_site_admin`.
-* `filter` (object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `username`, `email`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
-* `filter_gt` (object): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `username`, `email`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
-* `filter_gteq` (object): If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `username`, `email`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
-* `filter_like` (object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `username`, `email`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
-* `filter_lt` (object): If set, return records where the specifiied field is less than the supplied value. Valid fields are `username`, `email`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
-* `filter_lteq` (object): If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `username`, `email`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
+* `sort_by` (object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `active`, `master_admin`, `site_id`, `authenticate_until`, `email`, `last_desktop_login_at`, `last_login_at`, `username`, `company`, `name`, `notes`, `site_admin`, `receive_admin_alerts`, `allowed_ips`, `password_validity_days`, `ssl_required` or `not_site_admin`.
+* `filter` (object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `username`, `email`, `company`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
+* `filter_gt` (object): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `username`, `email`, `company`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
+* `filter_gteq` (object): If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `username`, `email`, `company`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
+* `filter_like` (object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `username`, `email`, `company`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
+* `filter_lt` (object): If set, return records where the specifiied field is less than the supplied value. Valid fields are `username`, `email`, `company`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
+* `filter_lteq` (object): If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `username`, `email`, `company`, `notes`, `site_admin`, `allowed_ips`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`.
 * `ids` (string): comma-separated list of User IDs
 * `q[username]` (string): List users matching username.
 * `q[email]` (string): List users matching email.
@@ -182,6 +184,7 @@ files_sdk.user.create({
   "language": "en",
   "notification_daily_send_time": 18,
   "name": "John Doe",
+  "company": "ACME Corp.",
   "notes": "Internal notes on this user.",
   "office_integration_enabled": True,
   "password_validity_days": 1,
@@ -227,6 +230,7 @@ files_sdk.user.create({
 * `language` (string): Preferred language
 * `notification_daily_send_time` (int64): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
 * `name` (string): User's full name
+* `company` (string): User's company
 * `notes` (string): Any internal notes on the user
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
 * `password_validity_days` (int64): Number of days to allow user to use the same password
@@ -308,6 +312,7 @@ files_sdk.user.update(id, {
   "language": "en",
   "notification_daily_send_time": 18,
   "name": "John Doe",
+  "company": "ACME Corp.",
   "notes": "Internal notes on this user.",
   "office_integration_enabled": True,
   "password_validity_days": 1,
@@ -354,6 +359,7 @@ files_sdk.user.update(id, {
 * `language` (string): Preferred language
 * `notification_daily_send_time` (int64): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
 * `name` (string): User's full name
+* `company` (string): User's company
 * `notes` (string): Any internal notes on the user
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
 * `password_validity_days` (int64): Number of days to allow user to use the same password
@@ -456,6 +462,7 @@ user.update({
   "language": "en",
   "notification_daily_send_time": 18,
   "name": "John Doe",
+  "company": "ACME Corp.",
   "notes": "Internal notes on this user.",
   "office_integration_enabled": True,
   "password_validity_days": 1,
@@ -502,6 +509,7 @@ user.update({
 * `language` (string): Preferred language
 * `notification_daily_send_time` (int64): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
 * `name` (string): User's full name
+* `company` (string): User's company
 * `notes` (string): Any internal notes on the user
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
 * `password_validity_days` (int64): Number of days to allow user to use the same password

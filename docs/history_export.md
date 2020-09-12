@@ -34,7 +34,7 @@
 * `id` (int64): History Export ID
 * `start_at` (date-time): Start date/time of export range.
 * `end_at` (date-time): End date/time of export range.
-* `status` (string): Status of export.  Will be: `building` or `ready`
+* `status` (string): Status of export.  Will be: `building`, `ready`, or `failed`
 * `query_action` (string): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
 * `query_interface` (string): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`
 * `query_user_id` (string): Return results that are actions performed by the user indiciated by this User ID

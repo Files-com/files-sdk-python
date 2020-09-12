@@ -21,6 +21,7 @@ class Bundle:
         'username': None,     # string - Bundle creator username
         'clickwrap_id': None,     # int64 - ID of the clickwrap to use with this bundle.
         'inbox_id': None,     # int64 - ID of the associated inbox, if available.
+        'has_inbox': None,     # boolean - Does this bundle have an associated inbox?
         'paths': None,     # array - A list of paths in this bundle
         'password': None,     # string - Password for this bundle.
     }
