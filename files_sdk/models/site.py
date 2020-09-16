@@ -33,6 +33,7 @@ class Site:
         'disable_password_reset': None,     # boolean - Is password reset disabled?
         'domain': None,     # string - Custom domain
         'email': None,     # email - Main email for this site
+        'reply_to_email': None,     # email - Reply-to email for this site
         'non_sso_groups_allowed': None,     # boolean - If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
         'non_sso_users_allowed': None,     # boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
         'folder_permissions_groups_only': None,     # boolean - If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
@@ -156,6 +157,7 @@ def get_usage(params = {}, options = {}):
 #   subdomain - string - Site subdomain
 #   domain - string - Custom domain
 #   email - string - Main email for this site
+#   reply_to_email - string - Reply-to email for this site
 #   allow_bundle_names - boolean - Are manual Bundle names allowed?
 #   bundle_expiration - int64 - Site-wide Bundle expiration in days
 #   overage_notify - boolean - Notify site email of overages?
@@ -263,6 +265,8 @@ def update(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: domain must be an str")
     if "email" in params and not isinstance(params["email"], str):
         raise InvalidParameterError("Bad parameter: email must be an str")
+    if "reply_to_email" in params and not isinstance(params["reply_to_email"], str):
+        raise InvalidParameterError("Bad parameter: reply_to_email must be an str")
     if "bundle_expiration" in params and not isinstance(params["bundle_expiration"], int):
         raise InvalidParameterError("Bad parameter: bundle_expiration must be an int")
     if "welcome_email_cc" in params and not isinstance(params["welcome_email_cc"], str):

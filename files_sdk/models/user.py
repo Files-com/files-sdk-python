@@ -38,6 +38,7 @@ class User:
         'public_keys_count': None,     # int64 - Number of public keys associated with this user
         'receive_admin_alerts': None,     # boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
         'require_2fa': None,     # boolean - Is 2fa required to sign in?
+        'active_2fa': None,     # boolean - Is 2fa required to sign in?
         'require_password_change': None,     # boolean - Is a password change required upon next user login?
         'restapi_permission': None,     # boolean - Can this user access the REST API?
         'self_managed': None,     # boolean - Does this user manage it's own credentials or is it a shared/bot user?

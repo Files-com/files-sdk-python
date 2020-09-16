@@ -32,6 +32,7 @@
   "disable_password_reset": True,
   "domain": "my-custom-domain.com",
   "email": "john.doe@files.com",
+  "reply_to_email": "jane.doe@files.com",
   "non_sso_groups_allowed": True,
   "non_sso_users_allowed": True,
   "folder_permissions_groups_only": True,
@@ -145,6 +146,7 @@
 * `disable_password_reset` (boolean): Is password reset disabled?
 * `domain` (string): Custom domain
 * `email` (email): Main email for this site
+* `reply_to_email` (email): Reply-to email for this site
 * `non_sso_groups_allowed` (boolean): If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
 * `non_sso_users_allowed` (boolean): If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 * `folder_permissions_groups_only` (boolean): If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
@@ -273,6 +275,7 @@ files_sdk.site.update({
   "subdomain": "mysite",
   "domain": "my-custom-domain.com",
   "email": "john.doe@files.com",
+  "reply_to_email": "jane.doe@files.com",
   "allow_bundle_names": True,
   "bundle_expiration": 1,
   "overage_notify": True,
@@ -364,6 +367,7 @@ files_sdk.site.update({
 * `subdomain` (string): Site subdomain
 * `domain` (string): Custom domain
 * `email` (string): Main email for this site
+* `reply_to_email` (string): Reply-to email for this site
 * `allow_bundle_names` (boolean): Are manual Bundle names allowed?
 * `bundle_expiration` (int64): Site-wide Bundle expiration in days
 * `overage_notify` (boolean): Notify site email of overages?

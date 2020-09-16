@@ -33,6 +33,7 @@ class SsoStrategy:
         'provision_ftp_permission': None,     # boolean - Auto-provisioned users get FTP permission?
         'provision_sftp_permission': None,     # boolean - Auto-provisioned users get SFTP permission?
         'provision_time_zone': None,     # string - Default time zone for auto provisioned users.
+        'provision_company': None,     # string - Default company for auto provisioned users.
         'ldap_base_dn': None,     # string - Base DN for looking up users in LDAP server
         'ldap_domain': None,     # string - Domain name that will be appended to LDAP usernames
         'enabled': None,     # boolean - Is strategy enabled?

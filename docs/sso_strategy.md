@@ -34,6 +34,7 @@
   "provision_ftp_permission": True,
   "provision_sftp_permission": True,
   "provision_time_zone": "Eastern Time (US & Canada)",
+  "provision_company": "ACME Corp.",
   "ldap_base_dn": "",
   "ldap_domain": "mysite.com",
   "enabled": True,
@@ -75,6 +76,7 @@
 * `provision_ftp_permission` (boolean): Auto-provisioned users get FTP permission?
 * `provision_sftp_permission` (boolean): Auto-provisioned users get SFTP permission?
 * `provision_time_zone` (string): Default time zone for auto provisioned users.
+* `provision_company` (string): Default company for auto provisioned users.
 * `ldap_base_dn` (string): Base DN for looking up users in LDAP server
 * `ldap_domain` (string): Domain name that will be appended to LDAP usernames
 * `enabled` (boolean): Is strategy enabled?
