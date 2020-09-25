@@ -12,6 +12,7 @@ class Site:
         'allowed_2fa_method_yubi': None,     # boolean - Is yubikey two factor authentication allowed?
         'admin_user_id': None,     # int64 - User ID for the main site administrator
         'allow_bundle_names': None,     # boolean - Are manual Bundle names allowed?
+        'allowed_countries': None,     # string - Comma seperated list of allowed Country codes
         'allowed_ips': None,     # string - List of allowed IP addresses
         'ask_about_overwrites': None,     # boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
         'bundle_expiration': None,     # int64 - Site-wide Bundle expiration in days
@@ -29,6 +30,7 @@ class Site:
         'desktop_app': None,     # boolean - Is the desktop app enabled?
         'desktop_app_session_ip_pinning': None,     # boolean - Is desktop app session IP pinning enabled?
         'desktop_app_session_lifetime': None,     # int64 - Desktop app session lifetime (in hours)
+        'disallowed_countries': None,     # string - Comma seperated list of disallowed Country codes
         'disable_notifications': None,     # boolean - Are notifications disabled?
         'disable_password_reset': None,     # boolean - Is password reset disabled?
         'domain': None,     # string - Custom domain
@@ -183,7 +185,9 @@ def get_usage(params = {}, options = {}):
 #   user_lockout_within - int64 - Number of hours for user lockout window
 #   user_lockout_lock_period - int64 - How many hours to lock user out for failed password?
 #   include_password_in_welcome_email - boolean - Include password in emails to new users?
+#   allowed_countries - string - Comma seperated list of allowed Country codes
 #   allowed_ips - string - List of allowed IP addresses
+#   disallowed_countries - string - Comma seperated list of disallowed Country codes
 #   days_to_retain_backups - int64 - Number of days to keep deleted files
 #   max_prior_passwords - int64 - Number of prior passwords to disallow
 #   password_validity_days - int64 - Number of days password is valid
@@ -289,8 +293,12 @@ def update(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: user_lockout_within must be an int")
     if "user_lockout_lock_period" in params and not isinstance(params["user_lockout_lock_period"], int):
         raise InvalidParameterError("Bad parameter: user_lockout_lock_period must be an int")
+    if "allowed_countries" in params and not isinstance(params["allowed_countries"], str):
+        raise InvalidParameterError("Bad parameter: allowed_countries must be an str")
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError("Bad parameter: allowed_ips must be an str")
+    if "disallowed_countries" in params and not isinstance(params["disallowed_countries"], str):
+        raise InvalidParameterError("Bad parameter: disallowed_countries must be an str")
     if "days_to_retain_backups" in params and not isinstance(params["days_to_retain_backups"], int):
         raise InvalidParameterError("Bad parameter: days_to_retain_backups must be an int")
     if "max_prior_passwords" in params and not isinstance(params["max_prior_passwords"], int):

@@ -11,6 +11,7 @@
   "allowed_2fa_method_yubi": True,
   "admin_user_id": 1,
   "allow_bundle_names": True,
+  "allowed_countries": "US,DE",
   "allowed_ips": "",
   "ask_about_overwrites": True,
   "bundle_expiration": 1,
@@ -28,6 +29,7 @@
   "desktop_app": True,
   "desktop_app_session_ip_pinning": True,
   "desktop_app_session_lifetime": 1,
+  "disallowed_countries": "US,DE",
   "disable_notifications": True,
   "disable_password_reset": True,
   "domain": "my-custom-domain.com",
@@ -125,6 +127,7 @@
 * `allowed_2fa_method_yubi` (boolean): Is yubikey two factor authentication allowed?
 * `admin_user_id` (int64): User ID for the main site administrator
 * `allow_bundle_names` (boolean): Are manual Bundle names allowed?
+* `allowed_countries` (string): Comma seperated list of allowed Country codes
 * `allowed_ips` (string): List of allowed IP addresses
 * `ask_about_overwrites` (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `bundle_expiration` (int64): Site-wide Bundle expiration in days
@@ -142,6 +145,7 @@
 * `desktop_app` (boolean): Is the desktop app enabled?
 * `desktop_app_session_ip_pinning` (boolean): Is desktop app session IP pinning enabled?
 * `desktop_app_session_lifetime` (int64): Desktop app session lifetime (in hours)
+* `disallowed_countries` (string): Comma seperated list of disallowed Country codes
 * `disable_notifications` (boolean): Are notifications disabled?
 * `disable_password_reset` (boolean): Is password reset disabled?
 * `domain` (string): Custom domain
@@ -300,6 +304,8 @@ files_sdk.site.update({
   "user_lockout_within": 1,
   "user_lockout_lock_period": 1,
   "include_password_in_welcome_email": True,
+  "allowed_countries": "US,DE",
+  "disallowed_countries": "US,DE",
   "days_to_retain_backups": 1,
   "max_prior_passwords": 1,
   "password_validity_days": 1,
@@ -393,7 +399,9 @@ files_sdk.site.update({
 * `user_lockout_within` (int64): Number of hours for user lockout window
 * `user_lockout_lock_period` (int64): How many hours to lock user out for failed password?
 * `include_password_in_welcome_email` (boolean): Include password in emails to new users?
+* `allowed_countries` (string): Comma seperated list of allowed Country codes
 * `allowed_ips` (string): List of allowed IP addresses
+* `disallowed_countries` (string): Comma seperated list of disallowed Country codes
 * `days_to_retain_backups` (int64): Number of days to keep deleted files
 * `max_prior_passwords` (int64): Number of prior passwords to disallow
 * `password_validity_days` (int64): Number of days password is valid
