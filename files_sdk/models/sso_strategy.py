@@ -28,6 +28,7 @@ class SsoStrategy:
         'provision_group_exclusion': None,     # string - Comma-separated list of group names for groups (with optional wildcards) that will be excluded from auto-provisioning.
         'provision_group_inclusion': None,     # string - Comma-separated list of group names for groups (with optional wildcards) that will be auto-provisioned.
         'provision_group_required': None,     # string - Comma or newline separated list of group names (with optional wildcards) to require membership for user provisioning.
+        'provision_site_admin_groups': None,     # string - Comma-separated list of group names whose members will be created as Site Admins.
         'provision_attachments_permission': None,     # boolean - Auto-provisioned users get Sharing permission?
         'provision_dav_permission': None,     # boolean - Auto-provisioned users get WebDAV permission?
         'provision_ftp_permission': None,     # boolean - Auto-provisioned users get FTP permission?
