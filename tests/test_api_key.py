@@ -53,8 +53,8 @@ class ApiKeyTest(TestBase):
         }
         api_key.update(id, params)
 
-    def test_current(self):
-        resp = api_key.current()
+    def test_delete_current(self):
+        resp = api_key.delete_current()
 
     def test_delete(self):
         id = 12345

@@ -207,7 +207,7 @@ def update(id, params = {}, options = {}):
 # Parameters:
 #   format - string
 #   api_key - object
-def current(params = {}, options = {}):
+def delete_current(params = {}, options = {}):
     if "format" in params and not isinstance(params["format"], str):
         raise InvalidParameterError("Bad parameter: format must be an str")
     if "api_key" in params and not isinstance(params["api_key"], dict):

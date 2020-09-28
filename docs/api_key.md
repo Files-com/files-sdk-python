@@ -156,7 +156,7 @@ files_sdk.api_key.update(id, {
 ## Delete current API key.  (Requires current API connection to be using an API key.)
 
 ```
-files_sdk.api_key.current({
+files_sdk.api_key.delete_current({
   "format": "",
   "api_key": ""
 })
