@@ -37,7 +37,7 @@ class User:
         'password_validity_days': None,     # int64 - Number of days to allow user to use the same password
         'public_keys_count': None,     # int64 - Number of public keys associated with this user
         'receive_admin_alerts': None,     # boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
-        'require_2fa': None,     # boolean - Is 2fa required to sign in?
+        'require_2fa': None,     # string - 2FA required setting
         'active_2fa': None,     # boolean - Is 2fa active for the user?
         'require_password_change': None,     # boolean - Is a password change required upon next user login?
         'restapi_permission': None,     # boolean - Can this user access the REST API?
@@ -162,6 +162,7 @@ class User:
     #   ssl_required - string - SSL required setting
     #   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
     #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
+    #   require_2fa - string - 2FA required setting
     #   time_zone - string - User time zone
     #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
     #   username - string - User's username
@@ -217,6 +218,8 @@ class User:
             raise InvalidParameterError("Bad parameter: ssl_required must be an str")
         if "sso_strategy_id" in params and not isinstance(params["sso_strategy_id"], int):
             raise InvalidParameterError("Bad parameter: sso_strategy_id must be an int")
+        if "require_2fa" in params and not isinstance(params["require_2fa"], str):
+            raise InvalidParameterError("Bad parameter: require_2fa must be an str")
         if "time_zone" in params and not isinstance(params["time_zone"], str):
             raise InvalidParameterError("Bad parameter: time_zone must be an str")
         if "user_root" in params and not isinstance(params["user_root"], str):
@@ -360,6 +363,7 @@ def get(id, params = {}, options = {}):
 #   ssl_required - string - SSL required setting
 #   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
 #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
+#   require_2fa - string - 2FA required setting
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 #   username - string - User's username
@@ -404,6 +408,8 @@ def create(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: ssl_required must be an str")
     if "sso_strategy_id" in params and not isinstance(params["sso_strategy_id"], int):
         raise InvalidParameterError("Bad parameter: sso_strategy_id must be an int")
+    if "require_2fa" in params and not isinstance(params["require_2fa"], str):
+        raise InvalidParameterError("Bad parameter: require_2fa must be an str")
     if "time_zone" in params and not isinstance(params["time_zone"], str):
         raise InvalidParameterError("Bad parameter: time_zone must be an str")
     if "user_root" in params and not isinstance(params["user_root"], str):
@@ -489,6 +495,7 @@ def user_2fa_reset(id, params = {}, options = {}):
 #   ssl_required - string - SSL required setting
 #   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
 #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
+#   require_2fa - string - 2FA required setting
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 #   username - string - User's username
@@ -538,6 +545,8 @@ def update(id, params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: ssl_required must be an str")
     if "sso_strategy_id" in params and not isinstance(params["sso_strategy_id"], int):
         raise InvalidParameterError("Bad parameter: sso_strategy_id must be an int")
+    if "require_2fa" in params and not isinstance(params["require_2fa"], str):
+        raise InvalidParameterError("Bad parameter: require_2fa must be an str")
     if "time_zone" in params and not isinstance(params["time_zone"], str):
         raise InvalidParameterError("Bad parameter: time_zone must be an str")
     if "user_root" in params and not isinstance(params["user_root"], str):
