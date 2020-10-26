@@ -95,7 +95,9 @@ class ApiClient:
                 request_start = time.time()
                 self.log_request(request, try_num)
                 with requests.Session() as s:
-                    response = s.send(request.prepare(), timeout=(files_sdk.open_timeout, files_sdk.read_timeout))
+                    prepped = request.prepare()
+                    settings = s.merge_environment_settings(prepped.url, {}, None, None, None)
+                    response = s.send(prepped, timeout=(files_sdk.open_timeout, files_sdk.read_timeout), **settings)
                 self.log_response(request, request_start, response.status_code, response.content)
                 response.raise_for_status()
                 return response
@@ -172,7 +174,7 @@ class ApiClient:
                 error_data = response.data["errors"]
             if isinstance(error_data, list) and len(error_data) > 0:
                 error_data = error_data[0]
-            elif isinstance(error_data, str):
+            if isinstance(error_data, str):
                 error_data = { "message" : error_data}
 
             if not error_data:
