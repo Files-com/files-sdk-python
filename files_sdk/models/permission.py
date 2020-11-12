@@ -15,11 +15,7 @@ class Permission:
         'recursive': None,     # boolean - Does this permission apply to subfolders?
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 
@@ -30,7 +26,7 @@ class Permission:
     def get_attributes(self):
         return {k: getattr(self, k, None) for k in Permission.default_attributes if getattr(self, k, None) is not None}
 
-    def delete(self, params = None):
+    def delete(self, params = {}):
         if not isinstance(params, dict):
             params = {}
 
@@ -45,7 +41,7 @@ class Permission:
         response, _options = Api.send_request("DELETE", "/permissions/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = None):
+    def destroy(self, params = {}):
         self.delete(params)
 
     def save(self):
@@ -69,7 +65,7 @@ class Permission:
 #   group_id - string - DEPRECATED: Group ID.  If provided, will scope permissions to this group. Use `filter[group_id]` instead.`
 #   user_id - string - DEPRECATED: User ID.  If provided, will scope permissions to this user. Use `filter[user_id]` instead.`
 #   include_groups - boolean - If searching by user or group, also include user's permissions that are inherited from its groups?
-def list(params = None, options = None):
+def list(params = {}, options = {}):
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -96,7 +92,7 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: user_id must be an str")
     return ListObj(Permission,"GET", "/permissions", params, options)
 
-def all(params = None, options = None):
+def all(params = {}, options = {}):
     list(params, options)
 
 # Parameters:
@@ -106,7 +102,7 @@ def all(params = None, options = None):
 #   recursive - boolean - Apply to subfolders recursively?
 #   user_id - int64 - User ID.  Provide `username` or `user_id`
 #   username - string - User username.  Provide `username` or `user_id`
-def create(params = None, options = None):
+def create(params = {}, options = {}):
     if "group_id" in params and not isinstance(params["group_id"], int):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "path" in params and not isinstance(params["path"], str):
@@ -120,11 +116,9 @@ def create(params = None, options = None):
     response, options = Api.send_request("POST", "/permissions", params, options)
     return Permission(response.data, options)
 
-def delete(id, params = None, options = None):
+def delete(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -133,7 +127,7 @@ def delete(id, params = None, options = None):
     response, _options = Api.send_request("DELETE", "/permissions/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = None, options = None):
+def destroy(id, params = {}, options = {}):
     delete(id, params, options)
 
 def new(*args, **kwargs):

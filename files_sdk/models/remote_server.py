@@ -48,11 +48,7 @@ class RemoteServer:
         'azure_blob_storage_access_key': None,     # string - Azure Blob Storage secret key.
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 
@@ -100,7 +96,7 @@ class RemoteServer:
     #   one_drive_account_type - string - Either personal or business_other account types
     #   azure_blob_storage_account - string - Azure Blob Storage Account name
     #   azure_blob_storage_container - string - Azure Blob Storage Container name
-    def update(self, params = None):
+    def update(self, params = {}):
         if not isinstance(params, dict):
             params = {}
 
@@ -185,7 +181,7 @@ class RemoteServer:
         response, _options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def delete(self, params = None):
+    def delete(self, params = {}):
         if not isinstance(params, dict):
             params = {}
 
@@ -200,7 +196,7 @@ class RemoteServer:
         response, _options = Api.send_request("DELETE", "/remote_servers/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = None):
+    def destroy(self, params = {}):
         self.delete(params)
 
     def save(self):
@@ -213,23 +209,21 @@ class RemoteServer:
 # Parameters:
 #   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-def list(params = None, options = None):
+def list(params = {}, options = {}):
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     return ListObj(RemoteServer,"GET", "/remote_servers", params, options)
 
-def all(params = None, options = None):
+def all(params = {}, options = {}):
     list(params, options)
 
 # Parameters:
 #   id (required) - int64 - Remote Server ID.
-def find(id, params = None, options = None):
+def find(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -238,7 +232,7 @@ def find(id, params = None, options = None):
     response, options = Api.send_request("GET", "/remote_servers/{id}".format(id=params['id']), params, options)
     return RemoteServer(response.data, options)
 
-def get(id, params = None, options = None):
+def get(id, params = {}, options = {}):
     find(id, params, options)
 
 # Parameters:
@@ -278,7 +272,7 @@ def get(id, params = None, options = None):
 #   one_drive_account_type - string - Either personal or business_other account types
 #   azure_blob_storage_account - string - Azure Blob Storage Account name
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
-def create(params = None, options = None):
+def create(params = {}, options = {}):
     if "aws_access_key" in params and not isinstance(params["aws_access_key"], str):
         raise InvalidParameterError("Bad parameter: aws_access_key must be an str")
     if "aws_secret_key" in params and not isinstance(params["aws_secret_key"], str):
@@ -389,11 +383,9 @@ def create(params = None, options = None):
 #   one_drive_account_type - string - Either personal or business_other account types
 #   azure_blob_storage_account - string - Azure Blob Storage Account name
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
-def update(id, params = None, options = None):
+def update(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -472,11 +464,9 @@ def update(id, params = None, options = None):
     response, options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, options)
     return RemoteServer(response.data, options)
 
-def delete(id, params = None, options = None):
+def delete(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -485,7 +475,7 @@ def delete(id, params = None, options = None):
     response, _options = Api.send_request("DELETE", "/remote_servers/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = None, options = None):
+def destroy(id, params = {}, options = {}):
     delete(id, params, options)
 
 def new(*args, **kwargs):

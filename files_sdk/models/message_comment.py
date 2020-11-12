@@ -11,11 +11,7 @@ class MessageComment:
         'user_id': None,     # int64 - User ID.  Provide a value of `0` to operate the current session's user.
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 
@@ -28,7 +24,7 @@ class MessageComment:
 
     # Parameters:
     #   body (required) - string - Comment body.
-    def update(self, params = None):
+    def update(self, params = {}):
         if not isinstance(params, dict):
             params = {}
 
@@ -47,7 +43,7 @@ class MessageComment:
         response, _options = Api.send_request("PATCH", "/message_comments/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def delete(self, params = None):
+    def delete(self, params = {}):
         if not isinstance(params, dict):
             params = {}
 
@@ -62,7 +58,7 @@ class MessageComment:
         response, _options = Api.send_request("DELETE", "/message_comments/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = None):
+    def destroy(self, params = {}):
         self.delete(params)
 
     def save(self):
@@ -77,7 +73,7 @@ class MessageComment:
 #   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   message_id (required) - int64 - Message comment to return comments for.
-def list(params = None, options = None):
+def list(params = {}, options = {}):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
@@ -90,16 +86,14 @@ def list(params = None, options = None):
         raise MissingParameterError("Parameter missing: message_id")
     return ListObj(MessageComment,"GET", "/message_comments", params, options)
 
-def all(params = None, options = None):
+def all(params = {}, options = {}):
     list(params, options)
 
 # Parameters:
 #   id (required) - int64 - Message Comment ID.
-def find(id, params = None, options = None):
+def find(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -108,13 +102,13 @@ def find(id, params = None, options = None):
     response, options = Api.send_request("GET", "/message_comments/{id}".format(id=params['id']), params, options)
     return MessageComment(response.data, options)
 
-def get(id, params = None, options = None):
+def get(id, params = {}, options = {}):
     find(id, params, options)
 
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   body (required) - string - Comment body.
-def create(params = None, options = None):
+def create(params = {}, options = {}):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "body" in params and not isinstance(params["body"], str):
@@ -126,11 +120,9 @@ def create(params = None, options = None):
 
 # Parameters:
 #   body (required) - string - Comment body.
-def update(id, params = None, options = None):
+def update(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -143,11 +135,9 @@ def update(id, params = None, options = None):
     response, options = Api.send_request("PATCH", "/message_comments/{id}".format(id=params['id']), params, options)
     return MessageComment(response.data, options)
 
-def delete(id, params = None, options = None):
+def delete(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -156,7 +146,7 @@ def delete(id, params = None, options = None):
     response, _options = Api.send_request("DELETE", "/message_comments/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = None, options = None):
+def destroy(id, params = {}, options = {}):
     delete(id, params, options)
 
 def new(*args, **kwargs):

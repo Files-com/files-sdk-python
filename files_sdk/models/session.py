@@ -28,11 +28,7 @@ class Session:
         'partial_session_id': None,     # string - Identifier for a partially-completed login
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 
@@ -43,11 +39,7 @@ class Session:
     def get_attributes(self):
         return {k: getattr(self, k, None) for k in Session.default_attributes if getattr(self, k, None) is not None}
 
-    def destroy(self, params = None, options = None):
-        if not isinstance(params, dict):
-            params = {}
-        if not isinstance(options, dict):
-            options = {}
+    def destroy(self, params = {}, options = {}):
         options.pop("session_id", None)
         options["session"] = self
         Session.destroy(params, options)
@@ -64,7 +56,7 @@ class Session:
 #   password - string - Password for sign in
 #   otp - string - If this user has a 2FA device, provide its OTP or code here.
 #   partial_session_id - string - Identifier for a partially-completed login
-def create(params = None, options = None):
+def create(params = {}, options = {}):
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
     if "password" in params and not isinstance(params["password"], str):
@@ -79,7 +71,7 @@ def create(params = None, options = None):
 # Parameters:
 #   format - string
 #   session - object
-def delete(params = None, options = None):
+def delete(params = {}, options = {}):
     if "format" in params and not isinstance(params["format"], str):
         raise InvalidParameterError("Bad parameter: format must be an str")
     if "session" in params and not isinstance(params["session"], dict):
@@ -87,7 +79,7 @@ def delete(params = None, options = None):
     response, _options = Api.send_request("DELETE", "/sessions", params, options)
     return response.data
 
-def destroy(params = None, options = None):
+def destroy(params = {}, options = {}):
     delete(params, options)
 
 def new(*args, **kwargs):

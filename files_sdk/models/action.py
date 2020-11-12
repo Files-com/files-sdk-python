@@ -19,11 +19,7 @@ class Action:
         'interface': None,     # string - Interface on which this action occurred.
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 

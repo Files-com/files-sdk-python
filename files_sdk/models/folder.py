@@ -24,11 +24,7 @@ class Folder:
         'preview': None,     # File preview
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 
@@ -54,11 +50,9 @@ class Folder:
 #   search_all - boolean - Search entire site?
 #   with_previews - boolean - Include file previews?
 #   with_priority_color - boolean - Include file priority color information?
-def list_for(path, params = None, options = None):
+def list_for(path, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["path"] = path
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
@@ -78,11 +72,9 @@ def list_for(path, params = None, options = None):
 
 # Parameters:
 #   path (required) - string - Path to operate on.
-def create(path, params = None, options = None):
+def create(path, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")

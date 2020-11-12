@@ -120,11 +120,7 @@ class Site:
         'disable_users_from_inactivity_period_days': None,     # int64 - If greater than zero, users will unable to login if they do not show activity within this number of days.
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 
@@ -139,7 +135,7 @@ class Site:
 # Parameters:
 #   format - string
 #   site - object
-def get(params = None, options = None):
+def get(params = {}, options = {}):
     if "format" in params and not isinstance(params["format"], str):
         raise InvalidParameterError("Bad parameter: format must be an str")
     if "site" in params and not isinstance(params["site"], dict):
@@ -150,7 +146,7 @@ def get(params = None, options = None):
 # Parameters:
 #   format - string
 #   site - object
-def get_usage(params = None, options = None):
+def get_usage(params = {}, options = {}):
     if "format" in params and not isinstance(params["format"], str):
         raise InvalidParameterError("Bad parameter: format must be an str")
     if "site" in params and not isinstance(params["site"], dict):
@@ -264,7 +260,7 @@ def get_usage(params = None, options = None):
 #   ldap_password_change - string - New LDAP password.
 #   ldap_password_change_confirmation - string - Confirm new LDAP password.
 #   smtp_password - string - Password for SMTP server.
-def update(params = None, options = None):
+def update(params = {}, options = {}):
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "subdomain" in params and not isinstance(params["subdomain"], str):

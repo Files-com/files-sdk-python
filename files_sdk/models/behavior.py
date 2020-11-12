@@ -13,11 +13,7 @@ class Behavior:
         'attachment_file': None,     # file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 
@@ -33,7 +29,7 @@ class Behavior:
     #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
     #   behavior - string - Behavior type.
     #   path - string - Folder behaviors path.
-    def update(self, params = None):
+    def update(self, params = {}):
         if not isinstance(params, dict):
             params = {}
 
@@ -54,7 +50,7 @@ class Behavior:
         response, _options = Api.send_request("PATCH", "/behaviors/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def delete(self, params = None):
+    def delete(self, params = {}):
         if not isinstance(params, dict):
             params = {}
 
@@ -69,7 +65,7 @@ class Behavior:
         response, _options = Api.send_request("DELETE", "/behaviors/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = None):
+    def destroy(self, params = {}):
         self.delete(params)
 
     def save(self):
@@ -90,7 +86,7 @@ class Behavior:
 #   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `behavior`.
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `behavior`.
 #   behavior - string - If set, only shows folder behaviors matching this behavior type.
-def list(params = None, options = None):
+def list(params = {}, options = {}):
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -113,16 +109,14 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: behavior must be an str")
     return ListObj(Behavior,"GET", "/behaviors", params, options)
 
-def all(params = None, options = None):
+def all(params = {}, options = {}):
     list(params, options)
 
 # Parameters:
 #   id (required) - int64 - Behavior ID.
-def find(id, params = None, options = None):
+def find(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -131,7 +125,7 @@ def find(id, params = None, options = None):
     response, options = Api.send_request("GET", "/behaviors/{id}".format(id=params['id']), params, options)
     return Behavior(response.data, options)
 
-def get(id, params = None, options = None):
+def get(id, params = {}, options = {}):
     find(id, params, options)
 
 # Parameters:
@@ -147,11 +141,9 @@ def get(id, params = None, options = None):
 #   path (required) - string - Path to operate on.
 #   recursive - string - Show behaviors above this path?
 #   behavior - string - DEPRECATED: If set only shows folder behaviors matching this behavior type. Use `filter[behavior]` instead.
-def list_for(path, params = None, options = None):
+def list_for(path, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["path"] = path
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
@@ -186,7 +178,7 @@ def list_for(path, params = None, options = None):
 #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 #   path (required) - string - Folder behaviors path.
 #   behavior (required) - string - Behavior type.
-def create(params = None, options = None):
+def create(params = {}, options = {}):
     if "value" in params and not isinstance(params["value"], str):
         raise InvalidParameterError("Bad parameter: value must be an str")
     if "path" in params and not isinstance(params["path"], str):
@@ -207,7 +199,7 @@ def create(params = None, options = None):
 #   headers - object - Additional request headers.
 #   body - object - Additional body parameters.
 #   action - string - action for test body
-def webhook_test(params = None, options = None):
+def webhook_test(params = {}, options = {}):
     if "url" in params and not isinstance(params["url"], str):
         raise InvalidParameterError("Bad parameter: url must be an str")
     if "method" in params and not isinstance(params["method"], str):
@@ -230,11 +222,9 @@ def webhook_test(params = None, options = None):
 #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 #   behavior - string - Behavior type.
 #   path - string - Folder behaviors path.
-def update(id, params = None, options = None):
+def update(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], (str, int, dict)): 
         raise InvalidParameterError("Bad parameter: id must be one of str, int, dict")
@@ -249,11 +239,9 @@ def update(id, params = None, options = None):
     response, options = Api.send_request("PATCH", "/behaviors/{id}".format(id=params['id']), params, options)
     return Behavior(response.data, options)
 
-def delete(id, params = None, options = None):
+def delete(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -262,7 +250,7 @@ def delete(id, params = None, options = None):
     response, _options = Api.send_request("DELETE", "/behaviors/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = None, options = None):
+def destroy(id, params = {}, options = {}):
     delete(id, params, options)
 
 def new(*args, **kwargs):

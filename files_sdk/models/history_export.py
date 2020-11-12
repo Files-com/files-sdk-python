@@ -31,11 +31,7 @@ class HistoryExport:
         'user_id': None,     # int64 - User ID.  Provide a value of `0` to operate the current session's user.
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 
@@ -56,11 +52,9 @@ class HistoryExport:
 
 # Parameters:
 #   id (required) - int64 - History Export ID.
-def find(id, params = None, options = None):
+def find(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -69,7 +63,7 @@ def find(id, params = None, options = None):
     response, options = Api.send_request("GET", "/history_exports/{id}".format(id=params['id']), params, options)
     return HistoryExport(response.data, options)
 
-def get(id, params = None, options = None):
+def get(id, params = {}, options = {}):
     find(id, params, options)
 
 # Parameters:
@@ -95,7 +89,7 @@ def get(id, params = None, options = None):
 #   query_target_username - string - If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.
 #   query_target_platform - string - If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
 #   query_target_permission_set - string - If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
-def create(params = None, options = None):
+def create(params = {}, options = {}):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "start_at" in params and not isinstance(params["start_at"], str):

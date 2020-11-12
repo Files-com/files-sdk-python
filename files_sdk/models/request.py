@@ -15,11 +15,7 @@ class Request:
         'group_ids': None,     # string - A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 
@@ -30,7 +26,7 @@ class Request:
     def get_attributes(self):
         return {k: getattr(self, k, None) for k in Request.default_attributes if getattr(self, k, None) is not None}
 
-    def delete(self, params = None):
+    def delete(self, params = {}):
         if not isinstance(params, dict):
             params = {}
 
@@ -45,7 +41,7 @@ class Request:
         response, _options = Api.send_request("DELETE", "/requests/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = None):
+    def destroy(self, params = {}):
         self.delete(params)
 
     def save(self):
@@ -61,7 +57,7 @@ class Request:
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `site_id`, `folder_id` or `destination`.
 #   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
 #   path - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
-def list(params = None, options = None):
+def list(params = {}, options = {}):
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -72,7 +68,7 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: path must be an str")
     return ListObj(Request,"GET", "/requests", params, options)
 
-def all(params = None, options = None):
+def all(params = {}, options = {}):
     list(params, options)
 
 # Parameters:
@@ -81,11 +77,9 @@ def all(params = None, options = None):
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `site_id`, `folder_id` or `destination`.
 #   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
 #   path (required) - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
-def get_folder(path, params = None, options = None):
+def get_folder(path, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["path"] = path
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
@@ -104,7 +98,7 @@ def get_folder(path, params = None, options = None):
 #   destination (required) - string - Destination filename (without extension) to request.
 #   user_ids - string - A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
-def create(params = None, options = None):
+def create(params = {}, options = {}):
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "destination" in params and not isinstance(params["destination"], str):
@@ -120,11 +114,9 @@ def create(params = None, options = None):
     response, options = Api.send_request("POST", "/requests", params, options)
     return Request(response.data, options)
 
-def delete(id, params = None, options = None):
+def delete(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -133,7 +125,7 @@ def delete(id, params = None, options = None):
     response, _options = Api.send_request("DELETE", "/requests/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = None, options = None):
+def destroy(id, params = {}, options = {}):
     delete(id, params, options)
 
 def new(*args, **kwargs):

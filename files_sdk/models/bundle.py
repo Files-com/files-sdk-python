@@ -26,11 +26,7 @@ class Bundle:
         'password': None,     # string - Password for this bundle.
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 
@@ -47,7 +43,7 @@ class Bundle:
     #   to (required) - array(string) - A list of email addresses to share this bundle with.
     #   note - string - Note to include in email.
     #   recipients - array(object) - A list of recipients to share this bundle with.
-    def share(self, params = None):
+    def share(self, params = {}):
         if not isinstance(params, dict):
             params = {}
 
@@ -81,7 +77,7 @@ class Bundle:
     #   note - string - Bundle internal note
     #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
     #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
-    def update(self, params = None):
+    def update(self, params = {}):
         if not isinstance(params, dict):
             params = {}
 
@@ -112,7 +108,7 @@ class Bundle:
         response, _options = Api.send_request("PATCH", "/bundles/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def delete(self, params = None):
+    def delete(self, params = {}):
         if not isinstance(params, dict):
             params = {}
 
@@ -127,7 +123,7 @@ class Bundle:
         response, _options = Api.send_request("DELETE", "/bundles/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = None):
+    def destroy(self, params = {}):
         self.delete(params)
 
     def save(self):
@@ -148,7 +144,7 @@ class Bundle:
 #   filter_like - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `created_at`.
 #   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `created_at`.
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `created_at`.
-def list(params = None, options = None):
+def list(params = {}, options = {}):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
@@ -171,16 +167,14 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
     return ListObj(Bundle,"GET", "/bundles", params, options)
 
-def all(params = None, options = None):
+def all(params = {}, options = {}):
     list(params, options)
 
 # Parameters:
 #   id (required) - int64 - Bundle ID.
-def find(id, params = None, options = None):
+def find(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -189,7 +183,7 @@ def find(id, params = None, options = None):
     response, options = Api.send_request("GET", "/bundles/{id}".format(id=params['id']), params, options)
     return Bundle(response.data, options)
 
-def get(id, params = None, options = None):
+def get(id, params = {}, options = {}):
     find(id, params, options)
 
 # Parameters:
@@ -205,7 +199,7 @@ def get(id, params = None, options = None):
 #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
 #   inbox_id - int64 - ID of the associated inbox, if available.
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
-def create(params = None, options = None):
+def create(params = {}, options = {}):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "paths" in params and not isinstance(params["paths"], list):
@@ -237,11 +231,9 @@ def create(params = None, options = None):
 #   to (required) - array(string) - A list of email addresses to share this bundle with.
 #   note - string - Note to include in email.
 #   recipients - array(object) - A list of recipients to share this bundle with.
-def share(id, params = None, options = None):
+def share(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -269,11 +261,9 @@ def share(id, params = None, options = None):
 #   note - string - Bundle internal note
 #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
-def update(id, params = None, options = None):
+def update(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -298,11 +288,9 @@ def update(id, params = None, options = None):
     response, options = Api.send_request("PATCH", "/bundles/{id}".format(id=params['id']), params, options)
     return Bundle(response.data, options)
 
-def delete(id, params = None, options = None):
+def delete(id, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
-    if not isinstance(options, dict):
-        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -311,7 +299,7 @@ def delete(id, params = None, options = None):
     response, _options = Api.send_request("DELETE", "/bundles/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = None, options = None):
+def destroy(id, params = {}, options = {}):
     delete(id, params, options)
 
 def new(*args, **kwargs):

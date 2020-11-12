@@ -11,11 +11,7 @@ class UsageDailySnapshot:
         'usage_by_top_level_dir': None,     # array - Usage broken down by each top-level folder
     }
 
-    def __init__(self, attributes=None, options=None):
-        if not isinstance(attributes, dict):
-            attributes = {}
-        if not isinstance(options, dict):
-            options = {}
+    def __init__(self, attributes={}, options={}):
         self.set_attributes(attributes)
         self.options = options
 
@@ -37,7 +33,7 @@ class UsageDailySnapshot:
 #   filter_like - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `date` and `usage_snapshot_id`.
 #   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `date` and `usage_snapshot_id`.
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `date` and `usage_snapshot_id`.
-def list(params = None, options = None):
+def list(params = {}, options = {}):
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -58,7 +54,7 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
     return ListObj(UsageDailySnapshot,"GET", "/usage_daily_snapshots", params, options)
 
-def all(params = None, options = None):
+def all(params = {}, options = {}):
     list(params, options)
 
 def new(*args, **kwargs):
