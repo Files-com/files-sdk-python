@@ -9,7 +9,11 @@ class FileAction:
         'destination': None,
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
@@ -25,7 +29,7 @@ class FileAction:
     # Parameters:
     #   destination (required) - string - Copy destination path.
     #   structure - boolean - Copy structure only?
-    def copy(self, params = {}):
+    def copy(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -48,7 +52,7 @@ class FileAction:
     #
     # Parameters:
     #   destination (required) - string - Move destination path.
-    def move(self, params = {}):
+    def move(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -76,7 +80,7 @@ class FileAction:
     #   ref - string -
     #   restart - int64 - File byte offset to restart from.
     #   with_rename - boolean - Allow file rename instead of overwrite?
-    def begin_upload(self, params = {}):
+    def begin_upload(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -105,9 +109,11 @@ class FileAction:
 # Parameters:
 #   destination (required) - string - Copy destination path.
 #   structure - boolean - Copy structure only?
-def copy(path, params = {}, options = {}):
+def copy(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
@@ -124,9 +130,11 @@ def copy(path, params = {}, options = {}):
 #
 # Parameters:
 #   destination (required) - string - Move destination path.
-def move(path, params = {}, options = {}):
+def move(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
@@ -148,9 +156,11 @@ def move(path, params = {}, options = {}):
 #   ref - string -
 #   restart - int64 - File byte offset to restart from.
 #   with_rename - boolean - Allow file rename instead of overwrite?
-def begin_upload(path, params = {}, options = {}):
+def begin_upload(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")

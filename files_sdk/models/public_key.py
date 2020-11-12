@@ -13,7 +13,11 @@ class PublicKey:
         'public_key': None,     # string - Actual contents of SSH key.
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
@@ -26,7 +30,7 @@ class PublicKey:
 
     # Parameters:
     #   title (required) - string - Internal reference for key.
-    def update(self, params = {}):
+    def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -45,7 +49,7 @@ class PublicKey:
         response, _options = Api.send_request("PATCH", "/public_keys/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def delete(self, params = {}):
+    def delete(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -60,7 +64,7 @@ class PublicKey:
         response, _options = Api.send_request("DELETE", "/public_keys/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = {}):
+    def destroy(self, params = None):
         self.delete(params)
 
     def save(self):
@@ -74,7 +78,7 @@ class PublicKey:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-def list(params = {}, options = {}):
+def list(params = None, options = None):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
@@ -83,14 +87,16 @@ def list(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     return ListObj(PublicKey,"GET", "/public_keys", params, options)
 
-def all(params = {}, options = {}):
+def all(params = None, options = None):
     list(params, options)
 
 # Parameters:
 #   id (required) - int64 - Public Key ID.
-def find(id, params = {}, options = {}):
+def find(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -99,14 +105,14 @@ def find(id, params = {}, options = {}):
     response, options = Api.send_request("GET", "/public_keys/{id}".format(id=params['id']), params, options)
     return PublicKey(response.data, options)
 
-def get(id, params = {}, options = {}):
+def get(id, params = None, options = None):
     find(id, params, options)
 
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   title (required) - string - Internal reference for key.
 #   public_key (required) - string - Actual contents of SSH key.
-def create(params = {}, options = {}):
+def create(params = None, options = None):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "title" in params and not isinstance(params["title"], str):
@@ -122,9 +128,11 @@ def create(params = {}, options = {}):
 
 # Parameters:
 #   title (required) - string - Internal reference for key.
-def update(id, params = {}, options = {}):
+def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -137,9 +145,11 @@ def update(id, params = {}, options = {}):
     response, options = Api.send_request("PATCH", "/public_keys/{id}".format(id=params['id']), params, options)
     return PublicKey(response.data, options)
 
-def delete(id, params = {}, options = {}):
+def delete(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -148,7 +158,7 @@ def delete(id, params = {}, options = {}):
     response, _options = Api.send_request("DELETE", "/public_keys/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = {}, options = {}):
+def destroy(id, params = None, options = None):
     delete(id, params, options)
 
 def new(*args, **kwargs):

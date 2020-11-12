@@ -22,7 +22,9 @@ class ApiClient:
     def __init__(self):
         pass
 
-    def send_remote_request(self, method, url, headers = {}, body = None):
+    def send_remote_request(self, method, url, headers = None, body = None):
+        if headers is None:
+            headers = {}
         req = requests.Request(
                 method,
                 url=url,
@@ -33,7 +35,9 @@ class ApiClient:
         response = self.execute_request_with_auto_retry(req)
         return response
 
-    def send_request(self, method, path, api_key=None, session_id=None, headers={}, params=None):
+    def send_request(self, method, path, api_key=None, session_id=None, headers=None, params=None):
+        if headers is None:
+            headers = {}
         full_path = files_sdk.base_path + path
         url = urljoin(files_sdk.base_url, full_path)
 

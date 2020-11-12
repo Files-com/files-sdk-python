@@ -20,7 +20,11 @@ class Notification:
         'suppressed_email': None,     # boolean - If true, it means that the recipient at this user's email address has manually unsubscribed from all emails, or had their email "hard bounce", which means that we are unable to send mail to this user's current email address. Notifications will resume if the user changes their email address.
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
@@ -36,7 +40,7 @@ class Notification:
     #   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
     #   recursive - boolean - If `true`, enable notifications for each subfolder in this path
     #   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
-    def update(self, params = {}):
+    def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -53,7 +57,7 @@ class Notification:
         response, _options = Api.send_request("PATCH", "/notifications/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def delete(self, params = {}):
+    def delete(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -68,7 +72,7 @@ class Notification:
         response, _options = Api.send_request("DELETE", "/notifications/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = {}):
+    def destroy(self, params = None):
         self.delete(params)
 
     def save(self):
@@ -92,7 +96,7 @@ class Notification:
 #   group_id - int64 - DEPRECATED: Show notifications for this Group ID. Use `filter[group_id]` instead.
 #   path - string - Show notifications for this Path.
 #   include_ancestors - boolean - If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
-def list(params = {}, options = {}):
+def list(params = None, options = None):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
@@ -119,14 +123,16 @@ def list(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: path must be an str")
     return ListObj(Notification,"GET", "/notifications", params, options)
 
-def all(params = {}, options = {}):
+def all(params = None, options = None):
     list(params, options)
 
 # Parameters:
 #   id (required) - int64 - Notification ID.
-def find(id, params = {}, options = {}):
+def find(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -135,7 +141,7 @@ def find(id, params = {}, options = {}):
     response, options = Api.send_request("GET", "/notifications/{id}".format(id=params['id']), params, options)
     return Notification(response.data, options)
 
-def get(id, params = {}, options = {}):
+def get(id, params = None, options = None):
     find(id, params, options)
 
 # Parameters:
@@ -147,7 +153,7 @@ def get(id, params = {}, options = {}):
 #   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
 #   path - string - Path
 #   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
-def create(params = {}, options = {}):
+def create(params = None, options = None):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "send_interval" in params and not isinstance(params["send_interval"], str):
@@ -166,9 +172,11 @@ def create(params = {}, options = {}):
 #   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
 #   recursive - boolean - If `true`, enable notifications for each subfolder in this path
 #   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
-def update(id, params = {}, options = {}):
+def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -179,9 +187,11 @@ def update(id, params = {}, options = {}):
     response, options = Api.send_request("PATCH", "/notifications/{id}".format(id=params['id']), params, options)
     return Notification(response.data, options)
 
-def delete(id, params = {}, options = {}):
+def delete(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -190,7 +200,7 @@ def delete(id, params = {}, options = {}):
     response, _options = Api.send_request("DELETE", "/notifications/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = {}, options = {}):
+def destroy(id, params = None, options = None):
     delete(id, params, options)
 
 def new(*args, **kwargs):

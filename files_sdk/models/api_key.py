@@ -18,7 +18,11 @@ class ApiKey:
         'user_id': None,     # int64 - User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
@@ -33,7 +37,7 @@ class ApiKey:
     #   name - string - Internal name for the API Key.  For your use.
     #   expires_at - string - API Key expiration date
     #   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
-    def update(self, params = {}):
+    def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -54,7 +58,7 @@ class ApiKey:
         response, _options = Api.send_request("PATCH", "/api_keys/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def delete(self, params = {}):
+    def delete(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -69,7 +73,7 @@ class ApiKey:
         response, _options = Api.send_request("DELETE", "/api_keys/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = {}):
+    def destroy(self, params = None):
         self.delete(params)
 
     def save(self):
@@ -90,7 +94,7 @@ class ApiKey:
 #   filter_like - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `expires_at`.
 #   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `expires_at`.
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `expires_at`.
-def list(params = {}, options = {}):
+def list(params = None, options = None):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
@@ -113,13 +117,13 @@ def list(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
     return ListObj(ApiKey,"GET", "/api_keys", params, options)
 
-def all(params = {}, options = {}):
+def all(params = None, options = None):
     list(params, options)
 
 # Parameters:
 #   format - string
 #   api_key - object
-def find_current(params = {}, options = {}):
+def find_current(params = None, options = None):
     if "format" in params and not isinstance(params["format"], str):
         raise InvalidParameterError("Bad parameter: format must be an str")
     if "api_key" in params and not isinstance(params["api_key"], dict):
@@ -129,9 +133,11 @@ def find_current(params = {}, options = {}):
 
 # Parameters:
 #   id (required) - int64 - Api Key ID.
-def find(id, params = {}, options = {}):
+def find(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -140,7 +146,7 @@ def find(id, params = {}, options = {}):
     response, options = Api.send_request("GET", "/api_keys/{id}".format(id=params['id']), params, options)
     return ApiKey(response.data, options)
 
-def get(id, params = {}, options = {}):
+def get(id, params = None, options = None):
     find(id, params, options)
 
 # Parameters:
@@ -149,7 +155,7 @@ def get(id, params = {}, options = {}):
 #   expires_at - string - API Key expiration date
 #   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 #   path - string - Folder path restriction for this api key.
-def create(params = {}, options = {}):
+def create(params = None, options = None):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "name" in params and not isinstance(params["name"], str):
@@ -167,7 +173,7 @@ def create(params = {}, options = {}):
 #   expires_at - string - API Key expiration date
 #   name - string - Internal name for the API Key.  For your use.
 #   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
-def update_current(params = {}, options = {}):
+def update_current(params = None, options = None):
     if "expires_at" in params and not isinstance(params["expires_at"], str):
         raise InvalidParameterError("Bad parameter: expires_at must be an str")
     if "name" in params and not isinstance(params["name"], str):
@@ -181,9 +187,11 @@ def update_current(params = {}, options = {}):
 #   name - string - Internal name for the API Key.  For your use.
 #   expires_at - string - API Key expiration date
 #   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
-def update(id, params = {}, options = {}):
+def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -201,7 +209,7 @@ def update(id, params = {}, options = {}):
 # Parameters:
 #   format - string
 #   api_key - object
-def delete_current(params = {}, options = {}):
+def delete_current(params = None, options = None):
     if "format" in params and not isinstance(params["format"], str):
         raise InvalidParameterError("Bad parameter: format must be an str")
     if "api_key" in params and not isinstance(params["api_key"], dict):
@@ -209,9 +217,11 @@ def delete_current(params = {}, options = {}):
     response, _options = Api.send_request("DELETE", "/api_key", params, options)
     return response.data
 
-def delete(id, params = {}, options = {}):
+def delete(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -220,7 +230,7 @@ def delete(id, params = {}, options = {}):
     response, _options = Api.send_request("DELETE", "/api_keys/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = {}, options = {}):
+def destroy(id, params = None, options = None):
     delete(id, params, options)
 
 def new(*args, **kwargs):

@@ -9,7 +9,9 @@ class Api:
         return ApiClient()
 
     @staticmethod
-    def send_request(verb, path, params, options ={}):
+    def send_request(verb, path, params, options = None):
+        if not isinstance(options, dict):
+            options = {}
         Api.warn_on_options_in_params(params)
 
         headers = copy.deepcopy(options)

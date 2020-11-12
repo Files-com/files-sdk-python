@@ -63,7 +63,11 @@ class User:
         'announcements_read': None,     # boolean - Signifies that the user has read all the announcements in the UI.
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
@@ -75,7 +79,7 @@ class User:
         return {k: getattr(self, k, None) for k in User.default_attributes if getattr(self, k, None) is not None}
 
     # Unlock user who has been locked out due to failed logins
-    def unlock(self, params = {}):
+    def unlock(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -91,7 +95,7 @@ class User:
         return response.data
 
     # Resend user welcome email
-    def resend_welcome_email(self, params = {}):
+    def resend_welcome_email(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -107,7 +111,7 @@ class User:
         return response.data
 
     # Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
-    def user_2fa_reset(self, params = {}):
+    def user_2fa_reset(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -166,7 +170,7 @@ class User:
     #   time_zone - string - User time zone
     #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
     #   username - string - User's username
-    def update(self, params = {}):
+    def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -229,7 +233,7 @@ class User:
         response, _options = Api.send_request("PATCH", "/users/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def delete(self, params = {}):
+    def delete(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -244,7 +248,7 @@ class User:
         response, _options = Api.send_request("DELETE", "/users/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = {}):
+    def destroy(self, params = None):
         self.delete(params)
 
     def save(self):
@@ -273,7 +277,7 @@ class User:
 #   q[password_validity_days] - string - If set, list only users with overridden password validity days setting.
 #   q[ssl_required] - string - If set, list only users with overridden SSL required setting.
 #   search - string - Searches for partial matches of name, username, or email.
-def list(params = {}, options = {}):
+def list(params = None, options = None):
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -298,14 +302,16 @@ def list(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: search must be an str")
     return ListObj(User,"GET", "/users", params, options)
 
-def all(params = {}, options = {}):
+def all(params = None, options = None):
     list(params, options)
 
 # Parameters:
 #   id (required) - int64 - User ID.
-def find(id, params = {}, options = {}):
+def find(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -314,7 +320,7 @@ def find(id, params = {}, options = {}):
     response, options = Api.send_request("GET", "/users/{id}".format(id=params['id']), params, options)
     return User(response.data, options)
 
-def get(id, params = {}, options = {}):
+def get(id, params = None, options = None):
     find(id, params, options)
 
 # Parameters:
@@ -361,7 +367,7 @@ def get(id, params = {}, options = {}):
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 #   username - string - User's username
-def create(params = {}, options = {}):
+def create(params = None, options = None):
     if "change_password" in params and not isinstance(params["change_password"], str):
         raise InvalidParameterError("Bad parameter: change_password must be an str")
     if "change_password_confirmation" in params and not isinstance(params["change_password_confirmation"], str):
@@ -414,9 +420,11 @@ def create(params = {}, options = {}):
     return User(response.data, options)
 
 # Unlock user who has been locked out due to failed logins
-def unlock(id, params = {}, options = {}):
+def unlock(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -426,9 +434,11 @@ def unlock(id, params = {}, options = {}):
     return response.data
 
 # Resend user welcome email
-def resend_welcome_email(id, params = {}, options = {}):
+def resend_welcome_email(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -438,9 +448,11 @@ def resend_welcome_email(id, params = {}, options = {}):
     return response.data
 
 # Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
-def user_2fa_reset(id, params = {}, options = {}):
+def user_2fa_reset(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -493,9 +505,11 @@ def user_2fa_reset(id, params = {}, options = {}):
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 #   username - string - User's username
-def update(id, params = {}, options = {}):
+def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -552,9 +566,11 @@ def update(id, params = {}, options = {}):
     response, options = Api.send_request("PATCH", "/users/{id}".format(id=params['id']), params, options)
     return User(response.data, options)
 
-def delete(id, params = {}, options = {}):
+def delete(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -563,7 +579,7 @@ def delete(id, params = {}, options = {}):
     response, _options = Api.send_request("DELETE", "/users/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = {}, options = {}):
+def destroy(id, params = None, options = None):
     delete(id, params, options)
 
 def new(*args, **kwargs):

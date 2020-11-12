@@ -11,7 +11,11 @@ class PaymentLineItem:
         'updated_at': None,     # date-time - Payment line item updated at date/time
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
