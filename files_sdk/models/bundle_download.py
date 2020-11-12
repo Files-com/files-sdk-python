@@ -23,20 +23,14 @@ class BundleDownload:
 
 
 # Parameters:
-#   page - int64 - Current page number.
+#   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-#   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   bundle_registration_id (required) - int64 - BundleRegistration ID
 def list(params = {}, options = {}):
-    if "page" in params and not isinstance(params["page"], int):
-        raise InvalidParameterError("Bad parameter: page must be an int")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "bundle_registration_id" in params and not isinstance(params["bundle_registration_id"], int):
         raise InvalidParameterError("Bad parameter: bundle_registration_id must be an int")
     if "bundle_registration_id" not in params:

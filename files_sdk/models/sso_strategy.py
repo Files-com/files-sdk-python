@@ -18,6 +18,8 @@ class SsoStrategy:
         'saml_provider_sso_target_url': None,     # string - Identity provider SSO endpoint if saml_provider_metadata_url is not available.
         'scim_authentication_method': None,     # string - SCIM authentication type.
         'scim_username': None,     # string - SCIM username.
+        'scim_oauth_access_token': None,     # string - SCIM OAuth Access Token.
+        'scim_oauth_access_token_expires_at': None,     # string - SCIM OAuth Access Token Expiration Time.
         'subdomain': None,     # string - Subdomain
         'provision_users': None,     # boolean - Auto-provision users?
         'provision_groups': None,     # boolean - Auto-provision group membership based on group memberships on the SSO side?
@@ -60,19 +62,13 @@ class SsoStrategy:
 
 
 # Parameters:
-#   page - int64 - Current page number.
+#   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-#   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 def list(params = {}, options = {}):
-    if "page" in params and not isinstance(params["page"], int):
-        raise InvalidParameterError("Bad parameter: page must be an int")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
     return ListObj(SsoStrategy,"GET", "/sso_strategies", params, options)
 
 def all(params = {}, options = {}):

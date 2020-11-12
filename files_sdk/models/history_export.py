@@ -7,6 +7,8 @@ class HistoryExport:
         'id': None,     # int64 - History Export ID
         'start_at': None,     # date-time - Start date/time of export range.
         'end_at': None,     # date-time - End date/time of export range.
+        'export_as': None,     # string - Export format
+        'file_export': None,     # boolean - Is a file export, downloadable using the results_url
         'status': None,     # string - Status of export.  Will be: `building`, `ready`, or `failed`
         'query_action': None,     # string - Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
         'query_interface': None,     # string - Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`
@@ -70,6 +72,7 @@ def get(id, params = {}, options = {}):
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   start_at - string - Start date/time of export range.
 #   end_at - string - End date/time of export range.
+#   export_as - string - Export format
 #   query_action - string - Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
 #   query_interface - string - Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`
 #   query_user_id - string - Return results that are actions performed by the user indiciated by this User ID
@@ -96,6 +99,8 @@ def create(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: start_at must be an str")
     if "end_at" in params and not isinstance(params["end_at"], str):
         raise InvalidParameterError("Bad parameter: end_at must be an str")
+    if "export_as" in params and not isinstance(params["export_as"], str):
+        raise InvalidParameterError("Bad parameter: export_as must be an str")
     if "query_action" in params and not isinstance(params["query_action"], str):
         raise InvalidParameterError("Bad parameter: query_action must be an str")
     if "query_interface" in params and not isinstance(params["query_interface"], str):

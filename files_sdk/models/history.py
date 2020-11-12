@@ -37,10 +37,8 @@ class History:
 #   start_at - string - Leave blank or set to a date/time to filter earlier entries.
 #   end_at - string - Leave blank or set to a date/time to filter later entries.
 #   display - string - Display format. Leave blank or set to `full` or `parent`.
-#   page - int64 - Current page number.
+#   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-#   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 #   path (required) - string - Path to operate on.
 def list_for_file(path, params = {}, options = {}):
@@ -53,14 +51,10 @@ def list_for_file(path, params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: end_at must be an str")
     if "display" in params and not isinstance(params["display"], str):
         raise InvalidParameterError("Bad parameter: display must be an str")
-    if "page" in params and not isinstance(params["page"], int):
-        raise InvalidParameterError("Bad parameter: page must be an int")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "path" in params and not isinstance(params["path"], str):
@@ -73,10 +67,8 @@ def list_for_file(path, params = {}, options = {}):
 #   start_at - string - Leave blank or set to a date/time to filter earlier entries.
 #   end_at - string - Leave blank or set to a date/time to filter later entries.
 #   display - string - Display format. Leave blank or set to `full` or `parent`.
-#   page - int64 - Current page number.
+#   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-#   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 #   path (required) - string - Path to operate on.
 def list_for_folder(path, params = {}, options = {}):
@@ -89,14 +81,10 @@ def list_for_folder(path, params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: end_at must be an str")
     if "display" in params and not isinstance(params["display"], str):
         raise InvalidParameterError("Bad parameter: display must be an str")
-    if "page" in params and not isinstance(params["page"], int):
-        raise InvalidParameterError("Bad parameter: page must be an int")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "path" in params and not isinstance(params["path"], str):
@@ -109,10 +97,8 @@ def list_for_folder(path, params = {}, options = {}):
 #   start_at - string - Leave blank or set to a date/time to filter earlier entries.
 #   end_at - string - Leave blank or set to a date/time to filter later entries.
 #   display - string - Display format. Leave blank or set to `full` or `parent`.
-#   page - int64 - Current page number.
+#   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-#   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 #   user_id (required) - int64 - User ID.
 def list_for_user(user_id, params = {}, options = {}):
@@ -125,14 +111,10 @@ def list_for_user(user_id, params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: end_at must be an str")
     if "display" in params and not isinstance(params["display"], str):
         raise InvalidParameterError("Bad parameter: display must be an str")
-    if "page" in params and not isinstance(params["page"], int):
-        raise InvalidParameterError("Bad parameter: page must be an int")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "user_id" in params and not isinstance(params["user_id"], int):
@@ -145,10 +127,8 @@ def list_for_user(user_id, params = {}, options = {}):
 #   start_at - string - Leave blank or set to a date/time to filter earlier entries.
 #   end_at - string - Leave blank or set to a date/time to filter later entries.
 #   display - string - Display format. Leave blank or set to `full` or `parent`.
-#   page - int64 - Current page number.
+#   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-#   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 def list_logins(params = {}, options = {}):
     if "start_at" in params and not isinstance(params["start_at"], str):
@@ -157,14 +137,10 @@ def list_logins(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: end_at must be an str")
     if "display" in params and not isinstance(params["display"], str):
         raise InvalidParameterError("Bad parameter: display must be an str")
-    if "page" in params and not isinstance(params["page"], int):
-        raise InvalidParameterError("Bad parameter: page must be an int")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     return ListObj(Action,"GET", "/history/login", params, options)
@@ -173,10 +149,8 @@ def list_logins(params = {}, options = {}):
 #   start_at - string - Leave blank or set to a date/time to filter earlier entries.
 #   end_at - string - Leave blank or set to a date/time to filter later entries.
 #   display - string - Display format. Leave blank or set to `full` or `parent`.
-#   page - int64 - Current page number.
+#   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-#   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `site_id`, `path`, `created_at`, `folder` or `user_id`.
 #   filter - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
 #   filter_gt - object - If set, return records where the specifiied field is greater than the supplied value. Valid fields are `user_id`, `folder` or `path`.
@@ -191,14 +165,10 @@ def list(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: end_at must be an str")
     if "display" in params and not isinstance(params["display"], str):
         raise InvalidParameterError("Bad parameter: display must be an str")
-    if "page" in params and not isinstance(params["page"], int):
-        raise InvalidParameterError("Bad parameter: page must be an int")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):

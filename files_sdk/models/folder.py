@@ -41,10 +41,8 @@ class Folder:
         self.set_attributes(new_obj.get_attributes())
 
 # Parameters:
-#   page - int64 - Current page number.
-#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   action - string - Action to take.  Can be `count`, `size`, `permissions`, or blank.
 #   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor header.
+#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   path (required) - string - Path to operate on.
 #   filter - string - If specified, will to filter folders/files list by this string.  Wildcards of `*` and `?` are acceptable here.
 #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
@@ -56,14 +54,10 @@ def list_for(path, params = {}, options = {}):
     if not isinstance(params, dict):
         params = {}
     params["path"] = path
-    if "page" in params and not isinstance(params["page"], int):
-        raise InvalidParameterError("Bad parameter: page must be an int")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "filter" in params and not isinstance(params["filter"], str):

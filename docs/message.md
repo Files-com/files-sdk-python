@@ -28,7 +28,6 @@
 ```
 files_sdk.message.list({
   "user_id": 1,
-  "page": 1,
   "per_page": 1,
   "project_id": 1
 })
@@ -37,10 +36,8 @@ files_sdk.message.list({
 ### Parameters
 
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
-* `page` (int64): Current page number.
+* `cursor` (string): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `action` (string): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-* `cursor` (string): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `project_id` (int64): Required - Project for which to return messages.
 
 

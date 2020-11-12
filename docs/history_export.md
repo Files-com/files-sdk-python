@@ -7,6 +7,8 @@
   "id": 1,
   "start_at": "2000-01-01T01:00:00Z",
   "end_at": "2000-01-01T01:00:00Z",
+  "export_as": "",
+  "file_export": True,
   "status": "ready",
   "query_action": "read",
   "query_interface": "ftp",
@@ -34,6 +36,8 @@
 * `id` (int64): History Export ID
 * `start_at` (date-time): Start date/time of export range.
 * `end_at` (date-time): End date/time of export range.
+* `export_as` (string): Export format
+* `file_export` (boolean): Is a file export, downloadable using the results_url
 * `status` (string): Status of export.  Will be: `building`, `ready`, or `failed`
 * `query_action` (string): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
 * `query_interface` (string): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`
@@ -107,6 +111,7 @@ files_sdk.history_export.create({
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `start_at` (string): Start date/time of export range.
 * `end_at` (string): End date/time of export range.
+* `export_as` (string): Export format
 * `query_action` (string): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
 * `query_interface` (string): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`
 * `query_user_id` (string): Return results that are actions performed by the user indiciated by this User ID

@@ -52,10 +52,8 @@ class Permission:
             self.set_attributes(new_obj.get_attributes())
 
 # Parameters:
-#   page - int64 - Current page number.
+#   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-#   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `deleted_at`, `group_id`, `path`, `user_id` or `permission`.
 #   filter - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `group_id`, `user_id` or `path`.
 #   filter_gt - object - If set, return records where the specifiied field is greater than the supplied value. Valid fields are `group_id`, `user_id` or `path`.
@@ -68,14 +66,10 @@ class Permission:
 #   user_id - string - DEPRECATED: User ID.  If provided, will scope permissions to this user. Use `filter[user_id]` instead.`
 #   include_groups - boolean - If searching by user or group, also include user's permissions that are inherited from its groups?
 def list(params = {}, options = {}):
-    if "page" in params and not isinstance(params["page"], int):
-        raise InvalidParameterError("Bad parameter: page must be an int")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):

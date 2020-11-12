@@ -55,7 +55,6 @@
 ```
 files_sdk.bundle.list({
   "user_id": 1,
-  "page": 1,
   "per_page": 1
 })
 ```
@@ -63,10 +62,8 @@ files_sdk.bundle.list({
 ### Parameters
 
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
-* `page` (int64): Current page number.
+* `cursor` (string): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `action` (string): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-* `cursor` (string): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `sort_by` (object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `site_id`, `created_at` or `code`.
 * `filter` (object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `created_at`.
 * `filter_gt` (object): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `created_at`.
@@ -133,7 +130,8 @@ files_sdk.bundle.create({
 ```
 files_sdk.bundle.share(id, {
   "to": ["johndoe@gmail.com"],
-  "note": "Just a note."
+  "note": "Just a note.",
+  "recipients": [{"name":"John Doe","company":"Acme Ltd","recipient":"johndoe@gmail.com"}]
 })
 ```
 
@@ -142,6 +140,7 @@ files_sdk.bundle.share(id, {
 * `id` (int64): Required - Bundle ID.
 * `to` (array(string)): Required - A list of email addresses to share this bundle with.
 * `note` (string): Note to include in email.
+* `recipients` (array(object)): A list of recipients to share this bundle with.
 
 
 ---
@@ -200,7 +199,8 @@ bundle = files_sdk.bundle.find(1)
 
 bundle.share({
   "to": ["johndoe@gmail.com"],
-  "note": "Just a note."
+  "note": "Just a note.",
+  "recipients": [{"name":"John Doe","company":"Acme Ltd","recipient":"johndoe@gmail.com"}]
 })
 ```
 
@@ -209,6 +209,7 @@ bundle.share({
 * `id` (int64): Required - Bundle ID.
 * `to` (array(string)): Required - A list of email addresses to share this bundle with.
 * `note` (string): Note to include in email.
+* `recipients` (array(object)): A list of recipients to share this bundle with.
 
 
 ---

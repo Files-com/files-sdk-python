@@ -5,12 +5,12 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class Clickwrap:
     default_attributes = {
+        'id': None,     # int64 - Clickwrap ID
         'name': None,     # string - Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
         'body': None,     # string - Body text of Clickwrap (supports Markdown formatting).
         'use_with_users': None,     # string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
         'use_with_bundles': None,     # string - Use this Clickwrap for Bundles?
         'use_with_inboxes': None,     # string - Use this Clickwrap for Inboxes?
-        'id': None,     # int64 - Clickwrap ID.
     }
 
     def __init__(self, attributes={}, options={}):
@@ -81,19 +81,13 @@ class Clickwrap:
             self.set_attributes(new_obj.get_attributes())
 
 # Parameters:
-#   page - int64 - Current page number.
+#   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-#   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 def list(params = {}, options = {}):
-    if "page" in params and not isinstance(params["page"], int):
-        raise InvalidParameterError("Bad parameter: page must be an int")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
     return ListObj(Clickwrap,"GET", "/clickwraps", params, options)
 
 def all(params = {}, options = {}):

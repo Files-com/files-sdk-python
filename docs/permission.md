@@ -31,7 +31,6 @@
 
 ```
 files_sdk.permission.list({
-  "page": 1,
   "per_page": 1,
   "group_id": 1,
   "user_id": 1,
@@ -41,10 +40,8 @@ files_sdk.permission.list({
 
 ### Parameters
 
-* `page` (int64): Current page number.
+* `cursor` (string): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `action` (string): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-* `cursor` (string): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `sort_by` (object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `deleted_at`, `group_id`, `path`, `user_id` or `permission`.
 * `filter` (object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `group_id`, `user_id` or `path`.
 * `filter_gt` (object): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `group_id`, `user_id` or `path`.
