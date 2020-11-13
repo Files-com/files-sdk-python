@@ -10,7 +10,11 @@ class FileCommentReaction:
         'file_comment_id': None,     # int64 - ID of file comment to attach reaction to.
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
@@ -21,7 +25,7 @@ class FileCommentReaction:
     def get_attributes(self):
         return {k: getattr(self, k, None) for k in FileCommentReaction.default_attributes if getattr(self, k, None) is not None}
 
-    def delete(self, params = {}):
+    def delete(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -36,7 +40,7 @@ class FileCommentReaction:
         response, _options = Api.send_request("DELETE", "/file_comment_reactions/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = {}):
+    def destroy(self, params = None):
         self.delete(params)
 
     def save(self):
@@ -50,7 +54,7 @@ class FileCommentReaction:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   file_comment_id (required) - int64 - ID of file comment to attach reaction to.
 #   emoji (required) - string - Emoji to react with.
-def create(params = {}, options = {}):
+def create(params = None, options = None):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "file_comment_id" in params and not isinstance(params["file_comment_id"], int):
@@ -64,9 +68,11 @@ def create(params = {}, options = {}):
     response, options = Api.send_request("POST", "/file_comment_reactions", params, options)
     return FileCommentReaction(response.data, options)
 
-def delete(id, params = {}, options = {}):
+def delete(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -75,7 +81,7 @@ def delete(id, params = {}, options = {}):
     response, _options = Api.send_request("DELETE", "/file_comment_reactions/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = {}, options = {}):
+def destroy(id, params = None, options = None):
     delete(id, params, options)
 
 def new(*args, **kwargs):

@@ -21,7 +21,11 @@ class FileUploadPart:
         'upload_uri': None,     # string - URI to upload this part to
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 

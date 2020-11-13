@@ -30,7 +30,11 @@ class HistoryExportResult:
         'target_user_id': None,     # int64 - If searching for Histories about API keys, this is the User ID on which the action was taken
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
@@ -47,7 +51,7 @@ class HistoryExportResult:
 #   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   history_export_id (required) - int64 - ID of the associated history export.
-def list(params = {}, options = {}):
+def list(params = None, options = None):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
@@ -60,7 +64,7 @@ def list(params = {}, options = {}):
         raise MissingParameterError("Parameter missing: history_export_id")
     return ListObj(HistoryExportResult,"GET", "/history_export_results", params, options)
 
-def all(params = {}, options = {}):
+def all(params = None, options = None):
     list(params, options)
 
 def new(*args, **kwargs):

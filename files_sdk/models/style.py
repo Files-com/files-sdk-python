@@ -11,7 +11,11 @@ class Style:
         'file': None,     # file - Logo for custom branding.
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
@@ -24,7 +28,7 @@ class Style:
 
     # Parameters:
     #   file (required) - file - Logo for custom branding.
-    def update(self, params = {}):
+    def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -41,7 +45,7 @@ class Style:
         response, _options = Api.send_request("PATCH", "/styles/{path}".format(path=params['path']), params, self.options)
         return response.data
 
-    def delete(self, params = {}):
+    def delete(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -56,7 +60,7 @@ class Style:
         response, _options = Api.send_request("DELETE", "/styles/{path}".format(path=params['path']), params, self.options)
         return response.data
 
-    def destroy(self, params = {}):
+    def destroy(self, params = None):
         self.delete(params)
 
     def save(self):
@@ -64,9 +68,11 @@ class Style:
 
 # Parameters:
 #   path (required) - string - Style path.
-def find(path, params = {}, options = {}):
+def find(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
@@ -75,14 +81,16 @@ def find(path, params = {}, options = {}):
     response, options = Api.send_request("GET", "/styles/{path}".format(path=params['path']), params, options)
     return Style(response.data, options)
 
-def get(path, params = {}, options = {}):
+def get(path, params = None, options = None):
     find(path, params, options)
 
 # Parameters:
 #   file (required) - file - Logo for custom branding.
-def update(path, params = {}, options = {}):
+def update(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
@@ -93,9 +101,11 @@ def update(path, params = {}, options = {}):
     response, options = Api.send_request("PATCH", "/styles/{path}".format(path=params['path']), params, options)
     return Style(response.data, options)
 
-def delete(path, params = {}, options = {}):
+def delete(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
@@ -104,7 +114,7 @@ def delete(path, params = {}, options = {}):
     response, _options = Api.send_request("DELETE", "/styles/{path}".format(path=params['path']), params, options)
     return response.data
 
-def destroy(path, params = {}, options = {}):
+def destroy(path, params = None, options = None):
     delete(path, params, options)
 
 def new(*args, **kwargs):

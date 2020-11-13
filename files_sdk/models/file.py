@@ -181,7 +181,9 @@ class File:
         with builtin_open(output_file, 'wb') as file:
             self.download_content(file)
 
-def open(path, mode = "r", options = {}):
+def open(path, mode = "r", options = None):
+    if not isinstance(options, dict):
+        options = {}
     file = File(path, mode, options)
     
     if "w" in mode:
@@ -198,7 +200,7 @@ def open(path, mode = "r", options = {}):
     file.closed = False
     return file
 
-def upload_chunks(io, path, options, upload = None, etags = []):
+def upload_chunks(io, path, options, upload = None, etags = None):
     if not etags:
         etags = []
     bytes_written = 0
@@ -213,7 +215,9 @@ def upload_chunks(io, path, options, upload = None, etags = []):
             response = Api.api_client().send_remote_request(upload.http_method, upload.upload_uri, { "Content-Length": str(len(buf)) }, buf)
             etags.append({ "etag": response.headers["ETag"].strip('"'), "part": upload.part_number })
 
-def upload_file(path, destination = None, options = {}):
+def upload_file(path, destination = None, options = None):
+    if not isinstance(options, dict):
+        options = {}
     pth = Path(path)
     stat = pth.stat()
     with builtin_open(path, 'rb') as local_file:
@@ -231,12 +235,18 @@ def upload_file(path, destination = None, options = {}):
 
         create(destination, params, options)
 
-def download_file(path, local_path = None, options ={}):
+def download_file(path, local_path = None, options = None):
+    if not isinstance(options, dict):
+        options = {}
     if local_path is None:
         local_path = Path(path).name
     return File(path, {}, options).download_file(local_path)
 
-def find(path, params = {}, options = {}):
+def find(path, params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["action"] = "stat"
     return download(path, params, options)
 
@@ -247,7 +257,7 @@ def find(path, params = {}, options = {}):
     #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
     #   with_previews - boolean - Include file preview information?
     #   with_priority_color - boolean - Include file priority color information?
-    def download(self, params = {}):
+    def download(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -269,7 +279,7 @@ def find(path, params = {}, options = {}):
     # Parameters:
     #   provided_mtime - string - Modified time of file.
     #   priority_color - string - Priority/Bookmark color of file.
-    def update(self, params = {}):
+    def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -290,7 +300,7 @@ def find(path, params = {}, options = {}):
 
     # Parameters:
     #   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
-    def delete(self, params = {}):
+    def delete(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -305,7 +315,7 @@ def find(path, params = {}, options = {}):
         response, _options = Api.send_request("DELETE", "/files/{path}".format(path=params['path']), params, self.options)
         return response.data
 
-    def destroy(self, params = {}):
+    def destroy(self, params = None):
         self.delete(params)
 
     def save(self):
@@ -319,9 +329,11 @@ def find(path, params = {}, options = {}):
 #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 #   with_previews - boolean - Include file preview information?
 #   with_priority_color - boolean - Include file priority color information?
-def download(path, params = {}, options = {}):
+def download(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
@@ -349,9 +361,11 @@ def download(path, params = {}, options = {}):
 #   size - int64 - Size of file.
 #   structure - string - If copying folder, copy just the structure?
 #   with_rename - boolean - Allow file rename instead of overwrite?
-def create(path, params = {}, options = {}):
+def create(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
@@ -381,9 +395,11 @@ def create(path, params = {}, options = {}):
 # Parameters:
 #   provided_mtime - string - Modified time of file.
 #   priority_color - string - Priority/Bookmark color of file.
-def update(path, params = {}, options = {}):
+def update(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
@@ -398,9 +414,11 @@ def update(path, params = {}, options = {}):
 
 # Parameters:
 #   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
-def delete(path, params = {}, options = {}):
+def delete(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
@@ -409,7 +427,7 @@ def delete(path, params = {}, options = {}):
     response, _options = Api.send_request("DELETE", "/files/{path}".format(path=params['path']), params, options)
     return response.data
 
-def destroy(path, params = {}, options = {}):
+def destroy(path, params = None, options = None):
     delete(path, params, options)
 
 def new(*args, **kwargs):

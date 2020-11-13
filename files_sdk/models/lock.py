@@ -16,7 +16,11 @@ class Lock:
         'username': None,     # string - Lock creator username
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
@@ -29,7 +33,7 @@ class Lock:
 
     # Parameters:
     #   token (required) - string - Lock token
-    def delete(self, params = {}):
+    def delete(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -48,7 +52,7 @@ class Lock:
         response, _options = Api.send_request("DELETE", "/locks/{path}".format(path=params['path']), params, self.options)
         return response.data
 
-    def destroy(self, params = {}):
+    def destroy(self, params = None):
         self.delete(params)
 
     def save(self):
@@ -60,9 +64,11 @@ class Lock:
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   path (required) - string - Path to operate on.
 #   include_children - boolean - Include locks from children objects?
-def list_for(path, params = {}, options = {}):
+def list_for(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
@@ -77,9 +83,11 @@ def list_for(path, params = {}, options = {}):
 # Parameters:
 #   path (required) - string - Path
 #   timeout - int64 - Lock timeout length
-def create(path, params = {}, options = {}):
+def create(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
@@ -92,9 +100,11 @@ def create(path, params = {}, options = {}):
 
 # Parameters:
 #   token (required) - string - Lock token
-def delete(path, params = {}, options = {}):
+def delete(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
@@ -107,7 +117,7 @@ def delete(path, params = {}, options = {}):
     response, _options = Api.send_request("DELETE", "/locks/{path}".format(path=params['path']), params, options)
     return response.data
 
-def destroy(path, params = {}, options = {}):
+def destroy(path, params = None, options = None):
     delete(path, params, options)
 
 def new(*args, **kwargs):

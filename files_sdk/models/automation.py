@@ -20,7 +20,11 @@ class Automation:
         'group_ids': None,     # array - IDs of Groups for the Automation (i.e. who to Request File from)
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
@@ -41,7 +45,7 @@ class Automation:
     #   path - string - Path on which this Automation runs.  Supports globs.
     #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-    def update(self, params = {}):
+    def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -76,7 +80,7 @@ class Automation:
         response, _options = Api.send_request("PATCH", "/automations/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def delete(self, params = {}):
+    def delete(self, params = None):
         if not isinstance(params, dict):
             params = {}
 
@@ -91,7 +95,7 @@ class Automation:
         response, _options = Api.send_request("DELETE", "/automations/{id}".format(id=params['id']), params, self.options)
         return response.data
 
-    def destroy(self, params = {}):
+    def destroy(self, params = None):
         self.delete(params)
 
     def save(self):
@@ -112,7 +116,7 @@ class Automation:
 #   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `automation`.
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `automation`.
 #   automation - string - DEPRECATED: Type of automation to filter by. Use `filter[automation]` instead.
-def list(params = {}, options = {}):
+def list(params = None, options = None):
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -135,14 +139,16 @@ def list(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: automation must be an str")
     return ListObj(Automation,"GET", "/automations", params, options)
 
-def all(params = {}, options = {}):
+def all(params = None, options = None):
     list(params, options)
 
 # Parameters:
 #   id (required) - int64 - Automation ID.
-def find(id, params = {}, options = {}):
+def find(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -151,7 +157,7 @@ def find(id, params = {}, options = {}):
     response, options = Api.send_request("GET", "/automations/{id}".format(id=params['id']), params, options)
     return Automation(response.data, options)
 
-def get(id, params = {}, options = {}):
+def get(id, params = None, options = None):
     find(id, params, options)
 
 # Parameters:
@@ -164,7 +170,7 @@ def get(id, params = {}, options = {}):
 #   path - string - Path on which this Automation runs.  Supports globs.
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-def create(params = {}, options = {}):
+def create(params = None, options = None):
     if "automation" in params and not isinstance(params["automation"], str):
         raise InvalidParameterError("Bad parameter: automation must be an str")
     if "source" in params and not isinstance(params["source"], str):
@@ -198,9 +204,11 @@ def create(params = {}, options = {}):
 #   path - string - Path on which this Automation runs.  Supports globs.
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-def update(id, params = {}, options = {}):
+def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -229,9 +237,11 @@ def update(id, params = {}, options = {}):
     response, options = Api.send_request("PATCH", "/automations/{id}".format(id=params['id']), params, options)
     return Automation(response.data, options)
 
-def delete(id, params = {}, options = {}):
+def delete(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
@@ -240,7 +250,7 @@ def delete(id, params = {}, options = {}):
     response, _options = Api.send_request("DELETE", "/automations/{id}".format(id=params['id']), params, options)
     return response.data
 
-def destroy(id, params = {}, options = {}):
+def destroy(id, params = None, options = None):
     delete(id, params, options)
 
 def new(*args, **kwargs):

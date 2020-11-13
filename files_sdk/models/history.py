@@ -21,7 +21,11 @@ class History:
         'interface': None,     # string - Interface on which this action occurred.
     }
 
-    def __init__(self, attributes={}, options={}):
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
         self.set_attributes(attributes)
         self.options = options
 
@@ -41,9 +45,11 @@ class History:
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 #   path (required) - string - Path to operate on.
-def list_for_file(path, params = {}, options = {}):
+def list_for_file(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "start_at" in params and not isinstance(params["start_at"], str):
         raise InvalidParameterError("Bad parameter: start_at must be an str")
@@ -71,9 +77,11 @@ def list_for_file(path, params = {}, options = {}):
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 #   path (required) - string - Path to operate on.
-def list_for_folder(path, params = {}, options = {}):
+def list_for_folder(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["path"] = path
     if "start_at" in params and not isinstance(params["start_at"], str):
         raise InvalidParameterError("Bad parameter: start_at must be an str")
@@ -101,9 +109,11 @@ def list_for_folder(path, params = {}, options = {}):
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 #   user_id (required) - int64 - User ID.
-def list_for_user(user_id, params = {}, options = {}):
+def list_for_user(user_id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
+    if not isinstance(options, dict):
+        options = {}
     params["user_id"] = user_id
     if "start_at" in params and not isinstance(params["start_at"], str):
         raise InvalidParameterError("Bad parameter: start_at must be an str")
@@ -130,7 +140,7 @@ def list_for_user(user_id, params = {}, options = {}):
 #   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
-def list_logins(params = {}, options = {}):
+def list_logins(params = None, options = None):
     if "start_at" in params and not isinstance(params["start_at"], str):
         raise InvalidParameterError("Bad parameter: start_at must be an str")
     if "end_at" in params and not isinstance(params["end_at"], str):
@@ -158,7 +168,7 @@ def list_logins(params = {}, options = {}):
 #   filter_like - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
 #   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `user_id`, `folder` or `path`.
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
-def list(params = {}, options = {}):
+def list(params = None, options = None):
     if "start_at" in params and not isinstance(params["start_at"], str):
         raise InvalidParameterError("Bad parameter: start_at must be an str")
     if "end_at" in params and not isinstance(params["end_at"], str):
@@ -185,7 +195,7 @@ def list(params = {}, options = {}):
         raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
     return ListObj(Action,"GET", "/history", params, options)
 
-def all(params = {}, options = {}):
+def all(params = None, options = None):
     list(params, options)
 
 def new(*args, **kwargs):
