@@ -37,6 +37,9 @@ class RemoteServerTest(TestBase):
         }
         remote_server.find(id, params)
 
+    def test_list_for_testing(self):
+        resp = remote_server.list_for_testing()
+
     def test_create(self):
         resp = remote_server.create()
 

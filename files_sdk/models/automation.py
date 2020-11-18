@@ -18,6 +18,8 @@ class Automation:
         'user_id': None,     # int64 - User ID of the Automation's creator.
         'user_ids': None,     # array - IDs of Users for the Automation (i.e. who to Request File from)
         'group_ids': None,     # array - IDs of Groups for the Automation (i.e. who to Request File from)
+        'trigger': None,     # string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+        'schedule': None,     # object - Custom schedule description for when the automation should be run.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -36,7 +38,7 @@ class Automation:
         return {k: getattr(self, k, None) for k in Automation.default_attributes if getattr(self, k, None) is not None}
 
     # Parameters:
-    #   automation (required) - string - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+    #   automation (required) - string - Automation type
     #   source - string - Source Path
     #   destination - string - Destination Path
     #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -45,6 +47,8 @@ class Automation:
     #   path - string - Path on which this Automation runs.  Supports globs.
     #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+    #   schedule - object - Custom schedule for running this automation.
+    #   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -77,6 +81,8 @@ class Automation:
             raise InvalidParameterError("Bad parameter: user_ids must be an str")
         if "group_ids" in params and not isinstance(params["group_ids"], str):
             raise InvalidParameterError("Bad parameter: group_ids must be an str")
+        if "trigger" in params and not isinstance(params["trigger"], str):
+            raise InvalidParameterError("Bad parameter: trigger must be an str")
         response, _options = Api.send_request("PATCH", "/automations/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -161,7 +167,7 @@ def get(id, params = None, options = None):
     find(id, params, options)
 
 # Parameters:
-#   automation (required) - string - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+#   automation (required) - string - Automation type
 #   source - string - Source Path
 #   destination - string - Destination Path
 #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -170,6 +176,8 @@ def get(id, params = None, options = None):
 #   path - string - Path on which this Automation runs.  Supports globs.
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+#   schedule - object - Custom schedule for running this automation.
+#   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
 def create(params = None, options = None):
     if "automation" in params and not isinstance(params["automation"], str):
         raise InvalidParameterError("Bad parameter: automation must be an str")
@@ -189,13 +197,17 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "group_ids" in params and not isinstance(params["group_ids"], str):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
+    if "schedule" in params and not isinstance(params["schedule"], dict):
+        raise InvalidParameterError("Bad parameter: schedule must be an dict")
+    if "trigger" in params and not isinstance(params["trigger"], str):
+        raise InvalidParameterError("Bad parameter: trigger must be an str")
     if "automation" not in params:
         raise MissingParameterError("Parameter missing: automation")
     response, options = Api.send_request("POST", "/automations", params, options)
     return Automation(response.data, options)
 
 # Parameters:
-#   automation (required) - string - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+#   automation (required) - string - Automation type
 #   source - string - Source Path
 #   destination - string - Destination Path
 #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -204,6 +216,8 @@ def create(params = None, options = None):
 #   path - string - Path on which this Automation runs.  Supports globs.
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+#   schedule - object - Custom schedule for running this automation.
+#   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -230,6 +244,10 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "group_ids" in params and not isinstance(params["group_ids"], str):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
+    if "schedule" in params and not isinstance(params["schedule"], dict):
+        raise InvalidParameterError("Bad parameter: schedule must be an dict")
+    if "trigger" in params and not isinstance(params["trigger"], str):
+        raise InvalidParameterError("Bad parameter: trigger must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     if "automation" not in params:

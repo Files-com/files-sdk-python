@@ -1,4 +1,5 @@
 import datetime
+from files_sdk.models.file import File
 from files_sdk.api import Api
 from files_sdk.list_obj import ListObj
 from files_sdk.exceptions import InvalidParameterError, MissingParameterError, NotImplementedError
@@ -240,6 +241,123 @@ def find(id, params = None, options = None):
 
 def get(id, params = None, options = None):
     find(id, params, options)
+
+# Parameters:
+#   remote_server_id - int64 - RemoteServer ID
+#   root - string - Remote path to list
+#   aws_access_key - string - AWS Access Key.
+#   aws_secret_key - string - AWS secret key.
+#   password - string - Password if needed.
+#   private_key - string - Private key if needed.
+#   ssl_certificate - string - SSL client certificate.
+#   google_cloud_storage_credentials_json - string - A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+#   wasabi_access_key - string - Wasabi access key.
+#   wasabi_secret_key - string - Wasabi secret key.
+#   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage keyID.
+#   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage applicationKey.
+#   rackspace_api_key - string - Rackspace API key from the Rackspace Cloud Control Panel.
+#   reset_authentication - boolean - Reset authenticated account
+#   azure_blob_storage_access_key - string - Azure Blob Storage secret key.
+#   hostname - string
+#   name - string
+#   max_connections - int64
+#   port - int64
+#   s3_bucket - string
+#   s3_region - string
+#   server_certificate - string
+#   server_host_key - string
+#   server_type - string
+#   ssl - string
+#   username - string
+#   google_cloud_storage_bucket - string
+#   google_cloud_storage_project_id - string
+#   backblaze_b2_bucket - string
+#   backblaze_b2_s3_endpoint - string
+#   wasabi_bucket - string
+#   wasabi_region - string
+#   rackspace_username - string
+#   rackspace_region - string
+#   rackspace_container - string
+#   one_drive_account_type - string
+#   azure_blob_storage_account - string
+#   azure_blob_storage_container - string
+def list_for_testing(params = None, options = None):
+    if "remote_server_id" in params and not isinstance(params["remote_server_id"], int):
+        raise InvalidParameterError("Bad parameter: remote_server_id must be an int")
+    if "root" in params and not isinstance(params["root"], str):
+        raise InvalidParameterError("Bad parameter: root must be an str")
+    if "aws_access_key" in params and not isinstance(params["aws_access_key"], str):
+        raise InvalidParameterError("Bad parameter: aws_access_key must be an str")
+    if "aws_secret_key" in params and not isinstance(params["aws_secret_key"], str):
+        raise InvalidParameterError("Bad parameter: aws_secret_key must be an str")
+    if "password" in params and not isinstance(params["password"], str):
+        raise InvalidParameterError("Bad parameter: password must be an str")
+    if "private_key" in params and not isinstance(params["private_key"], str):
+        raise InvalidParameterError("Bad parameter: private_key must be an str")
+    if "ssl_certificate" in params and not isinstance(params["ssl_certificate"], str):
+        raise InvalidParameterError("Bad parameter: ssl_certificate must be an str")
+    if "google_cloud_storage_credentials_json" in params and not isinstance(params["google_cloud_storage_credentials_json"], str):
+        raise InvalidParameterError("Bad parameter: google_cloud_storage_credentials_json must be an str")
+    if "wasabi_access_key" in params and not isinstance(params["wasabi_access_key"], str):
+        raise InvalidParameterError("Bad parameter: wasabi_access_key must be an str")
+    if "wasabi_secret_key" in params and not isinstance(params["wasabi_secret_key"], str):
+        raise InvalidParameterError("Bad parameter: wasabi_secret_key must be an str")
+    if "backblaze_b2_key_id" in params and not isinstance(params["backblaze_b2_key_id"], str):
+        raise InvalidParameterError("Bad parameter: backblaze_b2_key_id must be an str")
+    if "backblaze_b2_application_key" in params and not isinstance(params["backblaze_b2_application_key"], str):
+        raise InvalidParameterError("Bad parameter: backblaze_b2_application_key must be an str")
+    if "rackspace_api_key" in params and not isinstance(params["rackspace_api_key"], str):
+        raise InvalidParameterError("Bad parameter: rackspace_api_key must be an str")
+    if "azure_blob_storage_access_key" in params and not isinstance(params["azure_blob_storage_access_key"], str):
+        raise InvalidParameterError("Bad parameter: azure_blob_storage_access_key must be an str")
+    if "hostname" in params and not isinstance(params["hostname"], str):
+        raise InvalidParameterError("Bad parameter: hostname must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
+    if "max_connections" in params and not isinstance(params["max_connections"], int):
+        raise InvalidParameterError("Bad parameter: max_connections must be an int")
+    if "port" in params and not isinstance(params["port"], int):
+        raise InvalidParameterError("Bad parameter: port must be an int")
+    if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
+        raise InvalidParameterError("Bad parameter: s3_bucket must be an str")
+    if "s3_region" in params and not isinstance(params["s3_region"], str):
+        raise InvalidParameterError("Bad parameter: s3_region must be an str")
+    if "server_certificate" in params and not isinstance(params["server_certificate"], str):
+        raise InvalidParameterError("Bad parameter: server_certificate must be an str")
+    if "server_host_key" in params and not isinstance(params["server_host_key"], str):
+        raise InvalidParameterError("Bad parameter: server_host_key must be an str")
+    if "server_type" in params and not isinstance(params["server_type"], str):
+        raise InvalidParameterError("Bad parameter: server_type must be an str")
+    if "ssl" in params and not isinstance(params["ssl"], str):
+        raise InvalidParameterError("Bad parameter: ssl must be an str")
+    if "username" in params and not isinstance(params["username"], str):
+        raise InvalidParameterError("Bad parameter: username must be an str")
+    if "google_cloud_storage_bucket" in params and not isinstance(params["google_cloud_storage_bucket"], str):
+        raise InvalidParameterError("Bad parameter: google_cloud_storage_bucket must be an str")
+    if "google_cloud_storage_project_id" in params and not isinstance(params["google_cloud_storage_project_id"], str):
+        raise InvalidParameterError("Bad parameter: google_cloud_storage_project_id must be an str")
+    if "backblaze_b2_bucket" in params and not isinstance(params["backblaze_b2_bucket"], str):
+        raise InvalidParameterError("Bad parameter: backblaze_b2_bucket must be an str")
+    if "backblaze_b2_s3_endpoint" in params and not isinstance(params["backblaze_b2_s3_endpoint"], str):
+        raise InvalidParameterError("Bad parameter: backblaze_b2_s3_endpoint must be an str")
+    if "wasabi_bucket" in params and not isinstance(params["wasabi_bucket"], str):
+        raise InvalidParameterError("Bad parameter: wasabi_bucket must be an str")
+    if "wasabi_region" in params and not isinstance(params["wasabi_region"], str):
+        raise InvalidParameterError("Bad parameter: wasabi_region must be an str")
+    if "rackspace_username" in params and not isinstance(params["rackspace_username"], str):
+        raise InvalidParameterError("Bad parameter: rackspace_username must be an str")
+    if "rackspace_region" in params and not isinstance(params["rackspace_region"], str):
+        raise InvalidParameterError("Bad parameter: rackspace_region must be an str")
+    if "rackspace_container" in params and not isinstance(params["rackspace_container"], str):
+        raise InvalidParameterError("Bad parameter: rackspace_container must be an str")
+    if "one_drive_account_type" in params and not isinstance(params["one_drive_account_type"], str):
+        raise InvalidParameterError("Bad parameter: one_drive_account_type must be an str")
+    if "azure_blob_storage_account" in params and not isinstance(params["azure_blob_storage_account"], str):
+        raise InvalidParameterError("Bad parameter: azure_blob_storage_account must be an str")
+    if "azure_blob_storage_container" in params and not isinstance(params["azure_blob_storage_container"], str):
+        raise InvalidParameterError("Bad parameter: azure_blob_storage_container must be an str")
+    response, options = Api.send_request("GET", "/remote_servers/list_for_testing", params, options)
+    return File(response.data, options)
 
 # Parameters:
 #   aws_access_key - string - AWS Access Key.

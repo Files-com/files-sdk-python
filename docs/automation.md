@@ -20,7 +20,20 @@
   ],
   "group_ids": [
 
-  ]
+  ],
+  "trigger": "realtime",
+  "schedule": {
+    "days_of_week": [
+      0,
+      2,
+      4
+    ],
+    "times_of_day": [
+      "6:30",
+      "14:30"
+    ],
+    "time_zone": "Eastern Time (US & Canada)"
+  }
 }
 ```
 
@@ -37,6 +50,8 @@
 * `user_id` (int64): User ID of the Automation's creator.
 * `user_ids` (array): IDs of Users for the Automation (i.e. who to Request File from)
 * `group_ids` (array): IDs of Groups for the Automation (i.e. who to Request File from)
+* `trigger` (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+* `schedule` (object): Custom schedule description for when the automation should be run.
 
 
 ---
@@ -86,13 +101,15 @@ files_sdk.automation.create({
   "automation": "create_folder",
   "source": "source",
   "destination": "destination",
-  "interval": "year"
+  "interval": "year",
+  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "trigger": "realtime"
 })
 ```
 
 ### Parameters
 
-* `automation` (string): Required - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+* `automation` (string): Required - Automation type
 * `source` (string): Source Path
 * `destination` (string): Destination Path
 * `destination_replace_from` (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -101,6 +118,8 @@ files_sdk.automation.create({
 * `path` (string): Path on which this Automation runs.  Supports globs.
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+* `schedule` (object): Custom schedule for running this automation.
+* `trigger` (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
 
 
 ---
@@ -112,14 +131,16 @@ files_sdk.automation.update(id, {
   "automation": "create_folder",
   "source": "source",
   "destination": "destination",
-  "interval": "year"
+  "interval": "year",
+  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "trigger": "realtime"
 })
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Automation ID.
-* `automation` (string): Required - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+* `automation` (string): Required - Automation type
 * `source` (string): Source Path
 * `destination` (string): Destination Path
 * `destination_replace_from` (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -128,6 +149,8 @@ files_sdk.automation.update(id, {
 * `path` (string): Path on which this Automation runs.  Supports globs.
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+* `schedule` (object): Custom schedule for running this automation.
+* `trigger` (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
 
 
 ---
@@ -154,14 +177,16 @@ automation.update({
   "automation": "create_folder",
   "source": "source",
   "destination": "destination",
-  "interval": "year"
+  "interval": "year",
+  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "trigger": "realtime"
 })
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Automation ID.
-* `automation` (string): Required - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+* `automation` (string): Required - Automation type
 * `source` (string): Source Path
 * `destination` (string): Destination Path
 * `destination_replace_from` (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -170,6 +195,8 @@ automation.update({
 * `path` (string): Path on which this Automation runs.  Supports globs.
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+* `schedule` (object): Custom schedule for running this automation.
+* `trigger` (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
 
 
 ---
