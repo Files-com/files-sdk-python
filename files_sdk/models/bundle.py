@@ -71,6 +71,7 @@ class Bundle:
         return response.data
 
     # Parameters:
+    #   paths - array(string) - A list of paths to include in this bundle.
     #   password - string - Password for this bundle.
     #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
     #   code - string - Bundle code.  This code forms the end part of the Public URL.
@@ -93,6 +94,8 @@ class Bundle:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
+        if "paths" in params and not isinstance(params["paths"], list):
+            raise InvalidParameterError("Bad parameter: paths must be an list")
         if "password" in params and not isinstance(params["password"], str):
             raise InvalidParameterError("Bad parameter: password must be an str")
         if "clickwrap_id" in params and not isinstance(params["clickwrap_id"], int):
@@ -259,6 +262,7 @@ def share(id, params = None, options = None):
     return response.data
 
 # Parameters:
+#   paths - array(string) - A list of paths to include in this bundle.
 #   password - string - Password for this bundle.
 #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
 #   code - string - Bundle code.  This code forms the end part of the Public URL.
@@ -277,6 +281,8 @@ def update(id, params = None, options = None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "paths" in params and not isinstance(params["paths"], list):
+        raise InvalidParameterError("Bad parameter: paths must be an list")
     if "password" in params and not isinstance(params["password"], str):
         raise InvalidParameterError("Bad parameter: password must be an str")
     if "clickwrap_id" in params and not isinstance(params["clickwrap_id"], int):

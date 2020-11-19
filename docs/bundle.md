@@ -149,6 +149,7 @@ files_sdk.bundle.share(id, {
 
 ```
 files_sdk.bundle.update(id, {
+  "paths": ["file.txt"],
   "password": "Password",
   "clickwrap_id": 1,
   "code": "abc123",
@@ -165,6 +166,7 @@ files_sdk.bundle.update(id, {
 ### Parameters
 
 * `id` (int64): Required - Bundle ID.
+* `paths` (array(string)): A list of paths to include in this bundle.
 * `password` (string): Password for this bundle.
 * `clickwrap_id` (int64): ID of the clickwrap to use with this bundle.
 * `code` (string): Bundle code.  This code forms the end part of the Public URL.
@@ -220,6 +222,7 @@ bundle.share({
 bundle = files_sdk.bundle.find(1)
 
 bundle.update({
+  "paths": ["file.txt"],
   "password": "Password",
   "clickwrap_id": 1,
   "code": "abc123",
@@ -236,6 +239,7 @@ bundle.update({
 ### Parameters
 
 * `id` (int64): Required - Bundle ID.
+* `paths` (array(string)): A list of paths to include in this bundle.
 * `password` (string): Password for this bundle.
 * `clickwrap_id` (int64): ID of the clickwrap to use with this bundle.
 * `code` (string): Bundle code.  This code forms the end part of the Public URL.

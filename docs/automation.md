@@ -102,7 +102,7 @@ files_sdk.automation.create({
   "source": "source",
   "destination": "destination",
   "interval": "year",
-  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "schedule": "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}",
   "trigger": "realtime"
 })
 ```
@@ -132,7 +132,7 @@ files_sdk.automation.update(id, {
   "source": "source",
   "destination": "destination",
   "interval": "year",
-  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "schedule": "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}",
   "trigger": "realtime"
 })
 ```
@@ -178,7 +178,7 @@ automation.update({
   "source": "source",
   "destination": "destination",
   "interval": "year",
-  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "schedule": "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}",
   "trigger": "realtime"
 })
 ```
