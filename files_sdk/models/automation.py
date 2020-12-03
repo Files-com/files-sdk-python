@@ -7,19 +7,18 @@ class Automation:
     default_attributes = {
         'id': None,     # int64 - Automation ID
         'automation': None,     # string - Automation type
+        'trigger': None,     # string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+        'interval': None,     # string - If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
+        'next_process_on': None,     # string - If trigger is `daily`, date this automation will next run.
+        'schedule': None,     # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
         'source': None,     # string - Source Path
         'destination': None,     # string - Destination Path
         'destination_replace_from': None,     # string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
         'destination_replace_to': None,     # string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
-        'interval': None,     # string - How often to run this automation?  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-        'next_process_on': None,     # string - Date this automation will next run.
         'path': None,     # string - Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-        'realtime': None,     # boolean - Does this automation run in real time?  This is a read-only property based on automation type.
         'user_id': None,     # int64 - User ID of the Automation's creator.
         'user_ids': None,     # array - IDs of Users for the Automation (i.e. who to Request File from)
         'group_ids': None,     # array - IDs of Groups for the Automation (i.e. who to Request File from)
-        'trigger': None,     # string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
-        'schedule': None,     # object - Custom schedule description for when the automation should be run.
     }
 
     def __init__(self, attributes=None, options=None):
