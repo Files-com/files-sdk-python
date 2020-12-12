@@ -7,7 +7,7 @@ class Automation:
     default_attributes = {
         'id': None,     # int64 - Automation ID
         'automation': None,     # string - Automation type
-        'trigger': None,     # string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+        'trigger': None,     # string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
         'interval': None,     # string - If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
         'next_process_on': None,     # string - If trigger is `daily`, date this automation will next run.
         'schedule': None,     # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
@@ -47,7 +47,7 @@ class Automation:
     #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   schedule - object - Custom schedule for running this automation.
-    #   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+    #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -176,7 +176,7 @@ def get(id, params = None, options = None):
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   schedule - object - Custom schedule for running this automation.
-#   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+#   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
 def create(params = None, options = None):
     if "automation" in params and not isinstance(params["automation"], str):
         raise InvalidParameterError("Bad parameter: automation must be an str")
@@ -216,7 +216,7 @@ def create(params = None, options = None):
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   schedule - object - Custom schedule for running this automation.
-#   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+#   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}

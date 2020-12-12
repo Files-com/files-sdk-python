@@ -38,7 +38,7 @@
 
 * `id` (int64): Automation ID
 * `automation` (string): Automation type
-* `trigger` (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
 * `interval` (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `next_process_on` (string): If trigger is `daily`, date this automation will next run.
 * `schedule` (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
@@ -117,7 +117,7 @@ files_sdk.automation.create({
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (object): Custom schedule for running this automation.
-* `trigger` (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
 
 
 ---
@@ -148,7 +148,7 @@ files_sdk.automation.update(id, {
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (object): Custom schedule for running this automation.
-* `trigger` (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
 
 
 ---
@@ -194,7 +194,7 @@ automation.update({
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (object): Custom schedule for running this automation.
-* `trigger` (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
 
 
 ---
