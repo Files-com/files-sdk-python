@@ -9,7 +9,9 @@
   "documentation_links": "Important Info => http://files.test/learn-more",
   "icon_url": "",
   "logo_url": "",
-  "screenshot_list_urls": "",
+  "screenshot_list_urls": [
+    ""
+  ],
   "logo_thumbnail_url": "",
   "sso_strategy_type": "",
   "remote_server_type": "",

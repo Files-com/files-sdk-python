@@ -10,6 +10,7 @@ from files_sdk.models.behavior import Behavior
 from files_sdk.models.bundle import Bundle
 from files_sdk.models.bundle_download import BundleDownload
 from files_sdk.models.bundle_recipient import BundleRecipient
+from files_sdk.models.bundle_registration import BundleRegistration
 from files_sdk.models.clickwrap import Clickwrap
 from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.errors import Errors
@@ -20,12 +21,16 @@ from files_sdk.models.file_comment import FileComment
 from files_sdk.models.file_comment_reaction import FileCommentReaction
 from files_sdk.models.file_upload_part import FileUploadPart
 from files_sdk.models.folder import Folder
+from files_sdk.models.form_field import FormField
+from files_sdk.models.form_field_set import FormFieldSet
 from files_sdk.models.group import Group
 from files_sdk.models.group_user import GroupUser
 from files_sdk.models.history import History
 from files_sdk.models.history_export import HistoryExport
 from files_sdk.models.history_export_result import HistoryExportResult
 from files_sdk.models.image import Image
+from files_sdk.models.inbox_registration import InboxRegistration
+from files_sdk.models.inbox_upload import InboxUpload
 from files_sdk.models.invoice import Invoice
 from files_sdk.models.invoice_line_item import InvoiceLineItem
 from files_sdk.models.ip_address import IpAddress

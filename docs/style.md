@@ -6,7 +6,7 @@
 {
   "id": 1,
   "path": "",
-  "logo": "",
+  "logo": "https://mysite.files.com/...",
   "thumbnail": ""
 }
 ```

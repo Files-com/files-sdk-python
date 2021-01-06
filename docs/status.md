@@ -9,7 +9,14 @@
   "status": "",
   "data": "",
   "errors": [
+    {
+      "fields": [
 
+      ],
+      "messages": [
+
+      ]
+    }
   ]
 }
 ```

@@ -5,6 +5,8 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class FileAction:
     default_attributes = {
+        'status': None,     # string - Status of file operation. Possible values: completed, enqueued.
+        'file_migration_id': None,     # int64 - If status is enqueued, this is the id of the FileMigration to check for status updates.
         'path': None,
         'destination': None,
     }
@@ -123,8 +125,8 @@ def copy(path, params = None, options = None):
         raise MissingParameterError("Parameter missing: path")
     if "destination" not in params:
         raise MissingParameterError("Parameter missing: destination")
-    response, _options = Api.send_request("POST", "/file_actions/copy/{path}".format(path=params['path']), params, options)
-    return response.data
+    response, options = Api.send_request("POST", "/file_actions/copy/{path}".format(path=params['path']), params, options)
+    return FileAction(response.data, options)
 
 # Move file/folder
 #
@@ -144,8 +146,8 @@ def move(path, params = None, options = None):
         raise MissingParameterError("Parameter missing: path")
     if "destination" not in params:
         raise MissingParameterError("Parameter missing: destination")
-    response, _options = Api.send_request("POST", "/file_actions/move/{path}".format(path=params['path']), params, options)
-    return response.data
+    response, options = Api.send_request("POST", "/file_actions/move/{path}".format(path=params['path']), params, options)
+    return FileAction(response.data, options)
 
 # Begin file upload
 #

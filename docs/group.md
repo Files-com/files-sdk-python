@@ -7,14 +7,14 @@
   "id": 1,
   "name": "owners",
   "admin_ids": [
-
+    1
   ],
   "notes": "",
   "user_ids": [
-
+    1
   ],
   "usernames": [
-
+    "user"
   ]
 }
 ```
@@ -41,7 +41,7 @@ files_sdk.group.list({
 
 * `cursor` (string): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `active`, `site_id` or `name`.
+* `sort_by` (object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `name`.
 * `filter` (object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `name`.
 * `filter_gt` (object): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `name`.
 * `filter_gteq` (object): If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `name`.
@@ -70,7 +70,9 @@ files_sdk.group.find(id)
 
 ```
 files_sdk.group.create({
-  "name": "owners"
+  "name": "owners",
+  "user_ids": [1],
+  "admin_ids": [1]
 })
 ```
 
@@ -88,7 +90,9 @@ files_sdk.group.create({
 
 ```
 files_sdk.group.update(id, {
-  "name": "owners"
+  "name": "owners",
+  "user_ids": [1],
+  "admin_ids": [1]
 })
 ```
 
@@ -122,7 +126,9 @@ files_sdk.group.delete(id)
 group = files_sdk.group.find(1)
 
 group.update({
-  "name": "owners"
+  "name": "owners",
+  "user_ids": [1],
+  "admin_ids": [1]
 })
 ```
 

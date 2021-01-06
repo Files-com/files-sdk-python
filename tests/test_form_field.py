@@ -2,16 +2,13 @@ import unittest
 import inspect
 import files_sdk
 from tests.base import TestBase
-from files_sdk.models import BundleDownload
-from files_sdk import bundle_download
+from files_sdk.models import FormField
+from files_sdk import form_field
 
-class BundleDownloadTest(TestBase):
+class FormFieldTest(TestBase):
     pass 
     # Instance Methods
 
     # Static Methods
-    def test_list(self):
-        resp = bundle_download.list()
-
 if __name__ == '__main__':
     unittest.main()

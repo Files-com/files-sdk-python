@@ -12,6 +12,7 @@ class Bundle:
         'require_registration': None,     # boolean - Show a registration page that captures the downloader's name and email address?
         'require_share_recipient': None,     # boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
         'clickwrap_body': None,     # string - Legal text that must be agreed to prior to accessing Bundle.
+        'form_field_set': None,     # Custom Form to use
         'id': None,     # int64 - Bundle ID
         'created_at': None,     # date-time - Bundle created at date/time
         'expires_at': None,     # date-time - Bundle expiration date/time
@@ -24,6 +25,7 @@ class Bundle:
         'has_inbox': None,     # boolean - Does this bundle have an associated inbox?
         'paths': None,     # array - A list of paths in this bundle
         'password': None,     # string - Password for this bundle.
+        'form_field_set_id': None,     # int64 - Id of Form Field Set to use with this bundle
     }
 
     def __init__(self, attributes=None, options=None):
@@ -73,6 +75,7 @@ class Bundle:
     # Parameters:
     #   paths - array(string) - A list of paths to include in this bundle.
     #   password - string - Password for this bundle.
+    #   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
     #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
     #   code - string - Bundle code.  This code forms the end part of the Public URL.
     #   description - string - Public description
@@ -98,6 +101,8 @@ class Bundle:
             raise InvalidParameterError("Bad parameter: paths must be an list")
         if "password" in params and not isinstance(params["password"], str):
             raise InvalidParameterError("Bad parameter: password must be an str")
+        if "form_field_set_id" in params and not isinstance(params["form_field_set_id"], int):
+            raise InvalidParameterError("Bad parameter: form_field_set_id must be an int")
         if "clickwrap_id" in params and not isinstance(params["clickwrap_id"], int):
             raise InvalidParameterError("Bad parameter: clickwrap_id must be an int")
         if "code" in params and not isinstance(params["code"], str):
@@ -144,7 +149,7 @@ class Bundle:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `site_id`, `created_at` or `code`.
+#   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `created_at` and `code`.
 #   filter - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `created_at`.
 #   filter_gt - object - If set, return records where the specifiied field is greater than the supplied value. Valid fields are `created_at`.
 #   filter_gteq - object - If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `created_at`.
@@ -199,6 +204,7 @@ def get(id, params = None, options = None):
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   paths (required) - array(string) - A list of paths to include in this bundle.
 #   password - string - Password for this bundle.
+#   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
 #   expires_at - string - Bundle expiration date/time
 #   max_uses - int64 - Maximum number of times bundle can be accessed
 #   description - string - Public description
@@ -215,6 +221,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: paths must be an list")
     if "password" in params and not isinstance(params["password"], str):
         raise InvalidParameterError("Bad parameter: password must be an str")
+    if "form_field_set_id" in params and not isinstance(params["form_field_set_id"], int):
+        raise InvalidParameterError("Bad parameter: form_field_set_id must be an int")
     if "expires_at" in params and not isinstance(params["expires_at"], str):
         raise InvalidParameterError("Bad parameter: expires_at must be an str")
     if "max_uses" in params and not isinstance(params["max_uses"], int):
@@ -264,6 +272,7 @@ def share(id, params = None, options = None):
 # Parameters:
 #   paths - array(string) - A list of paths to include in this bundle.
 #   password - string - Password for this bundle.
+#   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
 #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
 #   code - string - Bundle code.  This code forms the end part of the Public URL.
 #   description - string - Public description
@@ -285,6 +294,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: paths must be an list")
     if "password" in params and not isinstance(params["password"], str):
         raise InvalidParameterError("Bad parameter: password must be an str")
+    if "form_field_set_id" in params and not isinstance(params["form_field_set_id"], int):
+        raise InvalidParameterError("Bad parameter: form_field_set_id must be an int")
     if "clickwrap_id" in params and not isinstance(params["clickwrap_id"], int):
         raise InvalidParameterError("Bad parameter: clickwrap_id must be an int")
     if "code" in params and not isinstance(params["code"], str):

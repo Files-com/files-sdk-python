@@ -8,7 +8,7 @@
   "associated_with": "Site",
   "group_id": 1,
   "ip_addresses": [
-
+    "127.0.0.1"
   ]
 }
 ```

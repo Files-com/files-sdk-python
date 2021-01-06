@@ -5,7 +5,7 @@
 ```
 {
   "protocol": [
-
+    "okta"
   ],
   "provider": "okta",
   "label": "My Corporate SSO Provider",

@@ -9,7 +9,7 @@
   "user_id": 1,
   "admin": True,
   "usernames": [
-
+    "user"
   ]
 }
 ```

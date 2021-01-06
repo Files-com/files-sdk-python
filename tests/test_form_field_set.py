@@ -2,25 +2,25 @@ import unittest
 import inspect
 import files_sdk
 from tests.base import TestBase
-from files_sdk.models import RemoteServer
-from files_sdk import remote_server
+from files_sdk.models import FormFieldSet
+from files_sdk import form_field_set
 
-class RemoteServerTest(TestBase):
+class FormFieldSetTest(TestBase):
     pass 
     # Instance Methods
     def test_update(self):
         params = {
             "id" : 12345,
         }
-        remote_server = RemoteServer(params)
-        remote_server.update(params)
+        form_field_set = FormFieldSet(params)
+        form_field_set.update(params)
 
     def test_delete(self):
         params = {
             "id" : 12345,
         }
-        remote_server = RemoteServer(params)
-        remote_server.delete(params)
+        form_field_set = FormFieldSet(params)
+        form_field_set.delete(params)
 
     # Alias of delete
     def test_destroy(self):
@@ -28,31 +28,31 @@ class RemoteServerTest(TestBase):
 
     # Static Methods
     def test_list(self):
-        resp = remote_server.list()
+        resp = form_field_set.list()
 
     def test_find(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        remote_server.find(id, params)
+        form_field_set.find(id, params)
 
     def test_create(self):
-        resp = remote_server.create()
+        resp = form_field_set.create()
 
     def test_update(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        remote_server.update(id, params)
+        form_field_set.update(id, params)
 
     def test_delete(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        remote_server.delete(id, params)
+        form_field_set.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()
