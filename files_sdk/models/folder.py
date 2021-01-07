@@ -48,7 +48,7 @@ class Folder:
 #   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   path (required) - string - Path to operate on.
-#   filter - string - If specified, will to filter folders/files list by this string.  Wildcards of `*` and `?` are acceptable here.
+#   filter - string - If specified, will filter folders/files list by this string.  Wildcards of `*` and `?` are acceptable here.
 #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 #   search - string - If `search_all` is `true`, provide the search string here.  Otherwise, this parameter acts like an alias of `filter`.
 #   search_all - boolean - Search entire site?
