@@ -3,15 +3,15 @@ from files_sdk.api import Api
 from files_sdk.list_obj import ListObj
 from files_sdk.exceptions import InvalidParameterError, MissingParameterError, NotImplementedError
 
-class BundleRecipient:
+class InboxRecipient:
     default_attributes = {
         'company': None,     # string - The recipient's company.
         'name': None,     # string - The recipient's name.
-        'note': None,     # string - A note sent to the recipient with the bundle.
+        'note': None,     # string - A note sent to the recipient with the inbox.
         'recipient': None,     # string - The recipient's email address.
-        'sent_at': None,     # date-time - When the Bundle was shared with this recipient.
+        'sent_at': None,     # date-time - When the Inbox was shared with this recipient.
         'user_id': None,     # int64 - User ID.  Provide a value of `0` to operate the current session's user.
-        'bundle_id': None,     # int64 - Bundle to share.
+        'inbox_id': None,     # int64 - Inbox to share.
         'share_after_create': None,     # boolean - Set to true to share the link with the recipient upon creation.
     }
 
@@ -24,16 +24,16 @@ class BundleRecipient:
         self.options = options
 
     def set_attributes(self, attributes):
-        for (attribute, default_value) in BundleRecipient.default_attributes.items():
+        for (attribute, default_value) in InboxRecipient.default_attributes.items():
             setattr(self, attribute, attributes.get(attribute, default_value))
 
     def get_attributes(self):
-        return {k: getattr(self, k, None) for k in BundleRecipient.default_attributes if getattr(self, k, None) is not None}
+        return {k: getattr(self, k, None) for k in InboxRecipient.default_attributes if getattr(self, k, None) is not None}
 
 
     def save(self):
         if hasattr(self, "id") and self.id:
-            raise NotImplementedError("The BundleRecipient object doesn't support updates.")
+            raise NotImplementedError("The InboxRecipient object doesn't support updates.")
         else:
             new_obj = create(self.get_attributes(), self.options)
             self.set_attributes(new_obj.get_attributes())
@@ -49,7 +49,7 @@ class BundleRecipient:
 #   filter_like - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `has_registrations`.
 #   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `has_registrations`.
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `has_registrations`.
-#   bundle_id (required) - int64 - List recipients for the bundle with this ID.
+#   inbox_id (required) - int64 - List recipients for the inbox with this ID.
 def list(params = None, options = None):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
@@ -71,19 +71,19 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
     if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
         raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
-    if "bundle_id" in params and not isinstance(params["bundle_id"], int):
-        raise InvalidParameterError("Bad parameter: bundle_id must be an int")
-    if "bundle_id" not in params:
-        raise MissingParameterError("Parameter missing: bundle_id")
-    return ListObj(BundleRecipient,"GET", "/bundle_recipients", params, options)
+    if "inbox_id" in params and not isinstance(params["inbox_id"], int):
+        raise InvalidParameterError("Bad parameter: inbox_id must be an int")
+    if "inbox_id" not in params:
+        raise MissingParameterError("Parameter missing: inbox_id")
+    return ListObj(InboxRecipient,"GET", "/inbox_recipients", params, options)
 
 def all(params = None, options = None):
     list(params, options)
 
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-#   bundle_id (required) - int64 - Bundle to share.
-#   recipient (required) - string - Email addresses to share this bundle with.
+#   inbox_id (required) - int64 - Inbox to share.
+#   recipient (required) - string - Email addresses to share this inbox with.
 #   name - string - Name of recipient.
 #   company - string - Company of recipient.
 #   note - string - Note to include in email.
@@ -91,8 +91,8 @@ def all(params = None, options = None):
 def create(params = None, options = None):
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
-    if "bundle_id" in params and not isinstance(params["bundle_id"], int):
-        raise InvalidParameterError("Bad parameter: bundle_id must be an int")
+    if "inbox_id" in params and not isinstance(params["inbox_id"], int):
+        raise InvalidParameterError("Bad parameter: inbox_id must be an int")
     if "recipient" in params and not isinstance(params["recipient"], str):
         raise InvalidParameterError("Bad parameter: recipient must be an str")
     if "name" in params and not isinstance(params["name"], str):
@@ -101,12 +101,12 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: company must be an str")
     if "note" in params and not isinstance(params["note"], str):
         raise InvalidParameterError("Bad parameter: note must be an str")
-    if "bundle_id" not in params:
-        raise MissingParameterError("Parameter missing: bundle_id")
+    if "inbox_id" not in params:
+        raise MissingParameterError("Parameter missing: inbox_id")
     if "recipient" not in params:
         raise MissingParameterError("Parameter missing: recipient")
-    response, options = Api.send_request("POST", "/bundle_recipients", params, options)
-    return BundleRecipient(response.data, options)
+    response, options = Api.send_request("POST", "/inbox_recipients", params, options)
+    return InboxRecipient(response.data, options)
 
 def new(*args, **kwargs):
-    return BundleRecipient(*args, **kwargs)
+    return InboxRecipient(*args, **kwargs)

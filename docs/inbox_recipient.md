@@ -1,6 +1,6 @@
-# BundleRecipient
+# InboxRecipient
 
-## Example BundleRecipient Object
+## Example InboxRecipient Object
 
 ```
 {
@@ -14,23 +14,23 @@
 
 * `company` (string): The recipient's company.
 * `name` (string): The recipient's name.
-* `note` (string): A note sent to the recipient with the bundle.
+* `note` (string): A note sent to the recipient with the inbox.
 * `recipient` (string): The recipient's email address.
-* `sent_at` (date-time): When the Bundle was shared with this recipient.
+* `sent_at` (date-time): When the Inbox was shared with this recipient.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
-* `bundle_id` (int64): Bundle to share.
+* `inbox_id` (int64): Inbox to share.
 * `share_after_create` (boolean): Set to true to share the link with the recipient upon creation.
 
 
 ---
 
-## List Bundle Recipients
+## List Inbox Recipients
 
 ```
-files_sdk.bundle_recipient.list({
+files_sdk.inbox_recipient.list({
   "user_id": 1,
   "per_page": 1,
-  "bundle_id": 1
+  "inbox_id": 1
 })
 ```
 
@@ -46,17 +46,17 @@ files_sdk.bundle_recipient.list({
 * `filter_like` (object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `has_registrations`.
 * `filter_lt` (object): If set, return records where the specifiied field is less than the supplied value. Valid fields are `has_registrations`.
 * `filter_lteq` (object): If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `has_registrations`.
-* `bundle_id` (int64): Required - List recipients for the bundle with this ID.
+* `inbox_id` (int64): Required - List recipients for the inbox with this ID.
 
 
 ---
 
-## Create Bundle Recipient
+## Create Inbox Recipient
 
 ```
-files_sdk.bundle_recipient.create({
+files_sdk.inbox_recipient.create({
   "user_id": 1,
-  "bundle_id": 1,
+  "inbox_id": 1,
   "recipient": "johndoe@gmail.com",
   "name": "John Smith",
   "company": "Acme Ltd",
@@ -68,8 +68,8 @@ files_sdk.bundle_recipient.create({
 ### Parameters
 
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
-* `bundle_id` (int64): Required - Bundle to share.
-* `recipient` (string): Required - Email addresses to share this bundle with.
+* `inbox_id` (int64): Required - Inbox to share.
+* `recipient` (string): Required - Email addresses to share this inbox with.
 * `name` (string): Name of recipient.
 * `company` (string): Company of recipient.
 * `note` (string): Note to include in email.

@@ -2,26 +2,26 @@ import unittest
 import inspect
 import files_sdk
 from tests.base import TestBase
-from files_sdk.models import BundleRecipient
-from files_sdk import bundle_recipient
+from files_sdk.models import InboxRecipient
+from files_sdk import inbox_recipient
 
-class BundleRecipientTest(TestBase):
+class InboxRecipientTest(TestBase):
     pass 
     # Instance Methods
 
     # Static Methods
     def test_list(self):
         params = {
-            "bundle_id" : 12345,
+            "inbox_id" : 12345,
         }
-        bundle_recipient.list(params)
+        inbox_recipient.list(params)
 
     def test_create(self):
         params = {
-            "bundle_id" : 12345,
+            "inbox_id" : 12345,
             "recipient" : "foo",
         }
-        bundle_recipient.create(params)
+        inbox_recipient.create(params)
 
 if __name__ == '__main__':
     unittest.main()

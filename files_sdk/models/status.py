@@ -4,11 +4,13 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class Status:
     default_attributes = {
-        'code': None,     # int64 - Status http code
+        'code': None,     # int64 - Status HTTP code
         'message': None,     # string - Error message
         'status': None,     # string - Status message
         'data': None,     # Additional data
         'errors': None,     # array - A list of api errors
+        'clickwrap_id': None,     # int64 - Required Clickwrap id
+        'clickwrap_body': None,     # string - Required Clickwrap body
     }
 
     def __init__(self, attributes=None, options=None):

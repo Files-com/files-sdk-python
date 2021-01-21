@@ -29,6 +29,7 @@ import files_sdk.models.history as history
 import files_sdk.models.history_export as history_export
 import files_sdk.models.history_export_result as history_export_result
 import files_sdk.models.image as image
+import files_sdk.models.inbox_recipient as inbox_recipient
 import files_sdk.models.inbox_registration as inbox_registration
 import files_sdk.models.inbox_upload as inbox_upload
 import files_sdk.models.invoice as invoice
@@ -92,6 +93,7 @@ from files_sdk.models.history import History
 from files_sdk.models.history_export import HistoryExport
 from files_sdk.models.history_export_result import HistoryExportResult
 from files_sdk.models.image import Image
+from files_sdk.models.inbox_recipient import InboxRecipient
 from files_sdk.models.inbox_registration import InboxRegistration
 from files_sdk.models.inbox_upload import InboxUpload
 from files_sdk.models.invoice import Invoice
