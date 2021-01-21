@@ -35,13 +35,15 @@
     1,
     2
   ],
-  "webhook_url": "https://app.files.com/api/webhooks/abc123"
+  "webhook_url": "https://app.files.com/api/webhooks/abc123",
+  "trigger_actions": "[ \"create\" ]",
+  "trigger_action_path": "path/to/file/or/folder"
 }
 ```
 
 * `id` (int64): Automation ID
 * `automation` (string): Automation type
-* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
+* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `interval` (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `next_process_on` (string): If trigger is `daily`, date this automation will next run.
 * `schedule` (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
@@ -54,6 +56,8 @@
 * `user_ids` (array): IDs of Users for the Automation (i.e. who to Request File from)
 * `group_ids` (array): IDs of Groups for the Automation (i.e. who to Request File from)
 * `webhook_url` (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
+* `trigger_actions` (string): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+* `trigger_action_path` (string): If trigger is `action`, this is the path to watch for the specified trigger actions.
 
 
 ---
@@ -107,7 +111,9 @@ files_sdk.automation.create({
   "user_ids": [1,2],
   "group_ids": [1,2],
   "schedule": "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}",
-  "trigger": "realtime"
+  "trigger": "realtime",
+  "trigger_actions": "[ \"create\" ]",
+  "trigger_action_path": "path/to/file/or/folder"
 })
 ```
 
@@ -123,7 +129,9 @@ files_sdk.automation.create({
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (object): Custom schedule for running this automation.
-* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
+* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+* `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+* `trigger_action_path` (string): If trigger is `action`, this is the path to watch for the specified trigger actions.
 
 
 ---
@@ -139,7 +147,9 @@ files_sdk.automation.update(id, {
   "user_ids": [1,2],
   "group_ids": [1,2],
   "schedule": "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}",
-  "trigger": "realtime"
+  "trigger": "realtime",
+  "trigger_actions": "[ \"create\" ]",
+  "trigger_action_path": "path/to/file/or/folder"
 })
 ```
 
@@ -156,7 +166,9 @@ files_sdk.automation.update(id, {
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (object): Custom schedule for running this automation.
-* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
+* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+* `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+* `trigger_action_path` (string): If trigger is `action`, this is the path to watch for the specified trigger actions.
 
 
 ---
@@ -187,7 +199,9 @@ automation.update({
   "user_ids": [1,2],
   "group_ids": [1,2],
   "schedule": "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}",
-  "trigger": "realtime"
+  "trigger": "realtime",
+  "trigger_actions": "[ \"create\" ]",
+  "trigger_action_path": "path/to/file/or/folder"
 })
 ```
 
@@ -204,7 +218,9 @@ automation.update({
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (object): Custom schedule for running this automation.
-* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
+* `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+* `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+* `trigger_action_path` (string): If trigger is `action`, this is the path to watch for the specified trigger actions.
 
 
 ---
