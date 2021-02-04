@@ -29,7 +29,7 @@ There are multiple ways to authenticate to the API.
 
 You can set an API key globally, like this:
 
-    files_sdk.api_key = "my-key"
+    files_sdk.set_api_key("my-key")
 
 
 #### Per-Request API Key
