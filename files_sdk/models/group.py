@@ -93,6 +93,10 @@ class Group:
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `name`.
 #   ids - string - Comma-separated list of group ids to include in results.
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -142,6 +146,10 @@ def get(id, params = None, options = None):
 #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
 #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "notes" in params and not isinstance(params["notes"], str):

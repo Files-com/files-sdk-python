@@ -10,6 +10,7 @@ class HistoryExportTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/history_exports/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
@@ -17,6 +18,7 @@ class HistoryExportTest(TestBase):
         }
         history_export.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/history_exports"), "Mock path does not exist")
     def test_create(self):
         resp = history_export.create()
 

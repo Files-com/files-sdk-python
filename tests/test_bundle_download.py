@@ -10,6 +10,7 @@ class BundleDownloadTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/bundle_downloads"), "Mock path does not exist")
     def test_list(self):
         resp = bundle_download.list()
 

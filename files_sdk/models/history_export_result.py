@@ -52,6 +52,10 @@ class HistoryExportResult:
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   history_export_id (required) - int64 - ID of the associated history export.
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):

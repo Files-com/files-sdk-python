@@ -10,6 +10,7 @@ class SettingsChangeTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/settings_changes"), "Mock path does not exist")
     def test_list(self):
         resp = settings_change.list()
 

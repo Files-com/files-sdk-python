@@ -8,6 +8,7 @@ from files_sdk import group_user
 class GroupUserTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/group_users/{id}"), "Mock path does not exist")
     def test_update(self):
         params = {
             "id" : 12345,
@@ -17,6 +18,7 @@ class GroupUserTest(TestBase):
         group_user = GroupUser(params)
         group_user.update(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/group_users/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -31,9 +33,11 @@ class GroupUserTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/group_users"), "Mock path does not exist")
     def test_list(self):
         resp = group_user.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/group_users/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
@@ -43,6 +47,7 @@ class GroupUserTest(TestBase):
         }
         group_user.update(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/group_users/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

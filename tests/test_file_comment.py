@@ -8,6 +8,7 @@ from files_sdk import file_comment
 class FileCommentTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/file_comments/{id}"), "Mock path does not exist")
     def test_update(self):
         params = {
             "id" : 12345,
@@ -16,6 +17,7 @@ class FileCommentTest(TestBase):
         file_comment = FileComment(params)
         file_comment.update(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/file_comments/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -28,6 +30,7 @@ class FileCommentTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_comments/files/{path}"), "Mock path does not exist")
     def test_list_for(self):
         path = "foo"
         params = {
@@ -35,6 +38,7 @@ class FileCommentTest(TestBase):
         }
         file_comment.list_for(path, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_comments"), "Mock path does not exist")
     def test_create(self):
         params = {
             "body" : "foo",
@@ -42,6 +46,7 @@ class FileCommentTest(TestBase):
         }
         file_comment.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/file_comments/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
@@ -50,6 +55,7 @@ class FileCommentTest(TestBase):
         }
         file_comment.update(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/file_comments/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

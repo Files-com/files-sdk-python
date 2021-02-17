@@ -10,9 +10,11 @@ class InvoiceTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/invoices"), "Mock path does not exist")
     def test_list(self):
         resp = invoice.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/invoices/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {

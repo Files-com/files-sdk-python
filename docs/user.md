@@ -60,7 +60,7 @@
 * `username` (string): User's username
 * `admin_group_ids` (array): List of group IDs of which this user is an administrator
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` (boolean): Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+* `attachments_permission` (boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
 * `api_keys_count` (int64): Number of api keys associated with this user
 * `authenticate_until` (date-time): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (string): How is this user authenticated?
@@ -217,7 +217,7 @@ files_sdk.user.create({
 * `password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (boolean): Signifies that the user has read all the announcements in the UI.
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` (boolean): Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+* `attachments_permission` (boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
 * `authenticate_until` (string): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (string): How is this user authenticated?
 * `billing_permission` (boolean): Allow this user to perform operations on the account, payments, and invoices?
@@ -348,7 +348,7 @@ files_sdk.user.update(id, {
 * `password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (boolean): Signifies that the user has read all the announcements in the UI.
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` (boolean): Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+* `attachments_permission` (boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
 * `authenticate_until` (string): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (string): How is this user authenticated?
 * `billing_permission` (boolean): Allow this user to perform operations on the account, payments, and invoices?
@@ -500,7 +500,7 @@ user.update({
 * `password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (boolean): Signifies that the user has read all the announcements in the UI.
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` (boolean): Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+* `attachments_permission` (boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
 * `authenticate_until` (string): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (string): How is this user authenticated?
 * `billing_permission` (boolean): Allow this user to perform operations on the account, payments, and invoices?

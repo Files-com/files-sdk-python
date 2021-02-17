@@ -10,6 +10,7 @@ class ExternalEventTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/external_events"), "Mock path does not exist")
     def test_list(self):
         resp = external_event.list()
 

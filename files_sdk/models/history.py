@@ -141,6 +141,10 @@ def list_for_user(user_id, params = None, options = None):
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 def list_logins(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "start_at" in params and not isinstance(params["start_at"], str):
         raise InvalidParameterError("Bad parameter: start_at must be an str")
     if "end_at" in params and not isinstance(params["end_at"], str):
@@ -169,6 +173,10 @@ def list_logins(params = None, options = None):
 #   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `user_id`, `folder` or `path`.
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "start_at" in params and not isinstance(params["start_at"], str):
         raise InvalidParameterError("Bad parameter: start_at must be an str")
     if "end_at" in params and not isinstance(params["end_at"], str):

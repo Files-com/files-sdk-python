@@ -65,6 +65,10 @@ class Session:
 #   otp - string - If this user has a 2FA device, provide its OTP or code here.
 #   partial_session_id - string - Identifier for a partially-completed login
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
     if "password" in params and not isinstance(params["password"], str):
@@ -80,6 +84,10 @@ def create(params = None, options = None):
 #   format - string
 #   session - object
 def delete(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "format" in params and not isinstance(params["format"], str):
         raise InvalidParameterError("Bad parameter: format must be an str")
     if "session" in params and not isinstance(params["session"], dict):

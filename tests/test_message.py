@@ -8,6 +8,7 @@ from files_sdk import message
 class MessageTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/messages/{id}"), "Mock path does not exist")
     def test_update(self):
         params = {
             "id" : 12345,
@@ -18,6 +19,7 @@ class MessageTest(TestBase):
         message = Message(params)
         message.update(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/messages/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -30,12 +32,14 @@ class MessageTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/messages"), "Mock path does not exist")
     def test_list(self):
         params = {
             "project_id" : 12345,
         }
         message.list(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/messages/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
@@ -43,6 +47,7 @@ class MessageTest(TestBase):
         }
         message.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/messages"), "Mock path does not exist")
     def test_create(self):
         params = {
             "project_id" : 12345,
@@ -51,6 +56,7 @@ class MessageTest(TestBase):
         }
         message.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/messages/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
@@ -61,6 +67,7 @@ class MessageTest(TestBase):
         }
         message.update(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/messages/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

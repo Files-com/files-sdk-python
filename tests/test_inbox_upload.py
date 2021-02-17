@@ -10,6 +10,7 @@ class InboxUploadTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/inbox_uploads"), "Mock path does not exist")
     def test_list(self):
         resp = inbox_upload.list()
 

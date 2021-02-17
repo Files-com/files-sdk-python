@@ -16,6 +16,8 @@ class App:
         'remote_server_type': None,     # string - Associated Remote Server type, if any
         'folder_behavior_type': None,     # string - Associated Folder Behavior type, if any
         'external_homepage_url': None,     # string - Link to external homepage
+        'marketing_youtube_url': None,     # string - Marketing video page
+        'tutorial_youtube_url': None,     # string - Tutorial video page
         'app_type': None,     # string - The type of the App
         'featured': None,     # boolean - Is featured on the App listing?
     }
@@ -47,6 +49,10 @@ class App:
 #   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `name` and `app_type`.
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `name` and `app_type`.
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):

@@ -5,6 +5,7 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 class HistoryExport:
     default_attributes = {
         'id': None,     # int64 - History Export ID
+        'history_version': None,     # string - Version of the history for the export.
         'start_at': None,     # date-time - Start date/time of export range.
         'end_at': None,     # date-time - End date/time of export range.
         'status': None,     # string - Status of export.  Will be: `building`, `ready`, or `failed`
@@ -96,6 +97,10 @@ def get(id, params = None, options = None):
 #   query_target_platform - string - If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
 #   query_target_permission_set - string - If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "start_at" in params and not isinstance(params["start_at"], str):

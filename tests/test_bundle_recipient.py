@@ -10,12 +10,14 @@ class BundleRecipientTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/bundle_recipients"), "Mock path does not exist")
     def test_list(self):
         params = {
             "bundle_id" : 12345,
         }
         bundle_recipient.list(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/bundle_recipients"), "Mock path does not exist")
     def test_create(self):
         params = {
             "bundle_id" : 12345,

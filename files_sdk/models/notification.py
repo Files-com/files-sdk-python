@@ -97,6 +97,10 @@ class Notification:
 #   path - string - Show notifications for this Path.
 #   include_ancestors - boolean - If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
@@ -154,6 +158,10 @@ def get(id, params = None, options = None):
 #   path - string - Path
 #   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "send_interval" in params and not isinstance(params["send_interval"], str):

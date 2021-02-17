@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "history_version": "20201213.2",
   "start_at": "2000-01-01T01:00:00Z",
   "end_at": "2000-01-01T01:00:00Z",
   "status": "ready",
@@ -32,6 +33,7 @@
 ```
 
 * `id` (int64): History Export ID
+* `history_version` (string): Version of the history for the export.
 * `start_at` (date-time): Start date/time of export range.
 * `end_at` (date-time): End date/time of export range.
 * `status` (string): Status of export.  Will be: `building`, `ready`, or `failed`

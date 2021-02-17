@@ -10,6 +10,7 @@ class HistoryExportResultTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/history_export_results"), "Mock path does not exist")
     def test_list(self):
         params = {
             "history_export_id" : 12345,

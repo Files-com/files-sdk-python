@@ -8,6 +8,7 @@ from files_sdk import user_request
 class UserRequestTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/user_requests/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -20,9 +21,11 @@ class UserRequestTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/user_requests"), "Mock path does not exist")
     def test_list(self):
         resp = user_request.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/user_requests/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
@@ -30,6 +33,7 @@ class UserRequestTest(TestBase):
         }
         user_request.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/user_requests"), "Mock path does not exist")
     def test_create(self):
         params = {
             "name" : "foo",
@@ -38,6 +42,7 @@ class UserRequestTest(TestBase):
         }
         user_request.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/user_requests/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

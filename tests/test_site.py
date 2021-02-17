@@ -10,12 +10,15 @@ class SiteTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/site"), "Mock path does not exist")
     def test_get(self):
         resp = site.get()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/site/usage"), "Mock path does not exist")
     def test_get_usage(self):
         resp = site.get_usage()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/site"), "Mock path does not exist")
     def test_update(self):
         resp = site.update()
 

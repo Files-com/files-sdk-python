@@ -8,6 +8,7 @@ from files_sdk import request
 class RequestTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/requests/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -20,9 +21,11 @@ class RequestTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/requests"), "Mock path does not exist")
     def test_list(self):
         resp = request.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/requests/folders/{path}"), "Mock path does not exist")
     def test_get_folder(self):
         path = "foo"
         params = {
@@ -30,6 +33,7 @@ class RequestTest(TestBase):
         }
         request.get_folder(path, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/requests"), "Mock path does not exist")
     def test_create(self):
         params = {
             "path" : "foo",
@@ -37,6 +41,7 @@ class RequestTest(TestBase):
         }
         request.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/requests/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

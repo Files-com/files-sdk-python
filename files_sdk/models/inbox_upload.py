@@ -31,6 +31,10 @@ class InboxUpload:
 #   inbox_registration_id - int64 - InboxRegistration ID
 #   inbox_id - int64 - Inbox ID
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):

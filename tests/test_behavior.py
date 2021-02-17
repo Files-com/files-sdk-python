@@ -8,6 +8,7 @@ from files_sdk import behavior
 class BehaviorTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/behaviors/{id}"), "Mock path does not exist")
     def test_update(self):
         params = {
             "id" : 12345,
@@ -15,6 +16,7 @@ class BehaviorTest(TestBase):
         behavior = Behavior(params)
         behavior.update(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/behaviors/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -27,9 +29,11 @@ class BehaviorTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/behaviors"), "Mock path does not exist")
     def test_list(self):
         resp = behavior.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/behaviors/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
@@ -37,6 +41,7 @@ class BehaviorTest(TestBase):
         }
         behavior.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/behaviors/folders/{path}"), "Mock path does not exist")
     def test_list_for(self):
         path = "foo"
         params = {
@@ -44,6 +49,7 @@ class BehaviorTest(TestBase):
         }
         behavior.list_for(path, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/behaviors"), "Mock path does not exist")
     def test_create(self):
         params = {
             "path" : "foo",
@@ -51,12 +57,14 @@ class BehaviorTest(TestBase):
         }
         behavior.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/behaviors/webhook/test"), "Mock path does not exist")
     def test_webhook_test(self):
         params = {
             "url" : "foo",
         }
         behavior.webhook_test(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/behaviors/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
@@ -64,6 +72,7 @@ class BehaviorTest(TestBase):
         }
         behavior.update(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/behaviors/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

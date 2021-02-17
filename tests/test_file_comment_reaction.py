@@ -8,6 +8,7 @@ from files_sdk import file_comment_reaction
 class FileCommentReactionTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/file_comment_reactions/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -20,6 +21,7 @@ class FileCommentReactionTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_comment_reactions"), "Mock path does not exist")
     def test_create(self):
         params = {
             "file_comment_id" : 12345,
@@ -27,6 +29,7 @@ class FileCommentReactionTest(TestBase):
         }
         file_comment_reaction.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/file_comment_reactions/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

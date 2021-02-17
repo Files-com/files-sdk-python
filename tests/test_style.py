@@ -8,6 +8,7 @@ from files_sdk import style
 class StyleTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/styles/{path}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "path" : "foo",
@@ -20,6 +21,7 @@ class StyleTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/styles/{path}"), "Mock path does not exist")
     def test_find(self):
         path = "foo"
         params = {
@@ -28,6 +30,7 @@ class StyleTest(TestBase):
         style.find(path, params)
 
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/styles/{path}"), "Mock path does not exist")
     def test_delete(self):
         path = "foo"
         params = {

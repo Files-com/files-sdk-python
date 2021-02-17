@@ -62,6 +62,10 @@ class Request:
 #   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
 #   path - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -105,6 +109,10 @@ def get_folder(path, params = None, options = None):
 #   user_ids - string - A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "destination" in params and not isinstance(params["destination"], str):

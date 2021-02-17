@@ -9,7 +9,7 @@ class User:
         'username': None,     # string - User's username
         'admin_group_ids': None,     # array - List of group IDs of which this user is an administrator
         'allowed_ips': None,     # string - A list of allowed IPs if applicable.  Newline delimited
-        'attachments_permission': None,     # boolean - Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+        'attachments_permission': None,     # boolean - DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
         'api_keys_count': None,     # int64 - Number of api keys associated with this user
         'authenticate_until': None,     # date-time - Scheduled Date/Time at which user will be deactivated
         'authentication_method': None,     # string - How is this user authenticated?
@@ -139,7 +139,7 @@ class User:
     #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
     #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
     #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-    #   attachments_permission - boolean - Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+    #   attachments_permission - boolean - DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
     #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
     #   authentication_method - string - How is this user authenticated?
     #   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
@@ -278,6 +278,10 @@ class User:
 #   q[ssl_required] - string - If set, list only users with overridden SSL required setting.
 #   search - string - Searches for partial matches of name, username, or email.
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -336,7 +340,7 @@ def get(id, params = None, options = None):
 #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
 #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
 #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-#   attachments_permission - boolean - Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+#   attachments_permission - boolean - DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
 #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
 #   authentication_method - string - How is this user authenticated?
 #   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
@@ -368,6 +372,10 @@ def get(id, params = None, options = None):
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 #   username - string - User's username
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "change_password" in params and not isinstance(params["change_password"], str):
         raise InvalidParameterError("Bad parameter: change_password must be an str")
     if "change_password_confirmation" in params and not isinstance(params["change_password_confirmation"], str):
@@ -474,7 +482,7 @@ def user_2fa_reset(id, params = None, options = None):
 #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
 #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
 #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-#   attachments_permission - boolean - Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+#   attachments_permission - boolean - DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
 #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
 #   authentication_method - string - How is this user authenticated?
 #   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?

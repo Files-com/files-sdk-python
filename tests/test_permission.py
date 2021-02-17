@@ -8,6 +8,7 @@ from files_sdk import permission
 class PermissionTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/permissions/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -20,12 +21,15 @@ class PermissionTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/permissions"), "Mock path does not exist")
     def test_list(self):
         resp = permission.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/permissions"), "Mock path does not exist")
     def test_create(self):
         resp = permission.create()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/permissions/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

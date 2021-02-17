@@ -8,6 +8,7 @@ from files_sdk import remote_server
 class RemoteServerTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/remote_servers/{id}"), "Mock path does not exist")
     def test_update(self):
         params = {
             "id" : 12345,
@@ -15,6 +16,7 @@ class RemoteServerTest(TestBase):
         remote_server = RemoteServer(params)
         remote_server.update(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/remote_servers/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -27,9 +29,11 @@ class RemoteServerTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers"), "Mock path does not exist")
     def test_list(self):
         resp = remote_server.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
@@ -37,9 +41,11 @@ class RemoteServerTest(TestBase):
         }
         remote_server.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers"), "Mock path does not exist")
     def test_create(self):
         resp = remote_server.create()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/remote_servers/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
@@ -47,6 +53,7 @@ class RemoteServerTest(TestBase):
         }
         remote_server.update(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/remote_servers/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

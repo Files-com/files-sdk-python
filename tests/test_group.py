@@ -8,6 +8,7 @@ from files_sdk import group
 class GroupTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/groups/{id}"), "Mock path does not exist")
     def test_update(self):
         params = {
             "id" : 12345,
@@ -15,6 +16,7 @@ class GroupTest(TestBase):
         group = Group(params)
         group.update(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/groups/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -27,9 +29,11 @@ class GroupTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/groups"), "Mock path does not exist")
     def test_list(self):
         resp = group.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/groups/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
@@ -37,9 +41,11 @@ class GroupTest(TestBase):
         }
         group.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/groups"), "Mock path does not exist")
     def test_create(self):
         resp = group.create()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/groups/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
@@ -47,6 +53,7 @@ class GroupTest(TestBase):
         }
         group.update(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/groups/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

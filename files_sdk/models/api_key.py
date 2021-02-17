@@ -95,6 +95,10 @@ class ApiKey:
 #   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `expires_at`.
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `expires_at`.
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
@@ -124,6 +128,10 @@ def all(params = None, options = None):
 #   format - string
 #   api_key - object
 def find_current(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "format" in params and not isinstance(params["format"], str):
         raise InvalidParameterError("Bad parameter: format must be an str")
     if "api_key" in params and not isinstance(params["api_key"], dict):
@@ -156,6 +164,10 @@ def get(id, params = None, options = None):
 #   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 #   path - string - Folder path restriction for this api key.
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "name" in params and not isinstance(params["name"], str):
@@ -174,6 +186,10 @@ def create(params = None, options = None):
 #   name - string - Internal name for the API Key.  For your use.
 #   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 def update_current(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "expires_at" in params and not isinstance(params["expires_at"], str):
         raise InvalidParameterError("Bad parameter: expires_at must be an str")
     if "name" in params and not isinstance(params["name"], str):
@@ -210,6 +226,10 @@ def update(id, params = None, options = None):
 #   format - string
 #   api_key - object
 def delete_current(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "format" in params and not isinstance(params["format"], str):
         raise InvalidParameterError("Bad parameter: format must be an str")
     if "api_key" in params and not isinstance(params["api_key"], dict):

@@ -8,6 +8,7 @@ from files_sdk import user
 class UserTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/unlock"), "Mock path does not exist")
     def test_unlock(self):
         params = {
             "id" : 12345,
@@ -15,6 +16,7 @@ class UserTest(TestBase):
         user = User(params)
         user.unlock(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/resend_welcome_email"), "Mock path does not exist")
     def test_resend_welcome_email(self):
         params = {
             "id" : 12345,
@@ -22,6 +24,7 @@ class UserTest(TestBase):
         user = User(params)
         user.resend_welcome_email(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/2fa/reset"), "Mock path does not exist")
     def test_user_2fa_reset(self):
         params = {
             "id" : 12345,
@@ -29,6 +32,7 @@ class UserTest(TestBase):
         user = User(params)
         user.user_2fa_reset(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/users/{id}"), "Mock path does not exist")
     def test_update(self):
         params = {
             "id" : 12345,
@@ -36,6 +40,7 @@ class UserTest(TestBase):
         user = User(params)
         user.update(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/users/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -48,9 +53,11 @@ class UserTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/users"), "Mock path does not exist")
     def test_list(self):
         resp = user.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/users/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
@@ -58,9 +65,11 @@ class UserTest(TestBase):
         }
         user.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users"), "Mock path does not exist")
     def test_create(self):
         resp = user.create()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/unlock"), "Mock path does not exist")
     def test_unlock(self):
         id = 12345
         params = {
@@ -68,6 +77,7 @@ class UserTest(TestBase):
         }
         user.unlock(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/resend_welcome_email"), "Mock path does not exist")
     def test_resend_welcome_email(self):
         id = 12345
         params = {
@@ -75,6 +85,7 @@ class UserTest(TestBase):
         }
         user.resend_welcome_email(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/2fa/reset"), "Mock path does not exist")
     def test_user_2fa_reset(self):
         id = 12345
         params = {
@@ -82,6 +93,7 @@ class UserTest(TestBase):
         }
         user.user_2fa_reset(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/users/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
@@ -89,6 +101,7 @@ class UserTest(TestBase):
         }
         user.update(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/users/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

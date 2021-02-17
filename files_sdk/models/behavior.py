@@ -91,6 +91,10 @@ class Behavior:
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `behavior`.
 #   behavior - string - If set, only shows folder behaviors matching this behavior type.
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -187,6 +191,10 @@ def list_for(path, params = None, options = None):
 #   path (required) - string - Folder behaviors path.
 #   behavior (required) - string - Behavior type.
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "value" in params and not isinstance(params["value"], str):
         raise InvalidParameterError("Bad parameter: value must be an str")
     if "path" in params and not isinstance(params["path"], str):
@@ -208,6 +216,10 @@ def create(params = None, options = None):
 #   body - object - Additional body parameters.
 #   action - string - action for test body
 def webhook_test(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "url" in params and not isinstance(params["url"], str):
         raise InvalidParameterError("Bad parameter: url must be an str")
     if "method" in params and not isinstance(params["method"], str):

@@ -77,7 +77,7 @@
 * `provision_group_inclusion` (string): Comma-separated list of group names for groups (with optional wildcards) that will be auto-provisioned.
 * `provision_group_required` (string): Comma or newline separated list of group names (with optional wildcards) to require membership for user provisioning.
 * `provision_site_admin_groups` (string): Comma-separated list of group names whose members will be created as Site Admins.
-* `provision_attachments_permission` (boolean): Auto-provisioned users get Sharing permission?
+* `provision_attachments_permission` (boolean): DEPRECATED: Auto-provisioned users get Sharing permission. Use a Group with the Bundle permission instead.
 * `provision_dav_permission` (boolean): Auto-provisioned users get WebDAV permission?
 * `provision_ftp_permission` (boolean): Auto-provisioned users get FTP permission?
 * `provision_sftp_permission` (boolean): Auto-provisioned users get SFTP permission?

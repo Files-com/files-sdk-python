@@ -8,6 +8,7 @@ from files_sdk import file_action
 class FileActionTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/copy/{path}"), "Mock path does not exist")
     def test_copy(self):
         params = {
             "path" : "foo",
@@ -16,6 +17,7 @@ class FileActionTest(TestBase):
         file_action = FileAction(params)
         file_action.copy(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/move/{path}"), "Mock path does not exist")
     def test_move(self):
         params = {
             "path" : "foo",
@@ -24,6 +26,7 @@ class FileActionTest(TestBase):
         file_action = FileAction(params)
         file_action.move(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/begin_upload/{path}"), "Mock path does not exist")
     def test_begin_upload(self):
         params = {
             "path" : "foo",
@@ -33,6 +36,7 @@ class FileActionTest(TestBase):
 
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/copy/{path}"), "Mock path does not exist")
     def test_copy(self):
         path = "foo"
         params = {
@@ -41,6 +45,7 @@ class FileActionTest(TestBase):
         }
         file_action.copy(path, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/move/{path}"), "Mock path does not exist")
     def test_move(self):
         path = "foo"
         params = {
@@ -49,6 +54,7 @@ class FileActionTest(TestBase):
         }
         file_action.move(path, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/begin_upload/{path}"), "Mock path does not exist")
     def test_begin_upload(self):
         path = "foo"
         params = {

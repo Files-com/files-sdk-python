@@ -10,6 +10,7 @@ class FolderTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/folders/{path}"), "Mock path does not exist")
     def test_list_for(self):
         path = "foo"
         params = {
@@ -17,6 +18,7 @@ class FolderTest(TestBase):
         }
         folder.list_for(path, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/folders/{path}"), "Mock path does not exist")
     def test_create(self):
         path = "foo"
         params = {

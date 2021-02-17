@@ -157,6 +157,10 @@ class Bundle:
 #   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `created_at`.
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `created_at`.
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
@@ -215,6 +219,10 @@ def get(id, params = None, options = None):
 #   inbox_id - int64 - ID of the associated inbox, if available.
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "paths" in params and not isinstance(params["paths"], list):

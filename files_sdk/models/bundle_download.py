@@ -32,6 +32,10 @@ class BundleDownload:
 #   bundle_id - int64 - Bundle ID
 #   bundle_registration_id - int64 - BundleRegistration ID
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):

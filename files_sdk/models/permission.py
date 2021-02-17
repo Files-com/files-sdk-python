@@ -70,6 +70,10 @@ class Permission:
 #   user_id - string - DEPRECATED: User ID.  If provided, will scope permissions to this user. Use `filter[user_id]` instead.`
 #   include_groups - boolean - If searching by user or group, also include user's permissions that are inherited from its groups?
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -107,6 +111,10 @@ def all(params = None, options = None):
 #   user_id - int64 - User ID.  Provide `username` or `user_id`
 #   username - string - User username.  Provide `username` or `user_id`
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "group_id" in params and not isinstance(params["group_id"], int):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "path" in params and not isinstance(params["path"], str):

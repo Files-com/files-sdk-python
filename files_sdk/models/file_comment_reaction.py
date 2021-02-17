@@ -55,6 +55,10 @@ class FileCommentReaction:
 #   file_comment_id (required) - int64 - ID of file comment to attach reaction to.
 #   emoji (required) - string - Emoji to react with.
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "file_comment_id" in params and not isinstance(params["file_comment_id"], int):

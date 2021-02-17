@@ -140,6 +140,10 @@ class Site:
 #   format - string
 #   site - object
 def get(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "format" in params and not isinstance(params["format"], str):
         raise InvalidParameterError("Bad parameter: format must be an str")
     if "site" in params and not isinstance(params["site"], dict):
@@ -151,6 +155,10 @@ def get(params = None, options = None):
 #   format - string
 #   site - object
 def get_usage(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "format" in params and not isinstance(params["format"], str):
         raise InvalidParameterError("Bad parameter: format must be an str")
     if "site" in params and not isinstance(params["site"], dict):
@@ -265,6 +273,10 @@ def get_usage(params = None, options = None):
 #   ldap_password_change_confirmation - string - Confirm new LDAP password.
 #   smtp_password - string - Password for SMTP server.
 def update(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "subdomain" in params and not isinstance(params["subdomain"], str):

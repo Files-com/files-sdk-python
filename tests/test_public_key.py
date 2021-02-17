@@ -8,6 +8,7 @@ from files_sdk import public_key
 class PublicKeyTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/public_keys/{id}"), "Mock path does not exist")
     def test_update(self):
         params = {
             "id" : 12345,
@@ -16,6 +17,7 @@ class PublicKeyTest(TestBase):
         public_key = PublicKey(params)
         public_key.update(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/public_keys/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "id" : 12345,
@@ -28,9 +30,11 @@ class PublicKeyTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/public_keys"), "Mock path does not exist")
     def test_list(self):
         resp = public_key.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/public_keys/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
@@ -38,6 +42,7 @@ class PublicKeyTest(TestBase):
         }
         public_key.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/public_keys"), "Mock path does not exist")
     def test_create(self):
         params = {
             "title" : "foo",
@@ -45,6 +50,7 @@ class PublicKeyTest(TestBase):
         }
         public_key.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/public_keys/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
@@ -53,6 +59,7 @@ class PublicKeyTest(TestBase):
         }
         public_key.update(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/public_keys/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {

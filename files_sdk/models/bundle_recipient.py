@@ -51,6 +51,10 @@ class BundleRecipient:
 #   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `has_registrations`.
 #   bundle_id (required) - int64 - List recipients for the bundle with this ID.
 def list(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
@@ -89,6 +93,10 @@ def all(params = None, options = None):
 #   note - string - Note to include in email.
 #   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "bundle_id" in params and not isinstance(params["bundle_id"], int):

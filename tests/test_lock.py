@@ -8,6 +8,7 @@ from files_sdk import lock
 class LockTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/locks/{path}"), "Mock path does not exist")
     def test_delete(self):
         params = {
             "path" : "foo",
@@ -21,6 +22,7 @@ class LockTest(TestBase):
         pass
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/locks/{path}"), "Mock path does not exist")
     def test_list_for(self):
         path = "foo"
         params = {
@@ -28,6 +30,7 @@ class LockTest(TestBase):
         }
         lock.list_for(path, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/locks/{path}"), "Mock path does not exist")
     def test_create(self):
         path = "foo"
         params = {
@@ -35,6 +38,7 @@ class LockTest(TestBase):
         }
         lock.create(path, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/locks/{path}"), "Mock path does not exist")
     def test_delete(self):
         path = "foo"
         params = {

@@ -10,6 +10,7 @@ class BandwidthSnapshotTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/bandwidth_snapshots"), "Mock path does not exist")
     def test_list(self):
         resp = bandwidth_snapshot.list()
 

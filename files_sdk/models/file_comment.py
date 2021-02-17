@@ -96,6 +96,10 @@ def list_for(path, params = None, options = None):
 #   body (required) - string - Comment body.
 #   path (required) - string - File path.
 def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
     if "body" in params and not isinstance(params["body"], str):
         raise InvalidParameterError("Bad parameter: body must be an str")
     if "path" in params and not isinstance(params["path"], str):

@@ -17,6 +17,8 @@
   "remote_server_type": "",
   "folder_behavior_type": "",
   "external_homepage_url": "",
+  "marketing_youtube_url": "",
+  "tutorial_youtube_url": "",
   "app_type": "",
   "featured": True
 }
@@ -33,6 +35,8 @@
 * `remote_server_type` (string): Associated Remote Server type, if any
 * `folder_behavior_type` (string): Associated Folder Behavior type, if any
 * `external_homepage_url` (string): Link to external homepage
+* `marketing_youtube_url` (string): Marketing video page
+* `tutorial_youtube_url` (string): Tutorial video page
 * `app_type` (string): The type of the App
 * `featured` (boolean): Is featured on the App listing?
 

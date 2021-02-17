@@ -37,7 +37,7 @@ You can set an API key globally, like this:
 Or, you can pass an API key per-request, in the Options dictionary at the end
 of every method.  Like this:
 
-    files_sdk.Group.list({}, {"api_key": "my-key"})
+    files_sdk.group.list({}, {"api_key": "my-key"})
 
 That key will automatically be used for any followup actions that occur
 on models returned from the API.
@@ -45,17 +45,18 @@ on models returned from the API.
 
 #### User Session
 
-Or, you can open a user session by calling `files_sdk.Session.create`
+Or, you can open a user session by calling `files_sdk.session.create`
 
-    session = files_sdk.Session.create({"username": "uname", "password": "pwd"})
+    session = files_sdk.session.create({"username": "uname", "password": "pwd"})
 
 Then use it as follows:
 
-    files_sdk.Group.list({}, {"session": session})
+    files_sdk.group.list({}, {"session": session})
 
 Or use if for all subsequent API calls globally like this:
 
-    files_sdk.session = files_sdk.Session.create({"username": "uname", "password": "pwd"})
+    session = files_sdk.session.create({"username": "uname", "password": "pwd"})
+    files_sdk.set_session(session)
 
 
 ### Setting Global Options
@@ -93,43 +94,43 @@ This SDK allows both file based transfer and data based transfer. Please see the
 
 The second parameter is optional and will simply use the remote filename by default.
 
-    files_sdk.File.download_file("/remote.txt", "local.txt")
+    files_sdk.file.download_file("/remote.txt", "local.txt")
 
 
 #### File Upload
 
 The second parameter is optional and will simply use the local filename by default.
 
-    files_sdk.File.upload_file("local.txt", "/remote.txt")
+    files_sdk.file.upload_file("local.txt", "/remote.txt")
 
 
 #### List root folder
 
-    for f in files_sdk.Folder.list_for("/").auto_paging_iter():
+    for f in files_sdk.folder.list_for("/").auto_paging_iter():
         print(f.type, f.path)
 
 
 #### Writing a file example (string)
 
-    with File.open("foo.txt", 'w') as f:
+    with files_sdk.file.open("foo.txt", 'wb') as f:
         f.write("contents")
 
 
 #### Writing a file example (binary)
 
-    with File.open("foo.txt", 'wb') as f:
+    with files_sdk.file.open("foo.txt", 'wb') as f:
         f.write(b"contents")
 
 
 #### Reading a file example (string)
 
-    with File.open("foo.txt", 'r') as f:
+    with files_sdk.open("foo.txt", 'r') as f:
         print(f.read())
 
 
 #### Reading a file example (binary)
 
-    with File.open("foo.txt", 'rb') as f:
+    with files_sdk.open("foo.txt", 'rb') as f:
         print(f.read())
 
 
@@ -143,7 +144,7 @@ as needed.
 
 #### Iterating with with auto_paging_iter
 
-    list_obj = files_sdk.Folder.list_for('/')
+    list_obj = files_sdk.folder.list_for('/')
 
     for f in list_obj.auto_paging_iter():
         print(f.type, f.path)
@@ -151,7 +152,7 @@ as needed.
 
 #### Iterating manually
 
-    list_obj = files_sdk.Folder.list_for('/')
+    list_obj = files_sdk.folder.list_for('/')
 
     for f in list_obj:
         print(f.type, f.path)

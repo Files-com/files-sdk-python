@@ -10,6 +10,7 @@ class UsageSnapshotTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/usage_snapshots"), "Mock path does not exist")
     def test_list(self):
         resp = usage_snapshot.list()
 
