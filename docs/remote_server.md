@@ -7,6 +7,7 @@
   "id": 1,
   "authentication_method": "password",
   "hostname": "remote-server.com",
+  "remote_home_path": "/home/user1",
   "name": "My Remote server",
   "port": 1,
   "max_connections": 1,
@@ -38,6 +39,7 @@
 * `id` (int64): Remote server ID
 * `authentication_method` (string): Type of authentication method
 * `hostname` (string): Hostname or IP address
+* `remote_home_path` (string): Initial home folder on remote server
 * `name` (string): Internal name for your reference
 * `port` (int64): Port for remote server.  Not needed for S3.
 * `max_connections` (int64): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).

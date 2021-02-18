@@ -8,6 +8,7 @@ class RemoteServer:
         'id': None,     # int64 - Remote server ID
         'authentication_method': None,     # string - Type of authentication method
         'hostname': None,     # string - Hostname or IP address
+        'remote_home_path': None,     # string - Initial home folder on remote server
         'name': None,     # string - Internal name for your reference
         'port': None,     # int64 - Port for remote server.  Not needed for S3.
         'max_connections': None,     # int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
