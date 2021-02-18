@@ -213,7 +213,8 @@ def upload_chunks(io, path, options, upload = None, etags = None):
         if buf is not None:  # None means no data but io still open
             bytes_written += len(buf)
             response = Api.api_client().send_remote_request(upload.http_method, upload.upload_uri, { "Content-Length": str(len(buf)) }, buf)
-            etags.append({ "etag": response.headers["ETag"].strip('"'), "part": upload.part_number })
+            if "ETag" in response.headers:
+                etags.append({ "etag": response.headers["ETag"].strip('"'), "part": upload.part_number })
 
 def upload_file(path, destination = None, options = None):
     if not isinstance(options, dict):
