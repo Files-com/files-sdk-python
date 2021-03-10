@@ -10,5 +10,12 @@ class BundleRegistrationTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/bundle_registrations"), "Mock path does not exist")
+    def test_list(self):
+        params = {
+            "bundle_id" : 12345,
+        }
+        bundle_registration.list(params)
+
 if __name__ == '__main__':
     unittest.main()

@@ -10,5 +10,12 @@ class InboxRegistrationTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/inbox_registrations"), "Mock path does not exist")
+    def test_list(self):
+        params = {
+            "folder_behavior_id" : 12345,
+        }
+        inbox_registration.list(params)
+
 if __name__ == '__main__':
     unittest.main()
