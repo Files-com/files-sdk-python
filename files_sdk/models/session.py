@@ -80,11 +80,18 @@ def create(params = None, options = None):
     response, options = Api.send_request("POST", "/sessions", params, options)
     return Session(response.data, options)
 
+# Parameters:
+#   format - string
+#   session - object
 def delete(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "format" in params and not isinstance(params["format"], str):
+        raise InvalidParameterError("Bad parameter: format must be an str")
+    if "session" in params and not isinstance(params["session"], dict):
+        raise InvalidParameterError("Bad parameter: session must be an dict")
     response, _options = Api.send_request("DELETE", "/sessions", params, options)
     return response.data
 
