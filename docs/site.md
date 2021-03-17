@@ -324,16 +324,8 @@
 ## Show site settings
 
 ```
-files_sdk.site.get({
-  "format": "",
-  "site": ""
-})
+files_sdk.site.get()
 ```
-
-### Parameters
-
-* `format` (string): 
-* `site` (object): 
 
 
 ---
@@ -341,16 +333,8 @@ files_sdk.site.get({
 ## Get the most recent usage snapshot (usage data for billing purposes) for a Site
 
 ```
-files_sdk.site.get_usage({
-  "format": "",
-  "site": ""
-})
+files_sdk.site.get_usage()
 ```
-
-### Parameters
-
-* `format` (string): 
-* `site` (object): 
 
 
 ---
