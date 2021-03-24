@@ -9,6 +9,7 @@ class UsageSnapshot:
         'start_at': None,     # date-time - Site usage report start date/time
         'end_at': None,     # date-time - Site usage report end date/time
         'created_at': None,     # date-time - Site usage report created at date/time
+        'high_water_user_count': None,     # double - Site usage report highest usage in time period
         'current_storage': None,     # double - Current site usage as of report
         'high_water_storage': None,     # double - Site usage report highest usage in time period
         'total_downloads': None,     # int64 - Number of downloads in report time period
