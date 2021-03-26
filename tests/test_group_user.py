@@ -37,6 +37,14 @@ class GroupUserTest(TestBase):
     def test_list(self):
         resp = group_user.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/group_users"), "Mock path does not exist")
+    def test_create(self):
+        params = {
+            "group_id" : 12345,
+            "user_id" : 12345,
+        }
+        group_user.create(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/group_users/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

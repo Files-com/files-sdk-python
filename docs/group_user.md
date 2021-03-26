@@ -44,6 +44,25 @@ files_sdk.group_user.list({
 
 ---
 
+## Create Group User
+
+```
+files_sdk.group_user.create({
+  "group_id": 1,
+  "user_id": 1,
+  "admin": True
+})
+```
+
+### Parameters
+
+* `group_id` (int64): Required - Group ID to add user to.
+* `user_id` (int64): Required - User ID to add to group.
+* `admin` (boolean): Is the user a group administrator?
+
+
+---
+
 ## Update Group User
 
 ```

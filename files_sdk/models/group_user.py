@@ -85,7 +85,11 @@ class GroupUser:
         self.delete(params)
 
     def save(self):
-        self.update(self.get_attributes())
+        if hasattr(self, "id") and self.id:
+            self.update(self.get_attributes())
+        else:
+            new_obj = create(self.get_attributes(), self.options)
+            self.set_attributes(new_obj.get_attributes())
 
 # Parameters:
 #   user_id - int64 - User ID.  If provided, will return group_users of this user.
@@ -109,6 +113,26 @@ def list(params = None, options = None):
 
 def all(params = None, options = None):
     list(params, options)
+
+# Parameters:
+#   group_id (required) - int64 - Group ID to add user to.
+#   user_id (required) - int64 - User ID to add to group.
+#   admin - boolean - Is the user a group administrator?
+def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "group_id" in params and not isinstance(params["group_id"], int):
+        raise InvalidParameterError("Bad parameter: group_id must be an int")
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "group_id" not in params:
+        raise MissingParameterError("Parameter missing: group_id")
+    if "user_id" not in params:
+        raise MissingParameterError("Parameter missing: user_id")
+    response, options = Api.send_request("POST", "/group_users", params, options)
+    return GroupUser(response.data, options)
 
 # Parameters:
 #   group_id (required) - int64 - Group ID to add user to.
