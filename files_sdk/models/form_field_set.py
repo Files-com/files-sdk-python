@@ -9,6 +9,9 @@ class FormFieldSet:
         'title': None,     # string - Title to be displayed
         'form_layout': None,     # int64 - Layout of the form
         'form_fields': None,     # array - Associated form fields
+        'skip_name': None,     # boolean - Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
+        'skip_email': None,     # boolean - Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
+        'skip_company': None,     # boolean - Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
         'user_id': None,     # int64 - User ID.  Provide a value of `0` to operate the current session's user.
     }
 
@@ -29,6 +32,9 @@ class FormFieldSet:
 
     # Parameters:
     #   title - string - Title to be displayed
+    #   skip_email - boolean - Skip validating form email
+    #   skip_name - boolean - Skip validating form name
+    #   skip_company - boolean - Skip validating company
     #   form_fields - array(object)
     def update(self, params = None):
         if not isinstance(params, dict):
@@ -115,6 +121,9 @@ def get(id, params = None, options = None):
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   title - string - Title to be displayed
+#   skip_email - boolean - Skip validating form email
+#   skip_name - boolean - Skip validating form name
+#   skip_company - boolean - Skip validating company
 #   form_fields - array(object)
 def create(params = None, options = None):
     if not isinstance(params, dict):
@@ -132,6 +141,9 @@ def create(params = None, options = None):
 
 # Parameters:
 #   title - string - Title to be displayed
+#   skip_email - boolean - Skip validating form email
+#   skip_name - boolean - Skip validating form name
+#   skip_company - boolean - Skip validating company
 #   form_fields - array(object)
 def update(id, params = None, options = None):
     if not isinstance(params, dict):

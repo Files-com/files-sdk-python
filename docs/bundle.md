@@ -35,7 +35,10 @@
         "default_option": "red",
         "form_field_set_id": 1
       }
-    ]
+    ],
+    "skip_name": True,
+    "skip_email": True,
+    "skip_company": True
   },
   "id": 1,
   "created_at": "2000-01-01T01:00:00Z",
