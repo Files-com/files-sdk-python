@@ -74,13 +74,5 @@ files_sdk.session.create({
 ## Delete user session (log out)
 
 ```
-files_sdk.session.delete({
-  "format": "",
-  "session": ""
-})
+files_sdk.session.delete()
 ```
-
-### Parameters
-
-* `format` (string): 
-* `session` (object): 
