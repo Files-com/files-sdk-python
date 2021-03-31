@@ -171,9 +171,9 @@ files_sdk.bundle.share(id, {
 ### Parameters
 
 * `id` (int64): Required - Bundle ID.
-* `to` (array(string)): Required - A list of email addresses to share this bundle with.
+* `to` (array(string)): A list of email addresses to share this bundle with. Required unless `recipients` is used.
 * `note` (string): Note to include in email.
-* `recipients` (array(object)): A list of recipients to share this bundle with.
+* `recipients` (array(object)): A list of recipients to share this bundle with. Required unless `to` is used.
 
 
 ---
@@ -244,9 +244,9 @@ bundle.share({
 ### Parameters
 
 * `id` (int64): Required - Bundle ID.
-* `to` (array(string)): Required - A list of email addresses to share this bundle with.
+* `to` (array(string)): A list of email addresses to share this bundle with. Required unless `recipients` is used.
 * `note` (string): Note to include in email.
-* `recipients` (array(object)): A list of recipients to share this bundle with.
+* `recipients` (array(object)): A list of recipients to share this bundle with. Required unless `to` is used.
 
 
 ---

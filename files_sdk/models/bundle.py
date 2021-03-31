@@ -46,9 +46,9 @@ class Bundle:
     # Send email(s) with a link to bundle
     #
     # Parameters:
-    #   to (required) - array(string) - A list of email addresses to share this bundle with.
+    #   to - array(string) - A list of email addresses to share this bundle with. Required unless `recipients` is used.
     #   note - string - Note to include in email.
-    #   recipients - array(object) - A list of recipients to share this bundle with.
+    #   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
     def share(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -59,8 +59,6 @@ class Bundle:
             raise MissingParameterError("Current object doesn't have a id")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "to" not in params:
-            raise MissingParameterError("Parameter missing: to")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "to" in params and not isinstance(params["to"], list):
@@ -253,9 +251,9 @@ def create(params = None, options = None):
 # Send email(s) with a link to bundle
 #
 # Parameters:
-#   to (required) - array(string) - A list of email addresses to share this bundle with.
+#   to - array(string) - A list of email addresses to share this bundle with. Required unless `recipients` is used.
 #   note - string - Note to include in email.
-#   recipients - array(object) - A list of recipients to share this bundle with.
+#   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
 def share(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -272,8 +270,6 @@ def share(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: recipients must be an list")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    if "to" not in params:
-        raise MissingParameterError("Parameter missing: to")
     response, _options = Api.send_request("POST", "/bundles/{id}/share".format(id=params['id']), params, options)
     return response.data
 
