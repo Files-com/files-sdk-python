@@ -87,7 +87,7 @@ def all(params = None, options = None):
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   inbox_id (required) - int64 - Inbox to share.
-#   recipient (required) - string - Email addresses to share this inbox with.
+#   recipient (required) - string - Email address to share this inbox with.
 #   name - string - Name of recipient.
 #   company - string - Company of recipient.
 #   note - string - Note to include in email.

@@ -69,7 +69,7 @@ files_sdk.inbox_recipient.create({
 
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `inbox_id` (int64): Required - Inbox to share.
-* `recipient` (string): Required - Email addresses to share this inbox with.
+* `recipient` (string): Required - Email address to share this inbox with.
 * `name` (string): Name of recipient.
 * `company` (string): Company of recipient.
 * `note` (string): Note to include in email.
