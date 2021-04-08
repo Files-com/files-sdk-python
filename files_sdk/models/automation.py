@@ -12,7 +12,6 @@ class Automation:
         'next_process_on': None,     # string - If trigger is `daily`, date this automation will next run.
         'schedule': None,     # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
         'source': None,     # string - Source Path
-        'destination': None,     # string - DEPRECATED: Destination Path
         'destinations': None,     # string - Destination Path
         'destination_replace_from': None,     # string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
         'destination_replace_to': None,     # string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -24,6 +23,7 @@ class Automation:
         'trigger_actions': None,     # string - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
         'trigger_action_path': None,     # string - If trigger is `action`, this is the path to watch for the specified trigger actions.
         'value': None,     # object - A Hash of attributes specific to the automation type.
+        'destination': None,     # string - DEPRECATED: Destination Path. Use `destinations` instead.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -44,7 +44,7 @@ class Automation:
     # Parameters:
     #   automation (required) - string - Automation type
     #   source - string - Source Path
-    #   destination - string - DEPRECATED: Destination Path
+    #   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
     #   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
     #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
     #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -187,7 +187,7 @@ def get(id, params = None, options = None):
 # Parameters:
 #   automation (required) - string - Automation type
 #   source - string - Source Path
-#   destination - string - DEPRECATED: Destination Path
+#   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
 #   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
 #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -243,7 +243,7 @@ def create(params = None, options = None):
 # Parameters:
 #   automation (required) - string - Automation type
 #   source - string - Source Path
-#   destination - string - DEPRECATED: Destination Path
+#   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
 #   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
 #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.

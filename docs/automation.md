@@ -22,7 +22,6 @@
     "time_zone": "Eastern Time (US & Canada)"
   },
   "source": "",
-  "destination": "",
   "destinations": [
     "destination"
   ],
@@ -52,7 +51,6 @@
 * `next_process_on` (string): If trigger is `daily`, date this automation will next run.
 * `schedule` (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
 * `source` (string): Source Path
-* `destination` (string): DEPRECATED: Destination Path
 * `destinations` (string): Destination Path
 * `destination_replace_from` (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -64,6 +62,7 @@
 * `trigger_actions` (string): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `trigger_action_path` (string): If trigger is `action`, this is the path to watch for the specified trigger actions.
 * `value` (object): A Hash of attributes specific to the automation type.
+* `destination` (string): DEPRECATED: Destination Path. Use `destinations` instead.
 
 
 ---
@@ -112,7 +111,6 @@ files_sdk.automation.find(id)
 files_sdk.automation.create({
   "automation": "create_folder",
   "source": "source",
-  "destination": "destination",
   "destinations": "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]",
   "interval": "year",
   "user_ids": [1,2],
@@ -129,7 +127,7 @@ files_sdk.automation.create({
 
 * `automation` (string): Required - Automation type
 * `source` (string): Source Path
-* `destination` (string): DEPRECATED: Destination Path
+* `destination` (string): DEPRECATED: Destination Path. Use `destinations` instead.
 * `destinations` (array(string)): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -152,7 +150,6 @@ files_sdk.automation.create({
 files_sdk.automation.update(id, {
   "automation": "create_folder",
   "source": "source",
-  "destination": "destination",
   "destinations": "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]",
   "interval": "year",
   "user_ids": [1,2],
@@ -170,7 +167,7 @@ files_sdk.automation.update(id, {
 * `id` (int64): Required - Automation ID.
 * `automation` (string): Required - Automation type
 * `source` (string): Source Path
-* `destination` (string): DEPRECATED: Destination Path
+* `destination` (string): DEPRECATED: Destination Path. Use `destinations` instead.
 * `destinations` (array(string)): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -208,7 +205,6 @@ automation = files_sdk.automation.find(1)
 automation.update({
   "automation": "create_folder",
   "source": "source",
-  "destination": "destination",
   "destinations": "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]",
   "interval": "year",
   "user_ids": [1,2],
@@ -226,7 +222,7 @@ automation.update({
 * `id` (int64): Required - Automation ID.
 * `automation` (string): Required - Automation type
 * `source` (string): Source Path
-* `destination` (string): DEPRECATED: Destination Path
+* `destination` (string): DEPRECATED: Destination Path. Use `destinations` instead.
 * `destinations` (array(string)): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
