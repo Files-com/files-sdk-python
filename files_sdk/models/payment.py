@@ -12,9 +12,9 @@ class Payment:
         'created_at': None,     # date-time - Line item created at
         'currency': None,     # string - Line item currency
         'download_uri': None,     # string - Line item download uri
-        'invoice_line_items': None,     # array - Associated invoice line items
+        'invoice_line_items': None,     # Associated invoice line items
         'method': None,     # string - Line item payment method
-        'payment_line_items': None,     # array - Associated payment line items
+        'payment_line_items': None,     # Associated payment line items
         'payment_reversed_at': None,     # date-time - Date/time payment was reversed if applicable
         'payment_type': None,     # string - Type of payment if applicable
         'site_name': None,     # string - Site name this line item is for

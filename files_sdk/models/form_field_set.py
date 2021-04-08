@@ -8,7 +8,7 @@ class FormFieldSet:
         'id': None,     # int64 - Form field set id
         'title': None,     # string - Title to be displayed
         'form_layout': None,     # int64 - Layout of the form
-        'form_fields': None,     # array - Associated form fields
+        'form_fields': None,     # Associated form fields
         'skip_name': None,     # boolean - Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
         'skip_email': None,     # boolean - Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
         'skip_company': None,     # boolean - Any associated InboxRegistrations or BundleRegistrations can be saved without providing company

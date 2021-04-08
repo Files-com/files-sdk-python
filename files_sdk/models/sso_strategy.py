@@ -5,7 +5,7 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class SsoStrategy:
     default_attributes = {
-        'protocol': None,     # array - SSO Protocol
+        'protocol': None,     # string - SSO Protocol
         'provider': None,     # string - Provider name
         'label': None,     # string - Custom label for the SSO provider on the login page.
         'logo_url': None,     # string - URL holding a custom logo for the SSO provider on the login page.

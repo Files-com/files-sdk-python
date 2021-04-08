@@ -11,8 +11,8 @@
 }
 ```
 
-* `event_type` (string): Type of event being recorded. Valid values: `remote_server_sync`, `lockout`, `ldap_login`, `saml_login`
-* `status` (string): Status of event. Valid values: `error`
+* `event_type` (string): Type of event being recorded.
+* `status` (string): Status of event.
 * `body` (string): Event body
 * `created_at` (date-time): External event create date/time
 

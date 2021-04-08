@@ -7,25 +7,21 @@
   "id": 1,
   "subject": "Files.com Account Upgrade",
   "body": "We should upgrade our Files.com account!",
-  "comments": [
-    {
+  "comments": {
+    "id": 1,
+    "body": "What a great idea, thank you!",
+    "reactions": {
       "id": 1,
-      "body": "What a great idea, thank you!",
-      "reactions": [
-        {
-          "id": 1,
-          "emoji": "👍"
-        }
-      ]
+      "emoji": "👍"
     }
-  ]
+  }
 }
 ```
 
 * `id` (int64): Message ID
 * `subject` (string): Message subject.
 * `body` (string): Message body.
-* `comments` (array): Comments.
+* `comments`: Comments.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `project_id` (int64): Project to which the message should be attached.
 

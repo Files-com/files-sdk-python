@@ -5,8 +5,8 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class ExternalEvent:
     default_attributes = {
-        'event_type': None,     # string - Type of event being recorded. Valid values: `remote_server_sync`, `lockout`, `ldap_login`, `saml_login`
-        'status': None,     # string - Status of event. Valid values: `error`
+        'event_type': None,     # string - Type of event being recorded.
+        'status': None,     # string - Status of event.
         'body': None,     # string - Event body
         'created_at': None,     # date-time - External event create date/time
     }
