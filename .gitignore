@@ -1,1 +1,2 @@
-*.gem
+__pycache__
+*.pyc
