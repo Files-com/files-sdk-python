@@ -10,6 +10,7 @@ class BundleRegistration:
         'company': None,     # string - Registrant company name
         'email': None,     # string - Registrant email address
         'inbox_code': None,     # string - InboxRegistration cookie code, if there is an associated InboxRegistration
+        'clickwrap_body': None,     # string - Clickwrap text that was shown to the registrant
         'form_field_set_id': None,     # int64 - Id of associated form field set
         'form_field_data': None,     # string - Data for form field set with form field ids as keys and user data as values
     }
