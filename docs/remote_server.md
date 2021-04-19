@@ -31,6 +31,7 @@
   "auth_status": "in_setup",
   "auth_account_name": "me@example.com",
   "one_drive_account_type": "personal",
+  "sharepoint_hostname": "filescom.sharepoint.com",
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name"
 }
@@ -63,6 +64,7 @@
 * `auth_status` (string): Either `in_setup` or `complete`
 * `auth_account_name` (string): Describes the authorized account
 * `one_drive_account_type` (string): Either personal or business_other account types
+* `sharepoint_hostname` (string): Cloud hosted sharepoint hostname
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 * `aws_access_key` (string): AWS Access Key.
@@ -137,6 +139,7 @@ files_sdk.remote_server.create({
   "rackspace_region": "dfw",
   "rackspace_container": "my-container",
   "one_drive_account_type": "personal",
+  "sharepoint_hostname": "filescom.sharepoint.com",
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name"
 })
@@ -178,6 +181,7 @@ files_sdk.remote_server.create({
 * `rackspace_region` (string): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` (string): The name of the container (top level directory) where files will sync.
 * `one_drive_account_type` (string): Either personal or business_other account types
+* `sharepoint_hostname` (string): Cloud hosted sharepoint hostname
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 
@@ -210,6 +214,7 @@ files_sdk.remote_server.update(id, {
   "rackspace_region": "dfw",
   "rackspace_container": "my-container",
   "one_drive_account_type": "personal",
+  "sharepoint_hostname": "filescom.sharepoint.com",
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name"
 })
@@ -252,6 +257,7 @@ files_sdk.remote_server.update(id, {
 * `rackspace_region` (string): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` (string): The name of the container (top level directory) where files will sync.
 * `one_drive_account_type` (string): Either personal or business_other account types
+* `sharepoint_hostname` (string): Cloud hosted sharepoint hostname
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 
@@ -299,6 +305,7 @@ remote_server.update({
   "rackspace_region": "dfw",
   "rackspace_container": "my-container",
   "one_drive_account_type": "personal",
+  "sharepoint_hostname": "filescom.sharepoint.com",
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name"
 })
@@ -341,6 +348,7 @@ remote_server.update({
 * `rackspace_region` (string): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` (string): The name of the container (top level directory) where files will sync.
 * `one_drive_account_type` (string): Either personal or business_other account types
+* `sharepoint_hostname` (string): Cloud hosted sharepoint hostname
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 
