@@ -17,6 +17,7 @@ class Site:
         'ask_about_overwrites': None,     # boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
         'bundle_expiration': None,     # int64 - Site-wide Bundle expiration in days
         'bundle_password_required': None,     # boolean - Do Bundles require password protection?
+        'bundle_require_share_recipient': None,     # boolean - Do Bundles require recipients for sharing?
         'color2_left': None,     # string - Page link and button color
         'color2_link': None,     # string - Top bar link color
         'color2_text': None,     # string - Page link and button color
@@ -200,6 +201,7 @@ def get_usage(params = None, options = None):
 #   immutable_files - boolean - Are files protected from modification?
 #   session_pinned_by_ip - boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
 #   bundle_password_required - boolean - Do Bundles require password protection?
+#   bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
 #   password_requirements_apply_to_bundles - boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
 #   opt_out_global - boolean - Use servers in the USA only?
 #   use_provided_modified_at - boolean - Allow uploaders to set `provided_modified_at` for uploaded files?

@@ -16,6 +16,7 @@
   "ask_about_overwrites": True,
   "bundle_expiration": 1,
   "bundle_password_required": True,
+  "bundle_require_share_recipient": True,
   "color2_left": "#0066a7",
   "color2_link": "#d34f5d",
   "color2_text": "#0066a7",
@@ -216,6 +217,7 @@
 * `ask_about_overwrites` (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `bundle_expiration` (int64): Site-wide Bundle expiration in days
 * `bundle_password_required` (boolean): Do Bundles require password protection?
+* `bundle_require_share_recipient` (boolean): Do Bundles require recipients for sharing?
 * `color2_left` (string): Page link and button color
 * `color2_link` (string): Top bar link color
 * `color2_text` (string): Page link and button color
@@ -388,6 +390,7 @@ files_sdk.site.update({
   "immutable_files": True,
   "session_pinned_by_ip": True,
   "bundle_password_required": True,
+  "bundle_require_share_recipient": True,
   "password_requirements_apply_to_bundles": True,
   "opt_out_global": True,
   "use_provided_modified_at": True,
@@ -484,6 +487,7 @@ files_sdk.site.update({
 * `immutable_files` (boolean): Are files protected from modification?
 * `session_pinned_by_ip` (boolean): Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
 * `bundle_password_required` (boolean): Do Bundles require password protection?
+* `bundle_require_share_recipient` (boolean): Do Bundles require recipients for sharing?
 * `password_requirements_apply_to_bundles` (boolean): Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
 * `opt_out_global` (boolean): Use servers in the USA only?
 * `use_provided_modified_at` (boolean): Allow uploaders to set `provided_modified_at` for uploaded files?
