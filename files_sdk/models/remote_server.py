@@ -32,7 +32,6 @@ class RemoteServer:
         'auth_status': None,     # string - Either `in_setup` or `complete`
         'auth_account_name': None,     # string - Describes the authorized account
         'one_drive_account_type': None,     # string - Either personal or business_other account types
-        'sharepoint_hostname': None,     # string - Cloud hosted sharepoint hostname
         'azure_blob_storage_account': None,     # string - Azure Blob Storage Account name
         'azure_blob_storage_container': None,     # string - Azure Blob Storage Container name
         'aws_access_key': None,     # string - AWS Access Key.
@@ -100,7 +99,6 @@ class RemoteServer:
     #   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
     #   rackspace_container - string - The name of the container (top level directory) where files will sync.
     #   one_drive_account_type - string - Either personal or business_other account types
-    #   sharepoint_hostname - string - Cloud hosted sharepoint hostname
     #   azure_blob_storage_account - string - Azure Blob Storage Account name
     #   azure_blob_storage_container - string - Azure Blob Storage Container name
     def update(self, params = None):
@@ -181,8 +179,6 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: rackspace_container must be an str")
         if "one_drive_account_type" in params and not isinstance(params["one_drive_account_type"], str):
             raise InvalidParameterError("Bad parameter: one_drive_account_type must be an str")
-        if "sharepoint_hostname" in params and not isinstance(params["sharepoint_hostname"], str):
-            raise InvalidParameterError("Bad parameter: sharepoint_hostname must be an str")
         if "azure_blob_storage_account" in params and not isinstance(params["azure_blob_storage_account"], str):
             raise InvalidParameterError("Bad parameter: azure_blob_storage_account must be an str")
         if "azure_blob_storage_container" in params and not isinstance(params["azure_blob_storage_container"], str):
@@ -285,7 +281,6 @@ def get(id, params = None, options = None):
 #   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 #   rackspace_container - string - The name of the container (top level directory) where files will sync.
 #   one_drive_account_type - string - Either personal or business_other account types
-#   sharepoint_hostname - string - Cloud hosted sharepoint hostname
 #   azure_blob_storage_account - string - Azure Blob Storage Account name
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
 def create(params = None, options = None):
@@ -359,8 +354,6 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: rackspace_container must be an str")
     if "one_drive_account_type" in params and not isinstance(params["one_drive_account_type"], str):
         raise InvalidParameterError("Bad parameter: one_drive_account_type must be an str")
-    if "sharepoint_hostname" in params and not isinstance(params["sharepoint_hostname"], str):
-        raise InvalidParameterError("Bad parameter: sharepoint_hostname must be an str")
     if "azure_blob_storage_account" in params and not isinstance(params["azure_blob_storage_account"], str):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_account must be an str")
     if "azure_blob_storage_container" in params and not isinstance(params["azure_blob_storage_container"], str):
@@ -403,7 +396,6 @@ def create(params = None, options = None):
 #   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 #   rackspace_container - string - The name of the container (top level directory) where files will sync.
 #   one_drive_account_type - string - Either personal or business_other account types
-#   sharepoint_hostname - string - Cloud hosted sharepoint hostname
 #   azure_blob_storage_account - string - Azure Blob Storage Account name
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
 def update(id, params = None, options = None):
@@ -480,8 +472,6 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: rackspace_container must be an str")
     if "one_drive_account_type" in params and not isinstance(params["one_drive_account_type"], str):
         raise InvalidParameterError("Bad parameter: one_drive_account_type must be an str")
-    if "sharepoint_hostname" in params and not isinstance(params["sharepoint_hostname"], str):
-        raise InvalidParameterError("Bad parameter: sharepoint_hostname must be an str")
     if "azure_blob_storage_account" in params and not isinstance(params["azure_blob_storage_account"], str):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_account must be an str")
     if "azure_blob_storage_container" in params and not isinstance(params["azure_blob_storage_container"], str):
