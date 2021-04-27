@@ -56,7 +56,7 @@
 * `query_target_username` (string): If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.
 * `query_target_platform` (string): If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
 * `query_target_permission_set` (string): If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
-* `results_url` (string): If `status` is `ready` and the query succeeded, this will be a URL where all the results can be downloaded at once as a CSV.
+* `results_url` (string): If `status` is `ready`, this will be a URL where all the results can be downloaded at once as a CSV.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 
 

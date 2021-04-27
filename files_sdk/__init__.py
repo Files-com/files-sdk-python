@@ -1,5 +1,7 @@
 import files_sdk.models.account_line_item as account_line_item
 import files_sdk.models.action as action
+import files_sdk.models.action_notification_export as action_notification_export
+import files_sdk.models.action_notification_export_result as action_notification_export_result
 import files_sdk.models.api_key as api_key
 import files_sdk.models.app as app
 import files_sdk.models.as2_key as as2_key
@@ -66,6 +68,8 @@ import files_sdk.models.webhook_test as webhook_test
 
 from files_sdk.models.account_line_item import AccountLineItem
 from files_sdk.models.action import Action
+from files_sdk.models.action_notification_export import ActionNotificationExport
+from files_sdk.models.action_notification_export_result import ActionNotificationExportResult
 from files_sdk.models.api_key import ApiKey
 from files_sdk.models.app import App
 from files_sdk.models.as2_key import As2Key
