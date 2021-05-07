@@ -4,6 +4,7 @@
 
 ```
 {
+  "id": 1,
   "event_type": "",
   "status": "",
   "body": "",
@@ -11,6 +12,7 @@
 }
 ```
 
+* `id` (int64): Event ID
 * `event_type` (string): Type of event being recorded.
 * `status` (string): Status of event.
 * `body` (string): Event body
@@ -38,3 +40,16 @@ files_sdk.external_event.list({
 * `filter_like` (object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `created_at`, `event_type`, `remote_server_type` or `status`.
 * `filter_lt` (object): If set, return records where the specifiied field is less than the supplied value. Valid fields are `created_at`, `event_type`, `remote_server_type` or `status`.
 * `filter_lteq` (object): If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `created_at`, `event_type`, `remote_server_type` or `status`.
+
+
+---
+
+## Show External Event
+
+```
+files_sdk.external_event.find(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - External Event ID.
