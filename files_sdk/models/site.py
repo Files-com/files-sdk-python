@@ -70,6 +70,7 @@ class Site:
         'next_billing_amount': None,     # double - Next billing amount
         'next_billing_date': None,     # string - Next billing date
         'office_integration_available': None,     # boolean - Allow users to use Office for the web?
+        'oncehub_link': None,     # string - Link to scheduling a meeting with our Sales team
         'opt_out_global': None,     # boolean - Use servers in the USA only?
         'overage_notified_at': None,     # date-time - Last time the site was notified about an overage
         'overage_notify': None,     # boolean - Notify site email of overages?

@@ -84,6 +84,7 @@
   "next_billing_amount": 1.0,
   "next_billing_date": "Apr 20",
   "office_integration_available": True,
+  "oncehub_link": "https://go.oncehub.com/files",
   "opt_out_global": True,
   "overage_notified_at": "2000-01-01T01:00:00Z",
   "overage_notify": True,
@@ -270,6 +271,7 @@
 * `next_billing_amount` (double): Next billing amount
 * `next_billing_date` (string): Next billing date
 * `office_integration_available` (boolean): Allow users to use Office for the web?
+* `oncehub_link` (string): Link to scheduling a meeting with our Sales team
 * `opt_out_global` (boolean): Use servers in the USA only?
 * `overage_notified_at` (date-time): Last time the site was notified about an overage
 * `overage_notify` (boolean): Notify site email of overages?
