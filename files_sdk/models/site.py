@@ -23,7 +23,6 @@ class Site:
         'color2_text': None,     # string - Page link and button color
         'color2_top': None,     # string - Top bar background color
         'color2_top_text': None,     # string - Top bar text color
-        'contact_name': None,     # string - Site main contact name
         'created_at': None,     # date-time - Time this site was created
         'currency': None,     # string - Preferred currency
         'custom_namespace': None,     # boolean - Is this site using a custom namespace for users?
