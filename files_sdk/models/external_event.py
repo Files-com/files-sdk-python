@@ -10,7 +10,6 @@ class ExternalEvent:
         'status': None,     # string - Status of event.
         'body': None,     # string - Event body
         'created_at': None,     # date-time - External event create date/time
-        'body_url': None,     # string - Link to log file.
     }
 
     def __init__(self, attributes=None, options=None):
