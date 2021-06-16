@@ -22,8 +22,8 @@
   "google_cloud_storage_project_id": "my-project",
   "backblaze_b2_s3_endpoint": "s3.us-west-001.backblazeb2.com",
   "backblaze_b2_bucket": "my-bucket",
-  "wasabi_bucket": "us-west-1",
-  "wasabi_region": "my-bucket",
+  "wasabi_bucket": "my-bucket",
+  "wasabi_region": "us-west-1",
   "rackspace_username": "rackspaceuser",
   "rackspace_region": "dfw",
   "rackspace_container": "my-container",
@@ -32,7 +32,10 @@
   "auth_account_name": "me@example.com",
   "one_drive_account_type": "personal",
   "azure_blob_storage_account": "storage-account-name",
-  "azure_blob_storage_container": "container-name"
+  "azure_blob_storage_container": "container-name",
+  "s3_compatible_bucket": "my-bucket",
+  "s3_compatible_region": "us-east-1",
+  "s3_compatible_endpoint": "mys3platform.com"
 }
 ```
 
@@ -54,8 +57,8 @@
 * `google_cloud_storage_project_id` (string): Google Cloud Project ID
 * `backblaze_b2_s3_endpoint` (string): Backblaze B2 Cloud Storage S3 Endpoint
 * `backblaze_b2_bucket` (string): Backblaze B2 Cloud Storage Bucket name
-* `wasabi_bucket` (string): Wasabi region
-* `wasabi_region` (string): Wasabi Bucket name
+* `wasabi_bucket` (string): Wasabi Bucket name
+* `wasabi_region` (string): Wasabi region
 * `rackspace_username` (string): Rackspace username used to login to the Rackspace Cloud Control Panel.
 * `rackspace_region` (string): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` (string): The name of the container (top level directory) where files will sync.
@@ -65,6 +68,9 @@
 * `one_drive_account_type` (string): Either personal or business_other account types
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
+* `s3_compatible_bucket` (string): S3-compatible Bucket name
+* `s3_compatible_region` (string): S3-compatible Bucket name
+* `s3_compatible_endpoint` (string): S3-compatible endpoint
 * `aws_access_key` (string): AWS Access Key.
 * `aws_secret_key` (string): AWS secret key.
 * `password` (string): Password if needed.
@@ -78,6 +84,8 @@
 * `rackspace_api_key` (string): Rackspace API key from the Rackspace Cloud Control Panel.
 * `reset_authentication` (boolean): Reset authenticated account
 * `azure_blob_storage_access_key` (string): Azure Blob Storage secret key.
+* `s3_compatible_access_key` (string): S3-compatible access key
+* `s3_compatible_secret_key` (string): S3-compatible secret key
 
 
 ---
@@ -131,14 +139,17 @@ files_sdk.remote_server.create({
   "google_cloud_storage_project_id": "my-project",
   "backblaze_b2_bucket": "my-bucket",
   "backblaze_b2_s3_endpoint": "s3.us-west-001.backblazeb2.com",
-  "wasabi_bucket": "us-west-1",
-  "wasabi_region": "my-bucket",
+  "wasabi_bucket": "my-bucket",
+  "wasabi_region": "us-west-1",
   "rackspace_username": "rackspaceuser",
   "rackspace_region": "dfw",
   "rackspace_container": "my-container",
   "one_drive_account_type": "personal",
   "azure_blob_storage_account": "storage-account-name",
-  "azure_blob_storage_container": "container-name"
+  "azure_blob_storage_container": "container-name",
+  "s3_compatible_bucket": "my-bucket",
+  "s3_compatible_region": "us-east-1",
+  "s3_compatible_endpoint": "mys3platform.com"
 })
 ```
 
@@ -172,14 +183,19 @@ files_sdk.remote_server.create({
 * `google_cloud_storage_project_id` (string): Google Cloud Project ID
 * `backblaze_b2_bucket` (string): Backblaze B2 Cloud Storage Bucket name
 * `backblaze_b2_s3_endpoint` (string): Backblaze B2 Cloud Storage S3 Endpoint
-* `wasabi_bucket` (string): Wasabi region
-* `wasabi_region` (string): Wasabi Bucket name
+* `wasabi_bucket` (string): Wasabi Bucket name
+* `wasabi_region` (string): Wasabi region
 * `rackspace_username` (string): Rackspace username used to login to the Rackspace Cloud Control Panel.
 * `rackspace_region` (string): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` (string): The name of the container (top level directory) where files will sync.
 * `one_drive_account_type` (string): Either personal or business_other account types
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
+* `s3_compatible_bucket` (string): S3-compatible Bucket name
+* `s3_compatible_region` (string): S3-compatible Bucket name
+* `s3_compatible_endpoint` (string): S3-compatible endpoint
+* `s3_compatible_access_key` (string): S3-compatible access key
+* `s3_compatible_secret_key` (string): S3-compatible secret key
 
 
 ---
@@ -204,14 +220,17 @@ files_sdk.remote_server.update(id, {
   "google_cloud_storage_project_id": "my-project",
   "backblaze_b2_bucket": "my-bucket",
   "backblaze_b2_s3_endpoint": "s3.us-west-001.backblazeb2.com",
-  "wasabi_bucket": "us-west-1",
-  "wasabi_region": "my-bucket",
+  "wasabi_bucket": "my-bucket",
+  "wasabi_region": "us-west-1",
   "rackspace_username": "rackspaceuser",
   "rackspace_region": "dfw",
   "rackspace_container": "my-container",
   "one_drive_account_type": "personal",
   "azure_blob_storage_account": "storage-account-name",
-  "azure_blob_storage_container": "container-name"
+  "azure_blob_storage_container": "container-name",
+  "s3_compatible_bucket": "my-bucket",
+  "s3_compatible_region": "us-east-1",
+  "s3_compatible_endpoint": "mys3platform.com"
 })
 ```
 
@@ -246,14 +265,19 @@ files_sdk.remote_server.update(id, {
 * `google_cloud_storage_project_id` (string): Google Cloud Project ID
 * `backblaze_b2_bucket` (string): Backblaze B2 Cloud Storage Bucket name
 * `backblaze_b2_s3_endpoint` (string): Backblaze B2 Cloud Storage S3 Endpoint
-* `wasabi_bucket` (string): Wasabi region
-* `wasabi_region` (string): Wasabi Bucket name
+* `wasabi_bucket` (string): Wasabi Bucket name
+* `wasabi_region` (string): Wasabi region
 * `rackspace_username` (string): Rackspace username used to login to the Rackspace Cloud Control Panel.
 * `rackspace_region` (string): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` (string): The name of the container (top level directory) where files will sync.
 * `one_drive_account_type` (string): Either personal or business_other account types
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
+* `s3_compatible_bucket` (string): S3-compatible Bucket name
+* `s3_compatible_region` (string): S3-compatible Bucket name
+* `s3_compatible_endpoint` (string): S3-compatible endpoint
+* `s3_compatible_access_key` (string): S3-compatible access key
+* `s3_compatible_secret_key` (string): S3-compatible secret key
 
 
 ---
@@ -293,14 +317,17 @@ remote_server.update({
   "google_cloud_storage_project_id": "my-project",
   "backblaze_b2_bucket": "my-bucket",
   "backblaze_b2_s3_endpoint": "s3.us-west-001.backblazeb2.com",
-  "wasabi_bucket": "us-west-1",
-  "wasabi_region": "my-bucket",
+  "wasabi_bucket": "my-bucket",
+  "wasabi_region": "us-west-1",
   "rackspace_username": "rackspaceuser",
   "rackspace_region": "dfw",
   "rackspace_container": "my-container",
   "one_drive_account_type": "personal",
   "azure_blob_storage_account": "storage-account-name",
-  "azure_blob_storage_container": "container-name"
+  "azure_blob_storage_container": "container-name",
+  "s3_compatible_bucket": "my-bucket",
+  "s3_compatible_region": "us-east-1",
+  "s3_compatible_endpoint": "mys3platform.com"
 })
 ```
 
@@ -335,14 +362,19 @@ remote_server.update({
 * `google_cloud_storage_project_id` (string): Google Cloud Project ID
 * `backblaze_b2_bucket` (string): Backblaze B2 Cloud Storage Bucket name
 * `backblaze_b2_s3_endpoint` (string): Backblaze B2 Cloud Storage S3 Endpoint
-* `wasabi_bucket` (string): Wasabi region
-* `wasabi_region` (string): Wasabi Bucket name
+* `wasabi_bucket` (string): Wasabi Bucket name
+* `wasabi_region` (string): Wasabi region
 * `rackspace_username` (string): Rackspace username used to login to the Rackspace Cloud Control Panel.
 * `rackspace_region` (string): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` (string): The name of the container (top level directory) where files will sync.
 * `one_drive_account_type` (string): Either personal or business_other account types
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
+* `s3_compatible_bucket` (string): S3-compatible Bucket name
+* `s3_compatible_region` (string): S3-compatible Bucket name
+* `s3_compatible_endpoint` (string): S3-compatible endpoint
+* `s3_compatible_access_key` (string): S3-compatible access key
+* `s3_compatible_secret_key` (string): S3-compatible secret key
 
 
 ---

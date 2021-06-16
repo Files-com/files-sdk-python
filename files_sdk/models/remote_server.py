@@ -23,8 +23,8 @@ class RemoteServer:
         'google_cloud_storage_project_id': None,     # string - Google Cloud Project ID
         'backblaze_b2_s3_endpoint': None,     # string - Backblaze B2 Cloud Storage S3 Endpoint
         'backblaze_b2_bucket': None,     # string - Backblaze B2 Cloud Storage Bucket name
-        'wasabi_bucket': None,     # string - Wasabi region
-        'wasabi_region': None,     # string - Wasabi Bucket name
+        'wasabi_bucket': None,     # string - Wasabi Bucket name
+        'wasabi_region': None,     # string - Wasabi region
         'rackspace_username': None,     # string - Rackspace username used to login to the Rackspace Cloud Control Panel.
         'rackspace_region': None,     # string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
         'rackspace_container': None,     # string - The name of the container (top level directory) where files will sync.
@@ -34,6 +34,9 @@ class RemoteServer:
         'one_drive_account_type': None,     # string - Either personal or business_other account types
         'azure_blob_storage_account': None,     # string - Azure Blob Storage Account name
         'azure_blob_storage_container': None,     # string - Azure Blob Storage Container name
+        's3_compatible_bucket': None,     # string - S3-compatible Bucket name
+        's3_compatible_region': None,     # string - S3-compatible Bucket name
+        's3_compatible_endpoint': None,     # string - S3-compatible endpoint
         'aws_access_key': None,     # string - AWS Access Key.
         'aws_secret_key': None,     # string - AWS secret key.
         'password': None,     # string - Password if needed.
@@ -47,6 +50,8 @@ class RemoteServer:
         'rackspace_api_key': None,     # string - Rackspace API key from the Rackspace Cloud Control Panel.
         'reset_authentication': None,     # boolean - Reset authenticated account
         'azure_blob_storage_access_key': None,     # string - Azure Blob Storage secret key.
+        's3_compatible_access_key': None,     # string - S3-compatible access key
+        's3_compatible_secret_key': None,     # string - S3-compatible secret key
     }
 
     def __init__(self, attributes=None, options=None):
@@ -93,14 +98,19 @@ class RemoteServer:
     #   google_cloud_storage_project_id - string - Google Cloud Project ID
     #   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage Bucket name
     #   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage S3 Endpoint
-    #   wasabi_bucket - string - Wasabi region
-    #   wasabi_region - string - Wasabi Bucket name
+    #   wasabi_bucket - string - Wasabi Bucket name
+    #   wasabi_region - string - Wasabi region
     #   rackspace_username - string - Rackspace username used to login to the Rackspace Cloud Control Panel.
     #   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
     #   rackspace_container - string - The name of the container (top level directory) where files will sync.
     #   one_drive_account_type - string - Either personal or business_other account types
     #   azure_blob_storage_account - string - Azure Blob Storage Account name
     #   azure_blob_storage_container - string - Azure Blob Storage Container name
+    #   s3_compatible_bucket - string - S3-compatible Bucket name
+    #   s3_compatible_region - string - S3-compatible Bucket name
+    #   s3_compatible_endpoint - string - S3-compatible endpoint
+    #   s3_compatible_access_key - string - S3-compatible access key
+    #   s3_compatible_secret_key - string - S3-compatible secret key
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -183,6 +193,16 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: azure_blob_storage_account must be an str")
         if "azure_blob_storage_container" in params and not isinstance(params["azure_blob_storage_container"], str):
             raise InvalidParameterError("Bad parameter: azure_blob_storage_container must be an str")
+        if "s3_compatible_bucket" in params and not isinstance(params["s3_compatible_bucket"], str):
+            raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
+        if "s3_compatible_region" in params and not isinstance(params["s3_compatible_region"], str):
+            raise InvalidParameterError("Bad parameter: s3_compatible_region must be an str")
+        if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):
+            raise InvalidParameterError("Bad parameter: s3_compatible_endpoint must be an str")
+        if "s3_compatible_access_key" in params and not isinstance(params["s3_compatible_access_key"], str):
+            raise InvalidParameterError("Bad parameter: s3_compatible_access_key must be an str")
+        if "s3_compatible_secret_key" in params and not isinstance(params["s3_compatible_secret_key"], str):
+            raise InvalidParameterError("Bad parameter: s3_compatible_secret_key must be an str")
         response, _options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -275,14 +295,19 @@ def get(id, params = None, options = None):
 #   google_cloud_storage_project_id - string - Google Cloud Project ID
 #   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage Bucket name
 #   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage S3 Endpoint
-#   wasabi_bucket - string - Wasabi region
-#   wasabi_region - string - Wasabi Bucket name
+#   wasabi_bucket - string - Wasabi Bucket name
+#   wasabi_region - string - Wasabi region
 #   rackspace_username - string - Rackspace username used to login to the Rackspace Cloud Control Panel.
 #   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 #   rackspace_container - string - The name of the container (top level directory) where files will sync.
 #   one_drive_account_type - string - Either personal or business_other account types
 #   azure_blob_storage_account - string - Azure Blob Storage Account name
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
+#   s3_compatible_bucket - string - S3-compatible Bucket name
+#   s3_compatible_region - string - S3-compatible Bucket name
+#   s3_compatible_endpoint - string - S3-compatible endpoint
+#   s3_compatible_access_key - string - S3-compatible access key
+#   s3_compatible_secret_key - string - S3-compatible secret key
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -358,6 +383,16 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_account must be an str")
     if "azure_blob_storage_container" in params and not isinstance(params["azure_blob_storage_container"], str):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_container must be an str")
+    if "s3_compatible_bucket" in params and not isinstance(params["s3_compatible_bucket"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
+    if "s3_compatible_region" in params and not isinstance(params["s3_compatible_region"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_region must be an str")
+    if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_endpoint must be an str")
+    if "s3_compatible_access_key" in params and not isinstance(params["s3_compatible_access_key"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_access_key must be an str")
+    if "s3_compatible_secret_key" in params and not isinstance(params["s3_compatible_secret_key"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_secret_key must be an str")
     response, options = Api.send_request("POST", "/remote_servers", params, options)
     return RemoteServer(response.data, options)
 
@@ -390,14 +425,19 @@ def create(params = None, options = None):
 #   google_cloud_storage_project_id - string - Google Cloud Project ID
 #   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage Bucket name
 #   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage S3 Endpoint
-#   wasabi_bucket - string - Wasabi region
-#   wasabi_region - string - Wasabi Bucket name
+#   wasabi_bucket - string - Wasabi Bucket name
+#   wasabi_region - string - Wasabi region
 #   rackspace_username - string - Rackspace username used to login to the Rackspace Cloud Control Panel.
 #   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 #   rackspace_container - string - The name of the container (top level directory) where files will sync.
 #   one_drive_account_type - string - Either personal or business_other account types
 #   azure_blob_storage_account - string - Azure Blob Storage Account name
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
+#   s3_compatible_bucket - string - S3-compatible Bucket name
+#   s3_compatible_region - string - S3-compatible Bucket name
+#   s3_compatible_endpoint - string - S3-compatible endpoint
+#   s3_compatible_access_key - string - S3-compatible access key
+#   s3_compatible_secret_key - string - S3-compatible secret key
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -476,6 +516,16 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_account must be an str")
     if "azure_blob_storage_container" in params and not isinstance(params["azure_blob_storage_container"], str):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_container must be an str")
+    if "s3_compatible_bucket" in params and not isinstance(params["s3_compatible_bucket"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
+    if "s3_compatible_region" in params and not isinstance(params["s3_compatible_region"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_region must be an str")
+    if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_endpoint must be an str")
+    if "s3_compatible_access_key" in params and not isinstance(params["s3_compatible_access_key"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_access_key must be an str")
+    if "s3_compatible_secret_key" in params and not isinstance(params["s3_compatible_secret_key"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_secret_key must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, options)
