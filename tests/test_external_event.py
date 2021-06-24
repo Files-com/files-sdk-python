@@ -22,5 +22,13 @@ class ExternalEventTest(TestBase):
         }
         external_event.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/external_events"), "Mock path does not exist")
+    def test_create(self):
+        params = {
+            "status" : "foo",
+            "body" : "foo",
+        }
+        external_event.create(params)
+
 if __name__ == '__main__':
     unittest.main()

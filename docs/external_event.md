@@ -55,3 +55,20 @@ files_sdk.external_event.find(id)
 ### Parameters
 
 * `id` (int64): Required - External Event ID.
+
+
+---
+
+## Create External Event
+
+```
+files_sdk.external_event.create({
+  "status": "status",
+  "body": "body"
+})
+```
+
+### Parameters
+
+* `status` (string): Required - Status of event.
+* `body` (string): Required - Event body

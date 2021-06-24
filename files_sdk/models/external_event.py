@@ -29,6 +29,13 @@ class ExternalEvent:
         return {k: getattr(self, k, None) for k in ExternalEvent.default_attributes if getattr(self, k, None) is not None}
 
 
+    def save(self):
+        if hasattr(self, "id") and self.id:
+            raise NotImplementedError("The ExternalEvent object doesn't support updates.")
+        else:
+            new_obj = create(self.get_attributes(), self.options)
+            self.set_attributes(new_obj.get_attributes())
+
 # Parameters:
 #   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
@@ -84,6 +91,25 @@ def find(id, params = None, options = None):
 
 def get(id, params = None, options = None):
     find(id, params, options)
+
+# Parameters:
+#   status (required) - string - Status of event.
+#   body (required) - string - Event body
+def create(params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "status" in params and not isinstance(params["status"], str):
+        raise InvalidParameterError("Bad parameter: status must be an str")
+    if "body" in params and not isinstance(params["body"], str):
+        raise InvalidParameterError("Bad parameter: body must be an str")
+    if "status" not in params:
+        raise MissingParameterError("Parameter missing: status")
+    if "body" not in params:
+        raise MissingParameterError("Parameter missing: body")
+    response, options = Api.send_request("POST", "/external_events", params, options)
+    return ExternalEvent(response.data, options)
 
 def new(*args, **kwargs):
     return ExternalEvent(*args, **kwargs)
