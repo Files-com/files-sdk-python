@@ -7,6 +7,7 @@ class App:
     default_attributes = {
         'name': None,     # string - Name of the App
         'extended_description': None,     # string - Long form description of the App
+        'short_description': None,     # string - Short description of the App
         'documentation_links': None,     # string - Collection of named links to documentation
         'icon_url': None,     # string - App icon
         'logo_url': None,     # string - Full size logo for the App
