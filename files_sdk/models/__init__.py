@@ -2,6 +2,7 @@ from files_sdk.models.account_line_item import AccountLineItem
 from files_sdk.models.action import Action
 from files_sdk.models.action_notification_export import ActionNotificationExport
 from files_sdk.models.action_notification_export_result import ActionNotificationExportResult
+from files_sdk.models.action_webhook_failure import ActionWebhookFailure
 from files_sdk.models.api_key import ApiKey
 from files_sdk.models.app import App
 from files_sdk.models.as2_key import As2Key
