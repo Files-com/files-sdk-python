@@ -22,7 +22,6 @@ import files_sdk.models.file as file
 import files_sdk.models.file_action as file_action
 import files_sdk.models.file_comment as file_comment
 import files_sdk.models.file_comment_reaction as file_comment_reaction
-import files_sdk.models.file_migration as file_migration
 import files_sdk.models.file_upload_part as file_upload_part
 import files_sdk.models.folder as folder
 import files_sdk.models.form_field as form_field
@@ -92,7 +91,6 @@ from files_sdk.models.file import File
 from files_sdk.models.file_action import FileAction
 from files_sdk.models.file_comment import FileComment
 from files_sdk.models.file_comment_reaction import FileCommentReaction
-from files_sdk.models.file_migration import FileMigration
 from files_sdk.models.file_upload_part import FileUploadPart
 from files_sdk.models.folder import Folder
 from files_sdk.models.form_field import FormField
