@@ -6,12 +6,15 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 class Lock:
     default_attributes = {
         'path': None,     # string - Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-        'timeout': None,     # int64 - Lock timeout
-        'depth': None,     # string - Lock depth (0 or infinity)
-        'owner': None,     # string - Owner of lock.  This can be any arbitrary string.
-        'scope': None,     # string - Lock scope(shared or exclusive)
+        'timeout': None,     # int64 - Lock timeout in seconds
+        'depth': None,     # string - DEPRECATED: Lock depth
+        'recursive': None,     # boolean - Does lock apply to subfolders?
+        'owner': None,     # string - Owner of the lock.  This can be any arbitrary string.
+        'scope': None,     # string - DEPRECATED: Lock scope
+        'exclusive': None,     # boolean - Is lock exclusive?
         'token': None,     # string - Lock token.  Use to release lock.
-        'type': None,     # string - Lock type
+        'type': None,     # string - DEPRECATED: Lock type
+        'allow_access_by_any_user': None,     # boolean - Can lock be modified by users other than its creator?
         'user_id': None,     # int64 - Lock creator user ID
         'username': None,     # string - Lock creator username
     }
@@ -82,6 +85,9 @@ def list_for(path, params = None, options = None):
 
 # Parameters:
 #   path (required) - string - Path
+#   allow_access_by_any_user - boolean - Allow lock to be updated by any user?
+#   exclusive - boolean - Is lock exclusive?
+#   recursive - string - Does lock apply to subfolders?
 #   timeout - int64 - Lock timeout length
 def create(path, params = None, options = None):
     if not isinstance(params, dict):
@@ -91,6 +97,8 @@ def create(path, params = None, options = None):
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "recursive" in params and not isinstance(params["recursive"], str):
+        raise InvalidParameterError("Bad parameter: recursive must be an str")
     if "timeout" in params and not isinstance(params["timeout"], int):
         raise InvalidParameterError("Bad parameter: timeout must be an int")
     if "path" not in params:
