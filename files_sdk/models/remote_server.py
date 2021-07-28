@@ -37,6 +37,7 @@ class RemoteServer:
         's3_compatible_bucket': None,     # string - S3-compatible Bucket name
         's3_compatible_region': None,     # string - S3-compatible Bucket name
         's3_compatible_endpoint': None,     # string - S3-compatible endpoint
+        'enable_dedicated_ips': None,     # boolean - `true` if remote server only accepts connections from dedicated IPs
         'aws_access_key': None,     # string - AWS Access Key.
         'aws_secret_key': None,     # string - AWS secret key.
         'password': None,     # string - Password if needed.
@@ -109,6 +110,7 @@ class RemoteServer:
     #   s3_compatible_bucket - string - S3-compatible Bucket name
     #   s3_compatible_region - string - S3-compatible Bucket name
     #   s3_compatible_endpoint - string - S3-compatible endpoint
+    #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
     #   s3_compatible_access_key - string - S3-compatible access key
     #   s3_compatible_secret_key - string - S3-compatible secret key
     def update(self, params = None):
@@ -306,6 +308,7 @@ def get(id, params = None, options = None):
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_region - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
+#   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
 #   s3_compatible_access_key - string - S3-compatible access key
 #   s3_compatible_secret_key - string - S3-compatible secret key
 def create(params = None, options = None):
@@ -436,6 +439,7 @@ def create(params = None, options = None):
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_region - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
+#   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
 #   s3_compatible_access_key - string - S3-compatible access key
 #   s3_compatible_secret_key - string - S3-compatible secret key
 def update(id, params = None, options = None):
