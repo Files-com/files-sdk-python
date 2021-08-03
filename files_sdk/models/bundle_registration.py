@@ -35,7 +35,7 @@ class BundleRegistration:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   bundle_id (required) - int64 - ID of the associated Bundle
+#   bundle_id - int64 - ID of the associated Bundle
 def list(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -49,8 +49,6 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "bundle_id" in params and not isinstance(params["bundle_id"], int):
         raise InvalidParameterError("Bad parameter: bundle_id must be an int")
-    if "bundle_id" not in params:
-        raise MissingParameterError("Parameter missing: bundle_id")
     return ListObj(BundleRegistration,"GET", "/bundle_registrations", params, options)
 
 def all(params = None, options = None):

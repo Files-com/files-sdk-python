@@ -5,7 +5,7 @@ import requests
 import re
 import files_sdk
 
-BASE_URL = "http://files-mock-server:4041"
+BASE_URL = "http://localhost:4042"
 
 class TestBase(unittest.TestCase):
     @classmethod
