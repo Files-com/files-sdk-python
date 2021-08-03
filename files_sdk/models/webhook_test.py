@@ -14,6 +14,7 @@ class WebhookTest:
         'encoding': None,     # string - HTTP encoding method.  Can be JSON, XML, or RAW (form data).
         'headers': None,     # object - Additional request headers.
         'body': None,     # object - Additional body parameters.
+        'raw_body': None,     # string - raw body text
         'action': None,     # string - action for test body
     }
 
@@ -46,6 +47,7 @@ class WebhookTest:
 #   encoding - string - HTTP encoding method.  Can be JSON, XML, or RAW (form data).
 #   headers - object - Additional request headers.
 #   body - object - Additional body parameters.
+#   raw_body - string - raw body text
 #   action - string - action for test body
 def create(params = None, options = None):
     if not isinstance(params, dict):
@@ -62,6 +64,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: headers must be an dict")
     if "body" in params and not isinstance(params["body"], dict):
         raise InvalidParameterError("Bad parameter: body must be an dict")
+    if "raw_body" in params and not isinstance(params["raw_body"], str):
+        raise InvalidParameterError("Bad parameter: raw_body must be an str")
     if "action" in params and not isinstance(params["action"], str):
         raise InvalidParameterError("Bad parameter: action must be an str")
     if "url" not in params:
