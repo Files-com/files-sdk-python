@@ -23,6 +23,8 @@
 * `headers` (object): Additional request headers.
 * `body` (object): Additional body parameters.
 * `raw_body` (string): raw body text
+* `file_as_body` (boolean): Send the file data as the request body?
+* `file_form_field` (string): Send the file data as a named parameter in the request POST body
 * `action` (string): action for test body
 
 
@@ -38,6 +40,8 @@ files_sdk.webhook_test.create({
   "headers": "x-test-header => testvalue",
   "body": "test-param => testvalue",
   "raw_body": "test body",
+  "file_as_body": "False",
+  "file_form_field": "upload_file_data",
   "action": "test"
 })
 ```
@@ -50,4 +54,6 @@ files_sdk.webhook_test.create({
 * `headers` (object): Additional request headers.
 * `body` (object): Additional body parameters.
 * `raw_body` (string): raw body text
+* `file_as_body` (boolean): Send the file data as the request body?
+* `file_form_field` (string): Send the file data as a named parameter in the request POST body
 * `action` (string): action for test body

@@ -15,6 +15,8 @@ class WebhookTest:
         'headers': None,     # object - Additional request headers.
         'body': None,     # object - Additional body parameters.
         'raw_body': None,     # string - raw body text
+        'file_as_body': None,     # boolean - Send the file data as the request body?
+        'file_form_field': None,     # string - Send the file data as a named parameter in the request POST body
         'action': None,     # string - action for test body
     }
 
@@ -48,6 +50,8 @@ class WebhookTest:
 #   headers - object - Additional request headers.
 #   body - object - Additional body parameters.
 #   raw_body - string - raw body text
+#   file_as_body - boolean - Send the file data as the request body?
+#   file_form_field - string - Send the file data as a named parameter in the request POST body
 #   action - string - action for test body
 def create(params = None, options = None):
     if not isinstance(params, dict):
@@ -66,6 +70,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: body must be an dict")
     if "raw_body" in params and not isinstance(params["raw_body"], str):
         raise InvalidParameterError("Bad parameter: raw_body must be an str")
+    if "file_form_field" in params and not isinstance(params["file_form_field"], str):
+        raise InvalidParameterError("Bad parameter: file_form_field must be an str")
     if "action" in params and not isinstance(params["action"], str):
         raise InvalidParameterError("Bad parameter: action must be an str")
     if "url" not in params:
