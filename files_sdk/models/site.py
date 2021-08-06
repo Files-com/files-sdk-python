@@ -32,6 +32,9 @@ class Site:
         'desktop_app': None,     # boolean - Is the desktop app enabled?
         'desktop_app_session_ip_pinning': None,     # boolean - Is desktop app session IP pinning enabled?
         'desktop_app_session_lifetime': None,     # int64 - Desktop app session lifetime (in hours)
+        'mobile_app': None,     # boolean - Is the mobile app enabled?
+        'mobile_app_session_ip_pinning': None,     # boolean - Is mobile app session IP pinning enabled?
+        'mobile_app_session_lifetime': None,     # int64 - Mobile app session lifetime (in hours)
         'disallowed_countries': None,     # string - Comma seperated list of disallowed Country codes
         'disable_notifications': None,     # boolean - Are notifications disabled?
         'disable_password_reset': None,     # boolean - Is password reset disabled?
@@ -175,6 +178,9 @@ def get_usage(params = None, options = None):
 #   desktop_app - boolean - Is the desktop app enabled?
 #   desktop_app_session_ip_pinning - boolean - Is desktop app session IP pinning enabled?
 #   desktop_app_session_lifetime - int64 - Desktop app session lifetime (in hours)
+#   mobile_app - boolean - Is the mobile app enabled?
+#   mobile_app_session_ip_pinning - boolean - Is mobile app session IP pinning enabled?
+#   mobile_app_session_lifetime - int64 - Mobile app session lifetime (in hours)
 #   folder_permissions_groups_only - boolean - If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
 #   welcome_screen - string - Does the welcome screen appear?
 #   office_integration_available - boolean - Allow users to use Office for the web?
@@ -289,6 +295,8 @@ def update(params = None, options = None):
         raise InvalidParameterError("Bad parameter: default_time_zone must be an str")
     if "desktop_app_session_lifetime" in params and not isinstance(params["desktop_app_session_lifetime"], int):
         raise InvalidParameterError("Bad parameter: desktop_app_session_lifetime must be an int")
+    if "mobile_app_session_lifetime" in params and not isinstance(params["mobile_app_session_lifetime"], int):
+        raise InvalidParameterError("Bad parameter: mobile_app_session_lifetime must be an int")
     if "welcome_screen" in params and not isinstance(params["welcome_screen"], str):
         raise InvalidParameterError("Bad parameter: welcome_screen must be an str")
     if "session_expiry" in params and not isinstance(params["session_expiry"], float):

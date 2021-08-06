@@ -31,6 +31,9 @@
   "desktop_app": True,
   "desktop_app_session_ip_pinning": True,
   "desktop_app_session_lifetime": 1,
+  "mobile_app": True,
+  "mobile_app_session_ip_pinning": True,
+  "mobile_app_session_lifetime": 1,
   "disallowed_countries": "US,DE",
   "disable_notifications": True,
   "disable_password_reset": True,
@@ -234,6 +237,9 @@
 * `desktop_app` (boolean): Is the desktop app enabled?
 * `desktop_app_session_ip_pinning` (boolean): Is desktop app session IP pinning enabled?
 * `desktop_app_session_lifetime` (int64): Desktop app session lifetime (in hours)
+* `mobile_app` (boolean): Is the mobile app enabled?
+* `mobile_app_session_ip_pinning` (boolean): Is mobile app session IP pinning enabled?
+* `mobile_app_session_lifetime` (int64): Mobile app session lifetime (in hours)
 * `disallowed_countries` (string): Comma seperated list of disallowed Country codes
 * `disable_notifications` (boolean): Are notifications disabled?
 * `disable_password_reset` (boolean): Is password reset disabled?
@@ -367,6 +373,9 @@ files_sdk.site.update({
   "desktop_app": True,
   "desktop_app_session_ip_pinning": True,
   "desktop_app_session_lifetime": 1,
+  "mobile_app": True,
+  "mobile_app_session_ip_pinning": True,
+  "mobile_app_session_lifetime": 1,
   "folder_permissions_groups_only": True,
   "welcome_screen": "user_controlled",
   "office_integration_available": True,
@@ -463,6 +472,9 @@ files_sdk.site.update({
 * `desktop_app` (boolean): Is the desktop app enabled?
 * `desktop_app_session_ip_pinning` (boolean): Is desktop app session IP pinning enabled?
 * `desktop_app_session_lifetime` (int64): Desktop app session lifetime (in hours)
+* `mobile_app` (boolean): Is the mobile app enabled?
+* `mobile_app_session_ip_pinning` (boolean): Is mobile app session IP pinning enabled?
+* `mobile_app_session_lifetime` (int64): Mobile app session lifetime (in hours)
 * `folder_permissions_groups_only` (boolean): If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
 * `welcome_screen` (string): Does the welcome screen appear?
 * `office_integration_available` (boolean): Allow users to use Office for the web?
