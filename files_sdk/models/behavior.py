@@ -29,7 +29,7 @@ class Behavior:
         return {k: getattr(self, k, None) for k in Behavior.default_attributes if getattr(self, k, None) is not None}
 
     # Parameters:
-    #   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior.
+    #   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
     #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
     #   behavior - string - Behavior type.
     #   path - string - Folder behaviors path.
@@ -186,7 +186,7 @@ def list_for(path, params = None, options = None):
     return ListObj(Behavior,"GET", "/behaviors/folders/{path}".format(path=params['path']), params, options)
 
 # Parameters:
-#   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior.
+#   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 #   path (required) - string - Folder behaviors path.
 #   behavior (required) - string - Behavior type.
@@ -238,7 +238,7 @@ def webhook_test(params = None, options = None):
     return response.data
 
 # Parameters:
-#   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior.
+#   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 #   behavior - string - Behavior type.
 #   path - string - Folder behaviors path.

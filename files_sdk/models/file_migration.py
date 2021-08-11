@@ -12,6 +12,7 @@ class FileMigration:
         'operation': None,     # string - The type of operation
         'region': None,     # string - Region
         'status': None,     # string - Status
+        'log_url': None,     # string - Link to download the log file for this migration.
     }
 
     def __init__(self, attributes=None, options=None):
