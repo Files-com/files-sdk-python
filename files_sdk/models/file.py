@@ -253,6 +253,9 @@ def find(path, params = None, options = None):
     params["action"] = "stat"
     return download(path, params, options)
 
+def from_path(path):
+    return metadata(path)
+
     # Download file
     #
     # Parameters:
