@@ -8,6 +8,7 @@
   "name": "account",
   "company": "Action Verb",
   "email": "john.doe@files.com",
+  "ip": "10.1.1.1",
   "inbox_code": "abc123",
   "clickwrap_body": "",
   "form_field_set_id": 1,
@@ -19,6 +20,7 @@
 * `name` (string): Registrant name
 * `company` (string): Registrant company name
 * `email` (string): Registrant email address
+* `ip` (string): Registrant IP Address
 * `inbox_code` (string): InboxRegistration cookie code, if there is an associated InboxRegistration
 * `clickwrap_body` (string): Clickwrap text that was shown to the registrant
 * `form_field_set_id` (int64): Id of associated form field set
