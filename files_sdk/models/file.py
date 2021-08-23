@@ -208,7 +208,7 @@ def upload_chunks(io, path, options, upload = None, etags = None):
     bytes_written = 0
     while True:
         headers = { "part": 1 } if not upload else { "ref": upload.ref, "part": upload.part_number + 1 }
-        upload = file_action.begin_upload(path, headers, options)[0]
+        upload = begin_upload(path, headers, options)[0]
         buf = io.read(upload.partsize)
         if buf == b'' or buf == "":  # Empty bytearray means EOF for BytesIO, Empty String means EOF for StringIO
             return (upload, etags, bytes_written)
