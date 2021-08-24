@@ -9,7 +9,6 @@ class Automation:
         'automation': None,     # string - Automation type
         'trigger': None,     # string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
         'interval': None,     # string - If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-        'next_process_on': None,     # string - If trigger is `daily`, date this automation will next run.
         'schedule': None,     # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
         'source': None,     # string - Source Path
         'destinations': None,     # string - Destination Path
