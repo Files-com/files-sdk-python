@@ -58,6 +58,7 @@ class User:
         'change_password_confirmation': None,     # string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
         'grant_permission': None,     # string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
         'group_id': None,     # int64 - Group ID to associate this user with.
+        'imported_password_hash': None,     # string - Pre-calculated hash of the user's password.
         'password': None,     # string - User password.
         'password_confirmation': None,     # string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
         'announcements_read': None,     # boolean - Signifies that the user has read all the announcements in the UI.
@@ -135,6 +136,7 @@ class User:
     #   grant_permission - string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
     #   group_id - int64 - Group ID to associate this user with.
     #   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
+    #   imported_password_hash - string - Pre-calculated hash of the user's password.
     #   password - string - User password.
     #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
     #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
@@ -194,6 +196,8 @@ class User:
             raise InvalidParameterError("Bad parameter: group_id must be an int")
         if "group_ids" in params and not isinstance(params["group_ids"], str):
             raise InvalidParameterError("Bad parameter: group_ids must be an str")
+        if "imported_password_hash" in params and not isinstance(params["imported_password_hash"], str):
+            raise InvalidParameterError("Bad parameter: imported_password_hash must be an str")
         if "password" in params and not isinstance(params["password"], str):
             raise InvalidParameterError("Bad parameter: password must be an str")
         if "password_confirmation" in params and not isinstance(params["password_confirmation"], str):
@@ -336,6 +340,7 @@ def get(id, params = None, options = None):
 #   grant_permission - string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
 #   group_id - int64 - Group ID to associate this user with.
 #   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
+#   imported_password_hash - string - Pre-calculated hash of the user's password.
 #   password - string - User password.
 #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
 #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
@@ -388,6 +393,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "group_ids" in params and not isinstance(params["group_ids"], str):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
+    if "imported_password_hash" in params and not isinstance(params["imported_password_hash"], str):
+        raise InvalidParameterError("Bad parameter: imported_password_hash must be an str")
     if "password" in params and not isinstance(params["password"], str):
         raise InvalidParameterError("Bad parameter: password must be an str")
     if "password_confirmation" in params and not isinstance(params["password_confirmation"], str):
@@ -478,6 +485,7 @@ def user_2fa_reset(id, params = None, options = None):
 #   grant_permission - string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
 #   group_id - int64 - Group ID to associate this user with.
 #   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
+#   imported_password_hash - string - Pre-calculated hash of the user's password.
 #   password - string - User password.
 #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
 #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
@@ -533,6 +541,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "group_ids" in params and not isinstance(params["group_ids"], str):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
+    if "imported_password_hash" in params and not isinstance(params["imported_password_hash"], str):
+        raise InvalidParameterError("Bad parameter: imported_password_hash must be an str")
     if "password" in params and not isinstance(params["password"], str):
         raise InvalidParameterError("Bad parameter: password must be an str")
     if "password_confirmation" in params and not isinstance(params["password_confirmation"], str):
