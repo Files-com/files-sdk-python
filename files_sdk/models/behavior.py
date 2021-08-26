@@ -9,6 +9,8 @@ class Behavior:
         'path': None,     # string - Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         'attachment_url': None,     # string - URL for attached file
         'behavior': None,     # string - Behavior type.
+        'name': None,     # string - Name for this behavior.
+        'description': None,     # string - Description for this behavior.
         'value': None,     # object - Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
         'attachment_file': None,     # file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
     }
@@ -31,6 +33,8 @@ class Behavior:
     # Parameters:
     #   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
     #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+    #   name - string - Name for this behavior.
+    #   description - string - Description for this behavior.
     #   behavior - string - Behavior type.
     #   path - string - Folder behaviors path.
     def update(self, params = None):
@@ -47,6 +51,10 @@ class Behavior:
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "value" in params and not isinstance(params["value"], str):
             raise InvalidParameterError("Bad parameter: value must be an str")
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
+        if "description" in params and not isinstance(params["description"], str):
+            raise InvalidParameterError("Bad parameter: description must be an str")
         if "behavior" in params and not isinstance(params["behavior"], str):
             raise InvalidParameterError("Bad parameter: behavior must be an str")
         if "path" in params and not isinstance(params["path"], str):
@@ -188,6 +196,8 @@ def list_for(path, params = None, options = None):
 # Parameters:
 #   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+#   name - string - Name for this behavior.
+#   description - string - Description for this behavior.
 #   path (required) - string - Folder behaviors path.
 #   behavior (required) - string - Behavior type.
 def create(params = None, options = None):
@@ -197,6 +207,10 @@ def create(params = None, options = None):
         options = {}
     if "value" in params and not isinstance(params["value"], str):
         raise InvalidParameterError("Bad parameter: value must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
+    if "description" in params and not isinstance(params["description"], str):
+        raise InvalidParameterError("Bad parameter: description must be an str")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "behavior" in params and not isinstance(params["behavior"], str):
@@ -240,6 +254,8 @@ def webhook_test(params = None, options = None):
 # Parameters:
 #   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+#   name - string - Name for this behavior.
+#   description - string - Description for this behavior.
 #   behavior - string - Behavior type.
 #   path - string - Folder behaviors path.
 def update(id, params = None, options = None):
@@ -252,6 +268,10 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: id must be one of str, int, dict")
     if "value" in params and not isinstance(params["value"], str):
         raise InvalidParameterError("Bad parameter: value must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
+    if "description" in params and not isinstance(params["description"], str):
+        raise InvalidParameterError("Bad parameter: description must be an str")
     if "behavior" in params and not isinstance(params["behavior"], str):
         raise InvalidParameterError("Bad parameter: behavior must be an str")
     if "path" in params and not isinstance(params["path"], (str, int, dict)): 

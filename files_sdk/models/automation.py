@@ -9,11 +9,13 @@ class Automation:
         'automation': None,     # string - Automation type
         'trigger': None,     # string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
         'interval': None,     # string - If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
+        'name': None,     # string - Name for this automation.
         'schedule': None,     # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
         'source': None,     # string - Source Path
         'destinations': None,     # string - Destination Path
         'destination_replace_from': None,     # string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
         'destination_replace_to': None,     # string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
+        'description': None,     # string - Description for the this Automation.
         'path': None,     # string - Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         'user_id': None,     # int64 - User ID of the Automation's creator.
         'user_ids': None,     # array - IDs of Users for the Automation (i.e. who to Request File from)
@@ -52,6 +54,8 @@ class Automation:
     #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   schedule - object - Custom schedule for running this automation.
+    #   description - string - Description for the this Automation.
+    #   name - string - Name for this automation.
     #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
     #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
     #   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
@@ -90,6 +94,10 @@ class Automation:
             raise InvalidParameterError("Bad parameter: user_ids must be an str")
         if "group_ids" in params and not isinstance(params["group_ids"], str):
             raise InvalidParameterError("Bad parameter: group_ids must be an str")
+        if "description" in params and not isinstance(params["description"], str):
+            raise InvalidParameterError("Bad parameter: description must be an str")
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
         if "trigger" in params and not isinstance(params["trigger"], str):
             raise InvalidParameterError("Bad parameter: trigger must be an str")
         if "trigger_actions" in params and not isinstance(params["trigger_actions"], list):
@@ -195,6 +203,8 @@ def get(id, params = None, options = None):
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   schedule - object - Custom schedule for running this automation.
+#   description - string - Description for the this Automation.
+#   name - string - Name for this automation.
 #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 #   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
@@ -226,6 +236,10 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
     if "schedule" in params and not isinstance(params["schedule"], dict):
         raise InvalidParameterError("Bad parameter: schedule must be an dict")
+    if "description" in params and not isinstance(params["description"], str):
+        raise InvalidParameterError("Bad parameter: description must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "trigger" in params and not isinstance(params["trigger"], str):
         raise InvalidParameterError("Bad parameter: trigger must be an str")
     if "trigger_actions" in params and not isinstance(params["trigger_actions"], list):
@@ -251,6 +265,8 @@ def create(params = None, options = None):
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   schedule - object - Custom schedule for running this automation.
+#   description - string - Description for the this Automation.
+#   name - string - Name for this automation.
 #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 #   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
@@ -285,6 +301,10 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
     if "schedule" in params and not isinstance(params["schedule"], dict):
         raise InvalidParameterError("Bad parameter: schedule must be an dict")
+    if "description" in params and not isinstance(params["description"], str):
+        raise InvalidParameterError("Bad parameter: description must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "trigger" in params and not isinstance(params["trigger"], str):
         raise InvalidParameterError("Bad parameter: trigger must be an str")
     if "trigger_actions" in params and not isinstance(params["trigger_actions"], list):
