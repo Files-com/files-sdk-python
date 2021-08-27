@@ -38,4 +38,4 @@ files_sdk.inbox_registration.list({
 
 * `cursor` (string): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `folder_behavior_id` (int64): Required - ID of the associated Inbox.
+* `folder_behavior_id` (int64): ID of the associated Inbox.
