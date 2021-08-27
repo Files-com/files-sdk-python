@@ -12,7 +12,9 @@
   "inbox_code": "abc123",
   "clickwrap_body": "",
   "form_field_set_id": 1,
-  "form_field_data": ""
+  "form_field_data": "",
+  "bundle_id": 1,
+  "bundle_recipient_id": 1
 }
 ```
 
@@ -25,6 +27,8 @@
 * `clickwrap_body` (string): Clickwrap text that was shown to the registrant
 * `form_field_set_id` (int64): Id of associated form field set
 * `form_field_data` (string): Data for form field set with form field ids as keys and user data as values
+* `bundle_id` (int64): Id of associated bundle
+* `bundle_recipient_id` (int64): Id of associated bundle recipient
 
 
 ---

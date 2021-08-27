@@ -12,6 +12,8 @@ class InboxRegistration:
         'clickwrap_body': None,     # string - Clickwrap text that was shown to the registrant
         'form_field_set_id': None,     # int64 - Id of associated form field set
         'form_field_data': None,     # string - Data for form field set with form field ids as keys and user data as values
+        'inbox_id': None,     # int64 - Id of associated inbox
+        'inbox_recipient_id': None,     # int64 - Id of associated inbox recipient
     }
 
     def __init__(self, attributes=None, options=None):
