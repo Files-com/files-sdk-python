@@ -40,6 +40,7 @@ class Site:
         'disable_password_reset': None,     # boolean - Is password reset disabled?
         'domain': None,     # string - Custom domain
         'email': None,     # email - Main email for this site
+        'ftp_enabled': None,     # boolean - Is FTP enabled?
         'reply_to_email': None,     # email - Reply-to email for this site
         'non_sso_groups_allowed': None,     # boolean - If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
         'non_sso_users_allowed': None,     # boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
@@ -93,6 +94,7 @@ class Site:
         'require_2fa_user_type': None,     # string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
         'session': None,     # Current session
         'session_pinned_by_ip': None,     # boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
+        'sftp_enabled': None,     # boolean - Is SFTP enabled?
         'sftp_user_root_enabled': None,     # boolean - Use user FTP roots also for SFTP?
         'sharing_enabled': None,     # boolean - Allow bundle creation
         'show_request_access_link': None,     # boolean - Show request access link for users without access?  Currently unused.
@@ -219,6 +221,8 @@ def get_usage(params = None, options = None):
 #   non_sso_users_allowed - boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 #   sharing_enabled - boolean - Allow bundle creation
 #   user_requests_enabled - boolean - Enable User Requests feature
+#   ftp_enabled - boolean - Is FTP enabled?
+#   sftp_enabled - boolean - Is SFTP enabled?
 #   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
 #   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
 #   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
