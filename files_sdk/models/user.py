@@ -40,6 +40,7 @@ class User:
         'require_2fa': None,     # string - 2FA required setting
         'active_2fa': None,     # boolean - Is 2fa active for the user?
         'require_password_change': None,     # boolean - Is a password change required upon next user login?
+        'password_expired': None,     # boolean - Is user's password expired?
         'restapi_permission': None,     # boolean - Can this user access the REST API?
         'self_managed': None,     # boolean - Does this user manage it's own credentials or is it a shared/bot user?
         'sftp_permission': None,     # boolean - Can the user access with SFTP?

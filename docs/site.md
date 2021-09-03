@@ -185,6 +185,7 @@
     "require_2fa": "always_require",
     "active_2fa": True,
     "require_password_change": True,
+    "password_expired": True,
     "restapi_permission": True,
     "self_managed": True,
     "sftp_permission": True,
