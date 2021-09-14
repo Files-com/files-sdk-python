@@ -49,6 +49,7 @@ import files_sdk.models.payment as payment
 import files_sdk.models.payment_line_item as payment_line_item
 import files_sdk.models.permission as permission
 import files_sdk.models.preview as preview
+import files_sdk.models.priority as priority
 import files_sdk.models.project as project
 import files_sdk.models.public_ip_address as public_ip_address
 import files_sdk.models.public_key as public_key
@@ -119,6 +120,7 @@ from files_sdk.models.payment import Payment
 from files_sdk.models.payment_line_item import PaymentLineItem
 from files_sdk.models.permission import Permission
 from files_sdk.models.preview import Preview
+from files_sdk.models.priority import Priority
 from files_sdk.models.project import Project
 from files_sdk.models.public_ip_address import PublicIpAddress
 from files_sdk.models.public_key import PublicKey

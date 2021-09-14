@@ -34,7 +34,6 @@
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
   "s3_compatible_bucket": "my-bucket",
-  "s3_compatible_region": "us-east-1",
   "s3_compatible_endpoint": "mys3platform.com",
   "enable_dedicated_ips": True
 }
@@ -70,7 +69,6 @@
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 * `s3_compatible_bucket` (string): S3-compatible Bucket name
-* `s3_compatible_region` (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` (string): S3-compatible endpoint
 * `enable_dedicated_ips` (boolean): `true` if remote server only accepts connections from dedicated IPs
 * `aws_access_key` (string): AWS Access Key.
@@ -150,7 +148,6 @@ files_sdk.remote_server.create({
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
   "s3_compatible_bucket": "my-bucket",
-  "s3_compatible_region": "us-east-1",
   "s3_compatible_endpoint": "mys3platform.com",
   "enable_dedicated_ips": True
 })
@@ -195,7 +192,6 @@ files_sdk.remote_server.create({
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 * `s3_compatible_bucket` (string): S3-compatible Bucket name
-* `s3_compatible_region` (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` (string): S3-compatible endpoint
 * `enable_dedicated_ips` (boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (string): S3-compatible access key
@@ -233,7 +229,6 @@ files_sdk.remote_server.update(id, {
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
   "s3_compatible_bucket": "my-bucket",
-  "s3_compatible_region": "us-east-1",
   "s3_compatible_endpoint": "mys3platform.com",
   "enable_dedicated_ips": True
 })
@@ -279,7 +274,6 @@ files_sdk.remote_server.update(id, {
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 * `s3_compatible_bucket` (string): S3-compatible Bucket name
-* `s3_compatible_region` (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` (string): S3-compatible endpoint
 * `enable_dedicated_ips` (boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (string): S3-compatible access key
@@ -332,7 +326,6 @@ remote_server.update({
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
   "s3_compatible_bucket": "my-bucket",
-  "s3_compatible_region": "us-east-1",
   "s3_compatible_endpoint": "mys3platform.com",
   "enable_dedicated_ips": True
 })
@@ -378,7 +371,6 @@ remote_server.update({
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 * `s3_compatible_bucket` (string): S3-compatible Bucket name
-* `s3_compatible_region` (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` (string): S3-compatible endpoint
 * `enable_dedicated_ips` (boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (string): S3-compatible access key
