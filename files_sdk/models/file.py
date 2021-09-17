@@ -183,79 +183,6 @@ class File:
         with builtin_open(output_file, 'wb') as file:
             self.download_content(file)
 
-def open(path, mode = "r", options = None):
-    if not isinstance(options, dict):
-        options = {}
-    file = File(path, mode, options)
-    
-    if "w" in mode:
-        if "b" in mode:
-            file.io_obj = io.BytesIO()
-        else:
-            file.io_obj = io.StringIO()
-
-    if "r" in mode:
-        if "b" in mode:
-            file.io_obj = io.BytesIO()
-        else:
-            file.io_obj = io.StringIO()
-    file.closed = False
-    return file
-
-def upload_chunks(io, path, options, upload = None, etags = None):
-    if not etags:
-        etags = []
-    bytes_written = 0
-    while True:
-        headers = { "part": 1 } if not upload else { "ref": upload.ref, "part": upload.part_number + 1 }
-        upload = begin_upload(path, headers, options)[0]
-        buf = io.read(upload.partsize)
-        if buf == b'' or buf == "":  # Empty bytearray means EOF for BytesIO, Empty String means EOF for StringIO
-            return (upload, etags, bytes_written)
-        if buf is not None:  # None means no data but io still open
-            bytes_written += len(buf)
-            response = Api.api_client().send_remote_request(upload.http_method, upload.upload_uri, { "Content-Length": str(len(buf)) }, buf)
-            if "ETag" in response.headers:
-                etags.append({ "etag": response.headers["ETag"].strip('"'), "part": upload.part_number })
-
-def upload_file(path, destination = None, options = None):
-    if not isinstance(options, dict):
-        options = {}
-    pth = Path(path)
-    stat = pth.stat()
-    with builtin_open(path, 'rb') as local_file:
-        if destination is None:
-            destination = pth.name
-        upload, etags, _bytes_written = upload_chunks(local_file, destination, options)
-
-        params = {
-            "action": "end",
-            "etags": etags,
-            "provided_mtime": datetime.utcfromtimestamp(stat.st_mtime).isoformat(),
-            "ref": upload.ref,
-            "size": stat.st_size
-        }
-
-        create(destination, params, options)
-
-def download_file(path, local_path = None, options = None):
-    if not isinstance(options, dict):
-        options = {}
-    if local_path is None:
-        local_path = Path(path).name
-    return File(path, {}, options).download_file(local_path)
-
-def find(path, params = None, options = None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["action"] = "stat"
-    return download(path, params, options)
-
-def from_path(path):
-    return metadata(path)
-
     # Download file
     #
     # Parameters:
@@ -323,6 +250,7 @@ def from_path(path):
 
     def destroy(self, params = None):
         self.delete(params)
+
     # Return metadata for file/folder
     #
     # Parameters:
@@ -424,7 +352,6 @@ def from_path(path):
             raise InvalidParameterError("Bad parameter: restart must be an int")
         response, _options = Api.send_request("POST", "/file_actions/begin_upload/{path}".format(path=params['path']), params, self.options)
         return response.data
-
 
     def save(self):
         new_obj = create(self.path, self.get_attributes(), self.options)
@@ -631,6 +558,79 @@ def begin_upload(path, params = None, options = None):
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request("POST", "/file_actions/begin_upload/{path}".format(path=params['path']), params, options)
     return [ FileUploadPart(entity_data, options) for entity_data in response.data ]
+
+def open(path, mode = "r", options = None):
+    if not isinstance(options, dict):
+        options = {}
+    file = File(path, mode, options)
+    
+    if "w" in mode:
+        if "b" in mode:
+            file.io_obj = io.BytesIO()
+        else:
+            file.io_obj = io.StringIO()
+
+    if "r" in mode:
+        if "b" in mode:
+            file.io_obj = io.BytesIO()
+        else:
+            file.io_obj = io.StringIO()
+    file.closed = False
+    return file
+
+def upload_chunks(io, path, options, upload = None, etags = None):
+    if not etags:
+        etags = []
+    bytes_written = 0
+    while True:
+        headers = { "part": 1 } if not upload else { "ref": upload.ref, "part": upload.part_number + 1 }
+        upload = begin_upload(path, headers, options)[0]
+        buf = io.read(upload.partsize)
+        if buf == b'' or buf == "":  # Empty bytearray means EOF for BytesIO, Empty String means EOF for StringIO
+            return (upload, etags, bytes_written)
+        if buf is not None:  # None means no data but io still open
+            bytes_written += len(buf)
+            response = Api.api_client().send_remote_request(upload.http_method, upload.upload_uri, { "Content-Length": str(len(buf)) }, buf)
+            if "ETag" in response.headers:
+                etags.append({ "etag": response.headers["ETag"].strip('"'), "part": upload.part_number })
+
+def upload_file(path, destination = None, options = None):
+    if not isinstance(options, dict):
+        options = {}
+    pth = Path(path)
+    stat = pth.stat()
+    with builtin_open(path, 'rb') as local_file:
+        if destination is None:
+            destination = pth.name
+        upload, etags, _bytes_written = upload_chunks(local_file, destination, options)
+
+        params = {
+            "action": "end",
+            "etags": etags,
+            "provided_mtime": datetime.utcfromtimestamp(stat.st_mtime).isoformat(),
+            "ref": upload.ref,
+            "size": stat.st_size
+        }
+
+        create(destination, params, options)
+
+def download_file(path, local_path = None, options = None):
+    if not isinstance(options, dict):
+        options = {}
+    if local_path is None:
+        local_path = Path(path).name
+    return File(path, {}, options).download_file(local_path)
+
+def find(path, params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["action"] = "stat"
+    return download(path, params, options)
+
+def from_path(path):
+    return metadata(path)
 
 def new(*args, **kwargs):
     return File(*args, **kwargs)

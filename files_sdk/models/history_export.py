@@ -47,7 +47,6 @@ class HistoryExport:
     def get_attributes(self):
         return {k: getattr(self, k, None) for k in HistoryExport.default_attributes if getattr(self, k, None) is not None}
 
-
     def save(self):
         if hasattr(self, "id") and self.id:
             raise NotImplementedError("The HistoryExport object doesn't support updates.")

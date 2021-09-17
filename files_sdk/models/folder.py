@@ -39,7 +39,6 @@ class Folder:
     def get_attributes(self):
         return {k: getattr(self, k, None) for k in Folder.default_attributes if getattr(self, k, None) is not None}
 
-
     def save(self):
         new_obj = create(self.path, self.get_attributes(), self.options)
         self.set_attributes(new_obj.get_attributes())
