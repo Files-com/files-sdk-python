@@ -8,6 +8,7 @@ import files_sdk.models.app as app
 import files_sdk.models.as2_key as as2_key
 import files_sdk.models.auto as auto
 import files_sdk.models.automation as automation
+import files_sdk.models.automation_run as automation_run
 import files_sdk.models.bandwidth_snapshot as bandwidth_snapshot
 import files_sdk.models.behavior as behavior
 import files_sdk.models.bundle as bundle
@@ -79,6 +80,7 @@ from files_sdk.models.app import App
 from files_sdk.models.as2_key import As2Key
 from files_sdk.models.auto import Auto
 from files_sdk.models.automation import Automation
+from files_sdk.models.automation_run import AutomationRun
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot
 from files_sdk.models.behavior import Behavior
 from files_sdk.models.bundle import Bundle

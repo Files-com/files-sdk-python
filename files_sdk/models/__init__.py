@@ -8,6 +8,7 @@ from files_sdk.models.app import App
 from files_sdk.models.as2_key import As2Key
 from files_sdk.models.auto import Auto
 from files_sdk.models.automation import Automation
+from files_sdk.models.automation_run import AutomationRun
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot
 from files_sdk.models.behavior import Behavior
 from files_sdk.models.bundle import Bundle
