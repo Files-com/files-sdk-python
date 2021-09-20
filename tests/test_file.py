@@ -35,14 +35,6 @@ class FileTest(TestBase):
     # Alias of delete
     def test_destroy(self):
         pass
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_actions/metadata/{path}"), "Mock path does not exist")
-    def test_metadata(self):
-        params = {
-            "path" : "foo",
-        }
-        file = File(params)
-        file.metadata(params)
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/copy/{path}"), "Mock path does not exist")
     def test_copy(self):
         params = {
@@ -104,12 +96,12 @@ class FileTest(TestBase):
         file.delete(path, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_actions/metadata/{path}"), "Mock path does not exist")
-    def test_metadata(self):
+    def test_find_by(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        file.metadata(path, params)
+        file.find_by(path, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/copy/{path}"), "Mock path does not exist")
     def test_copy(self):

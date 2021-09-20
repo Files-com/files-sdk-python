@@ -251,29 +251,6 @@ class File:
     def destroy(self, params = None):
         self.delete(params)
 
-    # Return metadata for file/folder
-    #
-    # Parameters:
-    #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
-    #   with_previews - boolean - Include file preview information?
-    #   with_priority_color - boolean - Include file priority color information?
-    def metadata(self, params = None):
-        if not isinstance(params, dict):
-            params = {}
-
-        if hasattr(self, "path") and self.path:
-            params['path'] = self.path
-        else:
-            raise MissingParameterError("Current object doesn't have a path")
-        if "path" not in params:
-            raise MissingParameterError("Parameter missing: path")
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
-        if "preview_size" in params and not isinstance(params["preview_size"], str):
-            raise InvalidParameterError("Bad parameter: preview_size must be an str")
-        response, _options = Api.send_request("GET", "/file_actions/metadata/{path}".format(path=params['path']), params, self.options)
-        return response.data
-
     # Copy file/folder
     #
     # Parameters:
@@ -465,13 +442,12 @@ def delete(path, params = None, options = None):
 def destroy(path, params = None, options = None):
     delete(path, params, options)
 
-# Return metadata for file/folder
-#
 # Parameters:
+#   path (required) - string - Path to operate on.
 #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 #   with_previews - boolean - Include file preview information?
 #   with_priority_color - boolean - Include file priority color information?
-def metadata(path, params = None, options = None):
+def find_by(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):

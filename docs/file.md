@@ -150,7 +150,7 @@ files_sdk.file.delete(path, {
 ## Return metadata for file/folder
 
 ```
-files_sdk.file.metadata(path, {
+files_sdk.file.find_by(path, {
   "with_previews": True,
   "with_priority_color": True
 })
@@ -282,27 +282,6 @@ file.delete({
 
 * `path` (string): Required - Path to operate on.
 * `recursive` (boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
-
-
----
-
-## Return metadata for file/folder
-
-```
-file = files_sdk.file.list_for(path).first
-
-file.metadata({
-  "with_previews": True,
-  "with_priority_color": True
-})
-```
-
-### Parameters
-
-* `path` (string): Required - Path to operate on.
-* `preview_size` (string): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
-* `with_previews` (boolean): Include file preview information?
-* `with_priority_color` (boolean): Include file priority color information?
 
 
 ---
