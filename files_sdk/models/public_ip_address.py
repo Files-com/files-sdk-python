@@ -6,6 +6,8 @@ class PublicIpAddress:
     default_attributes = {
         'ip_address': None,     # string - The public IP address.
         'server_name': None,     # string - The name of the frontend server.
+        'ftp_enabled': None,     # string
+        'sftp_enabled': None,     # string
     }
 
     def __init__(self, attributes=None, options=None):

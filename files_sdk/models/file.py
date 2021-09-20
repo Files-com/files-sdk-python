@@ -447,7 +447,7 @@ def destroy(path, params = None, options = None):
 #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 #   with_previews - boolean - Include file preview information?
 #   with_priority_color - boolean - Include file priority color information?
-def find_by(path, params = None, options = None):
+def find(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -461,6 +461,9 @@ def find_by(path, params = None, options = None):
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request("GET", "/file_actions/metadata/{path}".format(path=params['path']), params, options)
     return File(response.data, options)
+
+def get(path, params = None, options = None):
+    find(path, params, options)
 
 # Copy file/folder
 #

@@ -96,12 +96,12 @@ class FileTest(TestBase):
         file.delete(path, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_actions/metadata/{path}"), "Mock path does not exist")
-    def test_find_by(self):
+    def test_find(self):
         path = "foo"
         params = {
             "path" : "foo",
         }
-        file.find_by(path, params)
+        file.find(path, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/copy/{path}"), "Mock path does not exist")
     def test_copy(self):

@@ -12,6 +12,7 @@
   "multiple_regions": True,
   "read_only": True,
   "root_path": "",
+  "sftp_insecure_ciphers": True,
   "site_id": 1,
   "ssl_required": True,
   "tls_disabled": True,
@@ -33,9 +34,10 @@
 * `multiple_regions` (boolean): Can access multiple regions?
 * `read_only` (boolean): Is this session read only?
 * `root_path` (string): Initial root path to start the user's session in.
+* `sftp_insecure_ciphers` (boolean): Are insecure SFTP ciphers allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure SSH ciphers for this user.)
 * `site_id` (int64): Site ID
 * `ssl_required` (boolean): Is SSL required for this user?  (If so, ensure all your communications with this user use SSL.)
-* `tls_disabled` (boolean): Is strong TLS disabled for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure TLS versions for this user.)
+* `tls_disabled` (boolean): Aee insecure TLS versions allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure TLS versions for this user.)
 * `two_factor_setup_needed` (boolean): If true, this user needs to add a Two Factor Authentication method before performing any further actions.
 * `allowed_2fa_method_sms` (boolean): Sent only if 2FA setup is needed. Is SMS two factor authentication allowed?
 * `allowed_2fa_method_totp` (boolean): Sent only if 2FA setup is needed. Is TOTP two factor authentication allowed?

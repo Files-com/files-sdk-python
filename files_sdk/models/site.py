@@ -95,6 +95,7 @@ class Site:
         'session': None,     # Current session
         'session_pinned_by_ip': None,     # boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
         'sftp_enabled': None,     # boolean - Is SFTP enabled?
+        'sftp_insecure_ciphers': None,     # boolean - Are Insecure Ciphers allowed for SFTP?  Note:  Settting TLS Disabled -> True will always allow insecure ciphers for SFTP as well.  Enabling this is insecure.
         'sftp_user_root_enabled': None,     # boolean - Use user FTP roots also for SFTP?
         'sharing_enabled': None,     # boolean - Allow bundle creation
         'show_request_access_link': None,     # boolean - Show request access link for users without access?  Currently unused.
@@ -109,7 +110,7 @@ class Site:
         'ssl_required': None,     # boolean - Is SSL required?  Disabling this is insecure.
         'subdomain': None,     # string - Site subdomain
         'switch_to_plan_date': None,     # date-time - If switching plans, when does the new plan take effect?
-        'tls_disabled': None,     # boolean - Is TLS disabled(site setting)?
+        'tls_disabled': None,     # boolean - Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
         'trial_days_left': None,     # int64 - Number of days left in trial
         'trial_until': None,     # date-time - When does this Site trial expire?
         'updated_at': None,     # date-time - Last time this Site was updated
@@ -188,7 +189,8 @@ def get_usage(params = None, options = None):
 #   office_integration_available - boolean - Allow users to use Office for the web?
 #   session_expiry - double - Session expiry in hours
 #   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
-#   tls_disabled - boolean - Is TLS disabled(site setting)?
+#   tls_disabled - boolean - Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
+#   sftp_insecure_ciphers - boolean - Are Insecure Ciphers allowed for SFTP?  Note:  Settting TLS Disabled -> True will always allow insecure ciphers for SFTP as well.  Enabling this is insecure.
 #   user_lockout - boolean - Will users be locked out after incorrect login attempts?
 #   user_lockout_tries - int64 - Number of login tries within `user_lockout_within` hours before users are locked out
 #   user_lockout_within - int64 - Number of hours for user lockout window
