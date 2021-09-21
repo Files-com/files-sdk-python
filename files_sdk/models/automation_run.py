@@ -31,6 +31,13 @@ class AutomationRun:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `created_at` and `status`.
+#   filter - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `status`.
+#   filter_gt - object - If set, return records where the specifiied field is greater than the supplied value. Valid fields are `status`.
+#   filter_gteq - object - If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `status`.
+#   filter_like - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `status`.
+#   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `status`.
+#   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `status`.
 #   automation_id (required) - int64 - ID of the associated Automation.
 def list(params = None, options = None):
     if not isinstance(params, dict):
@@ -43,6 +50,20 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "sort_by" in params and not isinstance(params["sort_by"], dict):
+        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
+    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
+        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
+    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
+        raise InvalidParameterError("Bad parameter: filter_gteq must be an dict")
+    if "filter_like" in params and not isinstance(params["filter_like"], dict):
+        raise InvalidParameterError("Bad parameter: filter_like must be an dict")
+    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
+        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
+    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
+        raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
     if "automation_id" in params and not isinstance(params["automation_id"], int):
         raise InvalidParameterError("Bad parameter: automation_id must be an int")
     if "automation_id" not in params:
