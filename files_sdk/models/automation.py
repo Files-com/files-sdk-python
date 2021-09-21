@@ -1,3 +1,4 @@
+import builtins
 import datetime
 from files_sdk.api import Api
 from files_sdk.list_obj import ListObj
@@ -80,7 +81,7 @@ class Automation:
             raise InvalidParameterError("Bad parameter: source must be an str")
         if "destination" in params and not isinstance(params["destination"], str):
             raise InvalidParameterError("Bad parameter: destination must be an str")
-        if "destinations" in params and not isinstance(params["destinations"], list):
+        if "destinations" in params and not isinstance(params["destinations"], builtins.list):
             raise InvalidParameterError("Bad parameter: destinations must be an list")
         if "destination_replace_from" in params and not isinstance(params["destination_replace_from"], str):
             raise InvalidParameterError("Bad parameter: destination_replace_from must be an str")
@@ -100,7 +101,7 @@ class Automation:
             raise InvalidParameterError("Bad parameter: name must be an str")
         if "trigger" in params and not isinstance(params["trigger"], str):
             raise InvalidParameterError("Bad parameter: trigger must be an str")
-        if "trigger_actions" in params and not isinstance(params["trigger_actions"], list):
+        if "trigger_actions" in params and not isinstance(params["trigger_actions"], builtins.list):
             raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
         if "trigger_action_path" in params and not isinstance(params["trigger_action_path"], str):
             raise InvalidParameterError("Bad parameter: trigger_action_path must be an str")
@@ -220,7 +221,7 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: source must be an str")
     if "destination" in params and not isinstance(params["destination"], str):
         raise InvalidParameterError("Bad parameter: destination must be an str")
-    if "destinations" in params and not isinstance(params["destinations"], list):
+    if "destinations" in params and not isinstance(params["destinations"], builtins.list):
         raise InvalidParameterError("Bad parameter: destinations must be an list")
     if "destination_replace_from" in params and not isinstance(params["destination_replace_from"], str):
         raise InvalidParameterError("Bad parameter: destination_replace_from must be an str")
@@ -242,7 +243,7 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "trigger" in params and not isinstance(params["trigger"], str):
         raise InvalidParameterError("Bad parameter: trigger must be an str")
-    if "trigger_actions" in params and not isinstance(params["trigger_actions"], list):
+    if "trigger_actions" in params and not isinstance(params["trigger_actions"], builtins.list):
         raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
     if "trigger_action_path" in params and not isinstance(params["trigger_action_path"], str):
         raise InvalidParameterError("Bad parameter: trigger_action_path must be an str")
@@ -285,7 +286,7 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: source must be an str")
     if "destination" in params and not isinstance(params["destination"], str):
         raise InvalidParameterError("Bad parameter: destination must be an str")
-    if "destinations" in params and not isinstance(params["destinations"], list):
+    if "destinations" in params and not isinstance(params["destinations"], builtins.list):
         raise InvalidParameterError("Bad parameter: destinations must be an list")
     if "destination_replace_from" in params and not isinstance(params["destination_replace_from"], str):
         raise InvalidParameterError("Bad parameter: destination_replace_from must be an str")
@@ -307,7 +308,7 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "trigger" in params and not isinstance(params["trigger"], str):
         raise InvalidParameterError("Bad parameter: trigger must be an str")
-    if "trigger_actions" in params and not isinstance(params["trigger_actions"], list):
+    if "trigger_actions" in params and not isinstance(params["trigger_actions"], builtins.list):
         raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
     if "trigger_action_path" in params and not isinstance(params["trigger_action_path"], str):
         raise InvalidParameterError("Bad parameter: trigger_action_path must be an str")

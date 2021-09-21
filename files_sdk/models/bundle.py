@@ -1,3 +1,4 @@
+import builtins
 import datetime
 from files_sdk.api import Api
 from files_sdk.list_obj import ListObj
@@ -62,11 +63,11 @@ class Bundle:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "to" in params and not isinstance(params["to"], list):
+        if "to" in params and not isinstance(params["to"], builtins.list):
             raise InvalidParameterError("Bad parameter: to must be an list")
         if "note" in params and not isinstance(params["note"], str):
             raise InvalidParameterError("Bad parameter: note must be an str")
-        if "recipients" in params and not isinstance(params["recipients"], list):
+        if "recipients" in params and not isinstance(params["recipients"], builtins.list):
             raise InvalidParameterError("Bad parameter: recipients must be an list")
         response, _options = Api.send_request("POST", "/bundles/{id}/share".format(id=params['id']), params, self.options)
         return response.data
@@ -97,7 +98,7 @@ class Bundle:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "paths" in params and not isinstance(params["paths"], list):
+        if "paths" in params and not isinstance(params["paths"], builtins.list):
             raise InvalidParameterError("Bad parameter: paths must be an list")
         if "password" in params and not isinstance(params["password"], str):
             raise InvalidParameterError("Bad parameter: password must be an str")
@@ -226,7 +227,7 @@ def create(params = None, options = None):
         options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
-    if "paths" in params and not isinstance(params["paths"], list):
+    if "paths" in params and not isinstance(params["paths"], builtins.list):
         raise InvalidParameterError("Bad parameter: paths must be an list")
     if "password" in params and not isinstance(params["password"], str):
         raise InvalidParameterError("Bad parameter: password must be an str")
@@ -265,11 +266,11 @@ def share(id, params = None, options = None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
-    if "to" in params and not isinstance(params["to"], list):
+    if "to" in params and not isinstance(params["to"], builtins.list):
         raise InvalidParameterError("Bad parameter: to must be an list")
     if "note" in params and not isinstance(params["note"], str):
         raise InvalidParameterError("Bad parameter: note must be an str")
-    if "recipients" in params and not isinstance(params["recipients"], list):
+    if "recipients" in params and not isinstance(params["recipients"], builtins.list):
         raise InvalidParameterError("Bad parameter: recipients must be an list")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
@@ -298,7 +299,7 @@ def update(id, params = None, options = None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
-    if "paths" in params and not isinstance(params["paths"], list):
+    if "paths" in params and not isinstance(params["paths"], builtins.list):
         raise InvalidParameterError("Bad parameter: paths must be an list")
     if "password" in params and not isinstance(params["password"], str):
         raise InvalidParameterError("Bad parameter: password must be an str")

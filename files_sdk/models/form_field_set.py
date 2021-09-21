@@ -1,3 +1,4 @@
+import builtins
 import datetime
 from files_sdk.api import Api
 from files_sdk.list_obj import ListObj
@@ -50,7 +51,7 @@ class FormFieldSet:
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "title" in params and not isinstance(params["title"], str):
             raise InvalidParameterError("Bad parameter: title must be an str")
-        if "form_fields" in params and not isinstance(params["form_fields"], list):
+        if "form_fields" in params and not isinstance(params["form_fields"], builtins.list):
             raise InvalidParameterError("Bad parameter: form_fields must be an list")
         response, _options = Api.send_request("PATCH", "/form_field_sets/{id}".format(id=params['id']), params, self.options)
         return response.data
@@ -134,7 +135,7 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "title" in params and not isinstance(params["title"], str):
         raise InvalidParameterError("Bad parameter: title must be an str")
-    if "form_fields" in params and not isinstance(params["form_fields"], list):
+    if "form_fields" in params and not isinstance(params["form_fields"], builtins.list):
         raise InvalidParameterError("Bad parameter: form_fields must be an list")
     response, options = Api.send_request("POST", "/form_field_sets", params, options)
     return FormFieldSet(response.data, options)
@@ -155,7 +156,7 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "title" in params and not isinstance(params["title"], str):
         raise InvalidParameterError("Bad parameter: title must be an str")
-    if "form_fields" in params and not isinstance(params["form_fields"], list):
+    if "form_fields" in params and not isinstance(params["form_fields"], builtins.list):
         raise InvalidParameterError("Bad parameter: form_fields must be an list")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
