@@ -178,8 +178,7 @@ files_sdk.behavior.delete(id)
 ## Update Behavior
 
 ```
-behavior = files_sdk.behavior.find(1)
-
+behavior = files_sdk.behavior.list.first
 behavior.update({
   "value": "{\"method\": \"GET\"}",
   "behavior": "webhook"
@@ -202,8 +201,7 @@ behavior.update({
 ## Delete Behavior
 
 ```
-behavior = files_sdk.behavior.find(1)
-
+behavior = files_sdk.behavior.list.first
 behavior.delete()
 ```
 

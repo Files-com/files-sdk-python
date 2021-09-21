@@ -298,8 +298,7 @@ files_sdk.remote_server.delete(id)
 ## Update Remote Server
 
 ```
-remote_server = files_sdk.remote_server.find(1)
-
+remote_server = files_sdk.remote_server.list.first
 remote_server.update({
   "reset_authentication": True,
   "hostname": "remote-server.com",
@@ -382,8 +381,7 @@ remote_server.update({
 ## Delete Remote Server
 
 ```
-remote_server = files_sdk.remote_server.find(1)
-
+remote_server = files_sdk.remote_server.list.first
 remote_server.delete()
 ```
 

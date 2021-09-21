@@ -404,8 +404,7 @@ files_sdk.user.delete(id)
 ## Unlock user who has been locked out due to failed logins
 
 ```
-user = files_sdk.user.find(1)
-
+user = files_sdk.user.list.first
 user.unlock()
 ```
 
@@ -419,8 +418,7 @@ user.unlock()
 ## Resend user welcome email
 
 ```
-user = files_sdk.user.find(1)
-
+user = files_sdk.user.list.first
 user.resend_welcome_email()
 ```
 
@@ -434,8 +432,7 @@ user.resend_welcome_email()
 ## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
 
 ```
-user = files_sdk.user.find(1)
-
+user = files_sdk.user.list.first
 user.user_2fa_reset()
 ```
 
@@ -449,8 +446,7 @@ user.user_2fa_reset()
 ## Update User
 
 ```
-user = files_sdk.user.find(1)
-
+user = files_sdk.user.list.first
 user.update({
   "avatar_delete": True,
   "email": "john.doe@files.com",
@@ -544,8 +540,7 @@ user.update({
 ## Delete User
 
 ```
-user = files_sdk.user.find(1)
-
+user = files_sdk.user.list.first
 user.delete()
 ```
 

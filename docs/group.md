@@ -123,8 +123,7 @@ files_sdk.group.delete(id)
 ## Update Group
 
 ```
-group = files_sdk.group.find(1)
-
+group = files_sdk.group.list.first
 group.update({
   "name": "owners",
   "user_ids": [1],
@@ -146,8 +145,7 @@ group.update({
 ## Delete Group
 
 ```
-group = files_sdk.group.find(1)
-
+group = files_sdk.group.list.first
 group.delete()
 ```
 

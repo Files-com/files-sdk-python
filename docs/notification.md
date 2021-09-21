@@ -146,8 +146,7 @@ files_sdk.notification.delete(id)
 ## Update Notification
 
 ```
-notification = files_sdk.notification.find(1)
-
+notification = files_sdk.notification.list.first
 notification.update({
   "notify_on_copy": True,
   "notify_user_actions": True,
@@ -170,8 +169,7 @@ notification.update({
 ## Delete Notification
 
 ```
-notification = files_sdk.notification.find(1)
-
+notification = files_sdk.notification.list.first
 notification.delete()
 ```
 

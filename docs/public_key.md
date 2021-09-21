@@ -103,8 +103,7 @@ files_sdk.public_key.delete(id)
 ## Update Public Key
 
 ```
-public_key = files_sdk.public_key.find(1)
-
+public_key = files_sdk.public_key.list.first
 public_key.update({
   "title": "My Main Key"
 })
@@ -121,8 +120,7 @@ public_key.update({
 ## Delete Public Key
 
 ```
-public_key = files_sdk.public_key.find(1)
-
+public_key = files_sdk.public_key.list.first
 public_key.delete()
 ```
 

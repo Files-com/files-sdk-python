@@ -109,8 +109,7 @@ files_sdk.clickwrap.delete(id)
 ## Update Clickwrap
 
 ```
-clickwrap = files_sdk.clickwrap.find(1)
-
+clickwrap = files_sdk.clickwrap.list.first
 clickwrap.update({
   "name": "Example Site NDA for Files.com Use",
   "body": "[Legal body text]"
@@ -132,8 +131,7 @@ clickwrap.update({
 ## Delete Clickwrap
 
 ```
-clickwrap = files_sdk.clickwrap.find(1)
-
+clickwrap = files_sdk.clickwrap.list.first
 clickwrap.delete()
 ```
 

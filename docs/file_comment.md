@@ -87,8 +87,7 @@ files_sdk.file_comment.delete(id)
 ## Update File Comment
 
 ```
-file_comment = files_sdk.file_comment.list_for(path).first
-
+file_comment = files_sdk.file_comment.list.first
 file_comment.update({
   "body": "body"
 })
@@ -105,8 +104,7 @@ file_comment.update({
 ## Delete File Comment
 
 ```
-file_comment = files_sdk.file_comment.list_for(path).first
-
+file_comment = files_sdk.file_comment.list.first
 file_comment.delete()
 ```
 

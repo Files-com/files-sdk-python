@@ -52,8 +52,7 @@ files_sdk.file_comment_reaction.delete(id)
 ## Delete File Comment Reaction
 
 ```
-file_comment_reaction = files_sdk.file_comment_reaction.list_for(path).first
-
+file_comment_reaction = file_comment_reaction()
 file_comment_reaction.delete()
 ```
 

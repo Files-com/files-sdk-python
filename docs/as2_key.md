@@ -103,8 +103,7 @@ files_sdk.as2_key.delete(id)
 ## Update As2 Key
 
 ```
-as2_key = files_sdk.as2_key.find(1)
-
+as2_key = files_sdk.as2_key.list.first
 as2_key.update({
   "as2_partnership_name": "Test"
 })
@@ -121,8 +120,7 @@ as2_key.update({
 ## Delete As2 Key
 
 ```
-as2_key = files_sdk.as2_key.find(1)
-
+as2_key = files_sdk.as2_key.list.first
 as2_key.delete()
 ```
 

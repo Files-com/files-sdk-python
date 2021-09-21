@@ -229,8 +229,7 @@ files_sdk.file.begin_upload(path, {
 ## Download file
 
 ```
-file = files_sdk.file.find(1)
-
+file = file()
 file.download({
   "with_previews": True,
   "with_priority_color": True
@@ -251,8 +250,7 @@ file.download({
 ## Update file/folder metadata
 
 ```
-file = files_sdk.file.find(1)
-
+file = file()
 file.update({
   "provided_mtime": "2000-01-01T01:00:00Z",
   "priority_color": "red"
@@ -271,8 +269,7 @@ file.update({
 ## Delete file/folder
 
 ```
-file = files_sdk.file.find(1)
-
+file = file()
 file.delete({
   "recursive": True
 })
@@ -289,8 +286,7 @@ file.delete({
 ## Copy file/folder
 
 ```
-file = files_sdk.file.find(1)
-
+file = file()
 file.copy({
   "destination": "destination",
   "structure": True
@@ -309,8 +305,7 @@ file.copy({
 ## Move file/folder
 
 ```
-file = files_sdk.file.find(1)
-
+file = file()
 file.move({
   "destination": "destination"
 })
@@ -327,8 +322,7 @@ file.move({
 ## Begin file upload
 
 ```
-file = files_sdk.file.find(1)
-
+file = file()
 file.begin_upload({
   "mkdir_parents": True,
   "part": 1,

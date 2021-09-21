@@ -18,8 +18,7 @@ files_sdk.action_webhook_failure.retry(id)
 ## retry Action Webhook Failure
 
 ```
-action_webhook_failure = files_sdk.action_webhook_failure.list_for(path).first
-
+action_webhook_failure = action_webhook_failure()
 action_webhook_failure.retry()
 ```
 

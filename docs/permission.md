@@ -97,8 +97,7 @@ files_sdk.permission.delete(id)
 ## Delete Permission
 
 ```
-permission = files_sdk.permission.list_for(path).first
-
+permission = files_sdk.permission.list.first
 permission.delete()
 ```
 

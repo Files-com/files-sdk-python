@@ -100,8 +100,7 @@ files_sdk.request.delete(id)
 ## Delete Request
 
 ```
-request = files_sdk.request.list_for(path).first
-
+request = files_sdk.request.list.first
 request.delete()
 ```
 

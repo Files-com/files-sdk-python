@@ -91,8 +91,7 @@ files_sdk.project.delete(id)
 ## Update Project
 
 ```
-project = files_sdk.project.find(1)
-
+project = files_sdk.project.list.first
 project.update({
   "global_access": "global_access"
 })
@@ -109,8 +108,7 @@ project.update({
 ## Delete Project
 
 ```
-project = files_sdk.project.find(1)
-
+project = files_sdk.project.list.first
 project.delete()
 ```
 

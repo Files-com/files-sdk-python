@@ -83,8 +83,7 @@ files_sdk.user_request.delete(id)
 ## Delete User Request
 
 ```
-user_request = files_sdk.user_request.find(1)
-
+user_request = files_sdk.user_request.list.first
 user_request.delete()
 ```
 

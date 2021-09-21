@@ -206,8 +206,7 @@ files_sdk.automation.delete(id)
 ## Update Automation
 
 ```
-automation = files_sdk.automation.find(1)
-
+automation = files_sdk.automation.list.first
 automation.update({
   "automation": "create_folder",
   "source": "source",
@@ -250,8 +249,7 @@ automation.update({
 ## Delete Automation
 
 ```
-automation = files_sdk.automation.find(1)
-
+automation = files_sdk.automation.list.first
 automation.delete()
 ```
 

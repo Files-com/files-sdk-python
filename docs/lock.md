@@ -95,8 +95,7 @@ files_sdk.lock.delete(path, {
 ## Delete Lock
 
 ```
-lock = files_sdk.lock.list_for(path).first
-
+lock = files_sdk.lock.list.first
 lock.delete({
   "token": "token"
 })

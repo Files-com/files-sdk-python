@@ -104,8 +104,7 @@ files_sdk.group_user.delete(id, {
 ## Update Group User
 
 ```
-group_user = files_sdk.group_user.list_for(path).first
-
+group_user = files_sdk.group_user.list.first
 group_user.update({
   "group_id": 1,
   "user_id": 1,
@@ -126,8 +125,7 @@ group_user.update({
 ## Delete Group User
 
 ```
-group_user = files_sdk.group_user.list_for(path).first
-
+group_user = files_sdk.group_user.list.first
 group_user.delete({
   "group_id": 1,
   "user_id": 1

@@ -65,8 +65,7 @@ files_sdk.style.delete(path)
 ## Update Style
 
 ```
-style = files_sdk.style.find(1)
-
+style = style()
 style.update({
   "file": "file"
 })
@@ -83,8 +82,7 @@ style.update({
 ## Delete Style
 
 ```
-style = files_sdk.style.find(1)
-
+style = style()
 style.delete()
 ```
 
