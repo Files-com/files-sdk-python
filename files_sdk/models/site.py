@@ -19,6 +19,8 @@ class Site:
         'bundle_expiration': None,     # int64 - Site-wide Bundle expiration in days
         'bundle_password_required': None,     # boolean - Do Bundles require password protection?
         'bundle_require_share_recipient': None,     # boolean - Do Bundles require recipients for sharing?
+        'bundle_watermark_attachment': None,     # Preview watermark image applied to all bundle items.
+        'bundle_watermark_value': None,     # object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
         'color2_left': None,     # string - Page link and button color
         'color2_link': None,     # string - Top bar link color
         'color2_text': None,     # string - Page link and button color
@@ -271,6 +273,8 @@ def get_usage(params = None, options = None):
 #   icon128_delete - boolean - If true, will delete the file stored in icon128
 #   logo_file - file
 #   logo_delete - boolean - If true, will delete the file stored in logo
+#   bundle_watermark_attachment_file - file
+#   bundle_watermark_attachment_delete - boolean - If true, will delete the file stored in bundle_watermark_attachment
 #   disable_2fa_with_delay - boolean - If set to true, we will begin the process of disabling 2FA on this site.
 #   ldap_password_change - string - New LDAP password.
 #   ldap_password_change_confirmation - string - Confirm new LDAP password.
