@@ -44,6 +44,7 @@
   "disable_password_reset": True,
   "domain": "my-custom-domain.com",
   "domain_hsts_header": True,
+  "domain_letsencrypt_chain": "",
   "email": "john.doe@files.com",
   "ftp_enabled": True,
   "reply_to_email": "jane.doe@files.com",
@@ -258,6 +259,7 @@
 * `disable_password_reset` (boolean): Is password reset disabled?
 * `domain` (string): Custom domain
 * `domain_hsts_header` (boolean): Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
+* `domain_letsencrypt_chain` (string): Letsencrypt chain to use when registering SSL Certificate for domain.
 * `email` (email): Main email for this site
 * `ftp_enabled` (boolean): Is FTP enabled?
 * `reply_to_email` (email): Reply-to email for this site
@@ -479,6 +481,7 @@ files_sdk.site.update({
 * `subdomain` (string): Site subdomain
 * `domain` (string): Custom domain
 * `domain_hsts_header` (boolean): Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
+* `domain_letsencrypt_chain` (string): Letsencrypt chain to use when registering SSL Certificate for domain.
 * `email` (string): Main email for this site
 * `reply_to_email` (string): Reply-to email for this site
 * `allow_bundle_names` (boolean): Are manual Bundle names allowed?
