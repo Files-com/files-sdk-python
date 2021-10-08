@@ -17,5 +17,13 @@ class AutomationRunTest(TestBase):
         }
         automation_run.list(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/automation_runs/{id}"), "Mock path does not exist")
+    def test_find(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        automation_run.find(id, params)
+
 if __name__ == '__main__':
     unittest.main()

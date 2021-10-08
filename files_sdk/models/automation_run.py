@@ -6,7 +6,10 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class AutomationRun:
     default_attributes = {
+        'id': None,     # int64 - ID.
         'automation_id': None,     # int64 - ID of the associated Automation.
+        'completed_at': None,     # date-time - Automation run completion/failure date/time.
+        'created_at': None,     # date-time - Automation run start date/time.
         'status': None,     # string - The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
         'status_messages_url': None,     # string - Link to status messages log file.
     }
@@ -72,6 +75,24 @@ def list(params = None, options = None):
 
 def all(params = None, options = None):
     list(params, options)
+
+# Parameters:
+#   id (required) - int64 - Automation Run ID.
+def find(id, params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request("GET", "/automation_runs/{id}".format(id=params['id']), params, options)
+    return AutomationRun(response.data, options)
+
+def get(id, params = None, options = None):
+    find(id, params, options)
 
 def new(*args, **kwargs):
     return AutomationRun(*args, **kwargs)
