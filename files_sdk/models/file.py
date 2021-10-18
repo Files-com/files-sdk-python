@@ -307,6 +307,7 @@ class File:
     #   parts - int64 - How many parts to fetch?
     #   ref - string -
     #   restart - int64 - File byte offset to restart from.
+    #   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
     #   with_rename - boolean - Allow file rename instead of overwrite?
     def begin_upload(self, params = None):
         if not isinstance(params, dict):
@@ -328,6 +329,8 @@ class File:
             raise InvalidParameterError("Bad parameter: ref must be an str")
         if "restart" in params and not isinstance(params["restart"], int):
             raise InvalidParameterError("Bad parameter: restart must be an int")
+        if "size" in params and not isinstance(params["size"], int):
+            raise InvalidParameterError("Bad parameter: size must be an int")
         response, _options = Api.send_request("POST", "/file_actions/begin_upload/{path}".format(path=params['path']), params, self.options)
         return response.data
 
@@ -517,6 +520,7 @@ def move(path, params = None, options = None):
 #   parts - int64 - How many parts to fetch?
 #   ref - string -
 #   restart - int64 - File byte offset to restart from.
+#   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 #   with_rename - boolean - Allow file rename instead of overwrite?
 def begin_upload(path, params = None, options = None):
     if not isinstance(params, dict):
@@ -534,6 +538,8 @@ def begin_upload(path, params = None, options = None):
         raise InvalidParameterError("Bad parameter: ref must be an str")
     if "restart" in params and not isinstance(params["restart"], int):
         raise InvalidParameterError("Bad parameter: restart must be an int")
+    if "size" in params and not isinstance(params["size"], int):
+        raise InvalidParameterError("Bad parameter: size must be an int")
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request("POST", "/file_actions/begin_upload/{path}".format(path=params['path']), params, options)
