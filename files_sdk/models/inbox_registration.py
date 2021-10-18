@@ -15,6 +15,7 @@ class InboxRegistration:
         'form_field_data': None,     # string - Data for form field set with form field ids as keys and user data as values
         'inbox_id': None,     # int64 - Id of associated inbox
         'inbox_recipient_id': None,     # int64 - Id of associated inbox recipient
+        'inbox_title': None,     # string - Title of associated inbox
     }
 
     def __init__(self, attributes=None, options=None):

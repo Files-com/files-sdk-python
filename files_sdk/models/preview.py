@@ -10,6 +10,7 @@ class Preview:
         'download_uri': None,     # string - Link to download preview
         'type': None,     # string - Preview status.  Can be invalid, not_generated, generating, complete, or file_too_large
         'size': None,     # int64 - Preview size
+        'status_message': None,     # string - Preview status message. Addtional context from the preview generation process about the status
     }
 
     def __init__(self, attributes=None, options=None):
