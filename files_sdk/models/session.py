@@ -16,7 +16,7 @@ class Session:
         'sftp_insecure_ciphers': None,     # boolean - Are insecure SFTP ciphers allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure SSH ciphers for this user.)
         'site_id': None,     # int64 - Site ID
         'ssl_required': None,     # boolean - Is SSL required for this user?  (If so, ensure all your communications with this user use SSL.)
-        'tls_disabled': None,     # boolean - Aee insecure TLS versions allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure TLS versions for this user.)
+        'tls_disabled': None,     # boolean - Are insecure TLS versions allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure TLS versions for this user.)
         'two_factor_setup_needed': None,     # boolean - If true, this user needs to add a Two Factor Authentication method before performing any further actions.
         'allowed_2fa_method_sms': None,     # boolean - Sent only if 2FA setup is needed. Is SMS two factor authentication allowed?
         'allowed_2fa_method_totp': None,     # boolean - Sent only if 2FA setup is needed. Is TOTP two factor authentication allowed?
