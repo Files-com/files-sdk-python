@@ -24,6 +24,7 @@
 * `description` (string): Description for this behavior.
 * `value` (object): Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
 * `attachment_file` (file): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+* `attachment_delete` (boolean): If true, will delete the file stored in attachment
 
 
 ---
@@ -145,7 +146,8 @@ files_sdk.behavior.webhook_test({
 ```
 files_sdk.behavior.update(id, {
   "value": "{\"method\": \"GET\"}",
-  "behavior": "webhook"
+  "behavior": "webhook",
+  "attachment_delete": True
 })
 ```
 
@@ -158,6 +160,7 @@ files_sdk.behavior.update(id, {
 * `description` (string): Description for this behavior.
 * `behavior` (string): Behavior type.
 * `path` (string): Folder behaviors path.
+* `attachment_delete` (boolean): If true, will delete the file stored in attachment
 
 
 ---
@@ -181,7 +184,8 @@ files_sdk.behavior.delete(id)
 behavior = files_sdk.behavior.list.first
 behavior.update({
   "value": "{\"method\": \"GET\"}",
-  "behavior": "webhook"
+  "behavior": "webhook",
+  "attachment_delete": True
 })
 ```
 
@@ -194,6 +198,7 @@ behavior.update({
 * `description` (string): Description for this behavior.
 * `behavior` (string): Behavior type.
 * `path` (string): Folder behaviors path.
+* `attachment_delete` (boolean): If true, will delete the file stored in attachment
 
 
 ---

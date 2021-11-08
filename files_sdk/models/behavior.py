@@ -14,6 +14,7 @@ class Behavior:
         'description': None,     # string - Description for this behavior.
         'value': None,     # object - Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
         'attachment_file': None,     # file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+        'attachment_delete': None,     # boolean - If true, will delete the file stored in attachment
     }
 
     def __init__(self, attributes=None, options=None):
@@ -38,6 +39,7 @@ class Behavior:
     #   description - string - Description for this behavior.
     #   behavior - string - Behavior type.
     #   path - string - Folder behaviors path.
+    #   attachment_delete - boolean - If true, will delete the file stored in attachment
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -259,6 +261,7 @@ def webhook_test(params = None, options = None):
 #   description - string - Description for this behavior.
 #   behavior - string - Behavior type.
 #   path - string - Folder behaviors path.
+#   attachment_delete - boolean - If true, will delete the file stored in attachment
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -275,8 +278,10 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: description must be an str")
     if "behavior" in params and not isinstance(params["behavior"], str):
         raise InvalidParameterError("Bad parameter: behavior must be an str")
-    if "path" in params and not isinstance(params["path"], (str, int, dict)): 
-        raise InvalidParameterError("Bad parameter: path must be one of str, int, dict")
+    if "path" in params and not isinstance(params["path"], str):
+        raise InvalidParameterError("Bad parameter: path must be an str")
+    if "attachment_delete" in params and not isinstance(params["attachment_delete"], (str, int, dict)): 
+        raise InvalidParameterError("Bad parameter: attachment_delete must be one of str, int, dict")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/behaviors/{id}".format(id=params['id']), params, options)

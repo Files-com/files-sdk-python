@@ -24,10 +24,14 @@ class Bundle:
         'username': None,     # string - Bundle creator username
         'clickwrap_id': None,     # int64 - ID of the clickwrap to use with this bundle.
         'inbox_id': None,     # int64 - ID of the associated inbox, if available.
+        'watermark_attachment': None,     # Preview watermark image applied to all bundle items.
+        'watermark_value': None,     # object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
         'has_inbox': None,     # boolean - Does this bundle have an associated inbox?
         'paths': None,     # array - A list of paths in this bundle
         'password': None,     # string - Password for this bundle.
         'form_field_set_id': None,     # int64 - Id of Form Field Set to use with this bundle
+        'watermark_attachment_file': None,     # file - Preview watermark image applied to all bundle items.
+        'watermark_attachment_delete': None,     # boolean - If true, will delete the file stored in watermark_attachment
     }
 
     def __init__(self, attributes=None, options=None):
@@ -86,6 +90,8 @@ class Bundle:
     #   preview_only - boolean - Restrict users to previewing files only?
     #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
     #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+    #   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
+    #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -220,6 +226,7 @@ def get(id, params = None, options = None):
 #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
 #   inbox_id - int64 - ID of the associated inbox, if available.
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+#   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -291,6 +298,8 @@ def share(id, params = None, options = None):
 #   preview_only - boolean - Restrict users to previewing files only?
 #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+#   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
+#   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
