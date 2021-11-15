@@ -5,12 +5,16 @@
 ```
 {
   "change_details": "{ domain: [\"olddomain.com', \"newdomain.com\"] }",
+  "changes": [
+    ""
+  ],
   "created_at": "2000-01-01T01:00:00Z",
   "user_id": 1
 }
 ```
 
 * `change_details` (object): Specifics on what changed.
+* `changes` (string): Markdown-formatted change messages.
 * `created_at` (date-time): The time this change was made
 * `user_id` (int64): The user id responsible for this change
 

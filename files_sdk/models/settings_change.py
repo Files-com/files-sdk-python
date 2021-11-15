@@ -7,6 +7,7 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 class SettingsChange:
     default_attributes = {
         'change_details': None,     # object - Specifics on what changed.
+        'changes': None,     # string - Markdown-formatted change messages.
         'created_at': None,     # date-time - The time this change was made
         'user_id': None,     # int64 - The user id responsible for this change
     }
