@@ -51,7 +51,7 @@ files_sdk.notification.list({
 ### Parameters
 
 * `user_id` (int64): DEPRECATED: Show notifications for this User ID. Use `filter[user_id]` instead.
-* `cursor` (string): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
+* `cursor` (string): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `path`, `user_id` or `group_id`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `group_id` or `path`.
