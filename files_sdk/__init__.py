@@ -5,7 +5,10 @@ import files_sdk.models.action_notification_export_result as action_notification
 import files_sdk.models.action_webhook_failure as action_webhook_failure
 import files_sdk.models.api_key as api_key
 import files_sdk.models.app as app
-import files_sdk.models.as2_key as as2_key
+import files_sdk.models.as2_incoming_message as as2_incoming_message
+import files_sdk.models.as2_outgoing_message as as2_outgoing_message
+import files_sdk.models.as2_partner as as2_partner
+import files_sdk.models.as2_station as as2_station
 import files_sdk.models.auto as auto
 import files_sdk.models.automation as automation
 import files_sdk.models.automation_run as automation_run
@@ -77,7 +80,10 @@ from files_sdk.models.action_notification_export_result import ActionNotificatio
 from files_sdk.models.action_webhook_failure import ActionWebhookFailure
 from files_sdk.models.api_key import ApiKey
 from files_sdk.models.app import App
-from files_sdk.models.as2_key import As2Key
+from files_sdk.models.as2_incoming_message import As2IncomingMessage
+from files_sdk.models.as2_outgoing_message import As2OutgoingMessage
+from files_sdk.models.as2_partner import As2Partner
+from files_sdk.models.as2_station import As2Station
 from files_sdk.models.auto import Auto
 from files_sdk.models.automation import Automation
 from files_sdk.models.automation_run import AutomationRun
