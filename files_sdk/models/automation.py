@@ -23,6 +23,7 @@ class Automation:
         'group_ids': None,     # array - IDs of Groups for the Automation (i.e. who to Request File from)
         'webhook_url': None,     # string - If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
         'trigger_actions': None,     # string - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+        'trigger_action_path': None,     # string - If trigger is `action`, this is the path to watch for the specified trigger actions.
         'value': None,     # object - A Hash of attributes specific to the automation type.
         'destination': None,     # string - DEPRECATED: Destination Path. Use `destinations` instead.
     }
@@ -58,6 +59,7 @@ class Automation:
     #   name - string - Name for this automation.
     #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
     #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+    #   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
     #   value - object - A Hash of attributes specific to the automation type.
     def update(self, params = None):
         if not isinstance(params, dict):
@@ -101,6 +103,8 @@ class Automation:
             raise InvalidParameterError("Bad parameter: trigger must be an str")
         if "trigger_actions" in params and not isinstance(params["trigger_actions"], builtins.list):
             raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
+        if "trigger_action_path" in params and not isinstance(params["trigger_action_path"], str):
+            raise InvalidParameterError("Bad parameter: trigger_action_path must be an str")
         response, _options = Api.send_request("PATCH", "/automations/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -204,6 +208,7 @@ def get(id, params = None, options = None):
 #   name - string - Name for this automation.
 #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+#   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
 #   value - object - A Hash of attributes specific to the automation type.
 def create(params = None, options = None):
     if not isinstance(params, dict):
@@ -240,6 +245,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: trigger must be an str")
     if "trigger_actions" in params and not isinstance(params["trigger_actions"], builtins.list):
         raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
+    if "trigger_action_path" in params and not isinstance(params["trigger_action_path"], str):
+        raise InvalidParameterError("Bad parameter: trigger_action_path must be an str")
     if "value" in params and not isinstance(params["value"], dict):
         raise InvalidParameterError("Bad parameter: value must be an dict")
     if "automation" not in params:
@@ -263,6 +270,7 @@ def create(params = None, options = None):
 #   name - string - Name for this automation.
 #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+#   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
 #   value - object - A Hash of attributes specific to the automation type.
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
@@ -302,6 +310,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: trigger must be an str")
     if "trigger_actions" in params and not isinstance(params["trigger_actions"], builtins.list):
         raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
+    if "trigger_action_path" in params and not isinstance(params["trigger_action_path"], str):
+        raise InvalidParameterError("Bad parameter: trigger_action_path must be an str")
     if "value" in params and not isinstance(params["value"], dict):
         raise InvalidParameterError("Bad parameter: value must be an dict")
     if "id" not in params:
