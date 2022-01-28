@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "disabled": True,
   "authentication_method": "password",
   "hostname": "remote-server.com",
   "remote_home_path": "/home/user1",
@@ -40,6 +41,7 @@
 ```
 
 * `id` (int64): Remote server ID
+* `disabled` (boolean): If true, this server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
 * `authentication_method` (string): Type of authentication method
 * `hostname` (string): Hostname or IP address
 * `remote_home_path` (string): Initial home folder on remote server

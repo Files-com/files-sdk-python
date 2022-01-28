@@ -65,7 +65,6 @@ import files_sdk.models.site as site
 import files_sdk.models.sso_strategy as sso_strategy
 import files_sdk.models.status as status
 import files_sdk.models.style as style
-import files_sdk.models.sync_job as sync_job
 import files_sdk.models.usage_daily_snapshot as usage_daily_snapshot
 import files_sdk.models.usage_snapshot as usage_snapshot
 import files_sdk.models.user as user
@@ -140,7 +139,6 @@ from files_sdk.models.site import Site
 from files_sdk.models.sso_strategy import SsoStrategy
 from files_sdk.models.status import Status
 from files_sdk.models.style import Style
-from files_sdk.models.sync_job import SyncJob
 from files_sdk.models.usage_daily_snapshot import UsageDailySnapshot
 from files_sdk.models.usage_snapshot import UsageSnapshot
 from files_sdk.models.user import User

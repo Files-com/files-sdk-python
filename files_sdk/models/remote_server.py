@@ -7,6 +7,7 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 class RemoteServer:
     default_attributes = {
         'id': None,     # int64 - Remote server ID
+        'disabled': None,     # boolean - If true, this server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
         'authentication_method': None,     # string - Type of authentication method
         'hostname': None,     # string - Hostname or IP address
         'remote_home_path': None,     # string - Initial home folder on remote server
