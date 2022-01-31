@@ -6,20 +6,25 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class UsageSnapshot:
     default_attributes = {
-        'id': None,     # int64 - Site usage ID
-        'start_at': None,     # date-time - Site usage report start date/time
-        'end_at': None,     # date-time - Site usage report end date/time
-        'created_at': None,     # date-time - Site usage report created at date/time
-        'high_water_user_count': None,     # double - Site usage report highest usage in time period
-        'current_storage': None,     # double - Current site usage as of report
-        'high_water_storage': None,     # double - Site usage report highest usage in time period
-        'total_downloads': None,     # int64 - Number of downloads in report time period
-        'total_uploads': None,     # int64 - Number of uploads in time period
-        'updated_at': None,     # date-time - The last time this site usage report was updated
-        'usage_by_top_level_dir': None,     # object - A map of root folders to their total usage
-        'root_storage': None,     # double - Usage for root folder
-        'deleted_files_counted_in_minimum': None,     # double - Usage for files that are deleted but uploaded within last 30 days
-        'deleted_files_storage': None,     # double - Usage for files that are deleted but retained as backups
+        'id': None,     # int64 - Usage snapshot ID
+        'start_at': None,     # date-time - Usage snapshot start date/time
+        'end_at': None,     # date-time - Usage snapshot end date/time
+        'created_at': None,     # date-time - DEPRECATED: Usage snapshot created at date/time
+        'high_water_user_count': None,     # double - Highest user count number in time period
+        'current_storage': None,     # double - Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
+        'high_water_storage': None,     # double - Highest Storage Usage GB recorded in time period (used for billing)
+        'total_downloads': None,     # int64 - DEPRECATED: Number of downloads in report time period
+        'total_uploads': None,     # int64 - DEPRECATED: Number of uploads in time period
+        'updated_at': None,     # date-time - DEPRECATED: The last time this site usage report was updated
+        'usage_by_top_level_dir': None,     # object - Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
+        'root_storage': None,     # double - Storage Usage for root folder as of end date (not necessarily high water mark, which is used for billing)
+        'deleted_files_counted_in_minimum': None,     # double - Storage Usage for files that are deleted but uploaded within last 30 days as of end date (not necessarily high water mark, which is used for billing)
+        'deleted_files_storage': None,     # double - Storage Usage for files that are deleted but retained as backups as of end date (not necessarily high water mark, which is used for billing)
+        'total_billable_usage': None,     # double - Storage + Transfer Usage - Total Billable amount
+        'total_billable_transfer_usage': None,     # double - Transfer usage for period - Total Billable amount
+        'bytes_sent': None,     # double - Transfer Usage for period - Outbound GB from Files Native Storage
+        'sync_bytes_received': None,     # double - Transfer Usage for period - Inbound GB to Remote Servers (Sync/Mount)
+        'sync_bytes_sent': None,     # double - Transfer Usage for period - Outbound GB from Remote Servers (Sync/Mount)
     }
 
     def __init__(self, attributes=None, options=None):
