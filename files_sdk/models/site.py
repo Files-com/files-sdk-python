@@ -10,6 +10,7 @@ class Site:
         'allowed_2fa_method_sms': None,     # boolean - Is SMS two factor authentication allowed?
         'allowed_2fa_method_totp': None,     # boolean - Is TOTP two factor authentication allowed?
         'allowed_2fa_method_u2f': None,     # boolean - Is U2F two factor authentication allowed?
+        'allowed_2fa_method_webauthn': None,     # boolean - Is WebAuthn two factor authentication allowed?
         'allowed_2fa_method_yubi': None,     # boolean - Is yubikey two factor authentication allowed?
         'admin_user_id': None,     # int64 - User ID for the main site administrator
         'allow_bundle_names': None,     # boolean - Are manual Bundle names allowed?
@@ -235,6 +236,7 @@ def get_usage(params = None, options = None):
 #   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
 #   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
 #   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
+#   allowed_2fa_method_webauthn - boolean - Is WebAuthn two factor authentication allowed?
 #   allowed_2fa_method_yubi - boolean - Is yubikey two factor authentication allowed?
 #   require_2fa - boolean - Require two-factor authentication for all users?
 #   require_2fa_user_type - string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?

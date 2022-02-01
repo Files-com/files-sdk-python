@@ -8,6 +8,7 @@
   "allowed_2fa_method_sms": True,
   "allowed_2fa_method_totp": True,
   "allowed_2fa_method_u2f": True,
+  "allowed_2fa_method_webauthn": True,
   "allowed_2fa_method_yubi": True,
   "admin_user_id": 1,
   "allow_bundle_names": True,
@@ -130,6 +131,7 @@
     "allowed_2fa_method_sms": True,
     "allowed_2fa_method_totp": True,
     "allowed_2fa_method_u2f": True,
+    "allowed_2fa_method_webauthn": True,
     "allowed_2fa_method_yubi": True,
     "use_provided_modified_at": True,
     "windows_mode_ftp": False
@@ -226,6 +228,7 @@
 * `allowed_2fa_method_sms` (boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_totp` (boolean): Is TOTP two factor authentication allowed?
 * `allowed_2fa_method_u2f` (boolean): Is U2F two factor authentication allowed?
+* `allowed_2fa_method_webauthn` (boolean): Is WebAuthn two factor authentication allowed?
 * `allowed_2fa_method_yubi` (boolean): Is yubikey two factor authentication allowed?
 * `admin_user_id` (int64): User ID for the main site administrator
 * `allow_bundle_names` (boolean): Are manual Bundle names allowed?
@@ -439,6 +442,7 @@ files_sdk.site.update({
   "allowed_2fa_method_sms": True,
   "allowed_2fa_method_u2f": True,
   "allowed_2fa_method_totp": True,
+  "allowed_2fa_method_webauthn": True,
   "allowed_2fa_method_yubi": True,
   "require_2fa": True,
   "require_2fa_user_type": "`site_admins`",
@@ -545,6 +549,7 @@ files_sdk.site.update({
 * `allowed_2fa_method_sms` (boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_u2f` (boolean): Is U2F two factor authentication allowed?
 * `allowed_2fa_method_totp` (boolean): Is TOTP two factor authentication allowed?
+* `allowed_2fa_method_webauthn` (boolean): Is WebAuthn two factor authentication allowed?
 * `allowed_2fa_method_yubi` (boolean): Is yubikey two factor authentication allowed?
 * `require_2fa` (boolean): Require two-factor authentication for all users?
 * `require_2fa_user_type` (string): What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?

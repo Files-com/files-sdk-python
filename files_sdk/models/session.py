@@ -21,6 +21,7 @@ class Session:
         'allowed_2fa_method_sms': None,     # boolean - Sent only if 2FA setup is needed. Is SMS two factor authentication allowed?
         'allowed_2fa_method_totp': None,     # boolean - Sent only if 2FA setup is needed. Is TOTP two factor authentication allowed?
         'allowed_2fa_method_u2f': None,     # boolean - Sent only if 2FA setup is needed. Is U2F two factor authentication allowed?
+        'allowed_2fa_method_webauthn': None,     # boolean - Sent only if 2FA setup is needed. Is WebAuthn two factor authentication allowed?
         'allowed_2fa_method_yubi': None,     # boolean - Sent only if 2FA setup is needed. Is Yubikey two factor authentication allowed?
         'use_provided_modified_at': None,     # boolean - Allow the user to provide file/folder modified at dates?  If false, the server will always use the current date/time.
         'windows_mode_ftp': None,     # boolean - Does this user want to use Windows line-ending emulation?  (CR vs CRLF)

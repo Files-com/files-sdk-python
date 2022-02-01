@@ -20,6 +20,7 @@
   "allowed_2fa_method_sms": True,
   "allowed_2fa_method_totp": True,
   "allowed_2fa_method_u2f": True,
+  "allowed_2fa_method_webauthn": True,
   "allowed_2fa_method_yubi": True,
   "use_provided_modified_at": True,
   "windows_mode_ftp": True
@@ -42,6 +43,7 @@
 * `allowed_2fa_method_sms` (boolean): Sent only if 2FA setup is needed. Is SMS two factor authentication allowed?
 * `allowed_2fa_method_totp` (boolean): Sent only if 2FA setup is needed. Is TOTP two factor authentication allowed?
 * `allowed_2fa_method_u2f` (boolean): Sent only if 2FA setup is needed. Is U2F two factor authentication allowed?
+* `allowed_2fa_method_webauthn` (boolean): Sent only if 2FA setup is needed. Is WebAuthn two factor authentication allowed?
 * `allowed_2fa_method_yubi` (boolean): Sent only if 2FA setup is needed. Is Yubikey two factor authentication allowed?
 * `use_provided_modified_at` (boolean): Allow the user to provide file/folder modified at dates?  If false, the server will always use the current date/time.
 * `windows_mode_ftp` (boolean): Does this user want to use Windows line-ending emulation?  (CR vs CRLF)
