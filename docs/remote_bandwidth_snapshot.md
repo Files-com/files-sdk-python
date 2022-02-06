@@ -1,38 +1,30 @@
-# BandwidthSnapshot
+# RemoteBandwidthSnapshot
 
-## Example BandwidthSnapshot Object
+## Example RemoteBandwidthSnapshot Object
 
 ```
 {
   "id": 1,
-  "bytes_received": 1.0,
-  "bytes_sent": 1.0,
   "sync_bytes_received": 1.0,
   "sync_bytes_sent": 1.0,
-  "requests_get": 1.0,
-  "requests_put": 1.0,
-  "requests_other": 1.0,
-  "logged_at": "2000-01-01T01:00:00Z"
+  "logged_at": "2000-01-01T01:00:00Z",
+  "remote_server_id": 1
 }
 ```
 
 * `id` (int64): Site bandwidth ID
-* `bytes_received` (double): Site bandwidth report bytes received
-* `bytes_sent` (double): Site bandwidth report bytes sent
 * `sync_bytes_received` (double): Site sync bandwidth report bytes received
 * `sync_bytes_sent` (double): Site sync bandwidth report bytes sent
-* `requests_get` (double): Site bandwidth report get requests
-* `requests_put` (double): Site bandwidth report put requests
-* `requests_other` (double): Site bandwidth report other requests
 * `logged_at` (date-time): Time the site bandwidth report was logged
+* `remote_server_id` (int64): ID of related Remote Server
 
 
 ---
 
-## List Bandwidth Snapshots
+## List Remote Bandwidth Snapshots
 
 ```
-files_sdk.bandwidth_snapshot.list({
+files_sdk.remote_bandwidth_snapshot.list({
   "per_page": 1
 })
 ```

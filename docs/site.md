@@ -207,7 +207,7 @@
     "subscribe_to_newsletter": True,
     "externally_managed": True,
     "time_zone": "Pacific Time (US & Canada)",
-    "type_of_2fa": "",
+    "type_of_2fa": "yubi",
     "user_root": ""
   },
   "user_lockout": True,
