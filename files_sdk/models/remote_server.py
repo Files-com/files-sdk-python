@@ -16,6 +16,7 @@ class RemoteServer:
         'max_connections': None,     # int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
         's3_bucket': None,     # string - S3 bucket name
         's3_region': None,     # string - S3 region
+        'aws_access_key': None,     # string - AWS Access Key.
         'server_certificate': None,     # string - Remote server certificate
         'server_host_key': None,     # string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
         'server_type': None,     # string - Remote server type.
@@ -27,6 +28,7 @@ class RemoteServer:
         'backblaze_b2_bucket': None,     # string - Backblaze B2 Cloud Storage Bucket name
         'wasabi_bucket': None,     # string - Wasabi Bucket name
         'wasabi_region': None,     # string - Wasabi region
+        'wasabi_access_key': None,     # string - Wasabi access key.
         'rackspace_username': None,     # string - Rackspace username used to login to the Rackspace Cloud Control Panel.
         'rackspace_region': None,     # string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
         'rackspace_container': None,     # string - The name of the container (top level directory) where files will sync.
@@ -38,21 +40,19 @@ class RemoteServer:
         'azure_blob_storage_container': None,     # string - Azure Blob Storage Container name
         's3_compatible_bucket': None,     # string - S3-compatible Bucket name
         's3_compatible_endpoint': None,     # string - S3-compatible endpoint
+        's3_compatible_access_key': None,     # string - S3-compatible Access Key.
         'enable_dedicated_ips': None,     # boolean - `true` if remote server only accepts connections from dedicated IPs
-        'aws_access_key': None,     # string - AWS Access Key.
         'aws_secret_key': None,     # string - AWS secret key.
         'password': None,     # string - Password if needed.
         'private_key': None,     # string - Private key if needed.
         'ssl_certificate': None,     # string - SSL client certificate.
         'google_cloud_storage_credentials_json': None,     # string - A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
-        'wasabi_access_key': None,     # string - Wasabi access key.
         'wasabi_secret_key': None,     # string - Wasabi secret key.
         'backblaze_b2_key_id': None,     # string - Backblaze B2 Cloud Storage keyID.
         'backblaze_b2_application_key': None,     # string - Backblaze B2 Cloud Storage applicationKey.
         'rackspace_api_key': None,     # string - Rackspace API key from the Rackspace Cloud Control Panel.
         'reset_authentication': None,     # boolean - Reset authenticated account
         'azure_blob_storage_access_key': None,     # string - Azure Blob Storage secret key.
-        's3_compatible_access_key': None,     # string - S3-compatible access key
         's3_compatible_secret_key': None,     # string - S3-compatible secret key
     }
 
@@ -111,7 +111,7 @@ class RemoteServer:
     #   s3_compatible_bucket - string - S3-compatible Bucket name
     #   s3_compatible_endpoint - string - S3-compatible endpoint
     #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
-    #   s3_compatible_access_key - string - S3-compatible access key
+    #   s3_compatible_access_key - string - S3-compatible Access Key.
     #   s3_compatible_secret_key - string - S3-compatible secret key
     def update(self, params = None):
         if not isinstance(params, dict):
@@ -306,7 +306,7 @@ def get(id, params = None, options = None):
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
 #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
-#   s3_compatible_access_key - string - S3-compatible access key
+#   s3_compatible_access_key - string - S3-compatible Access Key.
 #   s3_compatible_secret_key - string - S3-compatible secret key
 def create(params = None, options = None):
     if not isinstance(params, dict):
@@ -434,7 +434,7 @@ def create(params = None, options = None):
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
 #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
-#   s3_compatible_access_key - string - S3-compatible access key
+#   s3_compatible_access_key - string - S3-compatible Access Key.
 #   s3_compatible_secret_key - string - S3-compatible secret key
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
