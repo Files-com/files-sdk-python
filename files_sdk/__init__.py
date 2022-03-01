@@ -1,3 +1,4 @@
+from pathlib import Path
 import files_sdk.models.account_line_item as account_line_item
 import files_sdk.models.action as action
 import files_sdk.models.action_notification_export as action_notification_export
@@ -152,7 +153,13 @@ the_api_key = ""
 session_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.0"
+
+try:
+    with Path(__file__).parent.parent.joinpath('_VERSION').open() as version_file:
+        version = version_file.read().strip()
+except FileNotFoundError:
+    version = "missing_version_file"
+__version__ = version
 
 initial_network_retry_delay = 0.5
 max_network_retry_delay = 2
