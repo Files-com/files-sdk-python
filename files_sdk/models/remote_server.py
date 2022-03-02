@@ -40,6 +40,7 @@ class RemoteServer:
         'azure_blob_storage_container': None,     # string - Azure Blob Storage Container name
         's3_compatible_bucket': None,     # string - S3-compatible Bucket name
         's3_compatible_endpoint': None,     # string - S3-compatible endpoint
+        's3_compatible_region': None,     # string - S3-compatible endpoint
         's3_compatible_access_key': None,     # string - S3-compatible Access Key.
         'enable_dedicated_ips': None,     # boolean - `true` if remote server only accepts connections from dedicated IPs
         'aws_secret_key': None,     # string - AWS secret key.
@@ -110,6 +111,7 @@ class RemoteServer:
     #   azure_blob_storage_container - string - Azure Blob Storage Container name
     #   s3_compatible_bucket - string - S3-compatible Bucket name
     #   s3_compatible_endpoint - string - S3-compatible endpoint
+    #   s3_compatible_region - string - S3-compatible endpoint
     #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
     #   s3_compatible_access_key - string - S3-compatible Access Key.
     #   s3_compatible_secret_key - string - S3-compatible secret key
@@ -199,6 +201,8 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
         if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):
             raise InvalidParameterError("Bad parameter: s3_compatible_endpoint must be an str")
+        if "s3_compatible_region" in params and not isinstance(params["s3_compatible_region"], str):
+            raise InvalidParameterError("Bad parameter: s3_compatible_region must be an str")
         if "s3_compatible_access_key" in params and not isinstance(params["s3_compatible_access_key"], str):
             raise InvalidParameterError("Bad parameter: s3_compatible_access_key must be an str")
         if "s3_compatible_secret_key" in params and not isinstance(params["s3_compatible_secret_key"], str):
@@ -305,6 +309,7 @@ def get(id, params = None, options = None):
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
+#   s3_compatible_region - string - S3-compatible endpoint
 #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
 #   s3_compatible_access_key - string - S3-compatible Access Key.
 #   s3_compatible_secret_key - string - S3-compatible secret key
@@ -387,6 +392,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
     if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):
         raise InvalidParameterError("Bad parameter: s3_compatible_endpoint must be an str")
+    if "s3_compatible_region" in params and not isinstance(params["s3_compatible_region"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_region must be an str")
     if "s3_compatible_access_key" in params and not isinstance(params["s3_compatible_access_key"], str):
         raise InvalidParameterError("Bad parameter: s3_compatible_access_key must be an str")
     if "s3_compatible_secret_key" in params and not isinstance(params["s3_compatible_secret_key"], str):
@@ -433,6 +440,7 @@ def create(params = None, options = None):
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
+#   s3_compatible_region - string - S3-compatible endpoint
 #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
 #   s3_compatible_access_key - string - S3-compatible Access Key.
 #   s3_compatible_secret_key - string - S3-compatible secret key
@@ -518,6 +526,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
     if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):
         raise InvalidParameterError("Bad parameter: s3_compatible_endpoint must be an str")
+    if "s3_compatible_region" in params and not isinstance(params["s3_compatible_region"], str):
+        raise InvalidParameterError("Bad parameter: s3_compatible_region must be an str")
     if "s3_compatible_access_key" in params and not isinstance(params["s3_compatible_access_key"], str):
         raise InvalidParameterError("Bad parameter: s3_compatible_access_key must be an str")
     if "s3_compatible_secret_key" in params and not isinstance(params["s3_compatible_secret_key"], str):
