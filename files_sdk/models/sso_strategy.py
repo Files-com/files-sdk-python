@@ -66,6 +66,22 @@ class SsoStrategy:
     def get_attributes(self):
         return {k: getattr(self, k, None) for k in SsoStrategy.default_attributes if getattr(self, k, None) is not None}
 
+    # Synchronize provisioning data with the SSO remote server
+    def sync(self, params = None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params['id'] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        response, _options = Api.send_request("POST", "/sso_strategies/{id}/sync".format(id=params['id']), params, self.options)
+        return response.data
+
 
 # Parameters:
 #   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
@@ -101,6 +117,20 @@ def find(id, params = None, options = None):
 
 def get(id, params = None, options = None):
     find(id, params, options)
+
+# Synchronize provisioning data with the SSO remote server
+def sync(id, params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, _options = Api.send_request("POST", "/sso_strategies/{id}/sync".format(id=params['id']), params, options)
+    return response.data
 
 def new(*args, **kwargs):
     return SsoStrategy(*args, **kwargs)

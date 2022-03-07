@@ -122,3 +122,30 @@ files_sdk.sso_strategy.find(id)
 ### Parameters
 
 * `id` (int64): Required - Sso Strategy ID.
+
+
+---
+
+## Synchronize provisioning data with the SSO remote server
+
+```
+files_sdk.sso_strategy.sync(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Sso Strategy ID.
+
+
+---
+
+## Synchronize provisioning data with the SSO remote server
+
+```
+sso_strategy = files_sdk.sso_strategy.list.first
+sso_strategy.sync()
+```
+
+### Parameters
+
+* `id` (int64): Required - Sso Strategy ID.
