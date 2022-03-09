@@ -68,7 +68,7 @@
 * `require_registration` (boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `clickwrap_body` (string): Legal text that must be agreed to prior to accessing Bundle.
-* `form_field_set`: Custom Form to use
+* `form_field_set` (FormFieldSet): Custom Form to use
 * `id` (int64): Bundle ID
 * `created_at` (date-time): Bundle created at date/time
 * `expires_at` (date-time): Bundle expiration date/time
@@ -78,7 +78,7 @@
 * `username` (string): Bundle creator username
 * `clickwrap_id` (int64): ID of the clickwrap to use with this bundle.
 * `inbox_id` (int64): ID of the associated inbox, if available.
-* `watermark_attachment`: Preview watermark image applied to all bundle items.
+* `watermark_attachment` (Image): Preview watermark image applied to all bundle items.
 * `watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `has_inbox` (boolean): Does this bundle have an associated inbox?
 * `paths` (array): A list of paths in this bundle

@@ -9,7 +9,7 @@ class Message:
         'id': None,     # int64 - Message ID
         'subject': None,     # string - Message subject.
         'body': None,     # string - Message body.
-        'comments': None,     # Comments.
+        'comments': None,     # MessageComment - Comments.
         'user_id': None,     # int64 - User ID.  Provide a value of `0` to operate the current session's user.
         'project_id': None,     # int64 - Project to which the message should be attached.
     }

@@ -14,7 +14,7 @@ class Bundle:
         'require_registration': None,     # boolean - Show a registration page that captures the downloader's name and email address?
         'require_share_recipient': None,     # boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
         'clickwrap_body': None,     # string - Legal text that must be agreed to prior to accessing Bundle.
-        'form_field_set': None,     # Custom Form to use
+        'form_field_set': None,     # FormFieldSet - Custom Form to use
         'id': None,     # int64 - Bundle ID
         'created_at': None,     # date-time - Bundle created at date/time
         'expires_at': None,     # date-time - Bundle expiration date/time
@@ -24,7 +24,7 @@ class Bundle:
         'username': None,     # string - Bundle creator username
         'clickwrap_id': None,     # int64 - ID of the clickwrap to use with this bundle.
         'inbox_id': None,     # int64 - ID of the associated inbox, if available.
-        'watermark_attachment': None,     # Preview watermark image applied to all bundle items.
+        'watermark_attachment': None,     # Image - Preview watermark image applied to all bundle items.
         'watermark_value': None,     # object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
         'has_inbox': None,     # boolean - Does this bundle have an associated inbox?
         'paths': None,     # array - A list of paths in this bundle

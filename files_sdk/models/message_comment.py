@@ -8,7 +8,7 @@ class MessageComment:
     default_attributes = {
         'id': None,     # int64 - Message Comment ID
         'body': None,     # string - Comment body.
-        'reactions': None,     # Reactions to this comment.
+        'reactions': None,     # MessageCommentReaction - Reactions to this comment.
         'user_id': None,     # int64 - User ID.  Provide a value of `0` to operate the current session's user.
     }
 

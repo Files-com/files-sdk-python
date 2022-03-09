@@ -22,7 +22,7 @@ class Folder:
         'download_uri': None,     # string - Link to download file. Provided only in response to a download request.
         'priority_color': None,     # string - Bookmark/priority color of file/folder
         'preview_id': None,     # int64 - File preview ID
-        'preview': None,     # File preview
+        'preview': None,     # Preview - File preview
     }
 
     def __init__(self, attributes=None, options=None):

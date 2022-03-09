@@ -6,7 +6,8 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class BundleDownload:
     default_attributes = {
-        'bundle_registration': None,         'download_method': None,     # string - Download method (file or full_zip)
+        'bundle_registration': None,     # BundleRegistration
+        'download_method': None,     # string - Download method (file or full_zip)
         'path': None,     # string - Download path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         'created_at': None,     # date-time - Download date/time
     }

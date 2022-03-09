@@ -15,7 +15,7 @@
 * `code` (int64): Status HTTP code
 * `message` (string): Error message
 * `status` (string): Status message
-* `data`: Additional data
+* `data` (Auto): Additional data
 * `success` (boolean): The success status of the webhook test
 * `url` (string): URL for testing the webhook.
 * `method` (string): HTTP method(GET or POST).

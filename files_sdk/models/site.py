@@ -20,7 +20,7 @@ class Site:
         'bundle_expiration': None,     # int64 - Site-wide Bundle expiration in days
         'bundle_password_required': None,     # boolean - Do Bundles require password protection?
         'bundle_require_share_recipient': None,     # boolean - Do Bundles require recipients for sharing?
-        'bundle_watermark_attachment': None,     # Preview watermark image applied to all bundle items.
+        'bundle_watermark_attachment': None,     # Image - Preview watermark image applied to all bundle items.
         'bundle_watermark_value': None,     # object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
         'color2_left': None,     # string - Page link and button color
         'color2_link': None,     # string - Top bar link color
@@ -52,10 +52,10 @@ class Site:
         'non_sso_users_allowed': None,     # boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
         'folder_permissions_groups_only': None,     # boolean - If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
         'hipaa': None,     # boolean - Is there a signed HIPAA BAA between Files.com and this site?
-        'icon128': None,     # Branded icon 128x128
-        'icon16': None,     # Branded icon 16x16
-        'icon32': None,     # Branded icon 32x32
-        'icon48': None,     # Branded icon 48x48
+        'icon128': None,     # Image - Branded icon 128x128
+        'icon16': None,     # Image - Branded icon 16x16
+        'icon32': None,     # Image - Branded icon 32x32
+        'icon48': None,     # Image - Branded icon 48x48
         'immutable_files_set_at': None,     # date-time - Can files be modified?
         'include_password_in_welcome_email': None,     # boolean - Include password in emails to new users?
         'language': None,     # string - Site default language
@@ -76,7 +76,7 @@ class Site:
         'ldap_username': None,     # string - Username for signing in to LDAP server.
         'ldap_username_field': None,     # string - LDAP username field
         'login_help_text': None,     # string - Login help text
-        'logo': None,     # Branded logo
+        'logo': None,     # Image - Branded logo
         'max_prior_passwords': None,     # int64 - Number of prior passwords to disallow
         'next_billing_amount': None,     # double - Next billing amount
         'next_billing_date': None,     # string - Next billing date
@@ -98,7 +98,7 @@ class Site:
         'require_2fa': None,     # boolean - Require two-factor authentication for all users?
         'require_2fa_stop_time': None,     # date-time - If set, requirement for two-factor authentication has been scheduled to end on this date-time.
         'require_2fa_user_type': None,     # string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
-        'session': None,     # Current session
+        'session': None,     # Session - Current session
         'session_pinned_by_ip': None,     # boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
         'sftp_enabled': None,     # boolean - Is SFTP enabled?
         'sftp_insecure_ciphers': None,     # boolean - Are Insecure Ciphers allowed for SFTP?  Note:  Settting TLS Disabled -> True will always allow insecure ciphers for SFTP as well.  Enabling this is insecure.
@@ -121,7 +121,7 @@ class Site:
         'trial_until': None,     # date-time - When does this Site trial expire?
         'updated_at': None,     # date-time - Last time this Site was updated
         'use_provided_modified_at': None,     # boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
-        'user': None,     # User of current session
+        'user': None,     # User - User of current session
         'user_lockout': None,     # boolean - Will users be locked out after incorrect login attempts?
         'user_lockout_lock_period': None,     # int64 - How many hours to lock user out for failed password?
         'user_lockout_tries': None,     # int64 - Number of login tries within `user_lockout_within` hours before users are locked out

@@ -8,7 +8,7 @@ class WebhookTest:
         'code': None,     # int64 - Status HTTP code
         'message': None,     # string - Error message
         'status': None,     # string - Status message
-        'data': None,     # Additional data
+        'data': None,     # Auto - Additional data
         'success': None,     # boolean - The success status of the webhook test
         'url': None,     # string - URL for testing the webhook.
         'method': None,     # string - HTTP method(GET or POST).

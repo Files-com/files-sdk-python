@@ -6,7 +6,8 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class InboxUpload:
     default_attributes = {
-        'inbox_registration': None,         'path': None,     # string - Upload path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        'inbox_registration': None,     # InboxRegistration
+        'path': None,     # string - Upload path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         'created_at': None,     # date-time - Upload date/time
     }
 

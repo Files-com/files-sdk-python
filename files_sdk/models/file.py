@@ -28,7 +28,7 @@ class File:
         'download_uri': None,     # string - Link to download file. Provided only in response to a download request.
         'priority_color': None,     # string - Bookmark/priority color of file/folder
         'preview_id': None,     # int64 - File preview ID
-        'preview': None,     # File preview
+        'preview': None,     # Preview - File preview
         'action': None,     # string - The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
         'length': None,     # int64 - Length of file.
         'mkdir_parents': None,     # boolean - Create parent directories if they do not exist?
