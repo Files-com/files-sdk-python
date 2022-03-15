@@ -10,9 +10,14 @@ class As2Station:
         'name': None,     # string - The station's formal AS2 name.
         'uri': None,     # string - Public URI for sending AS2 message to.
         'domain': None,     # string - The station's AS2 domain name.
-        'public_certificate': None,     # string - Public certificate used for message security.
         'public_certificate_md5': None,     # string - MD5 hash of public certificate used for message security.
         'private_key_md5': None,     # string - MD5 hash of private key used for message security.
+        'public_certificate_subject': None,     # string - Subject of public certificate used for message security.
+        'public_certificate_issuer': None,     # string - Issuer of public certificate used for message security.
+        'public_certificate_serial': None,     # string - Serial of public certificate used for message security.
+        'public_certificate_not_before': None,     # string - Not before value of public certificate used for message security.
+        'public_certificate_not_after': None,     # string - Not after value of public certificate used for message security.
+        'public_certificate': None,     # string
         'private_key': None,     # string
     }
 
@@ -33,8 +38,6 @@ class As2Station:
 
     # Parameters:
     #   name - string - AS2 Name
-    #   domain - string - AS2 Domain
-    #   uri - string - URL base for AS2 responses
     #   public_certificate - string
     #   private_key - string
     def update(self, params = None):
@@ -51,10 +54,6 @@ class As2Station:
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
-        if "domain" in params and not isinstance(params["domain"], str):
-            raise InvalidParameterError("Bad parameter: domain must be an str")
-        if "uri" in params and not isinstance(params["uri"], str):
-            raise InvalidParameterError("Bad parameter: uri must be an str")
         if "public_certificate" in params and not isinstance(params["public_certificate"], str):
             raise InvalidParameterError("Bad parameter: public_certificate must be an str")
         if "private_key" in params and not isinstance(params["private_key"], str):
@@ -124,8 +123,6 @@ def get(id, params = None, options = None):
 
 # Parameters:
 #   name (required) - string - AS2 Name
-#   domain (required) - string - AS2 Domain
-#   uri (required) - string - URL base for AS2 responses
 #   public_certificate (required) - string
 #   private_key (required) - string
 def create(params = None, options = None):
@@ -135,20 +132,12 @@ def create(params = None, options = None):
         options = {}
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
-    if "domain" in params and not isinstance(params["domain"], str):
-        raise InvalidParameterError("Bad parameter: domain must be an str")
-    if "uri" in params and not isinstance(params["uri"], str):
-        raise InvalidParameterError("Bad parameter: uri must be an str")
     if "public_certificate" in params and not isinstance(params["public_certificate"], str):
         raise InvalidParameterError("Bad parameter: public_certificate must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
         raise InvalidParameterError("Bad parameter: private_key must be an str")
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
-    if "domain" not in params:
-        raise MissingParameterError("Parameter missing: domain")
-    if "uri" not in params:
-        raise MissingParameterError("Parameter missing: uri")
     if "public_certificate" not in params:
         raise MissingParameterError("Parameter missing: public_certificate")
     if "private_key" not in params:
@@ -158,8 +147,6 @@ def create(params = None, options = None):
 
 # Parameters:
 #   name - string - AS2 Name
-#   domain - string - AS2 Domain
-#   uri - string - URL base for AS2 responses
 #   public_certificate - string
 #   private_key - string
 def update(id, params = None, options = None):
@@ -172,10 +159,6 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
-    if "domain" in params and not isinstance(params["domain"], str):
-        raise InvalidParameterError("Bad parameter: domain must be an str")
-    if "uri" in params and not isinstance(params["uri"], str):
-        raise InvalidParameterError("Bad parameter: uri must be an str")
     if "public_certificate" in params and not isinstance(params["public_certificate"], str):
         raise InvalidParameterError("Bad parameter: public_certificate must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):

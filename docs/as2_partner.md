@@ -8,7 +8,12 @@
   "as2_station_id": 1,
   "name": "AS2 Partner Name",
   "uri": "",
-  "public_certificate_md5": ""
+  "public_certificate_md5": "",
+  "public_certificate_subject": "",
+  "public_certificate_issuer": "",
+  "public_certificate_serial": "",
+  "public_certificate_not_before": "",
+  "public_certificate_not_after": ""
 }
 ```
 
@@ -17,6 +22,11 @@
 * `name` (string): The partner's formal AS2 name.
 * `uri` (string): Public URI for sending AS2 message to.
 * `public_certificate_md5` (string): MD5 hash of public certificate used for message security.
+* `public_certificate_subject` (string): Subject of public certificate used for message security.
+* `public_certificate_issuer` (string): Issuer of public certificate used for message security.
+* `public_certificate_serial` (string): Serial of public certificate used for message security.
+* `public_certificate_not_before` (string): Not before value of public certificate used for message security.
+* `public_certificate_not_after` (string): Not after value of public certificate used for message security.
 * `public_certificate` (string): 
 
 

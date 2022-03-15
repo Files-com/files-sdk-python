@@ -8,9 +8,13 @@
   "name": "AS2 Station Name",
   "uri": "",
   "domain": "domain.test",
-  "public_certificate": "",
   "public_certificate_md5": "",
-  "private_key_md5": ""
+  "private_key_md5": "",
+  "public_certificate_subject": "",
+  "public_certificate_issuer": "",
+  "public_certificate_serial": "",
+  "public_certificate_not_before": "",
+  "public_certificate_not_after": ""
 }
 ```
 
@@ -18,9 +22,14 @@
 * `name` (string): The station's formal AS2 name.
 * `uri` (string): Public URI for sending AS2 message to.
 * `domain` (string): The station's AS2 domain name.
-* `public_certificate` (string): Public certificate used for message security.
 * `public_certificate_md5` (string): MD5 hash of public certificate used for message security.
 * `private_key_md5` (string): MD5 hash of private key used for message security.
+* `public_certificate_subject` (string): Subject of public certificate used for message security.
+* `public_certificate_issuer` (string): Issuer of public certificate used for message security.
+* `public_certificate_serial` (string): Serial of public certificate used for message security.
+* `public_certificate_not_before` (string): Not before value of public certificate used for message security.
+* `public_certificate_not_after` (string): Not after value of public certificate used for message security.
+* `public_certificate` (string): 
 * `private_key` (string): 
 
 
@@ -60,8 +69,6 @@ files_sdk.as2_station.find(id)
 ```
 files_sdk.as2_station.create({
   "name": "name",
-  "domain": "domain",
-  "uri": "uri",
   "public_certificate": "public_certificate",
   "private_key": "private_key"
 })
@@ -70,8 +77,6 @@ files_sdk.as2_station.create({
 ### Parameters
 
 * `name` (string): Required - AS2 Name
-* `domain` (string): Required - AS2 Domain
-* `uri` (string): Required - URL base for AS2 responses
 * `public_certificate` (string): Required - 
 * `private_key` (string): Required - 
 
@@ -82,8 +87,7 @@ files_sdk.as2_station.create({
 
 ```
 files_sdk.as2_station.update(id, {
-  "name": "AS2 Station Name",
-  "domain": "domain.test"
+  "name": "AS2 Station Name"
 })
 ```
 
@@ -91,8 +95,6 @@ files_sdk.as2_station.update(id, {
 
 * `id` (int64): Required - As2 Station ID.
 * `name` (string): AS2 Name
-* `domain` (string): AS2 Domain
-* `uri` (string): URL base for AS2 responses
 * `public_certificate` (string): 
 * `private_key` (string): 
 
@@ -117,8 +119,7 @@ files_sdk.as2_station.delete(id)
 ```
 as2_station = files_sdk.as2_station.list.first
 as2_station.update({
-  "name": "AS2 Station Name",
-  "domain": "domain.test"
+  "name": "AS2 Station Name"
 })
 ```
 
@@ -126,8 +127,6 @@ as2_station.update({
 
 * `id` (int64): Required - As2 Station ID.
 * `name` (string): AS2 Name
-* `domain` (string): AS2 Domain
-* `uri` (string): URL base for AS2 responses
 * `public_certificate` (string): 
 * `private_key` (string): 
 
