@@ -10,6 +10,7 @@ class As2Partner:
         'as2_station_id': None,     # int64 - Id of the AS2 Station associated with this partner.
         'name': None,     # string - The partner's formal AS2 name.
         'uri': None,     # string - Public URI for sending AS2 message to.
+        'server_certificate': None,     # string - Remote server certificate security setting
         'public_certificate_md5': None,     # string - MD5 hash of public certificate used for message security.
         'public_certificate_subject': None,     # string - Subject of public certificate used for message security.
         'public_certificate_issuer': None,     # string - Issuer of public certificate used for message security.
@@ -37,6 +38,7 @@ class As2Partner:
     # Parameters:
     #   name - string - AS2 Name
     #   uri - string - URL base for AS2 responses
+    #   server_certificate - string - Remote server certificate security setting
     #   public_certificate - string
     def update(self, params = None):
         if not isinstance(params, dict):
@@ -54,6 +56,8 @@ class As2Partner:
             raise InvalidParameterError("Bad parameter: name must be an str")
         if "uri" in params and not isinstance(params["uri"], str):
             raise InvalidParameterError("Bad parameter: uri must be an str")
+        if "server_certificate" in params and not isinstance(params["server_certificate"], str):
+            raise InvalidParameterError("Bad parameter: server_certificate must be an str")
         if "public_certificate" in params and not isinstance(params["public_certificate"], str):
             raise InvalidParameterError("Bad parameter: public_certificate must be an str")
         response, _options = Api.send_request("PATCH", "/as2_partners/{id}".format(id=params['id']), params, self.options)
@@ -124,6 +128,7 @@ def get(id, params = None, options = None):
 #   uri (required) - string - URL base for AS2 responses
 #   public_certificate (required) - string
 #   as2_station_id (required) - int64 - Id of As2Station for this partner
+#   server_certificate - string - Remote server certificate security setting
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -137,6 +142,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: public_certificate must be an str")
     if "as2_station_id" in params and not isinstance(params["as2_station_id"], int):
         raise InvalidParameterError("Bad parameter: as2_station_id must be an int")
+    if "server_certificate" in params and not isinstance(params["server_certificate"], str):
+        raise InvalidParameterError("Bad parameter: server_certificate must be an str")
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     if "uri" not in params:
@@ -151,6 +158,7 @@ def create(params = None, options = None):
 # Parameters:
 #   name - string - AS2 Name
 #   uri - string - URL base for AS2 responses
+#   server_certificate - string - Remote server certificate security setting
 #   public_certificate - string
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
@@ -164,6 +172,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "uri" in params and not isinstance(params["uri"], str):
         raise InvalidParameterError("Bad parameter: uri must be an str")
+    if "server_certificate" in params and not isinstance(params["server_certificate"], str):
+        raise InvalidParameterError("Bad parameter: server_certificate must be an str")
     if "public_certificate" in params and not isinstance(params["public_certificate"], str):
         raise InvalidParameterError("Bad parameter: public_certificate must be an str")
     if "id" not in params:
