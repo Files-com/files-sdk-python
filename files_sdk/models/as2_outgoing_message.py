@@ -11,7 +11,7 @@ class As2OutgoingMessage:
         'uuid': None,     # string - UUID assigned to this message.
         'http_headers': None,     # object - HTTP Headers sent with this message.
         'activity_log': None,     # string - JSON Structure of the activity log.
-        'processing_result': None,     # string - Result of processing. Valid values: `send_failed`, `send_success`
+        'processing_result': None,     # string - Result of processing. Valid values: `send_failed`, `send_success`, `send_no_mdn`
         'mic': None,     # string - AS2 Message Integrity Check
         'message_id': None,     # string - AS2 Message Id
         'body_size': None,     # string - Encrypted Payload Body Size

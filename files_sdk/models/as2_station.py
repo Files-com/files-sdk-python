@@ -17,8 +17,10 @@ class As2Station:
         'public_certificate_serial': None,     # string - Serial of public certificate used for message security.
         'public_certificate_not_before': None,     # string - Not before value of public certificate used for message security.
         'public_certificate_not_after': None,     # string - Not after value of public certificate used for message security.
+        'private_key_password_md5': None,     # string - MD5 hash of private key password used for message security.
         'public_certificate': None,     # string
         'private_key': None,     # string
+        'private_key_password': None,     # string
     }
 
     def __init__(self, attributes=None, options=None):
@@ -40,6 +42,7 @@ class As2Station:
     #   name - string - AS2 Name
     #   public_certificate - string
     #   private_key - string
+    #   private_key_password - string
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -58,6 +61,8 @@ class As2Station:
             raise InvalidParameterError("Bad parameter: public_certificate must be an str")
         if "private_key" in params and not isinstance(params["private_key"], str):
             raise InvalidParameterError("Bad parameter: private_key must be an str")
+        if "private_key_password" in params and not isinstance(params["private_key_password"], str):
+            raise InvalidParameterError("Bad parameter: private_key_password must be an str")
         response, _options = Api.send_request("PATCH", "/as2_stations/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -125,6 +130,7 @@ def get(id, params = None, options = None):
 #   name (required) - string - AS2 Name
 #   public_certificate (required) - string
 #   private_key (required) - string
+#   private_key_password - string
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -136,6 +142,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: public_certificate must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
         raise InvalidParameterError("Bad parameter: private_key must be an str")
+    if "private_key_password" in params and not isinstance(params["private_key_password"], str):
+        raise InvalidParameterError("Bad parameter: private_key_password must be an str")
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     if "public_certificate" not in params:
@@ -149,6 +157,7 @@ def create(params = None, options = None):
 #   name - string - AS2 Name
 #   public_certificate - string
 #   private_key - string
+#   private_key_password - string
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -163,6 +172,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: public_certificate must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
         raise InvalidParameterError("Bad parameter: private_key must be an str")
+    if "private_key_password" in params and not isinstance(params["private_key_password"], str):
+        raise InvalidParameterError("Bad parameter: private_key_password must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/as2_stations/{id}".format(id=params['id']), params, options)
