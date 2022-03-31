@@ -39,6 +39,9 @@
     "skip_email": True,
     "skip_company": True
   },
+  "skip_name": True,
+  "skip_email": True,
+  "skip_company": True,
   "id": 1,
   "created_at": "2000-01-01T01:00:00Z",
   "expires_at": "2000-01-01T01:00:00Z",
@@ -69,6 +72,9 @@
 * `require_share_recipient` (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `clickwrap_body` (string): Legal text that must be agreed to prior to accessing Bundle.
 * `form_field_set` (FormFieldSet): Custom Form to use
+* `skip_name` (boolean): BundleRegistrations can be saved without providing name?
+* `skip_email` (boolean): BundleRegistrations can be saved without providing email?
+* `skip_company` (boolean): BundleRegistrations can be saved without providing company?
 * `id` (int64): Bundle ID
 * `created_at` (date-time): Bundle created at date/time
 * `expires_at` (date-time): Bundle expiration date/time
