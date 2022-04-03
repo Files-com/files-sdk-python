@@ -151,7 +151,10 @@ files_sdk.bundle.create({
   "require_registration": True,
   "clickwrap_id": 1,
   "inbox_id": 1,
-  "require_share_recipient": True
+  "require_share_recipient": True,
+  "skip_email": True,
+  "skip_name": True,
+  "skip_company": True
 })
 ```
 
@@ -171,6 +174,9 @@ files_sdk.bundle.create({
 * `clickwrap_id` (int64): ID of the clickwrap to use with this bundle.
 * `inbox_id` (int64): ID of the associated inbox, if available.
 * `require_share_recipient` (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `skip_email` (boolean): BundleRegistrations can be saved without providing email?
+* `skip_name` (boolean): BundleRegistrations can be saved without providing name?
+* `skip_company` (boolean): BundleRegistrations can be saved without providing company?
 * `watermark_attachment_file` (file): Preview watermark image applied to all bundle items.
 
 
@@ -213,6 +219,9 @@ files_sdk.bundle.update(id, {
   "preview_only": True,
   "require_registration": True,
   "require_share_recipient": True,
+  "skip_email": True,
+  "skip_name": True,
+  "skip_company": True,
   "watermark_attachment_delete": True
 })
 ```
@@ -233,6 +242,9 @@ files_sdk.bundle.update(id, {
 * `preview_only` (boolean): Restrict users to previewing files only?
 * `require_registration` (boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `skip_email` (boolean): BundleRegistrations can be saved without providing email?
+* `skip_name` (boolean): BundleRegistrations can be saved without providing name?
+* `skip_company` (boolean): BundleRegistrations can be saved without providing company?
 * `watermark_attachment_delete` (boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (file): Preview watermark image applied to all bundle items.
 
@@ -291,6 +303,9 @@ bundle.update({
   "preview_only": True,
   "require_registration": True,
   "require_share_recipient": True,
+  "skip_email": True,
+  "skip_name": True,
+  "skip_company": True,
   "watermark_attachment_delete": True
 })
 ```
@@ -311,6 +326,9 @@ bundle.update({
 * `preview_only` (boolean): Restrict users to previewing files only?
 * `require_registration` (boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `skip_email` (boolean): BundleRegistrations can be saved without providing email?
+* `skip_name` (boolean): BundleRegistrations can be saved without providing name?
+* `skip_company` (boolean): BundleRegistrations can be saved without providing company?
 * `watermark_attachment_delete` (boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (file): Preview watermark image applied to all bundle items.
 

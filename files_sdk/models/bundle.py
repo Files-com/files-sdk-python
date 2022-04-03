@@ -93,6 +93,9 @@ class Bundle:
     #   preview_only - boolean - Restrict users to previewing files only?
     #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
     #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+    #   skip_email - boolean - BundleRegistrations can be saved without providing email?
+    #   skip_name - boolean - BundleRegistrations can be saved without providing name?
+    #   skip_company - boolean - BundleRegistrations can be saved without providing company?
     #   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
     #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
     def update(self, params = None):
@@ -229,6 +232,9 @@ def get(id, params = None, options = None):
 #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
 #   inbox_id - int64 - ID of the associated inbox, if available.
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+#   skip_email - boolean - BundleRegistrations can be saved without providing email?
+#   skip_name - boolean - BundleRegistrations can be saved without providing name?
+#   skip_company - boolean - BundleRegistrations can be saved without providing company?
 #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
 def create(params = None, options = None):
     if not isinstance(params, dict):
@@ -301,6 +307,9 @@ def share(id, params = None, options = None):
 #   preview_only - boolean - Restrict users to previewing files only?
 #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+#   skip_email - boolean - BundleRegistrations can be saved without providing email?
+#   skip_name - boolean - BundleRegistrations can be saved without providing name?
+#   skip_company - boolean - BundleRegistrations can be saved without providing company?
 #   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
 #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
 def update(id, params = None, options = None):
