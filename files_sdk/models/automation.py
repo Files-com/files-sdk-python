@@ -8,6 +8,7 @@ class Automation:
     default_attributes = {
         'id': None,     # int64 - Automation ID
         'automation': None,     # string - Automation type
+        'disabled': None,     # boolean - If true, this automation will not run.
         'trigger': None,     # string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
         'interval': None,     # string - If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
         'name': None,     # string - Name for this automation.
@@ -55,6 +56,7 @@ class Automation:
     #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   schedule - object - Custom schedule for running this automation.
     #   description - string - Description for the this Automation.
+    #   disabled - boolean - If true, this automation will not run.
     #   name - string - Name for this automation.
     #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
     #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -201,6 +203,7 @@ def get(id, params = None, options = None):
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   schedule - object - Custom schedule for running this automation.
 #   description - string - Description for the this Automation.
+#   disabled - boolean - If true, this automation will not run.
 #   name - string - Name for this automation.
 #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -260,6 +263,7 @@ def create(params = None, options = None):
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   schedule - object - Custom schedule for running this automation.
 #   description - string - Description for the this Automation.
+#   disabled - boolean - If true, this automation will not run.
 #   name - string - Name for this automation.
 #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
