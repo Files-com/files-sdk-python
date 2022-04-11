@@ -10,6 +10,7 @@ class As2Station:
         'name': None,     # string - The station's formal AS2 name.
         'uri': None,     # string - Public URI for sending AS2 message to.
         'domain': None,     # string - The station's AS2 domain name.
+        'hex_public_certificate_serial': None,     # string - Serial of public certificate used for message security in hex format.
         'public_certificate_md5': None,     # string - MD5 hash of public certificate used for message security.
         'private_key_md5': None,     # string - MD5 hash of private key used for message security.
         'public_certificate_subject': None,     # string - Subject of public certificate used for message security.

@@ -8,15 +8,32 @@ class As2OutgoingMessage:
     default_attributes = {
         'id': None,     # int64 - Id of the AS2 Partner.
         'as2_partner_id': None,     # int64 - Id of the AS2 Partner associated with this message.
+        'as2_station_id': None,     # int64 - Id of the AS2 Station associated with this message.
         'uuid': None,     # string - UUID assigned to this message.
         'http_headers': None,     # object - HTTP Headers sent with this message.
         'activity_log': None,     # string - JSON Structure of the activity log.
         'processing_result': None,     # string - Result of processing.
-        'mic': None,     # string - AS2 Message Integrity Check
+        'mic': None,     # string - AS2 Message Integrity Check SHA1
+        'mic_sha_256': None,     # string - AS2 Message Integrity Check SHA256
+        'as2_to': None,     # string - AS2 TO
+        'as2_from': None,     # string - AS2 FROM
         'message_id': None,     # string - AS2 Message Id
         'body_size': None,     # string - Encrypted Payload Body Size
         'attachment_filename': None,     # string - Filename of the file being sent.
         'created_at': None,     # date-time - Message creation date/time
+        'http_response_code': None,     # string - HTTP Response Code received for this message
+        'http_response_headers': None,     # object - HTTP Headers received for this message.
+        'mdn_received': None,     # boolean - Did the partner give a response body?
+        'mdn_valid': None,     # boolean - Is the response in MDN format?
+        'mdn_signature_verified': None,     # boolean - MDN signature verified?
+        'mdn_message_id_matched': None,     # boolean - MDN message id matched?
+        'mdn_mic_matched': None,     # boolean - MDN MIC matched?
+        'mdn_processing_success': None,     # boolean - MDN disposition indicate a successful processing?
+        'raw_uri': None,     # string - URL to download the original file contents
+        'smime_uri': None,     # string - URL to download the file contents encoded as smime
+        'smime_signed_uri': None,     # string - URL to download the file contents as smime with signature
+        'encrypted_uri': None,     # string - URL to download the encrypted signed smime that is to sent as AS2 body
+        'mdn_response_uri': None,     # string - URL to download the http response body
     }
 
     def __init__(self, attributes=None, options=None):

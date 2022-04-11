@@ -8,18 +8,34 @@ class As2IncomingMessage:
     default_attributes = {
         'id': None,     # int64 - Id of the AS2 Partner.
         'as2_partner_id': None,     # int64 - Id of the AS2 Partner associated with this message.
+        'as2_station_id': None,     # int64 - Id of the AS2 Station associated with this message.
         'uuid': None,     # string - UUID assigned to this message.
         'content_type': None,     # string - Content Type header of the incoming message.
         'http_headers': None,     # object - HTTP Headers sent with this message.
         'activity_log': None,     # string - JSON Structure of the activity log.
         'processing_result': None,     # string - Result of processing.
+        'mic': None,     # string - AS2 Message Integrity Check
+        'mic_algo': None,     # string - AS2 Message Integrity Check Algorithm Used
         'as2_to': None,     # string - AS2 TO header of message
         'as2_from': None,     # string - AS2 FROM header of message
         'message_id': None,     # string - AS2 Message Id
         'subject': None,     # string - AS2 Subject Header
         'body_size': None,     # string - Encrypted Payload Body Size
         'attachment_filename': None,     # string - Filename of the file being received.
+        'ip': None,     # string - IP Address of the Sender
         'created_at': None,     # date-time - Message creation date/time
+        'http_response_code': None,     # string - HTTP Response Code sent for this message
+        'http_response_headers': None,     # object - HTTP Headers sent for this message.
+        'message_received': None,     # boolean - Message body received?
+        'message_decrypted': None,     # boolean - Message decrypted successfully?
+        'message_signature_verified': None,     # boolean - Message signature verified?
+        'message_processing_success': None,     # boolean - Message processed successfully?
+        'message_mdn_returned': None,     # boolean - MDN returned?
+        'encrypted_uri': None,     # string - URL to download the encrypted signed smime that is to sent as AS2 body
+        'smime_signed_uri': None,     # string - URL to download the file contents as smime with signature
+        'smime_uri': None,     # string - URL to download the file contents encoded as smime
+        'raw_uri': None,     # string - URL to download the original file contents
+        'mdn_response_uri': None,     # string - URL to download the http response body
     }
 
     def __init__(self, attributes=None, options=None):

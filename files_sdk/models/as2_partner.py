@@ -11,6 +11,7 @@ class As2Partner:
         'name': None,     # string - The partner's formal AS2 name.
         'uri': None,     # string - Public URI for sending AS2 message to.
         'server_certificate': None,     # string - Remote server certificate security setting
+        'hex_public_certificate_serial': None,     # string - Serial of public certificate used for message security in hex format.
         'public_certificate_md5': None,     # string - MD5 hash of public certificate used for message security.
         'public_certificate_subject': None,     # string - Subject of public certificate used for message security.
         'public_certificate_issuer': None,     # string - Issuer of public certificate used for message security.
