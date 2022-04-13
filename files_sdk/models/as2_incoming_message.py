@@ -26,6 +26,9 @@ class As2IncomingMessage:
         'created_at': None,     # date-time - Message creation date/time
         'http_response_code': None,     # string - HTTP Response Code sent for this message
         'http_response_headers': None,     # object - HTTP Headers sent for this message.
+        'recipient_serial': None,     # string - Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial
+        'hex_recipient_serial': None,     # string - Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial in hex format.
+        'recipient_issuer': None,     # string - Incoming Message Recipient(the Client Cert used to encrypt this message)'s issuer
         'message_received': None,     # boolean - Message body received?
         'message_decrypted': None,     # boolean - Message decrypted successfully?
         'message_signature_verified': None,     # boolean - Message signature verified?
