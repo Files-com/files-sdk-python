@@ -129,6 +129,7 @@ class Site:
         'user_requests_enabled': None,     # boolean - Enable User Requests feature
         'welcome_custom_text': None,     # string - Custom text send in user welcome email
         'welcome_email_cc': None,     # email - Include this email in welcome emails if enabled
+        'welcome_email_subject': None,     # string - Include this email subject in welcome emails if enabled
         'welcome_email_enabled': None,     # boolean - Will the welcome email be sent to new users?
         'welcome_screen': None,     # string - Does the welcome screen appear?
         'windows_mode_ftp': None,     # boolean - Does FTP user Windows emulation mode?
@@ -182,6 +183,7 @@ def get_usage(params = None, options = None):
 #   ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 #   show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
 #   welcome_email_cc - string - Include this email in welcome emails if enabled
+#   welcome_email_subject - string - Include this email subject in welcome emails if enabled
 #   welcome_custom_text - string - Custom text send in user welcome email
 #   language - string - Site default language
 #   windows_mode_ftp - boolean - Does FTP user Windows emulation mode?
@@ -306,6 +308,8 @@ def update(params = None, options = None):
         raise InvalidParameterError("Bad parameter: bundle_expiration must be an int")
     if "welcome_email_cc" in params and not isinstance(params["welcome_email_cc"], str):
         raise InvalidParameterError("Bad parameter: welcome_email_cc must be an str")
+    if "welcome_email_subject" in params and not isinstance(params["welcome_email_subject"], str):
+        raise InvalidParameterError("Bad parameter: welcome_email_subject must be an str")
     if "welcome_custom_text" in params and not isinstance(params["welcome_custom_text"], str):
         raise InvalidParameterError("Bad parameter: welcome_custom_text must be an str")
     if "language" in params and not isinstance(params["language"], str):

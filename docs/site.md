@@ -217,6 +217,7 @@
   "user_requests_enabled": True,
   "welcome_custom_text": "Welcome to my site!",
   "welcome_email_cc": "",
+  "welcome_email_subject": "",
   "welcome_email_enabled": True,
   "welcome_screen": "user_controlled",
   "windows_mode_ftp": True,
@@ -347,6 +348,7 @@
 * `user_requests_enabled` (boolean): Enable User Requests feature
 * `welcome_custom_text` (string): Custom text send in user welcome email
 * `welcome_email_cc` (email): Include this email in welcome emails if enabled
+* `welcome_email_subject` (string): Include this email subject in welcome emails if enabled
 * `welcome_email_enabled` (boolean): Will the welcome email be sent to new users?
 * `welcome_screen` (string): Does the welcome screen appear?
 * `windows_mode_ftp` (boolean): Does FTP user Windows emulation mode?
@@ -495,6 +497,7 @@ files_sdk.site.update({
 * `ask_about_overwrites` (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `show_request_access_link` (boolean): Show request access link for users without access?  Currently unused.
 * `welcome_email_cc` (string): Include this email in welcome emails if enabled
+* `welcome_email_subject` (string): Include this email subject in welcome emails if enabled
 * `welcome_custom_text` (string): Custom text send in user welcome email
 * `language` (string): Site default language
 * `windows_mode_ftp` (boolean): Does FTP user Windows emulation mode?
