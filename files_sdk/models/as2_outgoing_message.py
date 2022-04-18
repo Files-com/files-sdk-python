@@ -17,6 +17,7 @@ class As2OutgoingMessage:
         'mic_sha_256': None,     # string - AS2 Message Integrity Check SHA256
         'as2_to': None,     # string - AS2 TO
         'as2_from': None,     # string - AS2 FROM
+        'date': None,     # string - Date Header
         'message_id': None,     # string - AS2 Message Id
         'body_size': None,     # string - Encrypted Payload Body Size
         'attachment_filename': None,     # string - Filename of the file being sent.

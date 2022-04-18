@@ -20,6 +20,7 @@ class As2IncomingMessage:
         'as2_from': None,     # string - AS2 FROM header of message
         'message_id': None,     # string - AS2 Message Id
         'subject': None,     # string - AS2 Subject Header
+        'date': None,     # string - Date Header
         'body_size': None,     # string - Encrypted Payload Body Size
         'attachment_filename': None,     # string - Filename of the file being received.
         'ip': None,     # string - IP Address of the Sender
