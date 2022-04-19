@@ -23,6 +23,7 @@ class Folder:
         'priority_color': None,     # string - Bookmark/priority color of file/folder
         'preview_id': None,     # int64 - File preview ID
         'preview': None,     # Preview - File preview
+        'mkdir_parents': None,     # boolean - Create parent directories if they do not exist?
     }
 
     def __init__(self, attributes=None, options=None):
@@ -78,6 +79,7 @@ def list_for(path, params = None, options = None):
 
 # Parameters:
 #   path (required) - string - Path to operate on.
+#   mkdir_parents - boolean - Create parent directories if they do not exist?
 def create(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}

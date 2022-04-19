@@ -45,6 +45,7 @@
 * `priority_color` (string): Bookmark/priority color of file/folder
 * `preview_id` (int64): File preview ID
 * `preview` (Preview): File preview
+* `mkdir_parents` (boolean): Create parent directories if they do not exist?
 
 
 ---
@@ -78,9 +79,12 @@ files_sdk.folder.list_for(path, {
 ## Create folder
 
 ```
-files_sdk.folder.create(path)
+files_sdk.folder.create(path, {
+  "mkdir_parents": True
+})
 ```
 
 ### Parameters
 
 * `path` (string): Required - Path to operate on.
+* `mkdir_parents` (boolean): Create parent directories if they do not exist?
