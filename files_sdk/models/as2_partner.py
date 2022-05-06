@@ -13,7 +13,7 @@ class As2Partner:
         'server_certificate': None,     # string - Remote server certificate security setting
         'hex_public_certificate_serial': None,     # string - Serial of public certificate used for message security in hex format.
         'public_certificate_md5': None,     # string - MD5 hash of public certificate used for message security.
-        'public_certificate_subjec': None,     # string - Subject of public certificate used for message security.
+        'public_certificate_subject': None,     # string - Subject of public certificate used for message security.
         'public_certificate_issuer': None,     # string - Issuer of public certificate used for message security.
         'public_certificate_serial': None,     # string - Serial of public certificate used for message security.
         'public_certificate_not_before': None,     # string - Not before value of public certificate used for message security.

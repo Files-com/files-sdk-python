@@ -11,7 +11,7 @@
   "server_certificate": "require_match",
   "hex_public_certificate_serial": "A5:EB:C1:95:DC:D8:2B:E7",
   "public_certificate_md5": "",
-  "public_certificate_subjec": "",
+  "public_certificate_subject": "",
   "public_certificate_issuer": "",
   "public_certificate_serial": "",
   "public_certificate_not_before": "",
@@ -26,7 +26,7 @@
 * `server_certificate` (string): Remote server certificate security setting
 * `hex_public_certificate_serial` (string): Serial of public certificate used for message security in hex format.
 * `public_certificate_md5` (string): MD5 hash of public certificate used for message security.
-* `public_certificate_subjec` (string): Subject of public certificate used for message security.
+* `public_certificate_subject` (string): Subject of public certificate used for message security.
 * `public_certificate_issuer` (string): Issuer of public certificate used for message security.
 * `public_certificate_serial` (string): Serial of public certificate used for message security.
 * `public_certificate_not_before` (string): Not before value of public certificate used for message security.
