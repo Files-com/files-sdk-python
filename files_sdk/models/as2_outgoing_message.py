@@ -13,6 +13,7 @@ class As2OutgoingMessage:
         'http_headers': None,     # object - HTTP Headers sent with this message.
         'activity_log': None,     # string - JSON Structure of the activity log.
         'processing_result': None,     # string - Result of processing.
+        'processing_result_description': None,     # string - Result of processing description.
         'mic': None,     # string - AS2 Message Integrity Check SHA1
         'mic_sha_256': None,     # string - AS2 Message Integrity Check SHA256
         'as2_to': None,     # string - AS2 TO
@@ -24,6 +25,7 @@ class As2OutgoingMessage:
         'created_at': None,     # date-time - Message creation date/time
         'http_response_code': None,     # string - HTTP Response Code received for this message
         'http_response_headers': None,     # object - HTTP Headers received for this message.
+        'http_transmission_duration': None,     # double - HTTP transmission duration in seceonds
         'mdn_received': None,     # boolean - Did the partner give a response body?
         'mdn_valid': None,     # boolean - Is the response in MDN format?
         'mdn_signature_verified': None,     # boolean - MDN signature verified?

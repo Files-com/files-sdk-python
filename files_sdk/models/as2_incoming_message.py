@@ -14,6 +14,7 @@ class As2IncomingMessage:
         'http_headers': None,     # object - HTTP Headers sent with this message.
         'activity_log': None,     # string - JSON Structure of the activity log.
         'processing_result': None,     # string - Result of processing.
+        'processing_result_description': None,     # string - Result of processing description.
         'mic': None,     # string - AS2 Message Integrity Check
         'mic_algo': None,     # string - AS2 Message Integrity Check Algorithm Used
         'as2_to': None,     # string - AS2 TO header of message
