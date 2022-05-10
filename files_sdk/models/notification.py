@@ -14,6 +14,7 @@ class Notification:
         'notify_on_copy': None,     # boolean - Triggers notification when moving or copying files to this path
         'recursive': None,     # boolean - Enable notifications for each subfolder in this path
         'send_interval': None,     # string - The time interval that notifications are aggregated to
+        'message': None,     # string - Custom message to include in notification emails.
         'unsubscribed': None,     # boolean - Is the user unsubscribed from this notification?
         'unsubscribed_reason': None,     # string - The reason that the user unsubscribed
         'user_id': None,     # int64 - Notification user ID
@@ -41,6 +42,7 @@ class Notification:
     #   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
     #   recursive - boolean - If `true`, enable notifications for each subfolder in this path
     #   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+    #   message - string - Custom message to include in notification emails.
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -55,6 +57,8 @@ class Notification:
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "send_interval" in params and not isinstance(params["send_interval"], str):
             raise InvalidParameterError("Bad parameter: send_interval must be an str")
+        if "message" in params and not isinstance(params["message"], str):
+            raise InvalidParameterError("Bad parameter: message must be an str")
         response, _options = Api.send_request("PATCH", "/notifications/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -155,6 +159,7 @@ def get(id, params = None, options = None):
 #   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
 #   recursive - boolean - If `true`, enable notifications for each subfolder in this path
 #   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+#   message - string - Custom message to include in notification emails.
 #   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
 #   path - string - Path
 #   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
@@ -167,6 +172,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "send_interval" in params and not isinstance(params["send_interval"], str):
         raise InvalidParameterError("Bad parameter: send_interval must be an str")
+    if "message" in params and not isinstance(params["message"], str):
+        raise InvalidParameterError("Bad parameter: message must be an str")
     if "group_id" in params and not isinstance(params["group_id"], int):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "path" in params and not isinstance(params["path"], str):
@@ -181,6 +188,7 @@ def create(params = None, options = None):
 #   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
 #   recursive - boolean - If `true`, enable notifications for each subfolder in this path
 #   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+#   message - string - Custom message to include in notification emails.
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -191,6 +199,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "send_interval" in params and not isinstance(params["send_interval"], str):
         raise InvalidParameterError("Bad parameter: send_interval must be an str")
+    if "message" in params and not isinstance(params["message"], str):
+        raise InvalidParameterError("Bad parameter: message must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/notifications/{id}".format(id=params['id']), params, options)
