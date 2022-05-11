@@ -12,6 +12,7 @@ class Site:
         'allowed_2fa_method_u2f': None,     # boolean - Is U2F two factor authentication allowed?
         'allowed_2fa_method_webauthn': None,     # boolean - Is WebAuthn two factor authentication allowed?
         'allowed_2fa_method_yubi': None,     # boolean - Is yubikey two factor authentication allowed?
+        'allowed_2fa_method_bypass_for_ftp_sftp_dav': None,     # boolean - Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
         'admin_user_id': None,     # int64 - User ID for the main site administrator
         'allow_bundle_names': None,     # boolean - Are manual Bundle names allowed?
         'allowed_countries': None,     # string - Comma seperated list of allowed Country codes
@@ -240,6 +241,7 @@ def get_usage(params = None, options = None):
 #   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
 #   allowed_2fa_method_webauthn - boolean - Is WebAuthn two factor authentication allowed?
 #   allowed_2fa_method_yubi - boolean - Is yubikey two factor authentication allowed?
+#   allowed_2fa_method_bypass_for_ftp_sftp_dav - boolean - Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
 #   require_2fa - boolean - Require two-factor authentication for all users?
 #   require_2fa_user_type - string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
 #   color2_top - string - Top bar background color
