@@ -12,7 +12,6 @@ class AutomationTest(TestBase):
     def test_update(self):
         params = {
             "id" : 12345,
-            "automation" : "foo",
         }
         automation = Automation(params)
         automation.update(params)
@@ -54,7 +53,6 @@ class AutomationTest(TestBase):
         id = 12345
         params = {
             "id" : 12345,
-            "automation" : "foo",
         }
         automation.update(id, params)
 

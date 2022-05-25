@@ -10,11 +10,19 @@ class Notification:
         'path': None,     # string - Folder path to notify on This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         'group_id': None,     # int64 - Notification group id
         'group_name': None,     # string - Group name if applicable
+        'triggering_group_ids': None,     # int64 - Only notify on actions made by a member of one of the specified groups
+        'triggering_user_ids': None,     # int64 - Only notify on actions made one of the specified users
+        'trigger_by_share_recipients': None,     # boolean - Notify when actions are performed by a share recipient?
         'notify_user_actions': None,     # boolean - Trigger notification on notification user actions?
-        'notify_on_copy': None,     # boolean - Triggers notification when moving or copying files to this path
+        'notify_on_copy': None,     # boolean - Triggers notification when copying files to this path
+        'notify_on_delete': None,     # boolean - Triggers notification when deleting files from this path
+        'notify_on_download': None,     # boolean - Triggers notification when downloading files from this path
+        'notify_on_move': None,     # boolean - Triggers notification when moving files to this path
+        'notify_on_upload': None,     # boolean - Triggers notification when uploading new files to this path
         'recursive': None,     # boolean - Enable notifications for each subfolder in this path
         'send_interval': None,     # string - The time interval that notifications are aggregated to
         'message': None,     # string - Custom message to include in notification emails.
+        'triggering_filenames': None,     # array - Array of filenames (possibly with wildcards) to match for action path
         'unsubscribed': None,     # boolean - Is the user unsubscribed from this notification?
         'unsubscribed_reason': None,     # string - The reason that the user unsubscribed
         'user_id': None,     # int64 - Notification user ID
@@ -39,10 +47,18 @@ class Notification:
 
     # Parameters:
     #   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
+    #   notify_on_delete - boolean - Triggers notification when deleting files from this path
+    #   notify_on_download - boolean - Triggers notification when downloading files from this path
+    #   notify_on_move - boolean - Triggers notification when moving files to this path
+    #   notify_on_upload - boolean - Triggers notification when uploading new files to this path
     #   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
     #   recursive - boolean - If `true`, enable notifications for each subfolder in this path
     #   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
     #   message - string - Custom message to include in notification emails.
+    #   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to match for action path
+    #   triggering_group_ids - array(int64) - Only notify on actions made by a member of one of the specified groups
+    #   triggering_user_ids - array(int64) - Only notify on actions made one of the specified users
+    #   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -59,6 +75,12 @@ class Notification:
             raise InvalidParameterError("Bad parameter: send_interval must be an str")
         if "message" in params and not isinstance(params["message"], str):
             raise InvalidParameterError("Bad parameter: message must be an str")
+        if "triggering_filenames" in params and not isinstance(params["triggering_filenames"], builtins.list):
+            raise InvalidParameterError("Bad parameter: triggering_filenames must be an list")
+        if "triggering_group_ids" in params and not isinstance(params["triggering_group_ids"], builtins.list):
+            raise InvalidParameterError("Bad parameter: triggering_group_ids must be an list")
+        if "triggering_user_ids" in params and not isinstance(params["triggering_user_ids"], builtins.list):
+            raise InvalidParameterError("Bad parameter: triggering_user_ids must be an list")
         response, _options = Api.send_request("PATCH", "/notifications/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -156,10 +178,18 @@ def get(id, params = None, options = None):
 # Parameters:
 #   user_id - int64 - The id of the user to notify. Provide `user_id`, `username` or `group_id`.
 #   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
+#   notify_on_delete - boolean - Triggers notification when deleting files from this path
+#   notify_on_download - boolean - Triggers notification when downloading files from this path
+#   notify_on_move - boolean - Triggers notification when moving files to this path
+#   notify_on_upload - boolean - Triggers notification when uploading new files to this path
 #   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
 #   recursive - boolean - If `true`, enable notifications for each subfolder in this path
 #   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
 #   message - string - Custom message to include in notification emails.
+#   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to match for action path
+#   triggering_group_ids - array(int64) - Only notify on actions made by a member of one of the specified groups
+#   triggering_user_ids - array(int64) - Only notify on actions made one of the specified users
+#   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
 #   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
 #   path - string - Path
 #   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
@@ -174,6 +204,12 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: send_interval must be an str")
     if "message" in params and not isinstance(params["message"], str):
         raise InvalidParameterError("Bad parameter: message must be an str")
+    if "triggering_filenames" in params and not isinstance(params["triggering_filenames"], builtins.list):
+        raise InvalidParameterError("Bad parameter: triggering_filenames must be an list")
+    if "triggering_group_ids" in params and not isinstance(params["triggering_group_ids"], builtins.list):
+        raise InvalidParameterError("Bad parameter: triggering_group_ids must be an list")
+    if "triggering_user_ids" in params and not isinstance(params["triggering_user_ids"], builtins.list):
+        raise InvalidParameterError("Bad parameter: triggering_user_ids must be an list")
     if "group_id" in params and not isinstance(params["group_id"], int):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "path" in params and not isinstance(params["path"], str):
@@ -185,10 +221,18 @@ def create(params = None, options = None):
 
 # Parameters:
 #   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
+#   notify_on_delete - boolean - Triggers notification when deleting files from this path
+#   notify_on_download - boolean - Triggers notification when downloading files from this path
+#   notify_on_move - boolean - Triggers notification when moving files to this path
+#   notify_on_upload - boolean - Triggers notification when uploading new files to this path
 #   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
 #   recursive - boolean - If `true`, enable notifications for each subfolder in this path
 #   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
 #   message - string - Custom message to include in notification emails.
+#   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to match for action path
+#   triggering_group_ids - array(int64) - Only notify on actions made by a member of one of the specified groups
+#   triggering_user_ids - array(int64) - Only notify on actions made one of the specified users
+#   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -201,6 +245,12 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: send_interval must be an str")
     if "message" in params and not isinstance(params["message"], str):
         raise InvalidParameterError("Bad parameter: message must be an str")
+    if "triggering_filenames" in params and not isinstance(params["triggering_filenames"], builtins.list):
+        raise InvalidParameterError("Bad parameter: triggering_filenames must be an list")
+    if "triggering_group_ids" in params and not isinstance(params["triggering_group_ids"], builtins.list):
+        raise InvalidParameterError("Bad parameter: triggering_group_ids must be an list")
+    if "triggering_user_ids" in params and not isinstance(params["triggering_user_ids"], builtins.list):
+        raise InvalidParameterError("Bad parameter: triggering_user_ids must be an list")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/notifications/{id}".format(id=params['id']), params, options)

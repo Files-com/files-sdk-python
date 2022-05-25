@@ -37,6 +37,7 @@ class RemoteServer:
         'auth_account_name': None,     # string - Describes the authorized account
         'one_drive_account_type': None,     # string - Either personal or business_other account types
         'azure_blob_storage_account': None,     # string - Azure Blob Storage Account name
+        'azure_blob_storage_sas_token': None,     # string - Shared Access Signature (SAS) token
         'azure_blob_storage_container': None,     # string - Azure Blob Storage Container name
         's3_compatible_bucket': None,     # string - S3-compatible Bucket name
         's3_compatible_endpoint': None,     # string - S3-compatible endpoint
@@ -109,6 +110,7 @@ class RemoteServer:
     #   one_drive_account_type - string - Either personal or business_other account types
     #   azure_blob_storage_account - string - Azure Blob Storage Account name
     #   azure_blob_storage_container - string - Azure Blob Storage Container name
+    #   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
     #   s3_compatible_bucket - string - S3-compatible Bucket name
     #   s3_compatible_endpoint - string - S3-compatible endpoint
     #   s3_compatible_region - string - S3-compatible endpoint
@@ -197,6 +199,8 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: azure_blob_storage_account must be an str")
         if "azure_blob_storage_container" in params and not isinstance(params["azure_blob_storage_container"], str):
             raise InvalidParameterError("Bad parameter: azure_blob_storage_container must be an str")
+        if "azure_blob_storage_sas_token" in params and not isinstance(params["azure_blob_storage_sas_token"], str):
+            raise InvalidParameterError("Bad parameter: azure_blob_storage_sas_token must be an str")
         if "s3_compatible_bucket" in params and not isinstance(params["s3_compatible_bucket"], str):
             raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
         if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):
@@ -307,6 +311,7 @@ def get(id, params = None, options = None):
 #   one_drive_account_type - string - Either personal or business_other account types
 #   azure_blob_storage_account - string - Azure Blob Storage Account name
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
+#   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
 #   s3_compatible_region - string - S3-compatible endpoint
@@ -388,6 +393,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_account must be an str")
     if "azure_blob_storage_container" in params and not isinstance(params["azure_blob_storage_container"], str):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_container must be an str")
+    if "azure_blob_storage_sas_token" in params and not isinstance(params["azure_blob_storage_sas_token"], str):
+        raise InvalidParameterError("Bad parameter: azure_blob_storage_sas_token must be an str")
     if "s3_compatible_bucket" in params and not isinstance(params["s3_compatible_bucket"], str):
         raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
     if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):
@@ -438,6 +445,7 @@ def create(params = None, options = None):
 #   one_drive_account_type - string - Either personal or business_other account types
 #   azure_blob_storage_account - string - Azure Blob Storage Account name
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
+#   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
 #   s3_compatible_region - string - S3-compatible endpoint
@@ -522,6 +530,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_account must be an str")
     if "azure_blob_storage_container" in params and not isinstance(params["azure_blob_storage_container"], str):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_container must be an str")
+    if "azure_blob_storage_sas_token" in params and not isinstance(params["azure_blob_storage_sas_token"], str):
+        raise InvalidParameterError("Bad parameter: azure_blob_storage_sas_token must be an str")
     if "s3_compatible_bucket" in params and not isinstance(params["s3_compatible_bucket"], str):
         raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
     if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):

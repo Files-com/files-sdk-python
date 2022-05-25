@@ -8,9 +8,11 @@ class Automation:
     default_attributes = {
         'id': None,     # int64 - Automation ID
         'automation': None,     # string - Automation type
+        'deleted': None,     # boolean - Indicates if the automation has been deleted.
         'disabled': None,     # boolean - If true, this automation will not run.
         'trigger': None,     # string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
         'interval': None,     # string - If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
+        'last_modified_at': None,     # date-time - Time when automation was last modified. Does not change for name or description updates.
         'name': None,     # string - Name for this automation.
         'schedule': None,     # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
         'source': None,     # string - Source Path
@@ -26,6 +28,7 @@ class Automation:
         'trigger_actions': None,     # string - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
         'value': None,     # object - A Hash of attributes specific to the automation type.
         'destination': None,     # string - DEPRECATED: Destination Path. Use `destinations` instead.
+        'cloned_from': None,     # int64 - Set to the ID of automation used a clone template. For
     }
 
     def __init__(self, attributes=None, options=None):
@@ -44,7 +47,6 @@ class Automation:
         return {k: getattr(self, k, None) for k in Automation.default_attributes if getattr(self, k, None) is not None}
 
     # Parameters:
-    #   automation (required) - string - Automation type
     #   source - string - Source Path
     #   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
     #   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
@@ -61,6 +63,7 @@ class Automation:
     #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
     #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
     #   value - object - A Hash of attributes specific to the automation type.
+    #   automation - string - Automation type
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -71,12 +74,8 @@ class Automation:
             raise MissingParameterError("Current object doesn't have a id")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "automation" not in params:
-            raise MissingParameterError("Parameter missing: automation")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "automation" in params and not isinstance(params["automation"], str):
-            raise InvalidParameterError("Bad parameter: automation must be an str")
         if "source" in params and not isinstance(params["source"], str):
             raise InvalidParameterError("Bad parameter: source must be an str")
         if "destination" in params and not isinstance(params["destination"], str):
@@ -103,6 +102,8 @@ class Automation:
             raise InvalidParameterError("Bad parameter: trigger must be an str")
         if "trigger_actions" in params and not isinstance(params["trigger_actions"], builtins.list):
             raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
+        if "automation" in params and not isinstance(params["automation"], str):
+            raise InvalidParameterError("Bad parameter: automation must be an str")
         response, _options = Api.send_request("PATCH", "/automations/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -134,13 +135,14 @@ class Automation:
 # Parameters:
 #   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `automation`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`.
-#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `automation`.
-#   filter_gteq - object - If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `automation`.
-#   filter_like - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`.
-#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `automation`.
-#   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `automation`.
+#   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `automation`, `last_modified_at` or `disabled`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+#   filter_gteq - object - If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+#   filter_like - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+#   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+#   with_deleted - boolean - Set to true to include deleted automations in the results.
 #   automation - string - DEPRECATED: Type of automation to filter by. Use `filter[automation]` instead.
 def list(params = None, options = None):
     if not isinstance(params, dict):
@@ -191,7 +193,6 @@ def get(id, params = None, options = None):
     find(id, params, options)
 
 # Parameters:
-#   automation (required) - string - Automation type
 #   source - string - Source Path
 #   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
 #   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
@@ -208,13 +209,13 @@ def get(id, params = None, options = None):
 #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 #   value - object - A Hash of attributes specific to the automation type.
+#   automation (required) - string - Automation type
+#   cloned_from - int64 - Set to the ID of automation used a clone template. For
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    if "automation" in params and not isinstance(params["automation"], str):
-        raise InvalidParameterError("Bad parameter: automation must be an str")
     if "source" in params and not isinstance(params["source"], str):
         raise InvalidParameterError("Bad parameter: source must be an str")
     if "destination" in params and not isinstance(params["destination"], str):
@@ -245,13 +246,16 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
     if "value" in params and not isinstance(params["value"], dict):
         raise InvalidParameterError("Bad parameter: value must be an dict")
+    if "automation" in params and not isinstance(params["automation"], str):
+        raise InvalidParameterError("Bad parameter: automation must be an str")
+    if "cloned_from" in params and not isinstance(params["cloned_from"], int):
+        raise InvalidParameterError("Bad parameter: cloned_from must be an int")
     if "automation" not in params:
         raise MissingParameterError("Parameter missing: automation")
     response, options = Api.send_request("POST", "/automations", params, options)
     return Automation(response.data, options)
 
 # Parameters:
-#   automation (required) - string - Automation type
 #   source - string - Source Path
 #   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
 #   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
@@ -268,6 +272,7 @@ def create(params = None, options = None):
 #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 #   value - object - A Hash of attributes specific to the automation type.
+#   automation - string - Automation type
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -276,8 +281,6 @@ def update(id, params = None, options = None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
-    if "automation" in params and not isinstance(params["automation"], str):
-        raise InvalidParameterError("Bad parameter: automation must be an str")
     if "source" in params and not isinstance(params["source"], str):
         raise InvalidParameterError("Bad parameter: source must be an str")
     if "destination" in params and not isinstance(params["destination"], str):
@@ -308,10 +311,10 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
     if "value" in params and not isinstance(params["value"], dict):
         raise InvalidParameterError("Bad parameter: value must be an dict")
+    if "automation" in params and not isinstance(params["automation"], str):
+        raise InvalidParameterError("Bad parameter: automation must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    if "automation" not in params:
-        raise MissingParameterError("Parameter missing: automation")
     response, options = Api.send_request("PATCH", "/automations/{id}".format(id=params['id']), params, options)
     return Automation(response.data, options)
 

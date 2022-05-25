@@ -6,9 +6,11 @@
 {
   "id": 1,
   "automation": "create_folder",
+  "deleted": True,
   "disabled": True,
   "trigger": "realtime",
   "interval": "week",
+  "last_modified_at": "2000-01-01T01:00:00Z",
   "name": "",
   "schedule": {
     "days_of_week": [
@@ -47,9 +49,11 @@
 
 * `id` (int64): Automation ID
 * `automation` (string): Automation type
+* `deleted` (boolean): Indicates if the automation has been deleted.
 * `disabled` (boolean): If true, this automation will not run.
 * `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `interval` (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
+* `last_modified_at` (date-time): Time when automation was last modified. Does not change for name or description updates.
 * `name` (string): Name for this automation.
 * `schedule` (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
 * `source` (string): Source Path
@@ -65,6 +69,7 @@
 * `trigger_actions` (string): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (object): A Hash of attributes specific to the automation type.
 * `destination` (string): DEPRECATED: Destination Path. Use `destinations` instead.
+* `cloned_from` (int64): Set to the ID of automation used a clone template. For
 
 
 ---
@@ -74,6 +79,7 @@
 ```
 files_sdk.automation.list({
   "per_page": 1,
+  "with_deleted": True,
   "automation": "create_folder"
 })
 ```
@@ -82,13 +88,14 @@ files_sdk.automation.list({
 
 * `cursor` (string): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `automation`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`.
-* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `automation`.
-* `filter_gteq` (object): If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `automation`.
-* `filter_like` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`.
-* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `automation`.
-* `filter_lteq` (object): If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `automation`.
+* `sort_by` (object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `automation`, `last_modified_at` or `disabled`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+* `filter_gteq` (object): If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+* `filter_like` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+* `filter_lteq` (object): If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+* `with_deleted` (boolean): Set to true to include deleted automations in the results.
 * `automation` (string): DEPRECATED: Type of automation to filter by. Use `filter[automation]` instead.
 
 
@@ -111,7 +118,6 @@ files_sdk.automation.find(id)
 
 ```
 files_sdk.automation.create({
-  "automation": "create_folder",
   "source": "source",
   "destinations": "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]",
   "interval": "year",
@@ -121,13 +127,14 @@ files_sdk.automation.create({
   "disabled": True,
   "trigger": "realtime",
   "trigger_actions": "[ \"create\" ]",
-  "value": "{\"limit\": \"1\"}"
+  "value": "{\"limit\": \"1\"}",
+  "automation": "create_folder",
+  "cloned_from": 1
 })
 ```
 
 ### Parameters
 
-* `automation` (string): Required - Automation type
 * `source` (string): Source Path
 * `destination` (string): DEPRECATED: Destination Path. Use `destinations` instead.
 * `destinations` (array(string)): A list of String destination paths or Hash of folder_path and optional file_path.
@@ -144,6 +151,8 @@ files_sdk.automation.create({
 * `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (object): A Hash of attributes specific to the automation type.
+* `automation` (string): Required - Automation type
+* `cloned_from` (int64): Set to the ID of automation used a clone template. For
 
 
 ---
@@ -152,7 +161,6 @@ files_sdk.automation.create({
 
 ```
 files_sdk.automation.update(id, {
-  "automation": "create_folder",
   "source": "source",
   "destinations": "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]",
   "interval": "year",
@@ -162,14 +170,14 @@ files_sdk.automation.update(id, {
   "disabled": True,
   "trigger": "realtime",
   "trigger_actions": "[ \"create\" ]",
-  "value": "{\"limit\": \"1\"}"
+  "value": "{\"limit\": \"1\"}",
+  "automation": "create_folder"
 })
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Automation ID.
-* `automation` (string): Required - Automation type
 * `source` (string): Source Path
 * `destination` (string): DEPRECATED: Destination Path. Use `destinations` instead.
 * `destinations` (array(string)): A list of String destination paths or Hash of folder_path and optional file_path.
@@ -186,6 +194,7 @@ files_sdk.automation.update(id, {
 * `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (object): A Hash of attributes specific to the automation type.
+* `automation` (string): Automation type
 
 
 ---
@@ -208,7 +217,6 @@ files_sdk.automation.delete(id)
 ```
 automation = files_sdk.automation.list.first
 automation.update({
-  "automation": "create_folder",
   "source": "source",
   "destinations": "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]",
   "interval": "year",
@@ -218,14 +226,14 @@ automation.update({
   "disabled": True,
   "trigger": "realtime",
   "trigger_actions": "[ \"create\" ]",
-  "value": "{\"limit\": \"1\"}"
+  "value": "{\"limit\": \"1\"}",
+  "automation": "create_folder"
 })
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Automation ID.
-* `automation` (string): Required - Automation type
 * `source` (string): Source Path
 * `destination` (string): DEPRECATED: Destination Path. Use `destinations` instead.
 * `destinations` (array(string)): A list of String destination paths or Hash of folder_path and optional file_path.
@@ -242,6 +250,7 @@ automation.update({
 * `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (object): A Hash of attributes specific to the automation type.
+* `automation` (string): Automation type
 
 
 ---
