@@ -40,8 +40,8 @@ class RemoteServer:
         'azure_blob_storage_sas_token': None,     # string - Shared Access Signature (SAS) token
         'azure_blob_storage_container': None,     # string - Azure Blob Storage Container name
         'azure_files_storage_account': None,     # string - Azure File Storage Account name
-        'azure_files_sas_token': None,     # string - Shared Access Signature (SAS) token
-        'azure_files_share_name': None,     # string - Azure File Storage Share name
+        'azure_files_storage_sas_token': None,     # string - Shared Access Signature (SAS) token
+        'azure_files_storage_share_name': None,     # string - Azure File Storage Share name
         's3_compatible_bucket': None,     # string - S3-compatible Bucket name
         's3_compatible_endpoint': None,     # string - S3-compatible endpoint
         's3_compatible_region': None,     # string - S3-compatible endpoint
@@ -117,8 +117,8 @@ class RemoteServer:
     #   azure_blob_storage_container - string - Azure Blob Storage Container name
     #   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
     #   azure_files_storage_account - string - Azure File Storage Account name
-    #   azure_files_share_name - string - Azure File Storage Share name
-    #   azure_files_sas_token - string - Shared Access Signature (SAS) token
+    #   azure_files_storage_share_name - string - Azure File Storage Share name
+    #   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
     #   s3_compatible_bucket - string - S3-compatible Bucket name
     #   s3_compatible_endpoint - string - S3-compatible endpoint
     #   s3_compatible_region - string - S3-compatible endpoint
@@ -213,10 +213,10 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: azure_blob_storage_sas_token must be an str")
         if "azure_files_storage_account" in params and not isinstance(params["azure_files_storage_account"], str):
             raise InvalidParameterError("Bad parameter: azure_files_storage_account must be an str")
-        if "azure_files_share_name" in params and not isinstance(params["azure_files_share_name"], str):
-            raise InvalidParameterError("Bad parameter: azure_files_share_name must be an str")
-        if "azure_files_sas_token" in params and not isinstance(params["azure_files_sas_token"], str):
-            raise InvalidParameterError("Bad parameter: azure_files_sas_token must be an str")
+        if "azure_files_storage_share_name" in params and not isinstance(params["azure_files_storage_share_name"], str):
+            raise InvalidParameterError("Bad parameter: azure_files_storage_share_name must be an str")
+        if "azure_files_storage_sas_token" in params and not isinstance(params["azure_files_storage_sas_token"], str):
+            raise InvalidParameterError("Bad parameter: azure_files_storage_sas_token must be an str")
         if "s3_compatible_bucket" in params and not isinstance(params["s3_compatible_bucket"], str):
             raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
         if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):
@@ -330,8 +330,8 @@ def get(id, params = None, options = None):
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
 #   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
 #   azure_files_storage_account - string - Azure File Storage Account name
-#   azure_files_share_name - string - Azure File Storage Share name
-#   azure_files_sas_token - string - Shared Access Signature (SAS) token
+#   azure_files_storage_share_name - string - Azure File Storage Share name
+#   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
 #   s3_compatible_region - string - S3-compatible endpoint
@@ -419,10 +419,10 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_sas_token must be an str")
     if "azure_files_storage_account" in params and not isinstance(params["azure_files_storage_account"], str):
         raise InvalidParameterError("Bad parameter: azure_files_storage_account must be an str")
-    if "azure_files_share_name" in params and not isinstance(params["azure_files_share_name"], str):
-        raise InvalidParameterError("Bad parameter: azure_files_share_name must be an str")
-    if "azure_files_sas_token" in params and not isinstance(params["azure_files_sas_token"], str):
-        raise InvalidParameterError("Bad parameter: azure_files_sas_token must be an str")
+    if "azure_files_storage_share_name" in params and not isinstance(params["azure_files_storage_share_name"], str):
+        raise InvalidParameterError("Bad parameter: azure_files_storage_share_name must be an str")
+    if "azure_files_storage_sas_token" in params and not isinstance(params["azure_files_storage_sas_token"], str):
+        raise InvalidParameterError("Bad parameter: azure_files_storage_sas_token must be an str")
     if "s3_compatible_bucket" in params and not isinstance(params["s3_compatible_bucket"], str):
         raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
     if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):
@@ -476,8 +476,8 @@ def create(params = None, options = None):
 #   azure_blob_storage_container - string - Azure Blob Storage Container name
 #   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
 #   azure_files_storage_account - string - Azure File Storage Account name
-#   azure_files_share_name - string - Azure File Storage Share name
-#   azure_files_sas_token - string - Shared Access Signature (SAS) token
+#   azure_files_storage_share_name - string - Azure File Storage Share name
+#   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
 #   s3_compatible_region - string - S3-compatible endpoint
@@ -568,10 +568,10 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: azure_blob_storage_sas_token must be an str")
     if "azure_files_storage_account" in params and not isinstance(params["azure_files_storage_account"], str):
         raise InvalidParameterError("Bad parameter: azure_files_storage_account must be an str")
-    if "azure_files_share_name" in params and not isinstance(params["azure_files_share_name"], str):
-        raise InvalidParameterError("Bad parameter: azure_files_share_name must be an str")
-    if "azure_files_sas_token" in params and not isinstance(params["azure_files_sas_token"], str):
-        raise InvalidParameterError("Bad parameter: azure_files_sas_token must be an str")
+    if "azure_files_storage_share_name" in params and not isinstance(params["azure_files_storage_share_name"], str):
+        raise InvalidParameterError("Bad parameter: azure_files_storage_share_name must be an str")
+    if "azure_files_storage_sas_token" in params and not isinstance(params["azure_files_storage_sas_token"], str):
+        raise InvalidParameterError("Bad parameter: azure_files_storage_sas_token must be an str")
     if "s3_compatible_bucket" in params and not isinstance(params["s3_compatible_bucket"], str):
         raise InvalidParameterError("Bad parameter: s3_compatible_bucket must be an str")
     if "s3_compatible_endpoint" in params and not isinstance(params["s3_compatible_endpoint"], str):
