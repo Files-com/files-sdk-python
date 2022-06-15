@@ -28,7 +28,6 @@ class Automation:
         'trigger_actions': None,     # string - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
         'value': None,     # object - A Hash of attributes specific to the automation type.
         'destination': None,     # string - DEPRECATED: Destination Path. Use `destinations` instead.
-        'cloned_from': None,     # int64 - Set to the ID of automation used a clone template. For
     }
 
     def __init__(self, attributes=None, options=None):
@@ -210,7 +209,6 @@ def get(id, params = None, options = None):
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 #   value - object - A Hash of attributes specific to the automation type.
 #   automation (required) - string - Automation type
-#   cloned_from - int64 - Set to the ID of automation used a clone template. For
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -248,8 +246,6 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: value must be an dict")
     if "automation" in params and not isinstance(params["automation"], str):
         raise InvalidParameterError("Bad parameter: automation must be an str")
-    if "cloned_from" in params and not isinstance(params["cloned_from"], int):
-        raise InvalidParameterError("Bad parameter: cloned_from must be an int")
     if "automation" not in params:
         raise MissingParameterError("Parameter missing: automation")
     response, options = Api.send_request("POST", "/automations", params, options)

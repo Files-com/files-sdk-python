@@ -8,8 +8,8 @@ class Preview:
         'id': None,     # int64 - Preview ID
         'status': None,     # string - Preview status.  Can be invalid, not_generated, generating, complete, or file_too_large
         'download_uri': None,     # string - Link to download preview
-        'type': None,     # string - Preview status.  Can be invalid, not_generated, generating, complete, or file_too_large
-        'size': None,     # int64 - Preview size
+        'type': None,     # string - Preview type. Can be image, pdf, pdf_native, video, or audio
+        'size': None,     # string - Preview size
     }
 
     def __init__(self, attributes=None, options=None):
