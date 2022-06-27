@@ -92,6 +92,7 @@
 * `aws_secret_key` (string): AWS secret key.
 * `password` (string): Password if needed.
 * `private_key` (string): Private key if needed.
+* `private_key_passphrase` (string): Passphrase for private key if needed.
 * `ssl_certificate` (string): SSL client certificate.
 * `google_cloud_storage_credentials_json` (string): A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
 * `wasabi_secret_key` (string): Wasabi secret key.
@@ -180,6 +181,7 @@ files_sdk.remote_server.create({
 * `aws_secret_key` (string): AWS secret key.
 * `password` (string): Password if needed.
 * `private_key` (string): Private key if needed.
+* `private_key_passphrase` (string): Passphrase for private key if needed.
 * `ssl_certificate` (string): SSL client certificate.
 * `google_cloud_storage_credentials_json` (string): A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
 * `wasabi_access_key` (string): Wasabi access key.
@@ -273,6 +275,7 @@ files_sdk.remote_server.update(id, {
 * `aws_secret_key` (string): AWS secret key.
 * `password` (string): Password if needed.
 * `private_key` (string): Private key if needed.
+* `private_key_passphrase` (string): Passphrase for private key if needed.
 * `ssl_certificate` (string): SSL client certificate.
 * `google_cloud_storage_credentials_json` (string): A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
 * `wasabi_access_key` (string): Wasabi access key.
@@ -380,6 +383,7 @@ remote_server.update({
 * `aws_secret_key` (string): AWS secret key.
 * `password` (string): Password if needed.
 * `private_key` (string): Private key if needed.
+* `private_key_passphrase` (string): Passphrase for private key if needed.
 * `ssl_certificate` (string): SSL client certificate.
 * `google_cloud_storage_credentials_json` (string): A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
 * `wasabi_access_key` (string): Wasabi access key.

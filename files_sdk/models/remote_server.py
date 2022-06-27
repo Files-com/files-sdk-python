@@ -50,6 +50,7 @@ class RemoteServer:
         'aws_secret_key': None,     # string - AWS secret key.
         'password': None,     # string - Password if needed.
         'private_key': None,     # string - Private key if needed.
+        'private_key_passphrase': None,     # string - Passphrase for private key if needed.
         'ssl_certificate': None,     # string - SSL client certificate.
         'google_cloud_storage_credentials_json': None,     # string - A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
         'wasabi_secret_key': None,     # string - Wasabi secret key.
@@ -82,6 +83,7 @@ class RemoteServer:
     #   aws_secret_key - string - AWS secret key.
     #   password - string - Password if needed.
     #   private_key - string - Private key if needed.
+    #   private_key_passphrase - string - Passphrase for private key if needed.
     #   ssl_certificate - string - SSL client certificate.
     #   google_cloud_storage_credentials_json - string - A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
     #   wasabi_access_key - string - Wasabi access key.
@@ -145,6 +147,8 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: password must be an str")
         if "private_key" in params and not isinstance(params["private_key"], str):
             raise InvalidParameterError("Bad parameter: private_key must be an str")
+        if "private_key_passphrase" in params and not isinstance(params["private_key_passphrase"], str):
+            raise InvalidParameterError("Bad parameter: private_key_passphrase must be an str")
         if "ssl_certificate" in params and not isinstance(params["ssl_certificate"], str):
             raise InvalidParameterError("Bad parameter: ssl_certificate must be an str")
         if "google_cloud_storage_credentials_json" in params and not isinstance(params["google_cloud_storage_credentials_json"], str):
@@ -295,6 +299,7 @@ def get(id, params = None, options = None):
 #   aws_secret_key - string - AWS secret key.
 #   password - string - Password if needed.
 #   private_key - string - Private key if needed.
+#   private_key_passphrase - string - Passphrase for private key if needed.
 #   ssl_certificate - string - SSL client certificate.
 #   google_cloud_storage_credentials_json - string - A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
 #   wasabi_access_key - string - Wasabi access key.
@@ -351,6 +356,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: password must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
         raise InvalidParameterError("Bad parameter: private_key must be an str")
+    if "private_key_passphrase" in params and not isinstance(params["private_key_passphrase"], str):
+        raise InvalidParameterError("Bad parameter: private_key_passphrase must be an str")
     if "ssl_certificate" in params and not isinstance(params["ssl_certificate"], str):
         raise InvalidParameterError("Bad parameter: ssl_certificate must be an str")
     if "google_cloud_storage_credentials_json" in params and not isinstance(params["google_cloud_storage_credentials_json"], str):
@@ -441,6 +448,7 @@ def create(params = None, options = None):
 #   aws_secret_key - string - AWS secret key.
 #   password - string - Password if needed.
 #   private_key - string - Private key if needed.
+#   private_key_passphrase - string - Passphrase for private key if needed.
 #   ssl_certificate - string - SSL client certificate.
 #   google_cloud_storage_credentials_json - string - A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
 #   wasabi_access_key - string - Wasabi access key.
@@ -500,6 +508,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: password must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
         raise InvalidParameterError("Bad parameter: private_key must be an str")
+    if "private_key_passphrase" in params and not isinstance(params["private_key_passphrase"], str):
+        raise InvalidParameterError("Bad parameter: private_key_passphrase must be an str")
     if "ssl_certificate" in params and not isinstance(params["ssl_certificate"], str):
         raise InvalidParameterError("Bad parameter: ssl_certificate must be an str")
     if "google_cloud_storage_credentials_json" in params and not isinstance(params["google_cloud_storage_credentials_json"], str):
