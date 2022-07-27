@@ -22,6 +22,7 @@
   "dav_permission": True,
   "disabled": True,
   "email": "john.doe@files.com",
+  "first_login_at": "2000-01-01T01:00:00Z",
   "ftp_permission": True,
   "group_ids": "",
   "header_text": "User-specific message.",
@@ -53,6 +54,7 @@
   "externally_managed": True,
   "time_zone": "Pacific Time (US & Canada)",
   "type_of_2fa": "yubi",
+  "updated_at": "2000-01-01T01:00:00Z",
   "user_root": ""
 }
 ```
@@ -73,6 +75,7 @@
 * `dav_permission` (boolean): Can the user connect with WebDAV?
 * `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
 * `email` (email): User email address
+* `first_login_at` (date-time): User's first login time
 * `ftp_permission` (boolean): Can the user access with FTP/FTPS?
 * `group_ids` (string): Comma-separated list of group IDs of which this user is a member
 * `header_text` (string): Text to display to the user in the header of the UI
@@ -104,6 +107,7 @@
 * `externally_managed` (boolean): Is this user managed by a SsoStrategy?
 * `time_zone` (string): User time zone
 * `type_of_2fa` (string): Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
+* `updated_at` (date-time): User record last updated at.  Note this may be incremented because of internal or external updates.
 * `user_root` (string): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 * `avatar_file` (file): An image file for your user avatar.
 * `avatar_delete` (boolean): If true, the avatar will be deleted.

@@ -22,6 +22,7 @@ class User:
         'dav_permission': None,     # boolean - Can the user connect with WebDAV?
         'disabled': None,     # boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
         'email': None,     # email - User email address
+        'first_login_at': None,     # date-time - User's first login time
         'ftp_permission': None,     # boolean - Can the user access with FTP/FTPS?
         'group_ids': None,     # string - Comma-separated list of group IDs of which this user is a member
         'header_text': None,     # string - Text to display to the user in the header of the UI
@@ -53,6 +54,7 @@ class User:
         'externally_managed': None,     # boolean - Is this user managed by a SsoStrategy?
         'time_zone': None,     # string - User time zone
         'type_of_2fa': None,     # string - Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
+        'updated_at': None,     # date-time - User record last updated at.  Note this may be incremented because of internal or external updates.
         'user_root': None,     # string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
         'avatar_file': None,     # file - An image file for your user avatar.
         'avatar_delete': None,     # boolean - If true, the avatar will be deleted.
