@@ -8,6 +8,7 @@
   "display_name": "file.txt",
   "type": "file",
   "size": 1024,
+  "created_at": "2000-01-01T01:00:00Z",
   "mtime": "2000-01-01T01:00:00Z",
   "provided_mtime": "2000-01-01T01:00:00Z",
   "crc32": "70976923",
@@ -33,6 +34,7 @@
 * `display_name` (string): File/Folder display name
 * `type` (string): Type: `directory` or `file`.
 * `size` (int64): File/Folder size
+* `created_at` (date-time): File created date/time
 * `mtime` (date-time): File last modified date/time, according to the server.  This is the timestamp of the last Files.com operation of the file, regardless of what modified timestamp was sent.
 * `provided_mtime` (date-time): File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop<->Cloud syncing to preserve modified at times.
 * `crc32` (string): File CRC32 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.

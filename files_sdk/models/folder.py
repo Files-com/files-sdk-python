@@ -11,6 +11,7 @@ class Folder:
         'display_name': None,     # string - File/Folder display name
         'type': None,     # string - Type: `directory` or `file`.
         'size': None,     # int64 - File/Folder size
+        'created_at': None,     # date-time - File created date/time
         'mtime': None,     # date-time - File last modified date/time, according to the server.  This is the timestamp of the last Files.com operation of the file, regardless of what modified timestamp was sent.
         'provided_mtime': None,     # date-time - File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop<->Cloud syncing to preserve modified at times.
         'crc32': None,     # string - File CRC32 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
