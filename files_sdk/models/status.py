@@ -9,7 +9,7 @@ class Status:
         'message': None,     # string - Error message
         'status': None,     # string - Status message
         'data': None,     # Auto - Additional data
-        'errors': None,     # Errors - A list of api errors
+        'errors': None,     # array - A list of api errors
         'clickwrap_id': None,     # int64 - Required Clickwrap id
         'clickwrap_body': None,     # string - Required Clickwrap body
     }

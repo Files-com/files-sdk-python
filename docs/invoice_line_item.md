@@ -11,7 +11,7 @@
   "service_end_at": "2000-01-01T01:00:00Z",
   "service_start_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z",
-  "plan": "Enterprise",
+  "plan": "Premier",
   "site": "My site"
 }
 ```

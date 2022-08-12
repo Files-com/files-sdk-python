@@ -40,8 +40,8 @@
 * `path` (string): Folder path to notify on This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `group_id` (int64): Notification group id
 * `group_name` (string): Group name if applicable
-* `triggering_group_ids` (int64): Only notify on actions made by a member of one of the specified groups
-* `triggering_user_ids` (int64): Only notify on actions made one of the specified users
+* `triggering_group_ids` (array): Only notify on actions made by a member of one of the specified groups
+* `triggering_user_ids` (array): Only notify on actions made one of the specified users
 * `trigger_by_share_recipients` (boolean): Notify when actions are performed by a share recipient?
 * `notify_user_actions` (boolean): Trigger notification on notification user actions?
 * `notify_on_copy` (boolean): Triggers notification when copying files to this path

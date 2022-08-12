@@ -10,6 +10,7 @@ class Bundle:
         'url': None,     # string - Public URL of Share Link
         'description': None,     # string - Public description
         'password_protected': None,     # boolean - Is this bundle password protected?
+        'permissions': None,     # string - Permissions that apply to Folders in this Share Link.
         'preview_only': None,     # boolean - Restrict users to previewing files only?
         'require_registration': None,     # boolean - Show a registration page that captures the downloader's name and email address?
         'require_share_recipient': None,     # boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
@@ -90,6 +91,7 @@ class Bundle:
     #   inbox_id - int64 - ID of the associated inbox, if available.
     #   max_uses - int64 - Maximum number of times bundle can be accessed
     #   note - string - Bundle internal note
+    #   permissions - string - Permissions that apply to Folders in this Share Link.
     #   preview_only - boolean - Restrict users to previewing files only?
     #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
     #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
@@ -130,6 +132,8 @@ class Bundle:
             raise InvalidParameterError("Bad parameter: max_uses must be an int")
         if "note" in params and not isinstance(params["note"], str):
             raise InvalidParameterError("Bad parameter: note must be an str")
+        if "permissions" in params and not isinstance(params["permissions"], str):
+            raise InvalidParameterError("Bad parameter: permissions must be an str")
         response, _options = Api.send_request("PATCH", "/bundles/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -227,6 +231,7 @@ def get(id, params = None, options = None):
 #   description - string - Public description
 #   note - string - Bundle internal note
 #   code - string - Bundle code.  This code forms the end part of the Public URL.
+#   permissions - string - Permissions that apply to Folders in this Share Link.
 #   preview_only - boolean - Restrict users to previewing files only?
 #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
 #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
@@ -259,6 +264,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: note must be an str")
     if "code" in params and not isinstance(params["code"], str):
         raise InvalidParameterError("Bad parameter: code must be an str")
+    if "permissions" in params and not isinstance(params["permissions"], str):
+        raise InvalidParameterError("Bad parameter: permissions must be an str")
     if "clickwrap_id" in params and not isinstance(params["clickwrap_id"], int):
         raise InvalidParameterError("Bad parameter: clickwrap_id must be an int")
     if "inbox_id" in params and not isinstance(params["inbox_id"], int):
@@ -304,6 +311,7 @@ def share(id, params = None, options = None):
 #   inbox_id - int64 - ID of the associated inbox, if available.
 #   max_uses - int64 - Maximum number of times bundle can be accessed
 #   note - string - Bundle internal note
+#   permissions - string - Permissions that apply to Folders in this Share Link.
 #   preview_only - boolean - Restrict users to previewing files only?
 #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
@@ -340,6 +348,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: max_uses must be an int")
     if "note" in params and not isinstance(params["note"], str):
         raise InvalidParameterError("Bad parameter: note must be an str")
+    if "permissions" in params and not isinstance(params["permissions"], str):
+        raise InvalidParameterError("Bad parameter: permissions must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/bundles/{id}".format(id=params['id']), params, options)

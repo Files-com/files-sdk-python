@@ -16,7 +16,7 @@ class Automation:
         'name': None,     # string - Name for this automation.
         'schedule': None,     # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
         'source': None,     # string - Source Path
-        'destinations': None,     # string - Destination Path
+        'destinations': None,     # array - Destination Path
         'destination_replace_from': None,     # string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
         'destination_replace_to': None,     # string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
         'description': None,     # string - Description for the this Automation.
@@ -25,7 +25,7 @@ class Automation:
         'user_ids': None,     # array - IDs of Users for the Automation (i.e. who to Request File from)
         'group_ids': None,     # array - IDs of Groups for the Automation (i.e. who to Request File from)
         'webhook_url': None,     # string - If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
-        'trigger_actions': None,     # string - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+        'trigger_actions': None,     # array - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
         'value': None,     # object - A Hash of attributes specific to the automation type.
         'destination': None,     # string - DEPRECATED: Destination Path. Use `destinations` instead.
     }

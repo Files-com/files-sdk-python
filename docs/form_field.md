@@ -24,6 +24,6 @@
 * `required` (boolean): Is this a required field?
 * `help_text` (string): Help text to be displayed
 * `field_type` (string): Type of Field
-* `options_for_select` (string): Options to display for radio and dropdown
+* `options_for_select` (array): Options to display for radio and dropdown
 * `default_option` (string): Default option for radio and dropdown
 * `form_field_set_id` (int64): Form field set id

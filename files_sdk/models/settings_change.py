@@ -6,7 +6,7 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class SettingsChange:
     default_attributes = {
-        'changes': None,     # string - Markdown-formatted change messages.
+        'changes': None,     # array - Markdown-formatted change messages.
         'created_at': None,     # date-time - The time this change was made
         'user_id': None,     # int64 - The user id responsible for this change
         'user_is_files_support': None,     # boolean - true if this change was performed by Files.com support.

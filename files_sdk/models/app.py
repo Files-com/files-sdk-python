@@ -12,7 +12,7 @@ class App:
         'documentation_links': None,     # object - Collection of named links to documentation
         'icon_url': None,     # string - App icon
         'logo_url': None,     # string - Full size logo for the App
-        'screenshot_list_urls': None,     # string - Screenshots of the App
+        'screenshot_list_urls': None,     # array - Screenshots of the App
         'logo_thumbnail_url': None,     # string - Logo thumbnail for the App
         'sso_strategy_type': None,     # string - Associated SSO Strategy type, if any
         'remote_server_type': None,     # string - Associated Remote Server type, if any

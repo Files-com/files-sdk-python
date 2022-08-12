@@ -6,16 +6,18 @@
 {
   "id": 1,
   "body": "What a great idea, thank you!",
-  "reactions": {
-    "id": 1,
-    "emoji": "👍"
-  }
+  "reactions": [
+    {
+      "id": 1,
+      "emoji": "👍"
+    }
+  ]
 }
 ```
 
 * `id` (int64): Message Comment ID
 * `body` (string): Comment body.
-* `reactions` (MessageCommentReaction): Reactions to this comment.
+* `reactions` (array): Reactions to this comment.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 
 

@@ -10,7 +10,7 @@ class FormField:
         'required': None,     # boolean - Is this a required field?
         'help_text': None,     # string - Help text to be displayed
         'field_type': None,     # string - Type of Field
-        'options_for_select': None,     # string - Options to display for radio and dropdown
+        'options_for_select': None,     # array - Options to display for radio and dropdown
         'default_option': None,     # string - Default option for radio and dropdown
         'form_field_set_id': None,     # int64 - Form field set id
     }

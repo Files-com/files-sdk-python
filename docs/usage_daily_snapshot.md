@@ -15,7 +15,7 @@
   "deleted_files_counted_in_minimum": "65536",
   "root_storage": "65536",
   "usage_by_top_level_dir": [
-
+    ""
   ]
 }
 ```

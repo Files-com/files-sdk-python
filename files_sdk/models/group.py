@@ -8,10 +8,10 @@ class Group:
     default_attributes = {
         'id': None,     # int64 - Group ID
         'name': None,     # string - Group name
-        'admin_ids': None,     # string - List of user IDs who are group administrators (separated by commas)
+        'admin_ids': None,     # string - Comma-delimited list of user IDs who are group administrators (separated by commas)
         'notes': None,     # string - Notes about this group
-        'user_ids': None,     # array - List of user IDs who belong to this group (separated by commas)
-        'usernames': None,     # array - List of usernames who belong to this group (separated by commas)
+        'user_ids': None,     # string - Comma-delimited list of user IDs who belong to this group (separated by commas)
+        'usernames': None,     # string - Comma-delimited list of usernames who belong to this group (separated by commas)
     }
 
     def __init__(self, attributes=None, options=None):

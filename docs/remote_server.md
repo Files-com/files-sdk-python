@@ -12,6 +12,8 @@
   "name": "My Remote server",
   "port": 1,
   "max_connections": 1,
+  "pin_to_site_region": True,
+  "pinned_region": "us-east-1",
   "s3_bucket": "my-bucket",
   "s3_region": "us-east-1",
   "aws_access_key": "",
@@ -56,6 +58,8 @@
 * `name` (string): Internal name for your reference
 * `port` (int64): Port for remote server.  Not needed for S3.
 * `max_connections` (int64): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+* `pin_to_site_region` (boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
+* `pinned_region` (string): If set, all communciations with this remote server are made through the provided region.
 * `s3_bucket` (string): S3 bucket name
 * `s3_region` (string): S3 region
 * `aws_access_key` (string): AWS Access Key.
@@ -144,6 +148,7 @@ files_sdk.remote_server.create({
   "hostname": "remote-server.com",
   "name": "My Remote server",
   "max_connections": 1,
+  "pin_to_site_region": True,
   "port": 1,
   "s3_bucket": "my-bucket",
   "s3_region": "us-east-1",
@@ -195,6 +200,7 @@ files_sdk.remote_server.create({
 * `hostname` (string): Hostname or IP address
 * `name` (string): Internal name for your reference
 * `max_connections` (int64): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+* `pin_to_site_region` (boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
 * `port` (int64): Port for remote server.  Not needed for S3.
 * `s3_bucket` (string): S3 bucket name
 * `s3_region` (string): S3 region
@@ -237,6 +243,7 @@ files_sdk.remote_server.update(id, {
   "hostname": "remote-server.com",
   "name": "My Remote server",
   "max_connections": 1,
+  "pin_to_site_region": True,
   "port": 1,
   "s3_bucket": "my-bucket",
   "s3_region": "us-east-1",
@@ -289,6 +296,7 @@ files_sdk.remote_server.update(id, {
 * `hostname` (string): Hostname or IP address
 * `name` (string): Internal name for your reference
 * `max_connections` (int64): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+* `pin_to_site_region` (boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
 * `port` (int64): Port for remote server.  Not needed for S3.
 * `s3_bucket` (string): S3 bucket name
 * `s3_region` (string): S3 region
@@ -345,6 +353,7 @@ remote_server.update({
   "hostname": "remote-server.com",
   "name": "My Remote server",
   "max_connections": 1,
+  "pin_to_site_region": True,
   "port": 1,
   "s3_bucket": "my-bucket",
   "s3_region": "us-east-1",
@@ -397,6 +406,7 @@ remote_server.update({
 * `hostname` (string): Hostname or IP address
 * `name` (string): Internal name for your reference
 * `max_connections` (int64): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+* `pin_to_site_region` (boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
 * `port` (int64): Port for remote server.  Not needed for S3.
 * `s3_bucket` (string): S3 bucket name
 * `s3_region` (string): S3 region

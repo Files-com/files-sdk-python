@@ -96,6 +96,7 @@ class Site:
         'password_requirements_apply_to_bundles': None,     # boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
         'password_validity_days': None,     # int64 - Number of days password is valid
         'phone': None,     # string - Site phone number
+        'pin_all_remote_servers_to_site_region': None,     # boolean - If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
         'require_2fa': None,     # boolean - Require two-factor authentication for all users?
         'require_2fa_stop_time': None,     # date-time - If set, requirement for two-factor authentication has been scheduled to end on this date-time.
         'require_2fa_user_type': None,     # string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
@@ -128,6 +129,7 @@ class Site:
         'user_lockout_tries': None,     # int64 - Number of login tries within `user_lockout_within` hours before users are locked out
         'user_lockout_within': None,     # int64 - Number of hours for user lockout window
         'user_requests_enabled': None,     # boolean - Enable User Requests feature
+        'user_requests_notify_admins': None,     # boolean - Send email to site admins when a user request is received?
         'welcome_custom_text': None,     # string - Custom text send in user welcome email
         'welcome_email_cc': None,     # email - Include this email in welcome emails if enabled
         'welcome_email_subject': None,     # string - Include this email subject in welcome emails if enabled
@@ -198,6 +200,7 @@ def get_usage(params = None, options = None):
 #   folder_permissions_groups_only - boolean - If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
 #   welcome_screen - string - Does the welcome screen appear?
 #   office_integration_available - boolean - Allow users to use Office for the web?
+#   pin_all_remote_servers_to_site_region - boolean - If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
 #   session_expiry - double - Session expiry in hours
 #   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
 #   tls_disabled - boolean - Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
@@ -234,6 +237,7 @@ def get_usage(params = None, options = None):
 #   non_sso_users_allowed - boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 #   sharing_enabled - boolean - Allow bundle creation
 #   user_requests_enabled - boolean - Enable User Requests feature
+#   user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
 #   ftp_enabled - boolean - Is FTP enabled?
 #   sftp_enabled - boolean - Is SFTP enabled?
 #   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
