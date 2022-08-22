@@ -240,6 +240,7 @@ def get_usage(params = None, options = None):
 #   user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
 #   ftp_enabled - boolean - Is FTP enabled?
 #   sftp_enabled - boolean - Is SFTP enabled?
+#   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 #   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
 #   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
 #   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
@@ -352,6 +353,8 @@ def update(params = None, options = None):
         raise InvalidParameterError("Bad parameter: password_min_length must be an int")
     if "disable_users_from_inactivity_period_days" in params and not isinstance(params["disable_users_from_inactivity_period_days"], int):
         raise InvalidParameterError("Bad parameter: disable_users_from_inactivity_period_days must be an int")
+    if "bundle_watermark_value" in params and not isinstance(params["bundle_watermark_value"], dict):
+        raise InvalidParameterError("Bad parameter: bundle_watermark_value must be an dict")
     if "require_2fa_user_type" in params and not isinstance(params["require_2fa_user_type"], str):
         raise InvalidParameterError("Bad parameter: require_2fa_user_type must be an str")
     if "color2_top" in params and not isinstance(params["color2_top"], str):
