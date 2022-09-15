@@ -42,6 +42,7 @@
   "mobile_app_session_ip_pinning": True,
   "mobile_app_session_lifetime": 1,
   "disallowed_countries": "US,DE",
+  "disable_files_certificate_generation": True,
   "disable_notifications": True,
   "disable_password_reset": True,
   "domain": "my-custom-domain.com",
@@ -265,6 +266,7 @@
 * `mobile_app_session_ip_pinning` (boolean): Is mobile app session IP pinning enabled?
 * `mobile_app_session_lifetime` (int64): Mobile app session lifetime (in hours)
 * `disallowed_countries` (string): Comma seperated list of disallowed Country codes
+* `disable_files_certificate_generation` (boolean): If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
 * `disable_notifications` (boolean): Are notifications disabled?
 * `disable_password_reset` (boolean): Is password reset disabled?
 * `domain` (string): Custom domain
@@ -417,6 +419,7 @@ files_sdk.site.update({
   "ssl_required": True,
   "tls_disabled": True,
   "sftp_insecure_ciphers": True,
+  "disable_files_certificate_generation": True,
   "user_lockout": True,
   "user_lockout_tries": 1,
   "user_lockout_within": 1,
@@ -527,6 +530,7 @@ files_sdk.site.update({
 * `ssl_required` (boolean): Is SSL required?  Disabling this is insecure.
 * `tls_disabled` (boolean): Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
 * `sftp_insecure_ciphers` (boolean): Are Insecure Ciphers allowed for SFTP?  Note:  Settting TLS Disabled -> True will always allow insecure ciphers for SFTP as well.  Enabling this is insecure.
+* `disable_files_certificate_generation` (boolean): If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
 * `user_lockout` (boolean): Will users be locked out after incorrect login attempts?
 * `user_lockout_tries` (int64): Number of login tries within `user_lockout_within` hours before users are locked out
 * `user_lockout_within` (int64): Number of hours for user lockout window
