@@ -6,6 +6,7 @@
 {
   "id": 1,
   "descriptive_label": "Site-wide API key for https://site.files.com/ (key ID #1)",
+  "description": "",
   "created_at": "2000-01-01T01:00:00Z",
   "expires_at": "2000-01-01T01:00:00Z",
   "key": "[key]",
@@ -20,6 +21,7 @@
 
 * `id` (int64): API Key ID
 * `descriptive_label` (string): Unique label that describes this API key.  Useful for external systems where you may have API keys from multiple accounts and want a human-readable label for each key.
+* `description` (string): User-supplied description of API key.
 * `created_at` (date-time): Time which API Key was created
 * `expires_at` (date-time): API Key expiration date
 * `key` (string): API Key actual key string
@@ -96,6 +98,7 @@ files_sdk.api_key.create({
 
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `name` (string): Internal name for the API Key.  For your use.
+* `description` (string): User-supplied description of API key.
 * `expires_at` (string): API Key expiration date
 * `permission_set` (string): Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `path` (string): Folder path restriction for this api key.
@@ -136,6 +139,7 @@ files_sdk.api_key.update(id, {
 
 * `id` (int64): Required - Api Key ID.
 * `name` (string): Internal name for the API Key.  For your use.
+* `description` (string): User-supplied description of API key.
 * `expires_at` (string): API Key expiration date
 * `permission_set` (string): Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 
@@ -179,6 +183,7 @@ api_key.update({
 
 * `id` (int64): Required - Api Key ID.
 * `name` (string): Internal name for the API Key.  For your use.
+* `description` (string): User-supplied description of API key.
 * `expires_at` (string): API Key expiration date
 * `permission_set` (string): Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 
