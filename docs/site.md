@@ -96,6 +96,9 @@
     "uri": "https://mysite.files.com/.../my_image.png"
   },
   "max_prior_passwords": 1,
+  "motd_text": "",
+  "motd_use_for_ftp": True,
+  "motd_use_for_sftp": True,
   "next_billing_amount": 1.0,
   "next_billing_date": "Apr 20",
   "office_integration_available": True,
@@ -305,6 +308,9 @@
 * `login_help_text` (string): Login help text
 * `logo` (Image): Branded logo
 * `max_prior_passwords` (int64): Number of prior passwords to disallow
+* `motd_text` (string): A message to show users when they connect via FTP or SFTP.
+* `motd_use_for_ftp` (boolean): Show message to users connecting via FTP
+* `motd_use_for_sftp` (boolean): Show message to users connecting via SFTP
 * `next_billing_amount` (double): Next billing amount
 * `next_billing_date` (string): Next billing date
 * `office_integration_available` (boolean): Allow users to use Office for the web?
@@ -415,6 +421,8 @@ files_sdk.site.update({
   "welcome_screen": "user_controlled",
   "office_integration_available": True,
   "pin_all_remote_servers_to_site_region": True,
+  "motd_use_for_ftp": True,
+  "motd_use_for_sftp": True,
   "session_expiry": 1.0,
   "ssl_required": True,
   "tls_disabled": True,
@@ -526,6 +534,9 @@ files_sdk.site.update({
 * `welcome_screen` (string): Does the welcome screen appear?
 * `office_integration_available` (boolean): Allow users to use Office for the web?
 * `pin_all_remote_servers_to_site_region` (boolean): If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
+* `motd_text` (string): A message to show users when they connect via FTP or SFTP.
+* `motd_use_for_ftp` (boolean): Show message to users connecting via FTP
+* `motd_use_for_sftp` (boolean): Show message to users connecting via SFTP
 * `session_expiry` (double): Session expiry in hours
 * `ssl_required` (boolean): Is SSL required?  Disabling this is insecure.
 * `tls_disabled` (boolean): Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
