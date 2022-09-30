@@ -4,21 +4,27 @@
 
 ```
 {
-  "send": "",
+  "send": {
+    "key": "example value"
+  },
   "action": "multipart",
   "ask_about_overwrites": True,
   "available_parts": 1,
-  "expires": "",
-  "headers": "",
+  "expires": "example",
+  "headers": {
+    "key": "example value"
+  },
   "http_method": "PUT",
   "next_partsize": 1,
   "parallel_parts": True,
-  "parameters": "{}",
+  "parameters": {
+    "key": "example value"
+  },
   "part_number": 1,
   "partsize": 1,
   "path": "",
   "ref": "upload-1",
-  "upload_uri": ""
+  "upload_uri": "example"
 }
 ```
 

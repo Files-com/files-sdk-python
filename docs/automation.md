@@ -11,27 +11,16 @@
   "trigger": "realtime",
   "interval": "week",
   "last_modified_at": "2000-01-01T01:00:00Z",
-  "name": "",
-  "schedule": {
-    "days_of_week": [
-      0,
-      2,
-      4
-    ],
-    "times_of_day": [
-      "6:30",
-      "14:30"
-    ],
-    "time_zone": "Eastern Time (US & Canada)"
-  },
-  "source": "",
+  "name": "example",
+  "schedule": "example",
+  "source": "example",
   "destinations": [
     "destination"
   ],
-  "destination_replace_from": "",
-  "destination_replace_to": "",
-  "description": "",
-  "path": "",
+  "destination_replace_from": "example",
+  "destination_replace_to": "example",
+  "description": "example",
+  "path": "example",
   "user_id": 1,
   "user_ids": [
     1,
@@ -122,12 +111,17 @@ files_sdk.automation.find(id)
 ```
 files_sdk.automation.create({
   "source": "source",
-  "destinations": "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]",
+  "destinations": ["folder_a/file_a.txt",{"folder_path":"folder_b","file_path":"file_b.txt"},{"folder_path":"folder_c"}],
+  "destination_replace_from": "example",
+  "destination_replace_to": "example",
   "interval": "year",
+  "path": "example",
   "user_ids": [1,2],
   "group_ids": [1,2],
-  "schedule": "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}",
+  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "description": "example",
   "disabled": True,
+  "name": "example",
   "trigger": "realtime",
   "trigger_actions": ["create"],
   "value": {"limit":"1"},
@@ -163,12 +157,17 @@ files_sdk.automation.create({
 ```
 files_sdk.automation.update(id, {
   "source": "source",
-  "destinations": "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]",
+  "destinations": ["folder_a/file_a.txt",{"folder_path":"folder_b","file_path":"file_b.txt"},{"folder_path":"folder_c"}],
+  "destination_replace_from": "example",
+  "destination_replace_to": "example",
   "interval": "year",
+  "path": "example",
   "user_ids": [1,2],
   "group_ids": [1,2],
-  "schedule": "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}",
+  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "description": "example",
   "disabled": True,
+  "name": "example",
   "trigger": "realtime",
   "trigger_actions": ["create"],
   "value": {"limit":"1"},
@@ -219,12 +218,17 @@ files_sdk.automation.delete(id)
 automation = files_sdk.automation.list.first
 automation.update({
   "source": "source",
-  "destinations": "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]",
+  "destinations": ["folder_a/file_a.txt",{"folder_path":"folder_b","file_path":"file_b.txt"},{"folder_path":"folder_c"}],
+  "destination_replace_from": "example",
+  "destination_replace_to": "example",
   "interval": "year",
+  "path": "example",
   "user_ids": [1,2],
   "group_ids": [1,2],
-  "schedule": "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}",
+  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "description": "example",
   "disabled": True,
+  "name": "example",
   "trigger": "realtime",
   "trigger_actions": ["create"],
   "value": {"limit":"1"},

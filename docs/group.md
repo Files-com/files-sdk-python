@@ -7,9 +7,9 @@
   "id": 1,
   "name": "owners",
   "admin_ids": "1",
-  "notes": "",
+  "notes": "example",
   "user_ids": "1",
-  "usernames": "user"
+  "usernames": "example"
 }
 ```
 
@@ -65,6 +65,7 @@ files_sdk.group.find(id)
 ```
 files_sdk.group.create({
   "name": "owners",
+  "notes": "example",
   "user_ids": "1",
   "admin_ids": "1"
 })
@@ -85,6 +86,7 @@ files_sdk.group.create({
 ```
 files_sdk.group.update(id, {
   "name": "owners",
+  "notes": "example",
   "user_ids": "1",
   "admin_ids": "1"
 })
@@ -120,6 +122,7 @@ files_sdk.group.delete(id)
 group = files_sdk.group.list.first
 group.update({
   "name": "owners",
+  "notes": "example",
   "user_ids": "1",
   "admin_ids": "1"
 })

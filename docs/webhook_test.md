@@ -7,7 +7,7 @@
   "code": 200,
   "message": "",
   "status": "",
-  "data": "",
+  "data": "example",
   "success": True
 }
 ```
@@ -37,10 +37,10 @@ files_sdk.webhook_test.create({
   "url": "https://www.site.com/...",
   "method": "GET",
   "encoding": "RAW",
-  "headers": "x-test-header => testvalue",
-  "body": "test-param => testvalue",
+  "headers": {"x-test-header":"testvalue"},
+  "body": {"test-param":"testvalue"},
   "raw_body": "test body",
-  "file_as_body": "False",
+  "file_as_body": True,
   "file_form_field": "upload_file_data",
   "action": "test"
 })

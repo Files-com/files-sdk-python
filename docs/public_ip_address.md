@@ -6,8 +6,8 @@
 {
   "ip_address": "1.1.1.1",
   "server_name": "server-1",
-  "ftp_enabled": "",
-  "sftp_enabled": ""
+  "ftp_enabled": "example",
+  "sftp_enabled": "example"
 }
 ```
 

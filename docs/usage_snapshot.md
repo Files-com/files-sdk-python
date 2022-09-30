@@ -14,7 +14,9 @@
   "total_downloads": 1,
   "total_uploads": 1,
   "updated_at": "2000-01-01T01:00:00Z",
-  "usage_by_top_level_dir": "",
+  "usage_by_top_level_dir": {
+    "key": "example value"
+  },
   "root_storage": 1.0,
   "deleted_files_counted_in_minimum": 1.0,
   "deleted_files_storage": 1.0,

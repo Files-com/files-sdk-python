@@ -8,16 +8,7 @@
   "subject": "Files.com Account Upgrade",
   "body": "We should upgrade our Files.com account!",
   "comments": [
-    {
-      "id": 1,
-      "body": "What a great idea, thank you!",
-      "reactions": [
-        {
-          "id": 1,
-          "emoji": "👍"
-        }
-      ]
-    }
+    null
   ]
 }
 ```

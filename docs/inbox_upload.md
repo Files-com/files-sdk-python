@@ -4,9 +4,9 @@
 
 ```
 {
-  "inbox_registration": "",
+  "inbox_registration": "example",
   "path": "a/b/test.txt",
-  "created_at": "2020-01-01 00:00:00"
+  "created_at": "2000-01-01T01:00:00Z"
 }
 ```
 

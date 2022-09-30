@@ -5,16 +5,16 @@
 ```
 {
   "id": 1,
-  "event_type": "",
-  "status": "",
-  "body": "",
+  "event_type": "example",
+  "status": "example",
+  "body": "example",
   "created_at": "2000-01-01T01:00:00Z",
-  "body_url": "",
+  "body_url": "example",
   "folder_behavior_id": 1,
   "successful_files": 1,
   "errored_files": 1,
   "bytes_synced": 1,
-  "remote_server_type": ""
+  "remote_server_type": "example"
 }
 ```
 
@@ -73,8 +73,8 @@ files_sdk.external_event.find(id)
 
 ```
 files_sdk.external_event.create({
-  "status": "status",
-  "body": "body"
+  "status": "example",
+  "body": "example"
 })
 ```
 

@@ -5,7 +5,7 @@
 ```
 {
   "status": "pending",
-  "file_migration_id": "123"
+  "file_migration_id": 1
 }
 ```
 

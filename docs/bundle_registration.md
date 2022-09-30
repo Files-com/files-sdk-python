@@ -10,10 +10,12 @@
   "email": "john.doe@files.com",
   "ip": "10.1.1.1",
   "inbox_code": "abc123",
-  "clickwrap_body": "",
+  "clickwrap_body": "example",
   "form_field_set_id": 1,
-  "form_field_data": "",
-  "bundle_code": "",
+  "form_field_data": {
+    "key": "example value"
+  },
+  "bundle_code": "example",
   "bundle_id": 1,
   "bundle_recipient_id": 1
 }

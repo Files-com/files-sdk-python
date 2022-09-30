@@ -7,15 +7,15 @@
   "id": 1,
   "as2_station_id": 1,
   "name": "AS2 Partner Name",
-  "uri": "",
+  "uri": "example",
   "server_certificate": "require_match",
   "hex_public_certificate_serial": "A5:EB:C1:95:DC:D8:2B:E7",
-  "public_certificate_md5": "",
-  "public_certificate_subject": "",
-  "public_certificate_issuer": "",
-  "public_certificate_serial": "",
-  "public_certificate_not_before": "",
-  "public_certificate_not_after": ""
+  "public_certificate_md5": "example",
+  "public_certificate_subject": "example",
+  "public_certificate_issuer": "example",
+  "public_certificate_serial": "example",
+  "public_certificate_not_before": "example",
+  "public_certificate_not_after": "example"
 }
 ```
 
@@ -93,6 +93,7 @@ files_sdk.as2_partner.create({
 ```
 files_sdk.as2_partner.update(id, {
   "name": "AS2 Partner Name",
+  "uri": "example",
   "server_certificate": "require_match"
 })
 ```
@@ -127,6 +128,7 @@ files_sdk.as2_partner.delete(id)
 as2_partner = files_sdk.as2_partner.list.first
 as2_partner.update({
   "name": "AS2 Partner Name",
+  "uri": "example",
   "server_certificate": "require_match"
 })
 ```

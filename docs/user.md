@@ -14,21 +14,21 @@
   "api_keys_count": 1,
   "authenticate_until": "2000-01-01T01:00:00Z",
   "authentication_method": "password",
-  "avatar_url": "",
+  "avatar_url": "example",
   "billing_permission": True,
   "bypass_site_allowed_ips": True,
   "bypass_inactive_disable": True,
   "created_at": "2000-01-01T01:00:00Z",
   "dav_permission": True,
   "disabled": True,
-  "email": "john.doe@files.com",
+  "email": "example",
   "first_login_at": "2000-01-01T01:00:00Z",
   "ftp_permission": True,
-  "group_ids": "",
+  "group_ids": "example",
   "header_text": "User-specific message.",
   "language": "en",
   "last_login_at": "2000-01-01T01:00:00Z",
-  "last_protocol_cipher": "",
+  "last_protocol_cipher": "example",
   "lockout_expires": "2000-01-01T01:00:00Z",
   "name": "John Doe",
   "company": "ACME Corp.",
@@ -55,7 +55,7 @@
   "time_zone": "Pacific Time (US & Canada)",
   "type_of_2fa": "yubi",
   "updated_at": "2000-01-01T01:00:00Z",
-  "user_root": ""
+  "user_root": "example"
 }
 ```
 
@@ -173,8 +173,9 @@ files_sdk.user.find(id)
 ```
 files_sdk.user.create({
   "avatar_delete": True,
-  "email": "john.doe@files.com",
+  "email": "example",
   "group_id": 1,
+  "group_ids": "example",
   "announcements_read": True,
   "allowed_ips": "127.0.0.1",
   "attachments_permission": True,
@@ -206,6 +207,7 @@ files_sdk.user.create({
   "subscribe_to_newsletter": True,
   "require_2fa": "always_require",
   "time_zone": "Pacific Time (US & Canada)",
+  "user_root": "example",
   "username": "user"
 })
 ```
@@ -304,8 +306,9 @@ files_sdk.user.user_2fa_reset(id)
 ```
 files_sdk.user.update(id, {
   "avatar_delete": True,
-  "email": "john.doe@files.com",
+  "email": "example",
   "group_id": 1,
+  "group_ids": "example",
   "announcements_read": True,
   "allowed_ips": "127.0.0.1",
   "attachments_permission": True,
@@ -337,6 +340,7 @@ files_sdk.user.update(id, {
   "subscribe_to_newsletter": True,
   "require_2fa": "always_require",
   "time_zone": "Pacific Time (US & Canada)",
+  "user_root": "example",
   "username": "user"
 })
 ```
@@ -453,8 +457,9 @@ user.user_2fa_reset()
 user = files_sdk.user.list.first
 user.update({
   "avatar_delete": True,
-  "email": "john.doe@files.com",
+  "email": "example",
   "group_id": 1,
+  "group_ids": "example",
   "announcements_read": True,
   "allowed_ips": "127.0.0.1",
   "attachments_permission": True,
@@ -486,6 +491,7 @@ user.update({
   "subscribe_to_newsletter": True,
   "require_2fa": "always_require",
   "time_zone": "Pacific Time (US & Canada)",
+  "user_root": "example",
   "username": "user"
 })
 ```

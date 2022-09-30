@@ -5,7 +5,7 @@
 ```
 {
   "path": "locked_file",
-  "timeout": 43200,
+  "timeout": 1,
   "depth": "infinity",
   "recursive": True,
   "owner": "user",

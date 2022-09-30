@@ -5,21 +5,14 @@
 ```
 {
   "code": 200,
-  "message": "",
+  "message": "example",
   "status": "",
-  "data": "",
+  "data": "example",
   "errors": [
-    {
-      "fields": [
-
-      ],
-      "messages": [
-
-      ]
-    }
+    null
   ],
   "clickwrap_id": 1,
-  "clickwrap_body": ""
+  "clickwrap_body": "example"
 }
 ```
 

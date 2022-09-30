@@ -16,7 +16,7 @@
   "pinned_region": "us-east-1",
   "s3_bucket": "my-bucket",
   "s3_region": "us-east-1",
-  "aws_access_key": "",
+  "aws_access_key": "example",
   "server_certificate": "require_match",
   "server_host_key": "[public key]",
   "server_type": "s3",
@@ -28,7 +28,7 @@
   "backblaze_b2_bucket": "my-bucket",
   "wasabi_bucket": "my-bucket",
   "wasabi_region": "us-west-1",
-  "wasabi_access_key": "",
+  "wasabi_access_key": "example",
   "rackspace_username": "rackspaceuser",
   "rackspace_region": "dfw",
   "rackspace_container": "my-container",
@@ -45,7 +45,7 @@
   "s3_compatible_bucket": "my-bucket",
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
-  "s3_compatible_access_key": "",
+  "s3_compatible_access_key": "example",
   "enable_dedicated_ips": True
 }
 ```
@@ -144,6 +144,8 @@ files_sdk.remote_server.find(id)
 
 ```
 files_sdk.remote_server.create({
+  "aws_access_key": "example",
+  "wasabi_access_key": "example",
   "reset_authentication": True,
   "hostname": "remote-server.com",
   "name": "My Remote server",
@@ -176,7 +178,8 @@ files_sdk.remote_server.create({
   "s3_compatible_bucket": "my-bucket",
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
-  "enable_dedicated_ips": True
+  "enable_dedicated_ips": True,
+  "s3_compatible_access_key": "example"
 })
 ```
 
@@ -239,6 +242,8 @@ files_sdk.remote_server.create({
 
 ```
 files_sdk.remote_server.update(id, {
+  "aws_access_key": "example",
+  "wasabi_access_key": "example",
   "reset_authentication": True,
   "hostname": "remote-server.com",
   "name": "My Remote server",
@@ -271,7 +276,8 @@ files_sdk.remote_server.update(id, {
   "s3_compatible_bucket": "my-bucket",
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
-  "enable_dedicated_ips": True
+  "enable_dedicated_ips": True,
+  "s3_compatible_access_key": "example"
 })
 ```
 
@@ -349,6 +355,8 @@ files_sdk.remote_server.delete(id)
 ```
 remote_server = files_sdk.remote_server.list.first
 remote_server.update({
+  "aws_access_key": "example",
+  "wasabi_access_key": "example",
   "reset_authentication": True,
   "hostname": "remote-server.com",
   "name": "My Remote server",
@@ -381,7 +389,8 @@ remote_server.update({
   "s3_compatible_bucket": "my-bucket",
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
-  "enable_dedicated_ips": True
+  "enable_dedicated_ips": True,
+  "s3_compatible_access_key": "example"
 })
 ```
 

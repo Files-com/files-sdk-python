@@ -7,9 +7,9 @@
   "id": 1,
   "name": "Example Site NDA for Files.com Use",
   "body": "[Legal body text]",
-  "use_with_users": "",
-  "use_with_bundles": "",
-  "use_with_inboxes": ""
+  "use_with_users": "example",
+  "use_with_bundles": "example",
+  "use_with_inboxes": "example"
 }
 ```
 
@@ -57,7 +57,10 @@ files_sdk.clickwrap.find(id)
 ```
 files_sdk.clickwrap.create({
   "name": "Example Site NDA for Files.com Use",
-  "body": "[Legal body text]"
+  "body": "[Legal body text]",
+  "use_with_bundles": "example",
+  "use_with_inboxes": "example",
+  "use_with_users": "example"
 })
 ```
 
@@ -77,7 +80,10 @@ files_sdk.clickwrap.create({
 ```
 files_sdk.clickwrap.update(id, {
   "name": "Example Site NDA for Files.com Use",
-  "body": "[Legal body text]"
+  "body": "[Legal body text]",
+  "use_with_bundles": "example",
+  "use_with_inboxes": "example",
+  "use_with_users": "example"
 })
 ```
 
@@ -112,7 +118,10 @@ files_sdk.clickwrap.delete(id)
 clickwrap = files_sdk.clickwrap.list.first
 clickwrap.update({
   "name": "Example Site NDA for Files.com Use",
-  "body": "[Legal body text]"
+  "body": "[Legal body text]",
+  "use_with_bundles": "example",
+  "use_with_inboxes": "example",
+  "use_with_users": "example"
 })
 ```
 

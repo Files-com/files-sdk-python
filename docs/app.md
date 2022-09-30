@@ -4,23 +4,25 @@
 
 ```
 {
-  "name": "",
-  "extended_description": "",
-  "short_description": "",
-  "documentation_links": "Important Info => http://files.test/learn-more",
-  "icon_url": "",
-  "logo_url": "",
+  "name": "example",
+  "extended_description": "example",
+  "short_description": "example",
+  "documentation_links": {
+    "Important Info": "http://files.test/learn-more"
+  },
+  "icon_url": "example",
+  "logo_url": "example",
   "screenshot_list_urls": [
-    ""
+    "example"
   ],
-  "logo_thumbnail_url": "",
-  "sso_strategy_type": "",
-  "remote_server_type": "",
-  "folder_behavior_type": "",
-  "external_homepage_url": "",
-  "marketing_youtube_url": "",
-  "tutorial_youtube_url": "",
-  "app_type": "",
+  "logo_thumbnail_url": "example",
+  "sso_strategy_type": "example",
+  "remote_server_type": "example",
+  "folder_behavior_type": "example",
+  "external_homepage_url": "example",
+  "marketing_youtube_url": "example",
+  "tutorial_youtube_url": "example",
+  "app_type": "example",
   "featured": True
 }
 ```

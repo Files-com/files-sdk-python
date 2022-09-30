@@ -7,22 +7,26 @@
   "id": 1,
   "as2_partner_id": 1,
   "as2_station_id": 1,
-  "uuid": "",
-  "http_headers": "",
-  "activity_log": "",
-  "processing_result": "",
-  "processing_result_description": "",
-  "mic": "",
-  "mic_sha_256": "",
-  "as2_to": "",
-  "as2_from": "",
-  "date": "",
-  "message_id": "",
-  "body_size": "",
-  "attachment_filename": "",
+  "uuid": "example",
+  "http_headers": {
+    "key": "example value"
+  },
+  "activity_log": "example",
+  "processing_result": "example",
+  "processing_result_description": "example",
+  "mic": "example",
+  "mic_sha_256": "example",
+  "as2_to": "example",
+  "as2_from": "example",
+  "date": "example",
+  "message_id": "example",
+  "body_size": "example",
+  "attachment_filename": "example",
   "created_at": "2000-01-01T01:00:00Z",
-  "http_response_code": "",
-  "http_response_headers": "",
+  "http_response_code": "example",
+  "http_response_headers": {
+    "key": "example value"
+  },
   "http_transmission_duration": 1.0,
   "mdn_received": True,
   "mdn_valid": True,
@@ -30,11 +34,11 @@
   "mdn_message_id_matched": True,
   "mdn_mic_matched": True,
   "mdn_processing_success": True,
-  "raw_uri": "",
-  "smime_uri": "",
-  "smime_signed_uri": "",
-  "encrypted_uri": "",
-  "mdn_response_uri": ""
+  "raw_uri": "example",
+  "smime_uri": "example",
+  "smime_signed_uri": "example",
+  "encrypted_uri": "example",
+  "mdn_response_uri": "example"
 }
 ```
 

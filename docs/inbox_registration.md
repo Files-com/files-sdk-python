@@ -8,12 +8,14 @@
   "name": "account",
   "company": "Action Verb",
   "email": "john.doe@files.com",
-  "clickwrap_body": "",
+  "clickwrap_body": "example",
   "form_field_set_id": 1,
-  "form_field_data": "",
+  "form_field_data": {
+    "key": "example value"
+  },
   "inbox_id": 1,
   "inbox_recipient_id": 1,
-  "inbox_title": ""
+  "inbox_title": "example"
 }
 ```
 

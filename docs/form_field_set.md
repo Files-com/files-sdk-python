@@ -13,20 +13,7 @@
     4
   ],
   "form_fields": [
-    {
-      "id": 1,
-      "label": "Sample Label",
-      "required": True,
-      "help_text": "Help Text",
-      "field_type": "text",
-      "options_for_select": [
-        "red",
-        "green",
-        "blue"
-      ],
-      "default_option": "red",
-      "form_field_set_id": 1
-    }
+    null
   ],
   "skip_name": True,
   "skip_email": True,
@@ -86,7 +73,7 @@ files_sdk.form_field_set.create({
   "skip_email": True,
   "skip_name": True,
   "skip_company": True,
-  "form_fields": [{"label":"Sample Label","required":True,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]
+  "form_fields": [null]
 })
 ```
 
@@ -110,7 +97,7 @@ files_sdk.form_field_set.update(id, {
   "skip_email": True,
   "skip_name": True,
   "skip_company": True,
-  "form_fields": [{"id":1,"label":"Sample Label","required":True,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]
+  "form_fields": [null]
 })
 ```
 
@@ -148,7 +135,7 @@ form_field_set.update({
   "skip_email": True,
   "skip_name": True,
   "skip_company": True,
-  "form_fields": [{"id":1,"label":"Sample Label","required":True,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]
+  "form_fields": [null]
 })
 ```
 
