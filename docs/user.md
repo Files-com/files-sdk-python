@@ -28,6 +28,14 @@
   "header_text": "User-specific message.",
   "language": "en",
   "last_login_at": "2000-01-01T01:00:00Z",
+  "last_web_login_at": "2000-01-01T01:00:00Z",
+  "last_ftp_login_at": "2000-01-01T01:00:00Z",
+  "last_sftp_login_at": "2000-01-01T01:00:00Z",
+  "last_dav_login_at": "2000-01-01T01:00:00Z",
+  "last_desktop_login_at": "2000-01-01T01:00:00Z",
+  "last_restapi_login_at": "2000-01-01T01:00:00Z",
+  "last_api_use_at": "2000-01-01T01:00:00Z",
+  "last_active_at": "2000-01-01T01:00:00Z",
   "last_protocol_cipher": "example",
   "lockout_expires": "2000-01-01T01:00:00Z",
   "name": "John Doe",
@@ -80,8 +88,16 @@
 * `group_ids` (string): Comma-separated list of group IDs of which this user is a member
 * `header_text` (string): Text to display to the user in the header of the UI
 * `language` (string): Preferred language
-* `last_login_at` (date-time): User's last login time
-* `last_protocol_cipher` (string): The last protocol and cipher used
+* `last_login_at` (date-time): User's most recent login time via any protocol
+* `last_web_login_at` (date-time): User's most recent login time via web
+* `last_ftp_login_at` (date-time): User's most recent login time via FTP
+* `last_sftp_login_at` (date-time): User's most recent login time via SFTP
+* `last_dav_login_at` (date-time): User's most recent login time via WebDAV
+* `last_desktop_login_at` (date-time): User's most recent login time via Desktop app
+* `last_restapi_login_at` (date-time): User's most recent login time via Rest API
+* `last_api_use_at` (date-time): User's most recent API use time
+* `last_active_at` (date-time): User's most recent activity time, which is the latest of most recent login, most recent API use, enablement, or creation
+* `last_protocol_cipher` (string): The most recent protocol and cipher used
 * `lockout_expires` (date-time): Time in the future that the user will no longer be locked out if applicable
 * `name` (string): User's full name
 * `company` (string): User's company
@@ -107,7 +123,7 @@
 * `externally_managed` (boolean): Is this user managed by a SsoStrategy?
 * `time_zone` (string): User time zone
 * `type_of_2fa` (string): Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
-* `updated_at` (date-time): User record last updated at.  Note this may be incremented because of internal or external updates.
+* `updated_at` (date-time): User record most recently updated at.  Note this may be incremented because of internal or external updates.
 * `user_root` (string): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 * `avatar_file` (file): An image file for your user avatar.
 * `avatar_delete` (boolean): If true, the avatar will be deleted.
