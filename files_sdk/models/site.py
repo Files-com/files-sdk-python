@@ -107,6 +107,8 @@ class Site:
         'session': None,     # Session - Current session
         'session_pinned_by_ip': None,     # boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
         'sftp_enabled': None,     # boolean - Is SFTP enabled?
+        'sftp_host_key_type': None,     # string - Sftp Host Key Type
+        'active_sftp_host_key_id': None,     # int64 - Id of the currently selected custom SFTP Host Key
         'sftp_insecure_ciphers': None,     # boolean - Are Insecure Ciphers allowed for SFTP?  Note:  Settting TLS Disabled -> True will always allow insecure ciphers for SFTP as well.  Enabling this is insecure.
         'sftp_user_root_enabled': None,     # boolean - Use user FTP roots also for SFTP?
         'sharing_enabled': None,     # boolean - Allow bundle creation
@@ -248,6 +250,8 @@ def get_usage(params = None, options = None):
 #   user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
 #   ftp_enabled - boolean - Is FTP enabled?
 #   sftp_enabled - boolean - Is SFTP enabled?
+#   sftp_host_key_type - string - Sftp Host Key Type
+#   active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
 #   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 #   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
 #   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
@@ -363,6 +367,10 @@ def update(params = None, options = None):
         raise InvalidParameterError("Bad parameter: password_min_length must be an int")
     if "disable_users_from_inactivity_period_days" in params and not isinstance(params["disable_users_from_inactivity_period_days"], int):
         raise InvalidParameterError("Bad parameter: disable_users_from_inactivity_period_days must be an int")
+    if "sftp_host_key_type" in params and not isinstance(params["sftp_host_key_type"], str):
+        raise InvalidParameterError("Bad parameter: sftp_host_key_type must be an str")
+    if "active_sftp_host_key_id" in params and not isinstance(params["active_sftp_host_key_id"], int):
+        raise InvalidParameterError("Bad parameter: active_sftp_host_key_id must be an int")
     if "bundle_watermark_value" in params and not isinstance(params["bundle_watermark_value"], dict):
         raise InvalidParameterError("Bad parameter: bundle_watermark_value must be an dict")
     if "require_2fa_user_type" in params and not isinstance(params["require_2fa_user_type"], str):

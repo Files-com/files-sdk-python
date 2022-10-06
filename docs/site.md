@@ -107,6 +107,8 @@
   "session": "",
   "session_pinned_by_ip": True,
   "sftp_enabled": True,
+  "sftp_host_key_type": "default",
+  "active_sftp_host_key_id": 1,
   "sftp_insecure_ciphers": True,
   "sftp_user_root_enabled": True,
   "sharing_enabled": True,
@@ -245,6 +247,8 @@
 * `session` (Session): Current session
 * `session_pinned_by_ip` (boolean): Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
 * `sftp_enabled` (boolean): Is SFTP enabled?
+* `sftp_host_key_type` (string): Sftp Host Key Type
+* `active_sftp_host_key_id` (int64): Id of the currently selected custom SFTP Host Key
 * `sftp_insecure_ciphers` (boolean): Are Insecure Ciphers allowed for SFTP?  Note:  Settting TLS Disabled -> True will always allow insecure ciphers for SFTP as well.  Enabling this is insecure.
 * `sftp_user_root_enabled` (boolean): Use user FTP roots also for SFTP?
 * `sharing_enabled` (boolean): Allow bundle creation
@@ -377,6 +381,8 @@ files_sdk.site.update({
   "user_requests_notify_admins": True,
   "ftp_enabled": True,
   "sftp_enabled": True,
+  "sftp_host_key_type": "default",
+  "active_sftp_host_key_id": 1,
   "bundle_watermark_value": {"key":"example value"},
   "allowed_2fa_method_sms": True,
   "allowed_2fa_method_u2f": True,
@@ -499,6 +505,8 @@ files_sdk.site.update({
 * `user_requests_notify_admins` (boolean): Send email to site admins when a user request is received?
 * `ftp_enabled` (boolean): Is FTP enabled?
 * `sftp_enabled` (boolean): Is SFTP enabled?
+* `sftp_host_key_type` (string): Sftp Host Key Type
+* `active_sftp_host_key_id` (int64): Id of the currently selected custom SFTP Host Key
 * `bundle_watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `allowed_2fa_method_sms` (boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_u2f` (boolean): Is U2F two factor authentication allowed?

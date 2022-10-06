@@ -15,6 +15,7 @@
   "path": "shared/docs",
   "permission_set": "full",
   "platform": "win32",
+  "url": "example",
   "user_id": 1
 }
 ```
@@ -30,6 +31,7 @@
 * `path` (string): Folder path restriction for this api key. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `permission_set` (string): Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `platform` (string): If this API key represents a Desktop app, what platform was it created on?
+* `url` (string): URL for API host.
 * `user_id` (int64): User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
 
 
