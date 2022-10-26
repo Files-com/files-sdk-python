@@ -20,6 +20,7 @@ class Folder:
         'region': None,     # string - Region location
         'permissions': None,     # string - A short string representing the current user's permissions.  Can be `r`,`w`,`d`, `l` or any combination
         'subfolders_locked?': None,     # boolean - Are subfolders locked and unable to be modified?
+        'is_locked': None,     # boolean - Is this folder locked and unable to be modified?
         'download_uri': None,     # string - Link to download file. Provided only in response to a download request.
         'priority_color': None,     # string - Bookmark/priority color of file/folder
         'preview_id': None,     # int64 - File preview ID
