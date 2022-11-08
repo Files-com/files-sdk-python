@@ -46,7 +46,10 @@
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
   "s3_compatible_access_key": "example",
-  "enable_dedicated_ips": True
+  "enable_dedicated_ips": True,
+  "files_agent_permission_set": "read_write",
+  "files_agent_root": "example",
+  "files_agent_api_token": "example"
 }
 ```
 
@@ -93,6 +96,9 @@
 * `s3_compatible_region` (string): S3-compatible endpoint
 * `s3_compatible_access_key` (string): S3-compatible Access Key.
 * `enable_dedicated_ips` (boolean): `true` if remote server only accepts connections from dedicated IPs
+* `files_agent_permission_set` (string): Local permissions for files agent. read_only, write_only, or read_write
+* `files_agent_root` (string): Agent local root path
+* `files_agent_api_token` (string): Files Agent API Token
 * `aws_secret_key` (string): AWS secret key.
 * `password` (string): Password if needed.
 * `private_key` (string): Private key if needed.
@@ -131,6 +137,19 @@ files_sdk.remote_server.list({
 
 ```
 files_sdk.remote_server.find(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
+
+
+---
+
+## Download configuration file (required for some Remote Server integrations, such as the Files.com Agent)
+
+```
+files_sdk.remote_server.find_configuration_file(id)
 ```
 
 ### Parameters
@@ -179,7 +198,9 @@ files_sdk.remote_server.create({
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
   "enable_dedicated_ips": True,
-  "s3_compatible_access_key": "example"
+  "s3_compatible_access_key": "example",
+  "files_agent_root": "example",
+  "files_agent_permission_set": "read_write"
 })
 ```
 
@@ -234,6 +255,40 @@ files_sdk.remote_server.create({
 * `enable_dedicated_ips` (boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (string): S3-compatible Access Key.
 * `s3_compatible_secret_key` (string): S3-compatible secret key
+* `files_agent_root` (string): Agent local root path
+* `files_agent_permission_set` (string): Local permissions for files agent. read_only, write_only, or read_write
+
+
+---
+
+## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
+
+```
+files_sdk.remote_server.configuration_file(id, {
+  "api_token": "example",
+  "permission_set": "full",
+  "root": "example",
+  "hostname": "example",
+  "port": 1,
+  "status": "example",
+  "config_version": "example",
+  "private_key": "example",
+  "public_key": "example"
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
+* `api_token` (string): Files Agent API Token
+* `permission_set` (string): 
+* `root` (string): Agent local root path
+* `hostname` (string): 
+* `port` (int64): Incoming port for files agent connections
+* `status` (string): either running or shutdown
+* `config_version` (string): agent config version
+* `private_key` (string): private key
+* `public_key` (string): public key
 
 
 ---
@@ -277,7 +332,9 @@ files_sdk.remote_server.update(id, {
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
   "enable_dedicated_ips": True,
-  "s3_compatible_access_key": "example"
+  "s3_compatible_access_key": "example",
+  "files_agent_root": "example",
+  "files_agent_permission_set": "read_write"
 })
 ```
 
@@ -333,6 +390,8 @@ files_sdk.remote_server.update(id, {
 * `enable_dedicated_ips` (boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (string): S3-compatible Access Key.
 * `s3_compatible_secret_key` (string): S3-compatible secret key
+* `files_agent_root` (string): Agent local root path
+* `files_agent_permission_set` (string): Local permissions for files agent. read_only, write_only, or read_write
 
 
 ---
@@ -346,6 +405,39 @@ files_sdk.remote_server.delete(id)
 ### Parameters
 
 * `id` (int64): Required - Remote Server ID.
+
+
+---
+
+## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
+
+```
+remote_server = files_sdk.remote_server.list.first
+remote_server.configuration_file({
+  "api_token": "example",
+  "permission_set": "full",
+  "root": "example",
+  "hostname": "example",
+  "port": 1,
+  "status": "example",
+  "config_version": "example",
+  "private_key": "example",
+  "public_key": "example"
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
+* `api_token` (string): Files Agent API Token
+* `permission_set` (string): 
+* `root` (string): Agent local root path
+* `hostname` (string): 
+* `port` (int64): Incoming port for files agent connections
+* `status` (string): either running or shutdown
+* `config_version` (string): agent config version
+* `private_key` (string): private key
+* `public_key` (string): public key
 
 
 ---
@@ -390,7 +482,9 @@ remote_server.update({
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
   "enable_dedicated_ips": True,
-  "s3_compatible_access_key": "example"
+  "s3_compatible_access_key": "example",
+  "files_agent_root": "example",
+  "files_agent_permission_set": "read_write"
 })
 ```
 
@@ -446,6 +540,8 @@ remote_server.update({
 * `enable_dedicated_ips` (boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (string): S3-compatible Access Key.
 * `s3_compatible_secret_key` (string): S3-compatible secret key
+* `files_agent_root` (string): Agent local root path
+* `files_agent_permission_set` (string): Local permissions for files agent. read_only, write_only, or read_write
 
 
 ---

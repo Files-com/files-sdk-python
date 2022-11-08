@@ -60,6 +60,7 @@ import files_sdk.models.public_ip_address as public_ip_address
 import files_sdk.models.public_key as public_key
 import files_sdk.models.remote_bandwidth_snapshot as remote_bandwidth_snapshot
 import files_sdk.models.remote_server as remote_server
+import files_sdk.models.remote_server_configuration_file as remote_server_configuration_file
 import files_sdk.models.request as request
 import files_sdk.models.session as session
 import files_sdk.models.settings_change as settings_change
@@ -136,6 +137,7 @@ from files_sdk.models.public_ip_address import PublicIpAddress
 from files_sdk.models.public_key import PublicKey
 from files_sdk.models.remote_bandwidth_snapshot import RemoteBandwidthSnapshot
 from files_sdk.models.remote_server import RemoteServer
+from files_sdk.models.remote_server_configuration_file import RemoteServerConfigurationFile
 from files_sdk.models.request import Request
 from files_sdk.models.session import Session
 from files_sdk.models.settings_change import SettingsChange

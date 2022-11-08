@@ -1,5 +1,6 @@
 import builtins
 import datetime
+from files_sdk.models.remote_server_configuration_file import RemoteServerConfigurationFile
 from files_sdk.api import Api
 from files_sdk.list_obj import ListObj
 from files_sdk.exceptions import InvalidParameterError, MissingParameterError, NotImplementedError
@@ -49,6 +50,9 @@ class RemoteServer:
         's3_compatible_region': None,     # string - S3-compatible endpoint
         's3_compatible_access_key': None,     # string - S3-compatible Access Key.
         'enable_dedicated_ips': None,     # boolean - `true` if remote server only accepts connections from dedicated IPs
+        'files_agent_permission_set': None,     # string - Local permissions for files agent. read_only, write_only, or read_write
+        'files_agent_root': None,     # string - Agent local root path
+        'files_agent_api_token': None,     # string - Files Agent API Token
         'aws_secret_key': None,     # string - AWS secret key.
         'password': None,     # string - Password if needed.
         'private_key': None,     # string - Private key if needed.
@@ -79,6 +83,51 @@ class RemoteServer:
 
     def get_attributes(self):
         return {k: getattr(self, k, None) for k in RemoteServer.default_attributes if getattr(self, k, None) is not None}
+
+    # Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
+    #
+    # Parameters:
+    #   api_token - string - Files Agent API Token
+    #   permission_set - string -
+    #   root - string - Agent local root path
+    #   hostname - string
+    #   port - int64 - Incoming port for files agent connections
+    #   status - string - either running or shutdown
+    #   config_version - string - agent config version
+    #   private_key - string - private key
+    #   public_key - string - public key
+    def configuration_file(self, params = None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params['id'] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "api_token" in params and not isinstance(params["api_token"], str):
+            raise InvalidParameterError("Bad parameter: api_token must be an str")
+        if "permission_set" in params and not isinstance(params["permission_set"], str):
+            raise InvalidParameterError("Bad parameter: permission_set must be an str")
+        if "root" in params and not isinstance(params["root"], str):
+            raise InvalidParameterError("Bad parameter: root must be an str")
+        if "hostname" in params and not isinstance(params["hostname"], str):
+            raise InvalidParameterError("Bad parameter: hostname must be an str")
+        if "port" in params and not isinstance(params["port"], int):
+            raise InvalidParameterError("Bad parameter: port must be an int")
+        if "status" in params and not isinstance(params["status"], str):
+            raise InvalidParameterError("Bad parameter: status must be an str")
+        if "config_version" in params and not isinstance(params["config_version"], str):
+            raise InvalidParameterError("Bad parameter: config_version must be an str")
+        if "private_key" in params and not isinstance(params["private_key"], str):
+            raise InvalidParameterError("Bad parameter: private_key must be an str")
+        if "public_key" in params and not isinstance(params["public_key"], str):
+            raise InvalidParameterError("Bad parameter: public_key must be an str")
+        response, _options = Api.send_request("POST", "/remote_servers/{id}/configuration_file".format(id=params['id']), params, self.options)
+        return response.data
 
     # Parameters:
     #   aws_access_key - string - AWS Access Key.
@@ -130,6 +179,8 @@ class RemoteServer:
     #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
     #   s3_compatible_access_key - string - S3-compatible Access Key.
     #   s3_compatible_secret_key - string - S3-compatible secret key
+    #   files_agent_root - string - Agent local root path
+    #   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -234,6 +285,10 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: s3_compatible_access_key must be an str")
         if "s3_compatible_secret_key" in params and not isinstance(params["s3_compatible_secret_key"], str):
             raise InvalidParameterError("Bad parameter: s3_compatible_secret_key must be an str")
+        if "files_agent_root" in params and not isinstance(params["files_agent_root"], str):
+            raise InvalidParameterError("Bad parameter: files_agent_root must be an str")
+        if "files_agent_permission_set" in params and not isinstance(params["files_agent_permission_set"], str):
+            raise InvalidParameterError("Bad parameter: files_agent_permission_set must be an str")
         response, _options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -298,6 +353,21 @@ def get(id, params = None, options = None):
     find(id, params, options)
 
 # Parameters:
+#   id (required) - int64 - Remote Server ID.
+def find_configuration_file(id, params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request("GET", "/remote_servers/{id}/configuration_file".format(id=params['id']), params, options)
+    return RemoteServerConfigurationFile(response.data, options)
+
+# Parameters:
 #   aws_access_key - string - AWS Access Key.
 #   aws_secret_key - string - AWS secret key.
 #   password - string - Password if needed.
@@ -347,6 +417,8 @@ def get(id, params = None, options = None):
 #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
 #   s3_compatible_access_key - string - S3-compatible Access Key.
 #   s3_compatible_secret_key - string - S3-compatible secret key
+#   files_agent_root - string - Agent local root path
+#   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -444,8 +516,55 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: s3_compatible_access_key must be an str")
     if "s3_compatible_secret_key" in params and not isinstance(params["s3_compatible_secret_key"], str):
         raise InvalidParameterError("Bad parameter: s3_compatible_secret_key must be an str")
+    if "files_agent_root" in params and not isinstance(params["files_agent_root"], str):
+        raise InvalidParameterError("Bad parameter: files_agent_root must be an str")
+    if "files_agent_permission_set" in params and not isinstance(params["files_agent_permission_set"], str):
+        raise InvalidParameterError("Bad parameter: files_agent_permission_set must be an str")
     response, options = Api.send_request("POST", "/remote_servers", params, options)
     return RemoteServer(response.data, options)
+
+# Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
+#
+# Parameters:
+#   api_token - string - Files Agent API Token
+#   permission_set - string -
+#   root - string - Agent local root path
+#   hostname - string
+#   port - int64 - Incoming port for files agent connections
+#   status - string - either running or shutdown
+#   config_version - string - agent config version
+#   private_key - string - private key
+#   public_key - string - public key
+def configuration_file(id, params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "api_token" in params and not isinstance(params["api_token"], str):
+        raise InvalidParameterError("Bad parameter: api_token must be an str")
+    if "permission_set" in params and not isinstance(params["permission_set"], str):
+        raise InvalidParameterError("Bad parameter: permission_set must be an str")
+    if "root" in params and not isinstance(params["root"], str):
+        raise InvalidParameterError("Bad parameter: root must be an str")
+    if "hostname" in params and not isinstance(params["hostname"], str):
+        raise InvalidParameterError("Bad parameter: hostname must be an str")
+    if "port" in params and not isinstance(params["port"], int):
+        raise InvalidParameterError("Bad parameter: port must be an int")
+    if "status" in params and not isinstance(params["status"], str):
+        raise InvalidParameterError("Bad parameter: status must be an str")
+    if "config_version" in params and not isinstance(params["config_version"], str):
+        raise InvalidParameterError("Bad parameter: config_version must be an str")
+    if "private_key" in params and not isinstance(params["private_key"], str):
+        raise InvalidParameterError("Bad parameter: private_key must be an str")
+    if "public_key" in params and not isinstance(params["public_key"], str):
+        raise InvalidParameterError("Bad parameter: public_key must be an str")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request("POST", "/remote_servers/{id}/configuration_file".format(id=params['id']), params, options)
+    return RemoteServerConfigurationFile(response.data, options)
 
 # Parameters:
 #   aws_access_key - string - AWS Access Key.
@@ -497,6 +616,8 @@ def create(params = None, options = None):
 #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
 #   s3_compatible_access_key - string - S3-compatible Access Key.
 #   s3_compatible_secret_key - string - S3-compatible secret key
+#   files_agent_root - string - Agent local root path
+#   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -597,6 +718,10 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: s3_compatible_access_key must be an str")
     if "s3_compatible_secret_key" in params and not isinstance(params["s3_compatible_secret_key"], str):
         raise InvalidParameterError("Bad parameter: s3_compatible_secret_key must be an str")
+    if "files_agent_root" in params and not isinstance(params["files_agent_root"], str):
+        raise InvalidParameterError("Bad parameter: files_agent_root must be an str")
+    if "files_agent_permission_set" in params and not isinstance(params["files_agent_permission_set"], str):
+        raise InvalidParameterError("Bad parameter: files_agent_permission_set must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, options)
