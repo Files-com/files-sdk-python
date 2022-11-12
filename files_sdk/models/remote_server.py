@@ -96,6 +96,7 @@ class RemoteServer:
     #   config_version - string - agent config version
     #   private_key - string - private key
     #   public_key - string - public key
+    #   server_host_key - string
     def configuration_file(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -126,6 +127,8 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: private_key must be an str")
         if "public_key" in params and not isinstance(params["public_key"], str):
             raise InvalidParameterError("Bad parameter: public_key must be an str")
+        if "server_host_key" in params and not isinstance(params["server_host_key"], str):
+            raise InvalidParameterError("Bad parameter: server_host_key must be an str")
         response, _options = Api.send_request("POST", "/remote_servers/{id}/configuration_file".format(id=params['id']), params, self.options)
         return response.data
 
@@ -535,6 +538,7 @@ def create(params = None, options = None):
 #   config_version - string - agent config version
 #   private_key - string - private key
 #   public_key - string - public key
+#   server_host_key - string
 def configuration_file(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -561,6 +565,8 @@ def configuration_file(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: private_key must be an str")
     if "public_key" in params and not isinstance(params["public_key"], str):
         raise InvalidParameterError("Bad parameter: public_key must be an str")
+    if "server_host_key" in params and not isinstance(params["server_host_key"], str):
+        raise InvalidParameterError("Bad parameter: server_host_key must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("POST", "/remote_servers/{id}/configuration_file".format(id=params['id']), params, options)

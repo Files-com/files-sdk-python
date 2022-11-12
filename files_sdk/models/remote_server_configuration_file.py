@@ -15,6 +15,7 @@ class RemoteServerConfigurationFile:
         'private_key': None,     # string - private key
         'status': None,     # string - either running or shutdown
         'config_version': None,     # string - agent config version
+        'server_host_key': None,     # string
     }
 
     def __init__(self, attributes=None, options=None):
