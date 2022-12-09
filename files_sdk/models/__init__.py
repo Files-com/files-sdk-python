@@ -16,6 +16,7 @@ from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot
 from files_sdk.models.behavior import Behavior
 from files_sdk.models.bundle import Bundle
 from files_sdk.models.bundle_download import BundleDownload
+from files_sdk.models.bundle_notification import BundleNotification
 from files_sdk.models.bundle_recipient import BundleRecipient
 from files_sdk.models.bundle_registration import BundleRegistration
 from files_sdk.models.clickwrap import Clickwrap
