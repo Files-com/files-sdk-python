@@ -18,10 +18,12 @@ class Site:
         'allowed_countries': None,     # string - Comma seperated list of allowed Country codes
         'allowed_ips': None,     # string - List of allowed IP addresses
         'ask_about_overwrites': None,     # boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
+        'bundle_activity_notifications': None,     # string - Do Bundle owners receive activity notifications?
         'bundle_expiration': None,     # int64 - Site-wide Bundle expiration in days
         'bundle_password_required': None,     # boolean - Do Bundles require password protection?
         'bundle_registration_notifications': None,     # string - Do Bundle owners receive registration notification?
         'bundle_require_share_recipient': None,     # boolean - Do Bundles require recipients for sharing?
+        'bundle_upload_receipt_notifications': None,     # string - Do Bundle uploaders receive upload confirmation notifications?
         'bundle_watermark_attachment': None,     # Image - Preview watermark image applied to all bundle items.
         'bundle_watermark_value': None,     # object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
         'color2_left': None,     # string - Page link and button color
@@ -240,6 +242,8 @@ def get_usage(params = None, options = None):
 #   bundle_password_required - boolean - Do Bundles require password protection?
 #   bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
 #   bundle_registration_notifications - string - Do Bundle owners receive registration notification?
+#   bundle_activity_notifications - string - Do Bundle owners receive activity notifications?
+#   bundle_upload_receipt_notifications - string - Do Bundle uploaders receive upload confirmation notifications?
 #   password_requirements_apply_to_bundles - boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
 #   opt_out_global - boolean - Use servers in the USA only?
 #   use_provided_modified_at - boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
@@ -369,6 +373,10 @@ def update(params = None, options = None):
         raise InvalidParameterError("Bad parameter: password_min_length must be an int")
     if "bundle_registration_notifications" in params and not isinstance(params["bundle_registration_notifications"], str):
         raise InvalidParameterError("Bad parameter: bundle_registration_notifications must be an str")
+    if "bundle_activity_notifications" in params and not isinstance(params["bundle_activity_notifications"], str):
+        raise InvalidParameterError("Bad parameter: bundle_activity_notifications must be an str")
+    if "bundle_upload_receipt_notifications" in params and not isinstance(params["bundle_upload_receipt_notifications"], str):
+        raise InvalidParameterError("Bad parameter: bundle_upload_receipt_notifications must be an str")
     if "disable_users_from_inactivity_period_days" in params and not isinstance(params["disable_users_from_inactivity_period_days"], int):
         raise InvalidParameterError("Bad parameter: disable_users_from_inactivity_period_days must be an int")
     if "sftp_host_key_type" in params and not isinstance(params["sftp_host_key_type"], str):

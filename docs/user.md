@@ -63,7 +63,9 @@
   "time_zone": "Pacific Time (US & Canada)",
   "type_of_2fa": "yubi",
   "updated_at": "2000-01-01T01:00:00Z",
-  "user_root": "example"
+  "user_root": "example",
+  "days_remaining_until_password_expire": "2000-01-01T01:00:00Z",
+  "password_expire_at": "2000-01-01T01:00:00Z"
 }
 ```
 
@@ -125,6 +127,8 @@
 * `type_of_2fa` (string): Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
 * `updated_at` (date-time): User record most recently updated at.  Note this may be incremented because of internal or external updates.
 * `user_root` (string): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
+* `days_remaining_until_password_expire` (date-time): Number of days remaining until password expires
+* `password_expire_at` (date-time): Password expiration datetime
 * `avatar_file` (file): An image file for your user avatar.
 * `avatar_delete` (boolean): If true, the avatar will be deleted.
 * `change_password` (string): Used for changing a password on an existing user.
