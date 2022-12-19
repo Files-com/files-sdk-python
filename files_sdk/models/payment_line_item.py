@@ -9,7 +9,6 @@ class PaymentLineItem:
         'created_at': None,     # date-time - Payment line item created at date/time
         'invoice_id': None,     # int64 - Invoice ID
         'payment_id': None,     # int64 - Payment ID
-        'updated_at': None,     # date-time - Payment line item updated at date/time
     }
 
     def __init__(self, attributes=None, options=None):

@@ -62,7 +62,6 @@ class User:
         'externally_managed': None,     # boolean - Is this user managed by a SsoStrategy?
         'time_zone': None,     # string - User time zone
         'type_of_2fa': None,     # string - Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
-        'updated_at': None,     # date-time - User record most recently updated at.  Note this may be incremented because of internal or external updates.
         'user_root': None,     # string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
         'days_remaining_until_password_expire': None,     # int64 - Number of days remaining until password expires
         'password_expire_at': None,     # date-time - Password expiration datetime

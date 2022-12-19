@@ -7,13 +7,9 @@
   "id": 1,
   "start_at": "2000-01-01T01:00:00Z",
   "end_at": "2000-01-01T01:00:00Z",
-  "created_at": "2000-01-01T01:00:00Z",
   "high_water_user_count": 1.0,
   "current_storage": 1.0,
   "high_water_storage": 1.0,
-  "total_downloads": 1,
-  "total_uploads": 1,
-  "updated_at": "2000-01-01T01:00:00Z",
   "usage_by_top_level_dir": {
     "key": "example value"
   },
@@ -31,13 +27,9 @@
 * `id` (int64): Usage snapshot ID
 * `start_at` (date-time): Usage snapshot start date/time
 * `end_at` (date-time): Usage snapshot end date/time
-* `created_at` (date-time): DEPRECATED: Usage snapshot created at date/time
 * `high_water_user_count` (double): Highest user count number in time period
 * `current_storage` (double): Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
 * `high_water_storage` (double): Highest Storage Usage GB recorded in time period (used for billing)
-* `total_downloads` (int64): DEPRECATED: Number of downloads in report time period
-* `total_uploads` (int64): DEPRECATED: Number of uploads in time period
-* `updated_at` (date-time): DEPRECATED: The last time this site usage report was updated
 * `usage_by_top_level_dir` (object): Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
 * `root_storage` (double): Storage Usage for root folder as of end date (not necessarily high water mark, which is used for billing)
 * `deleted_files_counted_in_minimum` (double): Storage Usage for files that are deleted but uploaded within last 30 days as of end date (not necessarily high water mark, which is used for billing)

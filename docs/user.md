@@ -62,7 +62,6 @@
   "externally_managed": True,
   "time_zone": "Pacific Time (US & Canada)",
   "type_of_2fa": "yubi",
-  "updated_at": "2000-01-01T01:00:00Z",
   "user_root": "example",
   "days_remaining_until_password_expire": 1,
   "password_expire_at": "2000-01-01T01:00:00Z"
@@ -125,7 +124,6 @@
 * `externally_managed` (boolean): Is this user managed by a SsoStrategy?
 * `time_zone` (string): User time zone
 * `type_of_2fa` (string): Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
-* `updated_at` (date-time): User record most recently updated at.  Note this may be incremented because of internal or external updates.
 * `user_root` (string): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 * `days_remaining_until_password_expire` (int64): Number of days remaining until password expires
 * `password_expire_at` (date-time): Password expiration datetime
