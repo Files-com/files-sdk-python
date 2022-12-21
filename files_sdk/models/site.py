@@ -124,6 +124,7 @@ class Site:
         'smtp_port': None,     # int64 - SMTP server port
         'smtp_username': None,     # string - SMTP server username
         'session_expiry': None,     # double - Session expiry in hours
+        'session_expiry_minutes': None,     # int64 - Session expiry in minutes
         'ssl_required': None,     # boolean - Is SSL required?  Disabling this is insecure.
         'subdomain': None,     # string - Site subdomain
         'switch_to_plan_date': None,     # date-time - If switching plans, when does the new plan take effect?

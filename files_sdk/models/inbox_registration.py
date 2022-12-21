@@ -16,6 +16,7 @@ class InboxRegistration:
         'inbox_id': None,     # int64 - Id of associated inbox
         'inbox_recipient_id': None,     # int64 - Id of associated inbox recipient
         'inbox_title': None,     # string - Title of associated inbox
+        'created_at': None,     # date-time - Registration creation date/time
     }
 
     def __init__(self, attributes=None, options=None):

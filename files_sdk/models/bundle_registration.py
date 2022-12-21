@@ -18,6 +18,7 @@ class BundleRegistration:
         'bundle_code': None,     # string - Bundle URL code
         'bundle_id': None,     # int64 - Id of associated bundle
         'bundle_recipient_id': None,     # int64 - Id of associated bundle recipient
+        'created_at': None,     # date-time - Registration creation date/time
     }
 
     def __init__(self, attributes=None, options=None):
