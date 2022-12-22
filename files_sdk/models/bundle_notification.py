@@ -9,6 +9,7 @@ class BundleNotification:
         'bundle_id': None,     # int64 - Bundle ID to notify on
         'id': None,     # int64 - Bundle Notification ID
         'notify_on_registration': None,     # boolean - Triggers bundle notification when a registration action occurs for it.
+        'notify_on_upload': None,     # boolean - Triggers bundle notification when a upload action occurs for it.
         'user_id': None,     # int64 - The id of the user to notify.
     }
 
@@ -26,6 +27,24 @@ class BundleNotification:
 
     def get_attributes(self):
         return {k: getattr(self, k, None) for k in BundleNotification.default_attributes if getattr(self, k, None) is not None}
+
+    # Parameters:
+    #   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
+    #   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
+    def update(self, params = None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params['id'] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        response, _options = Api.send_request("PATCH", "/bundle_notifications/{id}".format(id=params['id']), params, self.options)
+        return response.data
 
     def delete(self, params = None):
         if not isinstance(params, dict):
@@ -47,7 +66,7 @@ class BundleNotification:
 
     def save(self):
         if hasattr(self, "id") and self.id:
-            raise NotImplementedError("The BundleNotification object doesn't support updates.")
+            self.update(self.get_attributes())
         else:
             new_obj = create(self.get_attributes(), self.options)
             self.set_attributes(new_obj.get_attributes())
@@ -96,6 +115,7 @@ def get(id, params = None, options = None):
 # Parameters:
 #   user_id (required) - int64 - The id of the user to notify.
 #   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
+#   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
 #   bundle_id (required) - int64 - Bundle ID to notify on
 def create(params = None, options = None):
     if not isinstance(params, dict):
@@ -111,6 +131,22 @@ def create(params = None, options = None):
     if "bundle_id" not in params:
         raise MissingParameterError("Parameter missing: bundle_id")
     response, options = Api.send_request("POST", "/bundle_notifications", params, options)
+    return BundleNotification(response.data, options)
+
+# Parameters:
+#   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
+#   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
+def update(id, params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request("PATCH", "/bundle_notifications/{id}".format(id=params['id']), params, options)
     return BundleNotification(response.data, options)
 
 def delete(id, params = None, options = None):

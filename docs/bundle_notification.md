@@ -7,6 +7,7 @@
   "bundle_id": 1,
   "id": 1,
   "notify_on_registration": True,
+  "notify_on_upload": True,
   "user_id": 1
 }
 ```
@@ -14,6 +15,7 @@
 * `bundle_id` (int64): Bundle ID to notify on
 * `id` (int64): Bundle Notification ID
 * `notify_on_registration` (boolean): Triggers bundle notification when a registration action occurs for it.
+* `notify_on_upload` (boolean): Triggers bundle notification when a upload action occurs for it.
 * `user_id` (int64): The id of the user to notify.
 
 
@@ -58,6 +60,7 @@ files_sdk.bundle_notification.find(id)
 files_sdk.bundle_notification.create({
   "user_id": 1,
   "notify_on_registration": True,
+  "notify_on_upload": True,
   "bundle_id": 1
 })
 ```
@@ -66,7 +69,26 @@ files_sdk.bundle_notification.create({
 
 * `user_id` (int64): Required - The id of the user to notify.
 * `notify_on_registration` (boolean): Triggers bundle notification when a registration action occurs for it.
+* `notify_on_upload` (boolean): Triggers bundle notification when a upload action occurs for it.
 * `bundle_id` (int64): Required - Bundle ID to notify on
+
+
+---
+
+## Update Bundle Notification
+
+```
+files_sdk.bundle_notification.update(id, {
+  "notify_on_registration": True,
+  "notify_on_upload": True
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - Bundle Notification ID.
+* `notify_on_registration` (boolean): Triggers bundle notification when a registration action occurs for it.
+* `notify_on_upload` (boolean): Triggers bundle notification when a upload action occurs for it.
 
 
 ---
@@ -80,6 +102,25 @@ files_sdk.bundle_notification.delete(id)
 ### Parameters
 
 * `id` (int64): Required - Bundle Notification ID.
+
+
+---
+
+## Update Bundle Notification
+
+```
+bundle_notification = files_sdk.bundle_notification.list.first
+bundle_notification.update({
+  "notify_on_registration": True,
+  "notify_on_upload": True
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - Bundle Notification ID.
+* `notify_on_registration` (boolean): Triggers bundle notification when a registration action occurs for it.
+* `notify_on_upload` (boolean): Triggers bundle notification when a upload action occurs for it.
 
 
 ---

@@ -8,6 +8,14 @@ from files_sdk import bundle_notification
 class BundleNotificationTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/bundle_notifications/{id}"), "Mock path does not exist")
+    def test_update(self):
+        params = {
+            "id" : 12345,
+        }
+        bundle_notification = BundleNotification(params)
+        bundle_notification.update(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/bundle_notifications/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
@@ -40,6 +48,14 @@ class BundleNotificationTest(TestBase):
             "bundle_id" : 12345,
         }
         bundle_notification.create(params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/bundle_notifications/{id}"), "Mock path does not exist")
+    def test_update(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        bundle_notification.update(id, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/bundle_notifications/{id}"), "Mock path does not exist")
     def test_delete(self):
