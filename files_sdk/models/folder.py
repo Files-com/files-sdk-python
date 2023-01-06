@@ -82,6 +82,7 @@ def list_for(path, params = None, options = None):
 # Parameters:
 #   path (required) - string - Path to operate on.
 #   mkdir_parents - boolean - Create parent directories if they do not exist?
+#   provided_mtime - string - User provided modification time.
 def create(path, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -90,6 +91,8 @@ def create(path, params = None, options = None):
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "provided_mtime" in params and not isinstance(params["provided_mtime"], str):
+        raise InvalidParameterError("Bad parameter: provided_mtime must be an str")
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request("POST", "/folders/{path}".format(path=params['path']), params, options)

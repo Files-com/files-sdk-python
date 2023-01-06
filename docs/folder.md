@@ -78,7 +78,8 @@ files_sdk.folder.list_for(path, {
 
 ```
 files_sdk.folder.create(path, {
-  "mkdir_parents": True
+  "mkdir_parents": True,
+  "provided_mtime": "2000-01-01T01:00:00Z"
 })
 ```
 
@@ -86,3 +87,4 @@ files_sdk.folder.create(path, {
 
 * `path` (string): Required - Path to operate on.
 * `mkdir_parents` (boolean): Create parent directories if they do not exist?
+* `provided_mtime` (string): User provided modification time.
