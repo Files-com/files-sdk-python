@@ -438,7 +438,8 @@ files_sdk.site.update({
   "icon128_delete": True,
   "logo_delete": True,
   "bundle_watermark_attachment_delete": True,
-  "disable_2fa_with_delay": True
+  "disable_2fa_with_delay": True,
+  "session_expiry_minutes": 1
 })
 ```
 
@@ -575,3 +576,4 @@ files_sdk.site.update({
 * `ldap_password_change` (string): New LDAP password.
 * `ldap_password_change_confirmation` (string): Confirm new LDAP password.
 * `smtp_password` (string): Password for SMTP server.
+* `session_expiry_minutes` (int64): Session expiry in minutes

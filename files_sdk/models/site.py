@@ -313,6 +313,7 @@ def get_usage(params = None, options = None):
 #   ldap_password_change - string - New LDAP password.
 #   ldap_password_change_confirmation - string - Confirm new LDAP password.
 #   smtp_password - string - Password for SMTP server.
+#   session_expiry_minutes - int64 - Session expiry in minutes
 def update(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -448,6 +449,8 @@ def update(params = None, options = None):
         raise InvalidParameterError("Bad parameter: ldap_password_change_confirmation must be an str")
     if "smtp_password" in params and not isinstance(params["smtp_password"], str):
         raise InvalidParameterError("Bad parameter: smtp_password must be an str")
+    if "session_expiry_minutes" in params and not isinstance(params["session_expiry_minutes"], int):
+        raise InvalidParameterError("Bad parameter: session_expiry_minutes must be an int")
     response, options = Api.send_request("PATCH", "/site", params, options)
     return Site(response.data, options)
 
