@@ -8,6 +8,7 @@ class HistoryExportResult:
     default_attributes = {
         'id': None,     # int64 - Action ID
         'created_at': None,     # int64 - When the action happened
+        'created_at_iso8601': None,     # int64 - When the action happened, in ISO8601 format.
         'user_id': None,     # int64 - User ID
         'file_id': None,     # int64 - File ID related to the action
         'parent_id': None,     # int64 - ID of the parent folder
