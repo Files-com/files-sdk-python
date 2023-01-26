@@ -67,7 +67,7 @@ files_sdk.bundle_notification.create({
 
 ### Parameters
 
-* `user_id` (int64): Required - The id of the user to notify.
+* `user_id` (int64): The id of the user to notify.
 * `notify_on_registration` (boolean): Triggers bundle notification when a registration action occurs for it.
 * `notify_on_upload` (boolean): Triggers bundle notification when a upload action occurs for it.
 * `bundle_id` (int64): Required - Bundle ID to notify on

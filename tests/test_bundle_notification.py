@@ -44,7 +44,6 @@ class BundleNotificationTest(TestBase):
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/bundle_notifications"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "user_id" : 12345,
             "bundle_id" : 12345,
         }
         bundle_notification.create(params)

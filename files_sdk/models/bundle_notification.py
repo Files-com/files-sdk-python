@@ -113,7 +113,7 @@ def get(id, params = None, options = None):
     find(id, params, options)
 
 # Parameters:
-#   user_id (required) - int64 - The id of the user to notify.
+#   user_id - int64 - The id of the user to notify.
 #   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
 #   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
 #   bundle_id (required) - int64 - Bundle ID to notify on
@@ -126,8 +126,6 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "bundle_id" in params and not isinstance(params["bundle_id"], int):
         raise InvalidParameterError("Bad parameter: bundle_id must be an int")
-    if "user_id" not in params:
-        raise MissingParameterError("Parameter missing: user_id")
     if "bundle_id" not in params:
         raise MissingParameterError("Parameter missing: bundle_id")
     response, options = Api.send_request("POST", "/bundle_notifications", params, options)
