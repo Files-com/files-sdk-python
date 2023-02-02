@@ -89,6 +89,7 @@
   "next_billing_amount": 1.0,
   "next_billing_date": "Apr 20",
   "office_integration_available": True,
+  "office_integration_type": "example",
   "oncehub_link": "https://go.oncehub.com/files",
   "opt_out_global": True,
   "overage_notified_at": "2000-01-01T01:00:00Z",
@@ -233,6 +234,7 @@
 * `next_billing_amount` (double): Next billing amount
 * `next_billing_date` (string): Next billing date
 * `office_integration_available` (boolean): Allow users to use Office for the web?
+* `office_integration_type` (string): Office integration application used to edit and view the MS Office documents
 * `oncehub_link` (string): Link to scheduling a meeting with our Sales team
 * `opt_out_global` (boolean): Use servers in the USA only?
 * `overage_notified_at` (date-time): Last time the site was notified about an overage
@@ -345,6 +347,7 @@ files_sdk.site.update({
   "folder_permissions_groups_only": True,
   "welcome_screen": "user_controlled",
   "office_integration_available": True,
+  "office_integration_type": "example",
   "pin_all_remote_servers_to_site_region": True,
   "motd_text": "example",
   "motd_use_for_ftp": True,
@@ -473,6 +476,7 @@ files_sdk.site.update({
 * `folder_permissions_groups_only` (boolean): If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
 * `welcome_screen` (string): Does the welcome screen appear?
 * `office_integration_available` (boolean): Allow users to use Office for the web?
+* `office_integration_type` (string): Office integration application used to edit and view the MS Office documents
 * `pin_all_remote_servers_to_site_region` (boolean): If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
 * `motd_text` (string): A message to show users when they connect via FTP or SFTP.
 * `motd_use_for_ftp` (boolean): Show message to users connecting via FTP

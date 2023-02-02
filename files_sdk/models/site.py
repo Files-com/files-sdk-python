@@ -89,6 +89,7 @@ class Site:
         'next_billing_amount': None,     # double - Next billing amount
         'next_billing_date': None,     # string - Next billing date
         'office_integration_available': None,     # boolean - Allow users to use Office for the web?
+        'office_integration_type': None,     # string - Office integration application used to edit and view the MS Office documents
         'oncehub_link': None,     # string - Link to scheduling a meeting with our Sales team
         'opt_out_global': None,     # boolean - Use servers in the USA only?
         'overage_notified_at': None,     # date-time - Last time the site was notified about an overage
@@ -210,6 +211,7 @@ def get_usage(params = None, options = None):
 #   folder_permissions_groups_only - boolean - If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
 #   welcome_screen - string - Does the welcome screen appear?
 #   office_integration_available - boolean - Allow users to use Office for the web?
+#   office_integration_type - string - Office integration application used to edit and view the MS Office documents
 #   pin_all_remote_servers_to_site_region - boolean - If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
 #   motd_text - string - A message to show users when they connect via FTP or SFTP.
 #   motd_use_for_ftp - boolean - Show message to users connecting via FTP
@@ -349,6 +351,8 @@ def update(params = None, options = None):
         raise InvalidParameterError("Bad parameter: mobile_app_session_lifetime must be an int")
     if "welcome_screen" in params and not isinstance(params["welcome_screen"], str):
         raise InvalidParameterError("Bad parameter: welcome_screen must be an str")
+    if "office_integration_type" in params and not isinstance(params["office_integration_type"], str):
+        raise InvalidParameterError("Bad parameter: office_integration_type must be an str")
     if "motd_text" in params and not isinstance(params["motd_text"], str):
         raise InvalidParameterError("Bad parameter: motd_text must be an str")
     if "session_expiry" in params and not isinstance(params["session_expiry"], float):
