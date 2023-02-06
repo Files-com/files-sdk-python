@@ -14,7 +14,8 @@
   "private_key": "example",
   "status": "example",
   "config_version": "example",
-  "server_host_key": "example"
+  "server_host_key": "example",
+  "subdomain": "example"
 }
 ```
 
@@ -29,3 +30,4 @@
 * `status` (string): either running or shutdown
 * `config_version` (string): agent config version
 * `server_host_key` (string): 
+* `subdomain` (string): 
