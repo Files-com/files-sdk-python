@@ -53,6 +53,7 @@ class RemoteServer:
         'files_agent_permission_set': None,     # string - Local permissions for files agent. read_only, write_only, or read_write
         'files_agent_root': None,     # string - Agent local root path
         'files_agent_api_token': None,     # string - Files Agent API Token
+        'filebase_bucket': None,     # string - Filebase Bucket name
         'aws_secret_key': None,     # string - AWS secret key.
         'password': None,     # string - Password if needed.
         'private_key': None,     # string - Private key if needed.

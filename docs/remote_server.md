@@ -49,7 +49,8 @@
   "enable_dedicated_ips": True,
   "files_agent_permission_set": "read_write",
   "files_agent_root": "example",
-  "files_agent_api_token": "example"
+  "files_agent_api_token": "example",
+  "filebase_bucket": "my-bucket"
 }
 ```
 
@@ -99,6 +100,7 @@
 * `files_agent_permission_set` (string): Local permissions for files agent. read_only, write_only, or read_write
 * `files_agent_root` (string): Agent local root path
 * `files_agent_api_token` (string): Files Agent API Token
+* `filebase_bucket` (string): Filebase Bucket name
 * `aws_secret_key` (string): AWS secret key.
 * `password` (string): Password if needed.
 * `private_key` (string): Private key if needed.
