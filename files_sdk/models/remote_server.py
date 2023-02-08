@@ -54,6 +54,7 @@ class RemoteServer:
         'files_agent_root': None,     # string - Agent local root path
         'files_agent_api_token': None,     # string - Files Agent API Token
         'filebase_bucket': None,     # string - Filebase Bucket name
+        'filebase_access_key': None,     # string - Filebase Access Key.
         'aws_secret_key': None,     # string - AWS secret key.
         'password': None,     # string - Password if needed.
         'private_key': None,     # string - Private key if needed.
@@ -68,6 +69,7 @@ class RemoteServer:
         'azure_blob_storage_access_key': None,     # string - Azure Blob Storage secret key.
         'azure_files_storage_access_key': None,     # string - Azure File Storage access key.
         's3_compatible_secret_key': None,     # string - S3-compatible secret key
+        'filebase_secret_key': None,     # string - Filebase secret key
     }
 
     def __init__(self, attributes=None, options=None):
@@ -188,6 +190,9 @@ class RemoteServer:
     #   s3_compatible_secret_key - string - S3-compatible secret key
     #   files_agent_root - string - Agent local root path
     #   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
+    #   filebase_access_key - string - Filebase Access Key.
+    #   filebase_secret_key - string - Filebase secret key
+    #   filebase_bucket - string - Filebase Bucket name
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -296,6 +301,12 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: files_agent_root must be an str")
         if "files_agent_permission_set" in params and not isinstance(params["files_agent_permission_set"], str):
             raise InvalidParameterError("Bad parameter: files_agent_permission_set must be an str")
+        if "filebase_access_key" in params and not isinstance(params["filebase_access_key"], str):
+            raise InvalidParameterError("Bad parameter: filebase_access_key must be an str")
+        if "filebase_secret_key" in params and not isinstance(params["filebase_secret_key"], str):
+            raise InvalidParameterError("Bad parameter: filebase_secret_key must be an str")
+        if "filebase_bucket" in params and not isinstance(params["filebase_bucket"], str):
+            raise InvalidParameterError("Bad parameter: filebase_bucket must be an str")
         response, _options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -426,6 +437,9 @@ def find_configuration_file(id, params = None, options = None):
 #   s3_compatible_secret_key - string - S3-compatible secret key
 #   files_agent_root - string - Agent local root path
 #   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
+#   filebase_access_key - string - Filebase Access Key.
+#   filebase_secret_key - string - Filebase secret key
+#   filebase_bucket - string - Filebase Bucket name
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -527,6 +541,12 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: files_agent_root must be an str")
     if "files_agent_permission_set" in params and not isinstance(params["files_agent_permission_set"], str):
         raise InvalidParameterError("Bad parameter: files_agent_permission_set must be an str")
+    if "filebase_access_key" in params and not isinstance(params["filebase_access_key"], str):
+        raise InvalidParameterError("Bad parameter: filebase_access_key must be an str")
+    if "filebase_secret_key" in params and not isinstance(params["filebase_secret_key"], str):
+        raise InvalidParameterError("Bad parameter: filebase_secret_key must be an str")
+    if "filebase_bucket" in params and not isinstance(params["filebase_bucket"], str):
+        raise InvalidParameterError("Bad parameter: filebase_bucket must be an str")
     response, options = Api.send_request("POST", "/remote_servers", params, options)
     return RemoteServer(response.data, options)
 
@@ -631,6 +651,9 @@ def configuration_file(id, params = None, options = None):
 #   s3_compatible_secret_key - string - S3-compatible secret key
 #   files_agent_root - string - Agent local root path
 #   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
+#   filebase_access_key - string - Filebase Access Key.
+#   filebase_secret_key - string - Filebase secret key
+#   filebase_bucket - string - Filebase Bucket name
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -735,6 +758,12 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: files_agent_root must be an str")
     if "files_agent_permission_set" in params and not isinstance(params["files_agent_permission_set"], str):
         raise InvalidParameterError("Bad parameter: files_agent_permission_set must be an str")
+    if "filebase_access_key" in params and not isinstance(params["filebase_access_key"], str):
+        raise InvalidParameterError("Bad parameter: filebase_access_key must be an str")
+    if "filebase_secret_key" in params and not isinstance(params["filebase_secret_key"], str):
+        raise InvalidParameterError("Bad parameter: filebase_secret_key must be an str")
+    if "filebase_bucket" in params and not isinstance(params["filebase_bucket"], str):
+        raise InvalidParameterError("Bad parameter: filebase_bucket must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, options)
