@@ -26,6 +26,7 @@
   "bundle_watermark_value": {
     "key": "example value"
   },
+  "uploads_via_email_authentication": True,
   "color2_left": "#0066a7",
   "color2_link": "#d34f5d",
   "color2_text": "#0066a7",
@@ -171,6 +172,7 @@
 * `bundle_upload_receipt_notifications` (string): Do Bundle uploaders receive upload confirmation notifications?
 * `bundle_watermark_attachment` (Image): Preview watermark image applied to all bundle items.
 * `bundle_watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+* `uploads_via_email_authentication` (boolean): Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
 * `color2_left` (string): Page link and button color
 * `color2_link` (string): Top bar link color
 * `color2_text` (string): Page link and button color
@@ -435,6 +437,7 @@ files_sdk.site.update({
   "ldap_group_exclusion": "example",
   "ldap_group_inclusion": "example",
   "ldap_base_dn": "example",
+  "uploads_via_email_authentication": True,
   "icon16_delete": True,
   "icon32_delete": True,
   "icon48_delete": True,
@@ -564,6 +567,7 @@ files_sdk.site.update({
 * `ldap_group_exclusion` (string): Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
 * `ldap_group_inclusion` (string): Comma or newline separated list of group names (with optional wildcards) to include when syncing.
 * `ldap_base_dn` (string): Base DN for looking up users in LDAP server
+* `uploads_via_email_authentication` (boolean): Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
 * `icon16_file` (file): 
 * `icon16_delete` (boolean): If true, will delete the file stored in icon16
 * `icon32_file` (file): 
