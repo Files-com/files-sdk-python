@@ -11,6 +11,7 @@ class As2Partner:
         'name': None,     # string - The partner's formal AS2 name.
         'uri': None,     # string - Public URI for sending AS2 message to.
         'server_certificate': None,     # string - Remote server certificate security setting
+        'enable_dedicated_ips': None,     # boolean - `true` if remote server only accepts connections from dedicated IPs
         'hex_public_certificate_serial': None,     # string - Serial of public certificate used for message security in hex format.
         'public_certificate_md5': None,     # string - MD5 hash of public certificate used for message security.
         'public_certificate_subject': None,     # string - Subject of public certificate used for message security.
@@ -41,6 +42,7 @@ class As2Partner:
     #   uri - string - URL base for AS2 responses
     #   server_certificate - string - Remote server certificate security setting
     #   public_certificate - string
+    #   enable_dedicated_ips - boolean
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -130,6 +132,7 @@ def get(id, params = None, options = None):
 #   public_certificate (required) - string
 #   as2_station_id (required) - int64 - Id of As2Station for this partner
 #   server_certificate - string - Remote server certificate security setting
+#   enable_dedicated_ips - boolean
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -161,6 +164,7 @@ def create(params = None, options = None):
 #   uri - string - URL base for AS2 responses
 #   server_certificate - string - Remote server certificate security setting
 #   public_certificate - string
+#   enable_dedicated_ips - boolean
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
