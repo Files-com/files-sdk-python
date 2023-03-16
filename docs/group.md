@@ -37,11 +37,7 @@ files_sdk.group.list({
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[name]=desc`). Valid fields are `name`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.
-* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `name`.
-* `filter_gteq` (object): If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `name`.
-* `filter_like` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.
-* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `name`.
-* `filter_lteq` (object): If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `name`.
+* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
 * `ids` (string): Comma-separated list of group ids to include in results.
 
 

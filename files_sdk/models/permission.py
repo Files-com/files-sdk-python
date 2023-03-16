@@ -61,11 +61,7 @@ class Permission:
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[group_id]=desc`). Valid fields are `group_id`, `path`, `user_id` or `permission`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `group_id`, `user_id` or `path`. Valid field combinations are `[ group_id, path ]` and `[ user_id, path ]`.
-#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `group_id`, `user_id` or `path`. Valid field combinations are `[ group_id, path ]` and `[ user_id, path ]`.
-#   filter_gteq - object - If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `group_id`, `user_id` or `path`. Valid field combinations are `[ group_id, path ]` and `[ user_id, path ]`.
-#   filter_like - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `group_id`, `user_id` or `path`. Valid field combinations are `[ group_id, path ]` and `[ user_id, path ]`.
-#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `group_id`, `user_id` or `path`. Valid field combinations are `[ group_id, path ]` and `[ user_id, path ]`.
-#   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `group_id`, `user_id` or `path`. Valid field combinations are `[ group_id, path ]` and `[ user_id, path ]`.
+#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
 #   path - string - DEPRECATED: Permission path.  If provided, will scope permissions to this path. Use `filter[path]` instead.
 #   group_id - string - DEPRECATED: Group ID.  If provided, will scope permissions to this group. Use `filter[group_id]` instead.`
 #   user_id - string - DEPRECATED: User ID.  If provided, will scope permissions to this user. Use `filter[user_id]` instead.`
@@ -83,16 +79,8 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
         raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
-    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gteq must be an dict")
-    if "filter_like" in params and not isinstance(params["filter_like"], dict):
-        raise InvalidParameterError("Bad parameter: filter_like must be an dict")
-    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
-    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
+    if "filter_prefix" in params and not isinstance(params["filter_prefix"], dict):
+        raise InvalidParameterError("Bad parameter: filter_prefix must be an dict")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "group_id" in params and not isinstance(params["group_id"], str):

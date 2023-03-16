@@ -33,12 +33,9 @@ class SettingsChange:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[api_key_id]=desc`). Valid fields are `api_key_id`, `created_at` or `user_id`.
+#   api_key_id - string - If set, return records where the specified field is equal to the supplied value.
+#   user_id - string - If set, return records where the specified field is equal to the supplied value.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `api_key_id` and `user_id`.
-#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `api_key_id` and `user_id`.
-#   filter_gteq - object - If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `api_key_id` and `user_id`.
-#   filter_like - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `api_key_id` and `user_id`.
-#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `api_key_id` and `user_id`.
-#   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `api_key_id` and `user_id`.
 def list(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -50,18 +47,12 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "api_key_id" in params and not isinstance(params["api_key_id"], str):
+        raise InvalidParameterError("Bad parameter: api_key_id must be an str")
+    if "user_id" in params and not isinstance(params["user_id"], str):
+        raise InvalidParameterError("Bad parameter: user_id must be an str")
     if "filter" in params and not isinstance(params["filter"], dict):
         raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
-    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gteq must be an dict")
-    if "filter_like" in params and not isinstance(params["filter_like"], dict):
-        raise InvalidParameterError("Bad parameter: filter_like must be an dict")
-    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
-    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
     return ListObj(SettingsChange,"GET", "/settings_changes", params, options)
 
 def all(params = None, options = None):

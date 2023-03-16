@@ -94,13 +94,9 @@ class Behavior:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior`.
+#   behavior - string - If set, return records where the specified field is equal to the supplied value.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `behavior`.
-#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `behavior`.
-#   filter_gteq - object - If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `behavior`.
-#   filter_like - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `behavior`.
-#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `behavior`.
-#   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `behavior`.
-#   behavior - string - If set, only shows folder behaviors matching this behavior type.
+#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 def list(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -112,20 +108,12 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
-    if "filter" in params and not isinstance(params["filter"], dict):
-        raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
-    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gteq must be an dict")
-    if "filter_like" in params and not isinstance(params["filter_like"], dict):
-        raise InvalidParameterError("Bad parameter: filter_like must be an dict")
-    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
-    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
     if "behavior" in params and not isinstance(params["behavior"], str):
         raise InvalidParameterError("Bad parameter: behavior must be an str")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
+    if "filter_prefix" in params and not isinstance(params["filter_prefix"], dict):
+        raise InvalidParameterError("Bad parameter: filter_prefix must be an dict")
     return ListObj(Behavior,"GET", "/behaviors", params, options)
 
 def all(params = None, options = None):
@@ -154,11 +142,7 @@ def get(id, params = None, options = None):
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `behavior`.
-#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `behavior`.
-#   filter_gteq - object - If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `behavior`.
-#   filter_like - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `behavior`.
-#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `behavior`.
-#   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `behavior`.
+#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 #   path (required) - string - Path to operate on.
 #   recursive - string - Show behaviors above this path?
 #   behavior - string - DEPRECATED: If set only shows folder behaviors matching this behavior type. Use `filter[behavior]` instead.
@@ -176,16 +160,8 @@ def list_for(path, params = None, options = None):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
         raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
-    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gteq must be an dict")
-    if "filter_like" in params and not isinstance(params["filter_like"], dict):
-        raise InvalidParameterError("Bad parameter: filter_like must be an dict")
-    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
-    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
+    if "filter_prefix" in params and not isinstance(params["filter_prefix"], dict):
+        raise InvalidParameterError("Bad parameter: filter_prefix must be an dict")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "recursive" in params and not isinstance(params["recursive"], str):

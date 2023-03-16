@@ -65,10 +65,9 @@ class As2IncomingMessage:
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[created_at]=desc`). Valid fields are `created_at` and `as2_partner_id`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
 #   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-#   filter_gteq - object - If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `created_at`.
-#   filter_like - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
+#   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
 #   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-#   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `created_at`.
+#   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
 #   as2_partner_id - int64 - As2 Partner ID.  If provided, will return message specific to that partner.
 def list(params = None, options = None):
     if not isinstance(params, dict):
@@ -87,8 +86,6 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
     if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
         raise InvalidParameterError("Bad parameter: filter_gteq must be an dict")
-    if "filter_like" in params and not isinstance(params["filter_like"], dict):
-        raise InvalidParameterError("Bad parameter: filter_like must be an dict")
     if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
         raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
     if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
