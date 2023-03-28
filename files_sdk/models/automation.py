@@ -20,6 +20,7 @@ class Automation:
         'destination_replace_from': None,     # string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
         'destination_replace_to': None,     # string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
         'description': None,     # string - Description for the this Automation.
+        'recurring_day': None,     # int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
         'path': None,     # string - Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         'user_id': None,     # int64 - User ID of the Automation's creator.
         'sync_ids': None,     # array - IDs of remote sync folder behaviors to run by this Automation
@@ -64,6 +65,7 @@ class Automation:
     #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
     #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
     #   value - object - A Hash of attributes specific to the automation type.
+    #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
     #   automation - string - Automation type
     def update(self, params = None):
         if not isinstance(params, dict):
@@ -105,6 +107,8 @@ class Automation:
             raise InvalidParameterError("Bad parameter: trigger must be an str")
         if "trigger_actions" in params and not isinstance(params["trigger_actions"], builtins.list):
             raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
+        if "recurring_day" in params and not isinstance(params["recurring_day"], int):
+            raise InvalidParameterError("Bad parameter: recurring_day must be an int")
         if "automation" in params and not isinstance(params["automation"], str):
             raise InvalidParameterError("Bad parameter: automation must be an str")
         response, _options = Api.send_request("PATCH", "/automations/{id}".format(id=params['id']), params, self.options)
@@ -210,6 +214,7 @@ def get(id, params = None, options = None):
 #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 #   value - object - A Hash of attributes specific to the automation type.
+#   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 #   automation (required) - string - Automation type
 def create(params = None, options = None):
     if not isinstance(params, dict):
@@ -248,6 +253,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
     if "value" in params and not isinstance(params["value"], dict):
         raise InvalidParameterError("Bad parameter: value must be an dict")
+    if "recurring_day" in params and not isinstance(params["recurring_day"], int):
+        raise InvalidParameterError("Bad parameter: recurring_day must be an int")
     if "automation" in params and not isinstance(params["automation"], str):
         raise InvalidParameterError("Bad parameter: automation must be an str")
     if "automation" not in params:
@@ -273,6 +280,7 @@ def create(params = None, options = None):
 #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 #   value - object - A Hash of attributes specific to the automation type.
+#   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 #   automation - string - Automation type
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
@@ -314,6 +322,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: trigger_actions must be an list")
     if "value" in params and not isinstance(params["value"], dict):
         raise InvalidParameterError("Bad parameter: value must be an dict")
+    if "recurring_day" in params and not isinstance(params["recurring_day"], int):
+        raise InvalidParameterError("Bad parameter: recurring_day must be an int")
     if "automation" in params and not isinstance(params["automation"], str):
         raise InvalidParameterError("Bad parameter: automation must be an str")
     if "id" not in params:

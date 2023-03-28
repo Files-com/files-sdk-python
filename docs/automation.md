@@ -20,6 +20,7 @@
   "destination_replace_from": "example",
   "destination_replace_to": "example",
   "description": "example",
+  "recurring_day": 25,
   "path": "example",
   "user_id": 1,
   "sync_ids": [
@@ -58,6 +59,7 @@
 * `destination_replace_from` (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `description` (string): Description for the this Automation.
+* `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `path` (string): Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `user_id` (int64): User ID of the Automation's creator.
 * `sync_ids` (array): IDs of remote sync folder behaviors to run by this Automation
@@ -130,6 +132,7 @@ files_sdk.automation.create({
   "trigger": "realtime",
   "trigger_actions": ["create"],
   "value": {"limit":"1"},
+  "recurring_day": 25,
   "automation": "create_folder"
 })
 ```
@@ -153,6 +156,7 @@ files_sdk.automation.create({
 * `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (object): A Hash of attributes specific to the automation type.
+* `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `automation` (string): Required - Automation type
 
 
@@ -178,6 +182,7 @@ files_sdk.automation.update(id, {
   "trigger": "realtime",
   "trigger_actions": ["create"],
   "value": {"limit":"1"},
+  "recurring_day": 25,
   "automation": "create_folder"
 })
 ```
@@ -202,6 +207,7 @@ files_sdk.automation.update(id, {
 * `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (object): A Hash of attributes specific to the automation type.
+* `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `automation` (string): Automation type
 
 
@@ -241,6 +247,7 @@ automation.update({
   "trigger": "realtime",
   "trigger_actions": ["create"],
   "value": {"limit":"1"},
+  "recurring_day": 25,
   "automation": "create_folder"
 })
 ```
@@ -265,6 +272,7 @@ automation.update({
 * `trigger` (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (object): A Hash of attributes specific to the automation type.
+* `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `automation` (string): Automation type
 
 
