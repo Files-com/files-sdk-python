@@ -162,12 +162,17 @@ as needed.
         for f in list_obj:
             print(f.type, f.path)
 
+### Comparing Case insensitive files and paths
+
+For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/topics/file-system-semantics#case-sensitivity).
+
+    if files_sdk.path_util.is_same("Fïłèńämê.Txt", "filename.txt"):
+        print("Paths are the same")
 
 ### Additional Object Documentation
 
 Additional docs are available at https://developers.files.com/ and also
 in the `docs/` subdirectory of this directory.
-
 
 ### Pydoc Generated Documentation coming in the future
 

@@ -155,6 +155,8 @@ from files_sdk.models.user_cipher_use import UserCipherUse
 from files_sdk.models.user_request import UserRequest
 from files_sdk.models.webhook_test import WebhookTest
 
+import files_sdk.path_util
+
 the_api_key = ""
 session_id = None
 base_url = "https://app.files.com"
