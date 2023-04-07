@@ -93,8 +93,6 @@
   "office_integration_type": "example",
   "oncehub_link": "https://go.oncehub.com/files",
   "opt_out_global": True,
-  "overage_notified_at": "2000-01-01T01:00:00Z",
-  "overage_notify": True,
   "overdue": True,
   "password_min_length": 1,
   "password_require_letter": True,
@@ -239,8 +237,6 @@
 * `office_integration_type` (string): Office integration application used to edit and view the MS Office documents
 * `oncehub_link` (string): Link to scheduling a meeting with our Sales team
 * `opt_out_global` (boolean): Use servers in the USA only?
-* `overage_notified_at` (date-time): Last time the site was notified about an overage
-* `overage_notify` (boolean): Notify site email of overages?
 * `overdue` (boolean): Is this site's billing overdue?
 * `password_min_length` (int64): Shortest password length for users
 * `password_require_letter` (boolean): Require a letter in passwords?
@@ -330,7 +326,6 @@ files_sdk.site.update({
   "reply_to_email": "example",
   "allow_bundle_names": True,
   "bundle_expiration": 1,
-  "overage_notify": True,
   "welcome_email_enabled": True,
   "ask_about_overwrites": True,
   "show_request_access_link": True,
@@ -460,7 +455,6 @@ files_sdk.site.update({
 * `reply_to_email` (string): Reply-to email for this site
 * `allow_bundle_names` (boolean): Are manual Bundle names allowed?
 * `bundle_expiration` (int64): Site-wide Bundle expiration in days
-* `overage_notify` (boolean): Notify site email of overages?
 * `welcome_email_enabled` (boolean): Will the welcome email be sent to new users?
 * `ask_about_overwrites` (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `show_request_access_link` (boolean): Show request access link for users without access?  Currently unused.

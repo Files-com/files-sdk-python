@@ -93,8 +93,6 @@ class Site:
         'office_integration_type': None,     # string - Office integration application used to edit and view the MS Office documents
         'oncehub_link': None,     # string - Link to scheduling a meeting with our Sales team
         'opt_out_global': None,     # boolean - Use servers in the USA only?
-        'overage_notified_at': None,     # date-time - Last time the site was notified about an overage
-        'overage_notify': None,     # boolean - Notify site email of overages?
         'overdue': None,     # boolean - Is this site's billing overdue?
         'password_min_length': None,     # int64 - Shortest password length for users
         'password_require_letter': None,     # boolean - Require a letter in passwords?
@@ -193,7 +191,6 @@ def get_usage(params = None, options = None):
 #   reply_to_email - string - Reply-to email for this site
 #   allow_bundle_names - boolean - Are manual Bundle names allowed?
 #   bundle_expiration - int64 - Site-wide Bundle expiration in days
-#   overage_notify - boolean - Notify site email of overages?
 #   welcome_email_enabled - boolean - Will the welcome email be sent to new users?
 #   ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 #   show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
