@@ -131,7 +131,7 @@
 * `avatar_delete` (boolean): If true, the avatar will be deleted.
 * `change_password` (string): Used for changing a password on an existing user.
 * `change_password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
-* `grant_permission` (string): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
+* `grant_permission` (string): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
 * `group_id` (int64): Group ID to associate this user with.
 * `imported_password_hash` (string): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash menthods are MD5, SHA1, and SHA256.
 * `password` (string): User password.
@@ -237,7 +237,7 @@ files_sdk.user.create({
 * `change_password` (string): Used for changing a password on an existing user.
 * `change_password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
 * `email` (string): User's email.
-* `grant_permission` (string): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
+* `grant_permission` (string): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
 * `group_id` (int64): Group ID to associate this user with.
 * `group_ids` (string): A list of group ids to associate this user with.  Comma delimited.
 * `imported_password_hash` (string): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash menthods are MD5, SHA1, and SHA256.
@@ -371,7 +371,7 @@ files_sdk.user.update(id, {
 * `change_password` (string): Used for changing a password on an existing user.
 * `change_password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
 * `email` (string): User's email.
-* `grant_permission` (string): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
+* `grant_permission` (string): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
 * `group_id` (int64): Group ID to associate this user with.
 * `group_ids` (string): A list of group ids to associate this user with.  Comma delimited.
 * `imported_password_hash` (string): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash menthods are MD5, SHA1, and SHA256.
@@ -522,7 +522,7 @@ user.update({
 * `change_password` (string): Used for changing a password on an existing user.
 * `change_password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
 * `email` (string): User's email.
-* `grant_permission` (string): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
+* `grant_permission` (string): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
 * `group_id` (int64): Group ID to associate this user with.
 * `group_ids` (string): A list of group ids to associate this user with.  Comma delimited.
 * `imported_password_hash` (string): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash menthods are MD5, SHA1, and SHA256.
