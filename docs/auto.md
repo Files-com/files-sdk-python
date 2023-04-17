@@ -4,7 +4,7 @@
 
 ```
 {
-  "dynamic": ""
+  "dynamic": null
 }
 ```
 
