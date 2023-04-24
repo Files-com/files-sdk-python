@@ -6,6 +6,11 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class Snapshot:
     default_attributes = {
+        'expires_at': None,     # date-time - When the snapshot expires.
+        'finalized_at': None,     # date-time - When the snapshot was finalized.
+        'name': None,     # string - A name for the snapshot.
+        'user_id': None,     # int64 - The user that created this snapshot, if applicable.
+        'bundle_id': None,     # int64 - The bundle using this snapshot, if applicable.
         'id': None,     # int64 - Snapshot ID.
     }
 
@@ -76,8 +81,7 @@ def list(params = None, options = None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
-    response, _options = Api.send_request("GET", "/snapshots", params, options)
-    return response.data
+    return ListObj(Snapshot,"GET", "/snapshots", params, options)
 
 def all(params = None, options = None):
     list(params, options)
@@ -94,8 +98,8 @@ def find(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request("GET", "/snapshots/{id}".format(id=params['id']), params, options)
-    return response.data
+    response, options = Api.send_request("GET", "/snapshots/{id}".format(id=params['id']), params, options)
+    return Snapshot(response.data, options)
 
 def get(id, params = None, options = None):
     find(id, params, options)
@@ -105,8 +109,8 @@ def create(params = None, options = None):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    response, _options = Api.send_request("POST", "/snapshots", params, options)
-    return response.data
+    response, options = Api.send_request("POST", "/snapshots", params, options)
+    return Snapshot(response.data, options)
 
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
@@ -118,8 +122,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request("PATCH", "/snapshots/{id}".format(id=params['id']), params, options)
-    return response.data
+    response, options = Api.send_request("PATCH", "/snapshots/{id}".format(id=params['id']), params, options)
+    return Snapshot(response.data, options)
 
 def delete(id, params = None, options = None):
     if not isinstance(params, dict):
