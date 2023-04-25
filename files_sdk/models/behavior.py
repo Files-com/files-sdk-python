@@ -7,7 +7,7 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 class Behavior:
     default_attributes = {
         'id': None,     # int64 - Folder behavior ID
-        'path': None,     # string - Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        'path': None,     # string - Folder path.  Note that Behavior paths cannot be updated once initially set.  You will need to remove and re-create the behavior on the new path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         'attachment_url': None,     # string - URL for attached file
         'behavior': None,     # string - Behavior type.
         'name': None,     # string - Name for this behavior.
