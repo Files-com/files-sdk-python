@@ -11,6 +11,7 @@ class Snapshot:
         'name': None,     # string - A name for the snapshot.
         'user_id': None,     # int64 - The user that created this snapshot, if applicable.
         'bundle_id': None,     # int64 - The bundle using this snapshot, if applicable.
+        'paths': None,     # array(string) - An array of paths to add to the snapshot.
         'id': None,     # int64 - Snapshot ID.
     }
 
@@ -29,6 +30,10 @@ class Snapshot:
     def get_attributes(self):
         return {k: getattr(self, k, None) for k in Snapshot.default_attributes if getattr(self, k, None) is not None}
 
+    # Parameters:
+    #   expires_at - string - When the snapshot expires.
+    #   name - string - A name for the snapshot.
+    #   paths - array(string) - An array of paths to add to the snapshot.
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -41,6 +46,12 @@ class Snapshot:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
+        if "expires_at" in params and not isinstance(params["expires_at"], str):
+            raise InvalidParameterError("Bad parameter: expires_at must be an str")
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
+        if "paths" in params and not isinstance(params["paths"], builtins.list):
+            raise InvalidParameterError("Bad parameter: paths must be an list")
         response, _options = Api.send_request("PATCH", "/snapshots/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -104,14 +115,28 @@ def find(id, params = None, options = None):
 def get(id, params = None, options = None):
     find(id, params, options)
 
+# Parameters:
+#   expires_at - string - When the snapshot expires.
+#   name - string - A name for the snapshot.
+#   paths - array(string) - An array of paths to add to the snapshot.
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "expires_at" in params and not isinstance(params["expires_at"], str):
+        raise InvalidParameterError("Bad parameter: expires_at must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
+    if "paths" in params and not isinstance(params["paths"], builtins.list):
+        raise InvalidParameterError("Bad parameter: paths must be an list")
     response, options = Api.send_request("POST", "/snapshots", params, options)
     return Snapshot(response.data, options)
 
+# Parameters:
+#   expires_at - string - When the snapshot expires.
+#   name - string - A name for the snapshot.
+#   paths - array(string) - An array of paths to add to the snapshot.
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -120,6 +145,12 @@ def update(id, params = None, options = None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "expires_at" in params and not isinstance(params["expires_at"], str):
+        raise InvalidParameterError("Bad parameter: expires_at must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
+    if "paths" in params and not isinstance(params["paths"], builtins.list):
+        raise InvalidParameterError("Bad parameter: paths must be an list")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/snapshots/{id}".format(id=params['id']), params, options)

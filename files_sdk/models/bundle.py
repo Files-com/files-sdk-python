@@ -255,6 +255,7 @@ def get(id, params = None, options = None):
 #   skip_email - boolean - BundleRegistrations can be saved without providing email?
 #   skip_name - boolean - BundleRegistrations can be saved without providing name?
 #   skip_company - boolean - BundleRegistrations can be saved without providing company?
+#   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
 #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
 def create(params = None, options = None):
     if not isinstance(params, dict):
@@ -287,6 +288,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: clickwrap_id must be an int")
     if "inbox_id" in params and not isinstance(params["inbox_id"], int):
         raise InvalidParameterError("Bad parameter: inbox_id must be an int")
+    if "snapshot_id" in params and not isinstance(params["snapshot_id"], int):
+        raise InvalidParameterError("Bad parameter: snapshot_id must be an int")
     if "paths" not in params:
         raise MissingParameterError("Parameter missing: paths")
     response, options = Api.send_request("POST", "/bundles", params, options)

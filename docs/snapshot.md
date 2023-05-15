@@ -17,6 +17,7 @@
 * `name` (string): A name for the snapshot.
 * `user_id` (int64): The user that created this snapshot, if applicable.
 * `bundle_id` (int64): The bundle using this snapshot, if applicable.
+* `paths` (array(string)): An array of paths to add to the snapshot.
 * `id` (int64): Snapshot ID.
 
 
@@ -54,8 +55,17 @@ files_sdk.snapshot.find(id)
 ## Create Snapshot
 
 ```
-files_sdk.snapshot.create()
+files_sdk.snapshot.create({
+  "expires_at": "2000-01-01T01:00:00Z",
+  "name": "My Snapshot"
+})
 ```
+
+### Parameters
+
+* `expires_at` (string): When the snapshot expires.
+* `name` (string): A name for the snapshot.
+* `paths` (array(string)): An array of paths to add to the snapshot.
 
 
 ---
@@ -63,12 +73,18 @@ files_sdk.snapshot.create()
 ## Update Snapshot
 
 ```
-files_sdk.snapshot.update(id)
+files_sdk.snapshot.update(id, {
+  "expires_at": "2000-01-01T01:00:00Z",
+  "name": "My Snapshot"
+})
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Snapshot ID.
+* `expires_at` (string): When the snapshot expires.
+* `name` (string): A name for the snapshot.
+* `paths` (array(string)): An array of paths to add to the snapshot.
 
 
 ---
@@ -90,12 +106,18 @@ files_sdk.snapshot.delete(id)
 
 ```
 snapshot = files_sdk.snapshot.list.first
-snapshot.update()
+snapshot.update({
+  "expires_at": "2000-01-01T01:00:00Z",
+  "name": "My Snapshot"
+})
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Snapshot ID.
+* `expires_at` (string): When the snapshot expires.
+* `name` (string): A name for the snapshot.
+* `paths` (array(string)): An array of paths to add to the snapshot.
 
 
 ---

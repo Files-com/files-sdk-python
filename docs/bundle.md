@@ -159,7 +159,8 @@ files_sdk.bundle.create({
   "send_email_receipt_to_uploader": True,
   "skip_email": True,
   "skip_name": True,
-  "skip_company": True
+  "skip_company": True,
+  "snapshot_id": 1
 })
 ```
 
@@ -188,6 +189,7 @@ files_sdk.bundle.create({
 * `skip_email` (boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (boolean): BundleRegistrations can be saved without providing name?
 * `skip_company` (boolean): BundleRegistrations can be saved without providing company?
+* `snapshot_id` (int64): ID of the snapshot containing this bundle's contents.
 * `watermark_attachment_file` (file): Preview watermark image applied to all bundle items.
 
 
