@@ -104,6 +104,7 @@
   "password_validity_days": 1,
   "phone": "555-555-5555",
   "pin_all_remote_servers_to_site_region": True,
+  "prevent_root_permissions_for_non_site_admins": True,
   "require_2fa": True,
   "require_2fa_stop_time": "2000-01-01T01:00:00Z",
   "require_2fa_user_type": "`site_admins`",
@@ -316,6 +317,7 @@
 * `password_validity_days` (int64): Number of days password is valid
 * `phone` (string): Site phone number
 * `pin_all_remote_servers_to_site_region` (boolean): If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
+* `prevent_root_permissions_for_non_site_admins` (boolean): If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
 * `require_2fa` (boolean): Require two-factor authentication for all users?
 * `require_2fa_stop_time` (date-time): If set, requirement for two-factor authentication has been scheduled to end on this date-time.
 * `require_2fa_user_type` (string): What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
@@ -450,6 +452,7 @@ files_sdk.site.update({
   "bundle_activity_notifications": "never",
   "bundle_upload_receipt_notifications": "never",
   "password_requirements_apply_to_bundles": True,
+  "prevent_root_permissions_for_non_site_admins": True,
   "opt_out_global": True,
   "use_provided_modified_at": True,
   "custom_namespace": True,
@@ -580,6 +583,7 @@ files_sdk.site.update({
 * `bundle_activity_notifications` (string): Do Bundle owners receive activity notifications?
 * `bundle_upload_receipt_notifications` (string): Do Bundle uploaders receive upload confirmation notifications?
 * `password_requirements_apply_to_bundles` (boolean): Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
+* `prevent_root_permissions_for_non_site_admins` (boolean): If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
 * `opt_out_global` (boolean): Use servers in the USA only?
 * `use_provided_modified_at` (boolean): Allow uploaders to set `provided_modified_at` for uploaded files?
 * `custom_namespace` (boolean): Is this site using a custom namespace for users?
