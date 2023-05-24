@@ -6,13 +6,13 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 
 class Snapshot:
     default_attributes = {
+        'id': None,     # int64 - The snapshot's unique ID.
         'expires_at': None,     # date-time - When the snapshot expires.
         'finalized_at': None,     # date-time - When the snapshot was finalized.
         'name': None,     # string - A name for the snapshot.
         'user_id': None,     # int64 - The user that created this snapshot, if applicable.
         'bundle_id': None,     # int64 - The bundle using this snapshot, if applicable.
         'paths': None,     # array(string) - An array of paths to add to the snapshot.
-        'id': None,     # int64 - Snapshot ID.
     }
 
     def __init__(self, attributes=None, options=None):

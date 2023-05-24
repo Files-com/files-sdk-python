@@ -4,6 +4,7 @@
 
 ```
 {
+  "id": 1,
   "expires_at": "2000-01-01T01:00:00Z",
   "finalized_at": "2000-01-01T01:00:00Z",
   "name": "My Snapshot",
@@ -12,13 +13,13 @@
 }
 ```
 
+* `id` (int64): The snapshot's unique ID.
 * `expires_at` (date-time): When the snapshot expires.
 * `finalized_at` (date-time): When the snapshot was finalized.
 * `name` (string): A name for the snapshot.
 * `user_id` (int64): The user that created this snapshot, if applicable.
 * `bundle_id` (int64): The bundle using this snapshot, if applicable.
 * `paths` (array(string)): An array of paths to add to the snapshot.
-* `id` (int64): Snapshot ID.
 
 
 ---
