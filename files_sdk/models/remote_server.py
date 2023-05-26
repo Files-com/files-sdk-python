@@ -55,6 +55,7 @@ class RemoteServer:
         'files_agent_api_token': None,     # string - Files Agent API Token
         'filebase_bucket': None,     # string - Filebase Bucket name
         'filebase_access_key': None,     # string - Filebase Access Key.
+        'dropbox_teams': None,     # boolean - List Team folders in root
         'aws_secret_key': None,     # string - AWS secret key.
         'password': None,     # string - Password if needed.
         'private_key': None,     # string - Private key if needed.
@@ -193,6 +194,7 @@ class RemoteServer:
     #   filebase_access_key - string - Filebase Access Key.
     #   filebase_secret_key - string - Filebase secret key
     #   filebase_bucket - string - Filebase Bucket name
+    #   dropbox_teams - boolean - List Team folders in root
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -440,6 +442,7 @@ def find_configuration_file(id, params = None, options = None):
 #   filebase_access_key - string - Filebase Access Key.
 #   filebase_secret_key - string - Filebase secret key
 #   filebase_bucket - string - Filebase Bucket name
+#   dropbox_teams - boolean - List Team folders in root
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -654,6 +657,7 @@ def configuration_file(id, params = None, options = None):
 #   filebase_access_key - string - Filebase Access Key.
 #   filebase_secret_key - string - Filebase secret key
 #   filebase_bucket - string - Filebase Bucket name
+#   dropbox_teams - boolean - List Team folders in root
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
