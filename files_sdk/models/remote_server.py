@@ -55,6 +55,9 @@ class RemoteServer:
         'files_agent_api_token': None,     # string - Files Agent API Token
         'filebase_bucket': None,     # string - Filebase Bucket name
         'filebase_access_key': None,     # string - Filebase Access Key.
+        'cloudflare_bucket': None,     # string - Cloudflare Bucket name
+        'cloudflare_access_key': None,     # string - Cloudflare Access Key.
+        'cloudflare_endpoint': None,     # string - Cloudflare endpoint
         'dropbox_teams': None,     # boolean - List Team folders in root
         'aws_secret_key': None,     # string - AWS secret key.
         'password': None,     # string - Password if needed.
@@ -71,6 +74,7 @@ class RemoteServer:
         'azure_files_storage_access_key': None,     # string - Azure File Storage access key.
         's3_compatible_secret_key': None,     # string - S3-compatible secret key
         'filebase_secret_key': None,     # string - Filebase secret key
+        'cloudflare_secret_key': None,     # string - Cloudflare secret key
     }
 
     def __init__(self, attributes=None, options=None):
@@ -194,6 +198,10 @@ class RemoteServer:
     #   filebase_access_key - string - Filebase Access Key.
     #   filebase_secret_key - string - Filebase secret key
     #   filebase_bucket - string - Filebase Bucket name
+    #   cloudflare_access_key - string - Cloudflare Access Key.
+    #   cloudflare_secret_key - string - Cloudflare secret key
+    #   cloudflare_bucket - string - Cloudflare Bucket name
+    #   cloudflare_endpoint - string - Cloudflare endpoint
     #   dropbox_teams - boolean - List Team folders in root
     def update(self, params = None):
         if not isinstance(params, dict):
@@ -309,6 +317,14 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: filebase_secret_key must be an str")
         if "filebase_bucket" in params and not isinstance(params["filebase_bucket"], str):
             raise InvalidParameterError("Bad parameter: filebase_bucket must be an str")
+        if "cloudflare_access_key" in params and not isinstance(params["cloudflare_access_key"], str):
+            raise InvalidParameterError("Bad parameter: cloudflare_access_key must be an str")
+        if "cloudflare_secret_key" in params and not isinstance(params["cloudflare_secret_key"], str):
+            raise InvalidParameterError("Bad parameter: cloudflare_secret_key must be an str")
+        if "cloudflare_bucket" in params and not isinstance(params["cloudflare_bucket"], str):
+            raise InvalidParameterError("Bad parameter: cloudflare_bucket must be an str")
+        if "cloudflare_endpoint" in params and not isinstance(params["cloudflare_endpoint"], str):
+            raise InvalidParameterError("Bad parameter: cloudflare_endpoint must be an str")
         response, _options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -442,6 +458,10 @@ def find_configuration_file(id, params = None, options = None):
 #   filebase_access_key - string - Filebase Access Key.
 #   filebase_secret_key - string - Filebase secret key
 #   filebase_bucket - string - Filebase Bucket name
+#   cloudflare_access_key - string - Cloudflare Access Key.
+#   cloudflare_secret_key - string - Cloudflare secret key
+#   cloudflare_bucket - string - Cloudflare Bucket name
+#   cloudflare_endpoint - string - Cloudflare endpoint
 #   dropbox_teams - boolean - List Team folders in root
 def create(params = None, options = None):
     if not isinstance(params, dict):
@@ -550,6 +570,14 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: filebase_secret_key must be an str")
     if "filebase_bucket" in params and not isinstance(params["filebase_bucket"], str):
         raise InvalidParameterError("Bad parameter: filebase_bucket must be an str")
+    if "cloudflare_access_key" in params and not isinstance(params["cloudflare_access_key"], str):
+        raise InvalidParameterError("Bad parameter: cloudflare_access_key must be an str")
+    if "cloudflare_secret_key" in params and not isinstance(params["cloudflare_secret_key"], str):
+        raise InvalidParameterError("Bad parameter: cloudflare_secret_key must be an str")
+    if "cloudflare_bucket" in params and not isinstance(params["cloudflare_bucket"], str):
+        raise InvalidParameterError("Bad parameter: cloudflare_bucket must be an str")
+    if "cloudflare_endpoint" in params and not isinstance(params["cloudflare_endpoint"], str):
+        raise InvalidParameterError("Bad parameter: cloudflare_endpoint must be an str")
     response, options = Api.send_request("POST", "/remote_servers", params, options)
     return RemoteServer(response.data, options)
 
@@ -657,6 +685,10 @@ def configuration_file(id, params = None, options = None):
 #   filebase_access_key - string - Filebase Access Key.
 #   filebase_secret_key - string - Filebase secret key
 #   filebase_bucket - string - Filebase Bucket name
+#   cloudflare_access_key - string - Cloudflare Access Key.
+#   cloudflare_secret_key - string - Cloudflare secret key
+#   cloudflare_bucket - string - Cloudflare Bucket name
+#   cloudflare_endpoint - string - Cloudflare endpoint
 #   dropbox_teams - boolean - List Team folders in root
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
@@ -768,6 +800,14 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: filebase_secret_key must be an str")
     if "filebase_bucket" in params and not isinstance(params["filebase_bucket"], str):
         raise InvalidParameterError("Bad parameter: filebase_bucket must be an str")
+    if "cloudflare_access_key" in params and not isinstance(params["cloudflare_access_key"], str):
+        raise InvalidParameterError("Bad parameter: cloudflare_access_key must be an str")
+    if "cloudflare_secret_key" in params and not isinstance(params["cloudflare_secret_key"], str):
+        raise InvalidParameterError("Bad parameter: cloudflare_secret_key must be an str")
+    if "cloudflare_bucket" in params and not isinstance(params["cloudflare_bucket"], str):
+        raise InvalidParameterError("Bad parameter: cloudflare_bucket must be an str")
+    if "cloudflare_endpoint" in params and not isinstance(params["cloudflare_endpoint"], str):
+        raise InvalidParameterError("Bad parameter: cloudflare_endpoint must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, options)
