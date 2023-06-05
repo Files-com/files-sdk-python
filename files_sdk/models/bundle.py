@@ -11,7 +11,7 @@ class Bundle:
         'description': None,     # string - Public description
         'password_protected': None,     # boolean - Is this bundle password protected?
         'permissions': None,     # string - Permissions that apply to Folders in this Share Link.
-        'preview_only': None,     # boolean - Restrict users to previewing files only?
+        'preview_only': None,     # boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
         'require_registration': None,     # boolean - Show a registration page that captures the downloader's name and email address?
         'require_share_recipient': None,     # boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
         'clickwrap_body': None,     # string - Legal text that must be agreed to prior to accessing Bundle.
@@ -102,7 +102,7 @@ class Bundle:
     #   note - string - Bundle internal note
     #   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
     #   permissions - string - Permissions that apply to Folders in this Share Link.
-    #   preview_only - boolean - Restrict users to previewing files only?
+    #   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
     #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
     #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
     #   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
@@ -246,7 +246,7 @@ def get(id, params = None, options = None):
 #   code - string - Bundle code.  This code forms the end part of the Public URL.
 #   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
 #   permissions - string - Permissions that apply to Folders in this Share Link.
-#   preview_only - boolean - Restrict users to previewing files only?
+#   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
 #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
 #   inbox_id - int64 - ID of the associated inbox, if available.
@@ -336,7 +336,7 @@ def share(id, params = None, options = None):
 #   note - string - Bundle internal note
 #   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
 #   permissions - string - Permissions that apply to Folders in this Share Link.
-#   preview_only - boolean - Restrict users to previewing files only?
+#   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 #   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
