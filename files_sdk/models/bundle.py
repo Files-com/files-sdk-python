@@ -9,6 +9,7 @@ class Bundle:
         'code': None,     # string - Bundle code.  This code forms the end part of the Public URL.
         'url': None,     # string - Public URL of Share Link
         'description': None,     # string - Public description
+        'expires_at': None,     # date-time - Bundle expiration date/time
         'password_protected': None,     # boolean - Is this bundle password protected?
         'permissions': None,     # string - Permissions that apply to Folders in this Share Link.
         'preview_only': None,     # boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
@@ -22,7 +23,6 @@ class Bundle:
         'id': None,     # int64 - Bundle ID
         'created_at': None,     # date-time - Bundle created at date/time
         'dont_separate_submissions_by_folder': None,     # boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
-        'expires_at': None,     # date-time - Bundle expiration date/time
         'max_uses': None,     # int64 - Maximum number of times bundle can be accessed
         'note': None,     # string - Bundle internal note
         'path_template': None,     # string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
