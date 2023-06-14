@@ -33,8 +33,7 @@
 
 ```
 files_sdk.behavior.list({
-  "per_page": 1,
-  "behavior": "webhook"
+  "per_page": 1
 })
 ```
 
@@ -43,7 +42,6 @@ files_sdk.behavior.list({
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior`.
-* `behavior` (string): If set, return records where the specified field is equal to the supplied value.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `behavior`.
 * `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 
