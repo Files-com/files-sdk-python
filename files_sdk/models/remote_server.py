@@ -59,6 +59,9 @@ class RemoteServer:
         'cloudflare_access_key': None,     # string - Cloudflare Access Key.
         'cloudflare_endpoint': None,     # string - Cloudflare endpoint
         'dropbox_teams': None,     # boolean - List Team folders in root
+        'linode_bucket': None,     # string - Linode Bucket name
+        'linode_access_key': None,     # string - Linode Access Key.
+        'linode_region': None,     # string - Linode region
         'aws_secret_key': None,     # string - AWS secret key.
         'password': None,     # string - Password if needed.
         'private_key': None,     # string - Private key if needed.
@@ -75,6 +78,7 @@ class RemoteServer:
         's3_compatible_secret_key': None,     # string - S3-compatible secret key
         'filebase_secret_key': None,     # string - Filebase secret key
         'cloudflare_secret_key': None,     # string - Cloudflare secret key
+        'linode_secret_key': None,     # string - Linode secret key
     }
 
     def __init__(self, attributes=None, options=None):
@@ -203,6 +207,10 @@ class RemoteServer:
     #   cloudflare_bucket - string - Cloudflare Bucket name
     #   cloudflare_endpoint - string - Cloudflare endpoint
     #   dropbox_teams - boolean - List Team folders in root
+    #   linode_access_key - string - Linode Access Key.
+    #   linode_secret_key - string - Linode secret key
+    #   linode_bucket - string - Linode Bucket name
+    #   linode_region - string - Linode region
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -325,6 +333,14 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: cloudflare_bucket must be an str")
         if "cloudflare_endpoint" in params and not isinstance(params["cloudflare_endpoint"], str):
             raise InvalidParameterError("Bad parameter: cloudflare_endpoint must be an str")
+        if "linode_access_key" in params and not isinstance(params["linode_access_key"], str):
+            raise InvalidParameterError("Bad parameter: linode_access_key must be an str")
+        if "linode_secret_key" in params and not isinstance(params["linode_secret_key"], str):
+            raise InvalidParameterError("Bad parameter: linode_secret_key must be an str")
+        if "linode_bucket" in params and not isinstance(params["linode_bucket"], str):
+            raise InvalidParameterError("Bad parameter: linode_bucket must be an str")
+        if "linode_region" in params and not isinstance(params["linode_region"], str):
+            raise InvalidParameterError("Bad parameter: linode_region must be an str")
         response, _options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -463,6 +479,10 @@ def find_configuration_file(id, params = None, options = None):
 #   cloudflare_bucket - string - Cloudflare Bucket name
 #   cloudflare_endpoint - string - Cloudflare endpoint
 #   dropbox_teams - boolean - List Team folders in root
+#   linode_access_key - string - Linode Access Key.
+#   linode_secret_key - string - Linode secret key
+#   linode_bucket - string - Linode Bucket name
+#   linode_region - string - Linode region
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -578,6 +598,14 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: cloudflare_bucket must be an str")
     if "cloudflare_endpoint" in params and not isinstance(params["cloudflare_endpoint"], str):
         raise InvalidParameterError("Bad parameter: cloudflare_endpoint must be an str")
+    if "linode_access_key" in params and not isinstance(params["linode_access_key"], str):
+        raise InvalidParameterError("Bad parameter: linode_access_key must be an str")
+    if "linode_secret_key" in params and not isinstance(params["linode_secret_key"], str):
+        raise InvalidParameterError("Bad parameter: linode_secret_key must be an str")
+    if "linode_bucket" in params and not isinstance(params["linode_bucket"], str):
+        raise InvalidParameterError("Bad parameter: linode_bucket must be an str")
+    if "linode_region" in params and not isinstance(params["linode_region"], str):
+        raise InvalidParameterError("Bad parameter: linode_region must be an str")
     response, options = Api.send_request("POST", "/remote_servers", params, options)
     return RemoteServer(response.data, options)
 
@@ -690,6 +718,10 @@ def configuration_file(id, params = None, options = None):
 #   cloudflare_bucket - string - Cloudflare Bucket name
 #   cloudflare_endpoint - string - Cloudflare endpoint
 #   dropbox_teams - boolean - List Team folders in root
+#   linode_access_key - string - Linode Access Key.
+#   linode_secret_key - string - Linode secret key
+#   linode_bucket - string - Linode Bucket name
+#   linode_region - string - Linode region
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -808,6 +840,14 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: cloudflare_bucket must be an str")
     if "cloudflare_endpoint" in params and not isinstance(params["cloudflare_endpoint"], str):
         raise InvalidParameterError("Bad parameter: cloudflare_endpoint must be an str")
+    if "linode_access_key" in params and not isinstance(params["linode_access_key"], str):
+        raise InvalidParameterError("Bad parameter: linode_access_key must be an str")
+    if "linode_secret_key" in params and not isinstance(params["linode_secret_key"], str):
+        raise InvalidParameterError("Bad parameter: linode_secret_key must be an str")
+    if "linode_bucket" in params and not isinstance(params["linode_bucket"], str):
+        raise InvalidParameterError("Bad parameter: linode_bucket must be an str")
+    if "linode_region" in params and not isinstance(params["linode_region"], str):
+        raise InvalidParameterError("Bad parameter: linode_region must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/remote_servers/{id}".format(id=params['id']), params, options)
