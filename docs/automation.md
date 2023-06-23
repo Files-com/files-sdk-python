@@ -160,6 +160,19 @@ files_sdk.automation.create({
 
 ---
 
+## Manually run automation
+
+```
+files_sdk.automation.manual_run(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Automation ID.
+
+
+---
+
 ## Update Automation
 
 ```
@@ -215,6 +228,20 @@ files_sdk.automation.update(id, {
 
 ```
 files_sdk.automation.delete(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Automation ID.
+
+
+---
+
+## Manually run automation
+
+```
+automation = files_sdk.automation.list.first
+automation.manual_run()
 ```
 
 ### Parameters

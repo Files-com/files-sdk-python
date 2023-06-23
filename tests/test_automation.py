@@ -8,6 +8,14 @@ from files_sdk import automation
 class AutomationTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/automations/{id}/manual_run"), "Mock path does not exist")
+    def test_manual_run(self):
+        params = {
+            "id" : 12345,
+        }
+        automation = Automation(params)
+        automation.manual_run(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/automations/{id}"), "Mock path does not exist")
     def test_update(self):
         params = {
@@ -47,6 +55,14 @@ class AutomationTest(TestBase):
             "automation" : "foo",
         }
         automation.create(params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/automations/{id}/manual_run"), "Mock path does not exist")
+    def test_manual_run(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        automation.manual_run(id, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/automations/{id}"), "Mock path does not exist")
     def test_update(self):

@@ -47,6 +47,22 @@ class Automation:
     def get_attributes(self):
         return {k: getattr(self, k, None) for k in Automation.default_attributes if getattr(self, k, None) is not None}
 
+    # Manually run automation
+    def manual_run(self, params = None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params['id'] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        response, _options = Api.send_request("POST", "/automations/{id}/manual_run".format(id=params['id']), params, self.options)
+        return response.data
+
     # Parameters:
     #   source - string - Source Path
     #   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
@@ -258,6 +274,20 @@ def create(params = None, options = None):
         raise MissingParameterError("Parameter missing: automation")
     response, options = Api.send_request("POST", "/automations", params, options)
     return Automation(response.data, options)
+
+# Manually run automation
+def manual_run(id, params = None, options = None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, _options = Api.send_request("POST", "/automations/{id}/manual_run".format(id=params['id']), params, options)
+    return response.data
 
 # Parameters:
 #   source - string - Source Path
