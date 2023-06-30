@@ -66,6 +66,8 @@ import files_sdk.models.request as request
 import files_sdk.models.session as session
 import files_sdk.models.settings_change as settings_change
 import files_sdk.models.sftp_host_key as sftp_host_key
+import files_sdk.models.share_group as share_group
+import files_sdk.models.share_group_member as share_group_member
 import files_sdk.models.site as site
 import files_sdk.models.snapshot as snapshot
 import files_sdk.models.sso_strategy as sso_strategy
@@ -145,6 +147,8 @@ from files_sdk.models.request import Request
 from files_sdk.models.session import Session
 from files_sdk.models.settings_change import SettingsChange
 from files_sdk.models.sftp_host_key import SftpHostKey
+from files_sdk.models.share_group import ShareGroup
+from files_sdk.models.share_group_member import ShareGroupMember
 from files_sdk.models.site import Site
 from files_sdk.models.snapshot import Snapshot
 from files_sdk.models.sso_strategy import SsoStrategy
