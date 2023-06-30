@@ -15,6 +15,7 @@ class Bundle:
         'preview_only': None,     # boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
         'require_registration': None,     # boolean - Show a registration page that captures the downloader's name and email address?
         'require_share_recipient': None,     # boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+        'require_logout': None,     # boolean - If true, we will hide the 'Remember Me' box on the Bundle registration page, requiring that the user logout and log back in every time they visit the page.
         'clickwrap_body': None,     # string - Legal text that must be agreed to prior to accessing Bundle.
         'form_field_set': None,     # FormFieldSet - Custom Form to use
         'skip_name': None,     # boolean - BundleRegistrations can be saved without providing name?
