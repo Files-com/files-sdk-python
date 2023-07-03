@@ -7,6 +7,11 @@ from files_sdk.exceptions import InvalidParameterError, MissingParameterError, N
 class Bundle:
     default_attributes = {
         'code': None,     # string - Bundle code.  This code forms the end part of the Public URL.
+        'color_left': None,     # string - Page link and button color
+        'color_link': None,     # string - Top bar link color
+        'color_text': None,     # string - Page link and button color
+        'color_top': None,     # string - Top bar background color
+        'color_top_text': None,     # string - Top bar text color
         'url': None,     # string - Public URL of Share Link
         'description': None,     # string - Public description
         'expires_at': None,     # date-time - Bundle expiration date/time
