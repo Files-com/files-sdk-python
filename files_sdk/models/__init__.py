@@ -21,6 +21,7 @@ from files_sdk.models.bundle_recipient import BundleRecipient
 from files_sdk.models.bundle_registration import BundleRegistration
 from files_sdk.models.clickwrap import Clickwrap
 from files_sdk.models.dns_record import DnsRecord
+from files_sdk.models.email_incoming_message import EmailIncomingMessage
 from files_sdk.models.errors import Errors
 from files_sdk.models.external_event import ExternalEvent
 from files_sdk.models.file import File
