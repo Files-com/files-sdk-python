@@ -10,13 +10,13 @@ class Automation:
         'automation': None,     # string - Automation type
         'deleted': None,     # boolean - Indicates if the automation has been deleted.
         'disabled': None,     # boolean - If true, this automation will not run.
-        'trigger': None,     # string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+        'trigger': None,     # string - How this automation is triggered to run.
         'interval': None,     # string - If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
         'last_modified_at': None,     # date-time - Time when automation was last modified. Does not change for name or description updates.
         'name': None,     # string - Name for this automation.
         'schedule': None,     # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
         'source': None,     # string - Source Path
-        'destinations': None,     # array - Destination Path
+        'destinations': None,     # array - Destination Paths
         'destination_replace_from': None,     # string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
         'destination_replace_to': None,     # string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
         'description': None,     # string - Description for the this Automation.
@@ -78,7 +78,7 @@ class Automation:
     #   description - string - Description for the this Automation.
     #   disabled - boolean - If true, this automation will not run.
     #   name - string - Name for this automation.
-    #   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+    #   trigger - string - How this automation is triggered to run.
     #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
     #   value - object - A Hash of attributes specific to the automation type.
     #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -224,7 +224,7 @@ def get(id, params = None, options = None):
 #   description - string - Description for the this Automation.
 #   disabled - boolean - If true, this automation will not run.
 #   name - string - Name for this automation.
-#   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+#   trigger - string - How this automation is triggered to run.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 #   value - object - A Hash of attributes specific to the automation type.
 #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -304,7 +304,7 @@ def manual_run(id, params = None, options = None):
 #   description - string - Description for the this Automation.
 #   disabled - boolean - If true, this automation will not run.
 #   name - string - Name for this automation.
-#   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+#   trigger - string - How this automation is triggered to run.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 #   value - object - A Hash of attributes specific to the automation type.
 #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
