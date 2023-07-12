@@ -9,7 +9,9 @@ class EmailIncomingMessage:
         'id': None,     # int64 - Id of the Email Incoming Message
         'inbox_id': None,     # int64 - Id of the Inbox associated with this message
         'sender': None,     # string - Sender of the email
+        'sender_name': None,     # string - Sender name
         'status': None,     # string - Status of the message
+        'body': None,     # string - Body of the email
         'message': None,     # string - Message describing the failure
         'created_at': None,     # date-time - Message creation date/time
     }

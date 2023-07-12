@@ -6,7 +6,7 @@
 {
   "id": 1,
   "created_at": 1,
-  "created_at_iso8601": 1,
+  "created_at_iso8601": "example",
   "user_id": 1,
   "file_id": 1,
   "parent_id": 1,
@@ -33,7 +33,7 @@
 
 * `id` (int64): Action ID
 * `created_at` (int64): When the action happened
-* `created_at_iso8601` (int64): When the action happened, in ISO8601 format.
+* `created_at_iso8601` (string): When the action happened, in ISO8601 format.
 * `user_id` (int64): User ID
 * `file_id` (int64): File ID related to the action
 * `parent_id` (int64): ID of the parent folder

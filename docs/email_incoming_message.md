@@ -7,7 +7,9 @@
   "id": 1,
   "inbox_id": 1,
   "sender": "example",
+  "sender_name": "example",
   "status": "success",
+  "body": "example",
   "message": "example",
   "created_at": "2000-01-01T01:00:00Z"
 }
@@ -16,7 +18,9 @@
 * `id` (int64): Id of the Email Incoming Message
 * `inbox_id` (int64): Id of the Inbox associated with this message
 * `sender` (string): Sender of the email
+* `sender_name` (string): Sender name
 * `status` (string): Status of the message
+* `body` (string): Body of the email
 * `message` (string): Message describing the failure
 * `created_at` (date-time): Message creation date/time
 
