@@ -24,6 +24,7 @@
   "target_permission": "full",
   "target_recursive": True,
   "target_expires_at": 1,
+  "target_expires_at_iso8601": "example",
   "target_permission_set": "desktop_app",
   "target_platform": "windows",
   "target_username": "jerry",
@@ -50,7 +51,8 @@
 * `target_name` (string): Name of the User, Group or other object with a name related to this action
 * `target_permission` (string): Permission level of the action
 * `target_recursive` (boolean): Whether or not the action was recursive
-* `target_expires_at` (int64): If searching for Histories about API keys, this is when the API key will expire
+* `target_expires_at` (int64): If searching for Histories about API keys, this is when the API key will expire. Represented as a Unix timestamp.
+* `target_expires_at_iso8601` (string): If searching for Histories about API keys, this is when the API key will expire. Represented in ISO8601 format.
 * `target_permission_set` (string): If searching for Histories about API keys, this represents the permission set of the associated  API key
 * `target_platform` (string): If searching for Histories about API keys, this is the platform on which the action was taken
 * `target_username` (string): If searching for Histories about API keys, this is the username on which the action was taken

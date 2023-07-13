@@ -25,7 +25,8 @@ class HistoryExportResult:
         'target_name': None,     # string - Name of the User, Group or other object with a name related to this action
         'target_permission': None,     # string - Permission level of the action
         'target_recursive': None,     # boolean - Whether or not the action was recursive
-        'target_expires_at': None,     # int64 - If searching for Histories about API keys, this is when the API key will expire
+        'target_expires_at': None,     # int64 - If searching for Histories about API keys, this is when the API key will expire. Represented as a Unix timestamp.
+        'target_expires_at_iso8601': None,     # string - If searching for Histories about API keys, this is when the API key will expire. Represented in ISO8601 format.
         'target_permission_set': None,     # string - If searching for Histories about API keys, this represents the permission set of the associated  API key
         'target_platform': None,     # string - If searching for Histories about API keys, this is the platform on which the action was taken
         'target_username': None,     # string - If searching for Histories about API keys, this is the username on which the action was taken
