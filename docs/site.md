@@ -185,6 +185,7 @@
     "public_keys_count": 1,
     "receive_admin_alerts": True,
     "require_2fa": "always_require",
+    "require_login_by": "2000-01-01T01:00:00Z",
     "active_2fa": True,
     "require_password_change": True,
     "password_expired": True,

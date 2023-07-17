@@ -48,6 +48,7 @@ class User:
         'public_keys_count': None,     # int64 - Number of public keys associated with this user
         'receive_admin_alerts': None,     # boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
         'require_2fa': None,     # string - 2FA required setting
+        'require_login_by': None,     # date-time - Require user to login by specified date otherwise it will be disabled.
         'active_2fa': None,     # boolean - Is 2fa active for the user?
         'require_password_change': None,     # boolean - Is a password change required upon next user login?
         'password_expired': None,     # boolean - Is user's password expired?
