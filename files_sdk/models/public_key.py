@@ -10,7 +10,8 @@ class PublicKey:
         'title': None,     # string - Public key title
         'created_at': None,     # date-time - Public key created at date/time
         'fingerprint': None,     # string - Public key fingerprint
-        'user_id': None,     # int64 - User ID.  Provide a value of `0` to operate the current session's user.
+        'username': None,     # string - Username of the user this public key is associated with
+        'user_id': None,     # int64 - User ID this public key is associated with
         'public_key': None,     # string - Actual contents of SSH key.
     }
 

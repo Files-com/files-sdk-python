@@ -7,7 +7,9 @@
   "id": 1,
   "title": "My public key",
   "created_at": "2000-01-01T01:00:00Z",
-  "fingerprint": "43:51:43:a1:b5:fc:8b:b7:0a:3a:a9:b1:0f:66:73:a8"
+  "fingerprint": "43:51:43:a1:b5:fc:8b:b7:0a:3a:a9:b1:0f:66:73:a8",
+  "username": "User",
+  "user_id": 1
 }
 ```
 
@@ -15,7 +17,8 @@
 * `title` (string): Public key title
 * `created_at` (date-time): Public key created at date/time
 * `fingerprint` (string): Public key fingerprint
-* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `username` (string): Username of the user this public key is associated with
+* `user_id` (int64): User ID this public key is associated with
 * `public_key` (string): Actual contents of SSH key.
 
 

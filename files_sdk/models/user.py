@@ -173,6 +173,7 @@ class User:
     #   office_integration_enabled - boolean - Enable integration with Office for the web?
     #   password_validity_days - int64 - Number of days to allow user to use the same password
     #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+    #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
     #   require_password_change - boolean - Is a password change required upon next user login?
     #   restapi_permission - boolean - Can this user access the REST API?
     #   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
@@ -236,6 +237,8 @@ class User:
             raise InvalidParameterError("Bad parameter: notes must be an str")
         if "password_validity_days" in params and not isinstance(params["password_validity_days"], int):
             raise InvalidParameterError("Bad parameter: password_validity_days must be an int")
+        if "require_login_by" in params and not isinstance(params["require_login_by"], str):
+            raise InvalidParameterError("Bad parameter: require_login_by must be an str")
         if "ssl_required" in params and not isinstance(params["ssl_required"], str):
             raise InvalidParameterError("Bad parameter: ssl_required must be an str")
         if "sso_strategy_id" in params and not isinstance(params["sso_strategy_id"], int):
@@ -377,6 +380,7 @@ def get(id, params = None, options = None):
 #   office_integration_enabled - boolean - Enable integration with Office for the web?
 #   password_validity_days - int64 - Number of days to allow user to use the same password
 #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+#   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
 #   require_password_change - boolean - Is a password change required upon next user login?
 #   restapi_permission - boolean - Can this user access the REST API?
 #   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
@@ -433,6 +437,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: notes must be an str")
     if "password_validity_days" in params and not isinstance(params["password_validity_days"], int):
         raise InvalidParameterError("Bad parameter: password_validity_days must be an int")
+    if "require_login_by" in params and not isinstance(params["require_login_by"], str):
+        raise InvalidParameterError("Bad parameter: require_login_by must be an str")
     if "ssl_required" in params and not isinstance(params["ssl_required"], str):
         raise InvalidParameterError("Bad parameter: ssl_required must be an str")
     if "sso_strategy_id" in params and not isinstance(params["sso_strategy_id"], int):
@@ -522,6 +528,7 @@ def user_2fa_reset(id, params = None, options = None):
 #   office_integration_enabled - boolean - Enable integration with Office for the web?
 #   password_validity_days - int64 - Number of days to allow user to use the same password
 #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+#   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
 #   require_password_change - boolean - Is a password change required upon next user login?
 #   restapi_permission - boolean - Can this user access the REST API?
 #   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
@@ -581,6 +588,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: notes must be an str")
     if "password_validity_days" in params and not isinstance(params["password_validity_days"], int):
         raise InvalidParameterError("Bad parameter: password_validity_days must be an int")
+    if "require_login_by" in params and not isinstance(params["require_login_by"], str):
+        raise InvalidParameterError("Bad parameter: require_login_by must be an str")
     if "ssl_required" in params and not isinstance(params["ssl_required"], str):
         raise InvalidParameterError("Bad parameter: ssl_required must be an str")
     if "sso_strategy_id" in params and not isinstance(params["sso_strategy_id"], int):
