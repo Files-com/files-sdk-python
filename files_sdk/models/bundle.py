@@ -25,6 +25,7 @@ class Bundle:
         'form_field_set': None,     # FormFieldSet - Custom Form to use
         'skip_name': None,     # boolean - BundleRegistrations can be saved without providing name?
         'skip_email': None,     # boolean - BundleRegistrations can be saved without providing email?
+        'start_access_on_date': None,     # date-time - Date when share will start to be accessible. If `nil` access granted right after create.
         'skip_company': None,     # boolean - BundleRegistrations can be saved without providing company?
         'id': None,     # int64 - Bundle ID
         'created_at': None,     # date-time - Bundle created at date/time
@@ -261,6 +262,7 @@ def get(id, params = None, options = None):
 #   skip_email - boolean - BundleRegistrations can be saved without providing email?
 #   skip_name - boolean - BundleRegistrations can be saved without providing name?
 #   skip_company - boolean - BundleRegistrations can be saved without providing company?
+#   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
 #   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
 #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
 def create(params = None, options = None):
@@ -294,6 +296,8 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: clickwrap_id must be an int")
     if "inbox_id" in params and not isinstance(params["inbox_id"], int):
         raise InvalidParameterError("Bad parameter: inbox_id must be an int")
+    if "start_access_on_date" in params and not isinstance(params["start_access_on_date"], str):
+        raise InvalidParameterError("Bad parameter: start_access_on_date must be an str")
     if "snapshot_id" in params and not isinstance(params["snapshot_id"], int):
         raise InvalidParameterError("Bad parameter: snapshot_id must be an int")
     if "paths" not in params:
