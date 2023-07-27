@@ -114,6 +114,7 @@ class Bundle:
     #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
     #   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
     #   skip_company - boolean - BundleRegistrations can be saved without providing company?
+    #   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
     #   skip_email - boolean - BundleRegistrations can be saved without providing email?
     #   skip_name - boolean - BundleRegistrations can be saved without providing name?
     #   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
@@ -154,6 +155,8 @@ class Bundle:
             raise InvalidParameterError("Bad parameter: path_template must be an str")
         if "permissions" in params and not isinstance(params["permissions"], str):
             raise InvalidParameterError("Bad parameter: permissions must be an str")
+        if "start_access_on_date" in params and not isinstance(params["start_access_on_date"], str):
+            raise InvalidParameterError("Bad parameter: start_access_on_date must be an str")
         response, _options = Api.send_request("PATCH", "/bundles/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -351,6 +354,7 @@ def share(id, params = None, options = None):
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 #   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
 #   skip_company - boolean - BundleRegistrations can be saved without providing company?
+#   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
 #   skip_email - boolean - BundleRegistrations can be saved without providing email?
 #   skip_name - boolean - BundleRegistrations can be saved without providing name?
 #   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
@@ -387,6 +391,8 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: path_template must be an str")
     if "permissions" in params and not isinstance(params["permissions"], str):
         raise InvalidParameterError("Bad parameter: permissions must be an str")
+    if "start_access_on_date" in params and not isinstance(params["start_access_on_date"], str):
+        raise InvalidParameterError("Bad parameter: start_access_on_date must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request("PATCH", "/bundles/{id}".format(id=params['id']), params, options)
