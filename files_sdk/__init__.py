@@ -169,12 +169,8 @@ the_api_key = ""
 session_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
+version = "1.0"
 
-try:
-    with Path(__file__).parent.parent.joinpath('_VERSION').open() as version_file:
-        version = version_file.read().strip()
-except FileNotFoundError:
-    version = "missing_version_file"
 __version__ = version
 
 initial_network_retry_delay = 0.5
