@@ -103,6 +103,10 @@ The second parameter is optional and will simply use the local filename by defau
 
     files_sdk.file.upload_file("local.txt", "/remote.txt")
 
+If the parent directories do not already exist, they can be automatically created by passing
+`mkdir_parents` in the `params`.
+
+    files_sdk.file.upload_file("local.txt", "/uploads/remote.txt", params={"mkdir_parents": True})
 
 #### List root folder
 
