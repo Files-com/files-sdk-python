@@ -566,13 +566,16 @@ def open(path, mode = "r", options = None):
     file.closed = False
     return file
 
-def upload_chunks(io, path, options, upload = None, etags = None):
+def upload_chunks(io, path, options, upload = None, etags = None, params = None):
     if not etags:
         etags = []
+    if not params:
+        params = {}
     bytes_written = 0
     while True:
-        headers = { "part": 1 } if not upload else { "ref": upload.ref, "part": upload.part_number + 1 }
-        upload = begin_upload(path, headers, options)[0]
+        chunk_params = { "part": 1 } if not upload else { "ref": upload.ref, "part": upload.part_number + 1 }
+        params.update(chunk_params)
+        upload = begin_upload(path, params, options)[0]
         buf = io.read(upload.partsize)
         if (buf == b'' or buf == "") and len(etags) > 0:  # Empty bytearray means EOF for BytesIO, Empty String means EOF for StringIO
             return (upload, etags, bytes_written)
@@ -582,7 +585,7 @@ def upload_chunks(io, path, options, upload = None, etags = None):
             if "ETag" in response.headers:
                 etags.append({ "etag": response.headers["ETag"].strip('"'), "part": upload.part_number })
 
-def upload_file(path, destination = None, options = None):
+def upload_file(path, destination = None, options = None, params = None):
     if not isinstance(options, dict):
         options = {}
     pth = Path(path)
@@ -590,9 +593,9 @@ def upload_file(path, destination = None, options = None):
     with builtin_open(path, 'rb') as local_file:
         if destination is None:
             destination = pth.name
-        upload, etags, _bytes_written = upload_chunks(local_file, destination, options)
+        upload, etags, _bytes_written = upload_chunks(local_file, destination, options, params=params)
 
-        params = {
+        final_params = {
             "action": "end",
             "etags": etags,
             "provided_mtime": datetime.utcfromtimestamp(stat.st_mtime).isoformat(),
@@ -600,7 +603,7 @@ def upload_file(path, destination = None, options = None):
             "size": stat.st_size
         }
 
-        create(destination, params, options)
+        create(destination, final_params, options)
 
 def download_file(path, local_path = None, options = None):
     if not isinstance(options, dict):
