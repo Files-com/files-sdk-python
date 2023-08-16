@@ -33,9 +33,9 @@
 files_sdk.permission.list({
   "per_page": 1,
   "path": "example",
+  "include_groups": True,
   "group_id": 1,
-  "user_id": 1,
-  "include_groups": True
+  "user_id": 1
 })
 ```
 
@@ -44,12 +44,12 @@ files_sdk.permission.list({
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[group_id]=desc`). Valid fields are `group_id`, `path`, `user_id` or `permission`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `group_id`, `user_id` or `path`. Valid field combinations are `[ group_id, path ]` and `[ user_id, path ]`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `group_id` or `user_id`. Valid field combinations are `[ group_id, path ]`, `[ user_id, path ]` or `[ user_id, group_id, path ]`.
 * `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
-* `path` (string): DEPRECATED: Permission path.  If provided, will scope permissions to this path. Use `filter[path]` instead.
-* `group_id` (string): DEPRECATED: Group ID.  If provided, will scope permissions to this group. Use `filter[group_id]` instead.`
-* `user_id` (string): DEPRECATED: User ID.  If provided, will scope permissions to this user. Use `filter[user_id]` instead.`
+* `path` (string): Permission path.  If provided, will scope all permissions(including upward) to this path.
 * `include_groups` (boolean): If searching by user or group, also include user's permissions that are inherited from its groups?
+* `group_id` (string): 
+* `user_id` (string): 
 
 
 ---
