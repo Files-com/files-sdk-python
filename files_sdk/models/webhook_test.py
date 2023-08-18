@@ -19,6 +19,7 @@ class WebhookTest:
         'file_as_body': None,     # boolean - Send the file data as the request body?
         'file_form_field': None,     # string - Send the file data as a named parameter in the request POST body
         'action': None,     # string - action for test body
+        'use_dedicated_ips': None,     # boolean - Use dedicated IPs for sending the webhook?
     }
 
     def __init__(self, attributes=None, options=None):
@@ -53,6 +54,7 @@ class WebhookTest:
 #   file_as_body - boolean - Send the file data as the request body?
 #   file_form_field - string - Send the file data as a named parameter in the request POST body
 #   action - string - action for test body
+#   use_dedicated_ips - boolean - Use dedicated IPs for sending the webhook?
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
