@@ -31,10 +31,10 @@ class GpgKey:
         return {k: getattr(self, k, None) for k in GpgKey.default_attributes if getattr(self, k, None) is not None}
 
     # Parameters:
-    #   name (required) - string - Your GPG key name.
     #   public_key - string - Your GPG public key
     #   private_key - string - Your GPG private key.
     #   private_key_password - string - Your GPG private key password. Only required for password protected keys.
+    #   name - string - Your GPG key name.
     def update(self, params = None):
         if not isinstance(params, dict):
             params = {}
@@ -45,18 +45,16 @@ class GpgKey:
             raise MissingParameterError("Current object doesn't have a id")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "name" not in params:
-            raise MissingParameterError("Parameter missing: name")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "name" in params and not isinstance(params["name"], str):
-            raise InvalidParameterError("Bad parameter: name must be an str")
         if "public_key" in params and not isinstance(params["public_key"], str):
             raise InvalidParameterError("Bad parameter: public_key must be an str")
         if "private_key" in params and not isinstance(params["private_key"], str):
             raise InvalidParameterError("Bad parameter: private_key must be an str")
         if "private_key_password" in params and not isinstance(params["private_key_password"], str):
             raise InvalidParameterError("Bad parameter: private_key_password must be an str")
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
         response, _options = Api.send_request("PATCH", "/gpg_keys/{id}".format(id=params['id']), params, self.options)
         return response.data
 
@@ -125,10 +123,10 @@ def get(id, params = None, options = None):
 
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-#   name (required) - string - Your GPG key name.
 #   public_key - string - Your GPG public key
 #   private_key - string - Your GPG private key.
 #   private_key_password - string - Your GPG private key password. Only required for password protected keys.
+#   name (required) - string - Your GPG key name.
 def create(params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -136,24 +134,24 @@ def create(params = None, options = None):
         options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
     if "public_key" in params and not isinstance(params["public_key"], str):
         raise InvalidParameterError("Bad parameter: public_key must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
         raise InvalidParameterError("Bad parameter: private_key must be an str")
     if "private_key_password" in params and not isinstance(params["private_key_password"], str):
         raise InvalidParameterError("Bad parameter: private_key_password must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     response, options = Api.send_request("POST", "/gpg_keys", params, options)
     return GpgKey(response.data, options)
 
 # Parameters:
-#   name (required) - string - Your GPG key name.
 #   public_key - string - Your GPG public key
 #   private_key - string - Your GPG private key.
 #   private_key_password - string - Your GPG private key password. Only required for password protected keys.
+#   name - string - Your GPG key name.
 def update(id, params = None, options = None):
     if not isinstance(params, dict):
         params = {}
@@ -162,18 +160,16 @@ def update(id, params = None, options = None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
     if "public_key" in params and not isinstance(params["public_key"], str):
         raise InvalidParameterError("Bad parameter: public_key must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
         raise InvalidParameterError("Bad parameter: private_key must be an str")
     if "private_key_password" in params and not isinstance(params["private_key_password"], str):
         raise InvalidParameterError("Bad parameter: private_key_password must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    if "name" not in params:
-        raise MissingParameterError("Parameter missing: name")
     response, options = Api.send_request("PATCH", "/gpg_keys/{id}".format(id=params['id']), params, options)
     return GpgKey(response.data, options)
 

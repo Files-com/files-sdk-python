@@ -12,7 +12,6 @@ class GpgKeyTest(TestBase):
     def test_update(self):
         params = {
             "id" : 12345,
-            "name" : "foo",
         }
         gpg_key = GpgKey(params)
         gpg_key.update(params)
@@ -54,7 +53,6 @@ class GpgKeyTest(TestBase):
         id = 12345
         params = {
             "id" : 12345,
-            "name" : "foo",
         }
         gpg_key.update(id, params)
 
