@@ -171,7 +171,7 @@ the_api_key = ""
 session_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.0.1042"
+version = "1.0.1043"
 
 __version__ = version
 
