@@ -2,7 +2,7 @@ import builtins
 import datetime
 from files_sdk.api import Api
 from files_sdk.list_obj import ListObj
-from files_sdk.exceptions import InvalidParameterError, MissingParameterError, NotImplementedError
+from files_sdk.error import InvalidParameterError, MissingParameterError, NotImplementedError
 
 class As2Station:
     default_attributes = {

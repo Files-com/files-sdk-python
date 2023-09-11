@@ -5,13 +5,10 @@ import time
 from urllib.parse import urljoin
 
 import files_sdk
-from files_sdk.exceptions import (APIConnectionError,
-                                  APIError,
-                                  AuthenticationError,
-                                  Error,
-                                  InvalidRequestError,
-                                  PermissionsError,
-                                  RateLimitError)
+from files_sdk.error import (APIConnectionError,
+                             APIError,
+                             AuthenticationError,
+                             Error)
 import files_sdk.util as util
 
 class ApiClient:
@@ -72,6 +69,10 @@ class ApiClient:
 
         response = self.execute_request_with_auto_retry(req)
 
+        if response.status_code == 403:
+            raise AuthenticationError(response.content, http_status=response.status_code, headers=response.headers)
+        if response.status_code >= 500:
+            raise APIConnectionError(response.content, http_status=response.status_code, headers=response.headers)
         if response.status_code != 204:
             try:
                 response.data = response.json()
@@ -192,6 +193,7 @@ class ApiClient:
         raise error
 
     def specific_api_error(self, response, error_data):
+        import files_sdk.error
         util.log_error("API error", status=response.status_code, error_message=error_data)
 
         opts = {
@@ -202,15 +204,14 @@ class ApiClient:
             "code" : error_data.get("code", response.status_code),
         }
 
-        if response.status_code in [400, 404]:
-            return InvalidRequestError(error_data["message"], **opts)
-        elif response.status_code in [401]:
-            return AuthenticationError(error_data["message"], **opts)
-        elif response.status_code in [403]:
-            return PermissionsError(error_data["message"], **opts)
-        elif response.status_code in [429]:
-            return RateLimitError(error_data["message"], **opts)
-        else: 
+        error_type = response.data["type"].split("/")[-1]
+        error_class_name = ''.join(list(map(str.capitalize, error_type.split("-")))) + "Error"
+        try:
+            return getattr(files_sdk.error, error_class_name)(
+                error_data["message"],
+                **opts
+            )
+        except AttributeError:
             return APIError(error_data["message"], **opts)
 
     def handle_network_error(self, error, request, num_retries):

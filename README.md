@@ -84,6 +84,30 @@ object in the standard manner as shown below:
 
     logging.getLogger("files_sdk")
 
+### Error Handling
+
+Unexpected errors when attempting to connect to the API inherit from the base level `Error` class. They all contain a `__str__()`
+implementation to describe what went wrong.
+
+#### Unable to connect to the API
+```python
+try:
+    for f in files_sdk.folder.list_for("/").auto_paging_iter():
+        print(f.type, f.path)
+except files_sdk.error.APIConnectionError as e:
+    print("Unable to list root folder: " + str(e))
+```
+
+Errors from the API inherit from `ApiError`. They all contain more properties to describe the error such as `code`, `headers`, etc.
+
+#### Path does not exist
+```python
+try:
+    for f in files_sdk.folder.list_for("/missing").auto_paging_iter():
+        print(f.type, f.path)
+except files_sdk.error.FolderNotFoundError as e:
+    print(f"Unable to list folder: {e.code}")
+```
 
 ### File Operations
 

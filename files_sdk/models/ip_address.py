@@ -3,7 +3,7 @@ import datetime
 from files_sdk.models.public_ip_address import PublicIpAddress
 from files_sdk.api import Api
 from files_sdk.list_obj import ListObj
-from files_sdk.exceptions import InvalidParameterError, MissingParameterError, NotImplementedError
+from files_sdk.error import InvalidParameterError, MissingParameterError, NotImplementedError
 
 class IpAddress:
     default_attributes = {

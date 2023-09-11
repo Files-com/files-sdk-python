@@ -9,7 +9,7 @@ from . import file_action
 from files_sdk.models.file_action import FileAction
 from files_sdk.models.file_upload_part import FileUploadPart
 from files_sdk.api import Api
-from files_sdk.exceptions import InvalidParameterError, MissingParameterError, NotImplementedError
+from files_sdk.error import InvalidParameterError, MissingParameterError, NotImplementedError
 
 class File:
     default_attributes = {
