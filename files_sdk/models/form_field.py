@@ -1,18 +1,22 @@
-import builtins
-import datetime
-from files_sdk.api import Api
-from files_sdk.error import InvalidParameterError, MissingParameterError, NotImplementedError
+import builtins  # noqa: F401
+from files_sdk.api import Api  # noqa: F401
+from files_sdk.error import (  # noqa: F401
+    InvalidParameterError,
+    MissingParameterError,
+    NotImplementedError,
+)
+
 
 class FormField:
     default_attributes = {
-        'id': None,     # int64 - Form field id
-        'label': None,     # string - Label to be displayed
-        'required': None,     # boolean - Is this a required field?
-        'help_text': None,     # string - Help text to be displayed
-        'field_type': None,     # string - Type of Field
-        'options_for_select': None,     # array - Options to display for radio and dropdown
-        'default_option': None,     # string - Default option for radio and dropdown
-        'form_field_set_id': None,     # int64 - Form field set id
+        "id": None,  # int64 - Form field id
+        "label": None,  # string - Label to be displayed
+        "required": None,  # boolean - Is this a required field?
+        "help_text": None,  # string - Help text to be displayed
+        "field_type": None,  # string - Type of Field
+        "options_for_select": None,  # array - Options to display for radio and dropdown
+        "default_option": None,  # string - Default option for radio and dropdown
+        "form_field_set_id": None,  # int64 - Form field set id
     }
 
     def __init__(self, attributes=None, options=None):
@@ -24,11 +28,15 @@ class FormField:
         self.options = options
 
     def set_attributes(self, attributes):
-        for (attribute, default_value) in FormField.default_attributes.items():
+        for attribute, default_value in FormField.default_attributes.items():
             setattr(self, attribute, attributes.get(attribute, default_value))
 
     def get_attributes(self):
-        return {k: getattr(self, k, None) for k in FormField.default_attributes if getattr(self, k, None) is not None}
+        return {
+            k: getattr(self, k, None)
+            for k in FormField.default_attributes
+            if getattr(self, k, None) is not None
+        }
 
 
 def new(*args, **kwargs):

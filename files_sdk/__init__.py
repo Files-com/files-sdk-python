@@ -84,8 +84,12 @@ import files_sdk.models.webhook_test as webhook_test
 
 from files_sdk.models.account_line_item import AccountLineItem
 from files_sdk.models.action import Action
-from files_sdk.models.action_notification_export import ActionNotificationExport
-from files_sdk.models.action_notification_export_result import ActionNotificationExportResult
+from files_sdk.models.action_notification_export import (
+    ActionNotificationExport,
+)
+from files_sdk.models.action_notification_export_result import (
+    ActionNotificationExportResult,
+)
 from files_sdk.models.action_webhook_failure import ActionWebhookFailure
 from files_sdk.models.api_key import ApiKey
 from files_sdk.models.app import App
@@ -146,7 +150,9 @@ from files_sdk.models.public_ip_address import PublicIpAddress
 from files_sdk.models.public_key import PublicKey
 from files_sdk.models.remote_bandwidth_snapshot import RemoteBandwidthSnapshot
 from files_sdk.models.remote_server import RemoteServer
-from files_sdk.models.remote_server_configuration_file import RemoteServerConfigurationFile
+from files_sdk.models.remote_server_configuration_file import (
+    RemoteServerConfigurationFile,
+)
 from files_sdk.models.request import Request
 from files_sdk.models.session import Session
 from files_sdk.models.settings_change import SettingsChange
@@ -171,7 +177,7 @@ the_api_key = ""
 session_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.1.0"
+version = "1.2.0"
 
 __version__ = version
 
@@ -181,32 +187,39 @@ open_timeout = 30
 read_timeout = 80
 max_network_retries = 3
 
-console_log_level="none"
+console_log_level = "none"
 
 OPTS = ("api_key", "client", "session_id")
 
-def set_api_key(api_key):
+
+def set_api_key(_api_key):
     global the_api_key
-    the_api_key = api_key
+    the_api_key = _api_key
+
 
 def get_api_key():
     global the_api_key
     return the_api_key
 
-def set_session(session):
-    if not session.id:
-        session.save()
+
+def set_session(_session):
+    if not _session.id:
+        _session.save()
     global session_id
-    session_id = session.id
+    session_id = _session.id
+
 
 def open(*args, **kwargs):
     return file.open(*args, **kwargs)
 
+
 def upload_file(*args, **kwargs):
     return file.upload_file(*args, **kwargs)
 
+
 def download_file(*args, **kwargs):
     return file.download_file(*args, **kwargs)
+
 
 def list_for(*args, **kwargs):
     return folder.list_for(*args, **kwargs)

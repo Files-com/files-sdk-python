@@ -1,0 +1,12 @@
+[tool.black]
+line-length=79
+include="files_sdk/"
+[tool.pyright]
+include=["files_sdk"]
+reportMissingTypeArgument=true
+reportUnnecessaryCast=true
+reportUnnecessaryComparison=true
+reportUnnecessaryContains=true
+reportUnnecessaryIsInstance=true
+# The project currently uses dynamic types
+reportGeneralTypeIssues=false

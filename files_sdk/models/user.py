@@ -1,81 +1,85 @@
-import builtins
-import datetime
-from files_sdk.api import Api
+import builtins  # noqa: F401
+from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
-from files_sdk.error import InvalidParameterError, MissingParameterError, NotImplementedError
+from files_sdk.error import (  # noqa: F401
+    InvalidParameterError,
+    MissingParameterError,
+    NotImplementedError,
+)
+
 
 class User:
     default_attributes = {
-        'id': None,     # int64 - User ID
-        'username': None,     # string - User's username
-        'admin_group_ids': None,     # array - List of group IDs of which this user is an administrator
-        'allowed_ips': None,     # string - A list of allowed IPs if applicable.  Newline delimited
-        'attachments_permission': None,     # boolean - DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
-        'api_keys_count': None,     # int64 - Number of api keys associated with this user
-        'authenticate_until': None,     # date-time - Scheduled Date/Time at which user will be deactivated
-        'authentication_method': None,     # string - How is this user authenticated?
-        'avatar_url': None,     # string - URL holding the user's avatar
-        'billing_permission': None,     # boolean - Allow this user to perform operations on the account, payments, and invoices?
-        'bypass_site_allowed_ips': None,     # boolean - Allow this user to skip site-wide IP blacklists?
-        'bypass_inactive_disable': None,     # boolean - Exempt this user from being disabled based on inactivity?
-        'created_at': None,     # date-time - When this user was created
-        'dav_permission': None,     # boolean - Can the user connect with WebDAV?
-        'disabled': None,     # boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
-        'email': None,     # email - User email address
-        'first_login_at': None,     # date-time - User's first login time
-        'ftp_permission': None,     # boolean - Can the user access with FTP/FTPS?
-        'group_ids': None,     # string - Comma-separated list of group IDs of which this user is a member
-        'header_text': None,     # string - Text to display to the user in the header of the UI
-        'language': None,     # string - Preferred language
-        'last_login_at': None,     # date-time - User's most recent login time via any protocol
-        'last_web_login_at': None,     # date-time - User's most recent login time via web
-        'last_ftp_login_at': None,     # date-time - User's most recent login time via FTP
-        'last_sftp_login_at': None,     # date-time - User's most recent login time via SFTP
-        'last_dav_login_at': None,     # date-time - User's most recent login time via WebDAV
-        'last_desktop_login_at': None,     # date-time - User's most recent login time via Desktop app
-        'last_restapi_login_at': None,     # date-time - User's most recent login time via Rest API
-        'last_api_use_at': None,     # date-time - User's most recent API use time
-        'last_active_at': None,     # date-time - User's most recent activity time, which is the latest of most recent login, most recent API use, enablement, or creation
-        'last_protocol_cipher': None,     # string - The most recent protocol and cipher used
-        'lockout_expires': None,     # date-time - Time in the future that the user will no longer be locked out if applicable
-        'name': None,     # string - User's full name
-        'company': None,     # string - User's company
-        'notes': None,     # string - Any internal notes on the user
-        'notification_daily_send_time': None,     # int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
-        'office_integration_enabled': None,     # boolean - Enable integration with Office for the web?
-        'password_set_at': None,     # date-time - Last time the user's password was set
-        'password_validity_days': None,     # int64 - Number of days to allow user to use the same password
-        'public_keys_count': None,     # int64 - Number of public keys associated with this user
-        'receive_admin_alerts': None,     # boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
-        'require_2fa': None,     # string - 2FA required setting
-        'require_login_by': None,     # date-time - Require user to login by specified date otherwise it will be disabled.
-        'active_2fa': None,     # boolean - Is 2fa active for the user?
-        'require_password_change': None,     # boolean - Is a password change required upon next user login?
-        'password_expired': None,     # boolean - Is user's password expired?
-        'restapi_permission': None,     # boolean - Can this user access the REST API?
-        'self_managed': None,     # boolean - Does this user manage it's own credentials or is it a shared/bot user?
-        'sftp_permission': None,     # boolean - Can the user access with SFTP?
-        'site_admin': None,     # boolean - Is the user an administrator for this site?
-        'skip_welcome_screen': None,     # boolean - Skip Welcome page in the UI?
-        'ssl_required': None,     # string - SSL required setting
-        'sso_strategy_id': None,     # int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
-        'subscribe_to_newsletter': None,     # boolean - Is the user subscribed to the newsletter?
-        'externally_managed': None,     # boolean - Is this user managed by a SsoStrategy?
-        'time_zone': None,     # string - User time zone
-        'type_of_2fa': None,     # string - Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
-        'user_root': None,     # string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
-        'days_remaining_until_password_expire': None,     # int64 - Number of days remaining until password expires
-        'password_expire_at': None,     # date-time - Password expiration datetime
-        'avatar_file': None,     # file - An image file for your user avatar.
-        'avatar_delete': None,     # boolean - If true, the avatar will be deleted.
-        'change_password': None,     # string - Used for changing a password on an existing user.
-        'change_password_confirmation': None,     # string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
-        'grant_permission': None,     # string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
-        'group_id': None,     # int64 - Group ID to associate this user with.
-        'imported_password_hash': None,     # string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash menthods are MD5, SHA1, and SHA256.
-        'password': None,     # string - User password.
-        'password_confirmation': None,     # string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
-        'announcements_read': None,     # boolean - Signifies that the user has read all the announcements in the UI.
+        "id": None,  # int64 - User ID
+        "username": None,  # string - User's username
+        "admin_group_ids": None,  # array - List of group IDs of which this user is an administrator
+        "allowed_ips": None,  # string - A list of allowed IPs if applicable.  Newline delimited
+        "attachments_permission": None,  # boolean - DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
+        "api_keys_count": None,  # int64 - Number of api keys associated with this user
+        "authenticate_until": None,  # date-time - Scheduled Date/Time at which user will be deactivated
+        "authentication_method": None,  # string - How is this user authenticated?
+        "avatar_url": None,  # string - URL holding the user's avatar
+        "billing_permission": None,  # boolean - Allow this user to perform operations on the account, payments, and invoices?
+        "bypass_site_allowed_ips": None,  # boolean - Allow this user to skip site-wide IP blacklists?
+        "bypass_inactive_disable": None,  # boolean - Exempt this user from being disabled based on inactivity?
+        "created_at": None,  # date-time - When this user was created
+        "dav_permission": None,  # boolean - Can the user connect with WebDAV?
+        "disabled": None,  # boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
+        "email": None,  # email - User email address
+        "first_login_at": None,  # date-time - User's first login time
+        "ftp_permission": None,  # boolean - Can the user access with FTP/FTPS?
+        "group_ids": None,  # string - Comma-separated list of group IDs of which this user is a member
+        "header_text": None,  # string - Text to display to the user in the header of the UI
+        "language": None,  # string - Preferred language
+        "last_login_at": None,  # date-time - User's most recent login time via any protocol
+        "last_web_login_at": None,  # date-time - User's most recent login time via web
+        "last_ftp_login_at": None,  # date-time - User's most recent login time via FTP
+        "last_sftp_login_at": None,  # date-time - User's most recent login time via SFTP
+        "last_dav_login_at": None,  # date-time - User's most recent login time via WebDAV
+        "last_desktop_login_at": None,  # date-time - User's most recent login time via Desktop app
+        "last_restapi_login_at": None,  # date-time - User's most recent login time via Rest API
+        "last_api_use_at": None,  # date-time - User's most recent API use time
+        "last_active_at": None,  # date-time - User's most recent activity time, which is the latest of most recent login, most recent API use, enablement, or creation
+        "last_protocol_cipher": None,  # string - The most recent protocol and cipher used
+        "lockout_expires": None,  # date-time - Time in the future that the user will no longer be locked out if applicable
+        "name": None,  # string - User's full name
+        "company": None,  # string - User's company
+        "notes": None,  # string - Any internal notes on the user
+        "notification_daily_send_time": None,  # int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
+        "office_integration_enabled": None,  # boolean - Enable integration with Office for the web?
+        "password_set_at": None,  # date-time - Last time the user's password was set
+        "password_validity_days": None,  # int64 - Number of days to allow user to use the same password
+        "public_keys_count": None,  # int64 - Number of public keys associated with this user
+        "receive_admin_alerts": None,  # boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+        "require_2fa": None,  # string - 2FA required setting
+        "require_login_by": None,  # date-time - Require user to login by specified date otherwise it will be disabled.
+        "active_2fa": None,  # boolean - Is 2fa active for the user?
+        "require_password_change": None,  # boolean - Is a password change required upon next user login?
+        "password_expired": None,  # boolean - Is user's password expired?
+        "restapi_permission": None,  # boolean - Can this user access the REST API?
+        "self_managed": None,  # boolean - Does this user manage it's own credentials or is it a shared/bot user?
+        "sftp_permission": None,  # boolean - Can the user access with SFTP?
+        "site_admin": None,  # boolean - Is the user an administrator for this site?
+        "skip_welcome_screen": None,  # boolean - Skip Welcome page in the UI?
+        "ssl_required": None,  # string - SSL required setting
+        "sso_strategy_id": None,  # int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
+        "subscribe_to_newsletter": None,  # boolean - Is the user subscribed to the newsletter?
+        "externally_managed": None,  # boolean - Is this user managed by a SsoStrategy?
+        "time_zone": None,  # string - User time zone
+        "type_of_2fa": None,  # string - Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
+        "user_root": None,  # string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
+        "days_remaining_until_password_expire": None,  # int64 - Number of days remaining until password expires
+        "password_expire_at": None,  # date-time - Password expiration datetime
+        "avatar_file": None,  # file - An image file for your user avatar.
+        "avatar_delete": None,  # boolean - If true, the avatar will be deleted.
+        "change_password": None,  # string - Used for changing a password on an existing user.
+        "change_password_confirmation": None,  # string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
+        "grant_permission": None,  # string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
+        "group_id": None,  # int64 - Group ID to associate this user with.
+        "imported_password_hash": None,  # string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash menthods are MD5, SHA1, and SHA256.
+        "password": None,  # string - User password.
+        "password_confirmation": None,  # string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
+        "announcements_read": None,  # boolean - Signifies that the user has read all the announcements in the UI.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -87,58 +91,77 @@ class User:
         self.options = options
 
     def set_attributes(self, attributes):
-        for (attribute, default_value) in User.default_attributes.items():
+        for attribute, default_value in User.default_attributes.items():
             setattr(self, attribute, attributes.get(attribute, default_value))
 
     def get_attributes(self):
-        return {k: getattr(self, k, None) for k in User.default_attributes if getattr(self, k, None) is not None}
+        return {
+            k: getattr(self, k, None)
+            for k in User.default_attributes
+            if getattr(self, k, None) is not None
+        }
 
     # Unlock user who has been locked out due to failed logins
-    def unlock(self, params = None):
+    def unlock(self, params=None):
         if not isinstance(params, dict):
             params = {}
 
         if hasattr(self, "id") and self.id:
-            params['id'] = self.id
+            params["id"] = self.id
         else:
             raise MissingParameterError("Current object doesn't have a id")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request("POST", "/users/{id}/unlock".format(id=params['id']), params, self.options)
+        response, _options = Api.send_request(
+            "POST",
+            "/users/{id}/unlock".format(id=params["id"]),
+            params,
+            self.options,
+        )
         return response.data
 
     # Resend user welcome email
-    def resend_welcome_email(self, params = None):
+    def resend_welcome_email(self, params=None):
         if not isinstance(params, dict):
             params = {}
 
         if hasattr(self, "id") and self.id:
-            params['id'] = self.id
+            params["id"] = self.id
         else:
             raise MissingParameterError("Current object doesn't have a id")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request("POST", "/users/{id}/resend_welcome_email".format(id=params['id']), params, self.options)
+        response, _options = Api.send_request(
+            "POST",
+            "/users/{id}/resend_welcome_email".format(id=params["id"]),
+            params,
+            self.options,
+        )
         return response.data
 
     # Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
-    def user_2fa_reset(self, params = None):
+    def user_2fa_reset(self, params=None):
         if not isinstance(params, dict):
             params = {}
 
         if hasattr(self, "id") and self.id:
-            params['id'] = self.id
+            params["id"] = self.id
         else:
             raise MissingParameterError("Current object doesn't have a id")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request("POST", "/users/{id}/2fa/reset".format(id=params['id']), params, self.options)
+        response, _options = Api.send_request(
+            "POST",
+            "/users/{id}/2fa/reset".format(id=params["id"]),
+            params,
+            self.options,
+        )
         return response.data
 
     # Parameters:
@@ -187,89 +210,175 @@ class User:
     #   time_zone - string - User time zone
     #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
     #   username - string - User's username
-    def update(self, params = None):
+    def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
 
         if hasattr(self, "id") and self.id:
-            params['id'] = self.id
+            params["id"] = self.id
         else:
             raise MissingParameterError("Current object doesn't have a id")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "change_password" in params and not isinstance(params["change_password"], str):
-            raise InvalidParameterError("Bad parameter: change_password must be an str")
-        if "change_password_confirmation" in params and not isinstance(params["change_password_confirmation"], str):
-            raise InvalidParameterError("Bad parameter: change_password_confirmation must be an str")
+        if "change_password" in params and not isinstance(
+            params["change_password"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: change_password must be an str"
+            )
+        if "change_password_confirmation" in params and not isinstance(
+            params["change_password_confirmation"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: change_password_confirmation must be an str"
+            )
         if "email" in params and not isinstance(params["email"], str):
             raise InvalidParameterError("Bad parameter: email must be an str")
-        if "grant_permission" in params and not isinstance(params["grant_permission"], str):
-            raise InvalidParameterError("Bad parameter: grant_permission must be an str")
+        if "grant_permission" in params and not isinstance(
+            params["grant_permission"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: grant_permission must be an str"
+            )
         if "group_id" in params and not isinstance(params["group_id"], int):
-            raise InvalidParameterError("Bad parameter: group_id must be an int")
+            raise InvalidParameterError(
+                "Bad parameter: group_id must be an int"
+            )
         if "group_ids" in params and not isinstance(params["group_ids"], str):
-            raise InvalidParameterError("Bad parameter: group_ids must be an str")
-        if "imported_password_hash" in params and not isinstance(params["imported_password_hash"], str):
-            raise InvalidParameterError("Bad parameter: imported_password_hash must be an str")
+            raise InvalidParameterError(
+                "Bad parameter: group_ids must be an str"
+            )
+        if "imported_password_hash" in params and not isinstance(
+            params["imported_password_hash"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: imported_password_hash must be an str"
+            )
         if "password" in params and not isinstance(params["password"], str):
-            raise InvalidParameterError("Bad parameter: password must be an str")
-        if "password_confirmation" in params and not isinstance(params["password_confirmation"], str):
-            raise InvalidParameterError("Bad parameter: password_confirmation must be an str")
-        if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
-            raise InvalidParameterError("Bad parameter: allowed_ips must be an str")
-        if "authenticate_until" in params and not isinstance(params["authenticate_until"], str):
-            raise InvalidParameterError("Bad parameter: authenticate_until must be an str")
-        if "authentication_method" in params and not isinstance(params["authentication_method"], str):
-            raise InvalidParameterError("Bad parameter: authentication_method must be an str")
-        if "header_text" in params and not isinstance(params["header_text"], str):
-            raise InvalidParameterError("Bad parameter: header_text must be an str")
+            raise InvalidParameterError(
+                "Bad parameter: password must be an str"
+            )
+        if "password_confirmation" in params and not isinstance(
+            params["password_confirmation"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: password_confirmation must be an str"
+            )
+        if "allowed_ips" in params and not isinstance(
+            params["allowed_ips"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allowed_ips must be an str"
+            )
+        if "authenticate_until" in params and not isinstance(
+            params["authenticate_until"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: authenticate_until must be an str"
+            )
+        if "authentication_method" in params and not isinstance(
+            params["authentication_method"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: authentication_method must be an str"
+            )
+        if "header_text" in params and not isinstance(
+            params["header_text"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: header_text must be an str"
+            )
         if "language" in params and not isinstance(params["language"], str):
-            raise InvalidParameterError("Bad parameter: language must be an str")
-        if "notification_daily_send_time" in params and not isinstance(params["notification_daily_send_time"], int):
-            raise InvalidParameterError("Bad parameter: notification_daily_send_time must be an int")
+            raise InvalidParameterError(
+                "Bad parameter: language must be an str"
+            )
+        if "notification_daily_send_time" in params and not isinstance(
+            params["notification_daily_send_time"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: notification_daily_send_time must be an int"
+            )
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
         if "company" in params and not isinstance(params["company"], str):
-            raise InvalidParameterError("Bad parameter: company must be an str")
+            raise InvalidParameterError(
+                "Bad parameter: company must be an str"
+            )
         if "notes" in params and not isinstance(params["notes"], str):
             raise InvalidParameterError("Bad parameter: notes must be an str")
-        if "password_validity_days" in params and not isinstance(params["password_validity_days"], int):
-            raise InvalidParameterError("Bad parameter: password_validity_days must be an int")
-        if "require_login_by" in params and not isinstance(params["require_login_by"], str):
-            raise InvalidParameterError("Bad parameter: require_login_by must be an str")
-        if "ssl_required" in params and not isinstance(params["ssl_required"], str):
-            raise InvalidParameterError("Bad parameter: ssl_required must be an str")
-        if "sso_strategy_id" in params and not isinstance(params["sso_strategy_id"], int):
-            raise InvalidParameterError("Bad parameter: sso_strategy_id must be an int")
-        if "require_2fa" in params and not isinstance(params["require_2fa"], str):
-            raise InvalidParameterError("Bad parameter: require_2fa must be an str")
+        if "password_validity_days" in params and not isinstance(
+            params["password_validity_days"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: password_validity_days must be an int"
+            )
+        if "require_login_by" in params and not isinstance(
+            params["require_login_by"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: require_login_by must be an str"
+            )
+        if "ssl_required" in params and not isinstance(
+            params["ssl_required"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ssl_required must be an str"
+            )
+        if "sso_strategy_id" in params and not isinstance(
+            params["sso_strategy_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sso_strategy_id must be an int"
+            )
+        if "require_2fa" in params and not isinstance(
+            params["require_2fa"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: require_2fa must be an str"
+            )
         if "time_zone" in params and not isinstance(params["time_zone"], str):
-            raise InvalidParameterError("Bad parameter: time_zone must be an str")
+            raise InvalidParameterError(
+                "Bad parameter: time_zone must be an str"
+            )
         if "user_root" in params and not isinstance(params["user_root"], str):
-            raise InvalidParameterError("Bad parameter: user_root must be an str")
+            raise InvalidParameterError(
+                "Bad parameter: user_root must be an str"
+            )
         if "username" in params and not isinstance(params["username"], str):
-            raise InvalidParameterError("Bad parameter: username must be an str")
-        response, _options = Api.send_request("PATCH", "/users/{id}".format(id=params['id']), params, self.options)
+            raise InvalidParameterError(
+                "Bad parameter: username must be an str"
+            )
+        response, _options = Api.send_request(
+            "PATCH",
+            "/users/{id}".format(id=params["id"]),
+            params,
+            self.options,
+        )
         return response.data
 
-    def delete(self, params = None):
+    def delete(self, params=None):
         if not isinstance(params, dict):
             params = {}
 
         if hasattr(self, "id") and self.id:
-            params['id'] = self.id
+            params["id"] = self.id
         else:
             raise MissingParameterError("Current object doesn't have a id")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request("DELETE", "/users/{id}".format(id=params['id']), params, self.options)
+        response, _options = Api.send_request(
+            "DELETE",
+            "/users/{id}".format(id=params["id"]),
+            params,
+            self.options,
+        )
         return response.data
 
-    def destroy(self, params = None):
+    def destroy(self, params=None):
         self.delete(params)
 
     def save(self):
@@ -278,6 +387,7 @@ class User:
         else:
             new_obj = create(self.get_attributes(), self.options)
             self.set_attributes(new_obj.get_attributes())
+
 
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
@@ -298,7 +408,7 @@ class User:
 #   q[password_validity_days] - string - If set, list only users with overridden password validity days setting.
 #   q[ssl_required] - string - If set, list only users with overridden SSL required setting.
 #   search - string - Searches for partial matches of name, username, or email.
-def list(params = None, options = None):
+def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -314,25 +424,35 @@ def list(params = None, options = None):
     if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
         raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
     if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gteq must be an dict")
-    if "filter_prefix" in params and not isinstance(params["filter_prefix"], dict):
-        raise InvalidParameterError("Bad parameter: filter_prefix must be an dict")
+        raise InvalidParameterError(
+            "Bad parameter: filter_gteq must be an dict"
+        )
+    if "filter_prefix" in params and not isinstance(
+        params["filter_prefix"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: filter_prefix must be an dict"
+        )
     if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
         raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
     if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
+        raise InvalidParameterError(
+            "Bad parameter: filter_lteq must be an dict"
+        )
     if "ids" in params and not isinstance(params["ids"], str):
         raise InvalidParameterError("Bad parameter: ids must be an str")
     if "search" in params and not isinstance(params["search"], str):
         raise InvalidParameterError("Bad parameter: search must be an str")
-    return ListObj(User,"GET", "/users", params, options)
+    return ListObj(User, "GET", "/users", params, options)
 
-def all(params = None, options = None):
+
+def all(params=None, options=None):
     list(params, options)
+
 
 # Parameters:
 #   id (required) - int64 - User ID.
-def find(id, params = None, options = None):
+def find(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -342,11 +462,15 @@ def find(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, options = Api.send_request("GET", "/users/{id}".format(id=params['id']), params, options)
+    response, options = Api.send_request(
+        "GET", "/users/{id}".format(id=params["id"]), params, options
+    )
     return User(response.data, options)
 
-def get(id, params = None, options = None):
+
+def get(id, params=None, options=None):
     find(id, params, options)
+
 
 # Parameters:
 #   avatar_file - file - An image file for your user avatar.
@@ -394,57 +518,111 @@ def get(id, params = None, options = None):
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 #   username - string - User's username
-def create(params = None, options = None):
+def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    if "change_password" in params and not isinstance(params["change_password"], str):
-        raise InvalidParameterError("Bad parameter: change_password must be an str")
-    if "change_password_confirmation" in params and not isinstance(params["change_password_confirmation"], str):
-        raise InvalidParameterError("Bad parameter: change_password_confirmation must be an str")
+    if "change_password" in params and not isinstance(
+        params["change_password"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: change_password must be an str"
+        )
+    if "change_password_confirmation" in params and not isinstance(
+        params["change_password_confirmation"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: change_password_confirmation must be an str"
+        )
     if "email" in params and not isinstance(params["email"], str):
         raise InvalidParameterError("Bad parameter: email must be an str")
-    if "grant_permission" in params and not isinstance(params["grant_permission"], str):
-        raise InvalidParameterError("Bad parameter: grant_permission must be an str")
+    if "grant_permission" in params and not isinstance(
+        params["grant_permission"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: grant_permission must be an str"
+        )
     if "group_id" in params and not isinstance(params["group_id"], int):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "group_ids" in params and not isinstance(params["group_ids"], str):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
-    if "imported_password_hash" in params and not isinstance(params["imported_password_hash"], str):
-        raise InvalidParameterError("Bad parameter: imported_password_hash must be an str")
+    if "imported_password_hash" in params and not isinstance(
+        params["imported_password_hash"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: imported_password_hash must be an str"
+        )
     if "password" in params and not isinstance(params["password"], str):
         raise InvalidParameterError("Bad parameter: password must be an str")
-    if "password_confirmation" in params and not isinstance(params["password_confirmation"], str):
-        raise InvalidParameterError("Bad parameter: password_confirmation must be an str")
+    if "password_confirmation" in params and not isinstance(
+        params["password_confirmation"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: password_confirmation must be an str"
+        )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
-        raise InvalidParameterError("Bad parameter: allowed_ips must be an str")
-    if "authenticate_until" in params and not isinstance(params["authenticate_until"], str):
-        raise InvalidParameterError("Bad parameter: authenticate_until must be an str")
-    if "authentication_method" in params and not isinstance(params["authentication_method"], str):
-        raise InvalidParameterError("Bad parameter: authentication_method must be an str")
+        raise InvalidParameterError(
+            "Bad parameter: allowed_ips must be an str"
+        )
+    if "authenticate_until" in params and not isinstance(
+        params["authenticate_until"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: authenticate_until must be an str"
+        )
+    if "authentication_method" in params and not isinstance(
+        params["authentication_method"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: authentication_method must be an str"
+        )
     if "header_text" in params and not isinstance(params["header_text"], str):
-        raise InvalidParameterError("Bad parameter: header_text must be an str")
+        raise InvalidParameterError(
+            "Bad parameter: header_text must be an str"
+        )
     if "language" in params and not isinstance(params["language"], str):
         raise InvalidParameterError("Bad parameter: language must be an str")
-    if "notification_daily_send_time" in params and not isinstance(params["notification_daily_send_time"], int):
-        raise InvalidParameterError("Bad parameter: notification_daily_send_time must be an int")
+    if "notification_daily_send_time" in params and not isinstance(
+        params["notification_daily_send_time"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notification_daily_send_time must be an int"
+        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "company" in params and not isinstance(params["company"], str):
         raise InvalidParameterError("Bad parameter: company must be an str")
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
-    if "password_validity_days" in params and not isinstance(params["password_validity_days"], int):
-        raise InvalidParameterError("Bad parameter: password_validity_days must be an int")
-    if "require_login_by" in params and not isinstance(params["require_login_by"], str):
-        raise InvalidParameterError("Bad parameter: require_login_by must be an str")
-    if "ssl_required" in params and not isinstance(params["ssl_required"], str):
-        raise InvalidParameterError("Bad parameter: ssl_required must be an str")
-    if "sso_strategy_id" in params and not isinstance(params["sso_strategy_id"], int):
-        raise InvalidParameterError("Bad parameter: sso_strategy_id must be an int")
+    if "password_validity_days" in params and not isinstance(
+        params["password_validity_days"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: password_validity_days must be an int"
+        )
+    if "require_login_by" in params and not isinstance(
+        params["require_login_by"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_login_by must be an str"
+        )
+    if "ssl_required" in params and not isinstance(
+        params["ssl_required"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ssl_required must be an str"
+        )
+    if "sso_strategy_id" in params and not isinstance(
+        params["sso_strategy_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sso_strategy_id must be an int"
+        )
     if "require_2fa" in params and not isinstance(params["require_2fa"], str):
-        raise InvalidParameterError("Bad parameter: require_2fa must be an str")
+        raise InvalidParameterError(
+            "Bad parameter: require_2fa must be an str"
+        )
     if "time_zone" in params and not isinstance(params["time_zone"], str):
         raise InvalidParameterError("Bad parameter: time_zone must be an str")
     if "user_root" in params and not isinstance(params["user_root"], str):
@@ -454,8 +632,9 @@ def create(params = None, options = None):
     response, options = Api.send_request("POST", "/users", params, options)
     return User(response.data, options)
 
+
 # Unlock user who has been locked out due to failed logins
-def unlock(id, params = None, options = None):
+def unlock(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -465,11 +644,14 @@ def unlock(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request("POST", "/users/{id}/unlock".format(id=params['id']), params, options)
+    response, _options = Api.send_request(
+        "POST", "/users/{id}/unlock".format(id=params["id"]), params, options
+    )
     return response.data
+
 
 # Resend user welcome email
-def resend_welcome_email(id, params = None, options = None):
+def resend_welcome_email(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -479,11 +661,17 @@ def resend_welcome_email(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request("POST", "/users/{id}/resend_welcome_email".format(id=params['id']), params, options)
+    response, _options = Api.send_request(
+        "POST",
+        "/users/{id}/resend_welcome_email".format(id=params["id"]),
+        params,
+        options,
+    )
     return response.data
 
+
 # Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
-def user_2fa_reset(id, params = None, options = None):
+def user_2fa_reset(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -493,8 +681,14 @@ def user_2fa_reset(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request("POST", "/users/{id}/2fa/reset".format(id=params['id']), params, options)
+    response, _options = Api.send_request(
+        "POST",
+        "/users/{id}/2fa/reset".format(id=params["id"]),
+        params,
+        options,
+    )
     return response.data
+
 
 # Parameters:
 #   avatar_file - file - An image file for your user avatar.
@@ -542,7 +736,7 @@ def user_2fa_reset(id, params = None, options = None):
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 #   username - string - User's username
-def update(id, params = None, options = None):
+def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -550,52 +744,106 @@ def update(id, params = None, options = None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
-    if "change_password" in params and not isinstance(params["change_password"], str):
-        raise InvalidParameterError("Bad parameter: change_password must be an str")
-    if "change_password_confirmation" in params and not isinstance(params["change_password_confirmation"], str):
-        raise InvalidParameterError("Bad parameter: change_password_confirmation must be an str")
+    if "change_password" in params and not isinstance(
+        params["change_password"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: change_password must be an str"
+        )
+    if "change_password_confirmation" in params and not isinstance(
+        params["change_password_confirmation"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: change_password_confirmation must be an str"
+        )
     if "email" in params and not isinstance(params["email"], str):
         raise InvalidParameterError("Bad parameter: email must be an str")
-    if "grant_permission" in params and not isinstance(params["grant_permission"], str):
-        raise InvalidParameterError("Bad parameter: grant_permission must be an str")
+    if "grant_permission" in params and not isinstance(
+        params["grant_permission"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: grant_permission must be an str"
+        )
     if "group_id" in params and not isinstance(params["group_id"], int):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "group_ids" in params and not isinstance(params["group_ids"], str):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
-    if "imported_password_hash" in params and not isinstance(params["imported_password_hash"], str):
-        raise InvalidParameterError("Bad parameter: imported_password_hash must be an str")
+    if "imported_password_hash" in params and not isinstance(
+        params["imported_password_hash"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: imported_password_hash must be an str"
+        )
     if "password" in params and not isinstance(params["password"], str):
         raise InvalidParameterError("Bad parameter: password must be an str")
-    if "password_confirmation" in params and not isinstance(params["password_confirmation"], str):
-        raise InvalidParameterError("Bad parameter: password_confirmation must be an str")
+    if "password_confirmation" in params and not isinstance(
+        params["password_confirmation"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: password_confirmation must be an str"
+        )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
-        raise InvalidParameterError("Bad parameter: allowed_ips must be an str")
-    if "authenticate_until" in params and not isinstance(params["authenticate_until"], str):
-        raise InvalidParameterError("Bad parameter: authenticate_until must be an str")
-    if "authentication_method" in params and not isinstance(params["authentication_method"], str):
-        raise InvalidParameterError("Bad parameter: authentication_method must be an str")
+        raise InvalidParameterError(
+            "Bad parameter: allowed_ips must be an str"
+        )
+    if "authenticate_until" in params and not isinstance(
+        params["authenticate_until"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: authenticate_until must be an str"
+        )
+    if "authentication_method" in params and not isinstance(
+        params["authentication_method"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: authentication_method must be an str"
+        )
     if "header_text" in params and not isinstance(params["header_text"], str):
-        raise InvalidParameterError("Bad parameter: header_text must be an str")
+        raise InvalidParameterError(
+            "Bad parameter: header_text must be an str"
+        )
     if "language" in params and not isinstance(params["language"], str):
         raise InvalidParameterError("Bad parameter: language must be an str")
-    if "notification_daily_send_time" in params and not isinstance(params["notification_daily_send_time"], int):
-        raise InvalidParameterError("Bad parameter: notification_daily_send_time must be an int")
+    if "notification_daily_send_time" in params and not isinstance(
+        params["notification_daily_send_time"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notification_daily_send_time must be an int"
+        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "company" in params and not isinstance(params["company"], str):
         raise InvalidParameterError("Bad parameter: company must be an str")
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
-    if "password_validity_days" in params and not isinstance(params["password_validity_days"], int):
-        raise InvalidParameterError("Bad parameter: password_validity_days must be an int")
-    if "require_login_by" in params and not isinstance(params["require_login_by"], str):
-        raise InvalidParameterError("Bad parameter: require_login_by must be an str")
-    if "ssl_required" in params and not isinstance(params["ssl_required"], str):
-        raise InvalidParameterError("Bad parameter: ssl_required must be an str")
-    if "sso_strategy_id" in params and not isinstance(params["sso_strategy_id"], int):
-        raise InvalidParameterError("Bad parameter: sso_strategy_id must be an int")
+    if "password_validity_days" in params and not isinstance(
+        params["password_validity_days"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: password_validity_days must be an int"
+        )
+    if "require_login_by" in params and not isinstance(
+        params["require_login_by"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_login_by must be an str"
+        )
+    if "ssl_required" in params and not isinstance(
+        params["ssl_required"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ssl_required must be an str"
+        )
+    if "sso_strategy_id" in params and not isinstance(
+        params["sso_strategy_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sso_strategy_id must be an int"
+        )
     if "require_2fa" in params and not isinstance(params["require_2fa"], str):
-        raise InvalidParameterError("Bad parameter: require_2fa must be an str")
+        raise InvalidParameterError(
+            "Bad parameter: require_2fa must be an str"
+        )
     if "time_zone" in params and not isinstance(params["time_zone"], str):
         raise InvalidParameterError("Bad parameter: time_zone must be an str")
     if "user_root" in params and not isinstance(params["user_root"], str):
@@ -604,10 +852,13 @@ def update(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: username must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, options = Api.send_request("PATCH", "/users/{id}".format(id=params['id']), params, options)
+    response, options = Api.send_request(
+        "PATCH", "/users/{id}".format(id=params["id"]), params, options
+    )
     return User(response.data, options)
 
-def delete(id, params = None, options = None):
+
+def delete(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -617,11 +868,15 @@ def delete(id, params = None, options = None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request("DELETE", "/users/{id}".format(id=params['id']), params, options)
+    response, _options = Api.send_request(
+        "DELETE", "/users/{id}".format(id=params["id"]), params, options
+    )
     return response.data
 
-def destroy(id, params = None, options = None):
+
+def destroy(id, params=None, options=None):
     delete(id, params, options)
+
 
 def new(*args, **kwargs):
     return User(*args, **kwargs)

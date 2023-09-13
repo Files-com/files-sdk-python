@@ -1,14 +1,18 @@
-import builtins
-import datetime
-from files_sdk.api import Api
+import builtins  # noqa: F401
+from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
-from files_sdk.error import InvalidParameterError, MissingParameterError, NotImplementedError
+from files_sdk.error import (  # noqa: F401
+    InvalidParameterError,
+    MissingParameterError,
+    NotImplementedError,
+)
+
 
 class InboxUpload:
     default_attributes = {
-        'inbox_registration': None,     # InboxRegistration
-        'path': None,     # string - Upload path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-        'created_at': None,     # date-time - Upload date/time
+        "inbox_registration": None,  # InboxRegistration
+        "path": None,  # string - Upload path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "created_at": None,  # date-time - Upload date/time
     }
 
     def __init__(self, attributes=None, options=None):
@@ -20,11 +24,15 @@ class InboxUpload:
         self.options = options
 
     def set_attributes(self, attributes):
-        for (attribute, default_value) in InboxUpload.default_attributes.items():
+        for attribute, default_value in InboxUpload.default_attributes.items():
             setattr(self, attribute, attributes.get(attribute, default_value))
 
     def get_attributes(self):
-        return {k: getattr(self, k, None) for k in InboxUpload.default_attributes if getattr(self, k, None) is not None}
+        return {
+            k: getattr(self, k, None)
+            for k in InboxUpload.default_attributes
+            if getattr(self, k, None) is not None
+        }
 
 
 # Parameters:
@@ -38,7 +46,7 @@ class InboxUpload:
 #   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
 #   inbox_registration_id - int64 - InboxRegistration ID
 #   inbox_id - int64 - Inbox ID
-def list(params = None, options = None):
+def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -54,19 +62,29 @@ def list(params = None, options = None):
     if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
         raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
     if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gteq must be an dict")
+        raise InvalidParameterError(
+            "Bad parameter: filter_gteq must be an dict"
+        )
     if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
         raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
     if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
-    if "inbox_registration_id" in params and not isinstance(params["inbox_registration_id"], int):
-        raise InvalidParameterError("Bad parameter: inbox_registration_id must be an int")
+        raise InvalidParameterError(
+            "Bad parameter: filter_lteq must be an dict"
+        )
+    if "inbox_registration_id" in params and not isinstance(
+        params["inbox_registration_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: inbox_registration_id must be an int"
+        )
     if "inbox_id" in params and not isinstance(params["inbox_id"], int):
         raise InvalidParameterError("Bad parameter: inbox_id must be an int")
-    return ListObj(InboxUpload,"GET", "/inbox_uploads", params, options)
+    return ListObj(InboxUpload, "GET", "/inbox_uploads", params, options)
 
-def all(params = None, options = None):
+
+def all(params=None, options=None):
     list(params, options)
+
 
 def new(*args, **kwargs):
     return InboxUpload(*args, **kwargs)

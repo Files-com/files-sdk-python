@@ -1,15 +1,19 @@
-import builtins
-import datetime
-from files_sdk.api import Api
-from files_sdk.error import InvalidParameterError, MissingParameterError, NotImplementedError
+import builtins  # noqa: F401
+from files_sdk.api import Api  # noqa: F401
+from files_sdk.error import (  # noqa: F401
+    InvalidParameterError,
+    MissingParameterError,
+    NotImplementedError,
+)
+
 
 class Preview:
     default_attributes = {
-        'id': None,     # int64 - Preview ID
-        'status': None,     # string - Preview status.  Can be invalid, not_generated, generating, complete, or file_too_large
-        'download_uri': None,     # string - Link to download preview
-        'type': None,     # string - Preview type. Can be image, pdf, pdf_native, video, or audio
-        'size': None,     # string - Preview size
+        "id": None,  # int64 - Preview ID
+        "status": None,  # string - Preview status.  Can be invalid, not_generated, generating, complete, or file_too_large
+        "download_uri": None,  # string - Link to download preview
+        "type": None,  # string - Preview type. Can be image, pdf, pdf_native, video, or audio
+        "size": None,  # string - Preview size
     }
 
     def __init__(self, attributes=None, options=None):
@@ -21,11 +25,15 @@ class Preview:
         self.options = options
 
     def set_attributes(self, attributes):
-        for (attribute, default_value) in Preview.default_attributes.items():
+        for attribute, default_value in Preview.default_attributes.items():
             setattr(self, attribute, attributes.get(attribute, default_value))
 
     def get_attributes(self):
-        return {k: getattr(self, k, None) for k in Preview.default_attributes if getattr(self, k, None) is not None}
+        return {
+            k: getattr(self, k, None)
+            for k in Preview.default_attributes
+            if getattr(self, k, None) is not None
+        }
 
 
 def new(*args, **kwargs):

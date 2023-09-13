@@ -1,6 +1,7 @@
 from files_sdk.api import Api
 
-class ListObj():
+
+class ListObj:
     def __init__(self, klass, path, method, params, options):
         self.klass = klass
         self.path = path
@@ -15,7 +16,9 @@ class ListObj():
     def load_next_page(self):
         if self.cursor is not None:
             self.params["cursor"] = self.cursor
-        response, _options = Api.send_request(self.path, self.method, self.params, self.options)
+        response, _options = Api.send_request(
+            self.path, self.method, self.params, self.options
+        )
         self.data = [self.klass(d, self.options) for d in response.data]
         self.cursor = response.headers.get("X-Files-Cursor", None)
         return self

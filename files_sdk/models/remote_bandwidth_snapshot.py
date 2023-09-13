@@ -1,16 +1,20 @@
-import builtins
-import datetime
-from files_sdk.api import Api
+import builtins  # noqa: F401
+from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
-from files_sdk.error import InvalidParameterError, MissingParameterError, NotImplementedError
+from files_sdk.error import (  # noqa: F401
+    InvalidParameterError,
+    MissingParameterError,
+    NotImplementedError,
+)
+
 
 class RemoteBandwidthSnapshot:
     default_attributes = {
-        'id': None,     # int64 - Site bandwidth ID
-        'sync_bytes_received': None,     # double - Site sync bandwidth report bytes received
-        'sync_bytes_sent': None,     # double - Site sync bandwidth report bytes sent
-        'logged_at': None,     # date-time - Time the site bandwidth report was logged
-        'remote_server_id': None,     # int64 - ID of related Remote Server
+        "id": None,  # int64 - Site bandwidth ID
+        "sync_bytes_received": None,  # double - Site sync bandwidth report bytes received
+        "sync_bytes_sent": None,  # double - Site sync bandwidth report bytes sent
+        "logged_at": None,  # date-time - Time the site bandwidth report was logged
+        "remote_server_id": None,  # int64 - ID of related Remote Server
     }
 
     def __init__(self, attributes=None, options=None):
@@ -22,11 +26,18 @@ class RemoteBandwidthSnapshot:
         self.options = options
 
     def set_attributes(self, attributes):
-        for (attribute, default_value) in RemoteBandwidthSnapshot.default_attributes.items():
+        for (
+            attribute,
+            default_value,
+        ) in RemoteBandwidthSnapshot.default_attributes.items():
             setattr(self, attribute, attributes.get(attribute, default_value))
 
     def get_attributes(self):
-        return {k: getattr(self, k, None) for k in RemoteBandwidthSnapshot.default_attributes if getattr(self, k, None) is not None}
+        return {
+            k: getattr(self, k, None)
+            for k in RemoteBandwidthSnapshot.default_attributes
+            if getattr(self, k, None) is not None
+        }
 
 
 # Parameters:
@@ -38,7 +49,7 @@ class RemoteBandwidthSnapshot:
 #   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `logged_at`.
 #   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `logged_at`.
 #   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `logged_at`.
-def list(params = None, options = None):
+def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -54,15 +65,27 @@ def list(params = None, options = None):
     if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
         raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
     if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gteq must be an dict")
+        raise InvalidParameterError(
+            "Bad parameter: filter_gteq must be an dict"
+        )
     if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
         raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
     if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lteq must be an dict")
-    return ListObj(RemoteBandwidthSnapshot,"GET", "/remote_bandwidth_snapshots", params, options)
+        raise InvalidParameterError(
+            "Bad parameter: filter_lteq must be an dict"
+        )
+    return ListObj(
+        RemoteBandwidthSnapshot,
+        "GET",
+        "/remote_bandwidth_snapshots",
+        params,
+        options,
+    )
 
-def all(params = None, options = None):
+
+def all(params=None, options=None):
     list(params, options)
+
 
 def new(*args, **kwargs):
     return RemoteBandwidthSnapshot(*args, **kwargs)

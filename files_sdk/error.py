@@ -14,9 +14,7 @@ class Error(Exception):
             try:
                 http_body = http_body.decode("utf-8")
             except BaseException:
-                http_body = (
-                    "<Could not decode body as utf-8. "
-                )
+                http_body = "<Could not decode body as utf-8. "
 
         self._message = message
         self.http_body = http_body
@@ -30,32 +28,38 @@ class Error(Exception):
         msg = ""
         if self.http_status:
             msg += "HTTP {} ".format(self.http_status)
-        msg += self._message
+        if self._message:
+            msg += self._message
         return msg
+
 
 class APIConnectionError(Error):
     pass
 
+
 class APIError(Error):
     pass
+
 
 class AuthenticationError(Error):
     pass
 
+
 class InvalidRequestError(Error):
     pass
+
 
 class NotImplementedError(Error):
     pass
 
+
 class PermissionsError(Error):
     pass
+
 
 class RateLimitError(Error):
     pass
 
-class TooManyRequestsError(Error):
-    pass
 
 class ValidationError(Error):
     pass
@@ -63,6 +67,7 @@ class ValidationError(Error):
 
 class InvalidParameterError(InvalidRequestError):
     pass
+
 
 class MissingParameterError(InvalidRequestError):
     pass
@@ -78,7 +83,10 @@ class BadRequestError(APIError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class AgentUpgradeRequiredError(BadRequestError):
     def __init__(
@@ -90,7 +98,10 @@ class AgentUpgradeRequiredError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class AttachmentTooLargeError(BadRequestError):
     def __init__(
@@ -102,7 +113,10 @@ class AttachmentTooLargeError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class CannotDownloadDirectoryError(BadRequestError):
     def __init__(
@@ -114,7 +128,10 @@ class CannotDownloadDirectoryError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class CantMoveWithMultipleLocationsError(BadRequestError):
     def __init__(
@@ -126,7 +143,10 @@ class CantMoveWithMultipleLocationsError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class DatetimeParseError(BadRequestError):
     def __init__(
@@ -138,7 +158,10 @@ class DatetimeParseError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class DestinationSameError(BadRequestError):
     def __init__(
@@ -150,7 +173,10 @@ class DestinationSameError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FolderMustNotBeAFileError(BadRequestError):
     def __init__(
@@ -162,7 +188,10 @@ class FolderMustNotBeAFileError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidBodyError(BadRequestError):
     def __init__(
@@ -174,7 +203,10 @@ class InvalidBodyError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidCursorError(BadRequestError):
     def __init__(
@@ -186,7 +218,10 @@ class InvalidCursorError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidCursorTypeForSortError(BadRequestError):
     def __init__(
@@ -198,7 +233,10 @@ class InvalidCursorTypeForSortError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidEtagsError(BadRequestError):
     def __init__(
@@ -210,7 +248,10 @@ class InvalidEtagsError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidFilterAliasCombinationError(BadRequestError):
     def __init__(
@@ -222,7 +263,10 @@ class InvalidFilterAliasCombinationError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidFilterCombinationError(BadRequestError):
     def __init__(
@@ -234,7 +278,10 @@ class InvalidFilterCombinationError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidFilterFieldError(BadRequestError):
     def __init__(
@@ -246,7 +293,10 @@ class InvalidFilterFieldError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidFilterParamError(BadRequestError):
     def __init__(
@@ -258,7 +308,10 @@ class InvalidFilterParamError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidInputEncodingError(BadRequestError):
     def __init__(
@@ -270,7 +323,10 @@ class InvalidInputEncodingError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidInterfaceError(BadRequestError):
     def __init__(
@@ -282,7 +338,10 @@ class InvalidInterfaceError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidOauthProviderError(BadRequestError):
     def __init__(
@@ -294,7 +353,10 @@ class InvalidOauthProviderError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidPathError(BadRequestError):
     def __init__(
@@ -306,7 +368,10 @@ class InvalidPathError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidReturnToUrlError(BadRequestError):
     def __init__(
@@ -318,7 +383,10 @@ class InvalidReturnToUrlError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidUploadOffsetError(BadRequestError):
     def __init__(
@@ -330,7 +398,10 @@ class InvalidUploadOffsetError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidUploadPartGapError(BadRequestError):
     def __init__(
@@ -342,7 +413,10 @@ class InvalidUploadPartGapError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidUploadPartSizeError(BadRequestError):
     def __init__(
@@ -354,7 +428,10 @@ class InvalidUploadPartSizeError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class MethodNotAllowedError(BadRequestError):
     def __init__(
@@ -366,7 +443,10 @@ class MethodNotAllowedError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class NoValidInputParamsError(BadRequestError):
     def __init__(
@@ -378,7 +458,10 @@ class NoValidInputParamsError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class OperationOnNonScimResourceError(BadRequestError):
     def __init__(
@@ -390,7 +473,10 @@ class OperationOnNonScimResourceError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class PartNumberTooLargeError(BadRequestError):
     def __init__(
@@ -402,7 +488,10 @@ class PartNumberTooLargeError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ReauthenticationNeededFieldsError(BadRequestError):
     def __init__(
@@ -414,7 +503,10 @@ class ReauthenticationNeededFieldsError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class RequestParamPathCannotHaveTrailingWhitespaceError(BadRequestError):
     def __init__(
@@ -426,7 +518,10 @@ class RequestParamPathCannotHaveTrailingWhitespaceError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class RequestParamsContainInvalidCharacterError(BadRequestError):
     def __init__(
@@ -438,7 +533,10 @@ class RequestParamsContainInvalidCharacterError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class RequestParamsInvalidError(BadRequestError):
     def __init__(
@@ -450,7 +548,10 @@ class RequestParamsInvalidError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class RequestParamsRequiredError(BadRequestError):
     def __init__(
@@ -462,7 +563,10 @@ class RequestParamsRequiredError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class SearchAllOnChildPathError(BadRequestError):
     def __init__(
@@ -474,7 +578,10 @@ class SearchAllOnChildPathError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class UnsupportedCurrencyError(BadRequestError):
     def __init__(
@@ -486,7 +593,10 @@ class UnsupportedCurrencyError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class UnsupportedHttpResponseFormatError(BadRequestError):
     def __init__(
@@ -498,7 +608,10 @@ class UnsupportedHttpResponseFormatError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class UnsupportedMediaTypeError(BadRequestError):
     def __init__(
@@ -510,7 +623,10 @@ class UnsupportedMediaTypeError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class UserIdInvalidError(BadRequestError):
     def __init__(
@@ -522,7 +638,10 @@ class UserIdInvalidError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class UserIdOnUserEndpointError(BadRequestError):
     def __init__(
@@ -534,7 +653,10 @@ class UserIdOnUserEndpointError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class UserRequiredError(BadRequestError):
     def __init__(
@@ -546,7 +668,10 @@ class UserRequiredError(BadRequestError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class NotAuthenticatedError(APIError):
     def __init__(
@@ -558,7 +683,10 @@ class NotAuthenticatedError(APIError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class AuthenticationRequiredError(NotAuthenticatedError):
     def __init__(
@@ -570,7 +698,10 @@ class AuthenticationRequiredError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class BundleRegistrationCodeFailedError(NotAuthenticatedError):
     def __init__(
@@ -582,7 +713,10 @@ class BundleRegistrationCodeFailedError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FilesAgentTokenFailedError(NotAuthenticatedError):
     def __init__(
@@ -594,7 +728,10 @@ class FilesAgentTokenFailedError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InboxRegistrationCodeFailedError(NotAuthenticatedError):
     def __init__(
@@ -606,7 +743,10 @@ class InboxRegistrationCodeFailedError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidCredentialsError(NotAuthenticatedError):
     def __init__(
@@ -618,7 +758,10 @@ class InvalidCredentialsError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidOauthError(NotAuthenticatedError):
     def __init__(
@@ -630,7 +773,10 @@ class InvalidOauthError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidOrExpiredCodeError(NotAuthenticatedError):
     def __init__(
@@ -642,7 +788,10 @@ class InvalidOrExpiredCodeError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidUsernameOrPasswordError(NotAuthenticatedError):
     def __init__(
@@ -654,7 +803,10 @@ class InvalidUsernameOrPasswordError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class LockedOutError(NotAuthenticatedError):
     def __init__(
@@ -666,7 +818,10 @@ class LockedOutError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class LockoutRegionMismatchError(NotAuthenticatedError):
     def __init__(
@@ -678,7 +833,10 @@ class LockoutRegionMismatchError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class OneTimePasswordIncorrectError(NotAuthenticatedError):
     def __init__(
@@ -690,7 +848,10 @@ class OneTimePasswordIncorrectError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class TwoFactorAuthenticationErrorError(NotAuthenticatedError):
     def __init__(
@@ -702,7 +863,10 @@ class TwoFactorAuthenticationErrorError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class TwoFactorAuthenticationSetupExpiredError(NotAuthenticatedError):
     def __init__(
@@ -714,7 +878,10 @@ class TwoFactorAuthenticationSetupExpiredError(NotAuthenticatedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class NotAuthorizedError(APIError):
     def __init__(
@@ -726,7 +893,10 @@ class NotAuthorizedError(APIError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ApiKeyIsDisabledError(NotAuthorizedError):
     def __init__(
@@ -738,7 +908,10 @@ class ApiKeyIsDisabledError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ApiKeyIsPathRestrictedError(NotAuthorizedError):
     def __init__(
@@ -750,7 +923,10 @@ class ApiKeyIsPathRestrictedError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ApiKeyOnlyForDesktopAppError(NotAuthorizedError):
     def __init__(
@@ -762,7 +938,10 @@ class ApiKeyOnlyForDesktopAppError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ApiKeyOnlyForMobileAppError(NotAuthorizedError):
     def __init__(
@@ -774,7 +953,10 @@ class ApiKeyOnlyForMobileAppError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ApiKeyOnlyForOfficeIntegrationError(NotAuthorizedError):
     def __init__(
@@ -786,7 +968,10 @@ class ApiKeyOnlyForOfficeIntegrationError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class BillingPermissionRequiredError(NotAuthorizedError):
     def __init__(
@@ -798,7 +983,10 @@ class BillingPermissionRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class BundleMaximumUsesReachedError(NotAuthorizedError):
     def __init__(
@@ -810,7 +998,10 @@ class BundleMaximumUsesReachedError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class CannotLoginWhileUsingKeyError(NotAuthorizedError):
     def __init__(
@@ -822,7 +1013,10 @@ class CannotLoginWhileUsingKeyError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class CantActForOtherUserError(NotAuthorizedError):
     def __init__(
@@ -834,7 +1028,10 @@ class CantActForOtherUserError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ContactAdminForPasswordChangeHelpError(NotAuthorizedError):
     def __init__(
@@ -846,7 +1043,10 @@ class ContactAdminForPasswordChangeHelpError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FolderAdminOrBillingPermissionRequiredError(NotAuthorizedError):
     def __init__(
@@ -858,7 +1058,10 @@ class FolderAdminOrBillingPermissionRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FolderAdminPermissionRequiredError(NotAuthorizedError):
     def __init__(
@@ -870,7 +1073,10 @@ class FolderAdminPermissionRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FullPermissionRequiredError(NotAuthorizedError):
     def __init__(
@@ -882,7 +1088,10 @@ class FullPermissionRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class HistoryPermissionRequiredError(NotAuthorizedError):
     def __init__(
@@ -894,7 +1103,10 @@ class HistoryPermissionRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InsufficientPermissionForParamsError(NotAuthorizedError):
     def __init__(
@@ -906,7 +1118,10 @@ class InsufficientPermissionForParamsError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class MustAuthenticateWithApiKeyError(NotAuthorizedError):
     def __init__(
@@ -918,7 +1133,10 @@ class MustAuthenticateWithApiKeyError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class NeedAdminPermissionForInboxError(NotAuthorizedError):
     def __init__(
@@ -930,7 +1148,10 @@ class NeedAdminPermissionForInboxError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class NonAdminsMustQueryByFolderOrPathError(NotAuthorizedError):
     def __init__(
@@ -942,7 +1163,10 @@ class NonAdminsMustQueryByFolderOrPathError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class NotAllowedToCreateBundleError(NotAuthorizedError):
     def __init__(
@@ -954,7 +1178,10 @@ class NotAllowedToCreateBundleError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class PasswordChangeNotRequiredError(NotAuthorizedError):
     def __init__(
@@ -966,7 +1193,10 @@ class PasswordChangeNotRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class PasswordChangeRequiredError(NotAuthorizedError):
     def __init__(
@@ -978,7 +1208,10 @@ class PasswordChangeRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ReadOnlySessionError(NotAuthorizedError):
     def __init__(
@@ -990,7 +1223,10 @@ class ReadOnlySessionError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ReadPermissionRequiredError(NotAuthorizedError):
     def __init__(
@@ -1002,7 +1238,10 @@ class ReadPermissionRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ReauthenticationFailedError(NotAuthorizedError):
     def __init__(
@@ -1014,7 +1253,10 @@ class ReauthenticationFailedError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ReauthenticationFailedFinalError(NotAuthorizedError):
     def __init__(
@@ -1026,7 +1268,10 @@ class ReauthenticationFailedFinalError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ReauthenticationNeededActionError(NotAuthorizedError):
     def __init__(
@@ -1038,7 +1283,10 @@ class ReauthenticationNeededActionError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class SelfManagedRequiredError(NotAuthorizedError):
     def __init__(
@@ -1050,7 +1298,10 @@ class SelfManagedRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class SiteAdminRequiredError(NotAuthorizedError):
     def __init__(
@@ -1062,7 +1313,10 @@ class SiteAdminRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class SiteFilesAreImmutableError(NotAuthorizedError):
     def __init__(
@@ -1074,7 +1328,10 @@ class SiteFilesAreImmutableError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class TwoFactorAuthenticationRequiredError(NotAuthorizedError):
     def __init__(
@@ -1086,7 +1343,10 @@ class TwoFactorAuthenticationRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class UserIdWithoutSiteAdminError(NotAuthorizedError):
     def __init__(
@@ -1098,7 +1358,10 @@ class UserIdWithoutSiteAdminError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class WriteAndBundlePermissionRequiredError(NotAuthorizedError):
     def __init__(
@@ -1110,7 +1373,10 @@ class WriteAndBundlePermissionRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class WritePermissionRequiredError(NotAuthorizedError):
     def __init__(
@@ -1122,7 +1388,10 @@ class WritePermissionRequiredError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ZipDownloadIpMismatchError(NotAuthorizedError):
     def __init__(
@@ -1134,7 +1403,10 @@ class ZipDownloadIpMismatchError(NotAuthorizedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class NotFoundError(APIError):
     def __init__(
@@ -1146,7 +1418,10 @@ class NotFoundError(APIError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ApiKeyNotFoundError(NotFoundError):
     def __init__(
@@ -1158,7 +1433,10 @@ class ApiKeyNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class BundlePathNotFoundError(NotFoundError):
     def __init__(
@@ -1170,7 +1448,10 @@ class BundlePathNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class BundleRegistrationNotFoundError(NotFoundError):
     def __init__(
@@ -1182,7 +1463,10 @@ class BundleRegistrationNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class CodeNotFoundError(NotFoundError):
     def __init__(
@@ -1194,7 +1478,10 @@ class CodeNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FileNotFoundError(NotFoundError):
     def __init__(
@@ -1206,7 +1493,10 @@ class FileNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FileUploadNotFoundError(NotFoundError):
     def __init__(
@@ -1218,7 +1508,10 @@ class FileUploadNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FolderNotFoundError(NotFoundError):
     def __init__(
@@ -1230,7 +1523,10 @@ class FolderNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class GroupNotFoundError(NotFoundError):
     def __init__(
@@ -1242,7 +1538,10 @@ class GroupNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InboxNotFoundError(NotFoundError):
     def __init__(
@@ -1254,7 +1553,10 @@ class InboxNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class NestedNotFoundError(NotFoundError):
     def __init__(
@@ -1266,7 +1568,10 @@ class NestedNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class PlanNotFoundError(NotFoundError):
     def __init__(
@@ -1278,7 +1583,10 @@ class PlanNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class SiteNotFoundError(NotFoundError):
     def __init__(
@@ -1290,7 +1598,10 @@ class SiteNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class UserNotFoundError(NotFoundError):
     def __init__(
@@ -1302,7 +1613,10 @@ class UserNotFoundError(NotFoundError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ProcessingFailureError(APIError):
     def __init__(
@@ -1314,7 +1628,10 @@ class ProcessingFailureError(APIError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class AutomationCannotBeRunManuallyError(ProcessingFailureError):
     def __init__(
@@ -1326,7 +1643,10 @@ class AutomationCannotBeRunManuallyError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class BundleOnlyAllowsPreviewsError(ProcessingFailureError):
     def __init__(
@@ -1338,7 +1658,10 @@ class BundleOnlyAllowsPreviewsError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class BundleOperationRequiresSubfolderError(ProcessingFailureError):
     def __init__(
@@ -1350,7 +1673,10 @@ class BundleOperationRequiresSubfolderError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class CouldNotCreateParentError(ProcessingFailureError):
     def __init__(
@@ -1362,7 +1688,10 @@ class CouldNotCreateParentError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class DestinationExistsError(ProcessingFailureError):
     def __init__(
@@ -1374,7 +1703,10 @@ class DestinationExistsError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class DestinationFolderLimitedError(ProcessingFailureError):
     def __init__(
@@ -1386,7 +1718,10 @@ class DestinationFolderLimitedError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class DestinationParentConflictError(ProcessingFailureError):
     def __init__(
@@ -1398,7 +1733,10 @@ class DestinationParentConflictError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class DestinationParentDoesNotExistError(ProcessingFailureError):
     def __init__(
@@ -1410,7 +1748,10 @@ class DestinationParentDoesNotExistError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ExpiredPrivateKeyError(ProcessingFailureError):
     def __init__(
@@ -1422,7 +1763,10 @@ class ExpiredPrivateKeyError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ExpiredPublicKeyError(ProcessingFailureError):
     def __init__(
@@ -1434,7 +1778,10 @@ class ExpiredPublicKeyError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ExportFailureError(ProcessingFailureError):
     def __init__(
@@ -1446,7 +1793,10 @@ class ExportFailureError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ExportNotReadyError(ProcessingFailureError):
     def __init__(
@@ -1458,7 +1808,10 @@ class ExportNotReadyError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FailedToChangePasswordError(ProcessingFailureError):
     def __init__(
@@ -1470,7 +1823,10 @@ class FailedToChangePasswordError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FileLockedError(ProcessingFailureError):
     def __init__(
@@ -1482,7 +1838,10 @@ class FileLockedError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FileNotUploadedError(ProcessingFailureError):
     def __init__(
@@ -1494,7 +1853,10 @@ class FileNotUploadedError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FilePendingProcessingError(ProcessingFailureError):
     def __init__(
@@ -1506,7 +1868,10 @@ class FilePendingProcessingError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FileTooBigToDecryptError(ProcessingFailureError):
     def __init__(
@@ -1518,7 +1883,10 @@ class FileTooBigToDecryptError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FileTooBigToEncryptError(ProcessingFailureError):
     def __init__(
@@ -1530,7 +1898,10 @@ class FileTooBigToEncryptError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FileUploadedToWrongRegionError(ProcessingFailureError):
     def __init__(
@@ -1542,7 +1913,10 @@ class FileUploadedToWrongRegionError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FolderLockedError(ProcessingFailureError):
     def __init__(
@@ -1554,7 +1928,10 @@ class FolderLockedError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class FolderNotEmptyError(ProcessingFailureError):
     def __init__(
@@ -1566,7 +1943,10 @@ class FolderNotEmptyError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class HistoryUnavailableError(ProcessingFailureError):
     def __init__(
@@ -1578,7 +1958,10 @@ class HistoryUnavailableError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidBundleCodeError(ProcessingFailureError):
     def __init__(
@@ -1590,7 +1973,10 @@ class InvalidBundleCodeError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidFileTypeError(ProcessingFailureError):
     def __init__(
@@ -1602,7 +1988,10 @@ class InvalidFileTypeError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidFilenameError(ProcessingFailureError):
     def __init__(
@@ -1614,7 +2003,10 @@ class InvalidFilenameError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class InvalidRangeError(ProcessingFailureError):
     def __init__(
@@ -1626,7 +2018,10 @@ class InvalidRangeError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ModelSaveErrorError(ProcessingFailureError):
     def __init__(
@@ -1638,7 +2033,10 @@ class ModelSaveErrorError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class MultipleProcessingErrorsError(ProcessingFailureError):
     def __init__(
@@ -1650,7 +2048,10 @@ class MultipleProcessingErrorsError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class PathTooLongError(ProcessingFailureError):
     def __init__(
@@ -1662,7 +2063,10 @@ class PathTooLongError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class RecipientAlreadySharedError(ProcessingFailureError):
     def __init__(
@@ -1674,7 +2078,10 @@ class RecipientAlreadySharedError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class RemoteServerErrorError(ProcessingFailureError):
     def __init__(
@@ -1686,7 +2093,10 @@ class RemoteServerErrorError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ResourceLockedError(ProcessingFailureError):
     def __init__(
@@ -1698,7 +2108,10 @@ class ResourceLockedError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class SubfolderLockedError(ProcessingFailureError):
     def __init__(
@@ -1710,7 +2123,10 @@ class SubfolderLockedError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class TwoFactorAuthenticationCodeAlreadySentError(ProcessingFailureError):
     def __init__(
@@ -1722,7 +2138,10 @@ class TwoFactorAuthenticationCodeAlreadySentError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class UpdatesNotAllowedForRemotesError(ProcessingFailureError):
     def __init__(
@@ -1734,7 +2153,10 @@ class UpdatesNotAllowedForRemotesError(ProcessingFailureError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class RateLimitedError(APIError):
     def __init__(
@@ -1746,7 +2168,10 @@ class RateLimitedError(APIError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class DuplicateShareRecipientError(RateLimitedError):
     def __init__(
@@ -1758,7 +2183,10 @@ class DuplicateShareRecipientError(RateLimitedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ReauthenticationRateLimitedError(RateLimitedError):
     def __init__(
@@ -1770,7 +2198,10 @@ class ReauthenticationRateLimitedError(RateLimitedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class TooManyConcurrentRequestsError(RateLimitedError):
     def __init__(
@@ -1782,7 +2213,10 @@ class TooManyConcurrentRequestsError(RateLimitedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class TooManyLoginAttemptsError(RateLimitedError):
     def __init__(
@@ -1794,7 +2228,10 @@ class TooManyLoginAttemptsError(RateLimitedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class TooManyRequestsError(RateLimitedError):
     def __init__(
@@ -1806,7 +2243,10 @@ class TooManyRequestsError(RateLimitedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class TooManySharesError(RateLimitedError):
     def __init__(
@@ -1818,7 +2258,10 @@ class TooManySharesError(RateLimitedError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class ServiceUnavailableError(APIError):
     def __init__(
@@ -1830,7 +2273,10 @@ class ServiceUnavailableError(APIError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class AutomationsUnavailableError(ServiceUnavailableError):
     def __init__(
@@ -1842,7 +2288,10 @@ class AutomationsUnavailableError(ServiceUnavailableError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class UploadsUnavailableError(ServiceUnavailableError):
     def __init__(
@@ -1854,7 +2303,10 @@ class UploadsUnavailableError(ServiceUnavailableError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class SiteConfigurationError(APIError):
     def __init__(
@@ -1866,7 +2318,10 @@ class SiteConfigurationError(APIError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class AccountAlreadyExistsError(SiteConfigurationError):
     def __init__(
@@ -1878,7 +2333,10 @@ class AccountAlreadyExistsError(SiteConfigurationError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class AccountOverdueError(SiteConfigurationError):
     def __init__(
@@ -1890,7 +2348,10 @@ class AccountOverdueError(SiteConfigurationError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class NoAccountForSiteError(SiteConfigurationError):
     def __init__(
@@ -1902,7 +2363,10 @@ class NoAccountForSiteError(SiteConfigurationError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class SiteWasRemovedError(SiteConfigurationError):
     def __init__(
@@ -1914,7 +2378,10 @@ class SiteWasRemovedError(SiteConfigurationError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class TrialExpiredError(SiteConfigurationError):
     def __init__(
@@ -1926,7 +2393,10 @@ class TrialExpiredError(SiteConfigurationError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class TrialLockedError(SiteConfigurationError):
     def __init__(
@@ -1938,7 +2408,10 @@ class TrialLockedError(SiteConfigurationError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
 
 class UserRequestsEnabledRequiredError(SiteConfigurationError):
     def __init__(
@@ -1950,4 +2423,6 @@ class UserRequestsEnabledRequiredError(SiteConfigurationError):
         headers=None,
         code=None,
     ):
-        super().__init__(message, http_body, http_status, json_body, headers, code)
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )

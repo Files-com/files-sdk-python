@@ -1,25 +1,29 @@
-import builtins
-import datetime
-from files_sdk.api import Api
-from files_sdk.error import InvalidParameterError, MissingParameterError, NotImplementedError
+import builtins  # noqa: F401
+from files_sdk.api import Api  # noqa: F401
+from files_sdk.error import (  # noqa: F401
+    InvalidParameterError,
+    MissingParameterError,
+    NotImplementedError,
+)
+
 
 class WebhookTest:
     default_attributes = {
-        'code': None,     # int64 - Status HTTP code
-        'message': None,     # string - Error message
-        'status': None,     # string - Status message
-        'data': None,     # Auto - Additional data
-        'success': None,     # boolean - The success status of the webhook test
-        'url': None,     # string - URL for testing the webhook.
-        'method': None,     # string - HTTP method(GET or POST).
-        'encoding': None,     # string - HTTP encoding method.  Can be JSON, XML, or RAW (form data).
-        'headers': None,     # object - Additional request headers.
-        'body': None,     # object - Additional body parameters.
-        'raw_body': None,     # string - raw body text
-        'file_as_body': None,     # boolean - Send the file data as the request body?
-        'file_form_field': None,     # string - Send the file data as a named parameter in the request POST body
-        'action': None,     # string - action for test body
-        'use_dedicated_ips': None,     # boolean - Use dedicated IPs for sending the webhook?
+        "code": None,  # int64 - Status HTTP code
+        "message": None,  # string - Error message
+        "status": None,  # string - Status message
+        "data": None,  # Auto - Additional data
+        "success": None,  # boolean - The success status of the webhook test
+        "url": None,  # string - URL for testing the webhook.
+        "method": None,  # string - HTTP method(GET or POST).
+        "encoding": None,  # string - HTTP encoding method.  Can be JSON, XML, or RAW (form data).
+        "headers": None,  # object - Additional request headers.
+        "body": None,  # object - Additional body parameters.
+        "raw_body": None,  # string - raw body text
+        "file_as_body": None,  # boolean - Send the file data as the request body?
+        "file_form_field": None,  # string - Send the file data as a named parameter in the request POST body
+        "action": None,  # string - action for test body
+        "use_dedicated_ips": None,  # boolean - Use dedicated IPs for sending the webhook?
     }
 
     def __init__(self, attributes=None, options=None):
@@ -31,18 +35,25 @@ class WebhookTest:
         self.options = options
 
     def set_attributes(self, attributes):
-        for (attribute, default_value) in WebhookTest.default_attributes.items():
+        for attribute, default_value in WebhookTest.default_attributes.items():
             setattr(self, attribute, attributes.get(attribute, default_value))
 
     def get_attributes(self):
-        return {k: getattr(self, k, None) for k in WebhookTest.default_attributes if getattr(self, k, None) is not None}
+        return {
+            k: getattr(self, k, None)
+            for k in WebhookTest.default_attributes
+            if getattr(self, k, None) is not None
+        }
 
     def save(self):
         if hasattr(self, "id") and self.id:
-            raise NotImplementedError("The WebhookTest object doesn't support updates.")
+            raise NotImplementedError(
+                "The WebhookTest object doesn't support updates."
+            )
         else:
             new_obj = create(self.get_attributes(), self.options)
             self.set_attributes(new_obj.get_attributes())
+
 
 # Parameters:
 #   url (required) - string - URL for testing the webhook.
@@ -55,7 +66,7 @@ class WebhookTest:
 #   file_form_field - string - Send the file data as a named parameter in the request POST body
 #   action - string - action for test body
 #   use_dedicated_ips - boolean - Use dedicated IPs for sending the webhook?
-def create(params = None, options = None):
+def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -72,14 +83,21 @@ def create(params = None, options = None):
         raise InvalidParameterError("Bad parameter: body must be an dict")
     if "raw_body" in params and not isinstance(params["raw_body"], str):
         raise InvalidParameterError("Bad parameter: raw_body must be an str")
-    if "file_form_field" in params and not isinstance(params["file_form_field"], str):
-        raise InvalidParameterError("Bad parameter: file_form_field must be an str")
+    if "file_form_field" in params and not isinstance(
+        params["file_form_field"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: file_form_field must be an str"
+        )
     if "action" in params and not isinstance(params["action"], str):
         raise InvalidParameterError("Bad parameter: action must be an str")
     if "url" not in params:
         raise MissingParameterError("Parameter missing: url")
-    response, options = Api.send_request("POST", "/webhook_tests", params, options)
+    response, options = Api.send_request(
+        "POST", "/webhook_tests", params, options
+    )
     return WebhookTest(response.data, options)
+
 
 def new(*args, **kwargs):
     return WebhookTest(*args, **kwargs)
