@@ -84,6 +84,7 @@
   "ldap_username_field": "sAMAccountName",
   "login_help_text": "Login page help text.",
   "logo": null,
+  "login_page_background_image": null,
   "max_prior_passwords": 1,
   "motd_text": "example",
   "motd_use_for_ftp": True,
@@ -300,6 +301,7 @@
 * `ldap_username_field` (string): LDAP username field
 * `login_help_text` (string): Login help text
 * `logo` (Image): Branded logo
+* `login_page_background_image` (Image): Branded login page background
 * `max_prior_passwords` (int64): Number of prior passwords to disallow
 * `motd_text` (string): A message to show users when they connect via FTP or SFTP.
 * `motd_use_for_ftp` (boolean): Show message to users connecting via FTP
@@ -519,6 +521,7 @@ files_sdk.site.update({
   "icon128_delete": True,
   "logo_delete": True,
   "bundle_watermark_attachment_delete": True,
+  "login_page_background_image_delete": True,
   "disable_2fa_with_delay": True,
   "session_expiry_minutes": 1
 })
@@ -658,6 +661,8 @@ files_sdk.site.update({
 * `logo_delete` (boolean): If true, will delete the file stored in logo
 * `bundle_watermark_attachment_file` (file): 
 * `bundle_watermark_attachment_delete` (boolean): If true, will delete the file stored in bundle_watermark_attachment
+* `login_page_background_image_file` (file): 
+* `login_page_background_image_delete` (boolean): If true, will delete the file stored in login_page_background_image
 * `disable_2fa_with_delay` (boolean): If set to true, we will begin the process of disabling 2FA on this site.
 * `ldap_password_change` (string): New LDAP password.
 * `ldap_password_change_confirmation` (string): Confirm new LDAP password.
