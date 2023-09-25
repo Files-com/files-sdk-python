@@ -18,6 +18,7 @@
   "ask_about_overwrites": True,
   "bundle_activity_notifications": "never",
   "bundle_expiration": 1,
+  "bundle_not_found_message": "example",
   "bundle_password_required": True,
   "bundle_registration_notifications": "never",
   "bundle_require_registration": True,
@@ -237,6 +238,7 @@
 * `ask_about_overwrites` (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `bundle_activity_notifications` (string): Do Bundle owners receive activity notifications?
 * `bundle_expiration` (int64): Site-wide Bundle expiration in days
+* `bundle_not_found_message` (string): Custom error message to show when bundle is not found.
 * `bundle_password_required` (boolean): Do Bundles require password protection?
 * `bundle_registration_notifications` (string): Do Bundle owners receive registration notification?
 * `bundle_require_registration` (boolean): Do Bundles require registration?
@@ -454,6 +456,7 @@ files_sdk.site.update({
   "disable_password_reset": True,
   "immutable_files": True,
   "session_pinned_by_ip": True,
+  "bundle_not_found_message": "example",
   "bundle_password_required": True,
   "bundle_require_registration": True,
   "bundle_require_share_recipient": True,
@@ -588,6 +591,7 @@ files_sdk.site.update({
 * `disable_password_reset` (boolean): Is password reset disabled?
 * `immutable_files` (boolean): Are files protected from modification?
 * `session_pinned_by_ip` (boolean): Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
+* `bundle_not_found_message` (string): Custom error message to show when bundle is not found.
 * `bundle_password_required` (boolean): Do Bundles require password protection?
 * `bundle_require_registration` (boolean): Do Bundles require registration?
 * `bundle_require_share_recipient` (boolean): Do Bundles require recipients for sharing?

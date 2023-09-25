@@ -24,6 +24,7 @@ class Site:
         "ask_about_overwrites": None,  # boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
         "bundle_activity_notifications": None,  # string - Do Bundle owners receive activity notifications?
         "bundle_expiration": None,  # int64 - Site-wide Bundle expiration in days
+        "bundle_not_found_message": None,  # string - Custom error message to show when bundle is not found.
         "bundle_password_required": None,  # boolean - Do Bundles require password protection?
         "bundle_registration_notifications": None,  # string - Do Bundle owners receive registration notification?
         "bundle_require_registration": None,  # boolean - Do Bundles require registration?
@@ -256,6 +257,7 @@ def get_usage(params=None, options=None):
 #   disable_password_reset - boolean - Is password reset disabled?
 #   immutable_files - boolean - Are files protected from modification?
 #   session_pinned_by_ip - boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
+#   bundle_not_found_message - string - Custom error message to show when bundle is not found.
 #   bundle_password_required - boolean - Do Bundles require password protection?
 #   bundle_require_registration - boolean - Do Bundles require registration?
 #   bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
@@ -482,6 +484,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: password_min_length must be an int"
+        )
+    if "bundle_not_found_message" in params and not isinstance(
+        params["bundle_not_found_message"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_not_found_message must be an str"
         )
     if "bundle_registration_notifications" in params and not isinstance(
         params["bundle_registration_notifications"], str
