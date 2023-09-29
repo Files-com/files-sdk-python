@@ -140,7 +140,7 @@ If the parent directories do not already exist, they can be automatically create
 
 #### Writing a file example (string)
 
-    with files_sdk.file.open("foo.txt", 'wb') as f:
+    with files_sdk.file.open("foo.txt", 'w') as f:
         f.write("contents")
 
 
