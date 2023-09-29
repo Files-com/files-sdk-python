@@ -5,32 +5,32 @@ Collecting black~=23.9.0
   Downloading black-23.9.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.6 MB)
 Collecting pyright~=1.1.326
   Downloading pyright-1.1.329-py3-none-any.whl (17 kB)
-Collecting pathspec>=0.9.0
-  Downloading pathspec-0.11.2-py3-none-any.whl (29 kB)
-Collecting typing-extensions>=4.0.1
-  Downloading typing_extensions-4.8.0-py3-none-any.whl (31 kB)
 Collecting click>=8.0.0
   Downloading click-8.1.7-py3-none-any.whl (97 kB)
+Collecting mypy-extensions>=0.4.3
+  Downloading mypy_extensions-1.0.0-py3-none-any.whl (4.7 kB)
 Collecting platformdirs>=2
   Downloading platformdirs-3.10.0-py3-none-any.whl (17 kB)
 Collecting tomli>=1.1.0
   Downloading tomli-2.0.1-py3-none-any.whl (12 kB)
 Collecting packaging>=22.0
   Downloading packaging-23.1-py3-none-any.whl (48 kB)
-Collecting mypy-extensions>=0.4.3
-  Downloading mypy_extensions-1.0.0-py3-none-any.whl (4.7 kB)
-Collecting pycodestyle<2.12.0,>=2.11.0
-  Downloading pycodestyle-2.11.0-py2.py3-none-any.whl (31 kB)
+Collecting pathspec>=0.9.0
+  Downloading pathspec-0.11.2-py3-none-any.whl (29 kB)
+Collecting typing-extensions>=4.0.1
+  Downloading typing_extensions-4.8.0-py3-none-any.whl (31 kB)
 Collecting mccabe<0.8.0,>=0.7.0
   Downloading mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+Collecting pycodestyle<2.12.0,>=2.11.0
+  Downloading pycodestyle-2.11.0-py2.py3-none-any.whl (31 kB)
 Collecting pyflakes<3.2.0,>=3.1.0
   Downloading pyflakes-3.1.0-py2.py3-none-any.whl (62 kB)
 Collecting nodeenv>=1.6.0
   Downloading nodeenv-1.8.0-py2.py3-none-any.whl (22 kB)
 Requirement already satisfied: setuptools in /usr/lib/python3/dist-packages (from nodeenv>=1.6.0->pyright~=1.1.326) (52.0.0)
-Requirement already satisfied: idna<2.8,>=2.5 in /usr/local/lib/python3.9/dist-packages (from requests) (2.7)
 Requirement already satisfied: chardet<3.1.0,>=3.0.2 in /usr/local/lib/python3.9/dist-packages (from requests) (3.0.4)
-Requirement already satisfied: urllib3<1.25,>=1.21.1 in /usr/local/lib/python3.9/dist-packages (from requests) (1.24.3)
 Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.9/dist-packages (from requests) (2023.7.22)
+Requirement already satisfied: idna<2.8,>=2.5 in /usr/local/lib/python3.9/dist-packages (from requests) (2.7)
+Requirement already satisfied: urllib3<1.25,>=1.21.1 in /usr/local/lib/python3.9/dist-packages (from requests) (1.24.3)
 Installing collected packages: typing-extensions, tomli, pyflakes, pycodestyle, platformdirs, pathspec, packaging, nodeenv, mypy-extensions, mccabe, click, pyright, flake8, black
 Successfully installed black-23.9.1 click-8.1.7 flake8-6.1.0 mccabe-0.7.0 mypy-extensions-1.0.0 nodeenv-1.8.0 packaging-23.1 pathspec-0.11.2 platformdirs-3.10.0 pycodestyle-2.11.0 pyflakes-3.1.0 pyright-1.1.329 tomli-2.0.1 typing-extensions-4.8.0
