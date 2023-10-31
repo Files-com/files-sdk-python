@@ -26,6 +26,8 @@ class Site:
         "bundle_expiration": None,  # int64 - Site-wide Bundle expiration in days
         "bundle_not_found_message": None,  # string - Custom error message to show when bundle is not found.
         "bundle_password_required": None,  # boolean - Do Bundles require password protection?
+        "bundle_recipient_blacklist_domains": None,  # array - List of email domains to disallow when entering a Bundle/Inbox recipients
+        "bundle_recipient_blacklist_free_email_domains": None,  # boolean - Disallow free email domains for Bundle/Inbox recipients?
         "bundle_registration_notifications": None,  # string - Do Bundle owners receive registration notification?
         "bundle_require_registration": None,  # boolean - Do Bundles require registration?
         "bundle_require_share_recipient": None,  # boolean - Do Bundles require recipients for sharing?
@@ -281,6 +283,8 @@ def get_usage(params=None, options=None):
 #   active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
 #   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 #   group_admins_can_set_user_password - boolean - Allow group admins set password authentication method
+#   bundle_recipient_blacklist_free_email_domains - boolean - Disallow free email domains for Bundle/Inbox recipients?
+#   bundle_recipient_blacklist_domains - array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
 #   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
 #   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
 #   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
@@ -535,6 +539,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: bundle_watermark_value must be an dict"
+        )
+    if "bundle_recipient_blacklist_domains" in params and not isinstance(
+        params["bundle_recipient_blacklist_domains"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_recipient_blacklist_domains must be an list"
         )
     if "require_2fa_user_type" in params and not isinstance(
         params["require_2fa_user_type"], str
