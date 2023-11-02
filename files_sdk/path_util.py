@@ -8,23 +8,23 @@ TRANSLIT_MAP = {
 }
 
 
+def _cleanpath(path_element: str) -> bool:
+    return path_element not in ["", ".", ".."]
+
+
 def is_same(a: str, b: str) -> bool:
     return normalize_for_comparison(a) == normalize_for_comparison(b)
 
 
 def normalize_for_comparison(path_str: str) -> str:
     return (
-        _unicode_normalize_and_transliterate(_normalize(path_str))
+        unicode_normalize_and_transliterate(normalize(path_str))
         .lower()
         .rstrip()
     )
 
 
-def _cleanpath(path_element):
-    return path_element not in ["", ".", ".."]
-
-
-def _normalize(path_str):
+def normalize(path_str: str) -> str:
     return "/".join(
         filter(
             _cleanpath,
@@ -33,7 +33,7 @@ def _normalize(path_str):
     )
 
 
-def _unicode_normalize_and_transliterate(path_str):
+def unicode_normalize_and_transliterate(path_str: str) -> str:
     # convert multi-code-point characters into single-code-point characters
     normalized_string = unicodedata.normalize("NFKC", path_str)
 
