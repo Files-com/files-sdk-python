@@ -60,19 +60,19 @@ files_sdk.group.find(id)
 
 ```
 files_sdk.group.create({
-  "name": "owners",
   "notes": "example",
   "user_ids": "1",
-  "admin_ids": "1"
+  "admin_ids": "1",
+  "name": "name"
 })
 ```
 
 ### Parameters
 
-* `name` (string): Group name.
 * `notes` (string): Group notes.
 * `user_ids` (string): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (string): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `name` (string): Required - Group name.
 
 
 ---
@@ -81,20 +81,20 @@ files_sdk.group.create({
 
 ```
 files_sdk.group.update(id, {
-  "name": "owners",
   "notes": "example",
   "user_ids": "1",
-  "admin_ids": "1"
+  "admin_ids": "1",
+  "name": "owners"
 })
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Group ID.
-* `name` (string): Group name.
 * `notes` (string): Group notes.
 * `user_ids` (string): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (string): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `name` (string): Group name.
 
 
 ---
@@ -117,20 +117,20 @@ files_sdk.group.delete(id)
 ```
 group = files_sdk.group.list.first
 group.update({
-  "name": "owners",
   "notes": "example",
   "user_ids": "1",
-  "admin_ids": "1"
+  "admin_ids": "1",
+  "name": "owners"
 })
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Group ID.
-* `name` (string): Group name.
 * `notes` (string): Group notes.
 * `user_ids` (string): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (string): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `name` (string): Group name.
 
 
 ---

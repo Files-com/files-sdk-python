@@ -67,7 +67,10 @@ class UserTest(TestBase):
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users"), "Mock path does not exist")
     def test_create(self):
-        resp = user.create()
+        params = {
+            "username" : "foo",
+        }
+        user.create(params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/unlock"), "Mock path does not exist")
     def test_unlock(self):

@@ -279,7 +279,7 @@ files_sdk.user.create({
 * `require_2fa` (string): 2FA required setting
 * `time_zone` (string): User time zone
 * `user_root` (string): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
-* `username` (string): User's username
+* `username` (string): Required - User's username
 
 
 ---

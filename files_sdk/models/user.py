@@ -517,7 +517,7 @@ def get(id, params=None, options=None):
 #   require_2fa - string - 2FA required setting
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
-#   username - string - User's username
+#   username (required) - string - User's username
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -629,6 +629,8 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_root must be an str")
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
+    if "username" not in params:
+        raise MissingParameterError("Parameter missing: username")
     response, options = Api.send_request("POST", "/users", params, options)
     return User(response.data, options)
 

@@ -43,7 +43,10 @@ class GroupTest(TestBase):
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/groups"), "Mock path does not exist")
     def test_create(self):
-        resp = group.create()
+        params = {
+            "name" : "foo",
+        }
+        group.create(params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/groups/{id}"), "Mock path does not exist")
     def test_update(self):

@@ -38,10 +38,10 @@ class Group:
         }
 
     # Parameters:
-    #   name - string - Group name.
     #   notes - string - Group notes.
     #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
     #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+    #   name - string - Group name.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -54,8 +54,6 @@ class Group:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "name" in params and not isinstance(params["name"], str):
-            raise InvalidParameterError("Bad parameter: name must be an str")
         if "notes" in params and not isinstance(params["notes"], str):
             raise InvalidParameterError("Bad parameter: notes must be an str")
         if "user_ids" in params and not isinstance(params["user_ids"], str):
@@ -66,6 +64,8 @@ class Group:
             raise InvalidParameterError(
                 "Bad parameter: admin_ids must be an str"
             )
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
         response, _options = Api.send_request(
             "PATCH",
             "/groups/{id}".format(id=params["id"]),
@@ -163,32 +163,34 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
-#   name - string - Group name.
 #   notes - string - Group notes.
 #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
 #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+#   name (required) - string - Group name.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
     if "user_ids" in params and not isinstance(params["user_ids"], str):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
+    if "name" not in params:
+        raise MissingParameterError("Parameter missing: name")
     response, options = Api.send_request("POST", "/groups", params, options)
     return Group(response.data, options)
 
 
 # Parameters:
-#   name - string - Group name.
 #   notes - string - Group notes.
 #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
 #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+#   name - string - Group name.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -197,14 +199,14 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
     if "user_ids" in params and not isinstance(params["user_ids"], str):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
