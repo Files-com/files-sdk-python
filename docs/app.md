@@ -4,45 +4,53 @@
 
 ```
 {
-  "name": "example",
-  "extended_description": "example",
-  "short_description": "example",
+  "app_type": "example",
   "documentation_links": {
     "Important Info": "http://files.test/learn-more"
   },
+  "extended_description": "example",
+  "extended_description_for_marketing_site": "example",
+  "external_homepage_url": "example",
+  "featured": True,
+  "folder_behavior_type": "example",
   "icon_url": "example",
+  "logo_thumbnail_url": "example",
   "logo_url": "example",
+  "marketing_intro": "example",
+  "marketing_youtube_url": "example",
+  "name": "example",
+  "package_manager_install_command": "example",
+  "remote_server_type": "example",
   "screenshot_list_urls": [
     "example"
   ],
-  "logo_thumbnail_url": "example",
+  "sdk_installation_instructions_link": "example",
+  "short_description": "example",
   "sso_strategy_type": "example",
-  "remote_server_type": "example",
-  "folder_behavior_type": "example",
-  "external_homepage_url": "example",
-  "marketing_youtube_url": "example",
-  "tutorial_youtube_url": "example",
-  "app_type": "example",
-  "featured": True
+  "tutorial_youtube_url": "example"
 }
 ```
 
-* `name` (string): Name of the App
-* `extended_description` (string): Long form description of the App
-* `short_description` (string): Short description of the App
-* `documentation_links` (object): Collection of named links to documentation
-* `icon_url` (string): App icon
-* `logo_url` (string): Full size logo for the App
-* `screenshot_list_urls` (array): Screenshots of the App
-* `logo_thumbnail_url` (string): Logo thumbnail for the App
-* `sso_strategy_type` (string): Associated SSO Strategy type, if any
-* `remote_server_type` (string): Associated Remote Server type, if any
-* `folder_behavior_type` (string): Associated Folder Behavior type, if any
-* `external_homepage_url` (string): Link to external homepage
-* `marketing_youtube_url` (string): Marketing video page
-* `tutorial_youtube_url` (string): Tutorial video page
 * `app_type` (string): The type of the App
+* `documentation_links` (object): Collection of named links to documentation
+* `extended_description` (string): Long description for the in-App landing page
+* `extended_description_for_marketing_site` (string): Long form description of the App
+* `external_homepage_url` (string): Link to external homepage
 * `featured` (boolean): Is featured on the App listing?
+* `folder_behavior_type` (string): Associated Folder Behavior type, if any
+* `icon_url` (string): App icon
+* `logo_thumbnail_url` (string): Logo thumbnail for the App
+* `logo_url` (string): Full size logo for the App
+* `marketing_intro` (string): Marketing introdution of the App
+* `marketing_youtube_url` (string): Marketing video page
+* `name` (string): Name of the App
+* `package_manager_install_command` (string): Package manager install command
+* `remote_server_type` (string): Associated Remote Server type, if any
+* `screenshot_list_urls` (array): Screenshots of the App
+* `sdk_installation_instructions_link` (string): Link to SDK installation instructions
+* `short_description` (string): Short description of the App
+* `sso_strategy_type` (string): Associated SSO Strategy type, if any
+* `tutorial_youtube_url` (string): Tutorial video page
 
 
 ---

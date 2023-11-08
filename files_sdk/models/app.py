@@ -10,22 +10,26 @@ from files_sdk.error import (  # noqa: F401
 
 class App:
     default_attributes = {
-        "name": None,  # string - Name of the App
-        "extended_description": None,  # string - Long form description of the App
-        "short_description": None,  # string - Short description of the App
-        "documentation_links": None,  # object - Collection of named links to documentation
-        "icon_url": None,  # string - App icon
-        "logo_url": None,  # string - Full size logo for the App
-        "screenshot_list_urls": None,  # array - Screenshots of the App
-        "logo_thumbnail_url": None,  # string - Logo thumbnail for the App
-        "sso_strategy_type": None,  # string - Associated SSO Strategy type, if any
-        "remote_server_type": None,  # string - Associated Remote Server type, if any
-        "folder_behavior_type": None,  # string - Associated Folder Behavior type, if any
-        "external_homepage_url": None,  # string - Link to external homepage
-        "marketing_youtube_url": None,  # string - Marketing video page
-        "tutorial_youtube_url": None,  # string - Tutorial video page
         "app_type": None,  # string - The type of the App
+        "documentation_links": None,  # object - Collection of named links to documentation
+        "extended_description": None,  # string - Long description for the in-App landing page
+        "extended_description_for_marketing_site": None,  # string - Long form description of the App
+        "external_homepage_url": None,  # string - Link to external homepage
         "featured": None,  # boolean - Is featured on the App listing?
+        "folder_behavior_type": None,  # string - Associated Folder Behavior type, if any
+        "icon_url": None,  # string - App icon
+        "logo_thumbnail_url": None,  # string - Logo thumbnail for the App
+        "logo_url": None,  # string - Full size logo for the App
+        "marketing_intro": None,  # string - Marketing introdution of the App
+        "marketing_youtube_url": None,  # string - Marketing video page
+        "name": None,  # string - Name of the App
+        "package_manager_install_command": None,  # string - Package manager install command
+        "remote_server_type": None,  # string - Associated Remote Server type, if any
+        "screenshot_list_urls": None,  # array - Screenshots of the App
+        "sdk_installation_instructions_link": None,  # string - Link to SDK installation instructions
+        "short_description": None,  # string - Short description of the App
+        "sso_strategy_type": None,  # string - Associated SSO Strategy type, if any
+        "tutorial_youtube_url": None,  # string - Tutorial video page
     }
 
     def __init__(self, attributes=None, options=None):
