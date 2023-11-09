@@ -58,12 +58,20 @@ class ApiClient:
 
         data = None
         query_params = None
-        if method in ["GET", "HEAD", "DELETE"]:
-            data = None
-            query_params = params
-        else:
-            data = params
-            query_params = None
+        if params:
+            if method in ["GET", "HEAD", "DELETE"]:
+                data = None
+                _params = {}
+                for k, v in params.items():
+                    if isinstance(v, dict):
+                        for k2, v2 in v.items():
+                            _params[f"{k}[{k2}]"] = v2
+                    else:
+                        _params[k] = v
+                query_params = _params
+            else:
+                data = params
+                query_params = None
 
         req = requests.Request(
             method, url=url, headers=headers, params=query_params, json=data
