@@ -18,6 +18,7 @@ class EmailIncomingMessage:
         "body": None,  # string - Body of the email
         "message": None,  # string - Message describing the failure
         "created_at": None,  # date-time - Message creation date/time
+        "inbox_title": None,  # string - Title of the Inbox associated with this message
     }
 
     def __init__(self, attributes=None, options=None):
