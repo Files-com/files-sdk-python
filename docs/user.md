@@ -163,13 +163,6 @@ files_sdk.user.list({
 * `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
 * `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
 * `ids` (string): comma-separated list of User IDs
-* `q[username]` (string): List users matching username.
-* `q[email]` (string): List users matching email.
-* `q[notes]` (string): List users matching notes field.
-* `q[admin]` (string): If `true`, list only admin users.
-* `q[allowed_ips]` (string): If set, list only users with overridden allowed IP setting.
-* `q[password_validity_days]` (string): If set, list only users with overridden password validity days setting.
-* `q[ssl_required]` (string): If set, list only users with overridden SSL required setting.
 * `search` (string): Searches for partial matches of name, username, or email.
 
 
