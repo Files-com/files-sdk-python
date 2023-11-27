@@ -61,13 +61,12 @@ class Lock:
             raise InvalidParameterError("Bad parameter: path must be an str")
         if "token" in params and not isinstance(params["token"], str):
             raise InvalidParameterError("Bad parameter: token must be an str")
-        response, _options = Api.send_request(
+        Api.send_request(
             "DELETE",
             "/locks/{path}".format(path=params["path"]),
             params,
             self.options,
         )
-        return response.data
 
     def destroy(self, params=None):
         self.delete(params)
@@ -75,6 +74,7 @@ class Lock:
     def save(self):
         new_obj = create(self.path, self.get_attributes(), self.options)
         self.set_attributes(new_obj.get_attributes())
+        return True
 
 
 # Parameters:
@@ -147,10 +147,9 @@ def delete(path, params=None, options=None):
         raise MissingParameterError("Parameter missing: path")
     if "token" not in params:
         raise MissingParameterError("Parameter missing: token")
-    response, _options = Api.send_request(
+    Api.send_request(
         "DELETE", "/locks/{path}".format(path=params["path"]), params, options
     )
-    return response.data
 
 
 def destroy(path, params=None, options=None):

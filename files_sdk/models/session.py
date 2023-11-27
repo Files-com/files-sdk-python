@@ -55,6 +55,7 @@ class Session:
         else:
             new_obj = create(self.get_attributes(), self.options)
             self.set_attributes(new_obj.get_attributes())
+            return True
 
 
 # Parameters:
@@ -88,10 +89,7 @@ def delete(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    response, _options = Api.send_request(
-        "DELETE", "/sessions", params, options
-    )
-    return response.data
+    Api.send_request("DELETE", "/sessions", params, options)
 
 
 def destroy(params=None, options=None):

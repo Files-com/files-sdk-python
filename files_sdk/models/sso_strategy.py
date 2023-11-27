@@ -88,13 +88,12 @@ class SsoStrategy:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request(
+        Api.send_request(
             "POST",
             "/sso_strategies/{id}/sync".format(id=params["id"]),
             params,
             self.options,
         )
-        return response.data
 
 
 # Parameters:
@@ -149,13 +148,12 @@ def sync(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request(
+    Api.send_request(
         "POST",
         "/sso_strategies/{id}/sync".format(id=params["id"]),
         params,
         options,
     )
-    return response.data
 
 
 def new(*args, **kwargs):

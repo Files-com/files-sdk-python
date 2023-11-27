@@ -71,19 +71,20 @@ class Style:
             raise MissingParameterError("Parameter missing: path")
         if "path" in params and not isinstance(params["path"], str):
             raise InvalidParameterError("Bad parameter: path must be an str")
-        response, _options = Api.send_request(
+        Api.send_request(
             "DELETE",
             "/styles/{path}".format(path=params["path"]),
             params,
             self.options,
         )
-        return response.data
 
     def destroy(self, params=None):
         self.delete(params)
 
     def save(self):
-        self.update(self.get_attributes())
+        new_obj = self.update(self.get_attributes())
+        self.set_attributes(new_obj.get_attributes())
+        return True
 
 
 # Parameters:
@@ -138,10 +139,9 @@ def delete(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
-    response, _options = Api.send_request(
+    Api.send_request(
         "DELETE", "/styles/{path}".format(path=params["path"]), params, options
     )
-    return response.data
 
 
 def destroy(path, params=None, options=None):

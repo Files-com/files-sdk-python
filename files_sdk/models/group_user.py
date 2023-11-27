@@ -100,23 +100,25 @@ class GroupUser:
             raise InvalidParameterError(
                 "Bad parameter: user_id must be an int"
             )
-        response, _options = Api.send_request(
+        Api.send_request(
             "DELETE",
             "/group_users/{id}".format(id=params["id"]),
             params,
             self.options,
         )
-        return response.data
 
     def destroy(self, params=None):
         self.delete(params)
 
     def save(self):
         if hasattr(self, "id") and self.id:
-            self.update(self.get_attributes())
+            new_obj = self.update(self.get_attributes())
+            self.set_attributes(new_obj.get_attributes())
+            return True
         else:
             new_obj = create(self.get_attributes(), self.options)
             self.set_attributes(new_obj.get_attributes())
+            return True
 
 
 # Parameters:
@@ -216,10 +218,9 @@ def delete(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: group_id")
     if "user_id" not in params:
         raise MissingParameterError("Parameter missing: user_id")
-    response, _options = Api.send_request(
+    Api.send_request(
         "DELETE", "/group_users/{id}".format(id=params["id"]), params, options
     )
-    return response.data
 
 
 def destroy(id, params=None, options=None):

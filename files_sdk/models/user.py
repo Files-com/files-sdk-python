@@ -114,13 +114,12 @@ class User:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request(
+        Api.send_request(
             "POST",
             "/users/{id}/unlock".format(id=params["id"]),
             params,
             self.options,
         )
-        return response.data
 
     # Resend user welcome email
     def resend_welcome_email(self, params=None):
@@ -135,13 +134,12 @@ class User:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request(
+        Api.send_request(
             "POST",
             "/users/{id}/resend_welcome_email".format(id=params["id"]),
             params,
             self.options,
         )
-        return response.data
 
     # Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
     def user_2fa_reset(self, params=None):
@@ -156,13 +154,12 @@ class User:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request(
+        Api.send_request(
             "POST",
             "/users/{id}/2fa/reset".format(id=params["id"]),
             params,
             self.options,
         )
-        return response.data
 
     # Parameters:
     #   avatar_file - file - An image file for your user avatar.
@@ -370,23 +367,25 @@ class User:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request(
+        Api.send_request(
             "DELETE",
             "/users/{id}".format(id=params["id"]),
             params,
             self.options,
         )
-        return response.data
 
     def destroy(self, params=None):
         self.delete(params)
 
     def save(self):
         if hasattr(self, "id") and self.id:
-            self.update(self.get_attributes())
+            new_obj = self.update(self.get_attributes())
+            self.set_attributes(new_obj.get_attributes())
+            return True
         else:
             new_obj = create(self.get_attributes(), self.options)
             self.set_attributes(new_obj.get_attributes())
+            return True
 
 
 # Parameters:
@@ -639,10 +638,9 @@ def unlock(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request(
+    Api.send_request(
         "POST", "/users/{id}/unlock".format(id=params["id"]), params, options
     )
-    return response.data
 
 
 # Resend user welcome email
@@ -656,13 +654,12 @@ def resend_welcome_email(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request(
+    Api.send_request(
         "POST",
         "/users/{id}/resend_welcome_email".format(id=params["id"]),
         params,
         options,
     )
-    return response.data
 
 
 # Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
@@ -676,13 +673,12 @@ def user_2fa_reset(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request(
+    Api.send_request(
         "POST",
         "/users/{id}/2fa/reset".format(id=params["id"]),
         params,
         options,
     )
-    return response.data
 
 
 # Parameters:
@@ -863,10 +859,9 @@ def delete(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request(
+    Api.send_request(
         "DELETE", "/users/{id}".format(id=params["id"]), params, options
     )
-    return response.data
 
 
 def destroy(id, params=None, options=None):

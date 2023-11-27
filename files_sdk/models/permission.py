@@ -51,13 +51,12 @@ class Permission:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request(
+        Api.send_request(
             "DELETE",
             "/permissions/{id}".format(id=params["id"]),
             params,
             self.options,
         )
-        return response.data
 
     def destroy(self, params=None):
         self.delete(params)
@@ -70,6 +69,7 @@ class Permission:
         else:
             new_obj = create(self.get_attributes(), self.options)
             self.set_attributes(new_obj.get_attributes())
+            return True
 
 
 # Parameters:
@@ -152,10 +152,9 @@ def delete(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request(
+    Api.send_request(
         "DELETE", "/permissions/{id}".format(id=params["id"]), params, options
     )
-    return response.data
 
 
 def destroy(id, params=None, options=None):

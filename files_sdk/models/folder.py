@@ -54,6 +54,7 @@ class Folder:
     def save(self):
         new_obj = create(self.path, self.get_attributes(), self.options)
         self.set_attributes(new_obj.get_attributes())
+        return True
 
 
 # Parameters:

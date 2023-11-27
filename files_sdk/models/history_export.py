@@ -67,6 +67,7 @@ class HistoryExport:
         else:
             new_obj = create(self.get_attributes(), self.options)
             self.set_attributes(new_obj.get_attributes())
+            return True
 
 
 # Parameters:

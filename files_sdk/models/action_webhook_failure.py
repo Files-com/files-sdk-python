@@ -45,13 +45,12 @@ class ActionWebhookFailure:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request(
+        Api.send_request(
             "POST",
             "/action_webhook_failures/{id}/retry".format(id=params["id"]),
             params,
             self.options,
         )
-        return response.data
 
 
 # retry Action Webhook Failure
@@ -65,13 +64,12 @@ def retry(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    response, _options = Api.send_request(
+    Api.send_request(
         "POST",
         "/action_webhook_failures/{id}/retry".format(id=params["id"]),
         params,
         options,
     )
-    return response.data
 
 
 def new(*args, **kwargs):
