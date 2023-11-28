@@ -60,6 +60,7 @@ class RemoteServer:
         "files_agent_permission_set": None,  # string - Local permissions for files agent. read_only, write_only, or read_write
         "files_agent_root": None,  # string - Agent local root path
         "files_agent_api_token": None,  # string - Files Agent API Token
+        "files_agent_version": None,  # string - Files Agent version
         "filebase_bucket": None,  # string - Filebase Bucket name
         "filebase_access_key": None,  # string - Filebase Access Key.
         "cloudflare_bucket": None,  # string - Cloudflare Bucket name
@@ -245,6 +246,7 @@ class RemoteServer:
     #   s3_compatible_secret_key - string - S3-compatible secret key
     #   files_agent_root - string - Agent local root path
     #   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
+    #   files_agent_version - string - Files Agent version
     #   filebase_access_key - string - Filebase Access Key.
     #   filebase_secret_key - string - Filebase secret key
     #   filebase_bucket - string - Filebase Bucket name
@@ -538,6 +540,12 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: files_agent_permission_set must be an str"
             )
+        if "files_agent_version" in params and not isinstance(
+            params["files_agent_version"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: files_agent_version must be an str"
+            )
         if "filebase_access_key" in params and not isinstance(
             params["filebase_access_key"], str
         ):
@@ -760,6 +768,7 @@ def find_configuration_file(id, params=None, options=None):
 #   s3_compatible_secret_key - string - S3-compatible secret key
 #   files_agent_root - string - Agent local root path
 #   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
+#   files_agent_version - string - Files Agent version
 #   filebase_access_key - string - Filebase Access Key.
 #   filebase_secret_key - string - Filebase secret key
 #   filebase_bucket - string - Filebase Bucket name
@@ -1029,6 +1038,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: files_agent_permission_set must be an str"
         )
+    if "files_agent_version" in params and not isinstance(
+        params["files_agent_version"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: files_agent_version must be an str"
+        )
     if "filebase_access_key" in params and not isinstance(
         params["filebase_access_key"], str
     ):
@@ -1223,6 +1238,7 @@ def configuration_file(id, params=None, options=None):
 #   s3_compatible_secret_key - string - S3-compatible secret key
 #   files_agent_root - string - Agent local root path
 #   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
+#   files_agent_version - string - Files Agent version
 #   filebase_access_key - string - Filebase Access Key.
 #   filebase_secret_key - string - Filebase secret key
 #   filebase_bucket - string - Filebase Bucket name
@@ -1494,6 +1510,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: files_agent_permission_set must be an str"
+        )
+    if "files_agent_version" in params and not isinstance(
+        params["files_agent_version"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: files_agent_version must be an str"
         )
     if "filebase_access_key" in params and not isinstance(
         params["filebase_access_key"], str

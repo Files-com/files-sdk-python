@@ -11,16 +11,16 @@ class RemoteServerConfigurationFile:
     default_attributes = {
         "id": None,  # int64 - Agent ID
         "permission_set": None,  # string -
-        "api_token": None,  # string - Files Agent API Token
+        "private_key": None,  # string - private key
+        "subdomain": None,  # string
         "root": None,  # string - Agent local root path
+        "api_token": None,  # string - Files Agent API Token
         "port": None,  # int64 - Incoming port for files agent connections
         "hostname": None,  # string
         "public_key": None,  # string - public key
-        "private_key": None,  # string - private key
         "status": None,  # string - either running or shutdown
-        "config_version": None,  # string - agent config version
         "server_host_key": None,  # string
-        "subdomain": None,  # string
+        "config_version": None,  # string - agent config version
     }
 
     def __init__(self, attributes=None, options=None):
