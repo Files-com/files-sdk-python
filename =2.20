@@ -3,7 +3,7 @@ Collecting flake8~=6.1.0
 Requirement already satisfied: requests in /home/jenkins/.local/lib/python3.9/site-packages (2.20.0)
 Collecting black~=23.9.0
   Downloading black-23.9.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (65 kB)
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 65.1/65.1 kB 7.4 MB/s eta 0:00:00
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 65.1/65.1 kB 3.7 MB/s eta 0:00:00
 Collecting pyright~=1.1.326
   Downloading pyright-1.1.338-py3-none-any.whl.metadata (6.2 kB)
 Collecting mccabe<0.8.0,>=0.7.0 (from flake8~=6.1.0)
@@ -34,20 +34,20 @@ Collecting nodeenv>=1.6.0 (from pyright~=1.1.326)
   Downloading nodeenv-1.8.0-py2.py3-none-any.whl.metadata (21 kB)
 Requirement already satisfied: setuptools in /usr/lib/python3/dist-packages (from nodeenv>=1.6.0->pyright~=1.1.326) (52.0.0)
 Downloading flake8-6.1.0-py2.py3-none-any.whl (58 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.3/58.3 kB 7.1 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.3/58.3 kB 3.6 MB/s eta 0:00:00
 Downloading black-23.9.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.6 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 83.3 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 47.3 MB/s eta 0:00:00
 Downloading pyright-1.1.338-py3-none-any.whl (18 kB)
 Downloading click-8.1.7-py3-none-any.whl (97 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 97.9/97.9 kB 11.8 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 97.9/97.9 kB 7.7 MB/s eta 0:00:00
 Downloading nodeenv-1.8.0-py2.py3-none-any.whl (22 kB)
 Downloading packaging-23.2-py3-none-any.whl (53 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 53.0/53.0 kB 7.0 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 53.0/53.0 kB 3.5 MB/s eta 0:00:00
 Downloading pathspec-0.11.2-py3-none-any.whl (29 kB)
 Downloading platformdirs-4.0.0-py3-none-any.whl (17 kB)
 Downloading pycodestyle-2.11.1-py2.py3-none-any.whl (31 kB)
 Downloading pyflakes-3.1.0-py2.py3-none-any.whl (62 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.6/62.6 kB 8.6 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.6/62.6 kB 4.7 MB/s eta 0:00:00
 Downloading typing_extensions-4.8.0-py3-none-any.whl (31 kB)
 Installing collected packages: typing-extensions, tomli, pyflakes, pycodestyle, platformdirs, pathspec, packaging, nodeenv, mypy-extensions, mccabe, click, pyright, flake8, black
 Successfully installed black-23.9.1 click-8.1.7 flake8-6.1.0 mccabe-0.7.0 mypy-extensions-1.0.0 nodeenv-1.8.0 packaging-23.2 pathspec-0.11.2 platformdirs-4.0.0 pycodestyle-2.11.1 pyflakes-3.1.0 pyright-1.1.338 tomli-2.0.1 typing-extensions-4.8.0
