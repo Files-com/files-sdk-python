@@ -18,6 +18,7 @@ class Site:
         "allowed_2fa_method_yubi": None,  # boolean - Is yubikey two factor authentication allowed?
         "allowed_2fa_method_bypass_for_ftp_sftp_dav": None,  # boolean - Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
         "admin_user_id": None,  # int64 - User ID for the main site administrator
+        "admins_bypass_locked_subfolders": None,  # boolean - Allow admins to bypass the locked subfolders setting.
         "allow_bundle_names": None,  # boolean - Are manual Bundle names allowed?
         "allowed_countries": None,  # string - Comma seperated list of allowed Country codes
         "allowed_ips": None,  # string - List of allowed IP addresses
@@ -285,6 +286,7 @@ def get_usage(params=None, options=None):
 #   group_admins_can_set_user_password - boolean - Allow group admins set password authentication method
 #   bundle_recipient_blacklist_free_email_domains - boolean - Disallow free email domains for Bundle/Inbox recipients?
 #   bundle_recipient_blacklist_domains - array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
+#   admins_bypass_locked_subfolders - boolean - Allow admins to bypass the locked subfolders setting.
 #   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
 #   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
 #   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
