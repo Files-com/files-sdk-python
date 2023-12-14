@@ -34,36 +34,45 @@ class TestApiErrors(unittest.TestCase):
         self.assertEqual(context.exception.headers["content-type"], "application/json; charset=utf8")
 
     def test_bad_gateway(self, mock_send):
+        content = "<html><head><title>502 Bad Gateway</title></head><body><center><h1>502 Bad Gateway</h1></center><hr><center>files.com</center></body></html>"
         r = unittest.mock.MagicMock(spec=requests.Response)
         r.status_code = 503
         r.headers = {}
         r.json.side_effect = json.decoder.JSONDecodeError("", "", 0)
-        r.content = "Bad Gateway"
+        r.content = content
         mock_send.return_value = r
 
         with self.assertRaises(files_sdk.error.APIConnectionError) as context:
             for f in files_sdk.folder.list_for("/").auto_paging_iter():
                 pass
 
-        self.assertEqual("HTTP 503 Bad Gateway", str(context.exception))
+        self.assertEqual(f"HTTP 503 {content}", str(context.exception))
 
     def test_hostname_mismatch(self, mock_send):
-        body = "You have connected to a URL that has different security settings than those required for your site."
-        r = unittest.mock.MagicMock(spec=requests.Response)
+        error_msg = "You have connected to a URL that has different security settings than those required for your site."
+        r = requests.Response()
         r.status_code = 403
         r.headers = {
+            "content-type": "application/json; charset=utf8",
             "x-files-host": "test.example.com",
         }
-        r.content = body
+        r.json = lambda: {
+            "type": "not-authenticated/lockout-region-mismatch",
+            "http-code": 403,
+            "title": "Lockout Region Mismatch",
+            "error": error_msg,
+        }
         mock_send.return_value = r
 
-        with self.assertRaises(files_sdk.error.AuthenticationError) as context:
+        with self.assertRaises(files_sdk.error.LockoutRegionMismatchError) as context:
             for f in files_sdk.folder.list_for("/").auto_paging_iter():
                 pass
 
-        self.assertIn(body, str(context.exception))
+        self.assertEqual(context.exception.code, 403)
+        self.assertIn(error_msg, str(context.exception))
         self.assertIn("x-files-host", context.exception.headers)
         self.assertEqual(context.exception.headers["x-files-host"], "test.example.com")
+        self.assertEqual(context.exception.json_body["title"], "Lockout Region Mismatch")
 
     def test_region_mismatch(self, mock_send):
         error_msg = "Your account must login using a different server, https://test.host."

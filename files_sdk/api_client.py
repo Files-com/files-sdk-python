@@ -79,22 +79,22 @@ class ApiClient:
 
         response = self.execute_request_with_auto_retry(req)
 
-        if response.status_code == 403:
-            raise AuthenticationError(
-                response.content,
-                http_status=response.status_code,
-                headers=response.headers,
-            )
-        if response.status_code >= 500:
-            raise APIConnectionError(
-                response.content,
-                http_status=response.status_code,
-                headers=response.headers,
-            )
         if response.status_code != 204:
             try:
                 response.data = response.json()
             except json.decoder.JSONDecodeError:
+                if response.status_code == 403:
+                    raise AuthenticationError(
+                        response.content,
+                        http_status=response.status_code,
+                        headers=response.headers,
+                    )
+                if response.status_code >= 500:
+                    raise APIConnectionError(
+                        response.content,
+                        http_status=response.status_code,
+                        headers=response.headers,
+                    )
                 raise self.general_api_error(
                     response, "Error parsing JSON response"
                 )
