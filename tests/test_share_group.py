@@ -45,7 +45,7 @@ class ShareGroupTest(TestBase):
     def test_create(self):
         params = {
             "name" : "foo",
-            "members" : "no match",
+            "members" : [{}],
         }
         share_group.create(params)
 
