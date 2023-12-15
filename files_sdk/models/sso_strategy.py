@@ -15,6 +15,7 @@ class SsoStrategy:
         "label": None,  # string - Custom label for the SSO provider on the login page.
         "logo_url": None,  # string - URL holding a custom logo for the SSO provider on the login page.
         "id": None,  # int64 - ID
+        "user_count": None,  # int64 - Count of users with this SSO Strategy
         "saml_provider_cert_fingerprint": None,  # string - Identity provider sha256 cert fingerprint if saml_provider_metadata_url is not available.
         "saml_provider_issuer_url": None,  # string - Identity provider issuer url
         "saml_provider_metadata_content": None,  # string - Custom identity provider metadata
