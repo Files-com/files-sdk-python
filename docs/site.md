@@ -486,6 +486,7 @@ files_sdk.site.update({
   "sftp_enabled": True,
   "sftp_host_key_type": "default",
   "active_sftp_host_key_id": 1,
+  "protocol_access_groups_only": True,
   "bundle_watermark_value": {"key":"example value"},
   "group_admins_can_set_user_password": True,
   "bundle_recipient_blacklist_free_email_domains": True,
@@ -624,6 +625,7 @@ files_sdk.site.update({
 * `sftp_enabled` (boolean): Is SFTP enabled?
 * `sftp_host_key_type` (string): Sftp Host Key Type
 * `active_sftp_host_key_id` (int64): Id of the currently selected custom SFTP Host Key
+* `protocol_access_groups_only` (boolean): If `true`, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
 * `bundle_watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `group_admins_can_set_user_password` (boolean): Allow group admins set password authentication method
 * `bundle_recipient_blacklist_free_email_domains` (boolean): Disallow free email domains for Bundle/Inbox recipients?

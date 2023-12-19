@@ -16,6 +16,10 @@ class Group:
         "notes": None,  # string - Notes about this group
         "user_ids": None,  # string - Comma-delimited list of user IDs who belong to this group (separated by commas)
         "usernames": None,  # string - Comma-delimited list of usernames who belong to this group (separated by commas)
+        "ftp_permission": None,  # boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+        "sftp_permission": None,  # boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+        "dav_permission": None,  # boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+        "restapi_permission": None,  # boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -41,6 +45,10 @@ class Group:
     #   notes - string - Group notes.
     #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
     #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+    #   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+    #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+    #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+    #   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
     #   name - string - Group name.
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -168,6 +176,10 @@ def get(id, params=None, options=None):
 #   notes - string - Group notes.
 #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
 #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+#   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+#   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+#   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+#   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 #   name (required) - string - Group name.
 def create(params=None, options=None):
     if not isinstance(params, dict):
@@ -192,6 +204,10 @@ def create(params=None, options=None):
 #   notes - string - Group notes.
 #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
 #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+#   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+#   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+#   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+#   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 #   name - string - Group name.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
