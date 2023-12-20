@@ -11,28 +11,29 @@ from files_sdk.error import (  # noqa: F401
 class Automation:
     default_attributes = {
         "id": None,  # int64 - Automation ID
+        "always_overwrite_size_matching_files": None,  # boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
         "automation": None,  # string - Automation type
         "deleted": None,  # boolean - Indicates if the automation has been deleted.
+        "description": None,  # string - Description for the this Automation.
+        "destination_replace_from": None,  # string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
+        "destination_replace_to": None,  # string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
+        "destinations": None,  # array - Destination Paths
         "disabled": None,  # boolean - If true, this automation will not run.
-        "trigger": None,  # string - How this automation is triggered to run.
+        "group_ids": None,  # array - IDs of Groups for the Automation (i.e. who to Request File from)
         "interval": None,  # string - If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
         "last_modified_at": None,  # date-time - Time when automation was last modified. Does not change for name or description updates.
         "name": None,  # string - Name for this automation.
+        "path": None,  # string - Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "recurring_day": None,  # int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
         "schedule": None,  # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
         "source": None,  # string - Source Path
-        "destinations": None,  # array - Destination Paths
-        "destination_replace_from": None,  # string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
-        "destination_replace_to": None,  # string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
-        "description": None,  # string - Description for the this Automation.
-        "recurring_day": None,  # int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-        "path": None,  # string - Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-        "user_id": None,  # int64 - User ID of the Automation's creator.
         "sync_ids": None,  # array - IDs of remote sync folder behaviors to run by this Automation
-        "user_ids": None,  # array - IDs of Users for the Automation (i.e. who to Request File from)
-        "group_ids": None,  # array - IDs of Groups for the Automation (i.e. who to Request File from)
-        "webhook_url": None,  # string - If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
         "trigger_actions": None,  # array - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+        "trigger": None,  # string - How this automation is triggered to run.
+        "user_id": None,  # int64 - User ID of the Automation's creator.
+        "user_ids": None,  # array - IDs of Users for the Automation (i.e. who to Request File from)
         "value": None,  # object - A Hash of attributes specific to the automation type.
+        "webhook_url": None,  # string - If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
         "destination": None,  # string - DEPRECATED: Destination Path. Use `destinations` instead.
     }
 
@@ -87,6 +88,7 @@ class Automation:
     #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   schedule - object - Custom schedule for running this automation.
+    #   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
     #   description - string - Description for the this Automation.
     #   disabled - boolean - If true, this automation will not run.
     #   name - string - Name for this automation.
@@ -298,6 +300,7 @@ def get(id, params=None, options=None):
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   schedule - object - Custom schedule for running this automation.
+#   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 #   description - string - Description for the this Automation.
 #   disabled - boolean - If true, this automation will not run.
 #   name - string - Name for this automation.
@@ -410,6 +413,7 @@ def manual_run(id, params=None, options=None):
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   schedule - object - Custom schedule for running this automation.
+#   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 #   description - string - Description for the this Automation.
 #   disabled - boolean - If true, this automation will not run.
 #   name - string - Name for this automation.
