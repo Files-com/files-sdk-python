@@ -8,7 +8,7 @@ class Error(Exception):
         headers=None,
         code=None,
     ):
-        super(Error, self).__init__(message)
+        super().__init__(message)
 
         if http_body and hasattr(http_body, "decode"):
             try:
@@ -38,7 +38,31 @@ class APIConnectionError(Error):
 
 
 class APIError(Error):
-    pass
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+        if json_body is None:
+            return
+
+        self.detail = json_body.get("detail")
+        self.error = json_body.get("error")
+        self.errors = json_body.get("errors")
+        self.http_code = json_body.get("http-code")
+        self.instance = json_body.get("instance")
+        self.model_errors = json_body.get("model-errors")
+        self.title = json_body.get("title")
+        self.error_type = json_body.get("type")
+        self.data = json_body.get("data")
 
 
 class AuthenticationError(Error):
