@@ -18,11 +18,10 @@ class ApiKey:
         "key": None,  # string - API Key actual key string
         "last_use_at": None,  # date-time - API Key last used - note this value is only updated once per 3 hour period, so the 'actual' time of last use may be up to 3 hours later than this timestamp.
         "name": None,  # string - Internal name for the API Key.  For your use.
-        "permission_set": None,  # string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+        "permission_set": None,  # string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
         "platform": None,  # string - If this API key represents a Desktop app, what platform was it created on?
         "url": None,  # string - URL for API host.
         "user_id": None,  # int64 - User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
-        "path": None,  # string - Folder path restriction for this api key.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -48,7 +47,7 @@ class ApiKey:
     #   name - string - Internal name for the API Key.  For your use.
     #   description - string - User-supplied description of API key.
     #   expires_at - string - API Key expiration date
-    #   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+    #   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -202,8 +201,7 @@ def get(id, params=None, options=None):
 #   name - string - Internal name for the API Key.  For your use.
 #   description - string - User-supplied description of API key.
 #   expires_at - string - API Key expiration date
-#   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
-#   path - string - Folder path restriction for this api key.
+#   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -225,8 +223,6 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: permission_set must be an str"
         )
-    if "path" in params and not isinstance(params["path"], str):
-        raise InvalidParameterError("Bad parameter: path must be an str")
     response, options = Api.send_request("POST", "/api_keys", params, options)
     return ApiKey(response.data, options)
 
@@ -234,7 +230,7 @@ def create(params=None, options=None):
 # Parameters:
 #   expires_at - string - API Key expiration date
 #   name - string - Internal name for the API Key.  For your use.
-#   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+#   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 def update_current(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -258,7 +254,7 @@ def update_current(params=None, options=None):
 #   name - string - Internal name for the API Key.  For your use.
 #   description - string - User-supplied description of API key.
 #   expires_at - string - API Key expiration date
-#   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+#   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
