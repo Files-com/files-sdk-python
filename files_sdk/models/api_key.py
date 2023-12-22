@@ -44,10 +44,10 @@ class ApiKey:
         }
 
     # Parameters:
-    #   name - string - Internal name for the API Key.  For your use.
     #   description - string - User-supplied description of API key.
     #   expires_at - string - API Key expiration date
     #   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+    #   name - string - Internal name for the API Key.  For your use.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -60,8 +60,6 @@ class ApiKey:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "name" in params and not isinstance(params["name"], str):
-            raise InvalidParameterError("Bad parameter: name must be an str")
         if "description" in params and not isinstance(
             params["description"], str
         ):
@@ -80,6 +78,8 @@ class ApiKey:
             raise InvalidParameterError(
                 "Bad parameter: permission_set must be an str"
             )
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
         response, _options = Api.send_request(
             "PATCH",
             "/api_keys/{id}".format(id=params["id"]),
@@ -198,10 +198,10 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-#   name - string - Internal name for the API Key.  For your use.
 #   description - string - User-supplied description of API key.
 #   expires_at - string - API Key expiration date
 #   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+#   name (required) - string - Internal name for the API Key.  For your use.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -209,8 +209,6 @@ def create(params=None, options=None):
         options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
     if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
             "Bad parameter: description must be an str"
@@ -223,6 +221,10 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: permission_set must be an str"
         )
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
+    if "name" not in params:
+        raise MissingParameterError("Parameter missing: name")
     response, options = Api.send_request("POST", "/api_keys", params, options)
     return ApiKey(response.data, options)
 
@@ -251,10 +253,10 @@ def update_current(params=None, options=None):
 
 
 # Parameters:
-#   name - string - Internal name for the API Key.  For your use.
 #   description - string - User-supplied description of API key.
 #   expires_at - string - API Key expiration date
 #   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+#   name - string - Internal name for the API Key.  For your use.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -263,8 +265,6 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
     if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
             "Bad parameter: description must be an str"
@@ -277,6 +277,8 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: permission_set must be an str"
         )
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
