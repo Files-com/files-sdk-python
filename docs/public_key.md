@@ -8,6 +8,7 @@
   "title": "My public key",
   "created_at": "2000-01-01T01:00:00Z",
   "fingerprint": "43:51:43:a1:b5:fc:8b:b7:0a:3a:a9:b1:0f:66:73:a8",
+  "fingerprint_sha256": "V5Q5t/ghT3R8Tol5GX9385bzmpygWVRnLuI9EXNrjCX",
   "username": "User",
   "user_id": 1
 }
@@ -16,7 +17,8 @@
 * `id` (int64): Public key ID
 * `title` (string): Public key title
 * `created_at` (date-time): Public key created at date/time
-* `fingerprint` (string): Public key fingerprint
+* `fingerprint` (string): Public key fingerprint (MD5)
+* `fingerprint_sha256` (string): Public key fingerprint (SHA256)
 * `username` (string): Username of the user this public key is associated with
 * `user_id` (int64): User ID this public key is associated with
 * `public_key` (string): Actual contents of SSH key.

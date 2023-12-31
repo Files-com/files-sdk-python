@@ -13,7 +13,8 @@ class PublicKey:
         "id": None,  # int64 - Public key ID
         "title": None,  # string - Public key title
         "created_at": None,  # date-time - Public key created at date/time
-        "fingerprint": None,  # string - Public key fingerprint
+        "fingerprint": None,  # string - Public key fingerprint (MD5)
+        "fingerprint_sha256": None,  # string - Public key fingerprint (SHA256)
         "username": None,  # string - Username of the user this public key is associated with
         "user_id": None,  # int64 - User ID this public key is associated with
         "public_key": None,  # string - Actual contents of SSH key.
