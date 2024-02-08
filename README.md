@@ -192,7 +192,7 @@ as needed.
 
 ### Comparing Case insensitive files and paths
 
-For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/topics/file-system-semantics#case-sensitivity).
+For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
 
     if files_sdk.path_util.is_same("Fïłèńämê.Txt", "filename.txt"):
         print("Paths are the same")
