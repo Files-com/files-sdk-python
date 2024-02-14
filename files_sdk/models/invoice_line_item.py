@@ -15,7 +15,6 @@ class InvoiceLineItem:
         "type": None,  # string - Invoice line item type
         "service_end_at": None,  # date-time - Invoice line item service end date/time
         "service_start_at": None,  # date-time - Invoice line item service start date/time
-        "updated_at": None,  # date-time - Invoice line item updated date/time
         "plan": None,  # string - Plan name
         "site": None,  # string - Site name
     }

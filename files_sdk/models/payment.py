@@ -24,7 +24,6 @@ class Payment:
         "payment_type": None,  # string - Type of payment if applicable
         "site_name": None,  # string - Site name this line item is for
         "type": None,  # string - Type of line item, either payment or invoice
-        "updated_at": None,  # date-time - Line item updated at
     }
 
     def __init__(self, attributes=None, options=None):

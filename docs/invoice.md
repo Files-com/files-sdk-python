@@ -18,7 +18,6 @@
       "type": "invoice",
       "service_end_at": "2000-01-01T01:00:00Z",
       "service_start_at": "2000-01-01T01:00:00Z",
-      "updated_at": "2000-01-01T01:00:00Z",
       "plan": "Premier",
       "site": "My site"
     }
@@ -35,8 +34,7 @@
   "payment_reversed_at": "2000-01-01T01:00:00Z",
   "payment_type": "example",
   "site_name": "My Site",
-  "type": "invoice",
-  "updated_at": "2000-01-01T01:00:00Z"
+  "type": "invoice"
 }
 ```
 
@@ -53,7 +51,6 @@
 * `payment_type` (string): Type of payment if applicable
 * `site_name` (string): Site name this line item is for
 * `type` (string): Type of line item, either payment or invoice
-* `updated_at` (date-time): Line item updated at
 
 
 ---

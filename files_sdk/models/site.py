@@ -146,7 +146,6 @@ class Site:
         "tls_disabled": None,  # boolean - Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
         "trial_days_left": None,  # int64 - Number of days left in trial
         "trial_until": None,  # date-time - When does this Site trial expire?
-        "updated_at": None,  # date-time - Last time this Site was updated
         "use_provided_modified_at": None,  # boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
         "user": None,  # User - User of current session
         "user_lockout": None,  # boolean - Will users be locked out after incorrect login attempts?

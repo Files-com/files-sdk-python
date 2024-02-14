@@ -10,7 +10,6 @@
   "type": "invoice",
   "service_end_at": "2000-01-01T01:00:00Z",
   "service_start_at": "2000-01-01T01:00:00Z",
-  "updated_at": "2000-01-01T01:00:00Z",
   "plan": "Premier",
   "site": "My site"
 }
@@ -22,6 +21,5 @@
 * `type` (string): Invoice line item type
 * `service_end_at` (date-time): Invoice line item service end date/time
 * `service_start_at` (date-time): Invoice line item service start date/time
-* `updated_at` (date-time): Invoice line item updated date/time
 * `plan` (string): Plan name
 * `site` (string): Site name
