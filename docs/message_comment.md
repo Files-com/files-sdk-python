@@ -7,7 +7,10 @@
   "id": 1,
   "body": "What a great idea, thank you!",
   "reactions": [
-    null
+    {
+      "id": 1,
+      "emoji": "👍"
+    }
   ]
 }
 ```

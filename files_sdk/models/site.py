@@ -236,6 +236,7 @@ def get_usage(params=None, options=None):
 #   motd_text - string - A message to show users when they connect via FTP or SFTP.
 #   motd_use_for_ftp - boolean - Show message to users connecting via FTP
 #   motd_use_for_sftp - boolean - Show message to users connecting via SFTP
+#   left_navigation_visibility - object - Visibility settings for account navigation
 #   session_expiry - double - Session expiry in hours
 #   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
 #   tls_disabled - boolean - Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
@@ -434,6 +435,12 @@ def update(params=None, options=None):
         )
     if "motd_text" in params and not isinstance(params["motd_text"], str):
         raise InvalidParameterError("Bad parameter: motd_text must be an str")
+    if "left_navigation_visibility" in params and not isinstance(
+        params["left_navigation_visibility"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: left_navigation_visibility must be an dict"
+        )
     if "session_expiry" in params and not isinstance(
         params["session_expiry"], float
     ):

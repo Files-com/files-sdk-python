@@ -9,7 +9,14 @@
   "status": "",
   "data": "example",
   "errors": [
-    null
+    {
+      "fields": [
+
+      ],
+      "messages": [
+
+      ]
+    }
   ],
   "clickwrap_id": 1,
   "clickwrap_body": "example"

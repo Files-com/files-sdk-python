@@ -41,7 +41,7 @@ class Behavior:
         }
 
     # Parameters:
-    #   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
+    #   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
     #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
     #   name - string - Name for this behavior.
     #   description - string - Description for this behavior.
@@ -218,7 +218,7 @@ def list_for(path, params=None, options=None):
 
 
 # Parameters:
-#   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
+#   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 #   name - string - Name for this behavior.
 #   description - string - Description for this behavior.
@@ -279,7 +279,7 @@ def webhook_test(params=None, options=None):
 
 
 # Parameters:
-#   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
+#   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 #   name - string - Name for this behavior.
 #   description - string - Description for this behavior.

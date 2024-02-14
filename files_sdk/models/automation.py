@@ -25,7 +25,9 @@ class Automation:
         "name": None,  # string - Name for this automation.
         "path": None,  # string - Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "recurring_day": None,  # int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-        "schedule": None,  # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+        "schedule_days_of_week": None,  # array - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+        "schedule_times_of_day": None,  # array - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+        "schedule_time_zone": None,  # string - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
         "source": None,  # string - Source Path
         "sync_ids": None,  # array - IDs of remote sync folder behaviors to run by this Automation
         "trigger_actions": None,  # array - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -87,7 +89,9 @@ class Automation:
     #   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-    #   schedule - object - Custom schedule for running this automation.
+    #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+    #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+    #   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
     #   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
     #   description - string - Description for the this Automation.
     #   disabled - boolean - If true, this automation will not run.
@@ -152,6 +156,24 @@ class Automation:
         if "group_ids" in params and not isinstance(params["group_ids"], str):
             raise InvalidParameterError(
                 "Bad parameter: group_ids must be an str"
+            )
+        if "schedule_days_of_week" in params and not isinstance(
+            params["schedule_days_of_week"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_days_of_week must be an list"
+            )
+        if "schedule_times_of_day" in params and not isinstance(
+            params["schedule_times_of_day"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_times_of_day must be an list"
+            )
+        if "schedule_time_zone" in params and not isinstance(
+            params["schedule_time_zone"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_time_zone must be an str"
             )
         if "description" in params and not isinstance(
             params["description"], str
@@ -299,7 +321,9 @@ def get(id, params=None, options=None):
 #   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-#   schedule - object - Custom schedule for running this automation.
+#   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+#   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+#   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
 #   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 #   description - string - Description for the this Automation.
 #   disabled - boolean - If true, this automation will not run.
@@ -348,8 +372,24 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "group_ids" in params and not isinstance(params["group_ids"], str):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
-    if "schedule" in params and not isinstance(params["schedule"], dict):
-        raise InvalidParameterError("Bad parameter: schedule must be an dict")
+    if "schedule_days_of_week" in params and not isinstance(
+        params["schedule_days_of_week"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_days_of_week must be an list"
+        )
+    if "schedule_times_of_day" in params and not isinstance(
+        params["schedule_times_of_day"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_times_of_day must be an list"
+        )
+    if "schedule_time_zone" in params and not isinstance(
+        params["schedule_time_zone"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_time_zone must be an str"
+        )
     if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
             "Bad parameter: description must be an str"
@@ -412,7 +452,9 @@ def manual_run(id, params=None, options=None):
 #   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-#   schedule - object - Custom schedule for running this automation.
+#   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+#   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+#   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
 #   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 #   description - string - Description for the this Automation.
 #   disabled - boolean - If true, this automation will not run.
@@ -464,8 +506,24 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "group_ids" in params and not isinstance(params["group_ids"], str):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
-    if "schedule" in params and not isinstance(params["schedule"], dict):
-        raise InvalidParameterError("Bad parameter: schedule must be an dict")
+    if "schedule_days_of_week" in params and not isinstance(
+        params["schedule_days_of_week"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_days_of_week must be an list"
+        )
+    if "schedule_times_of_day" in params and not isinstance(
+        params["schedule_times_of_day"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_times_of_day must be an list"
+        )
+    if "schedule_time_zone" in params and not isinstance(
+        params["schedule_time_zone"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_time_zone must be an str"
+        )
     if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
             "Bad parameter: description must be an str"

@@ -24,7 +24,16 @@
   "name": "example",
   "path": "example",
   "recurring_day": 25,
-  "schedule": "example",
+  "schedule_days_of_week": [
+    0,
+    2,
+    4
+  ],
+  "schedule_times_of_day": [
+    "06:30",
+    "14:30"
+  ],
+  "schedule_time_zone": "Eastern Time (US & Canada)",
   "source": "example",
   "sync_ids": [
     1,
@@ -61,7 +70,9 @@
 * `name` (string): Name for this automation.
 * `path` (string): Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-* `schedule` (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+* `schedule_days_of_week` (array): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+* `schedule_times_of_day` (array): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+* `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
 * `source` (string): Source Path
 * `sync_ids` (array): IDs of remote sync folder behaviors to run by this Automation
 * `trigger_actions` (array): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -125,7 +136,9 @@ files_sdk.automation.create({
   "sync_ids": [1,2],
   "user_ids": [1,2],
   "group_ids": [1,2],
-  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "schedule_days_of_week": [0,1,3],
+  "schedule_times_of_day": ["7:30","11:30"],
+  "schedule_time_zone": "Eastern Time (US & Canada)",
   "always_overwrite_size_matching_files": True,
   "description": "example",
   "disabled": True,
@@ -150,7 +163,9 @@ files_sdk.automation.create({
 * `sync_ids` (string): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-* `schedule` (object): Custom schedule for running this automation.
+* `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+* `schedule_times_of_day` (array(string)): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+* `schedule_time_zone` (string): If trigger is `custom_schedule`. Time zone for the schedule.
 * `always_overwrite_size_matching_files` (boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (string): Description for the this Automation.
 * `disabled` (boolean): If true, this automation will not run.
@@ -190,7 +205,9 @@ files_sdk.automation.update(id, {
   "sync_ids": [1,2],
   "user_ids": [1,2],
   "group_ids": [1,2],
-  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "schedule_days_of_week": [0,1,3],
+  "schedule_times_of_day": ["7:30","11:30"],
+  "schedule_time_zone": "Eastern Time (US & Canada)",
   "always_overwrite_size_matching_files": True,
   "description": "example",
   "disabled": True,
@@ -216,7 +233,9 @@ files_sdk.automation.update(id, {
 * `sync_ids` (string): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-* `schedule` (object): Custom schedule for running this automation.
+* `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+* `schedule_times_of_day` (array(string)): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+* `schedule_time_zone` (string): If trigger is `custom_schedule`. Time zone for the schedule.
 * `always_overwrite_size_matching_files` (boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (string): Description for the this Automation.
 * `disabled` (boolean): If true, this automation will not run.
@@ -271,7 +290,9 @@ automation.update({
   "sync_ids": [1,2],
   "user_ids": [1,2],
   "group_ids": [1,2],
-  "schedule": {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"},
+  "schedule_days_of_week": [0,1,3],
+  "schedule_times_of_day": ["7:30","11:30"],
+  "schedule_time_zone": "Eastern Time (US & Canada)",
   "always_overwrite_size_matching_files": True,
   "description": "example",
   "disabled": True,
@@ -297,7 +318,9 @@ automation.update({
 * `sync_ids` (string): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-* `schedule` (object): Custom schedule for running this automation.
+* `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+* `schedule_times_of_day` (array(string)): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+* `schedule_time_zone` (string): If trigger is `custom_schedule`. Time zone for the schedule.
 * `always_overwrite_size_matching_files` (boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (string): Description for the this Automation.
 * `disabled` (boolean): If true, this automation will not run.
