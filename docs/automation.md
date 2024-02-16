@@ -24,6 +24,8 @@
   "name": "example",
   "path": "example",
   "recurring_day": 25,
+  "schedule": "example",
+  "human_readable_schedule": "Triggered every Monday, Wednesday at 6:30 AM,\n  2:30 PM Eastern Time (US & Canada) TZ",
   "schedule_days_of_week": [
     0,
     2,
@@ -70,9 +72,11 @@
 * `name` (string): Name for this automation.
 * `path` (string): Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-* `schedule_days_of_week` (array): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
-* `schedule_times_of_day` (array): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
-* `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+* `schedule` (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run in json format.
+* `human_readable_schedule` (string): If trigger is `custom_schedule`, Human readable Custom schedule description for when the automation should be run.
+* `schedule_days_of_week` (array): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+* `schedule_times_of_day` (array): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. Times of day in HH:MM format.
+* `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the automation should be run.
 * `source` (string): Source Path
 * `sync_ids` (array): IDs of remote sync folder behaviors to run by this Automation
 * `trigger_actions` (array): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
