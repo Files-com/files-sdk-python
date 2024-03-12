@@ -2,6 +2,7 @@
 
 The Files.com Python client library provides convenient access to the Files.com API from applications written in the Python language.
 
+
 ## Installation
 
 To install the package:
@@ -84,12 +85,15 @@ object in the standard manner as shown below:
 
     logging.getLogger("files_sdk")
 
+
 ### Error Handling
 
 Unexpected errors when attempting to connect to the API inherit from the base level `Error` class. They all contain a `__str__()`
 implementation to describe what went wrong.
 
+
 #### Unable to connect to the API
+
 ```python
 try:
     for f in files_sdk.folder.list_for("/").auto_paging_iter():
@@ -100,7 +104,9 @@ except files_sdk.error.APIConnectionError as e:
 
 Errors from the API inherit from `ApiError`. They all contain more properties to describe the error such as `code`, `headers`, etc.
 
+
 #### Path does not exist
+
 ```python
 try:
     for f in files_sdk.folder.list_for("/missing").auto_paging_iter():
@@ -108,6 +114,7 @@ try:
 except files_sdk.error.FolderNotFoundError as e:
     print(f"Unable to list folder: {e.code}")
 ```
+
 
 ### File Operations
 
@@ -131,6 +138,7 @@ If the parent directories do not already exist, they can be automatically create
 `mkdir_parents` in the `params`.
 
     files_sdk.file.upload_file("local.txt", "/uploads/remote.txt", params={"mkdir_parents": True})
+
 
 #### List root folder
 
@@ -190,6 +198,7 @@ as needed.
         for f in list_obj:
             print(f.type, f.path)
 
+
 ### Comparing Case insensitive files and paths
 
 For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
@@ -197,10 +206,12 @@ For related documentation see [Case Sensitivity Documentation](https://www.files
     if files_sdk.path_util.is_same("Fïłèńämê.Txt", "filename.txt"):
         print("Paths are the same")
 
+
 ### Additional Object Documentation
 
 Additional docs are available at https://developers.files.com/ and also
 in the `docs/` subdirectory of this directory.
+
 
 ### Pydoc Generated Documentation coming in the future
 
