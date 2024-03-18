@@ -704,10 +704,6 @@ def upload_chunks(io, path, options, upload=None, etags=None, params=None):
         params.update(chunk_params)
         upload = begin_upload(path, params, options)[0]
         buf = io.read(upload.partsize)
-        if (
-            buf == b"" or buf == ""
-        ):  # Empty bytearray means EOF for BytesIO, Empty String means EOF for StringIO
-            return (upload, etags, bytes_written)
         if buf is not None:  # None means no data but io still open
             bytes_written += len(buf)
             response = Api.api_client().send_remote_request(
@@ -723,6 +719,10 @@ def upload_chunks(io, path, options, upload=None, etags=None, params=None):
                         "part": upload.part_number,
                     }
                 )
+        if buf in [b"", ""] or (
+            len(buf) < upload.partsize
+        ):  # Empty bytearray means EOF for BytesIO, Empty String means EOF for StringIO
+            return (upload, etags, bytes_written)
 
 
 def upload_file(path, destination=None, options=None, params=None):

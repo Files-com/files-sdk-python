@@ -20,6 +20,8 @@ class ExternalEvent:
         "successful_files": None,  # int64 - For sync events, the number of files handled successfully.
         "errored_files": None,  # int64 - For sync events, the number of files that encountered errors.
         "bytes_synced": None,  # int64 - For sync events, the total number of bytes synced.
+        "compared_files": None,  # int64 - For sync events, the number of files considered for the sync.
+        "compared_folders": None,  # int64 - For sync events, the number of folders listed and considered for the sync.
         "remote_server_type": None,  # string - Associated Remote Server type, if any
     }
 

@@ -14,6 +14,8 @@
   "successful_files": 1,
   "errored_files": 1,
   "bytes_synced": 1,
+  "compared_files": 1,
+  "compared_folders": 1,
   "remote_server_type": "example"
 }
 ```
@@ -28,6 +30,8 @@
 * `successful_files` (int64): For sync events, the number of files handled successfully.
 * `errored_files` (int64): For sync events, the number of files that encountered errors.
 * `bytes_synced` (int64): For sync events, the total number of bytes synced.
+* `compared_files` (int64): For sync events, the number of files considered for the sync.
+* `compared_folders` (int64): For sync events, the number of folders listed and considered for the sync.
 * `remote_server_type` (string): Associated Remote Server type, if any
 
 
