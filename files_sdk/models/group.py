@@ -12,7 +12,6 @@ class Group:
     default_attributes = {
         "id": None,  # int64 - Group ID
         "name": None,  # string - Group name
-        "allowed_ips": None,  # string - A list of allowed IPs if applicable.  Newline delimited
         "admin_ids": None,  # string - Comma-delimited list of user IDs who are group administrators (separated by commas)
         "notes": None,  # string - Notes about this group
         "user_ids": None,  # string - Comma-delimited list of user IDs who belong to this group (separated by commas)
@@ -50,7 +49,6 @@ class Group:
     #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
     #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
     #   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-    #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
     #   name - string - Group name.
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -73,12 +71,6 @@ class Group:
         if "admin_ids" in params and not isinstance(params["admin_ids"], str):
             raise InvalidParameterError(
                 "Bad parameter: admin_ids must be an str"
-            )
-        if "allowed_ips" in params and not isinstance(
-            params["allowed_ips"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: allowed_ips must be an str"
             )
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
@@ -188,7 +180,6 @@ def get(id, params=None, options=None):
 #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 #   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-#   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
 #   name (required) - string - Group name.
 def create(params=None, options=None):
     if not isinstance(params, dict):
@@ -201,10 +192,6 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
-    if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
-        raise InvalidParameterError(
-            "Bad parameter: allowed_ips must be an str"
-        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "name" not in params:
@@ -221,7 +208,6 @@ def create(params=None, options=None):
 #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 #   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-#   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
 #   name - string - Group name.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -237,10 +223,6 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
-    if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
-        raise InvalidParameterError(
-            "Bad parameter: allowed_ips must be an str"
-        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "id" not in params:

@@ -194,7 +194,7 @@
     "admin_group_ids": [
       1
     ],
-    "allowed_ips": "10.0.0.0/8\n127.0.0.1",
+    "allowed_ips": "127.0.0.1",
     "attachments_permission": True,
     "api_keys_count": 1,
     "authenticate_until": "2000-01-01T01:00:00Z",

@@ -6,7 +6,6 @@
 {
   "id": 1,
   "name": "owners",
-  "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "admin_ids": "1",
   "notes": "example",
   "user_ids": "1",
@@ -20,7 +19,6 @@
 
 * `id` (int64): Group ID
 * `name` (string): Group name
-* `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `admin_ids` (string): Comma-delimited list of user IDs who are group administrators (separated by commas)
 * `notes` (string): Notes about this group
 * `user_ids` (string): Comma-delimited list of user IDs who belong to this group (separated by commas)
@@ -77,7 +75,6 @@ files_sdk.group.create({
   "sftp_permission": True,
   "dav_permission": True,
   "restapi_permission": True,
-  "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "name": "name"
 })
 ```
@@ -91,7 +88,6 @@ files_sdk.group.create({
 * `sftp_permission` (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-* `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `name` (string): Required - Group name.
 
 
@@ -108,7 +104,6 @@ files_sdk.group.update(id, {
   "sftp_permission": True,
   "dav_permission": True,
   "restapi_permission": True,
-  "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "name": "owners"
 })
 ```
@@ -123,7 +118,6 @@ files_sdk.group.update(id, {
 * `sftp_permission` (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-* `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `name` (string): Group name.
 
 
@@ -154,7 +148,6 @@ group.update({
   "sftp_permission": True,
   "dav_permission": True,
   "restapi_permission": True,
-  "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "name": "owners"
 })
 ```
@@ -169,7 +162,6 @@ group.update({
 * `sftp_permission` (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-* `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `name` (string): Group name.
 
 
