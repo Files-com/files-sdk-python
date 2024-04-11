@@ -19,9 +19,11 @@
     1,
     2
   ],
+  "ignore_locked_folders": True,
   "interval": "week",
   "last_modified_at": "2000-01-01T01:00:00Z",
   "name": "example",
+  "overwrite_files": True,
   "path": "example",
   "recurring_day": 25,
   "schedule": "example",
@@ -67,9 +69,11 @@
 * `destinations` (array): Destination Paths
 * `disabled` (boolean): If true, this automation will not run.
 * `group_ids` (array): IDs of Groups for the Automation (i.e. who to Request File from)
+* `ignore_locked_folders` (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `interval` (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `last_modified_at` (date-time): Time when automation was last modified. Does not change for name or description updates.
 * `name` (string): Name for this automation.
+* `overwrite_files` (boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 * `path` (string): Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule` (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run in json format.
@@ -146,7 +150,9 @@ files_sdk.automation.create({
   "always_overwrite_size_matching_files": True,
   "description": "example",
   "disabled": True,
+  "ignore_locked_folders": True,
   "name": "example",
+  "overwrite_files": True,
   "trigger": "daily",
   "trigger_actions": ["create"],
   "value": {"limit":"1"},
@@ -173,7 +179,9 @@ files_sdk.automation.create({
 * `always_overwrite_size_matching_files` (boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (string): Description for the this Automation.
 * `disabled` (boolean): If true, this automation will not run.
+* `ignore_locked_folders` (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `name` (string): Name for this automation.
+* `overwrite_files` (boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 * `trigger` (string): How this automation is triggered to run.
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (object): A Hash of attributes specific to the automation type.
@@ -215,7 +223,9 @@ files_sdk.automation.update(id, {
   "always_overwrite_size_matching_files": True,
   "description": "example",
   "disabled": True,
+  "ignore_locked_folders": True,
   "name": "example",
+  "overwrite_files": True,
   "trigger": "daily",
   "trigger_actions": ["create"],
   "value": {"limit":"1"},
@@ -243,7 +253,9 @@ files_sdk.automation.update(id, {
 * `always_overwrite_size_matching_files` (boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (string): Description for the this Automation.
 * `disabled` (boolean): If true, this automation will not run.
+* `ignore_locked_folders` (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `name` (string): Name for this automation.
+* `overwrite_files` (boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 * `trigger` (string): How this automation is triggered to run.
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (object): A Hash of attributes specific to the automation type.
@@ -300,7 +312,9 @@ automation.update({
   "always_overwrite_size_matching_files": True,
   "description": "example",
   "disabled": True,
+  "ignore_locked_folders": True,
   "name": "example",
+  "overwrite_files": True,
   "trigger": "daily",
   "trigger_actions": ["create"],
   "value": {"limit":"1"},
@@ -328,7 +342,9 @@ automation.update({
 * `always_overwrite_size_matching_files` (boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (string): Description for the this Automation.
 * `disabled` (boolean): If true, this automation will not run.
+* `ignore_locked_folders` (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `name` (string): Name for this automation.
+* `overwrite_files` (boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 * `trigger` (string): How this automation is triggered to run.
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (object): A Hash of attributes specific to the automation type.
