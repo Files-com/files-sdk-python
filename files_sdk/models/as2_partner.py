@@ -15,6 +15,7 @@ class As2Partner:
         "name": None,  # string - The partner's formal AS2 name.
         "uri": None,  # string - Public URI for sending AS2 message to.
         "server_certificate": None,  # string - Remote server certificate security setting
+        "mdn_validation_level": None,  # string - MDN Validation Level
         "enable_dedicated_ips": None,  # boolean - `true` if remote server only accepts connections from dedicated IPs
         "hex_public_certificate_serial": None,  # string - Serial of public certificate used for message security in hex format.
         "public_certificate_md5": None,  # string - MD5 hash of public certificate used for message security.
@@ -49,6 +50,7 @@ class As2Partner:
     #   name - string - AS2 Name
     #   uri - string - URL base for AS2 responses
     #   server_certificate - string - Remote server certificate security setting
+    #   mdn_validation_level - string - MDN Validation Level
     #   public_certificate - string
     #   enable_dedicated_ips - boolean
     def update(self, params=None):
@@ -72,6 +74,12 @@ class As2Partner:
         ):
             raise InvalidParameterError(
                 "Bad parameter: server_certificate must be an str"
+            )
+        if "mdn_validation_level" in params and not isinstance(
+            params["mdn_validation_level"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: mdn_validation_level must be an str"
             )
         if "public_certificate" in params and not isinstance(
             params["public_certificate"], str
@@ -167,6 +175,7 @@ def get(id, params=None, options=None):
 #   public_certificate (required) - string
 #   as2_station_id (required) - int64 - Id of As2Station for this partner
 #   server_certificate - string - Remote server certificate security setting
+#   mdn_validation_level - string - MDN Validation Level
 #   enable_dedicated_ips - boolean
 def create(params=None, options=None):
     if not isinstance(params, dict):
@@ -195,6 +204,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: server_certificate must be an str"
         )
+    if "mdn_validation_level" in params and not isinstance(
+        params["mdn_validation_level"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: mdn_validation_level must be an str"
+        )
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     if "uri" not in params:
@@ -213,6 +228,7 @@ def create(params=None, options=None):
 #   name - string - AS2 Name
 #   uri - string - URL base for AS2 responses
 #   server_certificate - string - Remote server certificate security setting
+#   mdn_validation_level - string - MDN Validation Level
 #   public_certificate - string
 #   enable_dedicated_ips - boolean
 def update(id, params=None, options=None):
@@ -232,6 +248,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: server_certificate must be an str"
+        )
+    if "mdn_validation_level" in params and not isinstance(
+        params["mdn_validation_level"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: mdn_validation_level must be an str"
         )
     if "public_certificate" in params and not isinstance(
         params["public_certificate"], str
