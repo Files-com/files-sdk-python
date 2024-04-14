@@ -248,6 +248,7 @@
     "externally_managed": True,
     "time_zone": "Pacific Time (US & Canada)",
     "type_of_2fa": "yubi",
+    "type_of_2fa_for_display": "yubi",
     "updated_at": "2000-01-01T01:00:00Z",
     "user_root": "example",
     "days_remaining_until_password_expire": 1,

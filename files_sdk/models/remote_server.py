@@ -114,17 +114,10 @@ class RemoteServer:
     # Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
     #
     # Parameters:
-    #   api_token - string - Files Agent API Token
-    #   permission_set - string -
-    #   root - string - Agent local root path
-    #   hostname - string
-    #   port - int64 - Incoming port for files agent connections
-    #   status - string - either running or shutdown
-    #   config_version - string - agent config version
-    #   private_key - string - private key
-    #   public_key - string - public key
-    #   server_host_key - string
-    #   subdomain - string
+    #   permission_set - string - The permission set for the agent ['read_write', 'read_only', 'write_only']
+    #   root - string - The root directory for the agent
+    #   private_key - string - The private key for the agent
+    #   subdomain - string - Files.com subdomain site name
     def configuration_file(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -137,10 +130,6 @@ class RemoteServer:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "api_token" in params and not isinstance(params["api_token"], str):
-            raise InvalidParameterError(
-                "Bad parameter: api_token must be an str"
-            )
         if "permission_set" in params and not isinstance(
             params["permission_set"], str
         ):
@@ -149,37 +138,11 @@ class RemoteServer:
             )
         if "root" in params and not isinstance(params["root"], str):
             raise InvalidParameterError("Bad parameter: root must be an str")
-        if "hostname" in params and not isinstance(params["hostname"], str):
-            raise InvalidParameterError(
-                "Bad parameter: hostname must be an str"
-            )
-        if "port" in params and not isinstance(params["port"], int):
-            raise InvalidParameterError("Bad parameter: port must be an int")
-        if "status" in params and not isinstance(params["status"], str):
-            raise InvalidParameterError("Bad parameter: status must be an str")
-        if "config_version" in params and not isinstance(
-            params["config_version"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: config_version must be an str"
-            )
         if "private_key" in params and not isinstance(
             params["private_key"], str
         ):
             raise InvalidParameterError(
                 "Bad parameter: private_key must be an str"
-            )
-        if "public_key" in params and not isinstance(
-            params["public_key"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: public_key must be an str"
-            )
-        if "server_host_key" in params and not isinstance(
-            params["server_host_key"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: server_host_key must be an str"
             )
         if "subdomain" in params and not isinstance(params["subdomain"], str):
             raise InvalidParameterError(
@@ -1119,17 +1082,10 @@ def create(params=None, options=None):
 # Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
 #
 # Parameters:
-#   api_token - string - Files Agent API Token
-#   permission_set - string -
-#   root - string - Agent local root path
-#   hostname - string
-#   port - int64 - Incoming port for files agent connections
-#   status - string - either running or shutdown
-#   config_version - string - agent config version
-#   private_key - string - private key
-#   public_key - string - public key
-#   server_host_key - string
-#   subdomain - string
+#   permission_set - string - The permission set for the agent ['read_write', 'read_only', 'write_only']
+#   root - string - The root directory for the agent
+#   private_key - string - The private key for the agent
+#   subdomain - string - Files.com subdomain site name
 def configuration_file(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -1138,8 +1094,6 @@ def configuration_file(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
-    if "api_token" in params and not isinstance(params["api_token"], str):
-        raise InvalidParameterError("Bad parameter: api_token must be an str")
     if "permission_set" in params and not isinstance(
         params["permission_set"], str
     ):
@@ -1148,29 +1102,9 @@ def configuration_file(id, params=None, options=None):
         )
     if "root" in params and not isinstance(params["root"], str):
         raise InvalidParameterError("Bad parameter: root must be an str")
-    if "hostname" in params and not isinstance(params["hostname"], str):
-        raise InvalidParameterError("Bad parameter: hostname must be an str")
-    if "port" in params and not isinstance(params["port"], int):
-        raise InvalidParameterError("Bad parameter: port must be an int")
-    if "status" in params and not isinstance(params["status"], str):
-        raise InvalidParameterError("Bad parameter: status must be an str")
-    if "config_version" in params and not isinstance(
-        params["config_version"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: config_version must be an str"
-        )
     if "private_key" in params and not isinstance(params["private_key"], str):
         raise InvalidParameterError(
             "Bad parameter: private_key must be an str"
-        )
-    if "public_key" in params and not isinstance(params["public_key"], str):
-        raise InvalidParameterError("Bad parameter: public_key must be an str")
-    if "server_host_key" in params and not isinstance(
-        params["server_host_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: server_host_key must be an str"
         )
     if "subdomain" in params and not isinstance(params["subdomain"], str):
         raise InvalidParameterError("Bad parameter: subdomain must be an str")

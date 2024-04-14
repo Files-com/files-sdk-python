@@ -9,18 +9,33 @@ from files_sdk.error import (  # noqa: F401
 
 class RemoteServerConfigurationFile:
     default_attributes = {
-        "id": None,  # int64 - Agent ID
-        "permission_set": None,  # string -
-        "private_key": None,  # string - private key
-        "subdomain": None,  # string
-        "root": None,  # string - Agent local root path
-        "api_token": None,  # string - Files Agent API Token
-        "port": None,  # int64 - Incoming port for files agent connections
-        "hostname": None,  # string
-        "public_key": None,  # string - public key
-        "status": None,  # string - either running or shutdown
-        "server_host_key": None,  # string
-        "config_version": None,  # string - agent config version
+        "id": None,  # int64 - The remote server ID of the agent
+        "permission_set": None,  # string - The permission set for the agent ['read_write', 'read_only', 'write_only']
+        "private_key": None,  # string - The private key for the agent
+        "subdomain": None,  # string - Files.com subdomain site name
+        "root": None,  # string - The root directory for the agent
+        "follow_links": None,  # boolean - Follow symlinks when traversing directories
+        "prefer_protocol": None,  # string - Preferred network protocol ['udp', 'tcp']
+        "dns": None,  # string - DNS lookup method ['auto','doh','system']
+        "proxy_all_outbound": None,  # boolean - Proxy all outbound traffic through files.com proxy server
+        "endpoint_override": None,  # string - Custom site endpoint URL
+        "log_file": None,  # string - Log file name and location
+        "log_level": None,  # string - Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal']
+        "log_rotate_num": None,  # int64 - Log route for agent logs. (default 5)
+        "log_rotate_size": None,  # int64 - Log route size in MB for agent logs. (default 20MB)
+        "max_concurrent_jobs": None,  # int64 - Maximum number of concurrent jobs (default CPU Count * 4)
+        "graceful_shutdown_timeout": None,  # int64 - Graceful shutdown timeout in seconds
+        "transfer_rate_limit": None,  # string - File transfer (upload/download) rate limit
+        #  <limit>-<period>, with the given periods:
+        # * 'S': second
+        # * 'M': minute
+        # * 'H': hour
+        # * 'D': day
+        # Examples:
+        # * 5 requests/second: '5-S'
+        # * 10 requests/minute: '10-M'
+        # * 1000 requests/hour: '1000-H'
+        # * 2000 requests/day: '2000-D'
     }
 
     def __init__(self, attributes=None, options=None):
