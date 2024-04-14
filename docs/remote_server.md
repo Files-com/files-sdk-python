@@ -32,7 +32,7 @@
   "rackspace_username": "rackspaceuser",
   "rackspace_region": "dfw",
   "rackspace_container": "my-container",
-  "auth_setup_link": "auth/:provider",
+  "auth_setup_link": "auth/:provider/redirect",
   "auth_status": "in_setup",
   "auth_account_name": "me@example.com",
   "one_drive_account_type": "personal",
