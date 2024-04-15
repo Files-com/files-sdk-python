@@ -36,7 +36,8 @@ class Bundle:
         "dont_separate_submissions_by_folder": None,  # boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
         "max_uses": None,  # int64 - Maximum number of times bundle can be accessed
         "note": None,  # string - Bundle internal note
-        "path_template": None,  # string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+        "path_template": None,  # string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+        "path_template_time_zone": None,  # string - Timezone to use when rendering timestamps in path templates.
         "send_email_receipt_to_uploader": None,  # boolean - Send delivery receipt to the uploader. Note: For writable share only
         "snapshot_id": None,  # int64 - ID of the snapshot containing this bundle's contents.
         "user_id": None,  # int64 - Bundle creator user ID
@@ -123,7 +124,8 @@ class Bundle:
     #   inbox_id - int64 - ID of the associated inbox, if available.
     #   max_uses - int64 - Maximum number of times bundle can be accessed
     #   note - string - Bundle internal note
-    #   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+    #   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+    #   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
     #   permissions - string - Permissions that apply to Folders in this Share Link.
     #   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
     #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
@@ -196,6 +198,12 @@ class Bundle:
         ):
             raise InvalidParameterError(
                 "Bad parameter: path_template must be an str"
+            )
+        if "path_template_time_zone" in params and not isinstance(
+            params["path_template_time_zone"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: path_template_time_zone must be an str"
             )
         if "permissions" in params and not isinstance(
             params["permissions"], str
@@ -329,7 +337,8 @@ def get(id, params=None, options=None):
 #   description - string - Public description
 #   note - string - Bundle internal note
 #   code - string - Bundle code.  This code forms the end part of the Public URL.
-#   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+#   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+#   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
 #   permissions - string - Permissions that apply to Folders in this Share Link.
 #   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
@@ -377,6 +386,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: path_template must be an str"
+        )
+    if "path_template_time_zone" in params and not isinstance(
+        params["path_template_time_zone"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: path_template_time_zone must be an str"
         )
     if "permissions" in params and not isinstance(params["permissions"], str):
         raise InvalidParameterError(
@@ -451,7 +466,8 @@ def share(id, params=None, options=None):
 #   inbox_id - int64 - ID of the associated inbox, if available.
 #   max_uses - int64 - Maximum number of times bundle can be accessed
 #   note - string - Bundle internal note
-#   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+#   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+#   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
 #   permissions - string - Permissions that apply to Folders in this Share Link.
 #   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
@@ -506,6 +522,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: path_template must be an str"
+        )
+    if "path_template_time_zone" in params and not isinstance(
+        params["path_template_time_zone"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: path_template_time_zone must be an str"
         )
     if "permissions" in params and not isinstance(params["permissions"], str):
         raise InvalidParameterError(
