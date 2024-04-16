@@ -14,6 +14,7 @@ class UserRequest:
         "name": None,  # string - User's full name
         "email": None,  # email - User email address
         "details": None,  # string - Details of the user's request
+        "company": None,  # string - User's company name
     }
 
     def __init__(self, attributes=None, options=None):
@@ -113,6 +114,7 @@ def get(id, params=None, options=None):
 #   name (required) - string - Name of user requested
 #   email (required) - string - Email of user requested
 #   details (required) - string - Details of the user request
+#   company - string - Company of the user requested
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -124,6 +126,8 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: email must be an str")
     if "details" in params and not isinstance(params["details"], str):
         raise InvalidParameterError("Bad parameter: details must be an str")
+    if "company" in params and not isinstance(params["company"], str):
+        raise InvalidParameterError("Bad parameter: company must be an str")
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     if "email" not in params:
