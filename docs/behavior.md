@@ -91,6 +91,7 @@ files_sdk.behavior.list_for(path, {
 ```
 files_sdk.behavior.create({
   "value": "{\"method\": \"GET\"}",
+  "disable_parent_folder_behavior": True,
   "name": "example",
   "description": "example",
   "path": "path",
@@ -102,6 +103,7 @@ files_sdk.behavior.create({
 
 * `value` (string): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (file): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+* `disable_parent_folder_behavior` (boolean): If true, the parent folder's behavior will be disabled for this folder.
 * `name` (string): Name for this behavior.
 * `description` (string): Description for this behavior.
 * `path` (string): Required - Folder behaviors path.
@@ -140,6 +142,7 @@ files_sdk.behavior.webhook_test({
 ```
 files_sdk.behavior.update(id, {
   "value": "{\"method\": \"GET\"}",
+  "disable_parent_folder_behavior": True,
   "name": "example",
   "description": "example",
   "behavior": "webhook",
@@ -153,6 +156,7 @@ files_sdk.behavior.update(id, {
 * `id` (int64): Required - Behavior ID.
 * `value` (string): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (file): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+* `disable_parent_folder_behavior` (boolean): If true, the parent folder's behavior will be disabled for this folder.
 * `name` (string): Name for this behavior.
 * `description` (string): Description for this behavior.
 * `behavior` (string): Behavior type.
@@ -181,6 +185,7 @@ files_sdk.behavior.delete(id)
 behavior = files_sdk.behavior.list.first
 behavior.update({
   "value": "{\"method\": \"GET\"}",
+  "disable_parent_folder_behavior": True,
   "name": "example",
   "description": "example",
   "behavior": "webhook",
@@ -194,6 +199,7 @@ behavior.update({
 * `id` (int64): Required - Behavior ID.
 * `value` (string): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (file): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+* `disable_parent_folder_behavior` (boolean): If true, the parent folder's behavior will be disabled for this folder.
 * `name` (string): Name for this behavior.
 * `description` (string): Description for this behavior.
 * `behavior` (string): Behavior type.
