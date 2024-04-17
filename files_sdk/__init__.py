@@ -5,6 +5,7 @@ import files_sdk.models.action_notification_export as action_notification_export
 import files_sdk.models.action_notification_export_result as action_notification_export_result
 import files_sdk.models.action_webhook_failure as action_webhook_failure
 import files_sdk.models.api_key as api_key
+import files_sdk.models.api_request_log as api_request_log
 import files_sdk.models.app as app
 import files_sdk.models.as2_incoming_message as as2_incoming_message
 import files_sdk.models.as2_outgoing_message as as2_outgoing_message
@@ -12,6 +13,7 @@ import files_sdk.models.as2_partner as as2_partner
 import files_sdk.models.as2_station as as2_station
 import files_sdk.models.auto as auto
 import files_sdk.models.automation as automation
+import files_sdk.models.automation_log as automation_log
 import files_sdk.models.automation_run as automation_run
 import files_sdk.models.bandwidth_snapshot as bandwidth_snapshot
 import files_sdk.models.behavior as behavior
@@ -23,13 +25,16 @@ import files_sdk.models.bundle_registration as bundle_registration
 import files_sdk.models.clickwrap as clickwrap
 import files_sdk.models.dns_record as dns_record
 import files_sdk.models.email_incoming_message as email_incoming_message
+import files_sdk.models.email_log as email_log
 import files_sdk.models.errors as errors
+import files_sdk.models.exavault_api_request_log as exavault_api_request_log
 import files_sdk.models.external_event as external_event
 import files_sdk.models.file as file
 import files_sdk.models.file_action as file_action
 import files_sdk.models.file_comment as file_comment
 import files_sdk.models.file_comment_reaction as file_comment_reaction
 import files_sdk.models.file_migration as file_migration
+import files_sdk.models.file_migration_log as file_migration_log
 import files_sdk.models.file_upload_part as file_upload_part
 import files_sdk.models.folder as folder
 import files_sdk.models.form_field as form_field
@@ -67,6 +72,7 @@ import files_sdk.models.remote_server_configuration_file as remote_server_config
 import files_sdk.models.request as request
 import files_sdk.models.session as session
 import files_sdk.models.settings_change as settings_change
+import files_sdk.models.sftp_action_log as sftp_action_log
 import files_sdk.models.sftp_host_key as sftp_host_key
 import files_sdk.models.share_group as share_group
 import files_sdk.models.share_group_member as share_group_member
@@ -75,6 +81,7 @@ import files_sdk.models.snapshot as snapshot
 import files_sdk.models.sso_strategy as sso_strategy
 import files_sdk.models.status as status
 import files_sdk.models.style as style
+import files_sdk.models.sync_log as sync_log
 import files_sdk.models.usage_daily_snapshot as usage_daily_snapshot
 import files_sdk.models.usage_snapshot as usage_snapshot
 import files_sdk.models.user as user
@@ -92,6 +99,7 @@ from files_sdk.models.action_notification_export_result import (
 )
 from files_sdk.models.action_webhook_failure import ActionWebhookFailure
 from files_sdk.models.api_key import ApiKey
+from files_sdk.models.api_request_log import ApiRequestLog
 from files_sdk.models.app import App
 from files_sdk.models.as2_incoming_message import As2IncomingMessage
 from files_sdk.models.as2_outgoing_message import As2OutgoingMessage
@@ -99,6 +107,7 @@ from files_sdk.models.as2_partner import As2Partner
 from files_sdk.models.as2_station import As2Station
 from files_sdk.models.auto import Auto
 from files_sdk.models.automation import Automation
+from files_sdk.models.automation_log import AutomationLog
 from files_sdk.models.automation_run import AutomationRun
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot
 from files_sdk.models.behavior import Behavior
@@ -110,13 +119,16 @@ from files_sdk.models.bundle_registration import BundleRegistration
 from files_sdk.models.clickwrap import Clickwrap
 from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.email_incoming_message import EmailIncomingMessage
+from files_sdk.models.email_log import EmailLog
 from files_sdk.models.errors import Errors
+from files_sdk.models.exavault_api_request_log import ExavaultApiRequestLog
 from files_sdk.models.external_event import ExternalEvent
 from files_sdk.models.file import File
 from files_sdk.models.file_action import FileAction
 from files_sdk.models.file_comment import FileComment
 from files_sdk.models.file_comment_reaction import FileCommentReaction
 from files_sdk.models.file_migration import FileMigration
+from files_sdk.models.file_migration_log import FileMigrationLog
 from files_sdk.models.file_upload_part import FileUploadPart
 from files_sdk.models.folder import Folder
 from files_sdk.models.form_field import FormField
@@ -156,6 +168,7 @@ from files_sdk.models.remote_server_configuration_file import (
 from files_sdk.models.request import Request
 from files_sdk.models.session import Session
 from files_sdk.models.settings_change import SettingsChange
+from files_sdk.models.sftp_action_log import SftpActionLog
 from files_sdk.models.sftp_host_key import SftpHostKey
 from files_sdk.models.share_group import ShareGroup
 from files_sdk.models.share_group_member import ShareGroupMember
@@ -164,6 +177,7 @@ from files_sdk.models.snapshot import Snapshot
 from files_sdk.models.sso_strategy import SsoStrategy
 from files_sdk.models.status import Status
 from files_sdk.models.style import Style
+from files_sdk.models.sync_log import SyncLog
 from files_sdk.models.usage_daily_snapshot import UsageDailySnapshot
 from files_sdk.models.usage_snapshot import UsageSnapshot
 from files_sdk.models.user import User
@@ -177,7 +191,7 @@ the_api_key = ""
 session_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.4.40"
+version = "1.4.41"
 
 __version__ = version
 

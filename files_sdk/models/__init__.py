@@ -8,6 +8,7 @@ from files_sdk.models.action_notification_export_result import (
 )
 from files_sdk.models.action_webhook_failure import ActionWebhookFailure
 from files_sdk.models.api_key import ApiKey
+from files_sdk.models.api_request_log import ApiRequestLog
 from files_sdk.models.app import App
 from files_sdk.models.as2_incoming_message import As2IncomingMessage
 from files_sdk.models.as2_outgoing_message import As2OutgoingMessage
@@ -15,6 +16,7 @@ from files_sdk.models.as2_partner import As2Partner
 from files_sdk.models.as2_station import As2Station
 from files_sdk.models.auto import Auto
 from files_sdk.models.automation import Automation
+from files_sdk.models.automation_log import AutomationLog
 from files_sdk.models.automation_run import AutomationRun
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot
 from files_sdk.models.behavior import Behavior
@@ -26,13 +28,16 @@ from files_sdk.models.bundle_registration import BundleRegistration
 from files_sdk.models.clickwrap import Clickwrap
 from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.email_incoming_message import EmailIncomingMessage
+from files_sdk.models.email_log import EmailLog
 from files_sdk.models.errors import Errors
+from files_sdk.models.exavault_api_request_log import ExavaultApiRequestLog
 from files_sdk.models.external_event import ExternalEvent
 from files_sdk.models.file import File
 from files_sdk.models.file_action import FileAction
 from files_sdk.models.file_comment import FileComment
 from files_sdk.models.file_comment_reaction import FileCommentReaction
 from files_sdk.models.file_migration import FileMigration
+from files_sdk.models.file_migration_log import FileMigrationLog
 from files_sdk.models.file_upload_part import FileUploadPart
 from files_sdk.models.folder import Folder
 from files_sdk.models.form_field import FormField
@@ -72,6 +77,7 @@ from files_sdk.models.remote_server_configuration_file import (
 from files_sdk.models.request import Request
 from files_sdk.models.session import Session
 from files_sdk.models.settings_change import SettingsChange
+from files_sdk.models.sftp_action_log import SftpActionLog
 from files_sdk.models.sftp_host_key import SftpHostKey
 from files_sdk.models.share_group import ShareGroup
 from files_sdk.models.share_group_member import ShareGroupMember
@@ -80,6 +86,7 @@ from files_sdk.models.snapshot import Snapshot
 from files_sdk.models.sso_strategy import SsoStrategy
 from files_sdk.models.status import Status
 from files_sdk.models.style import Style
+from files_sdk.models.sync_log import SyncLog
 from files_sdk.models.usage_daily_snapshot import UsageDailySnapshot
 from files_sdk.models.usage_snapshot import UsageSnapshot
 from files_sdk.models.user import User

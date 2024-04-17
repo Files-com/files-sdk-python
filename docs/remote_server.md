@@ -315,9 +315,16 @@ files_sdk.remote_server.create({
 
 ```
 files_sdk.remote_server.configuration_file(id, {
+  "api_token": "example",
   "permission_set": "example",
   "root": "C:\\Users\\",
+  "hostname": "example",
+  "port": 1,
+  "status": "example",
+  "config_version": "example",
   "private_key": "example",
+  "public_key": "example",
+  "server_host_key": "example",
   "subdomain": "example"
 })
 ```
@@ -325,9 +332,16 @@ files_sdk.remote_server.configuration_file(id, {
 ### Parameters
 
 * `id` (int64): Required - Remote Server ID.
+* `api_token` (string): Files Agent API Token
 * `permission_set` (string): The permission set for the agent ['read_write', 'read_only', 'write_only']
 * `root` (string): The root directory for the agent
+* `hostname` (string): 
+* `port` (int64): Incoming port for files agent connections
+* `status` (string): either running or shutdown
+* `config_version` (string): agent config version
 * `private_key` (string): The private key for the agent
+* `public_key` (string): public key
+* `server_host_key` (string): 
 * `subdomain` (string): Files.com subdomain site name
 
 
@@ -479,9 +493,16 @@ files_sdk.remote_server.delete(id)
 ```
 remote_server = files_sdk.remote_server.list.first
 remote_server.configuration_file({
+  "api_token": "example",
   "permission_set": "example",
   "root": "C:\\Users\\",
+  "hostname": "example",
+  "port": 1,
+  "status": "example",
+  "config_version": "example",
   "private_key": "example",
+  "public_key": "example",
+  "server_host_key": "example",
   "subdomain": "example"
 })
 ```
@@ -489,9 +510,16 @@ remote_server.configuration_file({
 ### Parameters
 
 * `id` (int64): Required - Remote Server ID.
+* `api_token` (string): Files Agent API Token
 * `permission_set` (string): The permission set for the agent ['read_write', 'read_only', 'write_only']
 * `root` (string): The root directory for the agent
+* `hostname` (string): 
+* `port` (int64): Incoming port for files agent connections
+* `status` (string): either running or shutdown
+* `config_version` (string): agent config version
 * `private_key` (string): The private key for the agent
+* `public_key` (string): public key
+* `server_host_key` (string): 
 * `subdomain` (string): Files.com subdomain site name
 
 
