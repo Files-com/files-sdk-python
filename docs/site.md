@@ -260,6 +260,8 @@
   "user_lockout_within": 6,
   "user_requests_enabled": True,
   "user_requests_notify_admins": True,
+  "users_can_create_api_keys": True,
+  "users_can_create_ssh_keys": True,
   "welcome_custom_text": "Welcome to my site!",
   "welcome_email_cc": "example",
   "welcome_email_subject": "example",
@@ -416,6 +418,8 @@
 * `user_lockout_within` (int64): Number of hours for user lockout window
 * `user_requests_enabled` (boolean): Enable User Requests feature
 * `user_requests_notify_admins` (boolean): Send email to site admins when a user request is received?
+* `users_can_create_api_keys` (boolean): Allow users to create their own API keys?
+* `users_can_create_ssh_keys` (boolean): Allow users to create their own SSH keys?
 * `welcome_custom_text` (string): Custom text send in user welcome email
 * `welcome_email_cc` (email): Include this email in welcome emails if enabled
 * `welcome_email_subject` (string): Include this email subject in welcome emails if enabled
@@ -531,6 +535,8 @@ files_sdk.site.update({
   "dav_enabled": True,
   "ftp_enabled": True,
   "sftp_enabled": True,
+  "users_can_create_api_keys": True,
+  "users_can_create_ssh_keys": True,
   "sftp_host_key_type": "default",
   "active_sftp_host_key_id": 1,
   "protocol_access_groups_only": True,
@@ -674,6 +680,8 @@ files_sdk.site.update({
 * `dav_enabled` (boolean): Is WebDAV enabled?
 * `ftp_enabled` (boolean): Is FTP enabled?
 * `sftp_enabled` (boolean): Is SFTP enabled?
+* `users_can_create_api_keys` (boolean): Allow users to create their own API keys?
+* `users_can_create_ssh_keys` (boolean): Allow users to create their own SSH keys?
 * `sftp_host_key_type` (string): Sftp Host Key Type
 * `active_sftp_host_key_id` (int64): Id of the currently selected custom SFTP Host Key
 * `protocol_access_groups_only` (boolean): If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.

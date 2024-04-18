@@ -155,6 +155,8 @@ class Site:
         "user_lockout_within": None,  # int64 - Number of hours for user lockout window
         "user_requests_enabled": None,  # boolean - Enable User Requests feature
         "user_requests_notify_admins": None,  # boolean - Send email to site admins when a user request is received?
+        "users_can_create_api_keys": None,  # boolean - Allow users to create their own API keys?
+        "users_can_create_ssh_keys": None,  # boolean - Allow users to create their own SSH keys?
         "welcome_custom_text": None,  # string - Custom text send in user welcome email
         "welcome_email_cc": None,  # email - Include this email in welcome emails if enabled
         "welcome_email_subject": None,  # string - Include this email subject in welcome emails if enabled
@@ -286,6 +288,8 @@ def get_usage(params=None, options=None):
 #   dav_enabled - boolean - Is WebDAV enabled?
 #   ftp_enabled - boolean - Is FTP enabled?
 #   sftp_enabled - boolean - Is SFTP enabled?
+#   users_can_create_api_keys - boolean - Allow users to create their own API keys?
+#   users_can_create_ssh_keys - boolean - Allow users to create their own SSH keys?
 #   sftp_host_key_type - string - Sftp Host Key Type
 #   active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
 #   protocol_access_groups_only - boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
