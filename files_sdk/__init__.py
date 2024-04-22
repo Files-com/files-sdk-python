@@ -20,6 +20,7 @@ import files_sdk.models.behavior as behavior
 import files_sdk.models.bundle as bundle
 import files_sdk.models.bundle_download as bundle_download
 import files_sdk.models.bundle_notification as bundle_notification
+import files_sdk.models.bundle_path as bundle_path
 import files_sdk.models.bundle_recipient as bundle_recipient
 import files_sdk.models.bundle_registration as bundle_registration
 import files_sdk.models.clickwrap as clickwrap
@@ -114,6 +115,7 @@ from files_sdk.models.behavior import Behavior
 from files_sdk.models.bundle import Bundle
 from files_sdk.models.bundle_download import BundleDownload
 from files_sdk.models.bundle_notification import BundleNotification
+from files_sdk.models.bundle_path import BundlePath
 from files_sdk.models.bundle_recipient import BundleRecipient
 from files_sdk.models.bundle_registration import BundleRegistration
 from files_sdk.models.clickwrap import Clickwrap
@@ -191,7 +193,7 @@ the_api_key = ""
 session_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.4.44"
+version = "1.4.45"
 
 __version__ = version
 

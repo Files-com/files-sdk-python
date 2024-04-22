@@ -76,7 +76,8 @@
   "has_inbox": True,
   "paths": [
     "file.txt"
-  ]
+  ],
+  "bundlepaths": "example"
 }
 ```
 
@@ -118,6 +119,7 @@
 * `watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `has_inbox` (boolean): Does this bundle have an associated inbox?
 * `paths` (array): A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
+* `bundlepaths` (BundlePath): A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
 * `password` (string): Password for this bundle.
 * `form_field_set_id` (int64): Id of Form Field Set to use with this bundle
 * `create_snapshot` (boolean): If true, create a snapshot of this bundle's contents.
