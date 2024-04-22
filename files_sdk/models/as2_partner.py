@@ -15,7 +15,7 @@ class As2Partner:
         "name": None,  # string - The partner's formal AS2 name.
         "uri": None,  # string - Public URI for sending AS2 message to.
         "server_certificate": None,  # string - Remote server certificate security setting
-        "mdn_validation_level": None,  # string - MDN Validation Level
+        "mdn_validation_level": None,  # string - MDN Validation Level controls how to evaluate message transfer success based on a partner's MDN response. NOTE: This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
         "enable_dedicated_ips": None,  # boolean - `true` if remote server only accepts connections from dedicated IPs
         "hex_public_certificate_serial": None,  # string - Serial of public certificate used for message security in hex format.
         "public_certificate_md5": None,  # string - MD5 hash of public certificate used for message security.
