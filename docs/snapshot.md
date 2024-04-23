@@ -71,6 +71,19 @@ files_sdk.snapshot.create({
 
 ---
 
+## Finalize Snapshot
+
+```
+files_sdk.snapshot.finalize(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Snapshot ID.
+
+
+---
+
 ## Update Snapshot
 
 ```
@@ -94,6 +107,20 @@ files_sdk.snapshot.update(id, {
 
 ```
 files_sdk.snapshot.delete(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Snapshot ID.
+
+
+---
+
+## Finalize Snapshot
+
+```
+snapshot = files_sdk.snapshot.list.first
+snapshot.finalize()
 ```
 
 ### Parameters

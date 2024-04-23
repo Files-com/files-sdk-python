@@ -8,6 +8,14 @@ from files_sdk import snapshot
 class SnapshotTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/snapshots/{id}/finalize"), "Mock path does not exist")
+    def test_finalize(self):
+        params = {
+            "id" : 12345,
+        }
+        snapshot = Snapshot(params)
+        snapshot.finalize(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/snapshots/{id}"), "Mock path does not exist")
     def test_update(self):
         params = {
@@ -44,6 +52,14 @@ class SnapshotTest(TestBase):
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/snapshots"), "Mock path does not exist")
     def test_create(self):
         resp = snapshot.create()
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/snapshots/{id}/finalize"), "Mock path does not exist")
+    def test_finalize(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        snapshot.finalize(id, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/snapshots/{id}"), "Mock path does not exist")
     def test_update(self):

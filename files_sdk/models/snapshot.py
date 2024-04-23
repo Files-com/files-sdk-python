@@ -38,6 +38,26 @@ class Snapshot:
             if getattr(self, k, None) is not None
         }
 
+    # Finalize Snapshot
+    def finalize(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        Api.send_request(
+            "POST",
+            "/snapshots/{id}/finalize".format(id=params["id"]),
+            params,
+            self.options,
+        )
+
     # Parameters:
     #   expires_at - string - When the snapshot expires.
     #   name - string - A name for the snapshot.
@@ -165,6 +185,25 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: paths must be an list")
     response, options = Api.send_request("POST", "/snapshots", params, options)
     return Snapshot(response.data, options)
+
+
+# Finalize Snapshot
+def finalize(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    Api.send_request(
+        "POST",
+        "/snapshots/{id}/finalize".format(id=params["id"]),
+        params,
+        options,
+    )
 
 
 # Parameters:
