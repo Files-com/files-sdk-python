@@ -175,7 +175,8 @@ files_sdk.file.find(path, {
 ```
 files_sdk.file.copy(path, {
   "destination": "destination",
-  "structure": True
+  "structure": True,
+  "overwrite": True
 })
 ```
 
@@ -184,6 +185,7 @@ files_sdk.file.copy(path, {
 * `path` (string): Required - Path to operate on.
 * `destination` (string): Required - Copy destination path.
 * `structure` (boolean): Copy structure only?
+* `overwrite` (boolean): Overwrite existing file(s) in the destination?
 
 
 ---
@@ -192,7 +194,8 @@ files_sdk.file.copy(path, {
 
 ```
 files_sdk.file.move(path, {
-  "destination": "destination"
+  "destination": "destination",
+  "overwrite": True
 })
 ```
 
@@ -200,6 +203,7 @@ files_sdk.file.move(path, {
 
 * `path` (string): Required - Path to operate on.
 * `destination` (string): Required - Move destination path.
+* `overwrite` (boolean): Overwrite existing file(s) in the destination?
 
 
 ---
@@ -295,7 +299,8 @@ file.delete({
 file = file()
 file.copy({
   "destination": "destination",
-  "structure": True
+  "structure": True,
+  "overwrite": True
 })
 ```
 
@@ -304,6 +309,7 @@ file.copy({
 * `path` (string): Required - Path to operate on.
 * `destination` (string): Required - Copy destination path.
 * `structure` (boolean): Copy structure only?
+* `overwrite` (boolean): Overwrite existing file(s) in the destination?
 
 
 ---
@@ -313,7 +319,8 @@ file.copy({
 ```
 file = file()
 file.move({
-  "destination": "destination"
+  "destination": "destination",
+  "overwrite": True
 })
 ```
 
@@ -321,6 +328,7 @@ file.move({
 
 * `path` (string): Required - Path to operate on.
 * `destination` (string): Required - Move destination path.
+* `overwrite` (boolean): Overwrite existing file(s) in the destination?
 
 
 ---

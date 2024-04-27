@@ -291,6 +291,7 @@ class File:
     # Parameters:
     #   destination (required) - string - Copy destination path.
     #   structure - boolean - Copy structure only?
+    #   overwrite - boolean - Overwrite existing file(s) in the destination?
     def copy(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -323,6 +324,7 @@ class File:
     #
     # Parameters:
     #   destination (required) - string - Move destination path.
+    #   overwrite - boolean - Overwrite existing file(s) in the destination?
     def move(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -574,6 +576,7 @@ def get(path, params=None, options=None):
 # Parameters:
 #   destination (required) - string - Copy destination path.
 #   structure - boolean - Copy structure only?
+#   overwrite - boolean - Overwrite existing file(s) in the destination?
 def copy(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -603,6 +606,7 @@ def copy(path, params=None, options=None):
 #
 # Parameters:
 #   destination (required) - string - Move destination path.
+#   overwrite - boolean - Overwrite existing file(s) in the destination?
 def move(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
