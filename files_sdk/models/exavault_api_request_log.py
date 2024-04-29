@@ -19,6 +19,7 @@ class ExavaultApiRequestLog:
         "error_message": None,  # string - Error message, if applicable
         "user_agent": None,  # string - User-Agent
         "response_code": None,  # int64 - HTTP Response Code
+        "success": None,  # boolean - `false` if HTTP Response Code is 4xx or 5xx
         "duration_ms": None,  # int64 - Duration (in milliseconds)
     }
 

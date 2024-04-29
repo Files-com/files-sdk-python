@@ -13,6 +13,7 @@
   "error_message": "example",
   "user_agent": "example",
   "response_code": 1,
+  "success": True,
   "duration_ms": 1
 }
 ```
@@ -26,6 +27,7 @@
 * `error_message` (string): Error message, if applicable
 * `user_agent` (string): User-Agent
 * `response_code` (int64): HTTP Response Code
+* `success` (boolean): `false` if HTTP Response Code is 4xx or 5xx
 * `duration_ms` (int64): Duration (in milliseconds)
 
 
