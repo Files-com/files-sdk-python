@@ -11,6 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class Site:
     default_attributes = {
         "name": None,  # string - Site name
+        "additional_text_file_types": None,  # array - Additional extensions that are considered text files
         "allowed_2fa_method_sms": None,  # boolean - Is SMS two factor authentication allowed?
         "allowed_2fa_method_totp": None,  # boolean - Is TOTP two factor authentication allowed?
         "allowed_2fa_method_u2f": None,  # boolean - Is U2F two factor authentication allowed?
@@ -240,6 +241,7 @@ def get_usage(params=None, options=None):
 #   motd_use_for_ftp - boolean - Show message to users connecting via FTP
 #   motd_use_for_sftp - boolean - Show message to users connecting via SFTP
 #   left_navigation_visibility - object - Visibility settings for account navigation
+#   additional_text_file_types - array(string) - Additional extensions that are considered text files
 #   session_expiry - double - Session expiry in hours
 #   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
 #   tls_disabled - boolean - DO NOT ENABLE. This setting allows TLSv1.0 and TLSv1.1 to be used on your site.  We intend to remove this capability entirely in early 2024.  If set, the `sftp_insecure_ciphers` flag will be automatically set to true.
@@ -446,6 +448,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: left_navigation_visibility must be an dict"
+        )
+    if "additional_text_file_types" in params and not isinstance(
+        params["additional_text_file_types"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: additional_text_file_types must be an list"
         )
     if "session_expiry" in params and not isinstance(
         params["session_expiry"], float
