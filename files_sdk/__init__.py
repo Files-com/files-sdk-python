@@ -18,6 +18,7 @@ import files_sdk.models.automation_run as automation_run
 import files_sdk.models.bandwidth_snapshot as bandwidth_snapshot
 import files_sdk.models.behavior as behavior
 import files_sdk.models.bundle as bundle
+import files_sdk.models.bundle_action as bundle_action
 import files_sdk.models.bundle_download as bundle_download
 import files_sdk.models.bundle_notification as bundle_notification
 import files_sdk.models.bundle_path as bundle_path
@@ -113,6 +114,7 @@ from files_sdk.models.automation_run import AutomationRun
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot
 from files_sdk.models.behavior import Behavior
 from files_sdk.models.bundle import Bundle
+from files_sdk.models.bundle_action import BundleAction
 from files_sdk.models.bundle_download import BundleDownload
 from files_sdk.models.bundle_notification import BundleNotification
 from files_sdk.models.bundle_path import BundlePath
@@ -193,7 +195,7 @@ the_api_key = ""
 session_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.4.53"
+version = "1.4.54"
 
 __version__ = version
 
