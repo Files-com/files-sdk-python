@@ -18,6 +18,7 @@ class Behavior:
         "description": None,  # string - Description for this behavior.
         "value": None,  # object - Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
         "disable_parent_folder_behavior": None,  # boolean - If true, the parent folder's behavior will be disabled for this folder.
+        "recursive": None,  # boolean - Is behavior recursive?
         "attachment_file": None,  # file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
         "attachment_delete": None,  # boolean - If true, will delete the file stored in attachment
     }
@@ -45,6 +46,7 @@ class Behavior:
     #   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
     #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
     #   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder.
+    #   recursive - boolean - Is behavior recursive?
     #   name - string - Name for this behavior.
     #   description - string - Description for this behavior.
     #   behavior - string - Behavior type.
@@ -180,7 +182,7 @@ def get(id, params=None, options=None):
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `behavior`.
 #   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 #   path (required) - string - Path to operate on.
-#   recursive - string - Show behaviors above this path?
+#   ancestor_behaviors - string - Show behaviors above this path?
 #   behavior - string - DEPRECATED: If set only shows folder behaviors matching this behavior type. Use `filter[behavior]` instead.
 def list_for(path, params=None, options=None):
     if not isinstance(params, dict):
@@ -204,8 +206,12 @@ def list_for(path, params=None, options=None):
         )
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
-    if "recursive" in params and not isinstance(params["recursive"], str):
-        raise InvalidParameterError("Bad parameter: recursive must be an str")
+    if "ancestor_behaviors" in params and not isinstance(
+        params["ancestor_behaviors"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ancestor_behaviors must be an str"
+        )
     if "behavior" in params and not isinstance(params["behavior"], str):
         raise InvalidParameterError("Bad parameter: behavior must be an str")
     if "path" not in params:
@@ -223,6 +229,7 @@ def list_for(path, params=None, options=None):
 #   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 #   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder.
+#   recursive - boolean - Is behavior recursive?
 #   name - string - Name for this behavior.
 #   description - string - Description for this behavior.
 #   path (required) - string - Folder behaviors path.
@@ -285,6 +292,7 @@ def webhook_test(params=None, options=None):
 #   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 #   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder.
+#   recursive - boolean - Is behavior recursive?
 #   name - string - Name for this behavior.
 #   description - string - Description for this behavior.
 #   behavior - string - Behavior type.
