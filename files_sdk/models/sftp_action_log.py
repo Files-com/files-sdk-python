@@ -12,6 +12,7 @@ class SftpActionLog:
     default_attributes = {
         "timestamp": None,  # date-time - Start Time of Action
         "remote_ip": None,  # string - IP Address of SFTP Client
+        "server_ip": None,  # string - IP Address of SFTP Server
         "username": None,  # string - Username
         "session_uid": None,  # string - Unique ID of the Session
         "seq_id": None,  # int64 - SFTP Sequence ID
