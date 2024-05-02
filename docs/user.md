@@ -21,6 +21,7 @@
   "created_at": "2000-01-01T01:00:00Z",
   "dav_permission": True,
   "disabled": True,
+  "disabled_expired_or_inactive": True,
   "email": "example",
   "first_login_at": "2000-01-01T01:00:00Z",
   "ftp_permission": True,
@@ -84,7 +85,8 @@
 * `bypass_inactive_disable` (boolean): Exempt this user from being disabled based on inactivity?
 * `created_at` (date-time): When this user was created
 * `dav_permission` (boolean): Can the user connect with WebDAV?
-* `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
+* `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+* `disabled_expired_or_inactive` (boolean): Computed property that returns true if user disabled or expired or inactive.
 * `email` (email): User email address
 * `first_login_at` (date-time): User's first login time
 * `ftp_permission` (boolean): Can the user access with FTP/FTPS?
@@ -250,7 +252,7 @@ files_sdk.user.create({
 * `bypass_inactive_disable` (boolean): Exempt this user from being disabled based on inactivity?
 * `bypass_site_allowed_ips` (boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (boolean): Can the user connect with WebDAV?
-* `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
+* `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `ftp_permission` (boolean): Can the user access with FTP/FTPS?
 * `header_text` (string): Text to display to the user in the header of the UI
 * `language` (string): Preferred language
@@ -386,7 +388,7 @@ files_sdk.user.update(id, {
 * `bypass_inactive_disable` (boolean): Exempt this user from being disabled based on inactivity?
 * `bypass_site_allowed_ips` (boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (boolean): Can the user connect with WebDAV?
-* `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
+* `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `ftp_permission` (boolean): Can the user access with FTP/FTPS?
 * `header_text` (string): Text to display to the user in the header of the UI
 * `language` (string): Preferred language
@@ -539,7 +541,7 @@ user.update({
 * `bypass_inactive_disable` (boolean): Exempt this user from being disabled based on inactivity?
 * `bypass_site_allowed_ips` (boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (boolean): Can the user connect with WebDAV?
-* `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
+* `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `ftp_permission` (boolean): Can the user access with FTP/FTPS?
 * `header_text` (string): Text to display to the user in the header of the UI
 * `language` (string): Preferred language

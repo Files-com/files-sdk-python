@@ -46,11 +46,9 @@ class RemoteServer:
         "auth_account_name": None,  # string - Describes the authorized account
         "one_drive_account_type": None,  # string - Either personal or business_other account types
         "azure_blob_storage_account": None,  # string - Azure Blob Storage Account name
-        "azure_blob_storage_sas_token": None,  # string - Shared Access Signature (SAS) token
         "azure_blob_storage_container": None,  # string - Azure Blob Storage Container name
         "azure_blob_storage_hierarchical_namespace": None,  # boolean - Enable when storage account has hierarchical namespace feature enabled
         "azure_files_storage_account": None,  # string - Azure File Storage Account name
-        "azure_files_storage_sas_token": None,  # string - Shared Access Signature (SAS) token
         "azure_files_storage_share_name": None,  # string - Azure File Storage Share name
         "s3_compatible_bucket": None,  # string - S3-compatible Bucket name
         "s3_compatible_endpoint": None,  # string - S3-compatible endpoint
@@ -83,6 +81,7 @@ class RemoteServer:
         "reset_authentication": None,  # boolean - Reset authenticated account
         "azure_blob_storage_access_key": None,  # string - Azure Blob Storage secret key.
         "azure_files_storage_access_key": None,  # string - Azure File Storage access key.
+        "azure_blob_storage_sas_token": None,  # string - Shared Access Signature (SAS) token
         "s3_compatible_secret_key": None,  # string - S3-compatible secret key
         "filebase_secret_key": None,  # string - Filebase secret key
         "cloudflare_secret_key": None,  # string - Cloudflare secret key
@@ -237,7 +236,6 @@ class RemoteServer:
     #   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
     #   azure_files_storage_account - string - Azure File Storage Account name
     #   azure_files_storage_share_name - string - Azure File Storage Share name
-    #   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
     #   s3_compatible_bucket - string - S3-compatible Bucket name
     #   s3_compatible_endpoint - string - S3-compatible endpoint
     #   s3_compatible_region - string - S3-compatible endpoint
@@ -491,12 +489,6 @@ class RemoteServer:
         ):
             raise InvalidParameterError(
                 "Bad parameter: azure_files_storage_share_name must be an str"
-            )
-        if "azure_files_storage_sas_token" in params and not isinstance(
-            params["azure_files_storage_sas_token"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: azure_files_storage_sas_token must be an str"
             )
         if "s3_compatible_bucket" in params and not isinstance(
             params["s3_compatible_bucket"], str
@@ -759,7 +751,6 @@ def find_configuration_file(id, params=None, options=None):
 #   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
 #   azure_files_storage_account - string - Azure File Storage Account name
 #   azure_files_storage_share_name - string - Azure File Storage Share name
-#   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
 #   s3_compatible_region - string - S3-compatible endpoint
@@ -989,12 +980,6 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: azure_files_storage_share_name must be an str"
-        )
-    if "azure_files_storage_sas_token" in params and not isinstance(
-        params["azure_files_storage_sas_token"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_sas_token must be an str"
         )
     if "s3_compatible_bucket" in params and not isinstance(
         params["s3_compatible_bucket"], str
@@ -1229,7 +1214,6 @@ def configuration_file(id, params=None, options=None):
 #   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
 #   azure_files_storage_account - string - Azure File Storage Account name
 #   azure_files_storage_share_name - string - Azure File Storage Share name
-#   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
 #   s3_compatible_region - string - S3-compatible endpoint
@@ -1462,12 +1446,6 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: azure_files_storage_share_name must be an str"
-        )
-    if "azure_files_storage_sas_token" in params and not isinstance(
-        params["azure_files_storage_sas_token"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_sas_token must be an str"
         )
     if "s3_compatible_bucket" in params and not isinstance(
         params["s3_compatible_bucket"], str
