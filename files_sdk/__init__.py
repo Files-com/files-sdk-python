@@ -41,6 +41,7 @@ import files_sdk.models.file_upload_part as file_upload_part
 import files_sdk.models.folder as folder
 import files_sdk.models.form_field as form_field
 import files_sdk.models.form_field_set as form_field_set
+import files_sdk.models.ftp_action_log as ftp_action_log
 import files_sdk.models.gpg_key as gpg_key
 import files_sdk.models.group as group
 import files_sdk.models.group_user as group_user
@@ -137,6 +138,7 @@ from files_sdk.models.file_upload_part import FileUploadPart
 from files_sdk.models.folder import Folder
 from files_sdk.models.form_field import FormField
 from files_sdk.models.form_field_set import FormFieldSet
+from files_sdk.models.ftp_action_log import FtpActionLog
 from files_sdk.models.gpg_key import GpgKey
 from files_sdk.models.group import Group
 from files_sdk.models.group_user import GroupUser
@@ -195,7 +197,7 @@ the_api_key = ""
 session_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.4.64"
+version = "1.4.65"
 
 __version__ = version
 
