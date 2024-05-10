@@ -26,7 +26,7 @@
 
 * `timestamp` (date-time): Start Time of Action
 * `remote_ip` (string): IP Address of FTP Client
-* `server_ip` (string): IP Address of SFTP Server
+* `server_ip` (string): IP Address of FTP Server
 * `username` (string): Username
 * `session_uuid` (string): Unique ID of the Session
 * `seq_id` (int64): FTP Sequence ID

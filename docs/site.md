@@ -21,6 +21,7 @@
   "allow_bundle_names": True,
   "allowed_countries": "US,DE",
   "allowed_ips": "example",
+  "always_mkdir_parents": True,
   "ask_about_overwrites": True,
   "bundle_activity_notifications": "never",
   "bundle_expiration": 1,
@@ -294,6 +295,7 @@
 * `allow_bundle_names` (boolean): Are manual Bundle names allowed?
 * `allowed_countries` (string): Comma seperated list of allowed Country codes
 * `allowed_ips` (string): List of allowed IP addresses
+* `always_mkdir_parents` (boolean): Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
 * `ask_about_overwrites` (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `bundle_activity_notifications` (string): Do Bundle owners receive activity notifications?
 * `bundle_expiration` (int64): Site-wide Bundle expiration in days
@@ -475,6 +477,7 @@ files_sdk.site.update({
   "welcome_email_enabled": True,
   "ask_about_overwrites": True,
   "show_request_access_link": True,
+  "always_mkdir_parents": True,
   "welcome_email_cc": "example",
   "welcome_email_subject": "example",
   "welcome_custom_text": "Welcome to my site!",
@@ -622,6 +625,7 @@ files_sdk.site.update({
 * `welcome_email_enabled` (boolean): Will the welcome email be sent to new users?
 * `ask_about_overwrites` (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `show_request_access_link` (boolean): Show request access link for users without access?  Currently unused.
+* `always_mkdir_parents` (boolean): Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
 * `welcome_email_cc` (string): Include this email in welcome emails if enabled
 * `welcome_email_subject` (string): Include this email subject in welcome emails if enabled
 * `welcome_custom_text` (string): Custom text send in user welcome email

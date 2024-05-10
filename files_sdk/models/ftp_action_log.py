@@ -12,7 +12,7 @@ class FtpActionLog:
     default_attributes = {
         "timestamp": None,  # date-time - Start Time of Action
         "remote_ip": None,  # string - IP Address of FTP Client
-        "server_ip": None,  # string - IP Address of SFTP Server
+        "server_ip": None,  # string - IP Address of FTP Server
         "username": None,  # string - Username
         "session_uuid": None,  # string - Unique ID of the Session
         "seq_id": None,  # int64 - FTP Sequence ID
