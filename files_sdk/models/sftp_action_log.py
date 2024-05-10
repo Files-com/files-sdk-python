@@ -19,19 +19,13 @@ class SftpActionLog:
         "auth_method": None,  # string - Authentication Method
         "auth_ciphers": None,  # string - Authentication Ciphers
         "action_type": None,  # string - Action Type
-        "path": None,  # string - Path as sent by the Client (may not match Files.com path due to user root folders for SFTP) This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Path as sent by the Client (may not match Files.com path due to user root folders for SFTP). This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "true_path": None,  # string - Path on Files.com
         "name": None,  # string - Name of File
-        "message": None,  # string - Log Message
-        "failure_reason_type": None,  # string - Failure Reason Type
-        "failure_reason_message": None,  # string - Failure Reason Message
+        "sftp_response_code": None,  # string - SFTP Response Code Returned to the Client.
+        "sftp_response_message": None,  # string - SFTP Response Message Returned to the Client.
         "md5": None,  # string - MD5 Hash of the file. Not always available.
-        "flags": None,  # string - SFTP Command Flags. Present for actions which involve flags.
-        "handle": None,  # string - SFTP Command Handle. Present for actions which involve handles.
-        "attrs": None,  # string - SFTP Command Attrs. Present for action which involve attrs.
-        "size": None,  # string - Size. Present for action which involve size.
-        "offset": None,  # string - Offset. Present for actions which involve offset.
-        "length": None,  # string - Length. Present for actions which involve length.
+        "size": None,  # string - Size of File That was Uploaded or Downloaded.
         "data_length": None,  # string - Data Length in Bytes. Present for actions that transfer data.
         "entries_returned": None,  # int64 - Number of entries returned when listing files and folders
         "success": None,  # string - Whether SFTP Action was successful.
