@@ -159,6 +159,7 @@
     "sftp_insecure_ciphers": False,
     "site_id": 1,
     "ssl_required": True,
+    "timeout_at": "2000-01-01T01:00:00Z",
     "tls_disabled": False,
     "two_factor_setup_needed": False,
     "allowed_2fa_method_sms": True,
