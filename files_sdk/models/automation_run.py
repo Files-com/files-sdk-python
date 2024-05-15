@@ -16,7 +16,6 @@ class AutomationRun:
         "created_at": None,  # date-time - Automation run start date/time.
         "runtime": None,  # double - Automation run runtime.
         "status": None,  # string - The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
-        "run_stage": None,  # string - The stage currently being executed in the execution environment.  One of `queued_for_planning`, `planning`, `queued_for_execution`, `executing`, or `finished`.
         "successful_operations": None,  # int64 - Count of successful operations.
         "failed_operations": None,  # int64 - Count of failed operations.
         "status_messages_url": None,  # string - Link to status messages log file.
