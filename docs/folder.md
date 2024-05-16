@@ -5,10 +5,27 @@
 ```
 {
   "path": "path/file.txt",
+  "created_by_id": 1,
+  "created_by_api_key_id": 1,
+  "created_by_as2_incoming_message_id": 1,
+  "created_by_automation_id": 1,
+  "created_by_bundle_registration_id": 1,
+  "created_by_inbox_id": 1,
+  "created_by_remote_server_id": 1,
+  "created_by_remote_server_sync_id": 1,
+  "custom_metadata": {
+    "key": "value"
+  },
   "display_name": "file.txt",
   "type": "file",
   "size": 1024,
   "created_at": "2000-01-01T01:00:00Z",
+  "last_modified_by_id": 1,
+  "last_modified_by_api_key_id": 1,
+  "last_modified_by_automation_id": 1,
+  "last_modified_by_bundle_registration_id": 1,
+  "last_modified_by_remote_server_id": 1,
+  "last_modified_by_remote_server_sync_id": 1,
   "mtime": "2000-01-01T01:00:00Z",
   "provided_mtime": "2000-01-01T01:00:00Z",
   "crc32": "70976923",
@@ -32,10 +49,25 @@
 ```
 
 * `path` (string): File/Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `created_by_id` (int64): User ID of the User who created the file/folder
+* `created_by_api_key_id` (int64): ID of the API key that created the file/folder
+* `created_by_as2_incoming_message_id` (int64): ID of the AS2 Incoming Message that created the file/folder
+* `created_by_automation_id` (int64): ID of the Automation that created the file/folder
+* `created_by_bundle_registration_id` (int64): ID of the Bundle Registration that created the file/folder
+* `created_by_inbox_id` (int64): ID of the Inbox that created the file/folder
+* `created_by_remote_server_id` (int64): ID of the Remote Server that created the file/folder
+* `created_by_remote_server_sync_id` (int64): ID of the Remote Server Sync that created the file/folder
+* `custom_metadata` (object): Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
 * `display_name` (string): File/Folder display name
 * `type` (string): Type: `directory` or `file`.
 * `size` (int64): File/Folder size
 * `created_at` (date-time): File created date/time
+* `last_modified_by_id` (int64): User ID of the User who last modified the file/folder
+* `last_modified_by_api_key_id` (int64): ID of the API key that last modified the file/folder
+* `last_modified_by_automation_id` (int64): ID of the Automation that last modified the file/folder
+* `last_modified_by_bundle_registration_id` (int64): ID of the Bundle Registration that last modified the file/folder
+* `last_modified_by_remote_server_id` (int64): ID of the Remote Server that last modified the file/folder
+* `last_modified_by_remote_server_sync_id` (int64): ID of the Remote Server Sync that last modified the file/folder
 * `mtime` (date-time): File last modified date/time, according to the server.  This is the timestamp of the last Files.com operation of the file, regardless of what modified timestamp was sent.
 * `provided_mtime` (date-time): File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop<->Cloud syncing to preserve modified at times.
 * `crc32` (string): File CRC32 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
