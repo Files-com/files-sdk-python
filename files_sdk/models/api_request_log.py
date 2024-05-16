@@ -24,6 +24,7 @@ class ApiRequestLog:
         "api_name": None,  # string - Name of API Endpoint
         "user_agent": None,  # string - User-Agent
         "error_type": None,  # string - Error type, if applicable
+        "error_message": None,  # string - Error message, if applicable
         "response_code": None,  # int64 - HTTP Response Code
         "success": None,  # boolean - `false` if HTTP Response Code is 4xx or 5xx
         "duration_ms": None,  # int64 - Duration (in milliseconds)
