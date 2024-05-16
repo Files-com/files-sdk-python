@@ -10,6 +10,7 @@
   "username": "example",
   "session_uuid": "example",
   "seq_id": 1,
+  "auth_ciphers": "example",
   "action_type": "example",
   "path": "example",
   "True_path": "example",
@@ -30,6 +31,7 @@
 * `username` (string): Username
 * `session_uuid` (string): Unique ID of the Session
 * `seq_id` (int64): FTP Sequence ID
+* `auth_ciphers` (string): Authentication Ciphers
 * `action_type` (string): Action Type
 * `path` (string): Path as sent by the Client (may not match Files.com path due to user root folders for FTP) This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `true_path` (string): Path on Files.com
