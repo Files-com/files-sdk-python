@@ -19,6 +19,8 @@ class ApiClient:
     The Files.com API Client.
     """
 
+    session = requests.Session()
+
     def __init__(self):
         pass
 
@@ -123,19 +125,15 @@ class ApiClient:
             request_start = time.time()
             try:
                 self.log_request(request, try_num)
-                with requests.Session() as s:
-                    prepped = request.prepare()
-                    settings = s.merge_environment_settings(
-                        prepped.url, {}, None, None, None
-                    )
-                    response = s.send(
-                        prepped,
-                        timeout=(
-                            files_sdk.open_timeout,
-                            files_sdk.read_timeout,
-                        ),
-                        **settings,
-                    )
+                prepped = request.prepare()
+                settings = self.session.merge_environment_settings(
+                    prepped.url, {}, None, None, None
+                )
+                response = self.session.send(
+                    prepped,
+                    timeout=(files_sdk.open_timeout, files_sdk.read_timeout),
+                    **settings,
+                )
                 self.log_response(
                     request,
                     request_start,
