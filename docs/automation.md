@@ -293,7 +293,7 @@ files_sdk.automation.delete(id)
 ## Manually run automation
 
 ```
-automation = files_sdk.automation.list.first
+automation = files_sdk.automation.find(id)
 automation.manual_run()
 ```
 
@@ -307,7 +307,7 @@ automation.manual_run()
 ## Update Automation
 
 ```
-automation = files_sdk.automation.list.first
+automation = files_sdk.automation.find(id)
 automation.update({
   "source": "source",
   "destinations": ["folder_a/file_a.txt",{"folder_path":"folder_b","file_path":"file_b.txt"},{"folder_path":"folder_c"}],
@@ -373,7 +373,7 @@ automation.update({
 ## Delete Automation
 
 ```
-automation = files_sdk.automation.list.first
+automation = files_sdk.automation.find(id)
 automation.delete()
 ```
 

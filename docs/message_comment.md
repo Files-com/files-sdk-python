@@ -105,7 +105,7 @@ files_sdk.message_comment.delete(id)
 ## Update Message Comment
 
 ```
-message_comment = files_sdk.message_comment.list.first
+message_comment = files_sdk.message_comment.find(id)
 message_comment.update({
   "body": "body"
 })
@@ -122,7 +122,7 @@ message_comment.update({
 ## Delete Message Comment
 
 ```
-message_comment = files_sdk.message_comment.list.first
+message_comment = files_sdk.message_comment.find(id)
 message_comment.delete()
 ```
 

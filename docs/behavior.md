@@ -188,7 +188,7 @@ files_sdk.behavior.delete(id)
 ## Update Behavior
 
 ```
-behavior = files_sdk.behavior.list.first
+behavior = files_sdk.behavior.find(id)
 behavior.update({
   "value": "{\"method\": \"GET\"}",
   "disable_parent_folder_behavior": True,
@@ -220,7 +220,7 @@ behavior.update({
 ## Delete Behavior
 
 ```
-behavior = files_sdk.behavior.list.first
+behavior = files_sdk.behavior.find(id)
 behavior.delete()
 ```
 

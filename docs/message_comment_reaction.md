@@ -82,7 +82,7 @@ files_sdk.message_comment_reaction.delete(id)
 ## Delete Message Comment Reaction
 
 ```
-message_comment_reaction = files_sdk.message_comment_reaction.list.first
+message_comment_reaction = files_sdk.message_comment_reaction.find(id)
 message_comment_reaction.delete()
 ```
 

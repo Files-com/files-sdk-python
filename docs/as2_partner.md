@@ -137,7 +137,7 @@ files_sdk.as2_partner.delete(id)
 ## Update As2 Partner
 
 ```
-as2_partner = files_sdk.as2_partner.list.first
+as2_partner = files_sdk.as2_partner.find(id)
 as2_partner.update({
   "name": "AS2 Partner Name",
   "uri": "example",
@@ -163,7 +163,7 @@ as2_partner.update({
 ## Delete As2 Partner
 
 ```
-as2_partner = files_sdk.as2_partner.list.first
+as2_partner = files_sdk.as2_partner.find(id)
 as2_partner.delete()
 ```
 

@@ -98,7 +98,7 @@ files_sdk.sftp_host_key.delete(id)
 ## Update Sftp Host Key
 
 ```
-sftp_host_key = files_sdk.sftp_host_key.list.first
+sftp_host_key = files_sdk.sftp_host_key.find(id)
 sftp_host_key.update({
   "name": "example"
 })
@@ -116,7 +116,7 @@ sftp_host_key.update({
 ## Delete Sftp Host Key
 
 ```
-sftp_host_key = files_sdk.sftp_host_key.list.first
+sftp_host_key = files_sdk.sftp_host_key.find(id)
 sftp_host_key.delete()
 ```
 

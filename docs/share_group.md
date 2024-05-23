@@ -115,7 +115,7 @@ files_sdk.share_group.delete(id)
 ## Update Share Group
 
 ```
-share_group = files_sdk.share_group.list.first
+share_group = files_sdk.share_group.find(id)
 share_group.update({
   "notes": "This group is defined for testing purposes",
   "name": "Test group 1",
@@ -136,7 +136,7 @@ share_group.update({
 ## Delete Share Group
 
 ```
-share_group = files_sdk.share_group.list.first
+share_group = files_sdk.share_group.find(id)
 share_group.delete()
 ```
 

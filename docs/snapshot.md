@@ -119,7 +119,7 @@ files_sdk.snapshot.delete(id)
 ## Finalize Snapshot
 
 ```
-snapshot = files_sdk.snapshot.list.first
+snapshot = files_sdk.snapshot.find(id)
 snapshot.finalize()
 ```
 
@@ -133,7 +133,7 @@ snapshot.finalize()
 ## Update Snapshot
 
 ```
-snapshot = files_sdk.snapshot.list.first
+snapshot = files_sdk.snapshot.find(id)
 snapshot.update({
   "expires_at": "2000-01-01T01:00:00Z",
   "name": "My Snapshot"
@@ -153,7 +153,7 @@ snapshot.update({
 ## Delete Snapshot
 
 ```
-snapshot = files_sdk.snapshot.list.first
+snapshot = files_sdk.snapshot.find(id)
 snapshot.delete()
 ```
 

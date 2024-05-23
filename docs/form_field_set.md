@@ -142,7 +142,7 @@ files_sdk.form_field_set.delete(id)
 ## Update Form Field Set
 
 ```
-form_field_set = files_sdk.form_field_set.list.first
+form_field_set = files_sdk.form_field_set.find(id)
 form_field_set.update({
   "title": "Sample Form Title",
   "skip_email": True,
@@ -167,7 +167,7 @@ form_field_set.update({
 ## Delete Form Field Set
 
 ```
-form_field_set = files_sdk.form_field_set.list.first
+form_field_set = files_sdk.form_field_set.find(id)
 form_field_set.delete()
 ```
 

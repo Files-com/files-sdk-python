@@ -82,7 +82,7 @@ files_sdk.message_reaction.delete(id)
 ## Delete Message Reaction
 
 ```
-message_reaction = files_sdk.message_reaction.list.first
+message_reaction = files_sdk.message_reaction.find(id)
 message_reaction.delete()
 ```
 

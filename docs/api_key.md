@@ -170,7 +170,7 @@ files_sdk.api_key.delete(id)
 ## Update Api Key
 
 ```
-api_key = files_sdk.api_key.list.first
+api_key = files_sdk.api_key.find(id)
 api_key.update({
   "description": "example",
   "expires_at": "2000-01-01T01:00:00Z",
@@ -193,7 +193,7 @@ api_key.update({
 ## Delete Api Key
 
 ```
-api_key = files_sdk.api_key.list.first
+api_key = files_sdk.api_key.find(id)
 api_key.delete()
 ```
 

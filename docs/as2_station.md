@@ -124,7 +124,7 @@ files_sdk.as2_station.delete(id)
 ## Update As2 Station
 
 ```
-as2_station = files_sdk.as2_station.list.first
+as2_station = files_sdk.as2_station.find(id)
 as2_station.update({
   "name": "AS2 Station Name"
 })
@@ -144,7 +144,7 @@ as2_station.update({
 ## Delete As2 Station
 
 ```
-as2_station = files_sdk.as2_station.list.first
+as2_station = files_sdk.as2_station.find(id)
 as2_station.delete()
 ```
 

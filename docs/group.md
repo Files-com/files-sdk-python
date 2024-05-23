@@ -145,7 +145,7 @@ files_sdk.group.delete(id)
 ## Update Group
 
 ```
-group = files_sdk.group.list.first
+group = files_sdk.group.find(id)
 group.update({
   "notes": "example",
   "user_ids": "1",
@@ -178,7 +178,7 @@ group.update({
 ## Delete Group
 
 ```
-group = files_sdk.group.list.first
+group = files_sdk.group.find(id)
 group.delete()
 ```
 

@@ -122,7 +122,7 @@ files_sdk.message.delete(id)
 ## Update Message
 
 ```
-message = files_sdk.message.list.first
+message = files_sdk.message.find(id)
 message.update({
   "project_id": 1,
   "subject": "Files.com Account Upgrade",
@@ -143,7 +143,7 @@ message.update({
 ## Delete Message
 
 ```
-message = files_sdk.message.list.first
+message = files_sdk.message.find(id)
 message.delete()
 ```
 

@@ -148,7 +148,7 @@ files_sdk.sso_strategy.sync(id)
 ## Synchronize provisioning data with the SSO remote server
 
 ```
-sso_strategy = files_sdk.sso_strategy.list.first
+sso_strategy = files_sdk.sso_strategy.find(id)
 sso_strategy.sync()
 ```
 

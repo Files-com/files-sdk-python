@@ -118,7 +118,7 @@ files_sdk.gpg_key.delete(id)
 ## Update Gpg Key
 
 ```
-gpg_key = files_sdk.gpg_key.list.first
+gpg_key = files_sdk.gpg_key.find(id)
 gpg_key.update({
   "public_key": "7f8bc1210b09b9ddf469e6b6b8920e76",
   "private_key": "ab236cfe4a195f0226bc2e674afdd6b0",
@@ -141,7 +141,7 @@ gpg_key.update({
 ## Delete Gpg Key
 
 ```
-gpg_key = files_sdk.gpg_key.list.first
+gpg_key = files_sdk.gpg_key.find(id)
 gpg_key.delete()
 ```
 

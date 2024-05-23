@@ -107,7 +107,7 @@ files_sdk.bundle_notification.delete(id)
 ## Update Bundle Notification
 
 ```
-bundle_notification = files_sdk.bundle_notification.list.first
+bundle_notification = files_sdk.bundle_notification.find(id)
 bundle_notification.update({
   "notify_on_registration": True,
   "notify_on_upload": True
@@ -126,7 +126,7 @@ bundle_notification.update({
 ## Delete Bundle Notification
 
 ```
-bundle_notification = files_sdk.bundle_notification.list.first
+bundle_notification = files_sdk.bundle_notification.find(id)
 bundle_notification.delete()
 ```
 

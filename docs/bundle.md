@@ -339,7 +339,7 @@ files_sdk.bundle.delete(id)
 ## Send email(s) with a link to bundle
 
 ```
-bundle = files_sdk.bundle.list.first
+bundle = files_sdk.bundle.find(id)
 bundle.share({
   "to": ["johndoe@gmail.com"],
   "note": "Just a note.",
@@ -360,7 +360,7 @@ bundle.share({
 ## Update Bundle
 
 ```
-bundle = files_sdk.bundle.list.first
+bundle = files_sdk.bundle.find(id)
 bundle.update({
   "paths": ["file.txt"],
   "password": "Password",
@@ -426,7 +426,7 @@ bundle.update({
 ## Delete Bundle
 
 ```
-bundle = files_sdk.bundle.list.first
+bundle = files_sdk.bundle.find(id)
 bundle.delete()
 ```
 
