@@ -25,7 +25,7 @@
 * `id` (int64): Message ID
 * `subject` (string): Message subject.
 * `body` (string): Message body.
-* `comments` (array): Comments.
+* `comments` (array(object)): Comments.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `project_id` (int64): Project to which the message should be attached.
 

@@ -47,8 +47,8 @@ class Bundle:
         "watermark_attachment": None,  # Image - Preview watermark image applied to all bundle items.
         "watermark_value": None,  # object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
         "has_inbox": None,  # boolean - Does this bundle have an associated inbox?
-        "paths": None,  # array - A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
-        "bundlepaths": None,  # array - A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
+        "paths": None,  # array(string) - A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
+        "bundlepaths": None,  # array(object) - A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
         "password": None,  # string - Password for this bundle.
         "form_field_set_id": None,  # int64 - Id of Form Field Set to use with this bundle
         "create_snapshot": None,  # boolean - If true, create a snapshot of this bundle's contents.

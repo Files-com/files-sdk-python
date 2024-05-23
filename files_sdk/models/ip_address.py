@@ -14,7 +14,7 @@ class IpAddress:
         "id": None,  # string - Unique label for list; used by Zapier and other integrations.
         "associated_with": None,  # string - The object that this public IP address list is associated with.
         "group_id": None,  # int64 - Group ID
-        "ip_addresses": None,  # array - A list of IP addresses.
+        "ip_addresses": None,  # array(string) - A list of IP addresses.
     }
 
     def __init__(self, attributes=None, options=None):

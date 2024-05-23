@@ -12,7 +12,7 @@ class User:
     default_attributes = {
         "id": None,  # int64 - User ID
         "username": None,  # string - User's username
-        "admin_group_ids": None,  # array - List of group IDs of which this user is an administrator
+        "admin_group_ids": None,  # array(int64) - List of group IDs of which this user is an administrator
         "allowed_ips": None,  # string - A list of allowed IPs if applicable.  Newline delimited
         "attachments_permission": None,  # boolean - DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
         "api_keys_count": None,  # int64 - Number of api keys associated with this user

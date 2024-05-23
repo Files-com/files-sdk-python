@@ -16,7 +16,7 @@
 * `id` (string): Unique label for list; used by Zapier and other integrations.
 * `associated_with` (string): The object that this public IP address list is associated with.
 * `group_id` (int64): Group ID
-* `ip_addresses` (array): A list of IP addresses.
+* `ip_addresses` (array(string)): A list of IP addresses.
 
 
 ---

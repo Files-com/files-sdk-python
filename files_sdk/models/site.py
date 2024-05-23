@@ -11,7 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class Site:
     default_attributes = {
         "name": None,  # string - Site name
-        "additional_text_file_types": None,  # array - Additional extensions that are considered text files
+        "additional_text_file_types": None,  # array(string) - Additional extensions that are considered text files
         "allowed_2fa_method_sms": None,  # boolean - Is SMS two factor authentication allowed?
         "allowed_2fa_method_totp": None,  # boolean - Is TOTP two factor authentication allowed?
         "allowed_2fa_method_u2f": None,  # boolean - Is U2F two factor authentication allowed?
@@ -31,7 +31,7 @@ class Site:
         "bundle_expiration": None,  # int64 - Site-wide Bundle expiration in days
         "bundle_not_found_message": None,  # string - Custom error message to show when bundle is not found.
         "bundle_password_required": None,  # boolean - Do Bundles require password protection?
-        "bundle_recipient_blacklist_domains": None,  # array - List of email domains to disallow when entering a Bundle/Inbox recipients
+        "bundle_recipient_blacklist_domains": None,  # array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
         "bundle_recipient_blacklist_free_email_domains": None,  # boolean - Disallow free email domains for Bundle/Inbox recipients?
         "bundle_registration_notifications": None,  # string - Do Bundle owners receive registration notification?
         "bundle_require_registration": None,  # boolean - Do Bundles require registration?

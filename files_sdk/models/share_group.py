@@ -14,7 +14,7 @@ class ShareGroup:
         "name": None,  # string - Name of the share group
         "notes": None,  # string - Additional notes of the share group
         "user_id": None,  # int64 - Owner User ID
-        "members": None,  # array - A list of share group members
+        "members": None,  # array(object) - A list of share group members
     }
 
     def __init__(self, attributes=None, options=None):

@@ -73,7 +73,7 @@
 
 * `id` (int64): User ID
 * `username` (string): User's username
-* `admin_group_ids` (array): List of group IDs of which this user is an administrator
+* `admin_group_ids` (array(int64)): List of group IDs of which this user is an administrator
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `attachments_permission` (boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
 * `api_keys_count` (int64): Number of api keys associated with this user

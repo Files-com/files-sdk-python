@@ -12,7 +12,7 @@ class FileComment:
     default_attributes = {
         "id": None,  # int64 - File Comment ID
         "body": None,  # string - Comment body.
-        "reactions": None,  # array - Reactions to this comment.
+        "reactions": None,  # array(object) - Reactions to this comment.
         "path": None,  # string - File path.
     }
 

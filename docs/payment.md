@@ -44,9 +44,9 @@
 * `created_at` (date-time): Line item created at
 * `currency` (string): Line item currency
 * `download_uri` (string): Line item download uri
-* `invoice_line_items` (array): Associated invoice line items
+* `invoice_line_items` (array(object)): Associated invoice line items
 * `method` (string): Line item payment method
-* `payment_line_items` (array): Associated payment line items
+* `payment_line_items` (array(object)): Associated payment line items
 * `payment_reversed_at` (date-time): Date/time payment was reversed if applicable
 * `payment_type` (string): Type of payment if applicable
 * `site_name` (string): Site name this line item is for

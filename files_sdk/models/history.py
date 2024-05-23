@@ -18,7 +18,7 @@ class History:
         "display": None,  # string - Friendly displayed output
         "ip": None,  # string - IP Address that performed this action
         "source": None,  # string - The source path for this action, if applicable
-        "targets": None,  # array - Targets
+        "targets": None,  # array(object) - Targets
         "user_id": None,  # int64 - User ID
         "username": None,  # string - Username
         "action": None,  # string - Type of action

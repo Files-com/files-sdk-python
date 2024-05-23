@@ -36,8 +36,8 @@
 
 * `id` (int64): Form field set id
 * `title` (string): Title to be displayed
-* `form_layout` (array): Layout of the form
-* `form_fields` (array): Associated form fields
+* `form_layout` (array(int64)): Layout of the form
+* `form_fields` (array(object)): Associated form fields
 * `skip_name` (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
 * `skip_email` (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
 * `skip_company` (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing company

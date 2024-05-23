@@ -18,7 +18,7 @@
 * `group_id` (int64): Group ID
 * `user_id` (int64): User ID
 * `admin` (boolean): Is this user an administrator of this group?
-* `usernames` (array): A list of usernames for users in this group
+* `usernames` (array(string)): A list of usernames for users in this group
 * `id` (int64): Group User ID.
 
 

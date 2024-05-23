@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 
 class SettingsChange:
     default_attributes = {
-        "changes": None,  # array - Markdown-formatted change messages.
+        "changes": None,  # array(string) - Markdown-formatted change messages.
         "created_at": None,  # date-time - The time this change was made
         "user_id": None,  # int64 - The user id responsible for this change
         "api_key_id": None,  # int64 - The api key id responsible for this change

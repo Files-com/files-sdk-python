@@ -22,7 +22,7 @@
 * `name` (string): Name of the share group
 * `notes` (string): Additional notes of the share group
 * `user_id` (int64): Owner User ID
-* `members` (array): A list of share group members
+* `members` (array(object)): A list of share group members
 
 
 ---

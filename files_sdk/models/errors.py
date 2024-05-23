@@ -9,8 +9,8 @@ from files_sdk.error import (  # noqa: F401
 
 class Errors:
     default_attributes = {
-        "fields": None,  # array - A list of fields where errors occur
-        "messages": None,  # array - A list of error messages
+        "fields": None,  # array(string) - A list of fields where errors occur
+        "messages": None,  # array(string) - A list of error messages
     }
 
     def __init__(self, attributes=None, options=None):

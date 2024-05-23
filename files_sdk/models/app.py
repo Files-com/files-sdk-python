@@ -25,7 +25,7 @@ class App:
         "name": None,  # string - Name of the App
         "package_manager_install_command": None,  # string - Package manager install command
         "remote_server_type": None,  # string - Associated Remote Server type, if any
-        "screenshot_list_urls": None,  # array - Screenshots of the App
+        "screenshot_list_urls": None,  # array(string) - Screenshots of the App
         "sdk_installation_instructions_link": None,  # string - Link to SDK installation instructions
         "short_description": None,  # string - Short description of the App
         "sso_strategy_type": None,  # string - Associated SSO Strategy type, if any
