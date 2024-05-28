@@ -23,7 +23,7 @@ class FtpActionLog:
         "name": None,  # string - Name of File
         "cmd": None,  # string - FTP Command Name
         "param": None,  # string - FTP Command Param
-        "responseCode": None,  # string - FTP Response Code
+        "responseCode": None,  # int64 - FTP Response Code
         "responseMessage": None,  # string - FTP Response Message
         "entries_returned": None,  # int64 - Number of entries returned when listing files and folders
         "success": None,  # boolean - Whether FTP Action was successful.
