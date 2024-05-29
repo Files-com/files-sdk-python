@@ -25,8 +25,8 @@ class SftpActionLog:
         "sftp_response_code": None,  # string - SFTP Response Code Returned to the Client.
         "sftp_response_message": None,  # string - SFTP Response Message Returned to the Client.
         "md5": None,  # string - MD5 Hash of the file. Not always available.
-        "size": None,  # string - Size of File That was Uploaded or Downloaded.
-        "data_length": None,  # string - Data Length in Bytes. Present for actions that transfer data.
+        "size": None,  # int64 - Size of File That was Uploaded or Downloaded.
+        "data_length": None,  # int64 - Data Length in Bytes. Present for actions that transfer data.
         "entries_returned": None,  # int64 - Number of entries returned when listing files and folders
         "success": None,  # boolean - Whether SFTP Action was successful.
         "duration_ms": None,  # int64 - Duration (in milliseconds)
