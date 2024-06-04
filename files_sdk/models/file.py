@@ -199,7 +199,7 @@ class File:
         return self.download_uri
 
     def download_content(self, io, is_string_io=False):
-        Api.api_client().stream_download(
+        Api.client().stream_download(
             self.download_uri_with_load(), io, is_string_io
         )
 
@@ -733,7 +733,7 @@ def upload_chunks(io, path, options, upload=None, etags=None, params=None):
         buf = io.read(upload.partsize)
         if buf is not None:  # None means no data but io still open
             bytes_written += len(buf)
-            response = Api.api_client().send_remote_request(
+            response = Api.client().send_remote_request(
                 upload.http_method,
                 upload.upload_uri,
                 {"Content-Length": str(len(buf))},

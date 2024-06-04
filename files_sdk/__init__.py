@@ -192,12 +192,15 @@ from files_sdk.models.user_request import UserRequest
 from files_sdk.models.webhook_test import WebhookTest
 
 import files_sdk.path_util
+import socket
+from urllib.parse import urlparse
 
 the_api_key = ""
 session_id = None
+source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.4.87"
+version = "1.4.88"
 
 __version__ = version
 
@@ -209,7 +212,7 @@ max_network_retries = 3
 
 console_log_level = "none"
 
-OPTS = ("api_key", "client", "session_id")
+OPTS = ("api_key", "client", "session_id", "source_ip")
 
 
 def set_api_key(_api_key):
@@ -227,6 +230,23 @@ def set_session(_session):
         _session.save()
     global session_id
     session_id = _session.id
+
+
+def set_source_ip(_source_ip):
+    global source_ip
+    source_ip = _source_ip
+
+
+def get_source_ip():
+    global source_ip
+    if source_ip is None:
+        parsed_url = urlparse(base_url)
+        addrs = socket.getaddrinfo(parsed_url.hostname, parsed_url.port)
+        ipv4_addrs = [
+            addr[4][0] for addr in addrs if addr[0] == socket.AF_INET
+        ]
+        source_ip = ipv4_addrs[0]
+    return source_ip
 
 
 def open(*args, **kwargs):

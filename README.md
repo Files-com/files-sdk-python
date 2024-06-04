@@ -64,6 +64,7 @@ Or use if for all subsequent API calls globally like this:
 
 You can set the following global options directly on the `files_sdk` module:
 
+ * `files_sdk.source_ip` - the source IP from which to send requests from (local bind)
  * `files_sdk.open_timeout` - open timeout in seconds (default: 30)
  * `files_sdk.read_timeout` - read timeout in seconds (default: 80)
  * `files_sdk.initial_network_retry_delay` - initial retry delay in seconds (default: 0.5)

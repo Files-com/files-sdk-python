@@ -12,6 +12,7 @@ from files_sdk.error import (
     Error,
 )
 import files_sdk.util as util
+from requests_toolbelt.adapters import source
 
 
 class ApiClient:
@@ -19,10 +20,19 @@ class ApiClient:
     The Files.com API Client.
     """
 
-    session = requests.Session()
-
     def __init__(self):
         pass
+
+        self.session = requests.Session()
+
+        if (
+            files_sdk.get_source_ip() is not None
+            and self.session.adapters.get(files_sdk.base_url, None) is None
+        ):
+            self.session.mount(
+                files_sdk.base_url,
+                source.SourceAddressAdapter(files_sdk.get_source_ip()),
+            )
 
     def send_remote_request(self, method, url, headers=None, body=None):
         if headers is None:
@@ -134,6 +144,7 @@ class ApiClient:
                     timeout=(files_sdk.open_timeout, files_sdk.read_timeout),
                     **settings,
                 )
+
                 self.log_response(
                     request,
                     request_start,

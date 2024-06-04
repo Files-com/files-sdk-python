@@ -5,9 +5,14 @@ from files_sdk.api_client import ApiClient
 
 
 class Api:
+    __singleton_instance = None
+
     @staticmethod
-    def api_client():
-        return ApiClient()
+    def client():
+        if not Api.__singleton_instance:
+            Api.__singleton_instance = ApiClient()
+
+        return Api.__singleton_instance
 
     @staticmethod
     def send_request(verb, path, params, options=None):
@@ -25,9 +30,7 @@ class Api:
                 session.save
             session_id = str(session.id)
 
-        client = ApiClient()
-
-        response = client.send_request(
+        response = Api.client().send_request(
             verb, path, api_key=api_key, session_id=session_id, params=params
         )
 
