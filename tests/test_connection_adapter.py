@@ -17,11 +17,10 @@ class TestConnectionAdapters(unittest.TestCase):
         self.assertIsInstance(session_adapter, source.SourceAddressAdapter)
         self.assertEqual(session_adapter.source_address, ("127.0.0.1", 0))
     
-    def test_autobind_to_source_ip(self):
+    def test_does_not_autobind_to_source_ip(self):
         files_sdk.set_source_ip(None)
         api_client = Api.ApiClient()
         
-        self.assertIsNotNone(files_sdk.get_source_ip())
+        self.assertIsNone(files_sdk.get_source_ip())
         session_adapter = api_client.session.adapters.get(files_sdk.base_url, None)
-        self.assertIsInstance(session_adapter, source.SourceAddressAdapter)
-        self.assertEqual(session_adapter.source_address, (files_sdk.get_source_ip(), 0))
+        self.assertIsNone(session_adapter)

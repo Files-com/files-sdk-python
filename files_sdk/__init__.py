@@ -200,7 +200,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.4.91"
+version = "1.4.92"
 
 __version__ = version
 
@@ -239,13 +239,6 @@ def set_source_ip(_source_ip):
 
 def get_source_ip():
     global source_ip
-    if source_ip is None:
-        parsed_url = urlparse(base_url)
-        addrs = socket.getaddrinfo(parsed_url.hostname, parsed_url.port)
-        ipv4_addrs = [
-            addr[4][0] for addr in addrs if addr[0] == socket.AF_INET
-        ]
-        source_ip = ipv4_addrs[0]
     return source_ip
 
 
