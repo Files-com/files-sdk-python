@@ -107,10 +107,10 @@ def list_for(path, params=None, options=None):
 
 # Parameters:
 #   path (required) - string - Path
-#   allow_access_by_any_user - boolean - Allow lock to be updated by any user?
+#   allow_access_by_any_user - boolean - Can lock be modified by users other than its creator?
 #   exclusive - boolean - Is lock exclusive?
-#   recursive - string - Does lock apply to subfolders?
-#   timeout - int64 - Lock timeout length
+#   recursive - boolean - Does lock apply to subfolders?
+#   timeout - int64 - Lock timeout in seconds
 def create(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -119,8 +119,6 @@ def create(path, params=None, options=None):
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
-    if "recursive" in params and not isinstance(params["recursive"], str):
-        raise InvalidParameterError("Bad parameter: recursive must be an str")
     if "timeout" in params and not isinstance(params["timeout"], int):
         raise InvalidParameterError("Bad parameter: timeout must be an int")
     if "path" not in params:

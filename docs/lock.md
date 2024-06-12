@@ -68,10 +68,10 @@ files_sdk.lock.create(path, {
 ### Parameters
 
 * `path` (string): Required - Path
-* `allow_access_by_any_user` (boolean): Allow lock to be updated by any user?
+* `allow_access_by_any_user` (boolean): Can lock be modified by users other than its creator?
 * `exclusive` (boolean): Is lock exclusive?
-* `recursive` (string): Does lock apply to subfolders?
-* `timeout` (int64): Lock timeout length
+* `recursive` (boolean): Does lock apply to subfolders?
+* `timeout` (int64): Lock timeout in seconds
 
 
 ---
