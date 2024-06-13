@@ -90,6 +90,7 @@ import files_sdk.models.usage_snapshot as usage_snapshot
 import files_sdk.models.user as user
 import files_sdk.models.user_cipher_use as user_cipher_use
 import files_sdk.models.user_request as user_request
+import files_sdk.models.web_dav_action_log as web_dav_action_log
 import files_sdk.models.webhook_test as webhook_test
 
 from files_sdk.models.account_line_item import AccountLineItem
@@ -189,6 +190,7 @@ from files_sdk.models.usage_snapshot import UsageSnapshot
 from files_sdk.models.user import User
 from files_sdk.models.user_cipher_use import UserCipherUse
 from files_sdk.models.user_request import UserRequest
+from files_sdk.models.web_dav_action_log import WebDavActionLog
 from files_sdk.models.webhook_test import WebhookTest
 
 import files_sdk.path_util
@@ -200,7 +202,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.4.93"
+version = "1.4.94"
 
 __version__ = version
 
