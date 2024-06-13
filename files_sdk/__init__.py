@@ -67,6 +67,7 @@ import files_sdk.models.permission as permission
 import files_sdk.models.preview as preview
 import files_sdk.models.priority as priority
 import files_sdk.models.project as project
+import files_sdk.models.public_hosting_request_log as public_hosting_request_log
 import files_sdk.models.public_ip_address as public_ip_address
 import files_sdk.models.public_key as public_key
 import files_sdk.models.remote_bandwidth_snapshot as remote_bandwidth_snapshot
@@ -165,6 +166,7 @@ from files_sdk.models.permission import Permission
 from files_sdk.models.preview import Preview
 from files_sdk.models.priority import Priority
 from files_sdk.models.project import Project
+from files_sdk.models.public_hosting_request_log import PublicHostingRequestLog
 from files_sdk.models.public_ip_address import PublicIpAddress
 from files_sdk.models.public_key import PublicKey
 from files_sdk.models.remote_bandwidth_snapshot import RemoteBandwidthSnapshot
@@ -202,7 +204,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.4.94"
+version = "1.4.95"
 
 __version__ = version
 

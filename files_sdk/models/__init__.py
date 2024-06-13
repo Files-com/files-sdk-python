@@ -70,6 +70,7 @@ from files_sdk.models.permission import Permission
 from files_sdk.models.preview import Preview
 from files_sdk.models.priority import Priority
 from files_sdk.models.project import Project
+from files_sdk.models.public_hosting_request_log import PublicHostingRequestLog
 from files_sdk.models.public_ip_address import PublicIpAddress
 from files_sdk.models.public_key import PublicKey
 from files_sdk.models.remote_bandwidth_snapshot import RemoteBandwidthSnapshot

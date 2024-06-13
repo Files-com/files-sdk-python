@@ -49,8 +49,6 @@ class Behavior:
     #   recursive - boolean - Is behavior recursive?
     #   name - string - Name for this behavior.
     #   description - string - Description for this behavior.
-    #   behavior - string - Behavior type.
-    #   path - string - Folder behaviors path.
     #   attachment_delete - boolean - If true, will delete the file stored in attachment
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -74,12 +72,6 @@ class Behavior:
             raise InvalidParameterError(
                 "Bad parameter: description must be an str"
             )
-        if "behavior" in params and not isinstance(params["behavior"], str):
-            raise InvalidParameterError(
-                "Bad parameter: behavior must be an str"
-            )
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
         response, _options = Api.send_request(
             "PATCH",
             "/behaviors/{id}".format(id=params["id"]),
@@ -295,8 +287,6 @@ def webhook_test(params=None, options=None):
 #   recursive - boolean - Is behavior recursive?
 #   name - string - Name for this behavior.
 #   description - string - Description for this behavior.
-#   behavior - string - Behavior type.
-#   path - string - Folder behaviors path.
 #   attachment_delete - boolean - If true, will delete the file stored in attachment
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -316,10 +306,6 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: description must be an str"
         )
-    if "behavior" in params and not isinstance(params["behavior"], str):
-        raise InvalidParameterError("Bad parameter: behavior must be an str")
-    if "path" in params and not isinstance(params["path"], str):
-        raise InvalidParameterError("Bad parameter: path must be an str")
     if "attachment_delete" in params and not isinstance(
         params["attachment_delete"], (str, int, dict)
     ):
