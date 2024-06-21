@@ -151,6 +151,7 @@ class Site:
         "tls_disabled": None,  # boolean - DO NOT ENABLE. This setting allows TLSv1.0 and TLSv1.1 to be used on your site.  We intend to remove this capability entirely in early 2024.  If set, the `sftp_insecure_ciphers` flag will be automatically set to true.
         "trial_days_left": None,  # int64 - Number of days left in trial
         "trial_until": None,  # date-time - When does this Site trial expire?
+        "use_dedicated_ips_for_smtp": None,  # boolean - If using custom SMTP, should we use dedicated IPs to deliver emails?
         "use_provided_modified_at": None,  # boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
         "user": None,  # User - User of current session
         "user_lockout": None,  # boolean - Will users be locked out after incorrect login attempts?
@@ -323,6 +324,7 @@ def get_usage(params=None, options=None):
 #   site_header - string - Custom site header text
 #   site_footer - string - Custom site footer text
 #   login_help_text - string - Login help text
+#   use_dedicated_ips_for_smtp - boolean - If using custom SMTP, should we use dedicated IPs to deliver emails?
 #   smtp_address - string - SMTP server hostname or IP
 #   smtp_authentication - string - SMTP server authentication type
 #   smtp_from - string - From address to use when mailing through custom SMTP

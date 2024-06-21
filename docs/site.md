@@ -194,6 +194,7 @@
   "tls_disabled": True,
   "trial_days_left": 1,
   "trial_until": "2000-01-01T01:00:00Z",
+  "use_dedicated_ips_for_smtp": True,
   "use_provided_modified_at": True,
   "user": {
     "id": 1,
@@ -422,6 +423,7 @@
 * `tls_disabled` (boolean): DO NOT ENABLE. This setting allows TLSv1.0 and TLSv1.1 to be used on your site.  We intend to remove this capability entirely in early 2024.  If set, the `sftp_insecure_ciphers` flag will be automatically set to true.
 * `trial_days_left` (int64): Number of days left in trial
 * `trial_until` (date-time): When does this Site trial expire?
+* `use_dedicated_ips_for_smtp` (boolean): If using custom SMTP, should we use dedicated IPs to deliver emails?
 * `use_provided_modified_at` (boolean): Allow uploaders to set `provided_modified_at` for uploaded files?
 * `user` (User): User of current session
 * `user_lockout` (boolean): Will users be locked out after incorrect login attempts?
@@ -578,6 +580,7 @@ files_sdk.site.update({
   "site_header": "example",
   "site_footer": "example",
   "login_help_text": "Login page help text.",
+  "use_dedicated_ips_for_smtp": True,
   "smtp_address": "smtp.my-mail-server.com",
   "smtp_authentication": "plain",
   "smtp_from": "me@my-mail-server.com",
@@ -727,6 +730,7 @@ files_sdk.site.update({
 * `site_header` (string): Custom site header text
 * `site_footer` (string): Custom site footer text
 * `login_help_text` (string): Login help text
+* `use_dedicated_ips_for_smtp` (boolean): If using custom SMTP, should we use dedicated IPs to deliver emails?
 * `smtp_address` (string): SMTP server hostname or IP
 * `smtp_authentication` (string): SMTP server authentication type
 * `smtp_from` (string): From address to use when mailing through custom SMTP
