@@ -39,7 +39,7 @@ class SsoStrategy:
         "provision_email_signup_groups": None,  # string - Comma-separated list of group names whose members will be created with email_signup authentication.
         "provision_site_admin_groups": None,  # string - Comma-separated list of group names whose members will be created as Site Admins.
         "provision_group_admin_groups": None,  # string - Comma-separated list of group names whose members will be provisioned as Group Admins.
-        "provision_attachments_permission": None,  # boolean - DEPRECATED: Auto-provisioned users get Sharing permission. Use a Group with the Bundle permission instead.
+        "provision_attachments_permission": None,  # boolean
         "provision_dav_permission": None,  # boolean - Auto-provisioned users get WebDAV permission?
         "provision_ftp_permission": None,  # boolean - Auto-provisioned users get FTP permission?
         "provision_sftp_permission": None,  # boolean - Auto-provisioned users get SFTP permission?
@@ -101,6 +101,8 @@ class SsoStrategy:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   action - string
+#   page - int64
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -110,6 +112,10 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "page" in params and not isinstance(params["page"], int):
+        raise InvalidParameterError("Bad parameter: page must be an int")
     return ListObj(SsoStrategy, "GET", "/sso_strategies", params, options)
 
 

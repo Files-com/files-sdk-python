@@ -20,7 +20,7 @@
 * `path` (string): Source path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `dest_path` (string): Destination path
 * `files_moved` (int64): Number of files processed
-* `files_total` (int64): Deprecated: used to return a count of the applicable files.  Currently returns 0 always.  On remote servers, it is not possible to reliably determine the number of affected files for every migration operation.
+* `files_total` (int64): 
 * `operation` (string): The type of operation
 * `region` (string): Region
 * `status` (string): Status

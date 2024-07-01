@@ -44,7 +44,9 @@
 ```
 files_sdk.history.list_for_file(path, {
   "display": "Actual text of the action here.",
-  "per_page": 1
+  "per_page": 1,
+  "action": "create",
+  "page": 1
 })
 ```
 
@@ -55,6 +57,8 @@ files_sdk.history.list_for_file(path, {
 * `display` (string): Display format. Leave blank or set to `full` or `parent`.
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (string): 
+* `page` (int64): 
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
 * `path` (string): Required - Path to operate on.
 
@@ -66,7 +70,9 @@ files_sdk.history.list_for_file(path, {
 ```
 files_sdk.history.list_for_folder(path, {
   "display": "Actual text of the action here.",
-  "per_page": 1
+  "per_page": 1,
+  "action": "create",
+  "page": 1
 })
 ```
 
@@ -77,6 +83,8 @@ files_sdk.history.list_for_folder(path, {
 * `display` (string): Display format. Leave blank or set to `full` or `parent`.
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (string): 
+* `page` (int64): 
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
 * `path` (string): Required - Path to operate on.
 
@@ -88,7 +96,9 @@ files_sdk.history.list_for_folder(path, {
 ```
 files_sdk.history.list_for_user(user_id, {
   "display": "Actual text of the action here.",
-  "per_page": 1
+  "per_page": 1,
+  "action": "create",
+  "page": 1
 })
 ```
 
@@ -99,6 +109,8 @@ files_sdk.history.list_for_user(user_id, {
 * `display` (string): Display format. Leave blank or set to `full` or `parent`.
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (string): 
+* `page` (int64): 
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
 * `user_id` (int64): Required - User ID.
 
@@ -110,7 +122,9 @@ files_sdk.history.list_for_user(user_id, {
 ```
 files_sdk.history.list_logins({
   "display": "Actual text of the action here.",
-  "per_page": 1
+  "per_page": 1,
+  "action": "create",
+  "page": 1
 })
 ```
 
@@ -121,6 +135,8 @@ files_sdk.history.list_logins({
 * `display` (string): Display format. Leave blank or set to `full` or `parent`.
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (string): 
+* `page` (int64): 
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
 
 
@@ -131,7 +147,9 @@ files_sdk.history.list_logins({
 ```
 files_sdk.history.list({
   "display": "Actual text of the action here.",
-  "per_page": 1
+  "per_page": 1,
+  "action": "create",
+  "page": 1
 })
 ```
 
@@ -142,6 +160,8 @@ files_sdk.history.list({
 * `display` (string): Display format. Leave blank or set to `full` or `parent`.
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (string): 
+* `page` (int64): 
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[path]=desc`). Valid fields are `path`, `folder`, `user_id` or `created_at`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
 * `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.

@@ -14,7 +14,7 @@ class User:
         "username": None,  # string - User's username
         "admin_group_ids": None,  # array(int64) - List of group IDs of which this user is an administrator
         "allowed_ips": None,  # string - A list of allowed IPs if applicable.  Newline delimited
-        "attachments_permission": None,  # boolean - DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
+        "attachments_permission": None,  # boolean - If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
         "api_keys_count": None,  # int64 - Number of api keys associated with this user
         "authenticate_until": None,  # date-time - Scheduled Date/Time at which user will be deactivated
         "authentication_method": None,  # string - How is this user authenticated?
@@ -177,7 +177,7 @@ class User:
     #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
     #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
     #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-    #   attachments_permission - boolean - DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
+    #   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
     #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
     #   authentication_method - string - How is this user authenticated?
     #   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
@@ -393,6 +393,8 @@ class User:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   action - string
+#   page - int64
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[authenticate_until]=desc`). Valid fields are `authenticate_until`, `email`, `last_desktop_login_at`, `last_login_at`, `username`, `company`, `name`, `site_admin`, `receive_admin_alerts`, `password_validity_days`, `ssl_required` or `not_site_admin`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`. Valid field combinations are `[ not_site_admin, username ]`.
 #   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
@@ -411,6 +413,10 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "page" in params and not isinstance(params["page"], int):
+        raise InvalidParameterError("Bad parameter: page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
@@ -480,7 +486,7 @@ def get(id, params=None, options=None):
 #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
 #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
 #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-#   attachments_permission - boolean - DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
+#   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
 #   authentication_method - string - How is this user authenticated?
 #   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
@@ -697,7 +703,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
 #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
 #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-#   attachments_permission - boolean - DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
+#   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
 #   authentication_method - string - How is this user authenticated?
 #   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?

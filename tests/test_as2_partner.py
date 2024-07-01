@@ -44,10 +44,10 @@ class As2PartnerTest(TestBase):
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/as2_partners"), "Mock path does not exist")
     def test_create(self):
         params = {
+            "as2_station_id" : 12345,
             "name" : "foo",
             "uri" : "foo",
             "public_certificate" : "foo",
-            "as2_station_id" : 12345,
         }
         as2_partner.create(params)
 

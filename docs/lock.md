@@ -21,13 +21,13 @@
 
 * `path` (string): Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `timeout` (int64): Lock timeout in seconds
-* `depth` (string): DEPRECATED: Lock depth
+* `depth` (string): 
 * `recursive` (boolean): Does lock apply to subfolders?
 * `owner` (string): Owner of the lock.  This can be any arbitrary string.
-* `scope` (string): DEPRECATED: Lock scope
+* `scope` (string): 
 * `exclusive` (boolean): Is lock exclusive?
 * `token` (string): Lock token.  Use to release lock.
-* `type` (string): DEPRECATED: Lock type
+* `type` (string): 
 * `allow_access_by_any_user` (boolean): Can lock be modified by users other than its creator?
 * `user_id` (int64): Lock creator user ID
 * `username` (string): Lock creator username
@@ -40,6 +40,7 @@
 ```
 files_sdk.lock.list_for(path, {
   "per_page": 1,
+  "page": 1,
   "include_children": True
 })
 ```
@@ -48,6 +49,8 @@ files_sdk.lock.list_for(path, {
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (string): 
+* `page` (int64): 
 * `path` (string): Required - Path to operate on.
 * `include_children` (boolean): Include locks from children objects?
 

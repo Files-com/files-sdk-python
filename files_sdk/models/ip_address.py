@@ -40,6 +40,8 @@ class IpAddress:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   action - string
+#   page - int64
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -49,6 +51,10 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "page" in params and not isinstance(params["page"], int):
+        raise InvalidParameterError("Bad parameter: page must be an int")
     return ListObj(IpAddress, "GET", "/ip_addresses", params, options)
 
 
@@ -59,6 +65,8 @@ def all(params=None, options=None):
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   action - string
+#   page - int64
 def get_smartfile_reserved(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -68,6 +76,10 @@ def get_smartfile_reserved(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "page" in params and not isinstance(params["page"], int):
+        raise InvalidParameterError("Bad parameter: page must be an int")
     return ListObj(
         PublicIpAddress,
         "GET",
@@ -80,6 +92,8 @@ def get_smartfile_reserved(params=None, options=None):
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   action - string
+#   page - int64
 def get_exavault_reserved(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -89,6 +103,10 @@ def get_exavault_reserved(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "page" in params and not isinstance(params["page"], int):
+        raise InvalidParameterError("Bad parameter: page must be an int")
     return ListObj(
         PublicIpAddress,
         "GET",
@@ -101,6 +119,8 @@ def get_exavault_reserved(params=None, options=None):
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   action - string
+#   page - int64
 def get_reserved(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -110,6 +130,10 @@ def get_reserved(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "page" in params and not isinstance(params["page"], int):
+        raise InvalidParameterError("Bad parameter: page must be an int")
     return ListObj(
         PublicIpAddress, "GET", "/ip_addresses/reserved", params, options
     )

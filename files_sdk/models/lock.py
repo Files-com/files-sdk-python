@@ -12,13 +12,13 @@ class Lock:
     default_attributes = {
         "path": None,  # string - Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "timeout": None,  # int64 - Lock timeout in seconds
-        "depth": None,  # string - DEPRECATED: Lock depth
+        "depth": None,  # string
         "recursive": None,  # boolean - Does lock apply to subfolders?
         "owner": None,  # string - Owner of the lock.  This can be any arbitrary string.
-        "scope": None,  # string - DEPRECATED: Lock scope
+        "scope": None,  # string
         "exclusive": None,  # boolean - Is lock exclusive?
         "token": None,  # string - Lock token.  Use to release lock.
-        "type": None,  # string - DEPRECATED: Lock type
+        "type": None,  # string
         "allow_access_by_any_user": None,  # boolean - Can lock be modified by users other than its creator?
         "user_id": None,  # int64 - Lock creator user ID
         "username": None,  # string - Lock creator username
@@ -80,6 +80,8 @@ class Lock:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   action - string
+#   page - int64
 #   path (required) - string - Path to operate on.
 #   include_children - boolean - Include locks from children objects?
 def list_for(path, params=None, options=None):
@@ -92,6 +94,10 @@ def list_for(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "page" in params and not isinstance(params["page"], int):
+        raise InvalidParameterError("Bad parameter: page must be an int")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "path" not in params:

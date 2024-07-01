@@ -27,8 +27,8 @@
 * `value` (object): Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
 * `disable_parent_folder_behavior` (boolean): If true, the parent folder's behavior will be disabled for this folder and its children.
 * `recursive` (boolean): Is behavior recursive?
-* `attachment_file` (file): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
-* `attachment_delete` (boolean): If true, will delete the file stored in attachment
+* `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+* `attachment_delete` (boolean): If `true`, delete the file stored in `attachment`.
 
 
 ---
@@ -37,7 +37,8 @@
 
 ```
 files_sdk.behavior.list({
-  "per_page": 1
+  "per_page": 1,
+  "page": 1
 })
 ```
 
@@ -45,6 +46,8 @@ files_sdk.behavior.list({
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (string): 
+* `page` (int64): 
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior` and `impacts_ui`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
 * `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
@@ -70,6 +73,8 @@ files_sdk.behavior.find(id)
 ```
 files_sdk.behavior.list_for(path, {
   "per_page": 1,
+  "page": 1,
+  "ancestor_behaviors": True,
   "behavior": "webhook"
 })
 ```
@@ -78,12 +83,14 @@ files_sdk.behavior.list_for(path, {
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (string): 
+* `page` (int64): 
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior` and `impacts_ui`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
 * `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 * `path` (string): Required - Path to operate on.
-* `ancestor_behaviors` (string): Show behaviors above this path?
-* `behavior` (string): DEPRECATED: If set only shows folder behaviors matching this behavior type. Use `filter[behavior]` instead.
+* `ancestor_behaviors` (boolean): If `true`, behaviors above this path are shown.
+* `behavior` (string): 
 
 
 ---
@@ -104,13 +111,13 @@ files_sdk.behavior.create({
 
 ### Parameters
 
-* `value` (string): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
-* `attachment_file` (file): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
-* `disable_parent_folder_behavior` (boolean): If true, the parent folder's behavior will be disabled for this folder and its children.
-* `recursive` (boolean): Is behavior recursive?
+* `value` (string): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+* `disable_parent_folder_behavior` (boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+* `recursive` (boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
 * `name` (string): Name for this behavior.
 * `description` (string): Description for this behavior.
-* `path` (string): Required - Folder behaviors path.
+* `path` (string): Required - Path where this behavior should apply.
 * `behavior` (string): Required - Behavior type.
 
 
@@ -132,11 +139,11 @@ files_sdk.behavior.webhook_test({
 ### Parameters
 
 * `url` (string): Required - URL for testing the webhook.
-* `method` (string): HTTP method(GET or POST).
-* `encoding` (string): HTTP encoding method.  Can be JSON, XML, or RAW (form data).
-* `headers` (object): Additional request headers.
-* `body` (object): Additional body parameters.
-* `action` (string): action for test body
+* `method` (string): HTTP request method (GET or POST).
+* `encoding` (string): Encoding type for the webhook payload. Can be JSON, XML, or RAW (form data).
+* `headers` (object): Additional request headers to send via HTTP.
+* `body` (object): Additional body parameters to include in the webhook payload.
+* `action` (string): Action for test body.
 
 
 ---
@@ -157,13 +164,13 @@ files_sdk.behavior.update(id, {
 ### Parameters
 
 * `id` (int64): Required - Behavior ID.
-* `value` (string): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
-* `attachment_file` (file): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
-* `disable_parent_folder_behavior` (boolean): If true, the parent folder's behavior will be disabled for this folder and its children.
-* `recursive` (boolean): Is behavior recursive?
+* `value` (string): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+* `disable_parent_folder_behavior` (boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+* `recursive` (boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
 * `name` (string): Name for this behavior.
 * `description` (string): Description for this behavior.
-* `attachment_delete` (boolean): If true, will delete the file stored in attachment
+* `attachment_delete` (boolean): If `true`, delete the file stored in `attachment`.
 
 
 ---
@@ -198,13 +205,13 @@ behavior.update({
 ### Parameters
 
 * `id` (int64): Required - Behavior ID.
-* `value` (string): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
-* `attachment_file` (file): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
-* `disable_parent_folder_behavior` (boolean): If true, the parent folder's behavior will be disabled for this folder and its children.
-* `recursive` (boolean): Is behavior recursive?
+* `value` (string): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+* `disable_parent_folder_behavior` (boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+* `recursive` (boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
 * `name` (string): Name for this behavior.
 * `description` (string): Description for this behavior.
-* `attachment_delete` (boolean): If true, will delete the file stored in attachment
+* `attachment_delete` (boolean): If `true`, delete the file stored in `attachment`.
 
 
 ---

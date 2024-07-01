@@ -97,7 +97,7 @@
 * `expires_at` (date-time): Bundle expiration date/time
 * `password_protected` (boolean): Is this bundle password protected?
 * `permissions` (string): Permissions that apply to Folders in this Share Link.
-* `preview_only` (boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
+* `preview_only` (boolean): 
 * `require_registration` (boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `require_logout` (boolean): If true, we will hide the 'Remember Me' box on the Bundle registration page, requiring that the user logout and log back in every time they visit the page.
@@ -140,7 +140,8 @@
 ```
 files_sdk.bundle.list({
   "user_id": 1,
-  "per_page": 1
+  "per_page": 1,
+  "page": 1
 })
 ```
 
@@ -149,6 +150,8 @@ files_sdk.bundle.list({
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (string): 
+* `page` (int64): 
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[created_at]=desc`). Valid fields are `created_at` and `code`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
 * `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
@@ -191,7 +194,6 @@ files_sdk.bundle.create({
   "path_template": "{{name}}_{{ip}}",
   "path_template_time_zone": "Eastern Time (US & Canada)",
   "permissions": "read",
-  "preview_only": True,
   "require_registration": True,
   "clickwrap_id": 1,
   "inbox_id": 1,
@@ -222,7 +224,6 @@ files_sdk.bundle.create({
 * `path_template` (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 * `path_template_time_zone` (string): Timezone to use when rendering timestamps in path templates.
 * `permissions` (string): Permissions that apply to Folders in this Share Link.
-* `preview_only` (boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (boolean): Show a registration page that captures the downloader's name and email address?
 * `clickwrap_id` (int64): ID of the clickwrap to use with this bundle.
 * `inbox_id` (int64): ID of the associated inbox, if available.
@@ -278,7 +279,6 @@ files_sdk.bundle.update(id, {
   "path_template": "{{name}}_{{ip}}",
   "path_template_time_zone": "Eastern Time (US & Canada)",
   "permissions": "read",
-  "preview_only": True,
   "require_registration": True,
   "require_share_recipient": True,
   "send_email_receipt_to_uploader": True,
@@ -309,7 +309,6 @@ files_sdk.bundle.update(id, {
 * `path_template` (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 * `path_template_time_zone` (string): Timezone to use when rendering timestamps in path templates.
 * `permissions` (string): Permissions that apply to Folders in this Share Link.
-* `preview_only` (boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `send_email_receipt_to_uploader` (boolean): Send delivery receipt to the uploader. Note: For writable share only
@@ -378,7 +377,6 @@ bundle.update({
   "path_template": "{{name}}_{{ip}}",
   "path_template_time_zone": "Eastern Time (US & Canada)",
   "permissions": "read",
-  "preview_only": True,
   "require_registration": True,
   "require_share_recipient": True,
   "send_email_receipt_to_uploader": True,
@@ -409,7 +407,6 @@ bundle.update({
 * `path_template` (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 * `path_template_time_zone` (string): Timezone to use when rendering timestamps in path templates.
 * `permissions` (string): Permissions that apply to Folders in this Share Link.
-* `preview_only` (boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `send_email_receipt_to_uploader` (boolean): Send delivery receipt to the uploader. Note: For writable share only

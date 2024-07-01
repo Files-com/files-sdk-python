@@ -22,6 +22,7 @@ class ApiKey:
         "platform": None,  # string - If this API key represents a Desktop app, what platform was it created on?
         "url": None,  # string - URL for API host.
         "user_id": None,  # int64 - User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
+        "path": None,  # string - Folder path restriction for this api key.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -125,6 +126,8 @@ class ApiKey:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   action - string
+#   page - int64
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[expires_at]=desc`). Valid fields are `expires_at`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `expires_at`.
 #   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
@@ -142,6 +145,10 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "page" in params and not isinstance(params["page"], int):
+        raise InvalidParameterError("Bad parameter: page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
@@ -202,6 +209,7 @@ def get(id, params=None, options=None):
 #   expires_at - string - API Key expiration date
 #   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 #   name (required) - string - Internal name for the API Key.  For your use.
+#   path - string - Folder path restriction for this api key.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -223,6 +231,8 @@ def create(params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "path" in params and not isinstance(params["path"], str):
+        raise InvalidParameterError("Bad parameter: path must be an str")
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     response, options = Api.send_request("POST", "/api_keys", params, options)

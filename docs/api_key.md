@@ -31,6 +31,7 @@
 * `platform` (string): If this API key represents a Desktop app, what platform was it created on?
 * `url` (string): URL for API host.
 * `user_id` (int64): User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
+* `path` (string): Folder path restriction for this api key.
 
 
 ---
@@ -40,7 +41,8 @@
 ```
 files_sdk.api_key.list({
   "user_id": 1,
-  "per_page": 1
+  "per_page": 1,
+  "page": 1
 })
 ```
 
@@ -49,6 +51,8 @@ files_sdk.api_key.list({
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (string): 
+* `page` (int64): 
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[expires_at]=desc`). Valid fields are `expires_at`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `expires_at`.
 * `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
@@ -89,7 +93,8 @@ files_sdk.api_key.create({
   "description": "example",
   "expires_at": "2000-01-01T01:00:00Z",
   "permission_set": "full",
-  "name": "My Main API Key"
+  "name": "My Main API Key",
+  "path": "shared/docs"
 })
 ```
 
@@ -100,6 +105,7 @@ files_sdk.api_key.create({
 * `expires_at` (string): API Key expiration date
 * `permission_set` (string): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `name` (string): Required - Internal name for the API Key.  For your use.
+* `path` (string): Folder path restriction for this api key.
 
 
 ---

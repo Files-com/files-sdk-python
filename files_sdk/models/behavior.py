@@ -19,8 +19,8 @@ class Behavior:
         "value": None,  # object - Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
         "disable_parent_folder_behavior": None,  # boolean - If true, the parent folder's behavior will be disabled for this folder and its children.
         "recursive": None,  # boolean - Is behavior recursive?
-        "attachment_file": None,  # file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
-        "attachment_delete": None,  # boolean - If true, will delete the file stored in attachment
+        "attachment_file": None,  # file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+        "attachment_delete": None,  # boolean - If `true`, delete the file stored in `attachment`.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -43,13 +43,13 @@ class Behavior:
         }
 
     # Parameters:
-    #   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
-    #   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
-    #   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder and its children.
-    #   recursive - boolean - Is behavior recursive?
+    #   value - string - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+    #   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+    #   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+    #   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
     #   name - string - Name for this behavior.
     #   description - string - Description for this behavior.
-    #   attachment_delete - boolean - If true, will delete the file stored in attachment
+    #   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -116,6 +116,8 @@ class Behavior:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   action - string
+#   page - int64
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior` and `impacts_ui`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
 #   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
@@ -128,6 +130,10 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "page" in params and not isinstance(params["page"], int):
+        raise InvalidParameterError("Bad parameter: page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
@@ -170,12 +176,14 @@ def get(id, params=None, options=None):
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   action - string
+#   page - int64
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior` and `impacts_ui`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
 #   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 #   path (required) - string - Path to operate on.
-#   ancestor_behaviors - string - Show behaviors above this path?
-#   behavior - string - DEPRECATED: If set only shows folder behaviors matching this behavior type. Use `filter[behavior]` instead.
+#   ancestor_behaviors - boolean - If `true`, behaviors above this path are shown.
+#   behavior - string
 def list_for(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -186,6 +194,10 @@ def list_for(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "page" in params and not isinstance(params["page"], int):
+        raise InvalidParameterError("Bad parameter: page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
@@ -198,12 +210,6 @@ def list_for(path, params=None, options=None):
         )
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
-    if "ancestor_behaviors" in params and not isinstance(
-        params["ancestor_behaviors"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ancestor_behaviors must be an str"
-        )
     if "behavior" in params and not isinstance(params["behavior"], str):
         raise InvalidParameterError("Bad parameter: behavior must be an str")
     if "path" not in params:
@@ -218,13 +224,13 @@ def list_for(path, params=None, options=None):
 
 
 # Parameters:
-#   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
-#   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
-#   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder and its children.
-#   recursive - boolean - Is behavior recursive?
+#   value - string - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+#   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+#   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+#   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
 #   name - string - Name for this behavior.
 #   description - string - Description for this behavior.
-#   path (required) - string - Folder behaviors path.
+#   path (required) - string - Path where this behavior should apply.
 #   behavior (required) - string - Behavior type.
 def create(params=None, options=None):
     if not isinstance(params, dict):
@@ -253,11 +259,11 @@ def create(params=None, options=None):
 
 # Parameters:
 #   url (required) - string - URL for testing the webhook.
-#   method - string - HTTP method(GET or POST).
-#   encoding - string - HTTP encoding method.  Can be JSON, XML, or RAW (form data).
-#   headers - object - Additional request headers.
-#   body - object - Additional body parameters.
-#   action - string - action for test body
+#   method - string - HTTP request method (GET or POST).
+#   encoding - string - Encoding type for the webhook payload. Can be JSON, XML, or RAW (form data).
+#   headers - object - Additional request headers to send via HTTP.
+#   body - object - Additional body parameters to include in the webhook payload.
+#   action - string - Action for test body.
 def webhook_test(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -281,13 +287,13 @@ def webhook_test(params=None, options=None):
 
 
 # Parameters:
-#   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
-#   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
-#   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder and its children.
-#   recursive - boolean - Is behavior recursive?
+#   value - string - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+#   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+#   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+#   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
 #   name - string - Name for this behavior.
 #   description - string - Description for this behavior.
-#   attachment_delete - boolean - If true, will delete the file stored in attachment
+#   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
