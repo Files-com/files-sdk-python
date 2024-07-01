@@ -64,6 +64,7 @@ from files_sdk.models.message_comment import MessageComment
 from files_sdk.models.message_comment_reaction import MessageCommentReaction
 from files_sdk.models.message_reaction import MessageReaction
 from files_sdk.models.notification import Notification
+from files_sdk.models.outbound_connection_log import OutboundConnectionLog
 from files_sdk.models.payment import Payment
 from files_sdk.models.payment_line_item import PaymentLineItem
 from files_sdk.models.permission import Permission
