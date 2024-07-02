@@ -131,6 +131,7 @@
 * `azure_blob_storage_access_key` (string): Azure Blob Storage secret key.
 * `azure_files_storage_access_key` (string): Azure File Storage access key.
 * `azure_blob_storage_sas_token` (string): Shared Access Signature (SAS) token
+* `azure_files_storage_sas_token` (string): Shared Access Signature (SAS) token
 * `s3_compatible_secret_key` (string): S3-compatible secret key
 * `filebase_secret_key` (string): Filebase secret key
 * `cloudflare_secret_key` (string): Cloudflare secret key
@@ -283,6 +284,7 @@ files_sdk.remote_server.create({
 * `azure_blob_storage_sas_token` (string): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (string): Azure File Storage Account name
 * `azure_files_storage_share_name` (string): Azure File Storage Share name
+* `azure_files_storage_sas_token` (string): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` (string): S3-compatible endpoint
 * `s3_compatible_region` (string): S3-compatible endpoint
@@ -444,6 +446,7 @@ files_sdk.remote_server.update(id, {
 * `azure_blob_storage_sas_token` (string): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (string): Azure File Storage Account name
 * `azure_files_storage_share_name` (string): Azure File Storage Share name
+* `azure_files_storage_sas_token` (string): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` (string): S3-compatible endpoint
 * `s3_compatible_region` (string): S3-compatible endpoint
@@ -620,6 +623,7 @@ remote_server.update({
 * `azure_blob_storage_sas_token` (string): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (string): Azure File Storage Account name
 * `azure_files_storage_share_name` (string): Azure File Storage Share name
+* `azure_files_storage_sas_token` (string): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` (string): S3-compatible endpoint
 * `s3_compatible_region` (string): S3-compatible endpoint
