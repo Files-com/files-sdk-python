@@ -70,8 +70,9 @@ You can set the following global options directly on the `files_sdk` module:
  * `files_sdk.initial_network_retry_delay` - initial retry delay in seconds (default: 0.5)
  * `files_sdk.max_network_retries` - max retries (default: 3)
  * `files_sdk.max_network_retry_delay` - max retry delay in seconds (default: 2)
- * `files_sdk.base_url` - to point this client at an on-premise
-   installation of Files.com, set its URL here.
+ * `files_sdk.base_url` - set this to your site subdomain if your site is configured to disable global acceleration.
+    Otherwise, don't change this setting for production.
+    For dev/CI, you can point this to the mock server.
  * `files_sdk.console_log_level` - set to `None`, `info`, or `debug`, this enables printing
    of messages to stderr in addition to normal logging
 
