@@ -85,7 +85,7 @@
 
 ---
 
-## List As2 Incoming Messages
+## List AS2 Incoming Messages
 
 ```
 files_sdk.as2_incoming_message.list({

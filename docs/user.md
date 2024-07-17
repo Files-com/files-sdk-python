@@ -76,7 +76,7 @@
 * `admin_group_ids` (array(int64)): List of group IDs of which this user is an administrator
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `attachments_permission` (boolean): If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
-* `api_keys_count` (int64): Number of api keys associated with this user
+* `api_keys_count` (int64): Number of API keys associated with this user
 * `authenticate_until` (date-time): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (string): How is this user authenticated?
 * `avatar_url` (string): URL holding the user's avatar

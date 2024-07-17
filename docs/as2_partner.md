@@ -43,7 +43,7 @@
 
 ---
 
-## List As2 Partners
+## List AS2 Partners
 
 ```
 files_sdk.as2_partner.list({
@@ -62,7 +62,7 @@ files_sdk.as2_partner.list({
 
 ---
 
-## Show As2 Partner
+## Show AS2 Partner
 
 ```
 files_sdk.as2_partner.find(id)
@@ -75,7 +75,7 @@ files_sdk.as2_partner.find(id)
 
 ---
 
-## Create As2 Partner
+## Create AS2 Partner
 
 ```
 files_sdk.as2_partner.create({
@@ -105,7 +105,7 @@ files_sdk.as2_partner.create({
 
 ---
 
-## Update As2 Partner
+## Update AS2 Partner
 
 ```
 files_sdk.as2_partner.update(id, {
@@ -133,7 +133,7 @@ files_sdk.as2_partner.update(id, {
 
 ---
 
-## Delete As2 Partner
+## Delete AS2 Partner
 
 ```
 files_sdk.as2_partner.delete(id)
@@ -146,7 +146,7 @@ files_sdk.as2_partner.delete(id)
 
 ---
 
-## Update As2 Partner
+## Update AS2 Partner
 
 ```
 as2_partner = files_sdk.as2_partner.find(id)
@@ -175,7 +175,7 @@ as2_partner.update({
 
 ---
 
-## Delete As2 Partner
+## Delete AS2 Partner
 
 ```
 as2_partner = files_sdk.as2_partner.find(id)

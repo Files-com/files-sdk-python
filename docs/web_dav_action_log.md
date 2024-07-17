@@ -43,7 +43,7 @@
 
 ---
 
-## List Web Dav Action Logs
+## List WebDAV Action Logs
 
 ```
 files_sdk.web_dav_action_log.list({

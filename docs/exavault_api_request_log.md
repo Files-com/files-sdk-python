@@ -33,7 +33,7 @@
 
 ---
 
-## List Exavault Api Request Logs
+## List Exavault API Request Logs
 
 ```
 files_sdk.exavault_api_request_log.list({

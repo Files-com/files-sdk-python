@@ -47,7 +47,7 @@
 
 ---
 
-## List Ftp Action Logs
+## List FTP Action Logs
 
 ```
 files_sdk.ftp_action_log.list({

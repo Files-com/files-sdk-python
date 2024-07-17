@@ -77,7 +77,7 @@
 
 ---
 
-## List As2 Outgoing Messages
+## List AS2 Outgoing Messages
 
 ```
 files_sdk.as2_outgoing_message.list({

@@ -18,7 +18,7 @@
 * `changes` (array(string)): Markdown-formatted change messages.
 * `created_at` (date-time): The time this change was made
 * `user_id` (int64): The user id responsible for this change
-* `api_key_id` (int64): The api key id responsible for this change
+* `api_key_id` (int64): The API key id responsible for this change
 * `user_is_files_support` (boolean): true if this change was performed by Files.com support.
 * `username` (string): The username of the user responsible for this change
 

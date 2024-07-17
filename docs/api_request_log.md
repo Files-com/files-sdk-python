@@ -47,7 +47,7 @@
 
 ---
 
-## List Api Request Logs
+## List API Request Logs
 
 ```
 files_sdk.api_request_log.list({

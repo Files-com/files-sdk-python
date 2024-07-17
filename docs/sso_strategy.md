@@ -103,7 +103,7 @@
 
 ---
 
-## List Sso Strategies
+## List SSO Strategies
 
 ```
 files_sdk.sso_strategy.list({
@@ -122,7 +122,7 @@ files_sdk.sso_strategy.list({
 
 ---
 
-## Show Sso Strategy
+## Show SSO Strategy
 
 ```
 files_sdk.sso_strategy.find(id)

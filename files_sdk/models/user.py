@@ -15,7 +15,7 @@ class User:
         "admin_group_ids": None,  # array(int64) - List of group IDs of which this user is an administrator
         "allowed_ips": None,  # string - A list of allowed IPs if applicable.  Newline delimited
         "attachments_permission": None,  # boolean - If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
-        "api_keys_count": None,  # int64 - Number of api keys associated with this user
+        "api_keys_count": None,  # int64 - Number of API keys associated with this user
         "authenticate_until": None,  # date-time - Scheduled Date/Time at which user will be deactivated
         "authentication_method": None,  # string - How is this user authenticated?
         "avatar_url": None,  # string - URL holding the user's avatar

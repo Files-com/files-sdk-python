@@ -40,7 +40,7 @@
 
 ---
 
-## List As2 Stations
+## List AS2 Stations
 
 ```
 files_sdk.as2_station.list({
@@ -59,7 +59,7 @@ files_sdk.as2_station.list({
 
 ---
 
-## Show As2 Station
+## Show AS2 Station
 
 ```
 files_sdk.as2_station.find(id)
@@ -72,7 +72,7 @@ files_sdk.as2_station.find(id)
 
 ---
 
-## Create As2 Station
+## Create AS2 Station
 
 ```
 files_sdk.as2_station.create({
@@ -92,7 +92,7 @@ files_sdk.as2_station.create({
 
 ---
 
-## Update As2 Station
+## Update AS2 Station
 
 ```
 files_sdk.as2_station.update(id, {
@@ -111,7 +111,7 @@ files_sdk.as2_station.update(id, {
 
 ---
 
-## Delete As2 Station
+## Delete AS2 Station
 
 ```
 files_sdk.as2_station.delete(id)
@@ -124,7 +124,7 @@ files_sdk.as2_station.delete(id)
 
 ---
 
-## Update As2 Station
+## Update AS2 Station
 
 ```
 as2_station = files_sdk.as2_station.find(id)
@@ -144,7 +144,7 @@ as2_station.update({
 
 ---
 
-## Delete As2 Station
+## Delete AS2 Station
 
 ```
 as2_station = files_sdk.as2_station.find(id)

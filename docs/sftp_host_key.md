@@ -20,7 +20,7 @@
 
 ---
 
-## List Sftp Host Keys
+## List SFTP Host Keys
 
 ```
 files_sdk.sftp_host_key.list({
@@ -39,7 +39,7 @@ files_sdk.sftp_host_key.list({
 
 ---
 
-## Show Sftp Host Key
+## Show SFTP Host Key
 
 ```
 files_sdk.sftp_host_key.find(id)
@@ -52,7 +52,7 @@ files_sdk.sftp_host_key.find(id)
 
 ---
 
-## Create Sftp Host Key
+## Create SFTP Host Key
 
 ```
 files_sdk.sftp_host_key.create({
@@ -68,7 +68,7 @@ files_sdk.sftp_host_key.create({
 
 ---
 
-## Update Sftp Host Key
+## Update SFTP Host Key
 
 ```
 files_sdk.sftp_host_key.update(id, {
@@ -85,7 +85,7 @@ files_sdk.sftp_host_key.update(id, {
 
 ---
 
-## Delete Sftp Host Key
+## Delete SFTP Host Key
 
 ```
 files_sdk.sftp_host_key.delete(id)
@@ -98,7 +98,7 @@ files_sdk.sftp_host_key.delete(id)
 
 ---
 
-## Update Sftp Host Key
+## Update SFTP Host Key
 
 ```
 sftp_host_key = files_sdk.sftp_host_key.find(id)
@@ -116,7 +116,7 @@ sftp_host_key.update({
 
 ---
 
-## Delete Sftp Host Key
+## Delete SFTP Host Key
 
 ```
 sftp_host_key = files_sdk.sftp_host_key.find(id)

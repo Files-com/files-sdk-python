@@ -51,7 +51,7 @@
 
 ---
 
-## List Sftp Action Logs
+## List SFTP Action Logs
 
 ```
 files_sdk.sftp_action_log.list({

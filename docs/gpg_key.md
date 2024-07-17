@@ -25,7 +25,7 @@
 
 ---
 
-## List Gpg Keys
+## List GPG Keys
 
 ```
 files_sdk.gpg_key.list({
@@ -47,7 +47,7 @@ files_sdk.gpg_key.list({
 
 ---
 
-## Show Gpg Key
+## Show GPG Key
 
 ```
 files_sdk.gpg_key.find(id)
@@ -60,7 +60,7 @@ files_sdk.gpg_key.find(id)
 
 ---
 
-## Create Gpg Key
+## Create GPG Key
 
 ```
 files_sdk.gpg_key.create({
@@ -83,7 +83,7 @@ files_sdk.gpg_key.create({
 
 ---
 
-## Update Gpg Key
+## Update GPG Key
 
 ```
 files_sdk.gpg_key.update(id, {
@@ -105,7 +105,7 @@ files_sdk.gpg_key.update(id, {
 
 ---
 
-## Delete Gpg Key
+## Delete GPG Key
 
 ```
 files_sdk.gpg_key.delete(id)
@@ -118,7 +118,7 @@ files_sdk.gpg_key.delete(id)
 
 ---
 
-## Update Gpg Key
+## Update GPG Key
 
 ```
 gpg_key = files_sdk.gpg_key.find(id)
@@ -141,7 +141,7 @@ gpg_key.update({
 
 ---
 
-## Delete Gpg Key
+## Delete GPG Key
 
 ```
 gpg_key = files_sdk.gpg_key.find(id)
