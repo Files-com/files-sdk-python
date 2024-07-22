@@ -68,6 +68,7 @@ class RemoteServer:
         "linode_bucket": None,  # string - Linode Bucket name
         "linode_access_key": None,  # string - Linode Access Key.
         "linode_region": None,  # string - Linode region
+        "supports_versioning": None,  # boolean - If true, this remote server supports file versioning. This value is determined automatically by Files.com.
         "aws_secret_key": None,  # string - AWS secret key.
         "password": None,  # string - Password if needed.
         "private_key": None,  # string - Private key if needed.
