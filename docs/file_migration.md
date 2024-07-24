@@ -17,7 +17,7 @@
 ```
 
 * `id` (int64): File migration ID
-* `path` (string): Source path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `path` (string): Source path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `dest_path` (string): Destination path
 * `files_moved` (int64): Number of files processed
 * `files_total` (int64): 

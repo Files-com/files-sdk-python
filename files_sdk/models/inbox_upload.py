@@ -11,7 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class InboxUpload:
     default_attributes = {
         "inbox_registration": None,  # InboxRegistration
-        "path": None,  # string - Upload path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Upload path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "created_at": None,  # date-time - Upload date/time
     }
 

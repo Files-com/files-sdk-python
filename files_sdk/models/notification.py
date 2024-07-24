@@ -11,7 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class Notification:
     default_attributes = {
         "id": None,  # int64 - Notification ID
-        "path": None,  # string - Folder path to notify on This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Folder path to notify on. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "group_id": None,  # int64 - ID of Group to receive notifications
         "group_name": None,  # string - Group name, if a Group ID is set
         "triggering_group_ids": None,  # array(int64) - If set, will only notify on actions made by a member of one of the specified groups

@@ -16,7 +16,7 @@ class HistoryExportResult:
         "user_id": None,  # int64 - User ID
         "file_id": None,  # int64 - File ID related to the action
         "parent_id": None,  # int64 - ID of the parent folder
-        "path": None,  # string - Path of the related action This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Path of the related action. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "folder": None,  # string - Folder in which the action occurred
         "src": None,  # string - File move originated from this path
         "destination": None,  # string - File moved to this destination folder

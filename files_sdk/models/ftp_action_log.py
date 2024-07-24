@@ -18,7 +18,7 @@ class FtpActionLog:
         "seq_id": None,  # int64 - FTP Sequence ID
         "auth_ciphers": None,  # string - Authentication Ciphers
         "action_type": None,  # string - Action Type
-        "path": None,  # string - Path as sent by the Client (may not match Files.com path due to user root folders for FTP) This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Path as sent by the Client (may not match Files.com path due to user root folders for FTP). This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "true_path": None,  # string - Path on Files.com
         "name": None,  # string - Name of File
         "cmd": None,  # string - FTP Command Name

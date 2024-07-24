@@ -33,7 +33,7 @@
 * `bundle_registration` (BundleRegistration): Object that contains bundle registration information
 * `when` (date-time): Action occurrence date/time
 * `destination` (string): The destination path for this bundle action, if applicable
-* `path` (string): Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `path` (string): Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `source` (string): The source path for this bundle action, if applicable
 
 

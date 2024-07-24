@@ -22,7 +22,7 @@ class FileUploadPart:
         "parameters": None,  # object - Additional HTTP parameters to send with the upload
         "part_number": None,  # int64 - Number of this upload part
         "partsize": None,  # int64 - Size in bytes for the next upload part
-        "path": None,  # string - New file path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - New file path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "ref": None,  # string - Reference name for this upload part
         "upload_uri": None,  # string - URI to upload this part to
     }

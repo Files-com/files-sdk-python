@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 class FileMigration:
     default_attributes = {
         "id": None,  # int64 - File migration ID
-        "path": None,  # string - Source path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Source path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "dest_path": None,  # string - Destination path
         "files_moved": None,  # int64 - Number of files processed
         "files_total": None,  # int64

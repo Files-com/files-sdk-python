@@ -11,7 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class OutboundConnectionLog:
     default_attributes = {
         "timestamp": None,  # date-time - Start Time of Action
-        "path": None,  # string - Remote Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Remote Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "client_ip": None,  # string - End User IP
         "src_remote_server_id": None,  # string - Source Remote Server ID
         "dest_remote_server_id": None,  # string - Destination Remote Server ID

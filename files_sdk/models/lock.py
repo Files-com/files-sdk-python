@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 
 class Lock:
     default_attributes = {
-        "path": None,  # string - Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "timeout": None,  # int64 - Lock timeout in seconds
         "depth": None,  # string
         "recursive": None,  # boolean - Does lock apply to subfolders?

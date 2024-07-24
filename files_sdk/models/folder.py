@@ -11,7 +11,7 @@ from files_sdk.error import (  # noqa: F401
 
 class Folder:
     default_attributes = {
-        "path": None,  # string - File/Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - File/Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "created_by_id": None,  # int64 - User ID of the User who created the file/folder
         "created_by_api_key_id": None,  # int64 - ID of the API key that created the file/folder
         "created_by_as2_incoming_message_id": None,  # int64 - ID of the AS2 Incoming Message that created the file/folder

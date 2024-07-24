@@ -14,7 +14,7 @@ class PublicHostingRequestLog:
         "remote_ip": None,  # string - IP Address of Public Hosting Client
         "server_ip": None,  # string - IP Address of Public Hosting Server
         "hostname": None,  # string - HTTP Request Hostname
-        "path": None,  # string - HTTP Request Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - HTTP Request Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "responseCode": None,  # int64 - HTTP Response Code
         "success": None,  # boolean - Whether SFTP Action was successful.
         "duration_ms": None,  # int64 - Duration (in milliseconds)

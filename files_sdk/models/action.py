@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 class Action:
     default_attributes = {
         "id": None,  # int64 - Action ID
-        "path": None,  # string - Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "when": None,  # date-time - Action occurrence date/time
         "destination": None,  # string - The destination path for this action, if applicable
         "display": None,  # string - Friendly displayed output

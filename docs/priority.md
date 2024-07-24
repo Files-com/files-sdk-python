@@ -9,7 +9,7 @@
 }
 ```
 
-* `path` (string): The path corresponding to the priority color This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `path` (string): The path corresponding to the priority color. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `color` (string): The priority color
 
 

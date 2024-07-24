@@ -11,7 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class Request:
     default_attributes = {
         "id": None,  # int64 - Request ID
-        "path": None,  # string - Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "source": None,  # string - Source filename, if applicable
         "destination": None,  # string - Destination filename
         "automation_id": None,  # string - ID of automation that created request

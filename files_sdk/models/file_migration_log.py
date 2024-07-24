@@ -16,7 +16,7 @@ class FileMigrationLog:
         "error_type": None,  # string - Error type, if applicable
         "message": None,  # string - Message
         "operation": None,  # string - Operation type
-        "path": None,  # string - File path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - File path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "status": None,  # string - Status
     }
 

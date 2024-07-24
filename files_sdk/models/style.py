@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 class Style:
     default_attributes = {
         "id": None,  # int64 - Style ID
-        "path": None,  # string - Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "logo": None,  # Image - Logo
         "thumbnail": None,  # Image - Logo thumbnail
         "file": None,  # file - Logo for custom branding.

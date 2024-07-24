@@ -14,7 +14,7 @@ class BundleAction:
         "bundle_registration": None,  # BundleRegistration - Object that contains bundle registration information
         "when": None,  # date-time - Action occurrence date/time
         "destination": None,  # string - The destination path for this bundle action, if applicable
-        "path": None,  # string - Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "source": None,  # string - The source path for this bundle action, if applicable
     }
 

@@ -16,7 +16,7 @@
 ```
 
 * `id` (int64): Permission ID
-* `path` (string): Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `path` (string): Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `user_id` (int64): User ID
 * `username` (string): User's username
 * `group_id` (int64): Group ID

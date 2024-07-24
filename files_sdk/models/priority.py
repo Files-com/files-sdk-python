@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 
 class Priority:
     default_attributes = {
-        "path": None,  # string - The path corresponding to the priority color This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - The path corresponding to the priority color. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "color": None,  # string - The priority color
     }
 

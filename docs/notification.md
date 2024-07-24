@@ -37,7 +37,7 @@
 ```
 
 * `id` (int64): Notification ID
-* `path` (string): Folder path to notify on This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `path` (string): Folder path to notify on. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `group_id` (int64): ID of Group to receive notifications
 * `group_name` (string): Group name, if a Group ID is set
 * `triggering_group_ids` (array(int64)): If set, will only notify on actions made by a member of one of the specified groups

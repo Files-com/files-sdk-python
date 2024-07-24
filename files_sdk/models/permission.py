@@ -11,7 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class Permission:
     default_attributes = {
         "id": None,  # int64 - Permission ID
-        "path": None,  # string - Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "user_id": None,  # int64 - User ID
         "username": None,  # string - User's username
         "group_id": None,  # int64 - Group ID
