@@ -27,10 +27,7 @@
 ## List Snapshots
 
 ```
-files_sdk.snapshot.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.snapshot.list()
 ```
 
 ### Parameters

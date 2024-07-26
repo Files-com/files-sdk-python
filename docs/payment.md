@@ -58,10 +58,7 @@
 ## List Payments
 
 ```
-files_sdk.payment.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.payment.list()
 ```
 
 ### Parameters

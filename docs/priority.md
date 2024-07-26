@@ -18,10 +18,7 @@
 ## List Priorities
 
 ```
-files_sdk.priority.list(path, {
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.priority.list(path)
 ```
 
 ### Parameters

@@ -46,10 +46,7 @@
 ## List AS2 Partners
 
 ```
-files_sdk.as2_partner.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.as2_partner.list()
 ```
 
 ### Parameters

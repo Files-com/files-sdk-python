@@ -43,9 +43,6 @@
 
 ```
 files_sdk.bundle_action.list({
-  "per_page": 1,
-  "action": "create",
-  "page": 1,
   "bundle_id": 1,
   "bundle_registration_id": 1
 })

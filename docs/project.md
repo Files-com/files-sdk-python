@@ -18,10 +18,7 @@
 ## List Projects
 
 ```
-files_sdk.project.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.project.list()
 ```
 
 ### Parameters

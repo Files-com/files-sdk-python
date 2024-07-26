@@ -21,8 +21,6 @@
 
 ```
 files_sdk.inbox_upload.list({
-  "per_page": 1,
-  "page": 1,
   "inbox_registration_id": 1,
   "inbox_id": 1
 })

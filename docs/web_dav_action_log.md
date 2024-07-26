@@ -47,8 +47,8 @@
 
 ```
 files_sdk.web_dav_action_log.list({
-  "per_page": 1,
-  "page": 1
+  "filter": "",
+  "filter_prefix": ""
 })
 ```
 

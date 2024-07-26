@@ -66,9 +66,6 @@
 ```
 files_sdk.history_export_result.list({
   "user_id": 1,
-  "per_page": 1,
-  "action": "read",
-  "page": 1,
   "history_export_id": 1
 })
 ```

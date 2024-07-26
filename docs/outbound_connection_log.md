@@ -43,8 +43,8 @@
 
 ```
 files_sdk.outbound_connection_log.list({
-  "per_page": 1,
-  "page": 1
+  "filter": "",
+  "filter_prefix": ""
 })
 ```
 

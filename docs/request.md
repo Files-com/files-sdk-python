@@ -29,8 +29,6 @@
 
 ```
 files_sdk.request.list({
-  "per_page": 1,
-  "page": 1,
   "mine": True,
   "path": "example"
 })
@@ -53,8 +51,6 @@ files_sdk.request.list({
 
 ```
 files_sdk.request.get_folder(path, {
-  "per_page": 1,
-  "page": 1,
   "mine": True
 })
 ```

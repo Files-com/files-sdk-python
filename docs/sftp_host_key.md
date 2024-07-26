@@ -23,10 +23,7 @@
 ## List SFTP Host Keys
 
 ```
-files_sdk.sftp_host_key.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.sftp_host_key.list()
 ```
 
 ### Parameters

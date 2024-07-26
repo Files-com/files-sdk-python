@@ -43,8 +43,6 @@
 
 ```
 files_sdk.bundle_registration.list({
-  "per_page": 1,
-  "page": 1,
   "bundle_id": 1
 })
 ```

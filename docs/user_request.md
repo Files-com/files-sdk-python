@@ -24,10 +24,7 @@
 ## List User Requests
 
 ```
-files_sdk.user_request.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.user_request.list()
 ```
 
 ### Parameters

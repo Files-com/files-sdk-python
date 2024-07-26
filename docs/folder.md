@@ -90,8 +90,6 @@
 
 ```
 files_sdk.folder.list_for(path, {
-  "per_page": 1,
-  "page": 1,
   "search_all": True,
   "with_previews": True,
   "with_priority_color": True

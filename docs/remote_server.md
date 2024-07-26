@@ -145,10 +145,7 @@
 ## List Remote Servers
 
 ```
-files_sdk.remote_server.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.remote_server.list()
 ```
 
 ### Parameters

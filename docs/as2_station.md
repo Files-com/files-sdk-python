@@ -43,10 +43,7 @@
 ## List AS2 Stations
 
 ```
-files_sdk.as2_station.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.as2_station.list()
 ```
 
 ### Parameters

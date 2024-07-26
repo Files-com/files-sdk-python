@@ -26,10 +26,7 @@
 ## List File Comments by path
 
 ```
-files_sdk.file_comment.list_for(path, {
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.file_comment.list_for(path)
 ```
 
 ### Parameters

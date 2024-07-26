@@ -43,10 +43,7 @@
 
 ```
 files_sdk.history.list_for_file(path, {
-  "display": "Actual text of the action here.",
-  "per_page": 1,
-  "action": "create",
-  "page": 1
+  "display": "Actual text of the action here."
 })
 ```
 
@@ -69,10 +66,7 @@ files_sdk.history.list_for_file(path, {
 
 ```
 files_sdk.history.list_for_folder(path, {
-  "display": "Actual text of the action here.",
-  "per_page": 1,
-  "action": "create",
-  "page": 1
+  "display": "Actual text of the action here."
 })
 ```
 
@@ -95,10 +89,7 @@ files_sdk.history.list_for_folder(path, {
 
 ```
 files_sdk.history.list_for_user(user_id, {
-  "display": "Actual text of the action here.",
-  "per_page": 1,
-  "action": "create",
-  "page": 1
+  "display": "Actual text of the action here."
 })
 ```
 
@@ -121,10 +112,7 @@ files_sdk.history.list_for_user(user_id, {
 
 ```
 files_sdk.history.list_logins({
-  "display": "Actual text of the action here.",
-  "per_page": 1,
-  "action": "create",
-  "page": 1
+  "display": "Actual text of the action here."
 })
 ```
 
@@ -146,10 +134,7 @@ files_sdk.history.list_logins({
 
 ```
 files_sdk.history.list({
-  "display": "Actual text of the action here.",
-  "per_page": 1,
-  "action": "create",
-  "page": 1
+  "display": "Actual text of the action here."
 })
 ```
 

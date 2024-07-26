@@ -37,8 +37,9 @@
 
 ```
 files_sdk.behavior.list({
-  "per_page": 1,
-  "page": 1
+  "sort_by": "",
+  "filter": "",
+  "filter_prefix": ""
 })
 ```
 
@@ -72,8 +73,6 @@ files_sdk.behavior.find(id)
 
 ```
 files_sdk.behavior.list_for(path, {
-  "per_page": 1,
-  "page": 1,
   "ancestor_behaviors": True,
   "behavior": "webhook"
 })
@@ -131,8 +130,7 @@ files_sdk.behavior.webhook_test({
   "method": "GET",
   "encoding": "RAW",
   "headers": {"x-test-header":"testvalue"},
-  "body": {"test-param":"testvalue"},
-  "action": "test"
+  "body": {"test-param":"testvalue"}
 })
 ```
 

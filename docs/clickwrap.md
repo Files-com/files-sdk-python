@@ -26,10 +26,7 @@
 ## List Clickwraps
 
 ```
-files_sdk.clickwrap.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.clickwrap.list()
 ```
 
 ### Parameters

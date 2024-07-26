@@ -106,10 +106,7 @@
 ## List SSO Strategies
 
 ```
-files_sdk.sso_strategy.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.sso_strategy.list()
 ```
 
 ### Parameters

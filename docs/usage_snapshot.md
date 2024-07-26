@@ -46,10 +46,7 @@
 ## List Usage Snapshots
 
 ```
-files_sdk.usage_snapshot.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.usage_snapshot.list()
 ```
 
 ### Parameters

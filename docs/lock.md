@@ -39,8 +39,6 @@
 
 ```
 files_sdk.lock.list_for(path, {
-  "per_page": 1,
-  "page": 1,
   "include_children": True
 })
 ```

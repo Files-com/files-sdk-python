@@ -25,8 +25,8 @@
 
 ```
 files_sdk.bundle_notification.list({
-  "per_page": 1,
-  "page": 1
+  "sort_by": "",
+  "filter": ""
 })
 ```
 

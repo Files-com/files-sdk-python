@@ -22,10 +22,7 @@
 ## Show site DNS configuration
 
 ```
-files_sdk.dns_record.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.dns_record.list()
 ```
 
 ### Parameters

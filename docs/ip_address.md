@@ -24,10 +24,7 @@
 ## List IP Addresses associated with the current site
 
 ```
-files_sdk.ip_address.list({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.ip_address.list()
 ```
 
 ### Parameters
@@ -43,10 +40,7 @@ files_sdk.ip_address.list({
 ## List all possible public SmartFile IP addresses
 
 ```
-files_sdk.ip_address.get_smartfile_reserved({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.ip_address.get_smartfile_reserved()
 ```
 
 ### Parameters
@@ -62,10 +56,7 @@ files_sdk.ip_address.get_smartfile_reserved({
 ## List all possible public ExaVault IP addresses
 
 ```
-files_sdk.ip_address.get_exavault_reserved({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.ip_address.get_exavault_reserved()
 ```
 
 ### Parameters
@@ -81,10 +72,7 @@ files_sdk.ip_address.get_exavault_reserved({
 ## List all possible public IP addresses
 
 ```
-files_sdk.ip_address.get_reserved({
-  "per_page": 1,
-  "page": 1
-})
+files_sdk.ip_address.get_reserved()
 ```
 
 ### Parameters

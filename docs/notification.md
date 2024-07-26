@@ -67,8 +67,6 @@
 ```
 files_sdk.notification.list({
   "user_id": 1,
-  "per_page": 1,
-  "page": 1,
   "include_ancestors": True,
   "group_id": 1
 })

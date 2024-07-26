@@ -43,7 +43,6 @@ files_sdk.webhook_test.create({
   "raw_body": "test body",
   "file_as_body": True,
   "file_form_field": "upload_file_data",
-  "action": "test",
   "use_dedicated_ips": True
 })
 ```
