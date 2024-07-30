@@ -214,6 +214,7 @@ class File:
     #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
     #   with_previews - boolean - Include file preview information?
     #   with_priority_color - boolean - Include file priority color information?
+    #   point_in_time - string - Point in time to view the folder. Available only on remote server mounts for S3 with versioned buckets.
     def download(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -233,6 +234,12 @@ class File:
         ):
             raise InvalidParameterError(
                 "Bad parameter: preview_size must be an str"
+            )
+        if "point_in_time" in params and not isinstance(
+            params["point_in_time"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: point_in_time must be an str"
             )
         response, _options = Api.send_request(
             "GET",
@@ -424,6 +431,7 @@ class File:
 #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 #   with_previews - boolean - Include file preview information?
 #   with_priority_color - boolean - Include file priority color information?
+#   point_in_time - string - Point in time to view the folder. Available only on remote server mounts for S3 with versioned buckets.
 def download(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -439,6 +447,12 @@ def download(path, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: preview_size must be an str"
+        )
+    if "point_in_time" in params and not isinstance(
+        params["point_in_time"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: point_in_time must be an str"
         )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")

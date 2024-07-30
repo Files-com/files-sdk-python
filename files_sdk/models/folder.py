@@ -84,6 +84,7 @@ class Folder:
 #   search_all - boolean - Search entire site?  If set, we will ignore the folder path provided and search the entire site.  This is the same API used by the search bar in the UI.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
 #   with_previews - boolean - Include file previews?
 #   with_priority_color - boolean - Include file priority color information?
+#   point_in_time - string - Point in time to view the folder. Available only on remote server mounts for S3 with versioned buckets.
 def list_for(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -110,6 +111,12 @@ def list_for(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "search" in params and not isinstance(params["search"], str):
         raise InvalidParameterError("Bad parameter: search must be an str")
+    if "point_in_time" in params and not isinstance(
+        params["point_in_time"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: point_in_time must be an str"
+        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     return ListObj(
