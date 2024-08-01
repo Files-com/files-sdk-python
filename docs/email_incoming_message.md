@@ -32,15 +32,7 @@
 ## List Email Incoming Messages
 
 ```
-files_sdk.email_incoming_message.list({
-  "sort_by": "",
-  "filter": "",
-  "filter_gt": "",
-  "filter_gteq": "",
-  "filter_prefix": "",
-  "filter_lt": "",
-  "filter_lteq": ""
-})
+files_sdk.email_incoming_message.list()
 ```
 
 ### Parameters

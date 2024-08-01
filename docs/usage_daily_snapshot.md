@@ -38,14 +38,7 @@
 ## List Usage Daily Snapshots
 
 ```
-files_sdk.usage_daily_snapshot.list({
-  "sort_by": "",
-  "filter": "",
-  "filter_gt": "",
-  "filter_gteq": "",
-  "filter_lt": "",
-  "filter_lteq": ""
-})
+files_sdk.usage_daily_snapshot.list()
 ```
 
 ### Parameters

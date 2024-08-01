@@ -50,10 +50,7 @@
 ## List FTP Action Logs
 
 ```
-files_sdk.ftp_action_log.list({
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.ftp_action_log.list()
 ```
 
 ### Parameters

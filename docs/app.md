@@ -58,11 +58,7 @@
 ## List Apps
 
 ```
-files_sdk.app.list({
-  "sort_by": "",
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.app.list()
 ```
 
 ### Parameters

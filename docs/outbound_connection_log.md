@@ -42,10 +42,7 @@
 ## List Outbound Connection Logs
 
 ```
-files_sdk.outbound_connection_log.list({
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.outbound_connection_log.list()
 ```
 
 ### Parameters

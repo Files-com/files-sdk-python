@@ -32,14 +32,7 @@
 ## List Bandwidth Snapshots
 
 ```
-files_sdk.bandwidth_snapshot.list({
-  "sort_by": "",
-  "filter": "",
-  "filter_gt": "",
-  "filter_gteq": "",
-  "filter_lt": "",
-  "filter_lteq": ""
-})
+files_sdk.bandwidth_snapshot.list()
 ```
 
 ### Parameters

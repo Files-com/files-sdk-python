@@ -30,10 +30,7 @@
 ## List Public Hosting Request Logs
 
 ```
-files_sdk.public_hosting_request_log.list({
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.public_hosting_request_log.list()
 ```
 
 ### Parameters

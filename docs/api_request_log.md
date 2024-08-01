@@ -50,10 +50,7 @@
 ## List API Request Logs
 
 ```
-files_sdk.api_request_log.list({
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.api_request_log.list()
 ```
 
 ### Parameters

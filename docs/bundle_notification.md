@@ -24,10 +24,7 @@
 ## List Bundle Notifications
 
 ```
-files_sdk.bundle_notification.list({
-  "sort_by": "",
-  "filter": ""
-})
+files_sdk.bundle_notification.list()
 ```
 
 ### Parameters

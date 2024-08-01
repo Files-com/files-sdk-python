@@ -32,10 +32,7 @@
 ## List Email Logs
 
 ```
-files_sdk.email_log.list({
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.email_log.list()
 ```
 
 ### Parameters

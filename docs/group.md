@@ -36,12 +36,7 @@
 ## List Groups
 
 ```
-files_sdk.group.list({
-  "sort_by": "",
-  "filter": "",
-  "filter_prefix": "",
-  "ids": ""
-})
+files_sdk.group.list()
 ```
 
 ### Parameters

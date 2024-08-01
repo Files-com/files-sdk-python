@@ -36,11 +36,7 @@
 ## List Behaviors
 
 ```
-files_sdk.behavior.list({
-  "sort_by": "",
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.behavior.list()
 ```
 
 ### Parameters

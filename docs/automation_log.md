@@ -32,10 +32,7 @@
 ## List Automation Logs
 
 ```
-files_sdk.automation_log.list({
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.automation_log.list()
 ```
 
 ### Parameters

@@ -46,10 +46,7 @@
 ## List WebDAV Action Logs
 
 ```
-files_sdk.web_dav_action_log.list({
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.web_dav_action_log.list()
 ```
 
 ### Parameters

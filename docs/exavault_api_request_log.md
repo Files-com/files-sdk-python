@@ -36,10 +36,7 @@
 ## List Exavault API Request Logs
 
 ```
-files_sdk.exavault_api_request_log.list({
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.exavault_api_request_log.list()
 ```
 
 ### Parameters

@@ -28,10 +28,7 @@
 ## List Settings Changes
 
 ```
-files_sdk.settings_change.list({
-  "sort_by": "",
-  "filter": ""
-})
+files_sdk.settings_change.list()
 ```
 
 ### Parameters

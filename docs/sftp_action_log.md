@@ -54,10 +54,7 @@
 ## List SFTP Action Logs
 
 ```
-files_sdk.sftp_action_log.list({
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.sftp_action_log.list()
 ```
 
 ### Parameters

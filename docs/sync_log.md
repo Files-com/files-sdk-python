@@ -34,10 +34,7 @@
 ## List Sync Logs
 
 ```
-files_sdk.sync_log.list({
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.sync_log.list()
 ```
 
 ### Parameters

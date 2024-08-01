@@ -30,10 +30,7 @@
 ## List File Migration Logs
 
 ```
-files_sdk.file_migration_log.list({
-  "filter": "",
-  "filter_prefix": ""
-})
+files_sdk.file_migration_log.list()
 ```
 
 ### Parameters
