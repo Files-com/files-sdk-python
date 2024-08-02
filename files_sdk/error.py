@@ -832,6 +832,21 @@ class InvalidOrExpiredCodeError(NotAuthenticatedError):
         )
 
 
+class InvalidSessionError(NotAuthenticatedError):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
 class InvalidUsernameOrPasswordError(NotAuthenticatedError):
     def __init__(
         self,
@@ -1163,6 +1178,21 @@ class HistoryPermissionRequiredError(NotAuthorizedError):
 
 
 class InsufficientPermissionForParamsError(NotAuthorizedError):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
+class InsufficientPermissionForSiteError(NotAuthorizedError):
     def __init__(
         self,
         message=None,

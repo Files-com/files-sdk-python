@@ -19,6 +19,7 @@ class Action:
         "targets": None,  # array(object) - Targets
         "user_id": None,  # int64 - User ID
         "username": None,  # string - Username
+        "user_is_from_parent_site": None,  # boolean - true if this change was performed by a user on a parent site.
         "action": None,  # string - Type of action
         "failure_type": None,  # string - Failure type.  If action was a user login or session failure, why did it fail?
         "interface": None,  # string - Interface on which this action occurred.
