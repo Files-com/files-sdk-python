@@ -15,7 +15,6 @@ class ApiRequestLog:
         "api_key_prefix": None,  # string - API Key Prefix, if applicable
         "user_id": None,  # int64 - User ID
         "username": None,  # string - Username
-        "user_is_from_parent_site": None,  # boolean - true if this change was performed by a user on a parent site.
         "interface": None,  # string - API Interface
         "request_method": None,  # string - HTTP Method
         "request_path": None,  # string - Request path

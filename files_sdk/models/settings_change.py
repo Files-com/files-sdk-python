@@ -15,7 +15,6 @@ class SettingsChange:
         "user_id": None,  # int64 - The user id responsible for this change
         "api_key_id": None,  # int64 - The API key id responsible for this change
         "user_is_files_support": None,  # boolean - true if this change was performed by Files.com support.
-        "user_is_from_parent_site": None,  # boolean - true if this change was performed by a user on a parent site.
         "username": None,  # string - The username of the user responsible for this change
     }
 
