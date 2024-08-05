@@ -43,9 +43,7 @@ files_sdk.behavior.list()
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `action` (string): 
-* `page` (int64): 
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior` and `impacts_ui`.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior` and `impacts_ui`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
 * `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 
@@ -69,8 +67,7 @@ files_sdk.behavior.find(id)
 
 ```
 files_sdk.behavior.list_for(path, {
-  "ancestor_behaviors": True,
-  "behavior": "webhook"
+  "ancestor_behaviors": True
 })
 ```
 
@@ -78,14 +75,11 @@ files_sdk.behavior.list_for(path, {
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `action` (string): 
-* `page` (int64): 
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior` and `impacts_ui`.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior` and `impacts_ui`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
 * `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 * `path` (string): Required - Path to operate on.
 * `ancestor_behaviors` (boolean): If `true`, behaviors above this path are shown.
-* `behavior` (string): 
 
 
 ---

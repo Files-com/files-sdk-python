@@ -43,7 +43,6 @@ class Automation:
         "user_ids": None,  # array(int64) - IDs of Users for the Automation (i.e. who to Request File from)
         "value": None,  # object - A Hash of attributes specific to the automation type.
         "webhook_url": None,  # string - If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
-        "destination": None,  # string
     }
 
     def __init__(self, attributes=None, options=None):
@@ -87,7 +86,6 @@ class Automation:
 
     # Parameters:
     #   source - string - Source Path
-    #   destination - string
     #   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
     #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
     #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -96,7 +94,6 @@ class Automation:
     #   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-    #   schedule - object
     #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
     #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
     #   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
@@ -128,12 +125,6 @@ class Automation:
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "source" in params and not isinstance(params["source"], str):
             raise InvalidParameterError("Bad parameter: source must be an str")
-        if "destination" in params and not isinstance(
-            params["destination"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: destination must be an str"
-            )
         if "destinations" in params and not isinstance(
             params["destinations"], builtins.list
         ):
@@ -268,9 +259,7 @@ class Automation:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   action - string
-#   page - int64
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[automation]=desc`). Valid fields are `automation`, `disabled`, `last_modified_at` or `name`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `automation`, `disabled`, `last_modified_at` or `name`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `last_modified_at` or `automation`. Valid field combinations are `[ automation, disabled ]` and `[ disabled, automation ]`.
 #   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `last_modified_at`.
 #   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `last_modified_at`.
@@ -286,10 +275,6 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
-    if "page" in params and not isinstance(params["page"], int):
-        raise InvalidParameterError("Bad parameter: page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
@@ -337,7 +322,6 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   source - string - Source Path
-#   destination - string
 #   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
 #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -346,7 +330,6 @@ def get(id, params=None, options=None):
 #   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-#   schedule - object
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 #   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
@@ -371,10 +354,6 @@ def create(params=None, options=None):
         options = {}
     if "source" in params and not isinstance(params["source"], str):
         raise InvalidParameterError("Bad parameter: source must be an str")
-    if "destination" in params and not isinstance(params["destination"], str):
-        raise InvalidParameterError(
-            "Bad parameter: destination must be an str"
-        )
     if "destinations" in params and not isinstance(
         params["destinations"], builtins.list
     ):
@@ -403,8 +382,6 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "group_ids" in params and not isinstance(params["group_ids"], str):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
-    if "schedule" in params and not isinstance(params["schedule"], dict):
-        raise InvalidParameterError("Bad parameter: schedule must be an dict")
     if "schedule_days_of_week" in params and not isinstance(
         params["schedule_days_of_week"], builtins.list
     ):
@@ -482,7 +459,6 @@ def manual_run(id, params=None, options=None):
 
 # Parameters:
 #   source - string - Source Path
-#   destination - string
 #   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
 #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -491,7 +467,6 @@ def manual_run(id, params=None, options=None):
 #   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-#   schedule - object
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 #   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
@@ -519,10 +494,6 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "source" in params and not isinstance(params["source"], str):
         raise InvalidParameterError("Bad parameter: source must be an str")
-    if "destination" in params and not isinstance(params["destination"], str):
-        raise InvalidParameterError(
-            "Bad parameter: destination must be an str"
-        )
     if "destinations" in params and not isinstance(
         params["destinations"], builtins.list
     ):
@@ -551,8 +522,6 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "group_ids" in params and not isinstance(params["group_ids"], str):
         raise InvalidParameterError("Bad parameter: group_ids must be an str")
-    if "schedule" in params and not isinstance(params["schedule"], dict):
-        raise InvalidParameterError("Bad parameter: schedule must be an dict")
     if "schedule_days_of_week" in params and not isinstance(
         params["schedule_days_of_week"], builtins.list
     ):
