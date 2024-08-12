@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 class FileAction:
     default_attributes = {
         "status": None,  # string - Status of file operation.
-        "file_migration_id": None,  # int64 - If status is pending, this is the id of the FileMigration to check for status updates.
+        "file_migration_id": None,  # int64 - If status is pending, this is the id of the File Migration to check for status updates.
         "path": None,
         "destination": None,
     }

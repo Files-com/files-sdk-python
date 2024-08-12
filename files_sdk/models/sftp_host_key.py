@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 
 class SftpHostKey:
     default_attributes = {
-        "id": None,  # int64 - Sftp Host Key ID
+        "id": None,  # int64 - SFTP Host Key ID
         "name": None,  # string - The friendly name of this SFTP Host Key.
         "fingerprint_md5": None,  # string - MD5 Fingerpint of the public key
         "fingerprint_sha256": None,  # string - SHA256 Fingerpint of the public key

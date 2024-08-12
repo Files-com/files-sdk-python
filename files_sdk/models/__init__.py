@@ -6,7 +6,6 @@ from files_sdk.models.action_notification_export import (
 from files_sdk.models.action_notification_export_result import (
     ActionNotificationExportResult,
 )
-from files_sdk.models.action_webhook_failure import ActionWebhookFailure
 from files_sdk.models.api_key import ApiKey
 from files_sdk.models.api_request_log import ApiRequestLog
 from files_sdk.models.app import App

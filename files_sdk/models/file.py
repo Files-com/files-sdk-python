@@ -376,7 +376,7 @@ class File:
         )
         return response.data
 
-    # Begin file upload
+    # Begin File Upload
     #
     # Parameters:
     #   mkdir_parents - boolean - Create parent directories if they do not exist?
@@ -669,7 +669,7 @@ def move(path, params=None, options=None):
     return FileAction(response.data, options)
 
 
-# Begin file upload
+# Begin File Upload
 #
 # Parameters:
 #   mkdir_parents - boolean - Create parent directories if they do not exist?

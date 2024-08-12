@@ -243,7 +243,7 @@ files_sdk.file.move(path, {
 
 ---
 
-## Begin file upload
+## Begin File Upload
 
 ```
 files_sdk.file.begin_upload(path, {
@@ -371,7 +371,7 @@ file.move({
 
 ---
 
-## Begin file upload
+## Begin File Upload
 
 ```
 file = files_sdk.file.find(path)
