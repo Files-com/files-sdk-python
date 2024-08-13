@@ -346,6 +346,7 @@ The error group base class indicates a particular type of error.
 |`ApiKeyOnlyForDesktopAppError`|  `NotAuthorizedError` |
 |`ApiKeyOnlyForMobileAppError`|  `NotAuthorizedError` |
 |`ApiKeyOnlyForOfficeIntegrationError`|  `NotAuthorizedError` |
+|`BillingOrSiteAdminPermissionRequiredError`|  `NotAuthorizedError` |
 |`BillingPermissionRequiredError`|  `NotAuthorizedError` |
 |`BundleMaximumUsesReachedError`|  `NotAuthorizedError` |
 |`CannotLoginWhileUsingKeyError`|  `NotAuthorizedError` |

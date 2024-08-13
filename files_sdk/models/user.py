@@ -57,6 +57,7 @@ class User:
         "active_2fa": None,  # boolean - Is 2fa active for the user?
         "require_password_change": None,  # boolean - Is a password change required upon next user login?
         "password_expired": None,  # boolean - Is user's password expired?
+        "readonly_site_admin": None,  # boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
         "restapi_permission": None,  # boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
         "self_managed": None,  # boolean - Does this user manage it's own credentials or is it a shared/bot user?
         "sftp_permission": None,  # boolean - Can the user access with SFTP?
@@ -194,6 +195,7 @@ class User:
     #   notes - string - Any internal notes on the user
     #   office_integration_enabled - boolean - Enable integration with Office for the web?
     #   password_validity_days - int64 - Number of days to allow user to use the same password
+    #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
     #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
     #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
     #   require_password_change - boolean - Is a password change required upon next user login?
@@ -497,6 +499,7 @@ def get(id, params=None, options=None):
 #   notes - string - Any internal notes on the user
 #   office_integration_enabled - boolean - Enable integration with Office for the web?
 #   password_validity_days - int64 - Number of days to allow user to use the same password
+#   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
 #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
 #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
 #   require_password_change - boolean - Is a password change required upon next user login?
@@ -714,6 +717,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   notes - string - Any internal notes on the user
 #   office_integration_enabled - boolean - Enable integration with Office for the web?
 #   password_validity_days - int64 - Number of days to allow user to use the same password
+#   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
 #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
 #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
 #   require_password_change - boolean - Is a password change required upon next user login?
