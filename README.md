@@ -26,9 +26,7 @@ pip3 install Files.com
 import files_sdk
 ````
 
-<Note title="Repository">
 Explore the [files-sdk-python](https://github.com/Files-com/files-sdk-python) code on GitHub.
-</Note>
 
 ### Getting Support
 
@@ -59,9 +57,7 @@ files_sdk.set_api_key("YOUR_API_KEY")
 files_sdk.user.list(params, {"api_key": "YOUR_API_KEY"})
 ```
 
-<Note>
 Don't forget to replace the placeholder, `YOUR_API_KEY`, with your actual API key.
-</Note>
 
 ### Authenticate with a Session
 
