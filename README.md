@@ -251,16 +251,16 @@ handle the general `files_sdk.error.Error` exception as a catch-all.
 try:
   session = files_sdk.session.create({ "username": "USERNAME", "password": "BADPASSWORD" })
 except files_sdk.error.NotAuthenticatedError as err:
-    print(f"Authentication Error Occured ({type(err).__name__}):", err)
+    print(f"Authentication Error Occurred ({type(err).__name__}):", err)
 except files_sdk.error.Error as err:
-    print(f"Unknown Error Occured ({type(err).__name__}):", err)
+    print(f"Unknown Error Occurred ({type(err).__name__}):", err)
 ```
 
 ### Error Types
 
 #### SDK Errors
 
-SDK errors are general errors that occure within the SDK code.  Each exception class inherits from a standard `Error` base class.
+SDK errors are general errors that occur within the SDK code.  Each exception class inherits from a standard `Error` base class.
 
 ```python title="Example SDK Exception Class Inheritance Structure"
 files_sdk.error.APIConnectionError -> files_sdk.error.Error -> Exception
@@ -281,7 +281,7 @@ API errors are errors returned by the Files.com API.  Each exception class inher
 The error group base class indicates a particular type of error.
 
 ```python title="Example API Exception Class Inheritance Structure"
- files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthorizedError -> files_sdk.error.APIError -> files_sdk.error.Error -> Exception
+files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthorizedError -> files_sdk.error.APIError -> files_sdk.error.Error -> Exception
 ```
 ##### API Exception Classes
 
@@ -466,7 +466,7 @@ This SDK allows both file based transfer and data based transfer. Please see the
 The second parameter is optional and will simply use the remote filename by default.
 
 ```python
-    files_sdk.file.download_file("/remote.txt", "local.txt")
+files_sdk.file.download_file("/remote.txt", "local.txt")
 ```
 
 #### File Upload
@@ -474,49 +474,49 @@ The second parameter is optional and will simply use the remote filename by defa
 The second parameter is optional and will simply use the local filename by default.
 
 ```python
-    files_sdk.file.upload_file("local.txt", "/remote.txt")
+files_sdk.file.upload_file("local.txt", "/remote.txt")
 ```
 
 If the parent directories do not already exist, they can be automatically created by passing
 `mkdir_parents` in the `params`.
 
 ```python
-    files_sdk.file.upload_file("local.txt", "/uploads/remote.txt", params={"mkdir_parents": True})
+files_sdk.file.upload_file("local.txt", "/uploads/remote.txt", params={"mkdir_parents": True})
 ```
 
 #### List root folder
 
 ```python
-    for f in files_sdk.folder.list_for("/").auto_paging_iter():
-        print(f.type, f.path)
+for f in files_sdk.folder.list_for("/").auto_paging_iter():
+    print(f.type, f.path)
 ```
 
 #### Writing a file example (string)
 
 ```python
-    with files_sdk.file.open("foo.txt", 'w') as f:
-        f.write("contents")
+with files_sdk.file.open("foo.txt", 'w') as f:
+    f.write("contents")
 ```
 
 #### Writing a file example (binary)
 
 ```python
-    with files_sdk.file.open("foo.txt", 'wb') as f:
-        f.write(b"contents")
+with files_sdk.file.open("foo.txt", 'wb') as f:
+    f.write(b"contents")
 ```
 
 #### Reading a file example (string)
 
 ```python
-    with files_sdk.open("foo.txt", 'r') as f:
-        print(f.read())
+with files_sdk.open("foo.txt", 'r') as f:
+    print(f.read())
 ```
 
 #### Reading a file example (binary)
 
 ```python
-    with files_sdk.open("foo.txt", 'rb') as f:
-        print(f.read())
+with files_sdk.open("foo.txt", 'rb') as f:
+    print(f.read())
 ```
 
 ### List Responses and Cursor Paging
@@ -529,24 +529,24 @@ as needed.
 #### Iterating with with auto_paging_iter
 
 ```python
-    list_obj = files_sdk.folder.list_for('/')
+list_obj = files_sdk.folder.list_for('/')
 
-    for f in list_obj.auto_paging_iter():
-        print(f.type, f.path)
+for f in list_obj.auto_paging_iter():
+    print(f.type, f.path)
 ```
 
 #### Iterating manually
 
 ```python
-    list_obj = files_sdk.folder.list_for('/')
+list_obj = files_sdk.folder.list_for('/')
 
+for f in list_obj:
+    print(f.type, f.path)
+
+while list_obj.has_next_page:
+    list_obj.load_next_page()
     for f in list_obj:
         print(f.type, f.path)
-
-    while list_obj.has_next_page:
-        list_obj.load_next_page()
-        for f in list_obj:
-            print(f.type, f.path)
 ```
 
 ### Comparing Case insensitive files and paths
@@ -554,8 +554,8 @@ as needed.
 For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
 
 ```python
-    if files_sdk.path_util.is_same("Fïłèńämê.Txt", "filename.txt"):
-        print("Paths are the same")
+if files_sdk.path_util.is_same("Fïłèńämê.Txt", "filename.txt"):
+    print("Paths are the same")
 ```
 
 ## Mock Server

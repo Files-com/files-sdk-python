@@ -28,7 +28,7 @@ class TestApiErrors(unittest.TestCase):
         with self.assertRaises(files_sdk.error.NotFoundError) as context:
             for f in files_sdk.folder.list_for("/missing").auto_paging_iter():
                 pass
-        
+
         self.assertEqual(context.exception.code, 404)
         self.assertEqual(str(context.exception), "HTTP 404 Folder missing not found.")
         self.assertIn("content-type", context.exception.headers)
@@ -105,7 +105,7 @@ class TestApiErrors(unittest.TestCase):
         with self.assertRaises(files_sdk.error.LockoutRegionMismatchError) as context:
             for f in files_sdk.folder.list_for("/").auto_paging_iter():
                 pass
-        
+
         self.assertEqual(context.exception.code, 401)
         self.assertEqual(str(context.exception), f"HTTP 401 {error_msg}")
         self.assertIn("content-type", context.exception.headers)
