@@ -29,6 +29,7 @@ class App:
         "sdk_installation_instructions_link": None,  # string - Link to SDK installation instructions
         "short_description": None,  # string - Short description of the App
         "sso_strategy_type": None,  # string - Associated SSO Strategy type, if any
+        "siem_type": None,  # string - Associated SIEM type, if any
         "tutorial_youtube_url": None,  # string - Tutorial video page
     }
 
