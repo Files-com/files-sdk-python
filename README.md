@@ -191,42 +191,6 @@ Configure the local IP address from which to send requests.
 files_sdk.source_ip = '10.1.2.3'
 ```
 
-### Logging
-
-The Files.com SDK is compatible with the standard log4j logging scheme.
-
-Add `com.files` logger to your `Loggers` root in the `log4j2.xml` file.
-
-```xml title="log4j2.xml"
-<Loggers>
-    <!-- set preferred level -->
-    <Logger name="com.files" level="TRACE" />
-    <!-- to enable network request -->
-    <Logger name="okhttp3.logging.wire" level="INFO"/>
-</Loggers>
-```
-
-Create a `resources/log4j2.xml` file.
-
-```xml title="resources/log4j2.xml"
-<?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
-    <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </Console>
-    </Appenders>
-    <Loggers>
-        <!-- set preferred level -->
-        <Logger name="com.files" level="TRACE"/>
-        <!-- to enable network request -->
-        <Logger name="okhttp3.logging.wire" level="INFO"/>
-    </Loggers>
-</Configuration>
-```
-
-You can read more about [log4j2 configuration](https://logging.apache.org/log4j/2.x/manual/configuration.html).
-
 ## Errors
 
 The Files.com Python SDK will return errors by raising exceptions. There are many exception classes defined in the Files SDK that correspond
