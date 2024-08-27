@@ -31,7 +31,7 @@
 * `platform` (string): If this API key represents a Desktop app, what platform was it created on?
 * `url` (string): URL for API host.
 * `user_id` (int64): User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
-* `path` (string): Folder path restriction for this API key.
+* `path` (string): Folder path restriction for `office_integration` permission set API keys.
 
 
 ---
@@ -101,7 +101,7 @@ files_sdk.api_key.create({
 * `expires_at` (string): API Key expiration date
 * `permission_set` (string): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `name` (string): Required - Internal name for the API Key.  For your use.
-* `path` (string): Folder path restriction for this API key.
+* `path` (string): Folder path restriction for `office_integration` permission set API keys.
 
 
 ---
