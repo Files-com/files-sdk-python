@@ -110,7 +110,6 @@ files_sdk.file.download(path, {
 * `preview_size` (string): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 * `with_previews` (boolean): Include file preview information?
 * `with_priority_color` (boolean): Include file priority color information?
-* `point_in_time` (string): Point in time to view the folder. Available only on remote server mounts for S3 with versioned buckets.
 
 
 ---
@@ -288,7 +287,6 @@ file.download({
 * `preview_size` (string): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 * `with_previews` (boolean): Include file preview information?
 * `with_priority_color` (boolean): Include file priority color information?
-* `point_in_time` (string): Point in time to view the folder. Available only on remote server mounts for S3 with versioned buckets.
 
 
 ---
