@@ -5,35 +5,35 @@ The content included here should be enough to get started, but please visit our
 
 ## Introduction
 
-The Files.com Python client library provides convenient access to the Files.com API from applications written in the Python language.
+The Files.com Python package is the best way to use Files.com from applications written in the Python language.
+
+Files.com customers use our Python package for directly working with files and folders as well as performing management tasks such as adding/removing users, onboarding counterparties, retrieving information about automations and more.
+
+Every function in the Files.com application is available via Python.  Nothing is excluded.
+
+This package is officially supported by Files.com for Python 3.8+.  Prior versions of Python are considered end-of-life by the Python Software Foundation and Files.com only supports environments that are still supported by their vendor.  With that said, we believe that this package works in Python 3.5-3.7 as well.
 
 ### Installation
 
-To install the package:
+Use `pip` to install the latest version of the `Files.com` package.
 
 ```shell
 pip3 install Files.com
 ````
 
-#### Requirements
+Files.com automatically pushes a new release to PIP every time a commit is made to the `master` branch on GitHub, so there is no benefit in directly linking the package from GitHub.
 
-* Python 3.5+
-* requests
+### Files.com Is Committed To Python
 
-### Usage
-
-```python
-import files_sdk
-````
+Python is the most commonly used langauge for custom integrations to Files.com.  Our Files.com Desktop v6 application (that we publish) is also written in Python, using this exact same package.
 
 Explore the [files-sdk-python](https://github.com/Files-com/files-sdk-python) code on GitHub.
 
 ### Getting Support
 
-The Files.com team is happy to help with any SDK Integration challenges you
-may face.
+The Files.com Support team provides official support for all of our official Files.com integration tools.
 
-Just email support@files.com and we'll get the process started.
+To initiate a support conversation, you can send an [Authenticated Support Request](https://www.files.com/docs/overview/requesting-support) or simply send an E-Mail to support@files.com.
 
 ## Authentication
 
