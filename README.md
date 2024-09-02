@@ -13,6 +13,8 @@ Every function in the Files.com application is available via Python.  Nothing is
 
 This package is officially supported by Files.com for Python 3.8+.  Prior versions of Python are considered end-of-life by the Python Software Foundation and Files.com only supports environments that are still supported by their vendor.  With that said, we believe that this package works in Python 3.5-3.7 as well.
 
+The Python package uses the Files.com RESTful APIs via the HTTPS protocol (port 443) to securely communicate and transfer files so no firewall changes should be required in order to allow connectivity to Files.com.
+
 ### Installation
 
 Use `pip` to install the latest version of the `Files.com` package.
