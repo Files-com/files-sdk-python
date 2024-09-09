@@ -10,6 +10,7 @@ from files_sdk.error import (  # noqa: F401
 
 class Site:
     default_attributes = {
+        "id": None,  # int64 - Site Id
         "name": None,  # string - Site name
         "additional_text_file_types": None,  # array(string) - Additional extensions that are considered text files
         "allowed_2fa_method_sms": None,  # boolean - Is SMS two factor authentication allowed?
