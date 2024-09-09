@@ -25,9 +25,9 @@ pip3 install Files.com
 
 Files.com automatically pushes a new release to PIP every time a commit is made to the `master` branch on GitHub, so there is no benefit in directly linking the package from GitHub.
 
-### Files.com Is Committed To Python
+### Files.com is Committed to Python
 
-Python is the most commonly used langauge for custom integrations to Files.com.  Our Files.com Desktop v6 application (that we publish) is also written in Python, using this exact same package.
+Python is the most commonly used language for custom integrations to Files.com.  Our Files.com Desktop v6 application (that we publish) is also written in Python, using this exact same package.
 
 Explore the [files-sdk-python](https://github.com/Files-com/files-sdk-python) code on GitHub.
 
@@ -73,7 +73,7 @@ session times out, simply create a new session and resume where you left off. Th
 automatically handled by SDKs because we do not want to store password information in memory without
 your explicit consent.
 
-#### Logging in
+#### Logging In
 
 To create a session, the `create` method is called on the `files_sdk` object with the user's username and
 password.
@@ -84,7 +84,7 @@ This returns a session object that can be used to authenticate SDK method calls.
 session = files_sdk.session.create({ "username": "motor", "password": "vroom" })
 ```
 
-#### Using a session
+#### Using a Session
 
 Once a session has been created, you can store the session globally, use the session per object, or use the session per request to authenticate SDK operations.
 
@@ -99,7 +99,7 @@ user = files_sdk.user.User(params, {"session_id": session.id})
 files_sdk.user.find(id, params, {"session_id": session.id})
 ```
 
-#### Logging out
+#### Logging Out
 
 User sessions can be ended calling the `destroy` method on the `session` object.
 
@@ -109,7 +109,7 @@ session.destroy()
 
 ## Configuration
 
-### Configuration options
+### Configuration Options
 
 #### Base URL
 
@@ -120,7 +120,7 @@ This can also be set to use a mock server in development or CI.
 files_sdk.base_url = "https://SUBDOMAIN.files.com"
 ```
 
-#### Log level
+#### Log Level
 
 This SDK utilizes the standard Python logging framework. It will respect the global log level
 and you can set the module specific log level and other logging settings by getting the logger
@@ -131,7 +131,7 @@ import logging
 logging.getLogger("files_sdk")
 ```
 
-#### Console log level
+#### Console Log Level
 
 Enables printing of messages to stderr in addition to normal logging.
 
@@ -145,7 +145,7 @@ Allowed values are:
 files_sdk.console_log_level = "info"
 ```
 
-#### Open timeout
+#### Open Timeout
 
 Open timeout in seconds. The default value is 30.
 
@@ -153,7 +153,7 @@ Open timeout in seconds. The default value is 30.
 files_sdk.open_timeout = 60
 ```
 
-#### Read timeout
+#### Read Timeout
 
 Read timeout in seconds. The default value is 80.
 
@@ -161,7 +161,7 @@ Read timeout in seconds. The default value is 80.
 files_sdk.read_timeout = 90
 ```
 
-#### Initial network retry delay
+#### Initial Network Retry Delay
 
 Initial retry delay in seconds. The default value is 0.5.
 
@@ -169,7 +169,7 @@ Initial retry delay in seconds. The default value is 0.5.
 files_sdk.initial_network_retry_delay = 1
 ```
 
-#### Maximum retry delay
+#### Maximum Retry Delay
 
 Maximum network retry delay in seconds. The default value is 2.
 
@@ -177,7 +177,7 @@ Maximum network retry delay in seconds. The default value is 2.
 files_sdk.max_network_retry_delay = 5
 ```
 
-#### Maximum network retries
+#### Maximum Network Retries
 
 Maximum number of retries. The default value is 3.
 
@@ -446,35 +446,35 @@ If the parent directories do not already exist, they can be automatically create
 files_sdk.file.upload_file("local.txt", "/uploads/remote.txt", params={"mkdir_parents": True})
 ```
 
-#### List root folder
+#### List Root Folder
 
 ```python
 for f in files_sdk.folder.list_for("/").auto_paging_iter():
     print(f.type, f.path)
 ```
 
-#### Writing a file example (string)
+#### Writing a File Example (string)
 
 ```python
 with files_sdk.file.open("foo.txt", 'w') as f:
     f.write("contents")
 ```
 
-#### Writing a file example (binary)
+#### Writing a File Example (binary)
 
 ```python
 with files_sdk.file.open("foo.txt", 'wb') as f:
     f.write(b"contents")
 ```
 
-#### Reading a file example (string)
+#### Reading a File Example (string)
 
 ```python
 with files_sdk.open("foo.txt", 'r') as f:
     print(f.read())
 ```
 
-#### Reading a file example (binary)
+#### Reading a File Example (binary)
 
 ```python
 with files_sdk.open("foo.txt", 'rb') as f:
@@ -488,7 +488,7 @@ which contains a single page of records. It has a built-in `auto_paging_iter`
 method to iterate through the pages, making the additional API calls
 as needed.
 
-#### Iterating with with auto_paging_iter
+#### Iterating with auto_paging_iter
 
 ```python
 list_obj = files_sdk.folder.list_for('/')
@@ -497,7 +497,7 @@ for f in list_obj.auto_paging_iter():
     print(f.type, f.path)
 ```
 
-#### Iterating manually
+#### Iterating Manually
 
 ```python
 list_obj = files_sdk.folder.list_for('/')
@@ -511,7 +511,7 @@ while list_obj.has_next_page:
         print(f.type, f.path)
 ```
 
-### Comparing Case insensitive files and paths
+### Comparing Case-Insensitive Files and Paths
 
 For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
 
