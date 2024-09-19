@@ -85,6 +85,7 @@ from files_sdk.models.sftp_action_log import SftpActionLog
 from files_sdk.models.sftp_host_key import SftpHostKey
 from files_sdk.models.share_group import ShareGroup
 from files_sdk.models.share_group_member import ShareGroupMember
+from files_sdk.models.siem_http_destination import SiemHttpDestination
 from files_sdk.models.site import Site
 from files_sdk.models.snapshot import Snapshot
 from files_sdk.models.sso_strategy import SsoStrategy

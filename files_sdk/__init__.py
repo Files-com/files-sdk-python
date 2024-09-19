@@ -80,6 +80,7 @@ import files_sdk.models.sftp_action_log as sftp_action_log
 import files_sdk.models.sftp_host_key as sftp_host_key
 import files_sdk.models.share_group as share_group
 import files_sdk.models.share_group_member as share_group_member
+import files_sdk.models.siem_http_destination as siem_http_destination
 import files_sdk.models.site as site
 import files_sdk.models.snapshot as snapshot
 import files_sdk.models.sso_strategy as sso_strategy
@@ -181,6 +182,7 @@ from files_sdk.models.sftp_action_log import SftpActionLog
 from files_sdk.models.sftp_host_key import SftpHostKey
 from files_sdk.models.share_group import ShareGroup
 from files_sdk.models.share_group_member import ShareGroupMember
+from files_sdk.models.siem_http_destination import SiemHttpDestination
 from files_sdk.models.site import Site
 from files_sdk.models.snapshot import Snapshot
 from files_sdk.models.sso_strategy import SsoStrategy
@@ -204,7 +206,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.4.131"
+version = "1.4.132"
 
 __version__ = version
 
