@@ -16,13 +16,13 @@
 ```
 
 * `id` (int64): Permission ID
-* `path` (string): Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `path` (string): Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `user_id` (int64): User ID
-* `username` (string): User's username
+* `username` (string): Username (if applicable)
 * `group_id` (int64): Group ID
-* `group_name` (string): Group name if applicable
-* `permission` (string): Permission type
-* `recursive` (boolean): Does this permission apply to subfolders?
+* `group_name` (string): Group name (if applicable)
+* `permission` (string): Permission type.  See the table referenced in the documentation for an explanation of each permission.
+* `recursive` (boolean): Recursive: does this permission apply to subfolders?
 
 
 ---

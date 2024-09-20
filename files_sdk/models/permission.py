@@ -11,13 +11,13 @@ from files_sdk.error import (  # noqa: F401
 class Permission:
     default_attributes = {
         "id": None,  # int64 - Permission ID
-        "path": None,  # string - Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "user_id": None,  # int64 - User ID
-        "username": None,  # string - User's username
+        "username": None,  # string - Username (if applicable)
         "group_id": None,  # int64 - Group ID
-        "group_name": None,  # string - Group name if applicable
-        "permission": None,  # string - Permission type
-        "recursive": None,  # boolean - Does this permission apply to subfolders?
+        "group_name": None,  # string - Group name (if applicable)
+        "permission": None,  # string - Permission type.  See the table referenced in the documentation for an explanation of each permission.
+        "recursive": None,  # boolean - Recursive: does this permission apply to subfolders?
     }
 
     def __init__(self, attributes=None, options=None):
