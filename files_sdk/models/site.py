@@ -15,7 +15,6 @@ class Site:
         "additional_text_file_types": None,  # array(string) - Additional extensions that are considered text files
         "allowed_2fa_method_sms": None,  # boolean - Is SMS two factor authentication allowed?
         "allowed_2fa_method_totp": None,  # boolean - Is TOTP two factor authentication allowed?
-        "allowed_2fa_method_u2f": None,  # boolean - Is U2F two factor authentication allowed?
         "allowed_2fa_method_webauthn": None,  # boolean - Is WebAuthn two factor authentication allowed?
         "allowed_2fa_method_yubi": None,  # boolean - Is yubikey two factor authentication allowed?
         "allowed_2fa_method_email": None,  # boolean - Is OTP via email two factor authentication allowed?
@@ -310,7 +309,6 @@ def get_usage(params=None, options=None):
 #   bundle_recipient_blacklist_domains - array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
 #   admins_bypass_locked_subfolders - boolean - Allow admins to bypass the locked subfolders setting.
 #   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
-#   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
 #   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
 #   allowed_2fa_method_webauthn - boolean - Is WebAuthn two factor authentication allowed?
 #   allowed_2fa_method_yubi - boolean - Is yubikey two factor authentication allowed?

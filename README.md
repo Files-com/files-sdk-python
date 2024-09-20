@@ -496,6 +496,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`TwoFactorAuthenticationCodeAlreadySentError`|  `ProcessingFailureError` |
 |`TwoFactorAuthenticationCountryBlacklistedError`|  `ProcessingFailureError` |
 |`TwoFactorAuthenticationGeneralErrorError`|  `ProcessingFailureError` |
+|`TwoFactorAuthenticationMethodUnsupportedErrorError`|  `ProcessingFailureError` |
 |`TwoFactorAuthenticationUnsubscribedRecipientError`|  `ProcessingFailureError` |
 |`UpdatesNotAllowedForRemotesError`|  `ProcessingFailureError` |
 |`DuplicateShareRecipientError`|  `RateLimitedError` |

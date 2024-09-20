@@ -130,7 +130,7 @@
 * `subscribe_to_newsletter` (boolean): Is the user subscribed to the newsletter?
 * `externally_managed` (boolean): Is this user managed by a SsoStrategy?
 * `time_zone` (string): User time zone
-* `type_of_2fa` (string): Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
+* `type_of_2fa` (string): Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `webauthn`, `yubi`, `email`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
 * `type_of_2fa_for_display` (string): Type(s) of 2FA methods in use, formatted for displaying in the UI.  Unlike `type_of_2fa`, this value will make clear when a user has more than 1 of the same type of method.
 * `user_root` (string): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 * `days_remaining_until_password_expire` (int64): Number of days remaining until password expires
