@@ -18,7 +18,7 @@
   "log_level": "example",
   "log_rotate_num": 1,
   "log_rotate_size": 1,
-  "max_concurrent_jobs": 1,
+  "override_max_concurrent_jobs": 1,
   "graceful_shutdown_timeout": 1,
   "transfer_rate_limit": "example",
   "api_token": "example",
@@ -37,16 +37,16 @@
 * `subdomain` (string): Files.com subdomain site name
 * `root` (string): The root directory for the agent
 * `follow_links` (boolean): Follow symlinks when traversing directories
-* `prefer_protocol` (string): Preferred network protocol ['udp', 'tcp']
-* `dns` (string): DNS lookup method ['auto','doh','system']
+* `prefer_protocol` (string): Preferred network protocol ['udp', 'tcp'] (default udp)
+* `dns` (string): DNS lookup method ['auto','doh','system'] (default auto)
 * `proxy_all_outbound` (boolean): Proxy all outbound traffic through files.com proxy server
 * `endpoint_override` (string): Custom site endpoint URL
 * `log_file` (string): Log file name and location
-* `log_level` (string): Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal']
+* `log_level` (string): Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal'] (default info)
 * `log_rotate_num` (int64): Log route for agent logs. (default 5)
-* `log_rotate_size` (int64): Log route size in MB for agent logs. (default 20MB)
-* `max_concurrent_jobs` (int64): Maximum number of concurrent jobs (default CPU Count * 4)
-* `graceful_shutdown_timeout` (int64): Graceful shutdown timeout in seconds
+* `log_rotate_size` (int64): Log route size in MB for agent logs. (default 20)
+* `override_max_concurrent_jobs` (int64): Maximum number of concurrent jobs (default 1024)
+* `graceful_shutdown_timeout` (int64): Graceful shutdown timeout in seconds (default 15)
 * `transfer_rate_limit` (string): File transfer (upload/download) rate limit
  `<limit>-<period>`, with the given periods:
 * 'S': second
