@@ -45,7 +45,7 @@
 * `log_level` (string): Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal'] (default info)
 * `log_rotate_num` (int64): Log route for agent logs. (default 5)
 * `log_rotate_size` (int64): Log route size in MB for agent logs. (default 20)
-* `override_max_concurrent_jobs` (int64): Maximum number of concurrent jobs (default 1024)
+* `override_max_concurrent_jobs` (int64): Maximum number of concurrent jobs (default 500)
 * `graceful_shutdown_timeout` (int64): Graceful shutdown timeout in seconds (default 15)
 * `transfer_rate_limit` (string): File transfer (upload/download) rate limit
  `<limit>-<period>`, with the given periods:
