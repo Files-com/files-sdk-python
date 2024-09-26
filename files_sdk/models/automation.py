@@ -19,6 +19,7 @@ class Automation:
         "destination_replace_to": None,  # string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
         "destinations": None,  # array(string) - Destination Paths
         "disabled": None,  # boolean - If true, this automation will not run.
+        "exclude_pattern": None,  # string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
         "flatten_destination_structure": None,  # boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
         "group_ids": None,  # array(int64) - IDs of Groups for the Automation (i.e. who to Request File from)
         "ignore_locked_folders": None,  # boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
@@ -35,7 +36,7 @@ class Automation:
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
         "schedule_times_of_day": None,  # array(string) - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. Times of day in HH:MM format.
         "schedule_time_zone": None,  # string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the automation should be run.
-        "source": None,  # string - Source Path
+        "source": None,  # string - Source path. Supports globs, except on remote mounts.
         "sync_ids": None,  # array(int64) - IDs of remote sync folder behaviors to run by this Automation
         "trigger_actions": None,  # array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
         "trigger": None,  # string - How this automation is triggered to run.
