@@ -70,7 +70,8 @@ class User:
         "time_zone": None,  # string - User time zone
         "type_of_2fa": None,  # string - Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `webauthn`, `yubi`, `email`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
         "type_of_2fa_for_display": None,  # string - Type(s) of 2FA methods in use, formatted for displaying in the UI.  Unlike `type_of_2fa`, this value will make clear when a user has more than 1 of the same type of method.
-        "user_root": None,  # string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
+        "user_root": None,  # string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
+        "user_home": None,  # string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
         "days_remaining_until_password_expire": None,  # int64 - Number of days remaining until password expires
         "password_expire_at": None,  # date-time - Password expiration datetime
         "avatar_file": None,  # file - An image file for your user avatar.
@@ -209,7 +210,8 @@ class User:
     #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
     #   require_2fa - string - 2FA required setting
     #   time_zone - string - User time zone
-    #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
+    #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
+    #   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
     #   username - string - User's username
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -346,6 +348,10 @@ class User:
         if "user_root" in params and not isinstance(params["user_root"], str):
             raise InvalidParameterError(
                 "Bad parameter: user_root must be an str"
+            )
+        if "user_home" in params and not isinstance(params["user_home"], str):
+            raise InvalidParameterError(
+                "Bad parameter: user_home must be an str"
             )
         if "username" in params and not isinstance(params["username"], str):
             raise InvalidParameterError(
@@ -513,7 +519,8 @@ def get(id, params=None, options=None):
 #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
 #   require_2fa - string - 2FA required setting
 #   time_zone - string - User time zone
-#   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
+#   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
+#   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 #   username (required) - string - User's username
 def create(params=None, options=None):
     if not isinstance(params, dict):
@@ -624,6 +631,8 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: time_zone must be an str")
     if "user_root" in params and not isinstance(params["user_root"], str):
         raise InvalidParameterError("Bad parameter: user_root must be an str")
+    if "user_home" in params and not isinstance(params["user_home"], str):
+        raise InvalidParameterError("Bad parameter: user_home must be an str")
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
     if "username" not in params:
@@ -731,7 +740,8 @@ def user_2fa_reset(id, params=None, options=None):
 #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
 #   require_2fa - string - 2FA required setting
 #   time_zone - string - User time zone
-#   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
+#   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
+#   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 #   username - string - User's username
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -845,6 +855,8 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: time_zone must be an str")
     if "user_root" in params and not isinstance(params["user_root"], str):
         raise InvalidParameterError("Bad parameter: user_root must be an str")
+    if "user_home" in params and not isinstance(params["user_home"], str):
+        raise InvalidParameterError("Bad parameter: user_home must be an str")
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
     if "id" not in params:

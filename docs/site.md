@@ -157,6 +157,7 @@
     "multiple_regions": True,
     "read_only": True,
     "root_path": "example",
+    "home_path": "example",
     "sftp_insecure_ciphers": False,
     "site_id": 1,
     "ssl_required": True,
@@ -262,6 +263,7 @@
     "type_of_2fa_for_display": "yubi",
     "updated_at": "2000-01-01T01:00:00Z",
     "user_root": "example",
+    "user_home": "example",
     "days_remaining_until_password_expire": 1,
     "password_expire_at": "2000-01-01T01:00:00Z"
   },
