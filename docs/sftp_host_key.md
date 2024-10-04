@@ -13,8 +13,8 @@
 
 * `id` (int64): SFTP Host Key ID
 * `name` (string): The friendly name of this SFTP Host Key.
-* `fingerprint_md5` (string): MD5 Fingerpint of the public key
-* `fingerprint_sha256` (string): SHA256 Fingerpint of the public key
+* `fingerprint_md5` (string): MD5 Fingerprint of the public key
+* `fingerprint_sha256` (string): SHA256 Fingerprint of the public key
 * `private_key` (string): The private key data.
 
 

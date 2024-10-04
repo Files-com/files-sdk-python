@@ -180,7 +180,7 @@ files_sdk.file.delete(path, {
 ### Parameters
 
 * `path` (string): Required - Path to operate on.
-* `recursive` (boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
+* `recursive` (boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
 
 
 ---
@@ -324,7 +324,7 @@ file.delete({
 ### Parameters
 
 * `path` (string): Required - Path to operate on.
-* `recursive` (boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
+* `recursive` (boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
 
 
 ---

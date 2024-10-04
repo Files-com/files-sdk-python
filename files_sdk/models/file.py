@@ -279,7 +279,7 @@ class File:
         return response.data
 
     # Parameters:
-    #   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
+    #   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
     def delete(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -540,7 +540,7 @@ def update(path, params=None, options=None):
 
 
 # Parameters:
-#   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
+#   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
 def delete(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}

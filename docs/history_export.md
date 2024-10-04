@@ -39,7 +39,7 @@
 * `status` (string): Status of export.  Will be: `building`, `ready`, or `failed`
 * `query_action` (string): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
 * `query_interface` (string): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`
-* `query_user_id` (string): Return results that are actions performed by the user indiciated by this User ID
+* `query_user_id` (string): Return results that are actions performed by the user indicated by this User ID
 * `query_file_id` (string): Return results that are file actions related to the file indicated by this File ID
 * `query_parent_id` (string): Return results that are file actions inside the parent folder specified by this folder ID
 * `query_path` (string): Return results that are file actions related to paths matching this pattern.
@@ -49,9 +49,9 @@
 * `query_ip` (string): Filter results by this IP address.
 * `query_username` (string): Filter results by this username.
 * `query_failure_type` (string): If searching for Histories about login failures, this parameter restricts results to failures of this specific type.  Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`, `country_mismatch`, `insecure_ftp`, `insecure_cipher`, `rate_limited`
-* `query_target_id` (string): If searching for Histories about specific objects (such as Users, or API Keys), this paremeter restricts results to objects that match this ID.
+* `query_target_id` (string): If searching for Histories about specific objects (such as Users, or API Keys), this parameter restricts results to objects that match this ID.
 * `query_target_name` (string): If searching for Histories about Users, Groups or other objects with names, this parameter restricts results to objects with this name/username.
-* `query_target_permission` (string): If searching for Histories about Permisisons, this parameter restricts results to permissions of this level.
+* `query_target_permission` (string): If searching for Histories about Permissions, this parameter restricts results to permissions of this level.
 * `query_target_user_id` (string): If searching for Histories about API keys, this parameter restricts results to API keys created by/for this user ID.
 * `query_target_username` (string): If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.
 * `query_target_platform` (string): If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
@@ -111,7 +111,7 @@ files_sdk.history_export.create({
 * `end_at` (string): End date/time of export range.
 * `query_action` (string): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
 * `query_interface` (string): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`
-* `query_user_id` (string): Return results that are actions performed by the user indiciated by this User ID
+* `query_user_id` (string): Return results that are actions performed by the user indicated by this User ID
 * `query_file_id` (string): Return results that are file actions related to the file indicated by this File ID
 * `query_parent_id` (string): Return results that are file actions inside the parent folder specified by this folder ID
 * `query_path` (string): Return results that are file actions related to paths matching this pattern.
@@ -121,9 +121,9 @@ files_sdk.history_export.create({
 * `query_ip` (string): Filter results by this IP address.
 * `query_username` (string): Filter results by this username.
 * `query_failure_type` (string): If searching for Histories about login failures, this parameter restricts results to failures of this specific type.  Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`, `country_mismatch`, `insecure_ftp`, `insecure_cipher`, `rate_limited`
-* `query_target_id` (string): If searching for Histories about specific objects (such as Users, or API Keys), this paremeter restricts results to objects that match this ID.
+* `query_target_id` (string): If searching for Histories about specific objects (such as Users, or API Keys), this parameter restricts results to objects that match this ID.
 * `query_target_name` (string): If searching for Histories about Users, Groups or other objects with names, this parameter restricts results to objects with this name/username.
-* `query_target_permission` (string): If searching for Histories about Permisisons, this parameter restricts results to permissions of this level.
+* `query_target_permission` (string): If searching for Histories about Permissions, this parameter restricts results to permissions of this level.
 * `query_target_user_id` (string): If searching for Histories about API keys, this parameter restricts results to API keys created by/for this user ID.
 * `query_target_username` (string): If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.
 * `query_target_platform` (string): If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.

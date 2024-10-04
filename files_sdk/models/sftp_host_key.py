@@ -12,8 +12,8 @@ class SftpHostKey:
     default_attributes = {
         "id": None,  # int64 - SFTP Host Key ID
         "name": None,  # string - The friendly name of this SFTP Host Key.
-        "fingerprint_md5": None,  # string - MD5 Fingerpint of the public key
-        "fingerprint_sha256": None,  # string - SHA256 Fingerpint of the public key
+        "fingerprint_md5": None,  # string - MD5 Fingerprint of the public key
+        "fingerprint_sha256": None,  # string - SHA256 Fingerprint of the public key
         "private_key": None,  # string - The private key data.
     }
 

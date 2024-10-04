@@ -41,7 +41,7 @@
 * `group_id` (int64): ID of Group to receive notifications
 * `group_name` (string): Group name, if a Group ID is set
 * `triggering_group_ids` (array(int64)): If set, will only notify on actions made by a member of one of the specified groups
-* `triggering_user_ids` (array(int64)): If set, will onlynotify on actions made one of the specified users
+* `triggering_user_ids` (array(int64)): If set, will only notify on actions made one of the specified users
 * `trigger_by_share_recipients` (boolean): Notify when actions are performed by a share recipient?
 * `notify_user_actions` (boolean): If true, will send notifications about a user's own activity to that user.  If false, only activity performed by other users (or anonymous users) will be sent in notifications.
 * `notify_on_copy` (boolean): Trigger on files copied to this path?
@@ -135,7 +135,7 @@ files_sdk.notification.create({
 * `message` (string): Custom message to include in notification emails
 * `triggering_filenames` (array(string)): Array of filenames (possibly with wildcards) to scope trigger
 * `triggering_group_ids` (array(int64)): If set, will only notify on actions made by a member of one of the specified groups
-* `triggering_user_ids` (array(int64)): If set, will onlynotify on actions made one of the specified users
+* `triggering_user_ids` (array(int64)): If set, will only notify on actions made one of the specified users
 * `trigger_by_share_recipients` (boolean): Notify when actions are performed by a share recipient?
 * `group_id` (int64): The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
 * `path` (string): Path
@@ -178,7 +178,7 @@ files_sdk.notification.update(id, {
 * `message` (string): Custom message to include in notification emails
 * `triggering_filenames` (array(string)): Array of filenames (possibly with wildcards) to scope trigger
 * `triggering_group_ids` (array(int64)): If set, will only notify on actions made by a member of one of the specified groups
-* `triggering_user_ids` (array(int64)): If set, will onlynotify on actions made one of the specified users
+* `triggering_user_ids` (array(int64)): If set, will only notify on actions made one of the specified users
 * `trigger_by_share_recipients` (boolean): Notify when actions are performed by a share recipient?
 
 
@@ -232,7 +232,7 @@ notification.update({
 * `message` (string): Custom message to include in notification emails
 * `triggering_filenames` (array(string)): Array of filenames (possibly with wildcards) to scope trigger
 * `triggering_group_ids` (array(int64)): If set, will only notify on actions made by a member of one of the specified groups
-* `triggering_user_ids` (array(int64)): If set, will onlynotify on actions made one of the specified users
+* `triggering_user_ids` (array(int64)): If set, will only notify on actions made one of the specified users
 * `trigger_by_share_recipients` (boolean): Notify when actions are performed by a share recipient?
 
 

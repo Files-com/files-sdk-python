@@ -16,7 +16,7 @@ class EmailLog:
         "subject": None,  # string - Subject line of E-Mail
         "to": None,  # string - To field of E-Mail
         "cc": None,  # string - CC field of E-Mail
-        "delivery_method": None,  # string - How was email deliered?  `customer_smtp` or `files.com`
+        "delivery_method": None,  # string - How was the email delivered?  `customer_smtp` or `files.com`
         "smtp_hostname": None,  # string - Customer SMTP Hostname used.
         "smtp_ip": None,  # string - Customer SMTP IP address as resolved for use (useful for troubleshooting DNS issues with customer SMTP).
     }

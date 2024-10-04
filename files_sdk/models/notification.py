@@ -15,7 +15,7 @@ class Notification:
         "group_id": None,  # int64 - ID of Group to receive notifications
         "group_name": None,  # string - Group name, if a Group ID is set
         "triggering_group_ids": None,  # array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-        "triggering_user_ids": None,  # array(int64) - If set, will onlynotify on actions made one of the specified users
+        "triggering_user_ids": None,  # array(int64) - If set, will only notify on actions made one of the specified users
         "trigger_by_share_recipients": None,  # boolean - Notify when actions are performed by a share recipient?
         "notify_user_actions": None,  # boolean - If true, will send notifications about a user's own activity to that user.  If false, only activity performed by other users (or anonymous users) will be sent in notifications.
         "notify_on_copy": None,  # boolean - Trigger on files copied to this path?
@@ -68,7 +68,7 @@ class Notification:
     #   message - string - Custom message to include in notification emails
     #   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
     #   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-    #   triggering_user_ids - array(int64) - If set, will onlynotify on actions made one of the specified users
+    #   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
     #   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -225,7 +225,7 @@ def get(id, params=None, options=None):
 #   message - string - Custom message to include in notification emails
 #   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
 #   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-#   triggering_user_ids - array(int64) - If set, will onlynotify on actions made one of the specified users
+#   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
 #   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
 #   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
 #   path - string - Path
@@ -287,7 +287,7 @@ def create(params=None, options=None):
 #   message - string - Custom message to include in notification emails
 #   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
 #   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-#   triggering_user_ids - array(int64) - If set, will onlynotify on actions made one of the specified users
+#   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
 #   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
