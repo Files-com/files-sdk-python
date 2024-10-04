@@ -8,6 +8,7 @@
   "remote_ip": "example",
   "server_ip": "example",
   "username": "example",
+  "ssh_client_identification": "example",
   "session_uuid": "example",
   "seq_id": 1,
   "auth_method": "example",
@@ -31,6 +32,7 @@
 * `remote_ip` (string): IP Address of SFTP Client
 * `server_ip` (string): IP Address of SFTP Server
 * `username` (string): Username
+* `ssh_client_identification` (string): Name of the SFTP Client provided at initial connection
 * `session_uuid` (string): Unique ID of the Session
 * `seq_id` (int64): SFTP Sequence ID
 * `auth_method` (string): Authentication Method

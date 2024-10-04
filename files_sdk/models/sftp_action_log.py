@@ -14,6 +14,7 @@ class SftpActionLog:
         "remote_ip": None,  # string - IP Address of SFTP Client
         "server_ip": None,  # string - IP Address of SFTP Server
         "username": None,  # string - Username
+        "ssh_client_identification": None,  # string - Name of the SFTP Client provided at initial connection
         "session_uuid": None,  # string - Unique ID of the Session
         "seq_id": None,  # int64 - SFTP Sequence ID
         "auth_method": None,  # string - Authentication Method
