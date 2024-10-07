@@ -115,9 +115,9 @@ def all(params=None, options=None):
 
 
 # Parameters:
+#   path (required) - string - Folder path
 #   group_id - int64 - Group ID
-#   path - string - Folder path
-#   permission - string -  Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
+#   permission - string - Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
 #   recursive - boolean - Apply to subfolders recursively?
 #   user_id - int64 - User ID.  Provide `username` or `user_id`
 #   username - string - User username.  Provide `username` or `user_id`
@@ -126,16 +126,18 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    if "group_id" in params and not isinstance(params["group_id"], int):
-        raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "group_id" in params and not isinstance(params["group_id"], int):
+        raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "permission" in params and not isinstance(params["permission"], str):
         raise InvalidParameterError("Bad parameter: permission must be an str")
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
+    if "path" not in params:
+        raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
         "POST", "/permissions", params, options
     )

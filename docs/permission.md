@@ -57,8 +57,8 @@ files_sdk.permission.list({
 
 ```
 files_sdk.permission.create({
+  "path": "path",
   "group_id": 1,
-  "path": "example",
   "permission": "full",
   "recursive": True,
   "user_id": 1,
@@ -68,9 +68,9 @@ files_sdk.permission.create({
 
 ### Parameters
 
+* `path` (string): Required - Folder path
 * `group_id` (int64): Group ID
-* `path` (string): Folder path
-* `permission` (string):  Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
+* `permission` (string): Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
 * `recursive` (boolean): Apply to subfolders recursively?
 * `user_id` (int64): User ID.  Provide `username` or `user_id`
 * `username` (string): User username.  Provide `username` or `user_id`
