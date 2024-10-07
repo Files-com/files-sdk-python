@@ -195,45 +195,18 @@ files_sdk.source_ip = '10.1.2.3'
 
 ## Sort and Filter
 
-Several of the Files.com API resources have list operations that return multiple instances of the resource.  The List operations
-can be sorted and filtered.
+Several of the Files.com API resources have list operations that return multiple instances of the
+resource. The List operations can be sorted and filtered.
 
 ### Sorting
 
-The returned data can be sorted by passing in the ```sort_by``` method argument.
+To sort the returned data, pass in the ```sort_by``` method argument.
 
-Each resource has a set of valid fields for sorting and can be sorted by one field at a time.
+Each resource supports a unique set of valid sort fields and can only be sorted by one field at a
+time.
 
-The argument value is a Python dictionary that has a key of the resource field name sort on and a value of either ```"asc"``` or ```"desc"``` to specify the sort order.
-
-### Filters
-
-Filters apply selection criteria to the underlying query that returns the results. Filters can be applied individually to select resource fields
-and/or in a combination with each other.  The results of applying filters and filter combinations can be sorted by a single field.
-
-The passed in argument value is a Python dictionary that has a key of the resource field name to filter on and a passed in value to use in the filter comparison.
-
-Each resource has their own set of valid filters and fields, valid combinations of filters, and sortable fields.
-
-#### Types of Filters
-
-##### Exact Filter
-
-`filter` - find resources that have an exact field value match to a passed in value. (i.e., FIELD_VALUE = PASS_IN_VALUE).
-
-#### Range Filters
-
-`filter_gt` - find resources that have a field value that is greater than the passed in value.  (i.e., FIELD_VALUE > PASS_IN_VALUE).
-
-`filter_gte` - find resources that have a field value that is greater than or equal to the passed in value.  (i.e., FIELD_VALUE >=  PASS_IN_VALUE).
-
-`filter_lt` - find resources that have a field value that is less than the passed in value.  (i.e., FIELD_VALUE < PASS_IN_VALUE).
-
-`filter_lte` - find resources that have a field value that is less than or equal to the passed in value.  (i.e., FIELD_VALUE \<= PASS_IN_VALUE).
-
-##### Pattern Filter
-
-`filter_prefix` - find resources where the specified field is prefixed by the supplied value. This is applicable to values that are strings.
+The argument value is a Python dictionary that has a key of the resource field name sort on and a
+value of either ```"asc"``` or ```"desc"``` to specify the sort order.
 
 ```python title="Sort Example"
 ## users sorted by username
@@ -243,46 +216,63 @@ users = files_sdk.user.list({
 })
 for user in users.auto_paging_iter():
   # Operate on user
-
 ````
+
+### Filtering
+
+Filters apply selection criteria to the underlying query that returns the results. They can be
+applied individually or combined with other filters, and the resulting data can be sorted by a
+single field.
+
+Each resource supports a unique set of valid filter fields, filter combinations, and combinations of
+filters and sort fields.
+
+The passed in argument value is a Python dictionary that has a key of the resource field name to
+filter on and a passed in value to use in the filter comparison.
+
+#### Filter Types
+
+| Filter | Type | Description |
+| --------- | --------- | --------- |
+| `filter` | Exact | Find resources that have an exact field value match to a passed in value. (i.e., FIELD_VALUE = PASS_IN_VALUE). |
+| `filter_prefix` | Pattern | Find resources where the specified field is prefixed by the supplied value. This is applicable to values that are strings. |
+| `filter_gt` | Range | Find resources that have a field value that is greater than the passed in value.  (i.e., FIELD_VALUE > PASS_IN_VALUE). |
+| `filter_gteq` | Range | Find resources that have a field value that is greater than or equal to the passed in value.  (i.e., FIELD_VALUE >=  PASS_IN_VALUE). |
+| `filter_lt` | Range | Find resources that have a field value that is less than the passed in value.  (i.e., FIELD_VALUE < PASS_IN_VALUE). |
+| `filter_lteq` | Range | Find resources that have a field value that is less than or equal to the passed in value.  (i.e., FIELD_VALUE \<= PASS_IN_VALUE). |
 
 ```python title="Exact Filter Example"
 ## non admin users
 files_sdk.set_api_key("my-key")
 users = files_sdk.user.list({
-  "filter": { "not_site_admin": true},
-  "sort_by": { "username": "asc"}
+  "filter": { "not_site_admin": true}
 })
 for user in users.auto_paging_iter():
   # Operate on user
-
 ````
 
 ```python title="Range Filter Example"
 ## users who haven't logged in since 2024-01-01
 files_sdk.set_api_key("my-key")
 users = files_sdk.user.list({
-  "filter_gte": { "last_login_at": "2024-01-01" },
-  "sort_by": { "last_login_at": "asc" }
+  "filter_gteq": { "last_login_at": "2024-01-01" }
 })
 for user in users.auto_paging_iter():
   # Operate on user
 ```
 
 ```python title="Pattern Filter Example"
-## users who usernames start with 'test'
+## users whose usernames start with 'test'
 files_sdk.set_api_key("my-key")
 users = files_sdk.user.list({
-  "filter_prefix": { "username": "test" },
-  "sort_by": { "username": "asc"}
+  "filter_prefix": { "username": "test" }
 })
 for user in users.auto_paging_iter():
   # Operate on user
-
 ```
 
-```python title="Combined Filter Example"
-## users who usernames start with 'test' and are not admins
+```python title="Combination Filter with Sort Example"
+## users whose usernames start with 'test' and are not admins
 files_sdk.set_api_key("my-key")
 users = files_sdk.user.list({
   "filter_prefix": { "username": "test" },
@@ -291,7 +281,6 @@ users = files_sdk.user.list({
 })
 for user in users.auto_paging_iter():
   # Operate on user
-
 ```
 
 ## Errors
