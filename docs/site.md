@@ -56,6 +56,7 @@
   "dav_enabled": True,
   "dav_user_root_enabled": True,
   "days_to_retain_backups": 30,
+  "document_edits_in_bundle_allowed": "example",
   "default_time_zone": "Pacific Time (US & Canada)",
   "desktop_app": True,
   "desktop_app_session_ip_pinning": True,
@@ -329,6 +330,7 @@
 * `dav_enabled` (boolean): Is WebDAV enabled?
 * `dav_user_root_enabled` (boolean): Use user FTP roots also for WebDAV?
 * `days_to_retain_backups` (int64): Number of days to keep deleted files
+* `document_edits_in_bundle_allowed` (string): If true, allow public viewers of Bundles with full permissions to use document editing integrations.
 * `default_time_zone` (string): Site default time zone
 * `desktop_app` (boolean): Is the desktop app enabled?
 * `desktop_app_session_ip_pinning` (boolean): Is desktop app session IP pinning enabled?
@@ -382,8 +384,8 @@
 * `motd_use_for_sftp` (boolean): Show message to users connecting via SFTP
 * `next_billing_amount` (double): Next billing amount
 * `next_billing_date` (string): Next billing date
-* `office_integration_available` (boolean): Allow users to use Office for the web?
-* `office_integration_type` (string): Office integration application used to edit and view the MS Office documents
+* `office_integration_available` (boolean): If true, allows users to use a document editing integration.
+* `office_integration_type` (string): Which document editing integration to support. Files.com Editor or Microsoft Office for the Web.
 * `oncehub_link` (string): Link to scheduling a meeting with our Sales team
 * `opt_out_global` (boolean): Use servers in the USA only?
 * `overdue` (boolean): Is this site's billing overdue?
@@ -544,6 +546,7 @@ files_sdk.site.update({
   "bundle_registration_notifications": "never",
   "bundle_activity_notifications": "never",
   "bundle_upload_receipt_notifications": "never",
+  "document_edits_in_bundle_allowed": "example",
   "password_requirements_apply_to_bundles": True,
   "prevent_root_permissions_for_non_site_admins": True,
   "opt_out_global": True,
@@ -649,8 +652,8 @@ files_sdk.site.update({
 * `mobile_app_session_lifetime` (int64): Mobile app session lifetime (in hours)
 * `folder_permissions_groups_only` (boolean): If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
 * `welcome_screen` (string): Does the welcome screen appear?
-* `office_integration_available` (boolean): Allow users to use Office for the web?
-* `office_integration_type` (string): Office integration application used to edit and view the MS Office documents
+* `office_integration_available` (boolean): If true, allows users to use a document editing integration.
+* `office_integration_type` (string): Which document editing integration to support. Files.com Editor or Microsoft Office for the Web.
 * `pin_all_remote_servers_to_site_region` (boolean): If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
 * `motd_text` (string): A message to show users when they connect via FTP or SFTP.
 * `motd_use_for_ftp` (boolean): Show message to users connecting via FTP
@@ -694,6 +697,7 @@ files_sdk.site.update({
 * `bundle_registration_notifications` (string): Do Bundle owners receive registration notification?
 * `bundle_activity_notifications` (string): Do Bundle owners receive activity notifications?
 * `bundle_upload_receipt_notifications` (string): Do Bundle uploaders receive upload confirmation notifications?
+* `document_edits_in_bundle_allowed` (string): If true, allow public viewers of Bundles with full permissions to use document editing integrations.
 * `password_requirements_apply_to_bundles` (boolean): Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
 * `prevent_root_permissions_for_non_site_admins` (boolean): If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
 * `opt_out_global` (boolean): Use servers in the USA only?
