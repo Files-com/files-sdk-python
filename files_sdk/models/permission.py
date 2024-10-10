@@ -116,11 +116,12 @@ def all(params=None, options=None):
 
 # Parameters:
 #   path (required) - string - Folder path
-#   group_id - int64 - Group ID
+#   group_id - int64 - Group ID. Provide `group_name` or `group_id`
 #   permission - string - Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
 #   recursive - boolean - Apply to subfolders recursively?
 #   user_id - int64 - User ID.  Provide `username` or `user_id`
 #   username - string - User username.  Provide `username` or `user_id`
+#   group_name - string - Group name.  Provide `group_name` or `group_id`
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -136,6 +137,8 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
+    if "group_name" in params and not isinstance(params["group_name"], str):
+        raise InvalidParameterError("Bad parameter: group_name must be an str")
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
