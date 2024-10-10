@@ -137,6 +137,7 @@ class Site:
         "sftp_insecure_diffie_hellman": None,  # boolean - If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
         "sftp_user_root_enabled": None,  # boolean - Use user FTP roots also for SFTP?
         "sharing_enabled": None,  # boolean - Allow bundle creation
+        "show_user_notifications_log_in_link": None,  # boolean - Show log in link in user notifications?
         "show_request_access_link": None,  # boolean - Show request access link for users without access?  Currently unused.
         "site_footer": None,  # string - Custom site footer text
         "site_header": None,  # string - Custom site header text
@@ -302,6 +303,7 @@ def get_usage(params=None, options=None):
 #   sftp_enabled - boolean - Is SFTP enabled?
 #   users_can_create_api_keys - boolean - Allow users to create their own API keys?
 #   users_can_create_ssh_keys - boolean - Allow users to create their own SSH keys?
+#   show_user_notifications_log_in_link - boolean - Show log in link in user notifications?
 #   sftp_host_key_type - string - Sftp Host Key Type
 #   active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
 #   protocol_access_groups_only - boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
