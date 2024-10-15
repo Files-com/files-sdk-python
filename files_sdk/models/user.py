@@ -19,6 +19,7 @@ class User:
         "authenticate_until": None,  # date-time - Scheduled Date/Time at which user will be deactivated
         "authentication_method": None,  # string - How is this user authenticated?
         "avatar_url": None,  # string - URL holding the user's avatar
+        "billable": None,  # boolean - Is this a billable user record?
         "billing_permission": None,  # boolean - Allow this user to perform operations on the account, payments, and invoices?
         "bypass_site_allowed_ips": None,  # boolean - Allow this user to skip site-wide IP blacklists?
         "bypass_inactive_disable": None,  # boolean - Exempt this user from being disabled based on inactivity?
