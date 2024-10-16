@@ -351,7 +351,6 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`InvalidCursorTypeForSortError`|  `BadRequestError` |
 |`InvalidEtagsError`|  `BadRequestError` |
 |`InvalidFilterAliasCombinationError`|  `BadRequestError` |
-|`InvalidFilterCombinationError`|  `BadRequestError` |
 |`InvalidFilterFieldError`|  `BadRequestError` |
 |`InvalidFilterParamError`|  `BadRequestError` |
 |`InvalidFilterParamValueError`|  `BadRequestError` |
@@ -360,6 +359,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`InvalidOauthProviderError`|  `BadRequestError` |
 |`InvalidPathError`|  `BadRequestError` |
 |`InvalidReturnToUrlError`|  `BadRequestError` |
+|`InvalidSortFilterCombinationError`|  `BadRequestError` |
 |`InvalidUploadOffsetError`|  `BadRequestError` |
 |`InvalidUploadPartGapError`|  `BadRequestError` |
 |`InvalidUploadPartSizeError`|  `BadRequestError` |

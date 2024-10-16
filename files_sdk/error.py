@@ -292,21 +292,6 @@ class InvalidFilterAliasCombinationError(BadRequestError):
         )
 
 
-class InvalidFilterCombinationError(BadRequestError):
-    def __init__(
-        self,
-        message=None,
-        http_body=None,
-        http_status=None,
-        json_body=None,
-        headers=None,
-        code=None,
-    ):
-        super().__init__(
-            message, http_body, http_status, json_body, headers, code
-        )
-
-
 class InvalidFilterFieldError(BadRequestError):
     def __init__(
         self,
@@ -413,6 +398,21 @@ class InvalidPathError(BadRequestError):
 
 
 class InvalidReturnToUrlError(BadRequestError):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
+class InvalidSortFilterCombinationError(BadRequestError):
     def __init__(
         self,
         message=None,
