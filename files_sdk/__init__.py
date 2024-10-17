@@ -208,14 +208,14 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.4.154"
+version = "1.4.155"
 
 __version__ = version
 
 initial_network_retry_delay = 0.5
 max_network_retry_delay = 2
 open_timeout = 30
-read_timeout = 80
+read_timeout = 60
 max_network_retries = 3
 
 console_log_level = "none"
