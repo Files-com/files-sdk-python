@@ -346,6 +346,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`DatetimeParseError`|  `BadRequestError` |
 |`DestinationSameError`|  `BadRequestError` |
 |`FolderMustNotBeAFileError`|  `BadRequestError` |
+|`FoldersNotAllowedError`|  `BadRequestError` |
 |`InvalidBodyError`|  `BadRequestError` |
 |`InvalidCursorError`|  `BadRequestError` |
 |`InvalidCursorTypeForSortError`|  `BadRequestError` |
