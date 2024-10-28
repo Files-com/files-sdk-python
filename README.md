@@ -21,7 +21,7 @@ Use `pip` to install the latest version of the `Files.com` package.
 
 ```shell
 pip3 install Files.com
-````
+```
 
 Files.com automatically pushes a new release to PIP every time a commit is made to the `master` branch on GitHub, so there is no benefit in directly linking the package from GitHub.
 
@@ -216,7 +216,7 @@ users = files_sdk.user.list({
 })
 for user in users.auto_paging_iter():
   # Operate on user
-````
+```
 
 ### Filtering
 
@@ -249,7 +249,7 @@ users = files_sdk.user.list({
 })
 for user in users.auto_paging_iter():
   # Operate on user
-````
+```
 
 ```python title="Range Filter Example"
 ## users who haven't logged in since 2024-01-01
