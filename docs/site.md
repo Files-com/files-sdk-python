@@ -44,6 +44,10 @@
   "bundle_watermark_value": {
     "key": "example value"
   },
+  "calculate_file_checksums_crc32": True,
+  "calculate_file_checksums_md5": True,
+  "calculate_file_checksums_sha1": True,
+  "calculate_file_checksums_sha256": True,
   "uploads_via_email_authentication": True,
   "color2_left": "#0066a7",
   "color2_link": "#d34f5d",
@@ -62,6 +66,7 @@
   "desktop_app": True,
   "desktop_app_session_ip_pinning": True,
   "desktop_app_session_lifetime": 1,
+  "legacy_checksums_mode": True,
   "mobile_app": True,
   "mobile_app_session_ip_pinning": True,
   "mobile_app_session_lifetime": 1,
@@ -170,6 +175,11 @@
     "allowed_2fa_method_totp": True,
     "allowed_2fa_method_webauthn": True,
     "allowed_2fa_method_yubi": True,
+    "calculate_file_checksums_crc32": True,
+    "calculate_file_checksums_md5": True,
+    "calculate_file_checksums_sha1": True,
+    "calculate_file_checksums_sha256": True,
+    "legacy_checksums_mode": True,
     "use_provided_modified_at": True,
     "windows_mode_ftp": False,
     "user_belongs_to_parent_site": False
@@ -321,6 +331,10 @@
 * `bundle_upload_receipt_notifications` (string): Do Bundle uploaders receive upload confirmation notifications?
 * `bundle_watermark_attachment` (Image): Preview watermark image applied to all bundle items.
 * `bundle_watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+* `calculate_file_checksums_crc32` (boolean): Calculate CRC32 checksums for files?
+* `calculate_file_checksums_md5` (boolean): Calculate MD5 checksums for files?
+* `calculate_file_checksums_sha1` (boolean): Calculate SHA1 checksums for files?
+* `calculate_file_checksums_sha256` (boolean): Calculate SHA256 checksums for files?
 * `uploads_via_email_authentication` (boolean): Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
 * `color2_left` (string): Page link and button color
 * `color2_link` (string): Top bar link color
@@ -339,6 +353,7 @@
 * `desktop_app` (boolean): Is the desktop app enabled?
 * `desktop_app_session_ip_pinning` (boolean): Is desktop app session IP pinning enabled?
 * `desktop_app_session_lifetime` (int64): Desktop app session lifetime (in hours)
+* `legacy_checksums_mode` (boolean): Use legacy checksums mode?
 * `mobile_app` (boolean): Is the mobile app enabled?
 * `mobile_app_session_ip_pinning` (boolean): Is mobile app session IP pinning enabled?
 * `mobile_app_session_lifetime` (int64): Mobile app session lifetime (in hours)
@@ -516,6 +531,11 @@ files_sdk.site.update({
   "additional_text_file_types": ["example"],
   "bundle_require_note": True,
   "bundle_send_shared_receipts": True,
+  "calculate_file_checksums_crc32": True,
+  "calculate_file_checksums_md5": True,
+  "calculate_file_checksums_sha1": True,
+  "calculate_file_checksums_sha256": True,
+  "legacy_checksums_mode": True,
   "session_expiry": 1.0,
   "ssl_required": True,
   "tls_disabled": True,
@@ -669,6 +689,11 @@ files_sdk.site.update({
 * `additional_text_file_types` (array(string)): Additional extensions that are considered text files
 * `bundle_require_note` (boolean): Do Bundles require internal notes?
 * `bundle_send_shared_receipts` (boolean): Do Bundle creators receive receipts of invitations?
+* `calculate_file_checksums_crc32` (boolean): Calculate CRC32 checksums for files?
+* `calculate_file_checksums_md5` (boolean): Calculate MD5 checksums for files?
+* `calculate_file_checksums_sha1` (boolean): Calculate SHA1 checksums for files?
+* `calculate_file_checksums_sha256` (boolean): Calculate SHA256 checksums for files?
+* `legacy_checksums_mode` (boolean): Use legacy checksums mode?
 * `session_expiry` (double): Session expiry in hours
 * `ssl_required` (boolean): Is SSL required?  Disabling this is insecure.
 * `tls_disabled` (boolean): DO NOT ENABLE. This setting allows TLSv1.0 and TLSv1.1 to be used on your site.  We intend to remove this capability entirely in early 2024.  If set, the `sftp_insecure_ciphers` flag will be automatically set to true.

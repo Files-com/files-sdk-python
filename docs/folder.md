@@ -30,6 +30,8 @@
   "provided_mtime": "2000-01-01T01:00:00Z",
   "crc32": "70976923",
   "md5": "17c54824e9931a4688ca032d03f6663c",
+  "sha1": "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3",
+  "sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
   "mime_type": "application/octet-stream",
   "region": "us-east-1",
   "permissions": "rwd",
@@ -72,6 +74,8 @@
 * `provided_mtime` (date-time): File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop<->Cloud syncing to preserve modified at times.
 * `crc32` (string): File CRC32 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
 * `md5` (string): File MD5 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
+* `sha1` (string): File SHA1 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
+* `sha256` (string): File SHA256 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
 * `mime_type` (string): MIME Type.  This is determined by the filename extension and is not stored separately internally.
 * `region` (string): Region location
 * `permissions` (string): A short string representing the current user's permissions.  Can be `r` (Read),`w` (Write),`d` (Delete), `l` (List) or any combination
