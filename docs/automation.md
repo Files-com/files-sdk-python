@@ -89,7 +89,7 @@
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (array(string)): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. Times of day in HH:MM format.
 * `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the automation should be run.
-* `source` (string): Source path. Supports globs, except on remote mounts.
+* `source` (string): Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
 * `sync_ids` (array(int64)): IDs of remote sync folder behaviors to run by this Automation
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `trigger` (string): How this automation is triggered to run.
@@ -138,7 +138,7 @@ files_sdk.automation.find(id)
 
 ```
 files_sdk.automation.create({
-  "source": "source",
+  "source": "example",
   "destinations": ["folder_a/file_a.txt",{"folder_path":"folder_b","file_path":"file_b.txt"},{"folder_path":"folder_c"}],
   "destination_replace_from": "example",
   "destination_replace_to": "example",
@@ -170,12 +170,12 @@ files_sdk.automation.create({
 
 ### Parameters
 
-* `source` (string): Source Path
+* `source` (string): Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
 * `destinations` (array(string)): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (string): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-* `path` (string): Path on which this Automation runs.  Supports globs.
+* `path` (string): Path on which this Automation runs.  Supports globs, except on remote mounts.
 * `sync_ids` (string): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
@@ -218,7 +218,7 @@ files_sdk.automation.manual_run(id)
 
 ```
 files_sdk.automation.update(id, {
-  "source": "source",
+  "source": "example",
   "destinations": ["folder_a/file_a.txt",{"folder_path":"folder_b","file_path":"file_b.txt"},{"folder_path":"folder_c"}],
   "destination_replace_from": "example",
   "destination_replace_to": "example",
@@ -251,12 +251,12 @@ files_sdk.automation.update(id, {
 ### Parameters
 
 * `id` (int64): Required - Automation ID.
-* `source` (string): Source Path
+* `source` (string): Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
 * `destinations` (array(string)): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (string): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-* `path` (string): Path on which this Automation runs.  Supports globs.
+* `path` (string): Path on which this Automation runs.  Supports globs, except on remote mounts.
 * `sync_ids` (string): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
@@ -314,7 +314,7 @@ automation.manual_run()
 ```
 automation = files_sdk.automation.find(id)
 automation.update({
-  "source": "source",
+  "source": "example",
   "destinations": ["folder_a/file_a.txt",{"folder_path":"folder_b","file_path":"file_b.txt"},{"folder_path":"folder_c"}],
   "destination_replace_from": "example",
   "destination_replace_to": "example",
@@ -347,12 +347,12 @@ automation.update({
 ### Parameters
 
 * `id` (int64): Required - Automation ID.
-* `source` (string): Source Path
+* `source` (string): Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
 * `destinations` (array(string)): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (string): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-* `path` (string): Path on which this Automation runs.  Supports globs.
+* `path` (string): Path on which this Automation runs.  Supports globs, except on remote mounts.
 * `sync_ids` (string): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
