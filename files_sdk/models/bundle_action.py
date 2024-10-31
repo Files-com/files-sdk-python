@@ -44,14 +44,12 @@ class BundleAction:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `bundle_id` or `bundle_registration_id`. Valid field combinations are `[ created_at, bundle_id ]`, `[ created_at, bundle_registration_id ]`, `[ bundle_id, bundle_registration_id ]` or `[ created_at, bundle_id, bundle_registration_id ]`.
 #   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
 #   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
 #   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
 #   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
-#   bundle_id - int64 - Bundle ID
-#   bundle_registration_id - int64 - BundleRegistration ID
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -76,14 +74,6 @@ def list(params=None, options=None):
     if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
         raise InvalidParameterError(
             "Bad parameter: filter_lteq must be an dict"
-        )
-    if "bundle_id" in params and not isinstance(params["bundle_id"], int):
-        raise InvalidParameterError("Bad parameter: bundle_id must be an int")
-    if "bundle_registration_id" in params and not isinstance(
-        params["bundle_registration_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_id must be an int"
         )
     return ListObj(BundleAction, "GET", "/bundle_actions", params, options)
 
