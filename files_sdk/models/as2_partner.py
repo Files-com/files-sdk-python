@@ -16,8 +16,10 @@ class As2Partner:
         "uri": None,  # string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
         "server_certificate": None,  # string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
         "http_auth_username": None,  # string - Username to send to server for HTTP Authentication.
+        "additional_http_headers": None,  # object - Additional HTTP Headers for outgoing message sent to this partner.
+        "default_mime_type": None,  # string - Default mime type of the file attached to the encrypted message
         "mdn_validation_level": None,  # string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
-        "enable_dedicated_ips": None,  # boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+        "enable_dedicated_ips": None,  # boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
         "hex_public_certificate_serial": None,  # string - Serial of public certificate used for message security in hex format.
         "public_certificate_md5": None,  # string - MD5 hash of public certificate used for message security.
         "public_certificate_subject": None,  # string - Subject of public certificate used for message security.
@@ -49,11 +51,13 @@ class As2Partner:
         }
 
     # Parameters:
-    #   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+    #   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
     #   http_auth_username - string - Username to send to server for HTTP Authentication.
     #   http_auth_password - string - Password to send to server for HTTP Authentication.
     #   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
     #   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+    #   default_mime_type - string - Default mime type of the file attached to the encrypted message
+    #   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
     #   name - string - The partner's formal AS2 name.
     #   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
     #   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
@@ -92,6 +96,12 @@ class As2Partner:
         ):
             raise InvalidParameterError(
                 "Bad parameter: server_certificate must be an str"
+            )
+        if "default_mime_type" in params and not isinstance(
+            params["default_mime_type"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: default_mime_type must be an str"
             )
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
@@ -186,11 +196,13 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
-#   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+#   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
 #   http_auth_username - string - Username to send to server for HTTP Authentication.
 #   http_auth_password - string - Password to send to server for HTTP Authentication.
 #   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
 #   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+#   default_mime_type - string - Default mime type of the file attached to the encrypted message
+#   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
 #   as2_station_id (required) - int64 - ID of the AS2 Station associated with this partner.
 #   name (required) - string - The partner's formal AS2 name.
 #   uri (required) - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
@@ -224,6 +236,18 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: server_certificate must be an str"
         )
+    if "default_mime_type" in params and not isinstance(
+        params["default_mime_type"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: default_mime_type must be an str"
+        )
+    if "additional_http_headers" in params and not isinstance(
+        params["additional_http_headers"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: additional_http_headers must be an dict"
+        )
     if "as2_station_id" in params and not isinstance(
         params["as2_station_id"], int
     ):
@@ -255,11 +279,13 @@ def create(params=None, options=None):
 
 
 # Parameters:
-#   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+#   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
 #   http_auth_username - string - Username to send to server for HTTP Authentication.
 #   http_auth_password - string - Password to send to server for HTTP Authentication.
 #   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
 #   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+#   default_mime_type - string - Default mime type of the file attached to the encrypted message
+#   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
 #   name - string - The partner's formal AS2 name.
 #   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
 #   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
@@ -294,6 +320,18 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: server_certificate must be an str"
+        )
+    if "default_mime_type" in params and not isinstance(
+        params["default_mime_type"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: default_mime_type must be an str"
+        )
+    if "additional_http_headers" in params and not isinstance(
+        params["additional_http_headers"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: additional_http_headers must be an dict"
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")

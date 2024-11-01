@@ -22,6 +22,7 @@
     "bundle_recipient_id": 1,
     "created_at": "2000-01-01T01:00:00Z"
   },
+  "created_at": "2000-01-01T01:00:00Z",
   "when": "2000-01-01T01:00:00Z",
   "destination": "/to_path",
   "path": "",
@@ -31,6 +32,7 @@
 
 * `action` (string): Type of action
 * `bundle_registration` (BundleRegistration): Object that contains bundle registration information
+* `created_at` (date-time): Action occurrence date/time
 * `when` (date-time): Action occurrence date/time
 * `destination` (string): The destination path for this bundle action, if applicable
 * `path` (string): Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
