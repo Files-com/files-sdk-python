@@ -58,7 +58,7 @@ class Site:
         "dav_enabled": None,  # boolean - Is WebDAV enabled?
         "dav_user_root_enabled": None,  # boolean - Use user FTP roots also for WebDAV?
         "days_to_retain_backups": None,  # int64 - Number of days to keep deleted files
-        "document_edits_in_bundle_allowed": None,  # string - If true, allow public viewers of Bundles with full permissions to use document editing integrations.
+        "document_edits_in_bundle_allowed": None,  # boolean - If true, allow public viewers of Bundles with full permissions to use document editing integrations.
         "default_time_zone": None,  # string - Site default time zone
         "desktop_app": None,  # boolean - Is the desktop app enabled?
         "desktop_app_session_ip_pinning": None,  # boolean - Is desktop app session IP pinning enabled?
@@ -298,7 +298,7 @@ def get_usage(params=None, options=None):
 #   bundle_registration_notifications - string - Do Bundle owners receive registration notification?
 #   bundle_activity_notifications - string - Do Bundle owners receive activity notifications?
 #   bundle_upload_receipt_notifications - string - Do Bundle uploaders receive upload confirmation notifications?
-#   document_edits_in_bundle_allowed - string - If true, allow public viewers of Bundles with full permissions to use document editing integrations.
+#   document_edits_in_bundle_allowed - boolean - If true, allow public viewers of Bundles with full permissions to use document editing integrations.
 #   password_requirements_apply_to_bundles - boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
 #   prevent_root_permissions_for_non_site_admins - boolean - If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
 #   opt_out_global - boolean - Use servers in the USA only?
@@ -565,12 +565,6 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: bundle_upload_receipt_notifications must be an str"
-        )
-    if "document_edits_in_bundle_allowed" in params and not isinstance(
-        params["document_edits_in_bundle_allowed"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: document_edits_in_bundle_allowed must be an str"
         )
     if (
         "disable_users_from_inactivity_period_days" in params
