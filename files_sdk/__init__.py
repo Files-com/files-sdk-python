@@ -29,6 +29,7 @@ import files_sdk.models.email_incoming_message as email_incoming_message
 import files_sdk.models.email_log as email_log
 import files_sdk.models.errors as errors
 import files_sdk.models.exavault_api_request_log as exavault_api_request_log
+import files_sdk.models.export as export
 import files_sdk.models.external_event as external_event
 import files_sdk.models.file as file
 import files_sdk.models.file_action as file_action
@@ -130,6 +131,7 @@ from files_sdk.models.email_incoming_message import EmailIncomingMessage
 from files_sdk.models.email_log import EmailLog
 from files_sdk.models.errors import Errors
 from files_sdk.models.exavault_api_request_log import ExavaultApiRequestLog
+from files_sdk.models.export import Export
 from files_sdk.models.external_event import ExternalEvent
 from files_sdk.models.file import File
 from files_sdk.models.file_action import FileAction
@@ -208,7 +210,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.4.170"
+version = "1.4.171"
 
 __version__ = version
 
