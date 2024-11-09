@@ -7,6 +7,7 @@
   "id": 1,
   "protocol_cipher": "TLSv1.2; ECDHE-RSA-AES256-GCM-SHA384",
   "created_at": "2000-01-01T01:00:00Z",
+  "insecure": True,
   "interface": "restapi",
   "updated_at": "2000-01-01T01:00:00Z",
   "user_id": 1
@@ -16,6 +17,7 @@
 * `id` (int64): UserCipherUse ID
 * `protocol_cipher` (string): The protocol and cipher employed
 * `created_at` (date-time): The earliest recorded use of this combination of interface and protocol and cipher (for this user)
+* `insecure` (boolean): Is this cipher considered insecure?
 * `interface` (string): The interface accessed
 * `updated_at` (date-time): The most recent use of this combination of interface and protocol and cipher (for this user)
 * `user_id` (int64): ID of the user who performed this access

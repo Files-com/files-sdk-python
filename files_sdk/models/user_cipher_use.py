@@ -13,6 +13,7 @@ class UserCipherUse:
         "id": None,  # int64 - UserCipherUse ID
         "protocol_cipher": None,  # string - The protocol and cipher employed
         "created_at": None,  # date-time - The earliest recorded use of this combination of interface and protocol and cipher (for this user)
+        "insecure": None,  # boolean - Is this cipher considered insecure?
         "interface": None,  # string - The interface accessed
         "updated_at": None,  # date-time - The most recent use of this combination of interface and protocol and cipher (for this user)
         "user_id": None,  # int64 - ID of the user who performed this access
