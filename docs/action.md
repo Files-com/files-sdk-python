@@ -11,9 +11,7 @@
   "display": "Actual text of the action here.",
   "ip": "192.283.128.182",
   "source": "/from_path",
-  "targets": [
-
-  ],
+  "targets": null,
   "user_id": 1,
   "username": "user",
   "user_is_from_parent_site": True,
@@ -30,7 +28,7 @@
 * `display` (string): Friendly displayed output
 * `ip` (string): IP Address that performed this action
 * `source` (string): The source path for this action, if applicable
-* `targets` (array(object)): Targets
+* `targets` (object): Targets
 * `user_id` (int64): User ID
 * `username` (string): Username
 * `user_is_from_parent_site` (boolean): true if this change was performed by a user on a parent site.

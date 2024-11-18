@@ -18,7 +18,7 @@ class History:
         "display": None,  # string - Friendly displayed output
         "ip": None,  # string - IP Address that performed this action
         "source": None,  # string - The source path for this action, if applicable
-        "targets": None,  # array(object) - Targets
+        "targets": None,  # object - Targets
         "user_id": None,  # int64 - User ID
         "username": None,  # string - Username
         "user_is_from_parent_site": None,  # boolean - true if this change was performed by a user on a parent site.
