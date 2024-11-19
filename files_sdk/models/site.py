@@ -135,7 +135,6 @@ class Site:
         "require_2fa_user_type": None,  # string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
         "require_logout_from_bundles_and_inboxes": None,  # boolean - If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
         "session": None,  # Session - Current session
-        "session_pinned_by_ip": None,  # boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
         "sftp_enabled": None,  # boolean - Is SFTP enabled?
         "sftp_host_key_type": None,  # string - Sftp Host Key Type
         "active_sftp_host_key_id": None,  # int64 - Id of the currently selected custom SFTP Host Key
@@ -290,7 +289,6 @@ def get_usage(params=None, options=None):
 #   sftp_user_root_enabled - boolean - Use user FTP roots also for SFTP?
 #   disable_password_reset - boolean - Is password reset disabled?
 #   immutable_files - boolean - Are files protected from modification?
-#   session_pinned_by_ip - boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
 #   bundle_not_found_message - string - Custom error message to show when bundle is not found.
 #   bundle_password_required - boolean - Do Bundles require password protection?
 #   bundle_require_registration - boolean - Do Bundles require registration?

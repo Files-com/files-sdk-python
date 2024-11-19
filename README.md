@@ -431,7 +431,6 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`UserIdWithoutSiteAdminError`|  `NotAuthorizedError` |
 |`WriteAndBundlePermissionRequiredError`|  `NotAuthorizedError` |
 |`WritePermissionRequiredError`|  `NotAuthorizedError` |
-|`ZipDownloadIpMismatchError`|  `NotAuthorizedError` |
 |`ApiKeyNotFoundError`|  `NotFoundError` |
 |`BundlePathNotFoundError`|  `NotFoundError` |
 |`BundleRegistrationNotFoundError`|  `NotFoundError` |
