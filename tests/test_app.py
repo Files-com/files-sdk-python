@@ -14,5 +14,9 @@ class AppTest(TestBase):
     def test_list(self):
         resp = app.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/apps/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = app.create_export()
+
 if __name__ == '__main__':
     unittest.main()

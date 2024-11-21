@@ -37,3 +37,21 @@ files_sdk.remote_bandwidth_snapshot.list()
 * `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `logged_at`.
 * `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `logged_at`.
 * `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `logged_at`.
+
+
+---
+
+## Create Export Remote Bandwidth Snapshot
+
+```
+files_sdk.remote_bandwidth_snapshot.create_export()
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `logged_at`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `logged_at`.
+* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `logged_at`.
+* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `logged_at`.
+* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `logged_at`.
+* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `logged_at`.

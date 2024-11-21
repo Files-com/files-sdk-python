@@ -63,6 +63,15 @@ files_sdk.sftp_host_key.create({
 
 ---
 
+## Create Export SFTP Host Key
+
+```
+files_sdk.sftp_host_key.create_export()
+```
+
+
+---
+
 ## Update SFTP Host Key
 
 ```

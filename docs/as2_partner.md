@@ -110,6 +110,15 @@ files_sdk.as2_partner.create({
 
 ---
 
+## Create Export AS2 Partner
+
+```
+files_sdk.as2_partner.create_export()
+```
+
+
+---
+
 ## Update AS2 Partner
 
 ```

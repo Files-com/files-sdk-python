@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -204,6 +205,17 @@ def create(params=None, options=None):
         "POST", "/as2_stations", params, options
     )
     return As2Station(response.data, options)
+
+
+def create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    response, options = Api.send_request(
+        "POST", "/as2_stations/create_export", params, options
+    )
+    return [Export(entity_data, options) for entity_data in response.data]
 
 
 # Parameters:

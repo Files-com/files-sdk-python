@@ -87,6 +87,15 @@ files_sdk.as2_station.create({
 
 ---
 
+## Create Export AS2 Station
+
+```
+files_sdk.as2_station.create_export()
+```
+
+
+---
+
 ## Update AS2 Station
 
 ```

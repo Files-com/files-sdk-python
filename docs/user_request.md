@@ -69,6 +69,15 @@ files_sdk.user_request.create({
 
 ---
 
+## Create Export User Request
+
+```
+files_sdk.user_request.create_export()
+```
+
+
+---
+
 ## Delete User Request
 
 ```

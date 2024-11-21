@@ -64,6 +64,10 @@ class BehaviorTest(TestBase):
         }
         behavior.webhook_test(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/behaviors/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = behavior.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/behaviors/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

@@ -80,6 +80,27 @@ files_sdk.permission.create({
 
 ---
 
+## Create Export Permission
+
+```
+files_sdk.permission.create_export({
+  "include_groups": True
+})
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `group_id`, `path` or `user_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `group_id` or `user_id`. Valid field combinations are `[ path, group_id ]`, `[ path, user_id ]` or `[ group_id, user_id ]`.
+* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
+* `path` (string): Permission path.  If provided, will scope all permissions(including upward) to this path.
+* `include_groups` (boolean): If searching by user or group, also include user's permissions that are inherited from its groups?
+* `group_id` (string): 
+* `user_id` (string): 
+
+
+---
+
 ## Delete Permission
 
 ```

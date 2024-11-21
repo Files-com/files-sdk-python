@@ -101,6 +101,21 @@ files_sdk.form_field_set.create({
 
 ---
 
+## Create Export Form Field Set
+
+```
+files_sdk.form_field_set.create_export({
+  "user_id": 1
+})
+```
+
+### Parameters
+
+* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+
+
+---
+
 ## Update Form Field Set
 
 ```

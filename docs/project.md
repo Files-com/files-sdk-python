@@ -57,6 +57,15 @@ files_sdk.project.create({
 
 ---
 
+## Create Export Project
+
+```
+files_sdk.project.create_export()
+```
+
+
+---
+
 ## Update Project
 
 ```

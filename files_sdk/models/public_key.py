@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -165,6 +166,21 @@ def create(params=None, options=None):
         "POST", "/public_keys", params, options
     )
     return PublicKey(response.data, options)
+
+
+# Parameters:
+#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+def create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
+    response, options = Api.send_request(
+        "POST", "/public_keys/create_export", params, options
+    )
+    return [Export(entity_data, options) for entity_data in response.data]
 
 
 # Parameters:

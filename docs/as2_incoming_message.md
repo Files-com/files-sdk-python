@@ -104,3 +104,24 @@ files_sdk.as2_incoming_message.list({
 * `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
 * `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
 * `as2_partner_id` (int64): As2 Partner ID.  If provided, will return message specific to that partner.
+
+
+---
+
+## Create Export AS2 Incoming Message
+
+```
+files_sdk.as2_incoming_message.create_export({
+  "as2_partner_id": 1
+})
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at` and `as2_partner_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
+* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
+* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
+* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+* `as2_partner_id` (int64): As2 Partner ID.  If provided, will return message specific to that partner.

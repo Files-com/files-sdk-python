@@ -78,3 +78,12 @@ files_sdk.invoice.find(id)
 ### Parameters
 
 * `id` (int64): Required - Invoice ID.
+
+
+---
+
+## Create Export Invoice
+
+```
+files_sdk.invoice.create_export()
+```

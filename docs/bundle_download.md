@@ -56,3 +56,26 @@ files_sdk.bundle_download.list({
 * `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
 * `bundle_id` (int64): Bundle ID
 * `bundle_registration_id` (int64): BundleRegistration ID
+
+
+---
+
+## Create Export Bundle Download
+
+```
+files_sdk.bundle_download.create_export({
+  "bundle_id": 1,
+  "bundle_registration_id": 1
+})
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
+* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
+* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
+* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+* `bundle_id` (int64): Bundle ID
+* `bundle_registration_id` (int64): BundleRegistration ID

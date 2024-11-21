@@ -85,6 +85,23 @@ files_sdk.message.create({
 
 ---
 
+## Create Export Message
+
+```
+files_sdk.message.create_export({
+  "user_id": 1,
+  "project_id": 1
+})
+```
+
+### Parameters
+
+* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `project_id` (int64): Required - Project for which to return messages.
+
+
+---
+
 ## Update Message
 
 ```

@@ -25,5 +25,12 @@ class BundleRecipientTest(TestBase):
         }
         bundle_recipient.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/bundle_recipients/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        params = {
+            "bundle_id" : 12345,
+        }
+        bundle_recipient.create_export(params)
+
 if __name__ == '__main__':
     unittest.main()

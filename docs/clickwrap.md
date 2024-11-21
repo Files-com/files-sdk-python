@@ -73,6 +73,15 @@ files_sdk.clickwrap.create({
 
 ---
 
+## Create Export Clickwrap
+
+```
+files_sdk.clickwrap.create_export()
+```
+
+
+---
+
 ## Update Clickwrap
 
 ```

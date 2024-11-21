@@ -82,6 +82,15 @@ files_sdk.snapshot.finalize(id)
 
 ---
 
+## Create Export Snapshot
+
+```
+files_sdk.snapshot.create_export()
+```
+
+
+---
+
 ## Update Snapshot
 
 ```

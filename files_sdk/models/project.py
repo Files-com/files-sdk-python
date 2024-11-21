@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -154,6 +155,17 @@ def create(params=None, options=None):
         raise MissingParameterError("Parameter missing: global_access")
     response, options = Api.send_request("POST", "/projects", params, options)
     return Project(response.data, options)
+
+
+def create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    response, options = Api.send_request(
+        "POST", "/projects/create_export", params, options
+    )
+    return [Export(entity_data, options) for entity_data in response.data]
 
 
 # Parameters:

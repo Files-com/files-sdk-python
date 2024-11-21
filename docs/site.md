@@ -266,6 +266,7 @@
     "self_managed": True,
     "sftp_permission": True,
     "site_admin": True,
+    "site_id": 1,
     "skip_welcome_screen": True,
     "ssl_required": "always_require",
     "sso_strategy_id": 1,

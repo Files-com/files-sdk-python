@@ -78,3 +78,12 @@ files_sdk.payment.find(id)
 ### Parameters
 
 * `id` (int64): Required - Payment ID.
+
+
+---
+
+## Create Export Payment
+
+```
+files_sdk.payment.create_export()
+```

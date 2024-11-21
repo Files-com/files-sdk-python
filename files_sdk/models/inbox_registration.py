@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -73,6 +74,25 @@ def list(params=None, options=None):
 
 def all(params=None, options=None):
     list(params, options)
+
+
+# Parameters:
+#   folder_behavior_id - int64 - ID of the associated Inbox.
+def create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "folder_behavior_id" in params and not isinstance(
+        params["folder_behavior_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: folder_behavior_id must be an int"
+        )
+    response, options = Api.send_request(
+        "POST", "/inbox_registrations/create_export", params, options
+    )
+    return [Export(entity_data, options) for entity_data in response.data]
 
 
 def new(*args, **kwargs):

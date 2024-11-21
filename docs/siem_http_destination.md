@@ -201,6 +201,15 @@ files_sdk.siem_http_destination.create({
 
 ---
 
+## Create Export SIEM HTTP Destination
+
+```
+files_sdk.siem_http_destination.create_export()
+```
+
+
+---
+
 ## send_test_entry SIEM HTTP Destination
 
 ```

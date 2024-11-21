@@ -50,6 +50,10 @@ class As2StationTest(TestBase):
         }
         as2_station.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/as2_stations/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = as2_station.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/as2_stations/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

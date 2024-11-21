@@ -136,6 +136,21 @@ files_sdk.behavior.webhook_test({
 
 ---
 
+## Create Export Behavior
+
+```
+files_sdk.behavior.create_export()
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
+* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
+
+
+---
+
 ## Update Behavior
 
 ```

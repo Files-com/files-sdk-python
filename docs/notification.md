@@ -144,6 +144,26 @@ files_sdk.notification.create({
 
 ---
 
+## Create Export Notification
+
+```
+files_sdk.notification.create_export({
+  "include_ancestors": True
+})
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `path`, `user_id` or `group_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id` or `group_id`.
+* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
+* `path` (string): Show notifications for this Path.
+* `include_ancestors` (boolean): If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
+* `group_id` (string): 
+
+
+---
+
 ## Update Notification
 
 ```

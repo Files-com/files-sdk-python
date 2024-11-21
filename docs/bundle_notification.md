@@ -71,6 +71,20 @@ files_sdk.bundle_notification.create({
 
 ---
 
+## Create Export Bundle Notification
+
+```
+files_sdk.bundle_notification.create_export()
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `bundle_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
+
+
+---
+
 ## Update Bundle Notification
 
 ```

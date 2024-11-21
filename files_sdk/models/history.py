@@ -1,5 +1,6 @@
 import builtins  # noqa: F401
 from files_sdk.models.action import Action
+from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -230,6 +231,165 @@ def list(params=None, options=None):
 
 def all(params=None, options=None):
     list(params, options)
+
+
+# Parameters:
+#   start_at - string - Leave blank or set to a date/time to filter earlier entries.
+#   end_at - string - Leave blank or set to a date/time to filter later entries.
+#   display - string - Display format. Leave blank or set to `full` or `parent`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `path` and `created_at`.
+#   path (required) - int64
+def list_for_file_create_export(path, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["path"] = path
+    if "start_at" in params and not isinstance(params["start_at"], str):
+        raise InvalidParameterError("Bad parameter: start_at must be an str")
+    if "end_at" in params and not isinstance(params["end_at"], str):
+        raise InvalidParameterError("Bad parameter: end_at must be an str")
+    if "display" in params and not isinstance(params["display"], str):
+        raise InvalidParameterError("Bad parameter: display must be an str")
+    if "sort_by" in params and not isinstance(params["sort_by"], dict):
+        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "path" in params and not isinstance(params["path"], int):
+        raise InvalidParameterError("Bad parameter: path must be an int")
+    if "path" not in params:
+        raise MissingParameterError("Parameter missing: path")
+    response, options = Api.send_request(
+        "POST",
+        "/history/files/{path}/create_export".format(path=params["path"]),
+        params,
+        options,
+    )
+    return [Export(entity_data, options) for entity_data in response.data]
+
+
+# Parameters:
+#   start_at - string - Leave blank or set to a date/time to filter earlier entries.
+#   end_at - string - Leave blank or set to a date/time to filter later entries.
+#   display - string - Display format. Leave blank or set to `full` or `parent`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+#   path (required) - int64
+def list_for_folder_create_export(path, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["path"] = path
+    if "start_at" in params and not isinstance(params["start_at"], str):
+        raise InvalidParameterError("Bad parameter: start_at must be an str")
+    if "end_at" in params and not isinstance(params["end_at"], str):
+        raise InvalidParameterError("Bad parameter: end_at must be an str")
+    if "display" in params and not isinstance(params["display"], str):
+        raise InvalidParameterError("Bad parameter: display must be an str")
+    if "sort_by" in params and not isinstance(params["sort_by"], dict):
+        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "path" in params and not isinstance(params["path"], int):
+        raise InvalidParameterError("Bad parameter: path must be an int")
+    if "path" not in params:
+        raise MissingParameterError("Parameter missing: path")
+    response, options = Api.send_request(
+        "POST",
+        "/history/folders/{path}/create_export".format(path=params["path"]),
+        params,
+        options,
+    )
+    return [Export(entity_data, options) for entity_data in response.data]
+
+
+# Parameters:
+#   start_at - string - Leave blank or set to a date/time to filter earlier entries.
+#   end_at - string - Leave blank or set to a date/time to filter later entries.
+#   display - string - Display format. Leave blank or set to `full` or `parent`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `user_id` and `created_at`.
+#   user_id (required) - int64 - User ID.
+def list_for_user_create_export(user_id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["user_id"] = user_id
+    if "start_at" in params and not isinstance(params["start_at"], str):
+        raise InvalidParameterError("Bad parameter: start_at must be an str")
+    if "end_at" in params and not isinstance(params["end_at"], str):
+        raise InvalidParameterError("Bad parameter: end_at must be an str")
+    if "display" in params and not isinstance(params["display"], str):
+        raise InvalidParameterError("Bad parameter: display must be an str")
+    if "sort_by" in params and not isinstance(params["sort_by"], dict):
+        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "user_id" not in params:
+        raise MissingParameterError("Parameter missing: user_id")
+    response, options = Api.send_request(
+        "POST",
+        "/history/users/{user_id}/create_export".format(
+            user_id=params["user_id"]
+        ),
+        params,
+        options,
+    )
+    return [Export(entity_data, options) for entity_data in response.data]
+
+
+# Parameters:
+#   start_at - string - Leave blank or set to a date/time to filter earlier entries.
+#   end_at - string - Leave blank or set to a date/time to filter later entries.
+#   display - string - Display format. Leave blank or set to `full` or `parent`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+def list_logins_create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "start_at" in params and not isinstance(params["start_at"], str):
+        raise InvalidParameterError("Bad parameter: start_at must be an str")
+    if "end_at" in params and not isinstance(params["end_at"], str):
+        raise InvalidParameterError("Bad parameter: end_at must be an str")
+    if "display" in params and not isinstance(params["display"], str):
+        raise InvalidParameterError("Bad parameter: display must be an str")
+    if "sort_by" in params and not isinstance(params["sort_by"], dict):
+        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    response, options = Api.send_request(
+        "POST", "/history/login/create_export", params, options
+    )
+    return [Export(entity_data, options) for entity_data in response.data]
+
+
+# Parameters:
+#   start_at - string - Leave blank or set to a date/time to filter earlier entries.
+#   end_at - string - Leave blank or set to a date/time to filter later entries.
+#   display - string - Display format. Leave blank or set to `full` or `parent`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `path`, `created_at` or `user_id`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`. Valid field combinations are `[ user_id, folder ]`, `[ user_id, path ]`, `[ folder, path ]` or `[ user_id, folder, path ]`.
+#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
+def list_create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "start_at" in params and not isinstance(params["start_at"], str):
+        raise InvalidParameterError("Bad parameter: start_at must be an str")
+    if "end_at" in params and not isinstance(params["end_at"], str):
+        raise InvalidParameterError("Bad parameter: end_at must be an str")
+    if "display" in params and not isinstance(params["display"], str):
+        raise InvalidParameterError("Bad parameter: display must be an str")
+    if "sort_by" in params and not isinstance(params["sort_by"], dict):
+        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
+    if "filter_prefix" in params and not isinstance(
+        params["filter_prefix"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: filter_prefix must be an dict"
+        )
+    response, options = Api.send_request(
+        "POST", "/history/create_export", params, options
+    )
+    return [Export(entity_data, options) for entity_data in response.data]
 
 
 def new(*args, **kwargs):
