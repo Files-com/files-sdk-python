@@ -79,7 +79,7 @@ files_sdk.gpg_key.create({
 
 ---
 
-## Create Export GPG Key
+## Create an export CSV of GPG Key resources
 
 ```
 files_sdk.gpg_key.create_export({

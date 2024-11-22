@@ -294,7 +294,7 @@ def create_export(params=None, options=None):
     response, options = Api.send_request(
         "POST", "/behaviors/create_export", params, options
     )
-    return [Export(entity_data, options) for entity_data in response.data]
+    return Export(response.data, options)
 
 
 # Parameters:

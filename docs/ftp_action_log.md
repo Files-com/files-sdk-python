@@ -63,7 +63,7 @@ files_sdk.ftp_action_log.list()
 
 ---
 
-## Create Export FTP Action Log
+## Create an export CSV of FTP Action Log resources
 
 ```
 files_sdk.ftp_action_log.create_export()

@@ -110,7 +110,7 @@ files_sdk.as2_partner.create({
 
 ---
 
-## Create Export AS2 Partner
+## Create an export CSV of AS2 Partner resources
 
 ```
 files_sdk.as2_partner.create_export()

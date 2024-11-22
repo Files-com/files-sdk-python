@@ -47,7 +47,7 @@ files_sdk.sync_log.list()
 
 ---
 
-## Create Export Sync Log
+## Create an export CSV of Sync Log resources
 
 ```
 files_sdk.sync_log.create_export()

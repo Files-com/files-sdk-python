@@ -108,7 +108,7 @@ files_sdk.as2_incoming_message.list({
 
 ---
 
-## Create Export AS2 Incoming Message
+## Create an export CSV of AS2 Incoming Message resources
 
 ```
 files_sdk.as2_incoming_message.create_export({

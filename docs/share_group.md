@@ -78,7 +78,7 @@ files_sdk.share_group.create({
 
 ---
 
-## Create Export Share Group
+## Create an export CSV of Share Group resources
 
 ```
 files_sdk.share_group.create_export({

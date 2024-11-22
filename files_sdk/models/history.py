@@ -263,7 +263,7 @@ def list_for_file_create_export(path, params=None, options=None):
         params,
         options,
     )
-    return [Export(entity_data, options) for entity_data in response.data]
+    return Export(response.data, options)
 
 
 # Parameters:
@@ -296,7 +296,7 @@ def list_for_folder_create_export(path, params=None, options=None):
         params,
         options,
     )
-    return [Export(entity_data, options) for entity_data in response.data]
+    return Export(response.data, options)
 
 
 # Parameters:
@@ -331,7 +331,7 @@ def list_for_user_create_export(user_id, params=None, options=None):
         params,
         options,
     )
-    return [Export(entity_data, options) for entity_data in response.data]
+    return Export(response.data, options)
 
 
 # Parameters:
@@ -355,7 +355,7 @@ def list_logins_create_export(params=None, options=None):
     response, options = Api.send_request(
         "POST", "/history/login/create_export", params, options
     )
-    return [Export(entity_data, options) for entity_data in response.data]
+    return Export(response.data, options)
 
 
 # Parameters:
@@ -389,7 +389,7 @@ def list_create_export(params=None, options=None):
     response, options = Api.send_request(
         "POST", "/history/create_export", params, options
     )
-    return [Export(entity_data, options) for entity_data in response.data]
+    return Export(response.data, options)
 
 
 def new(*args, **kwargs):

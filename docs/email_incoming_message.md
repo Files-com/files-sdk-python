@@ -50,7 +50,7 @@ files_sdk.email_incoming_message.list()
 
 ---
 
-## Create Export Email Incoming Message
+## Create an export CSV of Email Incoming Message resources
 
 ```
 files_sdk.email_incoming_message.create_export()

@@ -85,7 +85,7 @@ files_sdk.message.create({
 
 ---
 
-## Create Export Message
+## Create an export CSV of Message resources
 
 ```
 files_sdk.message.create_export({

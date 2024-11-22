@@ -55,7 +55,7 @@ files_sdk.usage_daily_snapshot.list()
 
 ---
 
-## Create Export Usage Daily Snapshot
+## Create an export CSV of Usage Daily Snapshot resources
 
 ```
 files_sdk.usage_daily_snapshot.create_export()

@@ -90,7 +90,7 @@ files_sdk.external_event.create({
 
 ---
 
-## Create Export External Event
+## Create an export CSV of External Event resources
 
 ```
 files_sdk.external_event.create_export()

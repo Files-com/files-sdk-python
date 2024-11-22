@@ -65,7 +65,7 @@ files_sdk.api_request_log.list()
 
 ---
 
-## Create Export API Request Log
+## Create an export CSV of API Request Log resources
 
 ```
 files_sdk.api_request_log.create_export()

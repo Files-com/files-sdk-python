@@ -42,7 +42,7 @@ files_sdk.user_cipher_use.list({
 
 ---
 
-## Create Export User Cipher Use
+## Create an export CSV of User Cipher Use resources
 
 ```
 files_sdk.user_cipher_use.create_export({

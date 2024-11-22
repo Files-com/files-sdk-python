@@ -136,7 +136,7 @@ files_sdk.behavior.webhook_test({
 
 ---
 
-## Create Export Behavior
+## Create an export CSV of Behavior resources
 
 ```
 files_sdk.behavior.create_export()

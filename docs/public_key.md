@@ -75,7 +75,7 @@ files_sdk.public_key.create({
 
 ---
 
-## Create Export Public Key
+## Create an export CSV of Public Key resources
 
 ```
 files_sdk.public_key.create_export({

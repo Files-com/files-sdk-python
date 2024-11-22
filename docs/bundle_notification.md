@@ -71,7 +71,7 @@ files_sdk.bundle_notification.create({
 
 ---
 
-## Create Export Bundle Notification
+## Create an export CSV of Bundle Notification resources
 
 ```
 files_sdk.bundle_notification.create_export()

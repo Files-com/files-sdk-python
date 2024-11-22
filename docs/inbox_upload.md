@@ -37,7 +37,7 @@ files_sdk.inbox_upload.list()
 
 ---
 
-## Create Export Inbox Upload
+## Create an export CSV of Inbox Upload resources
 
 ```
 files_sdk.inbox_upload.create_export()

@@ -56,7 +56,7 @@ files_sdk.bundle_registration.list({
 
 ---
 
-## Create Export Bundle Registration
+## Create an export CSV of Bundle Registration resources
 
 ```
 files_sdk.bundle_registration.create_export({

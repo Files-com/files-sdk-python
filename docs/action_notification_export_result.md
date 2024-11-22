@@ -50,7 +50,7 @@ files_sdk.action_notification_export_result.list({
 
 ---
 
-## Create Export Action Notification Export Result
+## Create an export CSV of Action Notification Export Result resources
 
 ```
 files_sdk.action_notification_export_result.create_export({

@@ -82,7 +82,7 @@ files_sdk.snapshot.finalize(id)
 
 ---
 
-## Create Export Snapshot
+## Create an export CSV of Snapshot resources
 
 ```
 files_sdk.snapshot.create_export()

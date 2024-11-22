@@ -43,7 +43,7 @@ files_sdk.public_hosting_request_log.list()
 
 ---
 
-## Create Export Public Hosting Request Log
+## Create an export CSV of Public Hosting Request Log resources
 
 ```
 files_sdk.public_hosting_request_log.create_export()

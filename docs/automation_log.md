@@ -45,7 +45,7 @@ files_sdk.automation_log.list()
 
 ---
 
-## Create Export Automation Log
+## Create an export CSV of Automation Log resources
 
 ```
 files_sdk.automation_log.create_export()

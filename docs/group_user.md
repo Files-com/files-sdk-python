@@ -60,7 +60,7 @@ files_sdk.group_user.create({
 
 ---
 
-## Create Export Group User
+## Create an export CSV of Group User resources
 
 ```
 files_sdk.group_user.create_export({

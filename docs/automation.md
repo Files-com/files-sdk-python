@@ -214,7 +214,7 @@ files_sdk.automation.manual_run(id)
 
 ---
 
-## Create Export Automation
+## Create an export CSV of Automation resources
 
 ```
 files_sdk.automation.create_export()

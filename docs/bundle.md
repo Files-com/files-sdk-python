@@ -238,7 +238,7 @@ files_sdk.bundle.create({
 
 ---
 
-## Create Export Bundle
+## Create an export CSV of Bundle resources
 
 ```
 files_sdk.bundle.create_export({

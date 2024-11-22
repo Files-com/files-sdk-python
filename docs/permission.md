@@ -80,7 +80,7 @@ files_sdk.permission.create({
 
 ---
 
-## Create Export Permission
+## Create an export CSV of Permission resources
 
 ```
 files_sdk.permission.create_export({

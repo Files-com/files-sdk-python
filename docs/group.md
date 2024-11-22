@@ -100,7 +100,7 @@ files_sdk.group.create({
 
 ---
 
-## Create Export Group
+## Create an export CSV of Group resources
 
 ```
 files_sdk.group.create_export({

@@ -59,7 +59,7 @@ files_sdk.web_dav_action_log.list()
 
 ---
 
-## Create Export WebDAV Action Log
+## Create an export CSV of WebDAV Action Log resources
 
 ```
 files_sdk.web_dav_action_log.create_export()

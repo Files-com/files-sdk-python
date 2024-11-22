@@ -49,7 +49,7 @@ files_sdk.exavault_api_request_log.list()
 
 ---
 
-## Create Export Exavault API Request Log
+## Create an export CSV of Exavault API Request Log resources
 
 ```
 files_sdk.exavault_api_request_log.create_export()

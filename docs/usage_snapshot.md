@@ -57,7 +57,7 @@ files_sdk.usage_snapshot.list()
 
 ---
 
-## Create Export Usage Snapshot
+## Create an export CSV of Usage Snapshot resources
 
 ```
 files_sdk.usage_snapshot.create_export()

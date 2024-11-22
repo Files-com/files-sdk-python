@@ -83,7 +83,7 @@ files_sdk.request.create({
 
 ---
 
-## Create Export Request
+## Create an export CSV of Request resources
 
 ```
 files_sdk.request.create_export({

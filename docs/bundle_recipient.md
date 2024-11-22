@@ -67,7 +67,7 @@ files_sdk.bundle_recipient.create({
 
 ---
 
-## Create Export Bundle Recipient
+## Create an export CSV of Bundle Recipient resources
 
 ```
 files_sdk.bundle_recipient.create_export({

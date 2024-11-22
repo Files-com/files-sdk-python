@@ -82,7 +82,7 @@ files_sdk.invoice.find(id)
 
 ---
 
-## Create Export Invoice
+## Create an export CSV of Invoice resources
 
 ```
 files_sdk.invoice.create_export()

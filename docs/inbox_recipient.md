@@ -67,7 +67,7 @@ files_sdk.inbox_recipient.create({
 
 ---
 
-## Create Export Inbox Recipient
+## Create an export CSV of Inbox Recipient resources
 
 ```
 files_sdk.inbox_recipient.create_export({

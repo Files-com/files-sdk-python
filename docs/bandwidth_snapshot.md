@@ -49,7 +49,7 @@ files_sdk.bandwidth_snapshot.list()
 
 ---
 
-## Create Export Bandwidth Snapshot
+## Create an export CSV of Bandwidth Snapshot resources
 
 ```
 files_sdk.bandwidth_snapshot.create_export()

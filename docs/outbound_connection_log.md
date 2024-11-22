@@ -55,7 +55,7 @@ files_sdk.outbound_connection_log.list()
 
 ---
 
-## Create Export Outbound Connection Log
+## Create an export CSV of Outbound Connection Log resources
 
 ```
 files_sdk.outbound_connection_log.create_export()

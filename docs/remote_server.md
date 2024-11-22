@@ -346,7 +346,7 @@ files_sdk.remote_server.configuration_file(id, {
 
 ---
 
-## Create Export Remote Server
+## Create an export CSV of Remote Server resources
 
 ```
 files_sdk.remote_server.create_export()

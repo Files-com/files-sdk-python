@@ -43,7 +43,7 @@ files_sdk.settings_change.list()
 
 ---
 
-## Create Export Settings Change
+## Create an export CSV of Settings Change resources
 
 ```
 files_sdk.settings_change.create_export()

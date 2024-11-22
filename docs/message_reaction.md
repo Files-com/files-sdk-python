@@ -65,7 +65,7 @@ files_sdk.message_reaction.create({
 
 ---
 
-## Create Export Message Reaction
+## Create an export CSV of Message Reaction resources
 
 ```
 files_sdk.message_reaction.create_export({

@@ -59,7 +59,7 @@ files_sdk.bundle_action.list()
 
 ---
 
-## Create Export Bundle Action
+## Create an export CSV of Bundle Action resources
 
 ```
 files_sdk.bundle_action.create_export()

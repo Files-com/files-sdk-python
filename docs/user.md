@@ -333,7 +333,7 @@ files_sdk.user.user_2fa_reset(id)
 
 ---
 
-## Create Export User
+## Create an export CSV of User resources
 
 ```
 files_sdk.user.create_export({

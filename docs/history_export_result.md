@@ -82,7 +82,7 @@ files_sdk.history_export_result.list({
 
 ---
 
-## Create Export History Export Result
+## Create an export CSV of History Export Result resources
 
 ```
 files_sdk.history_export_result.create_export({

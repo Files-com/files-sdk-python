@@ -72,7 +72,7 @@ files_sdk.message_comment.create({
 
 ---
 
-## Create Export Message Comment
+## Create an export CSV of Message Comment resources
 
 ```
 files_sdk.message_comment.create_export({

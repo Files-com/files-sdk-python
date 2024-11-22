@@ -60,7 +60,7 @@ files_sdk.export.find(id)
 
 ---
 
-## Create Export Export
+## Create an export CSV of Export resources
 
 ```
 files_sdk.export.create({

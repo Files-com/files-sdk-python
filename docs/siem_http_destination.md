@@ -201,7 +201,7 @@ files_sdk.siem_http_destination.create({
 
 ---
 
-## Create Export SIEM HTTP Destination
+## Create an export CSV of SIEM HTTP Destination resources
 
 ```
 files_sdk.siem_http_destination.create_export()

@@ -101,7 +101,7 @@ files_sdk.form_field_set.create({
 
 ---
 
-## Create Export Form Field Set
+## Create an export CSV of Form Field Set resources
 
 ```
 files_sdk.form_field_set.create_export({

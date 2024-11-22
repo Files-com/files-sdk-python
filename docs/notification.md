@@ -144,7 +144,7 @@ files_sdk.notification.create({
 
 ---
 
-## Create Export Notification
+## Create an export CSV of Notification resources
 
 ```
 files_sdk.notification.create_export({

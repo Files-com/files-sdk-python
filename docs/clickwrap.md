@@ -73,7 +73,7 @@ files_sdk.clickwrap.create({
 
 ---
 
-## Create Export Clickwrap
+## Create an export CSV of Clickwrap resources
 
 ```
 files_sdk.clickwrap.create_export()

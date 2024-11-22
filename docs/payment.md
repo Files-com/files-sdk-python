@@ -82,7 +82,7 @@ files_sdk.payment.find(id)
 
 ---
 
-## Create Export Payment
+## Create an export CSV of Payment resources
 
 ```
 files_sdk.payment.create_export()

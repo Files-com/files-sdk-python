@@ -61,7 +61,7 @@ files_sdk.automation_run.find(id)
 
 ---
 
-## Create Export Automation Run
+## Create an export CSV of Automation Run resources
 
 ```
 files_sdk.automation_run.create_export({

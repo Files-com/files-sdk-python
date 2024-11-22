@@ -65,7 +65,7 @@ files_sdk.message_comment_reaction.create({
 
 ---
 
-## Create Export Message Comment Reaction
+## Create an export CSV of Message Comment Reaction resources
 
 ```
 files_sdk.message_comment_reaction.create_export({

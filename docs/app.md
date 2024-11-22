@@ -74,7 +74,7 @@ files_sdk.app.list()
 
 ---
 
-## Create Export App
+## Create an export CSV of App resources
 
 ```
 files_sdk.app.create_export()

@@ -45,7 +45,7 @@ files_sdk.email_log.list()
 
 ---
 
-## Create Export Email Log
+## Create an export CSV of Email Log resources
 
 ```
 files_sdk.email_log.create_export()

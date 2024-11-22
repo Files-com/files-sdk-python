@@ -30,7 +30,7 @@ files_sdk.priority.list(path)
 
 ---
 
-## Create Export Priority
+## Create an export CSV of Priority resources
 
 ```
 files_sdk.priority.create_export(path)

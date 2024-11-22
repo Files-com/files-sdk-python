@@ -143,7 +143,7 @@ files_sdk.sso_strategy.sync(id)
 
 ---
 
-## Create Export SSO Strategy
+## Create an export CSV of SSO Strategy resources
 
 ```
 files_sdk.sso_strategy.create_export()

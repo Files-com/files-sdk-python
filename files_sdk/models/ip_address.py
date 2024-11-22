@@ -127,7 +127,7 @@ def smartfile_reserved_create_export(params=None, options=None):
         params,
         options,
     )
-    return [Export(entity_data, options) for entity_data in response.data]
+    return Export(response.data, options)
 
 
 def exavault_reserved_create_export(params=None, options=None):
@@ -141,7 +141,7 @@ def exavault_reserved_create_export(params=None, options=None):
         params,
         options,
     )
-    return [Export(entity_data, options) for entity_data in response.data]
+    return Export(response.data, options)
 
 
 def reserved_create_export(params=None, options=None):
@@ -152,7 +152,7 @@ def reserved_create_export(params=None, options=None):
     response, options = Api.send_request(
         "POST", "/ip_addresses/reserved/create_export", params, options
     )
-    return [Export(entity_data, options) for entity_data in response.data]
+    return Export(response.data, options)
 
 
 def create_export(params=None, options=None):
@@ -163,7 +163,7 @@ def create_export(params=None, options=None):
     response, options = Api.send_request(
         "POST", "/ip_addresses/create_export", params, options
     )
-    return [Export(entity_data, options) for entity_data in response.data]
+    return Export(response.data, options)
 
 
 def new(*args, **kwargs):

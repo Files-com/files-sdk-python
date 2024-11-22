@@ -54,7 +54,7 @@ files_sdk.inbox_registration.list({
 
 ---
 
-## Create Export Inbox Registration
+## Create an export CSV of Inbox Registration resources
 
 ```
 files_sdk.inbox_registration.create_export({

@@ -106,7 +106,7 @@ files_sdk.api_key.create({
 
 ---
 
-## Create Export API Key
+## Create an export CSV of API Key resources
 
 ```
 files_sdk.api_key.create_export({

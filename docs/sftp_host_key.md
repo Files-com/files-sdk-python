@@ -63,7 +63,7 @@ files_sdk.sftp_host_key.create({
 
 ---
 
-## Create Export SFTP Host Key
+## Create an export CSV of SFTP Host Key resources
 
 ```
 files_sdk.sftp_host_key.create_export()

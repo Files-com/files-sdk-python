@@ -41,7 +41,7 @@ files_sdk.remote_bandwidth_snapshot.list()
 
 ---
 
-## Create Export Remote Bandwidth Snapshot
+## Create an export CSV of Remote Bandwidth Snapshot resources
 
 ```
 files_sdk.remote_bandwidth_snapshot.create_export()

@@ -69,7 +69,7 @@ files_sdk.sftp_action_log.list()
 
 ---
 
-## Create Export SFTP Action Log
+## Create an export CSV of SFTP Action Log resources
 
 ```
 files_sdk.sftp_action_log.create_export()
