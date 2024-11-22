@@ -1,5 +1,4 @@
 import builtins  # noqa: F401
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -58,24 +57,6 @@ def list(path, params=None, options=None):
 
 def all(path, params=None, options=None):
     list(path, params, options)
-
-
-# Parameters:
-#   path (required) - string - The path to query for priorities
-def create_export(path, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["path"] = path
-    if "path" in params and not isinstance(params["path"], str):
-        raise InvalidParameterError("Bad parameter: path must be an str")
-    if "path" not in params:
-        raise MissingParameterError("Parameter missing: path")
-    response, options = Api.send_request(
-        "POST", "/priorities/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 def new(*args, **kwargs):

@@ -25,12 +25,5 @@ class AutomationRunTest(TestBase):
         }
         automation_run.find(id, params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/automation_runs/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        params = {
-            "automation_id" : 12345,
-        }
-        automation_run.create_export(params)
-
 if __name__ == '__main__':
     unittest.main()

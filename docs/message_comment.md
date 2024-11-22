@@ -72,23 +72,6 @@ files_sdk.message_comment.create({
 
 ---
 
-## Create an export CSV of Message Comment resources
-
-```
-files_sdk.message_comment.create_export({
-  "user_id": 1,
-  "message_id": 1
-})
-```
-
-### Parameters
-
-* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
-* `message_id` (int64): Required - Message comment to return comments for.
-
-
----
-
 ## Update Message Comment
 
 ```

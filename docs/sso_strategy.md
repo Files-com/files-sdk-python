@@ -143,15 +143,6 @@ files_sdk.sso_strategy.sync(id)
 
 ---
 
-## Create an export CSV of SSO Strategy resources
-
-```
-files_sdk.sso_strategy.create_export()
-```
-
-
----
-
 ## Synchronize provisioning data with the SSO remote server
 
 ```

@@ -42,10 +42,6 @@ class BundleTest(TestBase):
         bundle.find(id, params)
 
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/bundles/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = bundle.create_export()
-
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/bundles/{id}"), "Mock path does not exist")
     def test_update(self):

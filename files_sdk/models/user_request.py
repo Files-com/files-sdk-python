@@ -1,5 +1,4 @@
 import builtins  # noqa: F401
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -139,17 +138,6 @@ def create(params=None, options=None):
         "POST", "/user_requests", params, options
     )
     return UserRequest(response.data, options)
-
-
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    response, options = Api.send_request(
-        "POST", "/user_requests/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 def delete(id, params=None, options=None):

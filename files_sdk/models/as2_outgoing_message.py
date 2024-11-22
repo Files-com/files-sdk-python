@@ -1,5 +1,4 @@
 import builtins  # noqa: F401
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -115,47 +114,6 @@ def list(params=None, options=None):
 
 def all(params=None, options=None):
     list(params, options)
-
-
-# Parameters:
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at` and `as2_partner_id`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
-#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-#   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-#   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
-#   as2_partner_id - int64 - As2 Partner ID.  If provided, will return message specific to that partner.
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "sort_by" in params and not isinstance(params["sort_by"], dict):
-        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
-    if "filter" in params and not isinstance(params["filter"], dict):
-        raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
-    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
-        raise InvalidParameterError(
-            "Bad parameter: filter_gteq must be an dict"
-        )
-    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
-    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
-        raise InvalidParameterError(
-            "Bad parameter: filter_lteq must be an dict"
-        )
-    if "as2_partner_id" in params and not isinstance(
-        params["as2_partner_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: as2_partner_id must be an int"
-        )
-    response, options = Api.send_request(
-        "POST", "/as2_outgoing_messages/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 def new(*args, **kwargs):

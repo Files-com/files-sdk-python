@@ -1,5 +1,4 @@
 import builtins  # noqa: F401
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -68,17 +67,6 @@ def list(params=None, options=None):
 
 def all(params=None, options=None):
     list(params, options)
-
-
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    response, options = Api.send_request(
-        "POST", "/usage_snapshots/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 def new(*args, **kwargs):

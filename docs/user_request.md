@@ -69,15 +69,6 @@ files_sdk.user_request.create({
 
 ---
 
-## Create an export CSV of User Request resources
-
-```
-files_sdk.user_request.create_export()
-```
-
-
----
-
 ## Delete User Request
 
 ```

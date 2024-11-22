@@ -42,37 +42,5 @@ class HistoryTest(TestBase):
     def test_list(self):
         resp = history.list()
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/history/files/{path}/create_export"), "Mock path does not exist")
-    def test_list_for_file_create_export(self):
-        path = 12345
-        params = {
-            "path" : 12345,
-        }
-        history.list_for_file_create_export(path, params)
-
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/history/folders/{path}/create_export"), "Mock path does not exist")
-    def test_list_for_folder_create_export(self):
-        path = 12345
-        params = {
-            "path" : 12345,
-        }
-        history.list_for_folder_create_export(path, params)
-
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/history/users/{user_id}/create_export"), "Mock path does not exist")
-    def test_list_for_user_create_export(self):
-        user_id = 12345
-        params = {
-            "user_id" : 12345,
-        }
-        history.list_for_user_create_export(user_id, params)
-
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/history/login/create_export"), "Mock path does not exist")
-    def test_list_logins_create_export(self):
-        resp = history.list_logins_create_export()
-
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/history/create_export"), "Mock path does not exist")
-    def test_list_create_export(self):
-        resp = history.list_create_export()
-
 if __name__ == '__main__':
     unittest.main()

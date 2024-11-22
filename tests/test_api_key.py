@@ -52,10 +52,6 @@ class ApiKeyTest(TestBase):
         }
         api_key.create(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/api_keys/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = api_key.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/api_key"), "Mock path does not exist")
     def test_update_current(self):
         resp = api_key.update_current()

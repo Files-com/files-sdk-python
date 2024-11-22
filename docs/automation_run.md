@@ -57,20 +57,3 @@ files_sdk.automation_run.find(id)
 ### Parameters
 
 * `id` (int64): Required - Automation Run ID.
-
-
----
-
-## Create an export CSV of Automation Run resources
-
-```
-files_sdk.automation_run.create_export({
-  "automation_id": 1
-})
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `automation_id`, `created_at` or `status`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `status` and `automation_id`. Valid field combinations are `[ status, automation_id ]`.
-* `automation_id` (int64): Required - ID of the associated Automation.

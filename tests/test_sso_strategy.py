@@ -38,9 +38,5 @@ class SsoStrategyTest(TestBase):
         }
         sso_strategy.sync(id, params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/sso_strategies/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = sso_strategy.create_export()
-
 if __name__ == '__main__':
     unittest.main()

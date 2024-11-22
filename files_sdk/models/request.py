@@ -1,5 +1,4 @@
 import builtins  # noqa: F401
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -156,25 +155,6 @@ def create(params=None, options=None):
         raise MissingParameterError("Parameter missing: destination")
     response, options = Api.send_request("POST", "/requests", params, options)
     return Request(response.data, options)
-
-
-# Parameters:
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
-#   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
-#   path - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "sort_by" in params and not isinstance(params["sort_by"], dict):
-        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
-    if "path" in params and not isinstance(params["path"], str):
-        raise InvalidParameterError("Bad parameter: path must be an str")
-    response, options = Api.send_request(
-        "POST", "/requests/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 def delete(id, params=None, options=None):

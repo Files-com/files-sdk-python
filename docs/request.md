@@ -83,23 +83,6 @@ files_sdk.request.create({
 
 ---
 
-## Create an export CSV of Request resources
-
-```
-files_sdk.request.create_export({
-  "mine": True
-})
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
-* `mine` (boolean): Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
-* `path` (string): Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
-
-
----
-
 ## Delete Request
 
 ```

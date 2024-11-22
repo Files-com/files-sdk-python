@@ -51,21 +51,3 @@ files_sdk.usage_daily_snapshot.list()
 * `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `date`.
 * `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `date`.
 * `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `date`.
-
-
----
-
-## Create an export CSV of Usage Daily Snapshot resources
-
-```
-files_sdk.usage_daily_snapshot.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `date`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `date` and `usage_snapshot_id`. Valid field combinations are `[ date, usage_snapshot_id ]`.
-* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `date`.
-* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `date`.
-* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `date`.
-* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `date`.

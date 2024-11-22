@@ -1,5 +1,4 @@
 import builtins  # noqa: F401
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -188,26 +187,6 @@ def create(params=None, options=None):
         raise MissingParameterError("Parameter missing: body")
     response, options = Api.send_request("POST", "/messages", params, options)
     return Message(response.data, options)
-
-
-# Parameters:
-#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-#   project_id (required) - int64 - Project for which to return messages.
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "user_id" in params and not isinstance(params["user_id"], int):
-        raise InvalidParameterError("Bad parameter: user_id must be an int")
-    if "project_id" in params and not isinstance(params["project_id"], int):
-        raise InvalidParameterError("Bad parameter: project_id must be an int")
-    if "project_id" not in params:
-        raise MissingParameterError("Parameter missing: project_id")
-    response, options = Api.send_request(
-        "POST", "/messages/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 # Parameters:

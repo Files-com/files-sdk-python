@@ -86,22 +86,3 @@ files_sdk.external_event.create({
 
 * `status` (string): Required - Status of event.
 * `body` (string): Required - Event body
-
-
----
-
-## Create an export CSV of External Event resources
-
-```
-files_sdk.external_event.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `remote_server_type`, `folder_behavior_id`, `siem_http_destination_id`, `created_at`, `event_type` or `status`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `event_type`, `remote_server_type`, `status`, `folder_behavior_id` or `siem_http_destination_id`. Valid field combinations are `[ created_at, event_type ]`, `[ created_at, remote_server_type ]`, `[ created_at, status ]`, `[ event_type, status ]` or `[ created_at, event_type, status ]`.
-* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `remote_server_type`.
-* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.

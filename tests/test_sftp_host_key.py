@@ -45,10 +45,6 @@ class SftpHostKeyTest(TestBase):
     def test_create(self):
         resp = sftp_host_key.create()
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/sftp_host_keys/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = sftp_host_key.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/sftp_host_keys/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

@@ -1,5 +1,4 @@
 import builtins  # noqa: F401
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -697,54 +696,6 @@ def user_2fa_reset(id, params=None, options=None):
         params,
         options,
     )
-
-
-# Parameters:
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `authenticate_until`, `email`, `last_desktop_login_at`, `last_login_at`, `username`, `name`, `company`, `site_admin`, `password_validity_days` or `ssl_required`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `name`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`. Valid field combinations are `[ username, not_site_admin ]` and `[ name, company ]`.
-#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-#   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `username`, `name`, `email` or `company`. Valid field combinations are `[ name, company ]`.
-#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-#   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-#   ids - string - comma-separated list of User IDs
-#   include_parent_site_users - boolean - Include users from the parent site.
-#   search - string - Searches for partial matches of name, username, or email.
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "sort_by" in params and not isinstance(params["sort_by"], dict):
-        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
-    if "filter" in params and not isinstance(params["filter"], dict):
-        raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
-    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
-        raise InvalidParameterError(
-            "Bad parameter: filter_gteq must be an dict"
-        )
-    if "filter_prefix" in params and not isinstance(
-        params["filter_prefix"], dict
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filter_prefix must be an dict"
-        )
-    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
-    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
-        raise InvalidParameterError(
-            "Bad parameter: filter_lteq must be an dict"
-        )
-    if "ids" in params and not isinstance(params["ids"], str):
-        raise InvalidParameterError("Bad parameter: ids must be an str")
-    if "search" in params and not isinstance(params["search"], str):
-        raise InvalidParameterError("Bad parameter: search must be an str")
-    response, options = Api.send_request(
-        "POST", "/users/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 # Parameters:

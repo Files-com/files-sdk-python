@@ -110,15 +110,6 @@ files_sdk.as2_partner.create({
 
 ---
 
-## Create an export CSV of AS2 Partner resources
-
-```
-files_sdk.as2_partner.create_export()
-```
-
-
----
-
 ## Update AS2 Partner
 
 ```

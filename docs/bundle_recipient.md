@@ -63,20 +63,3 @@ files_sdk.bundle_recipient.create({
 * `company` (string): Company of recipient.
 * `note` (string): Note to include in email.
 * `share_after_create` (boolean): Set to true to share the link with the recipient upon creation.
-
-
----
-
-## Create an export CSV of Bundle Recipient resources
-
-```
-files_sdk.bundle_recipient.create_export({
-  "bundle_id": 1
-})
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
-* `bundle_id` (int64): Required - List recipients for the bundle with this ID.

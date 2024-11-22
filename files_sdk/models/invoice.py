@@ -1,6 +1,5 @@
 import builtins  # noqa: F401
 from files_sdk.models.account_line_item import AccountLineItem
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -86,17 +85,6 @@ def find(id, params=None, options=None):
 
 def get(id, params=None, options=None):
     find(id, params, options)
-
-
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    response, options = Api.send_request(
-        "POST", "/invoices/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 def new(*args, **kwargs):

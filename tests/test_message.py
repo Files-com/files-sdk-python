@@ -56,13 +56,6 @@ class MessageTest(TestBase):
         }
         message.create(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/messages/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        params = {
-            "project_id" : 12345,
-        }
-        message.create_export(params)
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/messages/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
