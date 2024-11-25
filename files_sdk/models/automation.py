@@ -65,7 +65,7 @@ class Automation:
             if getattr(self, k, None) is not None
         }
 
-    # Manually run automation
+    # Manually Run Automation
     def manual_run(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -452,7 +452,7 @@ def create(params=None, options=None):
     return Automation(response.data, options)
 
 
-# Manually run automation
+# Manually Run Automation
 def manual_run(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}

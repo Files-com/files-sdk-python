@@ -116,7 +116,7 @@ files_sdk.folder.list_for(path, {
 
 ---
 
-## Create folder
+## Create Folder
 
 ```
 files_sdk.folder.create(path, {

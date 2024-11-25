@@ -19,7 +19,7 @@
 
 ---
 
-## Show site DNS configuration
+## Show Site DNS Configuration
 
 ```
 files_sdk.dns_record.list()

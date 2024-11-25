@@ -201,7 +201,7 @@ files_sdk.automation.create({
 
 ---
 
-## Manually run automation
+## Manually Run Automation
 
 ```
 files_sdk.automation.manual_run(id)
@@ -295,7 +295,7 @@ files_sdk.automation.delete(id)
 
 ---
 
-## Manually run automation
+## Manually Run Automation
 
 ```
 automation = files_sdk.automation.find(id)

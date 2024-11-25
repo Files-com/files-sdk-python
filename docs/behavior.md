@@ -112,7 +112,7 @@ files_sdk.behavior.create({
 
 ---
 
-## Test webhook
+## Test Webhook
 
 ```
 files_sdk.behavior.webhook_test({

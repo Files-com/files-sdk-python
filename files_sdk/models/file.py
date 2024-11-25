@@ -209,7 +209,7 @@ class File:
         with builtin_open(output_file, "wb") as file:
             self.download_content(file)
 
-    # Download file
+    # Download File
     #
     # Parameters:
     #   action - string - Can be blank, `redirect` or `stat`.  If set to `stat`, we will return file information but without a download URL, and without logging a download.  If set to `redirect` we will serve a 302 redirect directly to the file.  This is used for integrations with Zapier, and is not recommended for most integrations.
@@ -304,7 +304,7 @@ class File:
     def destroy(self, params=None):
         self.delete(params)
 
-    # Copy file/folder
+    # Copy File/Folder
     #
     # Parameters:
     #   destination (required) - string - Copy destination path.
@@ -338,7 +338,7 @@ class File:
         )
         return response.data
 
-    # Move file/folder
+    # Move File/Folder
     #
     # Parameters:
     #   destination (required) - string - Move destination path.
@@ -419,7 +419,7 @@ class File:
         return True
 
 
-# Download file
+# Download File
 #
 # Parameters:
 #   action - string - Can be blank, `redirect` or `stat`.  If set to `stat`, we will return file information but without a download URL, and without logging a download.  If set to `redirect` we will serve a 302 redirect directly to the file.  This is used for integrations with Zapier, and is not recommended for most integrations.
@@ -596,7 +596,7 @@ def get(path, params=None, options=None):
     find(path, params, options)
 
 
-# Copy file/folder
+# Copy File/Folder
 #
 # Parameters:
 #   destination (required) - string - Copy destination path.
@@ -627,7 +627,7 @@ def copy(path, params=None, options=None):
     return FileAction(response.data, options)
 
 
-# Move file/folder
+# Move File/Folder
 #
 # Parameters:
 #   destination (required) - string - Move destination path.

@@ -98,7 +98,7 @@
 
 ---
 
-## Download file
+## Download File
 
 ```
 files_sdk.file.download(path, {
@@ -118,7 +118,7 @@ files_sdk.file.download(path, {
 
 ---
 
-## Upload file
+## Upload File
 
 ```
 files_sdk.file.create(path, {
@@ -153,7 +153,7 @@ files_sdk.file.create(path, {
 
 ---
 
-## Update file/folder metadata
+## Update File/Folder Metadata
 
 ```
 files_sdk.file.update(path, {
@@ -173,7 +173,7 @@ files_sdk.file.update(path, {
 
 ---
 
-## Delete file/folder
+## Delete File/Folder
 
 ```
 files_sdk.file.delete(path, {
@@ -189,7 +189,7 @@ files_sdk.file.delete(path, {
 
 ---
 
-## Find file/folder by path
+## Find File/Folder by Path
 
 ```
 files_sdk.file.find(path, {
@@ -208,7 +208,7 @@ files_sdk.file.find(path, {
 
 ---
 
-## Copy file/folder
+## Copy File/Folder
 
 ```
 files_sdk.file.copy(path, {
@@ -228,7 +228,7 @@ files_sdk.file.copy(path, {
 
 ---
 
-## Move file/folder
+## Move File/Folder
 
 ```
 files_sdk.file.move(path, {
@@ -274,7 +274,7 @@ files_sdk.file.begin_upload(path, {
 
 ---
 
-## Download file
+## Download File
 
 ```
 file = files_sdk.file.find(path)
@@ -295,7 +295,7 @@ file.download({
 
 ---
 
-## Update file/folder metadata
+## Update File/Folder Metadata
 
 ```
 file = files_sdk.file.find(path)
@@ -316,7 +316,7 @@ file.update({
 
 ---
 
-## Delete file/folder
+## Delete File/Folder
 
 ```
 file = files_sdk.file.find(path)
@@ -333,7 +333,7 @@ file.delete({
 
 ---
 
-## Copy file/folder
+## Copy File/Folder
 
 ```
 file = files_sdk.file.find(path)
@@ -354,7 +354,7 @@ file.copy({
 
 ---
 
-## Move file/folder
+## Move File/Folder
 
 ```
 file = files_sdk.file.find(path)

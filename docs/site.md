@@ -472,7 +472,7 @@
 
 ---
 
-## Show site settings
+## Show Site Settings
 
 ```
 files_sdk.site.get()
@@ -490,7 +490,7 @@ files_sdk.site.get_usage()
 
 ---
 
-## Update site settings
+## Update Site Settings
 
 ```
 files_sdk.site.update({
