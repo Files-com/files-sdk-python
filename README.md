@@ -528,19 +528,9 @@ A README is available on the GitHub link.
 
 ## File/Folder Operations
 
-### File Operations
+This SDK allows both file-based transfer and data-based transfer. Please see the examples below.
 
-This SDK allows both file based transfer and data based transfer. Please see the examples below.
-
-#### File Download
-
-The second parameter is optional and will simply use the remote filename by default.
-
-```python
-files_sdk.file.download_file("/remote.txt", "local.txt")
-```
-
-#### File Upload
+### Upload
 
 The second parameter is optional and will simply use the local filename by default.
 
@@ -553,13 +543,6 @@ If the parent directories do not already exist, they can be automatically create
 
 ```python
 files_sdk.file.upload_file("local.txt", "/uploads/remote.txt", params={"mkdir_parents": True})
-```
-
-#### List Root Folder
-
-```python
-for f in files_sdk.folder.list_for("/").auto_paging_iter():
-    print(f.type, f.path)
 ```
 
 #### Writing a File Example (string)
@@ -576,6 +559,16 @@ with files_sdk.file.open("foo.txt", 'wb') as f:
     f.write(b"contents")
 ```
 
+### Download
+
+#### File Download
+
+The second parameter is optional and will simply use the remote filename by default.
+
+```python
+files_sdk.file.download_file("/remote.txt", "local.txt")
+```
+
 #### Reading a File Example (string)
 
 ```python
@@ -590,14 +583,21 @@ with files_sdk.open("foo.txt", 'rb') as f:
     print(f.read())
 ```
 
-### List Responses and Cursor Paging
+### List
+
+```python
+for f in files_sdk.folder.list_for("/").auto_paging_iter():
+    print(f.type, f.path)
+```
+
+#### List Responses and Cursor Paging
 
 List responses for APIs with cursor support will return an iterable object
 which contains a single page of records. It has a built-in `auto_paging_iter`
 method to iterate through the pages, making the additional API calls
 as needed.
 
-#### Iterating with auto_paging_iter
+##### Iterating with auto_paging_iter
 
 ```python
 list_obj = files_sdk.folder.list_for('/')
@@ -606,7 +606,7 @@ for f in list_obj.auto_paging_iter():
     print(f.type, f.path)
 ```
 
-#### Iterating Manually
+##### Iterating Manually
 
 ```python
 list_obj = files_sdk.folder.list_for('/')
