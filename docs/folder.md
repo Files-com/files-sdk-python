@@ -90,7 +90,7 @@
 
 ---
 
-## List Folders by path
+## List Folders by Path
 
 ```
 files_sdk.folder.list_for(path, {

@@ -63,7 +63,7 @@ files_sdk.behavior.find(id)
 
 ---
 
-## List Behaviors by path
+## List Behaviors by Path
 
 ```
 files_sdk.behavior.list_for(path, {

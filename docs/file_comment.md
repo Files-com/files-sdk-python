@@ -23,7 +23,7 @@
 
 ---
 
-## List File Comments by path
+## List File Comments by Path
 
 ```
 files_sdk.file_comment.list_for(path)

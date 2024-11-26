@@ -35,7 +35,7 @@
 
 ---
 
-## List Locks by path
+## List Locks by Path
 
 ```
 files_sdk.lock.list_for(path, {
