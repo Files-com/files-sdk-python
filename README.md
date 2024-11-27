@@ -508,6 +508,128 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`TrialLockedError`|  `SiteConfigurationError` |
 |`UserRequestsEnabledRequiredError`|  `SiteConfigurationError` |
 
+## Examples
+
+### Upload
+
+#### Upload a File
+
+```python
+files_sdk.file.upload_file("local.txt", "remote.txt")
+```
+
+If the parent directories do not already exist, they can be automatically created by passing
+`mkdir_parents` in the `params`.
+
+```python
+files_sdk.file.upload_file("local.txt", "uploads/remote.txt", params={"mkdir_parents": True})
+```
+
+#### Write File Data
+
+```python
+with files_sdk.file.open("foo.txt", 'w') as f:
+    f.write("contents")
+```
+
+Or, for binary data:
+
+```python
+with files_sdk.file.open("foo.txt", 'wb') as f:
+    f.write(b"contents")
+```
+
+#### Create a Folder
+
+```python
+files_sdk.folder.create("path/to/folder/to/be/created", params={"mkdir_parents": True})
+```
+
+### Download
+
+#### Download a File
+
+```python
+files_sdk.file.download_file("remote.txt", "local.txt")
+```
+
+#### Read File Data
+
+```python
+with files_sdk.file.open("foo.txt", 'r') as f:
+    print(f.read())
+```
+
+Or, for binary data:
+
+```python
+with files_sdk.file.open("foo.txt", 'rb') as f:
+    print(f.read())
+```
+
+### List
+
+#### List Folder Contents
+
+There are two ways to list folder contents:
+1. `auto_paging_iter` - automatically paginates and loads each page into memory
+2. `load_next_page/has_next_page` - manually paginates and loads each page into memory
+
+```python
+for item in files_sdk.folder.list_for("remote/path/to/folder/").auto_paging_iter():
+    print(item.type, item.path)
+```
+
+```python
+list_obj = files_sdk.folder.list_for('remote/path/to/folder/')
+
+while True:
+    for item in list_obj:
+        print(item.type, item.path)
+    if not list_obj.has_next_page:
+        break
+    list_obj.load_next_page()
+```
+
+### Copy
+
+The copy method works for both files and folders.
+
+```python
+files_sdk.file.copy("source/path", params={"destination": "destination/path"})
+```
+
+### Move
+
+The move method works for both files and folders.
+
+```python
+files_sdk.file.move("source/path", params={"destination": "destination/path"})
+```
+
+### Delete
+
+The delete method works for both files and folders.
+
+```python
+files_sdk.file.delete("path/to/file/or/folder")
+```
+
+In case the folder is not empty, you can use the `recursive` argument:
+
+```python
+files_sdk.file.delete("path/to/folder", params={"recursive": True})
+```
+
+### Comparing Case-Insensitive Files and Paths
+
+For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
+
+```python
+if files_sdk.path_util.is_same("Fïłèńämê.Txt", "filename.txt"):
+    print("Paths are the same")
+```
+
 ## Mock Server
 
 Files.com publishes a Files.com API server, which is useful for testing your use of the Files.com
@@ -525,106 +647,3 @@ Download the server as a Docker image via [Docker Hub](https://hub.docker.com/r/
 The Source Code is also available on [GitHub](https://github.com/Files-com/files-mock-server).
 
 A README is available on the GitHub link.
-
-## File/Folder Operations
-
-This SDK allows both file-based transfer and data-based transfer. Please see the examples below.
-
-### Upload
-
-The second parameter is optional and will simply use the local filename by default.
-
-```python
-files_sdk.file.upload_file("local.txt", "/remote.txt")
-```
-
-If the parent directories do not already exist, they can be automatically created by passing
-`mkdir_parents` in the `params`.
-
-```python
-files_sdk.file.upload_file("local.txt", "/uploads/remote.txt", params={"mkdir_parents": True})
-```
-
-#### Writing a File Example (string)
-
-```python
-with files_sdk.file.open("foo.txt", 'w') as f:
-    f.write("contents")
-```
-
-#### Writing a File Example (binary)
-
-```python
-with files_sdk.file.open("foo.txt", 'wb') as f:
-    f.write(b"contents")
-```
-
-### Download
-
-#### File Download
-
-The second parameter is optional and will simply use the remote filename by default.
-
-```python
-files_sdk.file.download_file("/remote.txt", "local.txt")
-```
-
-#### Reading a File Example (string)
-
-```python
-with files_sdk.open("foo.txt", 'r') as f:
-    print(f.read())
-```
-
-#### Reading a File Example (binary)
-
-```python
-with files_sdk.open("foo.txt", 'rb') as f:
-    print(f.read())
-```
-
-### List
-
-```python
-for f in files_sdk.folder.list_for("/").auto_paging_iter():
-    print(f.type, f.path)
-```
-
-#### List Responses and Cursor Paging
-
-List responses for APIs with cursor support will return an iterable object
-which contains a single page of records. It has a built-in `auto_paging_iter`
-method to iterate through the pages, making the additional API calls
-as needed.
-
-##### Iterating with auto_paging_iter
-
-```python
-list_obj = files_sdk.folder.list_for('/')
-
-for f in list_obj.auto_paging_iter():
-    print(f.type, f.path)
-```
-
-##### Iterating Manually
-
-```python
-list_obj = files_sdk.folder.list_for('/')
-
-for f in list_obj:
-    print(f.type, f.path)
-
-while list_obj.has_next_page:
-    list_obj.load_next_page()
-    for f in list_obj:
-        print(f.type, f.path)
-```
-
-### Comparing Case-Insensitive Files and Paths
-
-For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
-
-```python
-if files_sdk.path_util.is_same("Fïłèńämê.Txt", "filename.txt"):
-    print("Paths are the same")
-```
