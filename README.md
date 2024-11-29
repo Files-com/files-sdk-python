@@ -354,6 +354,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`InvalidFilterAliasCombinationError`|  `BadRequestError` |
 |`InvalidFilterFieldError`|  `BadRequestError` |
 |`InvalidFilterParamError`|  `BadRequestError` |
+|`InvalidFilterParamFormatError`|  `BadRequestError` |
 |`InvalidFilterParamValueError`|  `BadRequestError` |
 |`InvalidInputEncodingError`|  `BadRequestError` |
 |`InvalidInterfaceError`|  `BadRequestError` |
