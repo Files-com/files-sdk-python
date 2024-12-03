@@ -509,6 +509,21 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`TrialLockedError`|  `SiteConfigurationError` |
 |`UserRequestsEnabledRequiredError`|  `SiteConfigurationError` |
 
+## Case Sensitivity
+
+The Files.com API compares files and paths in a case-insensitive manner.
+ For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
+
+The `path_util.is_same` function in the Files.com SDK is designed to help you determine if two paths on
+your native file system would be considered the same on Files.com. This is particularly important
+when handling errors related to duplicate file names and when developing tools for folder
+synchronization.
+
+```python title="Compare Case-Insensitive Files and Paths"
+if files_sdk.path_util.is_same("Fïłèńämê.Txt", "filename.txt"):
+    print("Paths are the same")
+```
+
 ## Examples
 
 ### Upload
@@ -620,15 +635,6 @@ In case the folder is not empty, you can use the `recursive` argument:
 
 ```python
 files_sdk.file.delete("path/to/folder", params={"recursive": True})
-```
-
-### Comparing Case-Insensitive Files and Paths
-
-For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
-
-```python
-if files_sdk.path_util.is_same("Fïłèńämê.Txt", "filename.txt"):
-    print("Paths are the same")
 ```
 
 ## Mock Server
