@@ -20,6 +20,7 @@ class Automation:
         "destinations": None,  # array(string) - Destination Paths
         "disabled": None,  # boolean - If true, this automation will not run.
         "exclude_pattern": None,  # string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+        "import_urls": None,  # array(object) - List of URLs to be imported and names to be used.
         "flatten_destination_structure": None,  # boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
         "group_ids": None,  # array(int64) - IDs of Groups for the Automation (i.e. who to Request File from)
         "ignore_locked_folders": None,  # boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
@@ -102,6 +103,7 @@ class Automation:
     #   description - string - Description for the this Automation.
     #   disabled - boolean - If true, this automation will not run.
     #   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+    #   import_urls - array(object) - List of URLs to be imported and names to be used.
     #   flatten_destination_structure - boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
     #   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
     #   legacy_folder_matching - boolean - DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
@@ -192,6 +194,12 @@ class Automation:
         ):
             raise InvalidParameterError(
                 "Bad parameter: exclude_pattern must be an str"
+            )
+        if "import_urls" in params and not isinstance(
+            params["import_urls"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: import_urls must be an list"
             )
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
@@ -344,6 +352,7 @@ def get(id, params=None, options=None):
 #   description - string - Description for the this Automation.
 #   disabled - boolean - If true, this automation will not run.
 #   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+#   import_urls - array(object) - List of URLs to be imported and names to be used.
 #   flatten_destination_structure - boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 #   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
 #   legacy_folder_matching - boolean - DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
@@ -418,6 +427,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: exclude_pattern must be an str"
         )
+    if "import_urls" in params and not isinstance(
+        params["import_urls"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: import_urls must be an list"
+        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "path_time_zone" in params and not isinstance(
@@ -488,6 +503,7 @@ def manual_run(id, params=None, options=None):
 #   description - string - Description for the this Automation.
 #   disabled - boolean - If true, this automation will not run.
 #   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+#   import_urls - array(object) - List of URLs to be imported and names to be used.
 #   flatten_destination_structure - boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 #   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
 #   legacy_folder_matching - boolean - DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
@@ -564,6 +580,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: exclude_pattern must be an str"
+        )
+    if "import_urls" in params and not isinstance(
+        params["import_urls"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: import_urls must be an list"
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")

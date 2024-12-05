@@ -16,6 +16,19 @@
   ],
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
+  "import_urls": [
+    {
+      "name": "users.json",
+      "url": "http://example.com/users",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "content": {
+        "group": "support"
+      }
+    }
+  ],
   "flatten_destination_structure": True,
   "group_ids": [
     1,
@@ -73,6 +86,7 @@
 * `destinations` (array(string)): Destination Paths
 * `disabled` (boolean): If true, this automation will not run.
 * `exclude_pattern` (string): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+* `import_urls` (array(object)): List of URLs to be imported and names to be used.
 * `flatten_destination_structure` (boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `group_ids` (array(int64)): IDs of Groups for the Automation (i.e. who to Request File from)
 * `ignore_locked_folders` (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
@@ -154,6 +168,7 @@ files_sdk.automation.create({
   "description": "example",
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
+  "import_urls": [{"name":"users.json","url":"http://example.com/users","method":"POST","headers":{"Content-Type":"application/json"},"content":{"group":"support"}}],
   "flatten_destination_structure": True,
   "ignore_locked_folders": True,
   "legacy_folder_matching": True,
@@ -186,6 +201,7 @@ files_sdk.automation.create({
 * `description` (string): Description for the this Automation.
 * `disabled` (boolean): If true, this automation will not run.
 * `exclude_pattern` (string): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+* `import_urls` (array(object)): List of URLs to be imported and names to be used.
 * `flatten_destination_structure` (boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `ignore_locked_folders` (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `legacy_folder_matching` (boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
@@ -234,6 +250,7 @@ files_sdk.automation.update(id, {
   "description": "example",
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
+  "import_urls": [{"name":"users.json","url":"http://example.com/users","method":"POST","headers":{"Content-Type":"application/json"},"content":{"group":"support"}}],
   "flatten_destination_structure": True,
   "ignore_locked_folders": True,
   "legacy_folder_matching": True,
@@ -267,6 +284,7 @@ files_sdk.automation.update(id, {
 * `description` (string): Description for the this Automation.
 * `disabled` (boolean): If true, this automation will not run.
 * `exclude_pattern` (string): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+* `import_urls` (array(object)): List of URLs to be imported and names to be used.
 * `flatten_destination_structure` (boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `ignore_locked_folders` (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `legacy_folder_matching` (boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
@@ -330,6 +348,7 @@ automation.update({
   "description": "example",
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
+  "import_urls": [{"name":"users.json","url":"http://example.com/users","method":"POST","headers":{"Content-Type":"application/json"},"content":{"group":"support"}}],
   "flatten_destination_structure": True,
   "ignore_locked_folders": True,
   "legacy_folder_matching": True,
@@ -363,6 +382,7 @@ automation.update({
 * `description` (string): Description for the this Automation.
 * `disabled` (boolean): If true, this automation will not run.
 * `exclude_pattern` (string): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+* `import_urls` (array(object)): List of URLs to be imported and names to be used.
 * `flatten_destination_structure` (boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `ignore_locked_folders` (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `legacy_folder_matching` (boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
