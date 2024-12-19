@@ -39,7 +39,7 @@
 
 ```
 files_sdk.group.list({
-  "include_parent_site_groups": True
+  "include_parent_site_groups": False
 })
 ```
 

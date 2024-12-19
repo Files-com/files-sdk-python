@@ -191,7 +191,7 @@ files_sdk.remote_server.find_configuration_file(id)
 files_sdk.remote_server.create({
   "aws_access_key": "example",
   "wasabi_access_key": "example",
-  "reset_authentication": True,
+  "reset_authentication": False,
   "hostname": "remote-server.com",
   "name": "My Remote server",
   "max_connections": 1,
@@ -352,7 +352,7 @@ files_sdk.remote_server.configuration_file(id, {
 files_sdk.remote_server.update(id, {
   "aws_access_key": "example",
   "wasabi_access_key": "example",
-  "reset_authentication": True,
+  "reset_authentication": False,
   "hostname": "remote-server.com",
   "name": "My Remote server",
   "max_connections": 1,
@@ -529,7 +529,7 @@ remote_server = files_sdk.remote_server.find(id)
 remote_server.update({
   "aws_access_key": "example",
   "wasabi_access_key": "example",
-  "reset_authentication": True,
+  "reset_authentication": False,
   "hostname": "remote-server.com",
   "name": "My Remote server",
   "max_connections": 1,

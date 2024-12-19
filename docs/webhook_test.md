@@ -41,9 +41,9 @@ files_sdk.webhook_test.create({
   "headers": {"x-test-header":"testvalue"},
   "body": {"test-param":"testvalue"},
   "raw_body": "test body",
-  "file_as_body": True,
+  "file_as_body": False,
   "file_form_field": "upload_file_data",
-  "use_dedicated_ips": True
+  "use_dedicated_ips": False
 })
 ```
 

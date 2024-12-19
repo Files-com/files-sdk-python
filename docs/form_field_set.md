@@ -82,9 +82,9 @@ files_sdk.form_field_set.find(id)
 files_sdk.form_field_set.create({
   "user_id": 1,
   "title": "Sample Form Title",
-  "skip_email": True,
-  "skip_name": True,
-  "skip_company": True,
+  "skip_email": False,
+  "skip_name": False,
+  "skip_company": False,
   "form_fields": [{"label":"Sample Label","required":True,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]
 })
 ```
@@ -106,9 +106,9 @@ files_sdk.form_field_set.create({
 ```
 files_sdk.form_field_set.update(id, {
   "title": "Sample Form Title",
-  "skip_email": True,
-  "skip_name": True,
-  "skip_company": True,
+  "skip_email": False,
+  "skip_name": False,
+  "skip_company": False,
   "form_fields": [{"id":1,"label":"Sample Label","required":True,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]
 })
 ```
@@ -144,9 +144,9 @@ files_sdk.form_field_set.delete(id)
 form_field_set = files_sdk.form_field_set.find(id)
 form_field_set.update({
   "title": "Sample Form Title",
-  "skip_email": True,
-  "skip_name": True,
-  "skip_company": True,
+  "skip_email": False,
+  "skip_name": False,
+  "skip_company": False,
   "form_fields": [{"id":1,"label":"Sample Label","required":True,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]
 })
 ```

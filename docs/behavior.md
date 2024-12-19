@@ -67,7 +67,7 @@ files_sdk.behavior.find(id)
 
 ```
 files_sdk.behavior.list_for(path, {
-  "ancestor_behaviors": True
+  "ancestor_behaviors": False
 })
 ```
 
@@ -89,8 +89,8 @@ files_sdk.behavior.list_for(path, {
 ```
 files_sdk.behavior.create({
   "value": "{\"method\": \"GET\"}",
-  "disable_parent_folder_behavior": True,
-  "recursive": True,
+  "disable_parent_folder_behavior": False,
+  "recursive": False,
   "name": "example",
   "description": "example",
   "path": "path",
@@ -141,11 +141,11 @@ files_sdk.behavior.webhook_test({
 ```
 files_sdk.behavior.update(id, {
   "value": "{\"method\": \"GET\"}",
-  "disable_parent_folder_behavior": True,
-  "recursive": True,
+  "disable_parent_folder_behavior": False,
+  "recursive": False,
   "name": "example",
   "description": "example",
-  "attachment_delete": True
+  "attachment_delete": False
 })
 ```
 
@@ -182,11 +182,11 @@ files_sdk.behavior.delete(id)
 behavior = files_sdk.behavior.find(id)
 behavior.update({
   "value": "{\"method\": \"GET\"}",
-  "disable_parent_folder_behavior": True,
-  "recursive": True,
+  "disable_parent_folder_behavior": False,
+  "recursive": False,
   "name": "example",
   "description": "example",
-  "attachment_delete": True
+  "attachment_delete": False
 })
 ```
 

@@ -32,7 +32,7 @@
 ```
 files_sdk.permission.list({
   "path": "example",
-  "include_groups": True,
+  "include_groups": False,
   "group_id": 1,
   "user_id": 1
 })
@@ -60,7 +60,7 @@ files_sdk.permission.create({
   "path": "path",
   "group_id": 1,
   "permission": "full",
-  "recursive": True,
+  "recursive": False,
   "user_id": 1,
   "username": "user",
   "group_name": "example"

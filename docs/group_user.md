@@ -47,7 +47,7 @@ files_sdk.group_user.list({
 files_sdk.group_user.create({
   "group_id": 1,
   "user_id": 1,
-  "admin": True
+  "admin": False
 })
 ```
 
@@ -66,7 +66,7 @@ files_sdk.group_user.create({
 files_sdk.group_user.update(id, {
   "group_id": 1,
   "user_id": 1,
-  "admin": True
+  "admin": False
 })
 ```
 
@@ -105,7 +105,7 @@ group_user = files_sdk.group_user.list.first
 group_user.update({
   "group_id": 1,
   "user_id": 1,
-  "admin": True
+  "admin": False
 })
 ```
 

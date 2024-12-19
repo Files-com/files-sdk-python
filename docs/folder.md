@@ -95,9 +95,9 @@
 ```
 files_sdk.folder.list_for(path, {
   "search": "some-partial-filename",
-  "search_all": True,
-  "with_previews": True,
-  "with_priority_color": True
+  "search_all": False,
+  "with_previews": False,
+  "with_priority_color": False
 })
 ```
 
@@ -120,7 +120,7 @@ files_sdk.folder.list_for(path, {
 
 ```
 files_sdk.folder.create(path, {
-  "mkdir_parents": True,
+  "mkdir_parents": False,
   "provided_mtime": "2000-01-01T01:00:00Z"
 })
 ```

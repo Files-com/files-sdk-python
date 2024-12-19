@@ -51,7 +51,7 @@ files_sdk.bundle_recipient.create({
   "name": "John Smith",
   "company": "Acme Ltd",
   "note": "Just a note.",
-  "share_after_create": True
+  "share_after_create": False
 })
 ```
 

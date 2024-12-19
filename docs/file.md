@@ -102,8 +102,8 @@
 
 ```
 files_sdk.file.download(path, {
-  "with_previews": True,
-  "with_priority_color": True
+  "with_previews": False,
+  "with_priority_color": False
 })
 ```
 
@@ -123,13 +123,13 @@ files_sdk.file.download(path, {
 ```
 files_sdk.file.create(path, {
   "length": 1,
-  "mkdir_parents": True,
+  "mkdir_parents": False,
   "part": 1,
   "parts": 1,
   "provided_mtime": "2000-01-01T01:00:00Z",
   "restart": 1,
   "size": 1,
-  "with_rename": True
+  "with_rename": False
 })
 ```
 
@@ -177,7 +177,7 @@ files_sdk.file.update(path, {
 
 ```
 files_sdk.file.delete(path, {
-  "recursive": True
+  "recursive": False
 })
 ```
 
@@ -193,8 +193,8 @@ files_sdk.file.delete(path, {
 
 ```
 files_sdk.file.find(path, {
-  "with_previews": True,
-  "with_priority_color": True
+  "with_previews": False,
+  "with_priority_color": False
 })
 ```
 
@@ -213,8 +213,8 @@ files_sdk.file.find(path, {
 ```
 files_sdk.file.copy(path, {
   "destination": "destination",
-  "structure": True,
-  "overwrite": True
+  "structure": False,
+  "overwrite": False
 })
 ```
 
@@ -233,7 +233,7 @@ files_sdk.file.copy(path, {
 ```
 files_sdk.file.move(path, {
   "destination": "destination",
-  "overwrite": True
+  "overwrite": False
 })
 ```
 
@@ -250,13 +250,13 @@ files_sdk.file.move(path, {
 
 ```
 files_sdk.file.begin_upload(path, {
-  "mkdir_parents": True,
+  "mkdir_parents": False,
   "part": 1,
   "parts": 1,
   "ref": "upload-1",
   "restart": 1,
   "size": 1,
-  "with_rename": True
+  "with_rename": False
 })
 ```
 
@@ -279,8 +279,8 @@ files_sdk.file.begin_upload(path, {
 ```
 file = files_sdk.file.find(path)
 file.download({
-  "with_previews": True,
-  "with_priority_color": True
+  "with_previews": False,
+  "with_priority_color": False
 })
 ```
 
@@ -321,7 +321,7 @@ file.update({
 ```
 file = files_sdk.file.find(path)
 file.delete({
-  "recursive": True
+  "recursive": False
 })
 ```
 
@@ -339,8 +339,8 @@ file.delete({
 file = files_sdk.file.find(path)
 file.copy({
   "destination": "destination",
-  "structure": True,
-  "overwrite": True
+  "structure": False,
+  "overwrite": False
 })
 ```
 
@@ -360,7 +360,7 @@ file.copy({
 file = files_sdk.file.find(path)
 file.move({
   "destination": "destination",
-  "overwrite": True
+  "overwrite": False
 })
 ```
 
@@ -378,13 +378,13 @@ file.move({
 ```
 file = files_sdk.file.find(path)
 file.begin_upload({
-  "mkdir_parents": True,
+  "mkdir_parents": False,
   "part": 1,
   "parts": 1,
   "ref": "upload-1",
   "restart": 1,
   "size": 1,
-  "with_rename": True
+  "with_rename": False
 })
 ```
 

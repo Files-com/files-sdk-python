@@ -39,7 +39,7 @@
 
 ```
 files_sdk.lock.list_for(path, {
-  "include_children": True
+  "include_children": False
 })
 ```
 
@@ -57,8 +57,8 @@ files_sdk.lock.list_for(path, {
 
 ```
 files_sdk.lock.create(path, {
-  "allow_access_by_any_user": True,
-  "exclusive": True,
+  "allow_access_by_any_user": False,
+  "exclusive": False,
   "recursive": True,
   "timeout": 1
 })

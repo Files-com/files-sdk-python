@@ -159,7 +159,7 @@
 
 ```
 files_sdk.user.list({
-  "include_parent_site_users": True
+  "include_parent_site_users": False
 })
 ```
 
@@ -198,18 +198,18 @@ files_sdk.user.find(id)
 
 ```
 files_sdk.user.create({
-  "avatar_delete": True,
+  "avatar_delete": False,
   "email": "example",
   "group_id": 1,
   "group_ids": "example",
-  "announcements_read": True,
+  "announcements_read": False,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "attachments_permission": True,
   "authenticate_until": "2000-01-01T01:00:00Z",
   "authentication_method": "password",
-  "billing_permission": True,
-  "bypass_inactive_disable": True,
-  "bypass_site_allowed_ips": True,
+  "billing_permission": False,
+  "bypass_inactive_disable": False,
+  "bypass_site_allowed_ips": False,
   "dav_permission": True,
   "disabled": True,
   "ftp_permission": True,
@@ -337,18 +337,18 @@ files_sdk.user.user_2fa_reset(id)
 
 ```
 files_sdk.user.update(id, {
-  "avatar_delete": True,
+  "avatar_delete": False,
   "email": "example",
   "group_id": 1,
   "group_ids": "example",
-  "announcements_read": True,
+  "announcements_read": False,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "attachments_permission": True,
   "authenticate_until": "2000-01-01T01:00:00Z",
   "authentication_method": "password",
-  "billing_permission": True,
-  "bypass_inactive_disable": True,
-  "bypass_site_allowed_ips": True,
+  "billing_permission": False,
+  "bypass_inactive_disable": False,
+  "bypass_site_allowed_ips": False,
   "dav_permission": True,
   "disabled": True,
   "ftp_permission": True,
@@ -494,18 +494,18 @@ user.user_2fa_reset()
 ```
 user = files_sdk.user.find(id)
 user.update({
-  "avatar_delete": True,
+  "avatar_delete": False,
   "email": "example",
   "group_id": 1,
   "group_ids": "example",
-  "announcements_read": True,
+  "announcements_read": False,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "attachments_permission": True,
   "authenticate_until": "2000-01-01T01:00:00Z",
   "authentication_method": "password",
-  "billing_permission": True,
-  "bypass_inactive_disable": True,
-  "bypass_site_allowed_ips": True,
+  "billing_permission": False,
+  "bypass_inactive_disable": False,
+  "bypass_site_allowed_ips": False,
   "dav_permission": True,
   "disabled": True,
   "ftp_permission": True,

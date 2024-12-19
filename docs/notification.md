@@ -66,7 +66,7 @@
 
 ```
 files_sdk.notification.list({
-  "include_ancestors": True,
+  "include_ancestors": False,
   "group_id": 1
 })
 ```
@@ -103,13 +103,13 @@ files_sdk.notification.find(id)
 ```
 files_sdk.notification.create({
   "user_id": 1,
-  "notify_on_copy": True,
+  "notify_on_copy": False,
   "notify_on_delete": True,
   "notify_on_download": True,
   "notify_on_move": True,
   "notify_on_upload": True,
-  "notify_user_actions": True,
-  "recursive": True,
+  "notify_user_actions": False,
+  "recursive": False,
   "send_interval": "daily",
   "message": "custom notification email message",
   "triggering_filenames": ["*.jpg","notify_file.txt"],
@@ -148,13 +148,13 @@ files_sdk.notification.create({
 
 ```
 files_sdk.notification.update(id, {
-  "notify_on_copy": True,
+  "notify_on_copy": False,
   "notify_on_delete": True,
   "notify_on_download": True,
   "notify_on_move": True,
   "notify_on_upload": True,
-  "notify_user_actions": True,
-  "recursive": True,
+  "notify_user_actions": False,
+  "recursive": False,
   "send_interval": "daily",
   "message": "custom notification email message",
   "triggering_filenames": ["*.jpg","notify_file.txt"],
@@ -202,13 +202,13 @@ files_sdk.notification.delete(id)
 ```
 notification = files_sdk.notification.find(id)
 notification.update({
-  "notify_on_copy": True,
+  "notify_on_copy": False,
   "notify_on_delete": True,
   "notify_on_download": True,
   "notify_on_move": True,
   "notify_on_upload": True,
-  "notify_user_actions": True,
-  "recursive": True,
+  "notify_user_actions": False,
+  "recursive": False,
   "send_interval": "daily",
   "message": "custom notification email message",
   "triggering_filenames": ["*.jpg","notify_file.txt"],

@@ -29,7 +29,7 @@
 
 ```
 files_sdk.request.list({
-  "mine": True,
+  "mine": False,
   "path": "example"
 })
 ```
@@ -49,7 +49,7 @@ files_sdk.request.list({
 
 ```
 files_sdk.request.get_folder(path, {
-  "mine": True
+  "mine": False
 })
 ```
 
