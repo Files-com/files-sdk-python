@@ -155,7 +155,7 @@ files_sdk.open_timeout = 60
 
 #### Read Timeout
 
-Read timeout in seconds. The default value is 80.
+Read timeout in seconds. The default value is 60.
 
 ```python title="Example setting"
 files_sdk.read_timeout = 90
