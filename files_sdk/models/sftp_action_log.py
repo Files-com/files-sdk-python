@@ -28,6 +28,7 @@ class SftpActionLog:
         "md5": None,  # string - MD5 Hash of the file. Not always available.
         "size": None,  # int64 - Size of File That was Uploaded or Downloaded.
         "data_length": None,  # int64 - Data Length in Bytes. Present for actions that transfer data.
+        "bytes_transferred": None,  # int64 - The number of bytes transferred for uploads and downloads.
         "entries_returned": None,  # int64 - Number of entries returned when listing files and folders
         "success": None,  # boolean - Whether SFTP Action was successful.
         "status": None,  # string - SFTP Action status.
