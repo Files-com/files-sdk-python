@@ -459,6 +459,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`DestinationFolderLimitedError`|  `ProcessingFailureError` |
 |`DestinationParentConflictError`|  `ProcessingFailureError` |
 |`DestinationParentDoesNotExistError`|  `ProcessingFailureError` |
+|`ExceededRuntimeLimitError`|  `ProcessingFailureError` |
 |`ExpiredPrivateKeyError`|  `ProcessingFailureError` |
 |`ExpiredPublicKeyError`|  `ProcessingFailureError` |
 |`ExportFailureError`|  `ProcessingFailureError` |
