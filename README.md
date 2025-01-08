@@ -55,6 +55,8 @@ access to the entire API. If the user is not an administrator, you will only be 
 that user can access, and no access will be granted to site administration functions in the API.
 
 ```python title="Example Request"
+import files_sdk
+
 files_sdk.set_api_key("YOUR_API_KEY")
 
 ## Alternatively, you can specify the API key on a per-request basis in the final parameter to any method or initializer.
@@ -83,6 +85,8 @@ password.
 This returns a session object that can be used to authenticate SDK method calls.
 
 ```python title="Example Request"
+import files_sdk
+
 session = files_sdk.session.create({ "username": "motor", "password": "vroom" })
 ```
 
@@ -91,6 +95,8 @@ session = files_sdk.session.create({ "username": "motor", "password": "vroom" })
 Once a session has been created, you can store the session globally, use the session per object, or use the session per request to authenticate SDK operations.
 
 ```python title="Example Request"
+import files_sdk
+
 ## You may set the returned session to be used by default for subsequent requests.
 files_sdk.set_session(session)
 
@@ -111,7 +117,7 @@ session.destroy()
 
 ## Configuration
 
-Global configuration is performed by setting atttributes on the `files_sdk` object.
+Global configuration is performed by setting attributes on the `files_sdk` object.
 
 ### Configuration Options
 
@@ -121,6 +127,8 @@ Setting the base URL for the API is required if your site is configured to disab
 This can also be set to use a mock server in development or CI.
 
 ```python title="Example setting"
+import files_sdk
+
 files_sdk.base_url = "https://SUBDOMAIN.files.com"
 ```
 
@@ -132,6 +140,7 @@ object in the standard manner as shown below:
 
 ```python title="Example setting"
 import logging
+
 logging.getLogger("files_sdk")
 ```
 
@@ -146,6 +155,8 @@ Allowed values are:
 * "debug"
 
 ```python title="Example setting"
+import files_sdk
+
 files_sdk.console_log_level = "info"
 ```
 
@@ -154,6 +165,8 @@ files_sdk.console_log_level = "info"
 Open timeout in seconds. The default value is 30.
 
 ```python title="Example setting"
+import files_sdk
+
 files_sdk.open_timeout = 60
 ```
 
@@ -162,6 +175,8 @@ files_sdk.open_timeout = 60
 Read timeout in seconds. The default value is 60.
 
 ```python title="Example setting"
+import files_sdk
+
 files_sdk.read_timeout = 90
 ```
 
@@ -170,6 +185,8 @@ files_sdk.read_timeout = 90
 Initial retry delay in seconds. The default value is 0.5.
 
 ```python title="Example setting"
+import files_sdk
+
 files_sdk.initial_network_retry_delay = 1
 ```
 
@@ -178,6 +195,8 @@ files_sdk.initial_network_retry_delay = 1
 Maximum network retry delay in seconds. The default value is 2.
 
 ```python title="Example setting"
+import files_sdk
+
 files_sdk.max_network_retry_delay = 5
 ```
 
@@ -186,6 +205,8 @@ files_sdk.max_network_retry_delay = 5
 Maximum number of retries. The default value is 3.
 
 ```python title="Example setting"
+import files_sdk
+
 files_sdk.max_network_retries = 5
 ```
 
@@ -194,6 +215,8 @@ files_sdk.max_network_retries = 5
 Configure the local IP address from which to send requests.
 
 ```python title="Example setting"
+import files_sdk
+
 files_sdk.source_ip = '10.1.2.3'
 ```
 
@@ -213,8 +236,9 @@ The argument value is a Python dictionary that has a key of the resource field n
 value of either ```"asc"``` or ```"desc"``` to specify the sort order.
 
 ```python title="Sort Example"
+import files_sdk
+
 ## users sorted by username
-files_sdk.set_api_key("my-key")
 users = files_sdk.user.list({
   "sort_by": { "username": "asc"}
 })
@@ -246,8 +270,9 @@ filter on and a passed in value to use in the filter comparison.
 | `filter_lteq` | Range | Find resources that have a field value that is less than or equal to the passed in value.  (i.e., FIELD_VALUE \<= PASS_IN_VALUE). |
 
 ```python title="Exact Filter Example"
+import files_sdk
+
 ## non admin users
-files_sdk.set_api_key("my-key")
 users = files_sdk.user.list({
   "filter": { "not_site_admin": true}
 })
@@ -256,8 +281,9 @@ for user in users.auto_paging_iter():
 ```
 
 ```python title="Range Filter Example"
+import files_sdk
+
 ## users who haven't logged in since 2024-01-01
-files_sdk.set_api_key("my-key")
 users = files_sdk.user.list({
   "filter_gteq": { "last_login_at": "2024-01-01" }
 })
@@ -266,8 +292,9 @@ for user in users.auto_paging_iter():
 ```
 
 ```python title="Pattern Filter Example"
+import files_sdk
+
 ## users whose usernames start with 'test'
-files_sdk.set_api_key("my-key")
 users = files_sdk.user.list({
   "filter_prefix": { "username": "test" }
 })
@@ -276,8 +303,9 @@ for user in users.auto_paging_iter():
 ```
 
 ```python title="Combination Filter with Sort Example"
+import files_sdk
+
 ## users whose usernames start with 'test' and are not admins
-files_sdk.set_api_key("my-key")
 users = files_sdk.user.list({
   "filter_prefix": { "username": "test" },
   "filter": { "not_site_admin": "true" },
@@ -304,6 +332,8 @@ Use standard Python exception handling to detect and deal with errors.  It is ge
 handle the general `files_sdk.error.Error` exception as a catch-all.
 
 ```python title="Example Error Handling"
+import files_sdk
+
 try:
   session = files_sdk.session.create({ "username": "USERNAME", "password": "BADPASSWORD" })
 except files_sdk.error.NotAuthenticatedError as err:
@@ -525,6 +555,8 @@ when handling errors related to duplicate file names and when developing tools f
 synchronization.
 
 ```python title="Compare Case-Insensitive Files and Paths"
+import files_sdk
+
 if files_sdk.path_util.is_same("Fïłèńämê.Txt", "filename.txt"):
     print("Paths are the same")
 ```
