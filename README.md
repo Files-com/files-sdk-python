@@ -60,7 +60,12 @@ import files_sdk
 files_sdk.set_api_key("YOUR_API_KEY")
 
 ## Alternatively, you can specify the API key on a per-request basis in the final parameter to any method or initializer.
-files_sdk.user.list(params, {"api_key": "YOUR_API_KEY"})
+try:
+  files_sdk.user.list(params, {"api_key": "YOUR_API_KEY"})
+except files_sdk.error.NotAuthenticatedError as err:
+  print(f"Authentication Error Occurred ({type(err).__name__}):", err)
+except files_sdk.error.Error as err:
+  print(f"Unknown Error Occurred ({type(err).__name__}):", err)
 ```
 
 Don't forget to replace the placeholder, `YOUR_API_KEY`, with your actual API key.
@@ -87,7 +92,12 @@ This returns a session object that can be used to authenticate SDK method calls.
 ```python title="Example Request"
 import files_sdk
 
-session = files_sdk.session.create({ "username": "motor", "password": "vroom" })
+try:
+  session = files_sdk.session.create({ "username": "motor", "password": "vroom" })
+except files_sdk.error.NotAuthenticatedError as err:
+  print(f"Authentication Error Occurred ({type(err).__name__}):", err)
+except files_sdk.error.Error as err:
+  print(f"Unknown Error Occurred ({type(err).__name__}):", err)
 ```
 
 #### Using a Session
@@ -100,11 +110,16 @@ import files_sdk
 ## You may set the returned session to be used by default for subsequent requests.
 files_sdk.set_session(session)
 
-## Alternatively, you can specify the session ID on a per-object basis in the second parameter to a model constructor.
-user = files_sdk.user.User(params, {"session_id": session.id})
+try:
+  # Alternatively, you can specify the session ID on a per-object basis in the second parameter to a model constructor.
+  user = files_sdk.user.User(params, {"session_id": session.id})
 
-## You may also specify the session ID on a per-request basis in the final parameter to static methods.
-files_sdk.user.find(id, params, {"session_id": session.id})
+  # You may also specify the session ID on a per-request basis in the final parameter to static methods.
+  files_sdk.user.find(id, params, {"session_id": session.id})
+except files_sdk.error.NotAuthenticatedError as err:
+  print(f"Authentication Error Occurred ({type(err).__name__}):", err)
+except files_sdk.error.Error as err:
+  print(f"Unknown Error Occurred ({type(err).__name__}):", err)
 ```
 
 #### Logging Out
@@ -238,12 +253,17 @@ value of either ```"asc"``` or ```"desc"``` to specify the sort order.
 ```python title="Sort Example"
 import files_sdk
 
-## users sorted by username
-users = files_sdk.user.list({
-  "sort_by": { "username": "asc"}
-})
-for user in users.auto_paging_iter():
-  # Operate on user
+try:
+  # users sorted by username
+  users = files_sdk.user.list({
+    "sort_by": { "username": "asc" }
+  })
+  for user in users.auto_paging_iter():
+    # Operate on user
+except files_sdk.error.NotAuthenticatedError as err:
+  print(f"Authentication Error Occurred ({type(err).__name__}):", err)
+except files_sdk.error.Error as err:
+  print(f"Unknown Error Occurred ({type(err).__name__}):", err)
 ```
 
 ### Filtering
@@ -272,47 +292,67 @@ filter on and a passed in value to use in the filter comparison.
 ```python title="Exact Filter Example"
 import files_sdk
 
-## non admin users
-users = files_sdk.user.list({
-  "filter": { "not_site_admin": true}
-})
-for user in users.auto_paging_iter():
-  # Operate on user
+try:
+  # non admin users
+  users = files_sdk.user.list({
+    "filter": { "not_site_admin": true }
+  })
+  for user in users.auto_paging_iter():
+    # Operate on user
+except files_sdk.error.NotAuthenticatedError as err:
+  print(f"Authentication Error Occurred ({type(err).__name__}):", err)
+except files_sdk.error.Error as err:
+  print(f"Unknown Error Occurred ({type(err).__name__}):", err)
 ```
 
 ```python title="Range Filter Example"
 import files_sdk
 
-## users who haven't logged in since 2024-01-01
-users = files_sdk.user.list({
-  "filter_gteq": { "last_login_at": "2024-01-01" }
-})
-for user in users.auto_paging_iter():
-  # Operate on user
+try:
+  # users who haven't logged in since 2024-01-01
+  users = files_sdk.user.list({
+    "filter_gteq": { "last_login_at": "2024-01-01" }
+  })
+  for user in users.auto_paging_iter():
+    # Operate on user
+except files_sdk.error.NotAuthenticatedError as err:
+  print(f"Authentication Error Occurred ({type(err).__name__}):", err)
+except files_sdk.error.Error as err:
+  print(f"Unknown Error Occurred ({type(err).__name__}):", err)
 ```
 
 ```python title="Pattern Filter Example"
 import files_sdk
 
-## users whose usernames start with 'test'
-users = files_sdk.user.list({
-  "filter_prefix": { "username": "test" }
-})
-for user in users.auto_paging_iter():
-  # Operate on user
+try:
+  # users whose usernames start with 'test'
+  users = files_sdk.user.list({
+    "filter_prefix": { "username": "test" }
+  })
+  for user in users.auto_paging_iter():
+    # Operate on user
+except files_sdk.error.NotAuthenticatedError as err:
+  print(f"Authentication Error Occurred ({type(err).__name__}):", err)
+except files_sdk.error.Error as err:
+  print(f"Unknown Error Occurred ({type(err).__name__}):", err)
 ```
 
 ```python title="Combination Filter with Sort Example"
 import files_sdk
 
-## users whose usernames start with 'test' and are not admins
-users = files_sdk.user.list({
-  "filter_prefix": { "username": "test" },
-  "filter": { "not_site_admin": "true" },
-  "sort_by": { "username": "asc"}
-})
-for user in users.auto_paging_iter():
-  # Operate on user
+try:
+  # users whose usernames start with 'test' and are not admins
+  users = files_sdk.user.list({
+    "filter_prefix": { "username": "test" },
+    "filter": { "not_site_admin": "true" },
+    "sort_by": { "username": "asc" }
+  })
+  for user in users.auto_paging_iter():
+    # Operate on user
+except files_sdk.error.NotAuthenticatedError as err:
+  print(f"Authentication Error Occurred ({type(err).__name__}):", err)
+except files_sdk.error.Error as err:
+  print(f"Unknown Error Occurred ({type(err).__name__}):", err)
 ```
 
 ## Errors
@@ -337,9 +377,9 @@ import files_sdk
 try:
   session = files_sdk.session.create({ "username": "USERNAME", "password": "BADPASSWORD" })
 except files_sdk.error.NotAuthenticatedError as err:
-    print(f"Authentication Error Occurred ({type(err).__name__}):", err)
+  print(f"Authentication Error Occurred ({type(err).__name__}):", err)
 except files_sdk.error.Error as err:
-    print(f"Unknown Error Occurred ({type(err).__name__}):", err)
+  print(f"Unknown Error Occurred ({type(err).__name__}):", err)
 ```
 
 ### Error Types
