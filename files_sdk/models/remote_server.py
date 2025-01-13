@@ -50,6 +50,7 @@ class RemoteServer:
         "azure_blob_storage_hierarchical_namespace": None,  # boolean - Enable when storage account has hierarchical namespace feature enabled
         "azure_files_storage_account": None,  # string - Azure File Storage Account name
         "azure_files_storage_share_name": None,  # string - Azure File Storage Share name
+        "azure_files_storage_dns_suffix": None,  # string - Custom DNS suffix
         "s3_compatible_bucket": None,  # string - S3-compatible Bucket name
         "s3_compatible_endpoint": None,  # string - S3-compatible endpoint
         "s3_compatible_region": None,  # string - S3-compatible endpoint
@@ -238,6 +239,7 @@ class RemoteServer:
     #   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
     #   azure_files_storage_account - string - Azure File Storage Account name
     #   azure_files_storage_share_name - string - Azure File Storage Share name
+    #   azure_files_storage_dns_suffix - string - Custom DNS suffix
     #   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
     #   s3_compatible_bucket - string - S3-compatible Bucket name
     #   s3_compatible_endpoint - string - S3-compatible endpoint
@@ -492,6 +494,12 @@ class RemoteServer:
         ):
             raise InvalidParameterError(
                 "Bad parameter: azure_files_storage_share_name must be an str"
+            )
+        if "azure_files_storage_dns_suffix" in params and not isinstance(
+            params["azure_files_storage_dns_suffix"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_files_storage_dns_suffix must be an str"
             )
         if "azure_files_storage_sas_token" in params and not isinstance(
             params["azure_files_storage_sas_token"], str
@@ -773,6 +781,7 @@ def find_configuration_file(id, params=None, options=None):
 #   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
 #   azure_files_storage_account - string - Azure File Storage Account name
 #   azure_files_storage_share_name - string - Azure File Storage Share name
+#   azure_files_storage_dns_suffix - string - Custom DNS suffix
 #   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
@@ -1003,6 +1012,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: azure_files_storage_share_name must be an str"
+        )
+    if "azure_files_storage_dns_suffix" in params and not isinstance(
+        params["azure_files_storage_dns_suffix"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: azure_files_storage_dns_suffix must be an str"
         )
     if "azure_files_storage_sas_token" in params and not isinstance(
         params["azure_files_storage_sas_token"], str
@@ -1243,6 +1258,7 @@ def configuration_file(id, params=None, options=None):
 #   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
 #   azure_files_storage_account - string - Azure File Storage Account name
 #   azure_files_storage_share_name - string - Azure File Storage Share name
+#   azure_files_storage_dns_suffix - string - Custom DNS suffix
 #   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
 #   s3_compatible_bucket - string - S3-compatible Bucket name
 #   s3_compatible_endpoint - string - S3-compatible endpoint
@@ -1476,6 +1492,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: azure_files_storage_share_name must be an str"
+        )
+    if "azure_files_storage_dns_suffix" in params and not isinstance(
+        params["azure_files_storage_dns_suffix"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: azure_files_storage_dns_suffix must be an str"
         )
     if "azure_files_storage_sas_token" in params and not isinstance(
         params["azure_files_storage_sas_token"], str
