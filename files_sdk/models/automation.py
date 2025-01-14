@@ -32,6 +32,8 @@ class Automation:
         "path": None,  # string - Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "path_time_zone": None,  # string - Timezone to use when rendering timestamps in paths.
         "recurring_day": None,  # int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+        "retry_on_failure_interval_in_minutes": None,  # int64 - If the Automation fails, retry at this interval (in minutes).
+        "retry_on_failure_number_of_attempts": None,  # int64 - If the Automation fails, retry at most this many times.
         "schedule": None,  # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run in json format.
         "human_readable_schedule": None,  # string - If trigger is `custom_schedule`, Human readable Custom schedule description for when the automation should be run.
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
@@ -110,6 +112,8 @@ class Automation:
     #   name - string - Name for this automation.
     #   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
     #   path_time_zone - string - Timezone to use when rendering timestamps in paths.
+    #   retry_on_failure_interval_in_minutes - int64 - If the Automation fails, retry at this interval (in minutes).
+    #   retry_on_failure_number_of_attempts - int64 - If the Automation fails, retry at most this many times.
     #   trigger - string - How this automation is triggered to run.
     #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
     #   value - object - A Hash of attributes specific to the automation type.
@@ -208,6 +212,21 @@ class Automation:
         ):
             raise InvalidParameterError(
                 "Bad parameter: path_time_zone must be an str"
+            )
+        if (
+            "retry_on_failure_interval_in_minutes" in params
+            and not isinstance(
+                params["retry_on_failure_interval_in_minutes"], int
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: retry_on_failure_interval_in_minutes must be an int"
+            )
+        if "retry_on_failure_number_of_attempts" in params and not isinstance(
+            params["retry_on_failure_number_of_attempts"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: retry_on_failure_number_of_attempts must be an int"
             )
         if "trigger" in params and not isinstance(params["trigger"], str):
             raise InvalidParameterError(
@@ -359,6 +378,8 @@ def get(id, params=None, options=None):
 #   name - string - Name for this automation.
 #   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 #   path_time_zone - string - Timezone to use when rendering timestamps in paths.
+#   retry_on_failure_interval_in_minutes - int64 - If the Automation fails, retry at this interval (in minutes).
+#   retry_on_failure_number_of_attempts - int64 - If the Automation fails, retry at most this many times.
 #   trigger - string - How this automation is triggered to run.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 #   value - object - A Hash of attributes specific to the automation type.
@@ -441,6 +462,18 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: path_time_zone must be an str"
         )
+    if "retry_on_failure_interval_in_minutes" in params and not isinstance(
+        params["retry_on_failure_interval_in_minutes"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: retry_on_failure_interval_in_minutes must be an int"
+        )
+    if "retry_on_failure_number_of_attempts" in params and not isinstance(
+        params["retry_on_failure_number_of_attempts"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: retry_on_failure_number_of_attempts must be an int"
+        )
     if "trigger" in params and not isinstance(params["trigger"], str):
         raise InvalidParameterError("Bad parameter: trigger must be an str")
     if "trigger_actions" in params and not isinstance(
@@ -510,6 +543,8 @@ def manual_run(id, params=None, options=None):
 #   name - string - Name for this automation.
 #   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 #   path_time_zone - string - Timezone to use when rendering timestamps in paths.
+#   retry_on_failure_interval_in_minutes - int64 - If the Automation fails, retry at this interval (in minutes).
+#   retry_on_failure_number_of_attempts - int64 - If the Automation fails, retry at most this many times.
 #   trigger - string - How this automation is triggered to run.
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 #   value - object - A Hash of attributes specific to the automation type.
@@ -594,6 +629,18 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: path_time_zone must be an str"
+        )
+    if "retry_on_failure_interval_in_minutes" in params and not isinstance(
+        params["retry_on_failure_interval_in_minutes"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: retry_on_failure_interval_in_minutes must be an int"
+        )
+    if "retry_on_failure_number_of_attempts" in params and not isinstance(
+        params["retry_on_failure_number_of_attempts"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: retry_on_failure_number_of_attempts must be an int"
         )
     if "trigger" in params and not isinstance(params["trigger"], str):
         raise InvalidParameterError("Bad parameter: trigger must be an str")
