@@ -8,9 +8,10 @@
   "automation_id": 1,
   "completed_at": "2000-01-01T01:00:00Z",
   "created_at": "2000-01-01T01:00:00Z",
+  "retry_at": "example",
   "retried_at": "2000-01-01T01:00:00Z",
-  "retry_of_run_id": 1,
   "retried_in_run_id": 1,
+  "retry_of_run_id": 1,
   "runtime": 1.0,
   "status": "success",
   "successful_operations": 1,
@@ -23,9 +24,10 @@
 * `automation_id` (int64): ID of the associated Automation.
 * `completed_at` (date-time): Automation run completion/failure date/time.
 * `created_at` (date-time): Automation run start date/time.
+* `retry_at` (string): If set, this automation will be retried at this date/time due to `failure` or `partial_failure`.
 * `retried_at` (date-time): If set, this Automation run was retried due to `failure` or `partial_failure`.
-* `retry_of_run_id` (int64): ID of the original run that this run is retrying.
 * `retried_in_run_id` (int64): ID of the run that is or will be retrying this run.
+* `retry_of_run_id` (int64): ID of the original run that this run is retrying.
 * `runtime` (double): Automation run runtime.
 * `status` (string): The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
 * `successful_operations` (int64): Count of successful operations.

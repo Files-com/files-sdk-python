@@ -14,9 +14,10 @@ class AutomationRun:
         "automation_id": None,  # int64 - ID of the associated Automation.
         "completed_at": None,  # date-time - Automation run completion/failure date/time.
         "created_at": None,  # date-time - Automation run start date/time.
+        "retry_at": None,  # string - If set, this automation will be retried at this date/time due to `failure` or `partial_failure`.
         "retried_at": None,  # date-time - If set, this Automation run was retried due to `failure` or `partial_failure`.
-        "retry_of_run_id": None,  # int64 - ID of the original run that this run is retrying.
         "retried_in_run_id": None,  # int64 - ID of the run that is or will be retrying this run.
+        "retry_of_run_id": None,  # int64 - ID of the original run that this run is retrying.
         "runtime": None,  # double - Automation run runtime.
         "status": None,  # string - The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
         "successful_operations": None,  # int64 - Count of successful operations.
