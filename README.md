@@ -584,6 +584,51 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`TrialLockedError`|  `SiteConfigurationError` |
 |`UserRequestsEnabledRequiredError`|  `SiteConfigurationError` |
 
+## {frontmatter.title}
+
+Certain API operations return lists of objects. When the number of objects in the list is large,
+the API will paginate the results.
+
+The Files.com Python SDK provides multiple ways to paginate through lists of objects.
+
+### Automatic Pagination
+
+The `auto_paging_iter` method automatically paginates and loads each page into memory.
+
+```python title="Example Request"
+import files_sdk
+
+try:
+  for item in files_sdk.folder.list_for("remote/path/to/folder").auto_paging_iter():
+    print(item.type, item.path)
+except files_sdk.error.NotAuthenticatedError as err:
+  print(f"Authentication Error Occurred ({type(err).__name__}):", err)
+except files_sdk.error.Error as err:
+  print(f"Unknown Error Occurred ({type(err).__name__}):", err)
+```
+
+### Manual Pagination
+
+The `load_next_page/has_next_page` methods allow for manual pagination and loading of each page into memory.
+
+```python title="Example Request"
+import files_sdk
+
+try:
+  list_obj = files_sdk.folder.list_for("remote/path/to/folder")
+
+  while True:
+    for item in list_obj:
+      print(item.type, item.path)
+    if not list_obj.has_next_page:
+      break
+    list_obj.load_next_page()
+except files_sdk.error.NotAuthenticatedError as err:
+  print(f"Authentication Error Occurred ({type(err).__name__}):", err)
+except files_sdk.error.Error as err:
+  print(f"Unknown Error Occurred ({type(err).__name__}):", err)
+```
+
 ## Case Sensitivity
 
 The Files.com API compares files and paths in a case-insensitive manner.
