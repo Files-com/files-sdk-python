@@ -18,6 +18,7 @@ class Permission:
         "group_name": None,  # string - Group name (if applicable)
         "permission": None,  # string - Permission type.  See the table referenced in the documentation for an explanation of each permission.
         "recursive": None,  # boolean - Recursive: does this permission apply to subfolders?
+        "site_id": None,  # int64 - Site ID
     }
 
     def __init__(self, attributes=None, options=None):
@@ -75,7 +76,7 @@ class Permission:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `group_id`, `path` or `user_id`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `group_id`, `path` or `user_id`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `group_id` or `user_id`. Valid field combinations are `[ group_id, path ]`, `[ user_id, path ]` or `[ user_id, group_id ]`.
 #   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
 #   path - string - Permission path.  If provided, will scope all permissions(including upward) to this path.
@@ -122,6 +123,7 @@ def all(params=None, options=None):
 #   user_id - int64 - User ID.  Provide `username` or `user_id`
 #   username - string - User username.  Provide `username` or `user_id`
 #   group_name - string - Group name.  Provide `group_name` or `group_id`
+#   site_id - int64 - Site ID. If not provided, will default to current site. Used when creating a permission for a child site.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -139,6 +141,8 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: username must be an str")
     if "group_name" in params and not isinstance(params["group_name"], str):
         raise InvalidParameterError("Bad parameter: group_name must be an str")
+    if "site_id" in params and not isinstance(params["site_id"], int):
+        raise InvalidParameterError("Bad parameter: site_id must be an int")
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
