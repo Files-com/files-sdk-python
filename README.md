@@ -419,6 +419,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`CantMoveWithMultipleLocationsError`|  `BadRequestError` |
 |`DatetimeParseError`|  `BadRequestError` |
 |`DestinationSameError`|  `BadRequestError` |
+|`DoesNotSupportSortingError`|  `BadRequestError` |
 |`FolderMustNotBeAFileError`|  `BadRequestError` |
 |`FoldersNotAllowedError`|  `BadRequestError` |
 |`InvalidBodyError`|  `BadRequestError` |
@@ -435,11 +436,13 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`InvalidOauthProviderError`|  `BadRequestError` |
 |`InvalidPathError`|  `BadRequestError` |
 |`InvalidReturnToUrlError`|  `BadRequestError` |
+|`InvalidSortFieldError`|  `BadRequestError` |
 |`InvalidSortFilterCombinationError`|  `BadRequestError` |
 |`InvalidUploadOffsetError`|  `BadRequestError` |
 |`InvalidUploadPartGapError`|  `BadRequestError` |
 |`InvalidUploadPartSizeError`|  `BadRequestError` |
 |`MethodNotAllowedError`|  `BadRequestError` |
+|`MultipleSortParamsNotAllowedError`|  `BadRequestError` |
 |`NoValidInputParamsError`|  `BadRequestError` |
 |`PartNumberTooLargeError`|  `BadRequestError` |
 |`PathCannotHaveTrailingWhitespaceError`|  `BadRequestError` |
@@ -448,6 +451,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`RequestParamsInvalidError`|  `BadRequestError` |
 |`RequestParamsRequiredError`|  `BadRequestError` |
 |`SearchAllOnChildPathError`|  `BadRequestError` |
+|`UnrecognizedSortIndexError`|  `BadRequestError` |
 |`UnsupportedCurrencyError`|  `BadRequestError` |
 |`UnsupportedHttpResponseFormatError`|  `BadRequestError` |
 |`UnsupportedMediaTypeError`|  `BadRequestError` |
