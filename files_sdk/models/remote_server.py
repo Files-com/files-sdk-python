@@ -41,7 +41,6 @@ class RemoteServer:
         "rackspace_username": None,  # string - Rackspace username used to login to the Rackspace Cloud Control Panel.
         "rackspace_region": None,  # string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
         "rackspace_container": None,  # string - The name of the container (top level directory) where files will sync.
-        "auth_setup_link": None,  # string - Returns link to login with an Oauth provider
         "auth_status": None,  # string - Either `in_setup` or `complete`
         "auth_account_name": None,  # string - Describes the authorized account
         "one_drive_account_type": None,  # string - Either personal or business_other account types
