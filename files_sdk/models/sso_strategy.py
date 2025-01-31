@@ -46,6 +46,7 @@ class SsoStrategy:
         "provision_time_zone": None,  # string - Default time zone for auto provisioned users.
         "provision_company": None,  # string - Default company for auto provisioned users.
         "provision_require_2fa": None,  # string - 2FA required setting for auto provisioned users.
+        "identifier": None,  # string - URL-friendly, unique identifier for Azure SAML configuration
         "ldap_base_dn": None,  # string - Base DN for looking up users in LDAP server
         "ldap_domain": None,  # string - Domain name that will be appended to LDAP usernames
         "enabled": None,  # boolean - Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
