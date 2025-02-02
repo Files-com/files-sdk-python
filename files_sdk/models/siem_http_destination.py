@@ -29,25 +29,25 @@ class SiemHttpDestination:
         "new_relic_api_key_masked": None,  # string - Applicable only for destination type: new_relic. API key provided by New Relic.
         "datadog_api_key_masked": None,  # string - Applicable only for destination type: datadog. API key provided by Datadog.
         "sftp_action_send_enabled": None,  # boolean - Whether or not sending is enabled for sftp_action logs.
-        "sftp_action_records_sent_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
+        "sftp_action_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "ftp_action_send_enabled": None,  # boolean - Whether or not sending is enabled for ftp_action logs.
-        "ftp_action_records_sent_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
+        "ftp_action_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "web_dav_action_send_enabled": None,  # boolean - Whether or not sending is enabled for web_dav_action logs.
-        "web_dav_action_records_sent_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
+        "web_dav_action_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "sync_send_enabled": None,  # boolean - Whether or not sending is enabled for sync logs.
-        "sync_records_sent_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
+        "sync_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "outbound_connection_send_enabled": None,  # boolean - Whether or not sending is enabled for outbound_connection logs.
-        "outbound_connection_records_sent_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
+        "outbound_connection_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "automation_send_enabled": None,  # boolean - Whether or not sending is enabled for automation logs.
-        "automation_records_sent_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
+        "automation_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "api_request_send_enabled": None,  # boolean - Whether or not sending is enabled for api_request logs.
-        "api_request_records_sent_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
+        "api_request_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "public_hosting_request_send_enabled": None,  # boolean - Whether or not sending is enabled for public_hosting_request logs.
-        "public_hosting_request_records_sent_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
+        "public_hosting_request_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "email_send_enabled": None,  # boolean - Whether or not sending is enabled for email logs.
-        "email_records_sent_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
+        "email_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "exavault_api_request_send_enabled": None,  # boolean - Whether or not sending is enabled for exavault_api_request logs.
-        "exavault_api_request_records_sent_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
+        "exavault_api_request_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "last_http_call_target_type": None,  # string - Type of URL that was last called. Can be `destination_url` or `azure_oauth_client_credentials_url`
         "last_http_call_success": None,  # boolean - Was the last HTTP call made successful?
         "last_http_call_response_code": None,  # int64 - Last HTTP Call Response Code
