@@ -459,6 +459,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`UserIdOnUserEndpointError`|  `BadRequestError` |
 |`UserRequiredError`|  `BadRequestError` |
 |`AdditionalAuthenticationRequiredError`|  `NotAuthenticatedError` |
+|`ApiKeySessionsNotSupportedError`|  `NotAuthenticatedError` |
 |`AuthenticationRequiredError`|  `NotAuthenticatedError` |
 |`BundleRegistrationCodeFailedError`|  `NotAuthenticatedError` |
 |`FilesAgentTokenFailedError`|  `NotAuthenticatedError` |
