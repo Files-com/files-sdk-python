@@ -556,11 +556,13 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`InvalidFilenameError`|  `ProcessingFailureError` |
 |`InvalidPriorityColorError`|  `ProcessingFailureError` |
 |`InvalidRangeError`|  `ProcessingFailureError` |
+|`InvalidSiteError`|  `ProcessingFailureError` |
 |`ModelSaveErrorError`|  `ProcessingFailureError` |
 |`MultipleProcessingErrorsError`|  `ProcessingFailureError` |
 |`PathTooLongError`|  `ProcessingFailureError` |
 |`RecipientAlreadySharedError`|  `ProcessingFailureError` |
 |`RemoteServerErrorError`|  `ProcessingFailureError` |
+|`ResourceBelongsToParentSiteError`|  `ProcessingFailureError` |
 |`ResourceLockedError`|  `ProcessingFailureError` |
 |`SubfolderLockedError`|  `ProcessingFailureError` |
 |`TwoFactorAuthenticationCodeAlreadySentError`|  `ProcessingFailureError` |
