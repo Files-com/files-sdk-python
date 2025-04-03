@@ -23,7 +23,7 @@
   "dav_permission": True,
   "disabled": True,
   "disabled_expired_or_inactive": True,
-  "email": "example",
+  "email": "john.doe@files.com",
   "first_login_at": "2000-01-01T01:00:00Z",
   "ftp_permission": True,
   "group_ids": "example",
@@ -199,7 +199,7 @@ files_sdk.user.find(id)
 ```
 files_sdk.user.create({
   "avatar_delete": False,
-  "email": "example",
+  "email": "john.doe@files.com",
   "group_id": 1,
   "group_ids": "example",
   "announcements_read": False,
@@ -338,7 +338,7 @@ files_sdk.user.user_2fa_reset(id)
 ```
 files_sdk.user.update(id, {
   "avatar_delete": False,
-  "email": "example",
+  "email": "john.doe@files.com",
   "group_id": 1,
   "group_ids": "example",
   "announcements_read": False,
@@ -495,7 +495,7 @@ user.user_2fa_reset()
 user = files_sdk.user.find(id)
 user.update({
   "avatar_delete": False,
-  "email": "example",
+  "email": "john.doe@files.com",
   "group_id": 1,
   "group_ids": "example",
   "announcements_read": False,

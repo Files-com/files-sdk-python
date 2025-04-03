@@ -11,7 +11,7 @@
   "name": "example",
   "description": "example",
   "value": {
-    "key": "example value"
+    "method": "GET"
   },
   "disable_parent_folder_behavior": True,
   "recursive": True

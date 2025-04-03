@@ -5,7 +5,7 @@
 ```
 {
   "id": 1,
-  "history_version": "example",
+  "history_version": "20201213.2",
   "start_at": "2000-01-01T01:00:00Z",
   "end_at": "2000-01-01T01:00:00Z",
   "status": "ready",

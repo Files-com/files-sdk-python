@@ -5,9 +5,9 @@
 ```
 {
   "id": 1,
-  "name": "example",
-  "fingerprint_md5": "example",
-  "fingerprint_sha256": "example"
+  "name": "My Key",
+  "fingerprint_md5": "12:7e:f8:61:78:a4:b2:c2:ee:12:51:92:25:a7:42:cc",
+  "fingerprint_sha256": "SHA256:5ANRkDpXWA+PgOquzZAG9RtQ1Bt8KXYAH2hecr7LQk8"
 }
 ```
 
@@ -51,7 +51,7 @@ files_sdk.sftp_host_key.find(id)
 
 ```
 files_sdk.sftp_host_key.create({
-  "name": "example"
+  "name": "My Key"
 })
 ```
 
@@ -67,7 +67,7 @@ files_sdk.sftp_host_key.create({
 
 ```
 files_sdk.sftp_host_key.update(id, {
-  "name": "example"
+  "name": "My Key"
 })
 ```
 
@@ -98,7 +98,7 @@ files_sdk.sftp_host_key.delete(id)
 ```
 sftp_host_key = files_sdk.sftp_host_key.find(id)
 sftp_host_key.update({
-  "name": "example"
+  "name": "My Key"
 })
 ```
 

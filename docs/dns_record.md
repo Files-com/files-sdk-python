@@ -4,7 +4,7 @@
 
 ```
 {
-  "id": "example",
+  "id": "customdomain.com-CNAME-site.files.com",
   "domain": "my-custom-domain.com",
   "rrtype": "CNAME",
   "value": "mysite.files.com"

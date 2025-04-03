@@ -16,11 +16,11 @@ class UsageDailySnapshot:
         "read_api_usage": None,  # int64 - Read API Calls used on this day. Note: only updated for days before the current day.
         "write_api_usage": None,  # int64 - Write API Calls used on this day. Note: only updated for days before the current day.
         "user_count": None,  # int64 - Number of billable users as of this day.
-        "current_storage": None,  # int64 - GB of Files Native Storage used on this day.
-        "deleted_files_storage": None,  # int64 - GB of Files Native Storage used on this day for files that have been deleted and are stored as backups.
-        "deleted_files_counted_in_minimum": None,  # int64 - GB of Files Native Storage used on this day for files that have been permanently deleted but were uploaded less than 30 days ago, and are still billable.
-        "root_storage": None,  # int64 - GB of Files Native Storage used for the root folder.  Included here because this value will not be part of `usage_by_top_level_dir`
-        "usage_by_top_level_dir": None,  # object - Usage broken down by each top-level folder
+        "current_storage": None,  # double - GB of Files Native Storage used on this day.
+        "deleted_files_storage": None,  # double - GB of Files Native Storage used on this day for files that have been deleted and are stored as backups.
+        "deleted_files_counted_in_minimum": None,  # double - GB of Files Native Storage used on this day for files that have been permanently deleted but were uploaded less than 30 days ago, and are still billable.
+        "root_storage": None,  # double - GB of Files Native Storage used for the root folder.  Included here because this value will not be part of `usage_by_top_level_dir`
+        "usage_by_top_level_dir": None,  # array(object) - Usage broken down by each top-level folder
     }
 
     def __init__(self, attributes=None, options=None):

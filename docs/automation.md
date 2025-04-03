@@ -45,7 +45,18 @@
   "recurring_day": 25,
   "retry_on_failure_interval_in_minutes": 60,
   "retry_on_failure_number_of_attempts": 10,
-  "schedule": "example",
+  "schedule": {
+    "days_of_week": [
+      0,
+      2,
+      4
+    ],
+    "times_of_day": [
+      "06:30",
+      "14:30"
+    ],
+    "time_zone": "Eastern Time (US & Canada)"
+  },
   "human_readable_schedule": "Triggered every Monday, Wednesday at 6:30 AM,\n  2:30 PM Eastern Time (US & Canada) TZ",
   "schedule_days_of_week": [
     0,

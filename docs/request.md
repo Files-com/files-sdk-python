@@ -8,7 +8,7 @@
   "path": "example",
   "source": "example",
   "destination": "example",
-  "automation_id": "example",
+  "automation_id": 1,
   "user_display_name": "example"
 }
 ```
@@ -17,7 +17,7 @@
 * `path` (string): Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `source` (string): Source filename, if applicable
 * `destination` (string): Destination filename
-* `automation_id` (string): ID of automation that created request
+* `automation_id` (int64): ID of automation that created request
 * `user_display_name` (string): User making the request (if applicable)
 * `user_ids` (string): A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.

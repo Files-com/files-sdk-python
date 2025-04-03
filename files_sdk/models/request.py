@@ -14,7 +14,7 @@ class Request:
         "path": None,  # string - Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "source": None,  # string - Source filename, if applicable
         "destination": None,  # string - Destination filename
-        "automation_id": None,  # string - ID of automation that created request
+        "automation_id": None,  # int64 - ID of automation that created request
         "user_display_name": None,  # string - User making the request (if applicable)
         "user_ids": None,  # string - A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
         "group_ids": None,  # string - A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.

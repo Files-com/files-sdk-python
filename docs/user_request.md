@@ -6,7 +6,7 @@
 {
   "id": 1,
   "name": "John Doe",
-  "email": "example",
+  "email": "john.doe@files.com",
   "details": "Changed Departments",
   "company": "Acme Inc."
 }
