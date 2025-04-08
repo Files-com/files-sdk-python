@@ -11,7 +11,7 @@
   "message": "example",
   "operation": "example",
   "path": "example",
-  "size": "example",
+  "size": 1,
   "file_type": "example",
   "status": "example"
 }
@@ -24,7 +24,7 @@
 * `message` (string): Message
 * `operation` (string): Operation type
 * `path` (string): File path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-* `size` (string): File size
+* `size` (int64): File size
 * `file_type` (string): File type
 * `status` (string): Status
 

@@ -17,7 +17,7 @@ class SyncLog:
         "message": None,  # string - Message
         "operation": None,  # string - Operation type
         "path": None,  # string - File path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-        "size": None,  # string - File size
+        "size": None,  # int64 - File size
         "file_type": None,  # string - File type
         "status": None,  # string - Status
     }
