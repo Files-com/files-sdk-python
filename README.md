@@ -482,6 +482,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`BillingOrSiteAdminPermissionRequiredError`|  `NotAuthorizedError` |
 |`BillingPermissionRequiredError`|  `NotAuthorizedError` |
 |`BundleMaximumUsesReachedError`|  `NotAuthorizedError` |
+|`BundlePermissionRequiredError`|  `NotAuthorizedError` |
 |`CannotLoginWhileUsingKeyError`|  `NotAuthorizedError` |
 |`CantActForOtherUserError`|  `NotAuthorizedError` |
 |`ContactAdminForPasswordChangeHelpError`|  `NotAuthorizedError` |
