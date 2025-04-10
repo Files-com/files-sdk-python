@@ -79,6 +79,7 @@ from files_sdk.models.remote_server_configuration_file import (
     RemoteServerConfigurationFile,
 )
 from files_sdk.models.request import Request
+from files_sdk.models.restore import Restore
 from files_sdk.models.session import Session
 from files_sdk.models.settings_change import SettingsChange
 from files_sdk.models.sftp_action_log import SftpActionLog
