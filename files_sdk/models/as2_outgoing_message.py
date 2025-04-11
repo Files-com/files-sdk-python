@@ -15,7 +15,6 @@ class As2OutgoingMessage:
         "as2_station_id": None,  # int64 - Id of the AS2 Station associated with this message.
         "uuid": None,  # string - UUID assigned to this message.
         "http_headers": None,  # object - HTTP Headers sent with this message.
-        "activity_log": None,  # string - JSON Structure of the activity log.
         "processing_result": None,  # string - Result of processing.
         "processing_result_description": None,  # string - Result of processing description.
         "mic": None,  # string - AS2 Message Integrity Check SHA1

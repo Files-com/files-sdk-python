@@ -16,7 +16,6 @@ class As2IncomingMessage:
         "uuid": None,  # string - UUID assigned to this message.
         "content_type": None,  # string - Content Type header of the incoming message.
         "http_headers": None,  # object - HTTP Headers sent with this message.
-        "activity_log": None,  # string - JSON Structure of the activity log.
         "processing_result": None,  # string - Result of processing.
         "processing_result_description": None,  # string - Result of processing description.
         "mic": None,  # string - AS2 Message Integrity Check

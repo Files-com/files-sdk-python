@@ -11,7 +11,6 @@
   "http_headers": {
     "key": "example value"
   },
-  "activity_log": "example",
   "processing_result": "example",
   "processing_result_description": "example",
   "mic": "example",
@@ -47,7 +46,6 @@
 * `as2_station_id` (int64): Id of the AS2 Station associated with this message.
 * `uuid` (string): UUID assigned to this message.
 * `http_headers` (object): HTTP Headers sent with this message.
-* `activity_log` (string): JSON Structure of the activity log.
 * `processing_result` (string): Result of processing.
 * `processing_result_description` (string): Result of processing description.
 * `mic` (string): AS2 Message Integrity Check SHA1
