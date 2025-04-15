@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 
 class Restore:
     default_attributes = {
-        "earliest_date": None,  # date-time - Restore all files deleted after this date/time. Don't set this earlier than you need. Can not be greater than 365
+        "earliest_date": None,  # date-time - Restore all files deleted after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
         "id": None,  # int64 - Restore Record ID.
         "dirs_restored": None,  # int64 - Number of directories that were successfully restored.
         "dirs_errored": None,  # int64 - Number of directories that were not able to be restored.
@@ -18,11 +18,11 @@ class Restore:
         "files_restored": None,  # int64 - Number of files successfully restored.
         "files_errored": None,  # int64 - Number of files that were not able to be restored.
         "files_total": None,  # int64 - Total number of files processed.
-        "prefix": None,  # string - Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash.
+        "prefix": None,  # string - Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash. To restore all deleted items, specify an empty string (`''`) in the prefix field or omit the field from the request.
         "restore_in_place": None,  # boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
         "restore_deleted_permissions": None,  # boolean - If true, we will also restore any Permissions that match the same path prefix from the same dates.
         "status": None,  # string - Status of the restoration process.
-        "update_timestamps": None,  # boolean - If trie, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
+        "update_timestamps": None,  # boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
         "error_messages": None,  # array(string) - Error messages received while restoring files and/or directories. Only present if there were errors.
     }
 
@@ -76,10 +76,11 @@ def all(params=None, options=None):
 
 
 # Parameters:
-#   earliest_date (required) - string - Restore all files deleted after this date/time. Don't set this earlier than you need. Can not be greater than 365
+#   earliest_date (required) - string - Restore all files deleted after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
+#   prefix - string - Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash. To restore all deleted items, specify an empty string (`''`) in the prefix field or omit the field from the request.
 #   restore_deleted_permissions - boolean - If true, we will also restore any Permissions that match the same path prefix from the same dates.
 #   restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
-#   prefix - string - Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash.
+#   update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
