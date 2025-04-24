@@ -592,7 +592,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`TrialLockedError`|  `SiteConfigurationError` |
 |`UserRequestsEnabledRequiredError`|  `SiteConfigurationError` |
 
-## {frontmatter.title}
+## Pagination
 
 Certain API operations return lists of objects. When the number of objects in the list is large,
 the API will paginate the results.
