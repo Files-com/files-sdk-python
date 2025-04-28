@@ -355,6 +355,16 @@ except files_sdk.error.Error as err:
   print(f"Unknown Error Occurred ({type(err).__name__}):", err)
 ```
 
+## Foreign Language Support
+
+The Files.com Python SDK will soon be updated to support localized responses by using a configuration
+method. When available, it can be used to guide the API in selecting a preferred language for applicable response content.
+
+Language support currently applies to select human-facing fields only, such as notification messages
+and error descriptions.
+
+If the specified language is not supported or the value is omitted, the API defaults to English.
+
 ## Errors
 
 The Files.com Python SDK will return errors by raising exceptions. There are many exception classes defined in the Files SDK that correspond
