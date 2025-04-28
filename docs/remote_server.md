@@ -38,6 +38,7 @@
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
   "azure_blob_storage_hierarchical_namespace": True,
+  "azure_blob_storage_dns_suffix": "usgovcloudapi.net",
   "azure_files_storage_account": "storage-account-name",
   "azure_files_storage_share_name": "share-name",
   "azure_files_storage_dns_suffix": "file.core.windows.net",
@@ -97,6 +98,7 @@
 * `azure_blob_storage_account` (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 * `azure_blob_storage_hierarchical_namespace` (boolean): Enable when storage account has hierarchical namespace feature enabled
+* `azure_blob_storage_dns_suffix` (string): Custom DNS suffix
 * `azure_files_storage_account` (string): Azure File Storage Account name
 * `azure_files_storage_share_name` (string): Azure File Storage Share name
 * `azure_files_storage_dns_suffix` (string): Custom DNS suffix
@@ -217,6 +219,7 @@ files_sdk.remote_server.create({
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
   "azure_blob_storage_hierarchical_namespace": True,
+  "azure_blob_storage_dns_suffix": "usgovcloudapi.net",
   "azure_files_storage_account": "storage-account-name",
   "azure_files_storage_share_name": "share-name",
   "azure_files_storage_dns_suffix": "file.core.windows.net",
@@ -283,6 +286,7 @@ files_sdk.remote_server.create({
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 * `azure_blob_storage_hierarchical_namespace` (boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_blob_storage_sas_token` (string): Shared Access Signature (SAS) token
+* `azure_blob_storage_dns_suffix` (string): Custom DNS suffix
 * `azure_files_storage_account` (string): Azure File Storage Account name
 * `azure_files_storage_share_name` (string): Azure File Storage Share name
 * `azure_files_storage_dns_suffix` (string): Custom DNS suffix
@@ -380,6 +384,7 @@ files_sdk.remote_server.update(id, {
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
   "azure_blob_storage_hierarchical_namespace": True,
+  "azure_blob_storage_dns_suffix": "usgovcloudapi.net",
   "azure_files_storage_account": "storage-account-name",
   "azure_files_storage_share_name": "share-name",
   "azure_files_storage_dns_suffix": "file.core.windows.net",
@@ -447,6 +452,7 @@ files_sdk.remote_server.update(id, {
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 * `azure_blob_storage_hierarchical_namespace` (boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_blob_storage_sas_token` (string): Shared Access Signature (SAS) token
+* `azure_blob_storage_dns_suffix` (string): Custom DNS suffix
 * `azure_files_storage_account` (string): Azure File Storage Account name
 * `azure_files_storage_share_name` (string): Azure File Storage Share name
 * `azure_files_storage_dns_suffix` (string): Custom DNS suffix
@@ -559,6 +565,7 @@ remote_server.update({
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
   "azure_blob_storage_hierarchical_namespace": True,
+  "azure_blob_storage_dns_suffix": "usgovcloudapi.net",
   "azure_files_storage_account": "storage-account-name",
   "azure_files_storage_share_name": "share-name",
   "azure_files_storage_dns_suffix": "file.core.windows.net",
@@ -626,6 +633,7 @@ remote_server.update({
 * `azure_blob_storage_container` (string): Azure Blob Storage Container name
 * `azure_blob_storage_hierarchical_namespace` (boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_blob_storage_sas_token` (string): Shared Access Signature (SAS) token
+* `azure_blob_storage_dns_suffix` (string): Custom DNS suffix
 * `azure_files_storage_account` (string): Azure File Storage Account name
 * `azure_files_storage_share_name` (string): Azure File Storage Share name
 * `azure_files_storage_dns_suffix` (string): Custom DNS suffix

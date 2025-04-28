@@ -154,6 +154,7 @@ class Site:
         "smtp_username": None,  # string - SMTP server username
         "session_expiry": None,  # double - Session expiry in hours
         "session_expiry_minutes": None,  # int64 - Session expiry in minutes
+        "snapshot_sharing_enabled": None,  # boolean - Allow snapshot share links creation
         "ssl_required": None,  # boolean - Is SSL required?  Disabling this is insecure.
         "subdomain": None,  # string - Site subdomain
         "switch_to_plan_date": None,  # date-time - If switching plans, when does the new plan take effect?
@@ -308,6 +309,7 @@ def get_usage(params=None, options=None):
 #   non_sso_groups_allowed - boolean - If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
 #   non_sso_users_allowed - boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 #   sharing_enabled - boolean - Allow bundle creation
+#   snapshot_sharing_enabled - boolean - Allow snapshot share links creation
 #   user_requests_enabled - boolean - Enable User Requests feature
 #   user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
 #   dav_enabled - boolean - Is WebDAV enabled?
