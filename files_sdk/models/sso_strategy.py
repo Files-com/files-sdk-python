@@ -37,6 +37,7 @@ class SsoStrategy:
         "provision_group_inclusion": None,  # string - Comma-separated list of group names for groups (with optional wildcards) that will be auto-provisioned.
         "provision_group_required": None,  # string - Comma or newline separated list of group names (with optional wildcards) to require membership for user provisioning.
         "provision_email_signup_groups": None,  # string - Comma-separated list of group names whose members will be created with email_signup authentication.
+        "provision_readonly_site_admin_groups": None,  # string - Comma-separated list of group names whose members will be created as Read-Only Site Admins.
         "provision_site_admin_groups": None,  # string - Comma-separated list of group names whose members will be created as Site Admins.
         "provision_group_admin_groups": None,  # string - Comma-separated list of group names whose members will be provisioned as Group Admins.
         "provision_attachments_permission": None,  # boolean
