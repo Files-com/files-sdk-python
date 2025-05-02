@@ -48,6 +48,8 @@ class SiemHttpDestination:
         "email_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "exavault_api_request_send_enabled": None,  # boolean - Whether or not sending is enabled for exavault_api_request logs.
         "exavault_api_request_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
+        "settings_change_send_enabled": None,  # boolean - Whether or not sending is enabled for settings_change logs.
+        "settings_change_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "last_http_call_target_type": None,  # string - Type of URL that was last called. Can be `destination_url` or `azure_oauth_client_credentials_url`
         "last_http_call_success": None,  # boolean - Was the last HTTP call made successful?
         "last_http_call_response_code": None,  # int64 - Last HTTP Call Response Code
@@ -113,6 +115,7 @@ class SiemHttpDestination:
     #   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
     #   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
     #   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+    #   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
     #   destination_type - string - Destination Type
     #   destination_url - string - Destination Url
     def update(self, params=None):
@@ -335,6 +338,7 @@ def get(id, params=None, options=None):
 #   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
 #   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
 #   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+#   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
 #   destination_type (required) - string - Destination Type
 #   destination_url (required) - string - Destination Url
 def create(params=None, options=None):
@@ -482,6 +486,7 @@ def create(params=None, options=None):
 #   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
 #   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
 #   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+#   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
 def send_test_entry(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -625,6 +630,7 @@ def send_test_entry(params=None, options=None):
 #   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
 #   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
 #   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+#   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
 #   destination_type - string - Destination Type
 #   destination_url - string - Destination Url
 def update(id, params=None, options=None):

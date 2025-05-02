@@ -10,13 +10,13 @@ from files_sdk.error import (  # noqa: F401
 
 class SettingsChange:
     default_attributes = {
+        "api_key_id": None,  # int64 - The API key id responsible for this change.
         "changes": None,  # array(string) - Markdown-formatted change messages.
-        "created_at": None,  # date-time - The time this change was made
-        "user_id": None,  # int64 - The user id responsible for this change
-        "api_key_id": None,  # int64 - The API key id responsible for this change
+        "created_at": None,  # date-time - The time this change was made.
+        "user_id": None,  # int64 - The user id responsible for this change.
         "user_is_files_support": None,  # boolean - true if this change was performed by Files.com support.
         "user_is_from_parent_site": None,  # boolean - true if this change was performed by a user on a parent site.
-        "username": None,  # string - The username of the user responsible for this change
+        "username": None,  # string - The username of the user responsible for this change.
     }
 
     def __init__(self, attributes=None, options=None):
