@@ -33,7 +33,6 @@ class RemoteServer:
         "username": None,  # string - Remote server username.  Not needed for S3 buckets.
         "google_cloud_storage_bucket": None,  # string - Google Cloud Storage: Bucket Name
         "google_cloud_storage_project_id": None,  # string - Google Cloud Storage: Project ID
-        "google_cloud_storage_region": None,  # string - Google Cloud Storage: Region
         "google_cloud_storage_s3_compatible_access_key": None,  # string - Google Cloud Storage: S3-compatible Access Key.
         "backblaze_b2_s3_endpoint": None,  # string - Backblaze B2 Cloud Storage: S3 Endpoint
         "backblaze_b2_bucket": None,  # string - Backblaze B2 Cloud Storage: Bucket name
@@ -241,7 +240,6 @@ class RemoteServer:
     #   files_agent_version - string - Files Agent version
     #   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
     #   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
-    #   google_cloud_storage_region - string - Google Cloud Storage: Region
     #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
     #   hostname - string - Hostname or IP address
     #   linode_access_key - string - Linode: Access Key
@@ -512,12 +510,6 @@ class RemoteServer:
         ):
             raise InvalidParameterError(
                 "Bad parameter: google_cloud_storage_project_id must be an str"
-            )
-        if "google_cloud_storage_region" in params and not isinstance(
-            params["google_cloud_storage_region"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: google_cloud_storage_region must be an str"
             )
         if (
             "google_cloud_storage_s3_compatible_access_key" in params
@@ -817,7 +809,6 @@ def find_configuration_file(id, params=None, options=None):
 #   files_agent_version - string - Files Agent version
 #   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
 #   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
-#   google_cloud_storage_region - string - Google Cloud Storage: Region
 #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
 #   hostname - string - Hostname or IP address
 #   linode_access_key - string - Linode: Access Key
@@ -1075,12 +1066,6 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: google_cloud_storage_project_id must be an str"
         )
-    if "google_cloud_storage_region" in params and not isinstance(
-        params["google_cloud_storage_region"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_region must be an str"
-        )
     if (
         "google_cloud_storage_s3_compatible_access_key" in params
         and not isinstance(
@@ -1328,7 +1313,6 @@ def configuration_file(id, params=None, options=None):
 #   files_agent_version - string - Files Agent version
 #   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
 #   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
-#   google_cloud_storage_region - string - Google Cloud Storage: Region
 #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
 #   hostname - string - Hostname or IP address
 #   linode_access_key - string - Linode: Access Key
@@ -1588,12 +1572,6 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: google_cloud_storage_project_id must be an str"
-        )
-    if "google_cloud_storage_region" in params and not isinstance(
-        params["google_cloud_storage_region"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_region must be an str"
         )
     if (
         "google_cloud_storage_s3_compatible_access_key" in params
