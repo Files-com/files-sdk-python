@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "files_com"
-version = "1.5.4"
+version = "1.5.5"
 description = "Python bindings for the Files.com API"
 readme = "README.md"
 license = { text = "MIT" }
