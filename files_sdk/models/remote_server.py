@@ -853,6 +853,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: private_key_passphrase must be an str"
         )
+    if "reset_authentication" in params and not isinstance(
+        params["reset_authentication"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: reset_authentication must be an bool"
+        )
     if "ssl_certificate" in params and not isinstance(
         params["ssl_certificate"], str
     ):
@@ -976,6 +982,15 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: azure_blob_storage_dns_suffix must be an str"
         )
+    if (
+        "azure_blob_storage_hierarchical_namespace" in params
+        and not isinstance(
+            params["azure_blob_storage_hierarchical_namespace"], bool
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: azure_blob_storage_hierarchical_namespace must be an bool"
+        )
     if "azure_files_storage_account" in params and not isinstance(
         params["azure_files_storage_account"], str
     ):
@@ -1023,6 +1038,18 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: cloudflare_endpoint must be an str"
+        )
+    if "dropbox_teams" in params and not isinstance(
+        params["dropbox_teams"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: dropbox_teams must be an bool"
+        )
+    if "enable_dedicated_ips" in params and not isinstance(
+        params["enable_dedicated_ips"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: enable_dedicated_ips must be an bool"
         )
     if "filebase_access_key" in params and not isinstance(
         params["filebase_access_key"], str
@@ -1108,6 +1135,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: one_drive_account_type must be an str"
+        )
+    if "pin_to_site_region" in params and not isinstance(
+        params["pin_to_site_region"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: pin_to_site_region must be an bool"
         )
     if "port" in params and not isinstance(params["port"], int):
         raise InvalidParameterError("Bad parameter: port must be an int")
@@ -1360,6 +1393,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: private_key_passphrase must be an str"
         )
+    if "reset_authentication" in params and not isinstance(
+        params["reset_authentication"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: reset_authentication must be an bool"
+        )
     if "ssl_certificate" in params and not isinstance(
         params["ssl_certificate"], str
     ):
@@ -1483,6 +1522,15 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: azure_blob_storage_dns_suffix must be an str"
         )
+    if (
+        "azure_blob_storage_hierarchical_namespace" in params
+        and not isinstance(
+            params["azure_blob_storage_hierarchical_namespace"], bool
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: azure_blob_storage_hierarchical_namespace must be an bool"
+        )
     if "azure_files_storage_account" in params and not isinstance(
         params["azure_files_storage_account"], str
     ):
@@ -1530,6 +1578,18 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: cloudflare_endpoint must be an str"
+        )
+    if "dropbox_teams" in params and not isinstance(
+        params["dropbox_teams"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: dropbox_teams must be an bool"
+        )
+    if "enable_dedicated_ips" in params and not isinstance(
+        params["enable_dedicated_ips"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: enable_dedicated_ips must be an bool"
         )
     if "filebase_access_key" in params and not isinstance(
         params["filebase_access_key"], str
@@ -1615,6 +1675,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: one_drive_account_type must be an str"
+        )
+    if "pin_to_site_region" in params and not isinstance(
+        params["pin_to_site_region"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: pin_to_site_region must be an bool"
         )
     if "port" in params and not isinstance(params["port"], int):
         raise InvalidParameterError("Bad parameter: port must be an int")

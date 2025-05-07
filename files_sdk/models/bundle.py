@@ -350,8 +350,26 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: form_field_set_id must be an int"
         )
+    if "create_snapshot" in params and not isinstance(
+        params["create_snapshot"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: create_snapshot must be an bool"
+        )
+    if "dont_separate_submissions_by_folder" in params and not isinstance(
+        params["dont_separate_submissions_by_folder"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: dont_separate_submissions_by_folder must be an bool"
+        )
     if "expires_at" in params and not isinstance(params["expires_at"], str):
         raise InvalidParameterError("Bad parameter: expires_at must be an str")
+    if "finalize_snapshot" in params and not isinstance(
+        params["finalize_snapshot"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: finalize_snapshot must be an bool"
+        )
     if "max_uses" in params and not isinstance(params["max_uses"], int):
         raise InvalidParameterError("Bad parameter: max_uses must be an int")
     if "description" in params and not isinstance(params["description"], str):
@@ -378,6 +396,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: permissions must be an str"
         )
+    if "require_registration" in params and not isinstance(
+        params["require_registration"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_registration must be an bool"
+        )
     if "clickwrap_id" in params and not isinstance(
         params["clickwrap_id"], int
     ):
@@ -386,6 +410,30 @@ def create(params=None, options=None):
         )
     if "inbox_id" in params and not isinstance(params["inbox_id"], int):
         raise InvalidParameterError("Bad parameter: inbox_id must be an int")
+    if "require_share_recipient" in params and not isinstance(
+        params["require_share_recipient"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_share_recipient must be an bool"
+        )
+    if "send_email_receipt_to_uploader" in params and not isinstance(
+        params["send_email_receipt_to_uploader"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: send_email_receipt_to_uploader must be an bool"
+        )
+    if "skip_email" in params and not isinstance(params["skip_email"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: skip_email must be an bool"
+        )
+    if "skip_name" in params and not isinstance(params["skip_name"], bool):
+        raise InvalidParameterError("Bad parameter: skip_name must be an bool")
+    if "skip_company" in params and not isinstance(
+        params["skip_company"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: skip_company must be an bool"
+        )
     if "start_access_on_date" in params and not isinstance(
         params["start_access_on_date"], str
     ):
@@ -485,12 +533,30 @@ def update(id, params=None, options=None):
         )
     if "code" in params and not isinstance(params["code"], str):
         raise InvalidParameterError("Bad parameter: code must be an str")
+    if "create_snapshot" in params and not isinstance(
+        params["create_snapshot"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: create_snapshot must be an bool"
+        )
     if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
             "Bad parameter: description must be an str"
         )
+    if "dont_separate_submissions_by_folder" in params and not isinstance(
+        params["dont_separate_submissions_by_folder"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: dont_separate_submissions_by_folder must be an bool"
+        )
     if "expires_at" in params and not isinstance(params["expires_at"], str):
         raise InvalidParameterError("Bad parameter: expires_at must be an str")
+    if "finalize_snapshot" in params and not isinstance(
+        params["finalize_snapshot"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: finalize_snapshot must be an bool"
+        )
     if "inbox_id" in params and not isinstance(params["inbox_id"], int):
         raise InvalidParameterError("Bad parameter: inbox_id must be an int")
     if "max_uses" in params and not isinstance(params["max_uses"], int):
@@ -513,11 +579,47 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: permissions must be an str"
         )
+    if "require_registration" in params and not isinstance(
+        params["require_registration"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_registration must be an bool"
+        )
+    if "require_share_recipient" in params and not isinstance(
+        params["require_share_recipient"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_share_recipient must be an bool"
+        )
+    if "send_email_receipt_to_uploader" in params and not isinstance(
+        params["send_email_receipt_to_uploader"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: send_email_receipt_to_uploader must be an bool"
+        )
+    if "skip_company" in params and not isinstance(
+        params["skip_company"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: skip_company must be an bool"
+        )
     if "start_access_on_date" in params and not isinstance(
         params["start_access_on_date"], str
     ):
         raise InvalidParameterError(
             "Bad parameter: start_access_on_date must be an str"
+        )
+    if "skip_email" in params and not isinstance(params["skip_email"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: skip_email must be an bool"
+        )
+    if "skip_name" in params and not isinstance(params["skip_name"], bool):
+        raise InvalidParameterError("Bad parameter: skip_name must be an bool")
+    if "watermark_attachment_delete" in params and not isinstance(
+        params["watermark_attachment_delete"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: watermark_attachment_delete must be an bool"
         )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")

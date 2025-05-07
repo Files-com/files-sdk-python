@@ -446,6 +446,12 @@ def list(params=None, options=None):
         )
     if "ids" in params and not isinstance(params["ids"], str):
         raise InvalidParameterError("Bad parameter: ids must be an str")
+    if "include_parent_site_users" in params and not isinstance(
+        params["include_parent_site_users"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: include_parent_site_users must be an bool"
+        )
     if "search" in params and not isinstance(params["search"], str):
         raise InvalidParameterError("Bad parameter: search must be an str")
     return ListObj(User, "GET", "/users", params, options)
@@ -530,6 +536,12 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "avatar_delete" in params and not isinstance(
+        params["avatar_delete"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: avatar_delete must be an bool"
+        )
     if "change_password" in params and not isinstance(
         params["change_password"], str
     ):
@@ -568,9 +580,21 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: password_confirmation must be an str"
         )
+    if "announcements_read" in params and not isinstance(
+        params["announcements_read"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: announcements_read must be an bool"
+        )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError(
             "Bad parameter: allowed_ips must be an str"
+        )
+    if "attachments_permission" in params and not isinstance(
+        params["attachments_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: attachments_permission must be an bool"
         )
     if "authenticate_until" in params and not isinstance(
         params["authenticate_until"], str
@@ -583,6 +607,38 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: authentication_method must be an str"
+        )
+    if "billing_permission" in params and not isinstance(
+        params["billing_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: billing_permission must be an bool"
+        )
+    if "bypass_inactive_disable" in params and not isinstance(
+        params["bypass_inactive_disable"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bypass_inactive_disable must be an bool"
+        )
+    if "bypass_site_allowed_ips" in params and not isinstance(
+        params["bypass_site_allowed_ips"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bypass_site_allowed_ips must be an bool"
+        )
+    if "dav_permission" in params and not isinstance(
+        params["dav_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: dav_permission must be an bool"
+        )
+    if "disabled" in params and not isinstance(params["disabled"], bool):
+        raise InvalidParameterError("Bad parameter: disabled must be an bool")
+    if "ftp_permission" in params and not isinstance(
+        params["ftp_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ftp_permission must be an bool"
         )
     if "header_text" in params and not isinstance(params["header_text"], str):
         raise InvalidParameterError(
@@ -602,17 +658,69 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: company must be an str")
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
+    if "office_integration_enabled" in params and not isinstance(
+        params["office_integration_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: office_integration_enabled must be an bool"
+        )
     if "password_validity_days" in params and not isinstance(
         params["password_validity_days"], int
     ):
         raise InvalidParameterError(
             "Bad parameter: password_validity_days must be an int"
         )
+    if "readonly_site_admin" in params and not isinstance(
+        params["readonly_site_admin"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: readonly_site_admin must be an bool"
+        )
+    if "receive_admin_alerts" in params and not isinstance(
+        params["receive_admin_alerts"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: receive_admin_alerts must be an bool"
+        )
     if "require_login_by" in params and not isinstance(
         params["require_login_by"], str
     ):
         raise InvalidParameterError(
             "Bad parameter: require_login_by must be an str"
+        )
+    if "require_password_change" in params and not isinstance(
+        params["require_password_change"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_password_change must be an bool"
+        )
+    if "restapi_permission" in params and not isinstance(
+        params["restapi_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: restapi_permission must be an bool"
+        )
+    if "self_managed" in params and not isinstance(
+        params["self_managed"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: self_managed must be an bool"
+        )
+    if "sftp_permission" in params and not isinstance(
+        params["sftp_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sftp_permission must be an bool"
+        )
+    if "site_admin" in params and not isinstance(params["site_admin"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: site_admin must be an bool"
+        )
+    if "skip_welcome_screen" in params and not isinstance(
+        params["skip_welcome_screen"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: skip_welcome_screen must be an bool"
         )
     if "ssl_required" in params and not isinstance(
         params["ssl_required"], str
@@ -625,6 +733,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: sso_strategy_id must be an int"
+        )
+    if "subscribe_to_newsletter" in params and not isinstance(
+        params["subscribe_to_newsletter"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: subscribe_to_newsletter must be an bool"
         )
     if "require_2fa" in params and not isinstance(params["require_2fa"], str):
         raise InvalidParameterError(
@@ -754,6 +868,12 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "avatar_delete" in params and not isinstance(
+        params["avatar_delete"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: avatar_delete must be an bool"
+        )
     if "change_password" in params and not isinstance(
         params["change_password"], str
     ):
@@ -792,9 +912,21 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: password_confirmation must be an str"
         )
+    if "announcements_read" in params and not isinstance(
+        params["announcements_read"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: announcements_read must be an bool"
+        )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError(
             "Bad parameter: allowed_ips must be an str"
+        )
+    if "attachments_permission" in params and not isinstance(
+        params["attachments_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: attachments_permission must be an bool"
         )
     if "authenticate_until" in params and not isinstance(
         params["authenticate_until"], str
@@ -807,6 +939,38 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: authentication_method must be an str"
+        )
+    if "billing_permission" in params and not isinstance(
+        params["billing_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: billing_permission must be an bool"
+        )
+    if "bypass_inactive_disable" in params and not isinstance(
+        params["bypass_inactive_disable"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bypass_inactive_disable must be an bool"
+        )
+    if "bypass_site_allowed_ips" in params and not isinstance(
+        params["bypass_site_allowed_ips"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bypass_site_allowed_ips must be an bool"
+        )
+    if "dav_permission" in params and not isinstance(
+        params["dav_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: dav_permission must be an bool"
+        )
+    if "disabled" in params and not isinstance(params["disabled"], bool):
+        raise InvalidParameterError("Bad parameter: disabled must be an bool")
+    if "ftp_permission" in params and not isinstance(
+        params["ftp_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ftp_permission must be an bool"
         )
     if "header_text" in params and not isinstance(params["header_text"], str):
         raise InvalidParameterError(
@@ -826,17 +990,69 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: company must be an str")
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
+    if "office_integration_enabled" in params and not isinstance(
+        params["office_integration_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: office_integration_enabled must be an bool"
+        )
     if "password_validity_days" in params and not isinstance(
         params["password_validity_days"], int
     ):
         raise InvalidParameterError(
             "Bad parameter: password_validity_days must be an int"
         )
+    if "readonly_site_admin" in params and not isinstance(
+        params["readonly_site_admin"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: readonly_site_admin must be an bool"
+        )
+    if "receive_admin_alerts" in params and not isinstance(
+        params["receive_admin_alerts"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: receive_admin_alerts must be an bool"
+        )
     if "require_login_by" in params and not isinstance(
         params["require_login_by"], str
     ):
         raise InvalidParameterError(
             "Bad parameter: require_login_by must be an str"
+        )
+    if "require_password_change" in params and not isinstance(
+        params["require_password_change"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_password_change must be an bool"
+        )
+    if "restapi_permission" in params and not isinstance(
+        params["restapi_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: restapi_permission must be an bool"
+        )
+    if "self_managed" in params and not isinstance(
+        params["self_managed"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: self_managed must be an bool"
+        )
+    if "sftp_permission" in params and not isinstance(
+        params["sftp_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sftp_permission must be an bool"
+        )
+    if "site_admin" in params and not isinstance(params["site_admin"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: site_admin must be an bool"
+        )
+    if "skip_welcome_screen" in params and not isinstance(
+        params["skip_welcome_screen"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: skip_welcome_screen must be an bool"
         )
     if "ssl_required" in params and not isinstance(
         params["ssl_required"], str
@@ -849,6 +1065,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: sso_strategy_id must be an int"
+        )
+    if "subscribe_to_newsletter" in params and not isinstance(
+        params["subscribe_to_newsletter"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: subscribe_to_newsletter must be an bool"
         )
     if "require_2fa" in params and not isinstance(params["require_2fa"], str):
         raise InvalidParameterError(

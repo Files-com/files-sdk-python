@@ -153,6 +153,12 @@ def list(params=None, options=None):
         )
     if "ids" in params and not isinstance(params["ids"], str):
         raise InvalidParameterError("Bad parameter: ids must be an str")
+    if "include_parent_site_groups" in params and not isinstance(
+        params["include_parent_site_groups"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: include_parent_site_groups must be an bool"
+        )
     return ListObj(Group, "GET", "/groups", params, options)
 
 
@@ -203,6 +209,30 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
+    if "ftp_permission" in params and not isinstance(
+        params["ftp_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ftp_permission must be an bool"
+        )
+    if "sftp_permission" in params and not isinstance(
+        params["sftp_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sftp_permission must be an bool"
+        )
+    if "dav_permission" in params and not isinstance(
+        params["dav_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: dav_permission must be an bool"
+        )
+    if "restapi_permission" in params and not isinstance(
+        params["restapi_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: restapi_permission must be an bool"
+        )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError(
             "Bad parameter: allowed_ips must be an str"
@@ -239,6 +269,30 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
+    if "ftp_permission" in params and not isinstance(
+        params["ftp_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ftp_permission must be an bool"
+        )
+    if "sftp_permission" in params and not isinstance(
+        params["sftp_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sftp_permission must be an bool"
+        )
+    if "dav_permission" in params and not isinstance(
+        params["dav_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: dav_permission must be an bool"
+        )
+    if "restapi_permission" in params and not isinstance(
+        params["restapi_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: restapi_permission must be an bool"
+        )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError(
             "Bad parameter: allowed_ips must be an str"

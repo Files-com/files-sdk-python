@@ -197,6 +197,12 @@ def list_for(path, params=None, options=None):
         )
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "ancestor_behaviors" in params and not isinstance(
+        params["ancestor_behaviors"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ancestor_behaviors must be an bool"
+        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     return ListObj(
@@ -224,6 +230,14 @@ def create(params=None, options=None):
         options = {}
     if "value" in params and not isinstance(params["value"], str):
         raise InvalidParameterError("Bad parameter: value must be an str")
+    if "disable_parent_folder_behavior" in params and not isinstance(
+        params["disable_parent_folder_behavior"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: disable_parent_folder_behavior must be an bool"
+        )
+    if "recursive" in params and not isinstance(params["recursive"], bool):
+        raise InvalidParameterError("Bad parameter: recursive must be an bool")
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "description" in params and not isinstance(params["description"], str):
@@ -291,6 +305,14 @@ def update(id, params=None, options=None):
         )
     if "value" in params and not isinstance(params["value"], str):
         raise InvalidParameterError("Bad parameter: value must be an str")
+    if "disable_parent_folder_behavior" in params and not isinstance(
+        params["disable_parent_folder_behavior"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: disable_parent_folder_behavior must be an bool"
+        )
+    if "recursive" in params and not isinstance(params["recursive"], bool):
+        raise InvalidParameterError("Bad parameter: recursive must be an bool")
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "description" in params and not isinstance(params["description"], str):

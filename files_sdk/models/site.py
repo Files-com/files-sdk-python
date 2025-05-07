@@ -398,6 +398,12 @@ def update(params=None, options=None):
         raise InvalidParameterError("Bad parameter: subdomain must be an str")
     if "domain" in params and not isinstance(params["domain"], str):
         raise InvalidParameterError("Bad parameter: domain must be an str")
+    if "domain_hsts_header" in params and not isinstance(
+        params["domain_hsts_header"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: domain_hsts_header must be an bool"
+        )
     if "domain_letsencrypt_chain" in params and not isinstance(
         params["domain_letsencrypt_chain"], str
     ):
@@ -412,11 +418,41 @@ def update(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: reply_to_email must be an str"
         )
+    if "allow_bundle_names" in params and not isinstance(
+        params["allow_bundle_names"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allow_bundle_names must be an bool"
+        )
     if "bundle_expiration" in params and not isinstance(
         params["bundle_expiration"], int
     ):
         raise InvalidParameterError(
             "Bad parameter: bundle_expiration must be an int"
+        )
+    if "welcome_email_enabled" in params and not isinstance(
+        params["welcome_email_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: welcome_email_enabled must be an bool"
+        )
+    if "ask_about_overwrites" in params and not isinstance(
+        params["ask_about_overwrites"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ask_about_overwrites must be an bool"
+        )
+    if "show_request_access_link" in params and not isinstance(
+        params["show_request_access_link"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: show_request_access_link must be an bool"
+        )
+    if "always_mkdir_parents" in params and not isinstance(
+        params["always_mkdir_parents"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: always_mkdir_parents must be an bool"
         )
     if "welcome_email_cc" in params and not isinstance(
         params["welcome_email_cc"], str
@@ -438,11 +474,27 @@ def update(params=None, options=None):
         )
     if "language" in params and not isinstance(params["language"], str):
         raise InvalidParameterError("Bad parameter: language must be an str")
+    if "windows_mode_ftp" in params and not isinstance(
+        params["windows_mode_ftp"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: windows_mode_ftp must be an bool"
+        )
     if "default_time_zone" in params and not isinstance(
         params["default_time_zone"], str
     ):
         raise InvalidParameterError(
             "Bad parameter: default_time_zone must be an str"
+        )
+    if "desktop_app" in params and not isinstance(params["desktop_app"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: desktop_app must be an bool"
+        )
+    if "desktop_app_session_ip_pinning" in params and not isinstance(
+        params["desktop_app_session_ip_pinning"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: desktop_app_session_ip_pinning must be an bool"
         )
     if "desktop_app_session_lifetime" in params and not isinstance(
         params["desktop_app_session_lifetime"], int
@@ -450,11 +502,27 @@ def update(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: desktop_app_session_lifetime must be an int"
         )
+    if "mobile_app" in params and not isinstance(params["mobile_app"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: mobile_app must be an bool"
+        )
+    if "mobile_app_session_ip_pinning" in params and not isinstance(
+        params["mobile_app_session_ip_pinning"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: mobile_app_session_ip_pinning must be an bool"
+        )
     if "mobile_app_session_lifetime" in params and not isinstance(
         params["mobile_app_session_lifetime"], int
     ):
         raise InvalidParameterError(
             "Bad parameter: mobile_app_session_lifetime must be an int"
+        )
+    if "folder_permissions_groups_only" in params and not isinstance(
+        params["folder_permissions_groups_only"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: folder_permissions_groups_only must be an bool"
         )
     if "welcome_screen" in params and not isinstance(
         params["welcome_screen"], str
@@ -462,14 +530,38 @@ def update(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: welcome_screen must be an str"
         )
+    if "office_integration_available" in params and not isinstance(
+        params["office_integration_available"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: office_integration_available must be an bool"
+        )
     if "office_integration_type" in params and not isinstance(
         params["office_integration_type"], str
     ):
         raise InvalidParameterError(
             "Bad parameter: office_integration_type must be an str"
         )
+    if "pin_all_remote_servers_to_site_region" in params and not isinstance(
+        params["pin_all_remote_servers_to_site_region"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: pin_all_remote_servers_to_site_region must be an bool"
+        )
     if "motd_text" in params and not isinstance(params["motd_text"], str):
         raise InvalidParameterError("Bad parameter: motd_text must be an str")
+    if "motd_use_for_ftp" in params and not isinstance(
+        params["motd_use_for_ftp"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: motd_use_for_ftp must be an bool"
+        )
+    if "motd_use_for_sftp" in params and not isinstance(
+        params["motd_use_for_sftp"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: motd_use_for_sftp must be an bool"
+        )
     if "left_navigation_visibility" in params and not isinstance(
         params["left_navigation_visibility"], dict
     ):
@@ -482,11 +574,89 @@ def update(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: additional_text_file_types must be an list"
         )
+    if "bundle_require_note" in params and not isinstance(
+        params["bundle_require_note"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_require_note must be an bool"
+        )
+    if "bundle_send_shared_receipts" in params and not isinstance(
+        params["bundle_send_shared_receipts"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_send_shared_receipts must be an bool"
+        )
+    if "calculate_file_checksums_crc32" in params and not isinstance(
+        params["calculate_file_checksums_crc32"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: calculate_file_checksums_crc32 must be an bool"
+        )
+    if "calculate_file_checksums_md5" in params and not isinstance(
+        params["calculate_file_checksums_md5"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: calculate_file_checksums_md5 must be an bool"
+        )
+    if "calculate_file_checksums_sha1" in params and not isinstance(
+        params["calculate_file_checksums_sha1"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: calculate_file_checksums_sha1 must be an bool"
+        )
+    if "calculate_file_checksums_sha256" in params and not isinstance(
+        params["calculate_file_checksums_sha256"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: calculate_file_checksums_sha256 must be an bool"
+        )
+    if "legacy_checksums_mode" in params and not isinstance(
+        params["legacy_checksums_mode"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: legacy_checksums_mode must be an bool"
+        )
     if "session_expiry" in params and not isinstance(
         params["session_expiry"], float
     ):
         raise InvalidParameterError(
             "Bad parameter: session_expiry must be an float"
+        )
+    if "ssl_required" in params and not isinstance(
+        params["ssl_required"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ssl_required must be an bool"
+        )
+    if "tls_disabled" in params and not isinstance(
+        params["tls_disabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: tls_disabled must be an bool"
+        )
+    if "sftp_insecure_ciphers" in params and not isinstance(
+        params["sftp_insecure_ciphers"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sftp_insecure_ciphers must be an bool"
+        )
+    if "sftp_insecure_diffie_hellman" in params and not isinstance(
+        params["sftp_insecure_diffie_hellman"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sftp_insecure_diffie_hellman must be an bool"
+        )
+    if "disable_files_certificate_generation" in params and not isinstance(
+        params["disable_files_certificate_generation"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: disable_files_certificate_generation must be an bool"
+        )
+    if "user_lockout" in params and not isinstance(
+        params["user_lockout"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: user_lockout must be an bool"
         )
     if "user_lockout_tries" in params and not isinstance(
         params["user_lockout_tries"], int
@@ -505,6 +675,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: user_lockout_lock_period must be an int"
+        )
+    if "include_password_in_welcome_email" in params and not isinstance(
+        params["include_password_in_welcome_email"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: include_password_in_welcome_email must be an bool"
         )
     if "allowed_countries" in params and not isinstance(
         params["allowed_countries"], str
@@ -552,11 +728,89 @@ def update(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: password_min_length must be an int"
         )
+    if "password_require_letter" in params and not isinstance(
+        params["password_require_letter"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: password_require_letter must be an bool"
+        )
+    if "password_require_mixed" in params and not isinstance(
+        params["password_require_mixed"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: password_require_mixed must be an bool"
+        )
+    if "password_require_special" in params and not isinstance(
+        params["password_require_special"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: password_require_special must be an bool"
+        )
+    if "password_require_number" in params and not isinstance(
+        params["password_require_number"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: password_require_number must be an bool"
+        )
+    if "password_require_unbreached" in params and not isinstance(
+        params["password_require_unbreached"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: password_require_unbreached must be an bool"
+        )
+    if "require_logout_from_bundles_and_inboxes" in params and not isinstance(
+        params["require_logout_from_bundles_and_inboxes"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_logout_from_bundles_and_inboxes must be an bool"
+        )
+    if "dav_user_root_enabled" in params and not isinstance(
+        params["dav_user_root_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: dav_user_root_enabled must be an bool"
+        )
+    if "sftp_user_root_enabled" in params and not isinstance(
+        params["sftp_user_root_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sftp_user_root_enabled must be an bool"
+        )
+    if "disable_password_reset" in params and not isinstance(
+        params["disable_password_reset"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: disable_password_reset must be an bool"
+        )
+    if "immutable_files" in params and not isinstance(
+        params["immutable_files"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: immutable_files must be an bool"
+        )
     if "bundle_not_found_message" in params and not isinstance(
         params["bundle_not_found_message"], str
     ):
         raise InvalidParameterError(
             "Bad parameter: bundle_not_found_message must be an str"
+        )
+    if "bundle_password_required" in params and not isinstance(
+        params["bundle_password_required"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_password_required must be an bool"
+        )
+    if "bundle_require_registration" in params and not isinstance(
+        params["bundle_require_registration"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_require_registration must be an bool"
+        )
+    if "bundle_require_share_recipient" in params and not isinstance(
+        params["bundle_require_share_recipient"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_require_share_recipient must be an bool"
         )
     if "bundle_registration_notifications" in params and not isinstance(
         params["bundle_registration_notifications"], str
@@ -576,6 +830,45 @@ def update(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: bundle_upload_receipt_notifications must be an str"
         )
+    if "document_edits_in_bundle_allowed" in params and not isinstance(
+        params["document_edits_in_bundle_allowed"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: document_edits_in_bundle_allowed must be an bool"
+        )
+    if "password_requirements_apply_to_bundles" in params and not isinstance(
+        params["password_requirements_apply_to_bundles"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: password_requirements_apply_to_bundles must be an bool"
+        )
+    if (
+        "prevent_root_permissions_for_non_site_admins" in params
+        and not isinstance(
+            params["prevent_root_permissions_for_non_site_admins"], bool
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: prevent_root_permissions_for_non_site_admins must be an bool"
+        )
+    if "opt_out_global" in params and not isinstance(
+        params["opt_out_global"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: opt_out_global must be an bool"
+        )
+    if "use_provided_modified_at" in params and not isinstance(
+        params["use_provided_modified_at"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: use_provided_modified_at must be an bool"
+        )
+    if "custom_namespace" in params and not isinstance(
+        params["custom_namespace"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: custom_namespace must be an bool"
+        )
     if (
         "disable_users_from_inactivity_period_days" in params
         and not isinstance(
@@ -584,6 +877,74 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: disable_users_from_inactivity_period_days must be an int"
+        )
+    if "non_sso_groups_allowed" in params and not isinstance(
+        params["non_sso_groups_allowed"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: non_sso_groups_allowed must be an bool"
+        )
+    if "non_sso_users_allowed" in params and not isinstance(
+        params["non_sso_users_allowed"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: non_sso_users_allowed must be an bool"
+        )
+    if "sharing_enabled" in params and not isinstance(
+        params["sharing_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharing_enabled must be an bool"
+        )
+    if "snapshot_sharing_enabled" in params and not isinstance(
+        params["snapshot_sharing_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: snapshot_sharing_enabled must be an bool"
+        )
+    if "user_requests_enabled" in params and not isinstance(
+        params["user_requests_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: user_requests_enabled must be an bool"
+        )
+    if "user_requests_notify_admins" in params and not isinstance(
+        params["user_requests_notify_admins"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: user_requests_notify_admins must be an bool"
+        )
+    if "dav_enabled" in params and not isinstance(params["dav_enabled"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: dav_enabled must be an bool"
+        )
+    if "ftp_enabled" in params and not isinstance(params["ftp_enabled"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: ftp_enabled must be an bool"
+        )
+    if "sftp_enabled" in params and not isinstance(
+        params["sftp_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sftp_enabled must be an bool"
+        )
+    if "users_can_create_api_keys" in params and not isinstance(
+        params["users_can_create_api_keys"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: users_can_create_api_keys must be an bool"
+        )
+    if "users_can_create_ssh_keys" in params and not isinstance(
+        params["users_can_create_ssh_keys"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: users_can_create_ssh_keys must be an bool"
+        )
+    if "show_user_notifications_log_in_link" in params and not isinstance(
+        params["show_user_notifications_log_in_link"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: show_user_notifications_log_in_link must be an bool"
         )
     if "sftp_host_key_type" in params and not isinstance(
         params["sftp_host_key_type"], str
@@ -597,17 +958,102 @@ def update(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: active_sftp_host_key_id must be an int"
         )
+    if "protocol_access_groups_only" in params and not isinstance(
+        params["protocol_access_groups_only"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: protocol_access_groups_only must be an bool"
+        )
+    if (
+        "revoke_bundle_access_on_disable_or_delete" in params
+        and not isinstance(
+            params["revoke_bundle_access_on_disable_or_delete"], bool
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: revoke_bundle_access_on_disable_or_delete must be an bool"
+        )
     if "bundle_watermark_value" in params and not isinstance(
         params["bundle_watermark_value"], dict
     ):
         raise InvalidParameterError(
             "Bad parameter: bundle_watermark_value must be an dict"
         )
+    if "group_admins_can_set_user_password" in params and not isinstance(
+        params["group_admins_can_set_user_password"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: group_admins_can_set_user_password must be an bool"
+        )
+    if (
+        "bundle_recipient_blacklist_free_email_domains" in params
+        and not isinstance(
+            params["bundle_recipient_blacklist_free_email_domains"], bool
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_recipient_blacklist_free_email_domains must be an bool"
+        )
     if "bundle_recipient_blacklist_domains" in params and not isinstance(
         params["bundle_recipient_blacklist_domains"], builtins.list
     ):
         raise InvalidParameterError(
             "Bad parameter: bundle_recipient_blacklist_domains must be an list"
+        )
+    if "admins_bypass_locked_subfolders" in params and not isinstance(
+        params["admins_bypass_locked_subfolders"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: admins_bypass_locked_subfolders must be an bool"
+        )
+    if "allowed_2fa_method_sms" in params and not isinstance(
+        params["allowed_2fa_method_sms"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allowed_2fa_method_sms must be an bool"
+        )
+    if "allowed_2fa_method_totp" in params and not isinstance(
+        params["allowed_2fa_method_totp"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allowed_2fa_method_totp must be an bool"
+        )
+    if "allowed_2fa_method_webauthn" in params and not isinstance(
+        params["allowed_2fa_method_webauthn"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allowed_2fa_method_webauthn must be an bool"
+        )
+    if "allowed_2fa_method_yubi" in params and not isinstance(
+        params["allowed_2fa_method_yubi"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allowed_2fa_method_yubi must be an bool"
+        )
+    if "allowed_2fa_method_email" in params and not isinstance(
+        params["allowed_2fa_method_email"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allowed_2fa_method_email must be an bool"
+        )
+    if "allowed_2fa_method_static" in params and not isinstance(
+        params["allowed_2fa_method_static"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allowed_2fa_method_static must be an bool"
+        )
+    if (
+        "allowed_2fa_method_bypass_for_ftp_sftp_dav" in params
+        and not isinstance(
+            params["allowed_2fa_method_bypass_for_ftp_sftp_dav"], bool
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allowed_2fa_method_bypass_for_ftp_sftp_dav must be an bool"
+        )
+    if "require_2fa" in params and not isinstance(params["require_2fa"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: require_2fa must be an bool"
         )
     if "require_2fa_user_type" in params and not isinstance(
         params["require_2fa_user_type"], str
@@ -649,6 +1095,12 @@ def update(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: login_help_text must be an str"
         )
+    if "use_dedicated_ips_for_smtp" in params and not isinstance(
+        params["use_dedicated_ips_for_smtp"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: use_dedicated_ips_for_smtp must be an bool"
+        )
     if "smtp_address" in params and not isinstance(
         params["smtp_address"], str
     ):
@@ -671,6 +1123,12 @@ def update(params=None, options=None):
         )
     if "smtp_port" in params and not isinstance(params["smtp_port"], int):
         raise InvalidParameterError("Bad parameter: smtp_port must be an int")
+    if "ldap_enabled" in params and not isinstance(
+        params["ldap_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ldap_enabled must be an bool"
+        )
     if "ldap_type" in params and not isinstance(params["ldap_type"], str):
         raise InvalidParameterError("Bad parameter: ldap_type must be an str")
     if "ldap_host" in params and not isinstance(params["ldap_host"], str):
@@ -685,6 +1143,10 @@ def update(params=None, options=None):
         )
     if "ldap_port" in params and not isinstance(params["ldap_port"], int):
         raise InvalidParameterError("Bad parameter: ldap_port must be an int")
+    if "ldap_secure" in params and not isinstance(params["ldap_secure"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: ldap_secure must be an bool"
+        )
     if "ldap_username" in params and not isinstance(
         params["ldap_username"], str
     ):
@@ -736,6 +1198,58 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: ldap_base_dn must be an str"
+        )
+    if "uploads_via_email_authentication" in params and not isinstance(
+        params["uploads_via_email_authentication"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: uploads_via_email_authentication must be an bool"
+        )
+    if "icon16_delete" in params and not isinstance(
+        params["icon16_delete"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: icon16_delete must be an bool"
+        )
+    if "icon32_delete" in params and not isinstance(
+        params["icon32_delete"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: icon32_delete must be an bool"
+        )
+    if "icon48_delete" in params and not isinstance(
+        params["icon48_delete"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: icon48_delete must be an bool"
+        )
+    if "icon128_delete" in params and not isinstance(
+        params["icon128_delete"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: icon128_delete must be an bool"
+        )
+    if "logo_delete" in params and not isinstance(params["logo_delete"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: logo_delete must be an bool"
+        )
+    if "bundle_watermark_attachment_delete" in params and not isinstance(
+        params["bundle_watermark_attachment_delete"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_watermark_attachment_delete must be an bool"
+        )
+    if "login_page_background_image_delete" in params and not isinstance(
+        params["login_page_background_image_delete"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: login_page_background_image_delete must be an bool"
+        )
+    if "disable_2fa_with_delay" in params and not isinstance(
+        params["disable_2fa_with_delay"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: disable_2fa_with_delay must be an bool"
         )
     if "ldap_password_change" in params and not isinstance(
         params["ldap_password_change"], str

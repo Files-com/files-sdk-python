@@ -169,6 +169,18 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "title" in params and not isinstance(params["title"], str):
         raise InvalidParameterError("Bad parameter: title must be an str")
+    if "skip_email" in params and not isinstance(params["skip_email"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: skip_email must be an bool"
+        )
+    if "skip_name" in params and not isinstance(params["skip_name"], bool):
+        raise InvalidParameterError("Bad parameter: skip_name must be an bool")
+    if "skip_company" in params and not isinstance(
+        params["skip_company"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: skip_company must be an bool"
+        )
     if "form_fields" in params and not isinstance(
         params["form_fields"], builtins.list
     ):
@@ -197,6 +209,18 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "title" in params and not isinstance(params["title"], str):
         raise InvalidParameterError("Bad parameter: title must be an str")
+    if "skip_email" in params and not isinstance(params["skip_email"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: skip_email must be an bool"
+        )
+    if "skip_name" in params and not isinstance(params["skip_name"], bool):
+        raise InvalidParameterError("Bad parameter: skip_name must be an bool")
+    if "skip_company" in params and not isinstance(
+        params["skip_company"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: skip_company must be an bool"
+        )
     if "form_fields" in params and not isinstance(
         params["form_fields"], builtins.list
     ):

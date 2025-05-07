@@ -84,6 +84,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: body must be an dict")
     if "raw_body" in params and not isinstance(params["raw_body"], str):
         raise InvalidParameterError("Bad parameter: raw_body must be an str")
+    if "file_as_body" in params and not isinstance(
+        params["file_as_body"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: file_as_body must be an bool"
+        )
     if "file_form_field" in params and not isinstance(
         params["file_form_field"], str
     ):
@@ -92,6 +98,12 @@ def create(params=None, options=None):
         )
     if "action" in params and not isinstance(params["action"], str):
         raise InvalidParameterError("Bad parameter: action must be an str")
+    if "use_dedicated_ips" in params and not isinstance(
+        params["use_dedicated_ips"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: use_dedicated_ips must be an bool"
+        )
     if "url" not in params:
         raise MissingParameterError("Parameter missing: url")
     response, options = Api.send_request(

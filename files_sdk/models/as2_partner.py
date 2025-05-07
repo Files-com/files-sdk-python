@@ -212,6 +212,12 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "enable_dedicated_ips" in params and not isinstance(
+        params["enable_dedicated_ips"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: enable_dedicated_ips must be an bool"
+        )
     if "http_auth_username" in params and not isinstance(
         params["http_auth_username"], str
     ):
@@ -297,6 +303,12 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "enable_dedicated_ips" in params and not isinstance(
+        params["enable_dedicated_ips"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: enable_dedicated_ips must be an bool"
+        )
     if "http_auth_username" in params and not isinstance(
         params["http_auth_username"], str
     ):

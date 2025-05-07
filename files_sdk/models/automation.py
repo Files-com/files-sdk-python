@@ -438,10 +438,18 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: schedule_time_zone must be an str"
         )
+    if "always_overwrite_size_matching_files" in params and not isinstance(
+        params["always_overwrite_size_matching_files"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: always_overwrite_size_matching_files must be an bool"
+        )
     if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
             "Bad parameter: description must be an str"
         )
+    if "disabled" in params and not isinstance(params["disabled"], bool):
+        raise InvalidParameterError("Bad parameter: disabled must be an bool")
     if "exclude_pattern" in params and not isinstance(
         params["exclude_pattern"], str
     ):
@@ -454,8 +462,32 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: import_urls must be an list"
         )
+    if "flatten_destination_structure" in params and not isinstance(
+        params["flatten_destination_structure"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: flatten_destination_structure must be an bool"
+        )
+    if "ignore_locked_folders" in params and not isinstance(
+        params["ignore_locked_folders"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ignore_locked_folders must be an bool"
+        )
+    if "legacy_folder_matching" in params and not isinstance(
+        params["legacy_folder_matching"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: legacy_folder_matching must be an bool"
+        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "overwrite_files" in params and not isinstance(
+        params["overwrite_files"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: overwrite_files must be an bool"
+        )
     if "path_time_zone" in params and not isinstance(
         params["path_time_zone"], str
     ):
@@ -606,10 +638,18 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: schedule_time_zone must be an str"
         )
+    if "always_overwrite_size_matching_files" in params and not isinstance(
+        params["always_overwrite_size_matching_files"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: always_overwrite_size_matching_files must be an bool"
+        )
     if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
             "Bad parameter: description must be an str"
         )
+    if "disabled" in params and not isinstance(params["disabled"], bool):
+        raise InvalidParameterError("Bad parameter: disabled must be an bool")
     if "exclude_pattern" in params and not isinstance(
         params["exclude_pattern"], str
     ):
@@ -622,8 +662,32 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: import_urls must be an list"
         )
+    if "flatten_destination_structure" in params and not isinstance(
+        params["flatten_destination_structure"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: flatten_destination_structure must be an bool"
+        )
+    if "ignore_locked_folders" in params and not isinstance(
+        params["ignore_locked_folders"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ignore_locked_folders must be an bool"
+        )
+    if "legacy_folder_matching" in params and not isinstance(
+        params["legacy_folder_matching"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: legacy_folder_matching must be an bool"
+        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "overwrite_files" in params and not isinstance(
+        params["overwrite_files"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: overwrite_files must be an bool"
+        )
     if "path_time_zone" in params and not isinstance(
         params["path_time_zone"], str
     ):

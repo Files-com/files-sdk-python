@@ -354,6 +354,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: additional_headers must be an dict"
         )
+    if "sending_active" in params and not isinstance(
+        params["sending_active"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sending_active must be an bool"
+        )
     if "generic_payload_type" in params and not isinstance(
         params["generic_payload_type"], str
     ):
@@ -434,6 +440,72 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: datadog_api_key must be an str"
+        )
+    if "sftp_action_send_enabled" in params and not isinstance(
+        params["sftp_action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sftp_action_send_enabled must be an bool"
+        )
+    if "ftp_action_send_enabled" in params and not isinstance(
+        params["ftp_action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ftp_action_send_enabled must be an bool"
+        )
+    if "web_dav_action_send_enabled" in params and not isinstance(
+        params["web_dav_action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: web_dav_action_send_enabled must be an bool"
+        )
+    if "sync_send_enabled" in params and not isinstance(
+        params["sync_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sync_send_enabled must be an bool"
+        )
+    if "outbound_connection_send_enabled" in params and not isinstance(
+        params["outbound_connection_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: outbound_connection_send_enabled must be an bool"
+        )
+    if "automation_send_enabled" in params and not isinstance(
+        params["automation_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: automation_send_enabled must be an bool"
+        )
+    if "api_request_send_enabled" in params and not isinstance(
+        params["api_request_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: api_request_send_enabled must be an bool"
+        )
+    if "public_hosting_request_send_enabled" in params and not isinstance(
+        params["public_hosting_request_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: public_hosting_request_send_enabled must be an bool"
+        )
+    if "email_send_enabled" in params and not isinstance(
+        params["email_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: email_send_enabled must be an bool"
+        )
+    if "exavault_api_request_send_enabled" in params and not isinstance(
+        params["exavault_api_request_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: exavault_api_request_send_enabled must be an bool"
+        )
+    if "settings_change_send_enabled" in params and not isinstance(
+        params["settings_change_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: settings_change_send_enabled must be an bool"
         )
     if "destination_type" in params and not isinstance(
         params["destination_type"], str
@@ -518,6 +590,12 @@ def send_test_entry(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: additional_headers must be an dict"
         )
+    if "sending_active" in params and not isinstance(
+        params["sending_active"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sending_active must be an bool"
+        )
     if "generic_payload_type" in params and not isinstance(
         params["generic_payload_type"], str
     ):
@@ -598,6 +676,72 @@ def send_test_entry(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: datadog_api_key must be an str"
+        )
+    if "sftp_action_send_enabled" in params and not isinstance(
+        params["sftp_action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sftp_action_send_enabled must be an bool"
+        )
+    if "ftp_action_send_enabled" in params and not isinstance(
+        params["ftp_action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ftp_action_send_enabled must be an bool"
+        )
+    if "web_dav_action_send_enabled" in params and not isinstance(
+        params["web_dav_action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: web_dav_action_send_enabled must be an bool"
+        )
+    if "sync_send_enabled" in params and not isinstance(
+        params["sync_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sync_send_enabled must be an bool"
+        )
+    if "outbound_connection_send_enabled" in params and not isinstance(
+        params["outbound_connection_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: outbound_connection_send_enabled must be an bool"
+        )
+    if "automation_send_enabled" in params and not isinstance(
+        params["automation_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: automation_send_enabled must be an bool"
+        )
+    if "api_request_send_enabled" in params and not isinstance(
+        params["api_request_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: api_request_send_enabled must be an bool"
+        )
+    if "public_hosting_request_send_enabled" in params and not isinstance(
+        params["public_hosting_request_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: public_hosting_request_send_enabled must be an bool"
+        )
+    if "email_send_enabled" in params and not isinstance(
+        params["email_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: email_send_enabled must be an bool"
+        )
+    if "exavault_api_request_send_enabled" in params and not isinstance(
+        params["exavault_api_request_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: exavault_api_request_send_enabled must be an bool"
+        )
+    if "settings_change_send_enabled" in params and not isinstance(
+        params["settings_change_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: settings_change_send_enabled must be an bool"
         )
     Api.send_request(
         "POST", "/siem_http_destinations/send_test_entry", params, options
@@ -649,6 +793,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: additional_headers must be an dict"
         )
+    if "sending_active" in params and not isinstance(
+        params["sending_active"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sending_active must be an bool"
+        )
     if "generic_payload_type" in params and not isinstance(
         params["generic_payload_type"], str
     ):
@@ -729,6 +879,72 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: datadog_api_key must be an str"
+        )
+    if "sftp_action_send_enabled" in params and not isinstance(
+        params["sftp_action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sftp_action_send_enabled must be an bool"
+        )
+    if "ftp_action_send_enabled" in params and not isinstance(
+        params["ftp_action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ftp_action_send_enabled must be an bool"
+        )
+    if "web_dav_action_send_enabled" in params and not isinstance(
+        params["web_dav_action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: web_dav_action_send_enabled must be an bool"
+        )
+    if "sync_send_enabled" in params and not isinstance(
+        params["sync_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sync_send_enabled must be an bool"
+        )
+    if "outbound_connection_send_enabled" in params and not isinstance(
+        params["outbound_connection_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: outbound_connection_send_enabled must be an bool"
+        )
+    if "automation_send_enabled" in params and not isinstance(
+        params["automation_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: automation_send_enabled must be an bool"
+        )
+    if "api_request_send_enabled" in params and not isinstance(
+        params["api_request_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: api_request_send_enabled must be an bool"
+        )
+    if "public_hosting_request_send_enabled" in params and not isinstance(
+        params["public_hosting_request_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: public_hosting_request_send_enabled must be an bool"
+        )
+    if "email_send_enabled" in params and not isinstance(
+        params["email_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: email_send_enabled must be an bool"
+        )
+    if "exavault_api_request_send_enabled" in params and not isinstance(
+        params["exavault_api_request_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: exavault_api_request_send_enabled must be an bool"
+        )
+    if "settings_change_send_enabled" in params and not isinstance(
+        params["settings_change_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: settings_change_send_enabled must be an bool"
         )
     if "destination_type" in params and not isinstance(
         params["destination_type"], str

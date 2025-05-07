@@ -113,6 +113,22 @@ def list_for(path, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: search_custom_metadata_key must be an str"
         )
+    if "search_all" in params and not isinstance(params["search_all"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: search_all must be an bool"
+        )
+    if "with_previews" in params and not isinstance(
+        params["with_previews"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: with_previews must be an bool"
+        )
+    if "with_priority_color" in params and not isinstance(
+        params["with_priority_color"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: with_priority_color must be an bool"
+        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     return ListObj(
@@ -136,6 +152,12 @@ def create(path, params=None, options=None):
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "mkdir_parents" in params and not isinstance(
+        params["mkdir_parents"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: mkdir_parents must be an bool"
+        )
     if "provided_mtime" in params and not isinstance(
         params["provided_mtime"], str
     ):

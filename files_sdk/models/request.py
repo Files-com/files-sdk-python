@@ -89,6 +89,8 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "mine" in params and not isinstance(params["mine"], bool):
+        raise InvalidParameterError("Bad parameter: mine must be an bool")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     return ListObj(Request, "GET", "/requests", params, options)
@@ -116,6 +118,8 @@ def get_folder(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "mine" in params and not isinstance(params["mine"], bool):
+        raise InvalidParameterError("Bad parameter: mine must be an bool")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "path" not in params:

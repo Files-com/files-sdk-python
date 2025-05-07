@@ -161,6 +161,18 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: bundle_id must be an int")
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "notify_on_registration" in params and not isinstance(
+        params["notify_on_registration"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_registration must be an bool"
+        )
+    if "notify_on_upload" in params and not isinstance(
+        params["notify_on_upload"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_upload must be an bool"
+        )
     if "bundle_id" not in params:
         raise MissingParameterError("Parameter missing: bundle_id")
     response, options = Api.send_request(
@@ -180,6 +192,18 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "notify_on_registration" in params and not isinstance(
+        params["notify_on_registration"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_registration must be an bool"
+        )
+    if "notify_on_upload" in params and not isinstance(
+        params["notify_on_upload"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_upload must be an bool"
+        )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(

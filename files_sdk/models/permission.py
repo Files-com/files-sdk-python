@@ -104,6 +104,12 @@ def list(params=None, options=None):
         )
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "include_groups" in params and not isinstance(
+        params["include_groups"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: include_groups must be an bool"
+        )
     if "group_id" in params and not isinstance(params["group_id"], str):
         raise InvalidParameterError("Bad parameter: group_id must be an str")
     if "user_id" in params and not isinstance(params["user_id"], str):
@@ -135,6 +141,8 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "permission" in params and not isinstance(params["permission"], str):
         raise InvalidParameterError("Bad parameter: permission must be an str")
+    if "recursive" in params and not isinstance(params["recursive"], bool):
+        raise InvalidParameterError("Bad parameter: recursive must be an bool")
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "username" in params and not isinstance(params["username"], str):

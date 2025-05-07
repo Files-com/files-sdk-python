@@ -181,6 +181,12 @@ def list(params=None, options=None):
         )
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "include_ancestors" in params and not isinstance(
+        params["include_ancestors"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: include_ancestors must be an bool"
+        )
     if "group_id" in params and not isinstance(params["group_id"], str):
         raise InvalidParameterError("Bad parameter: group_id must be an str")
     return ListObj(Notification, "GET", "/notifications", params, options)
@@ -237,6 +243,44 @@ def create(params=None, options=None):
         options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "notify_on_copy" in params and not isinstance(
+        params["notify_on_copy"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_copy must be an bool"
+        )
+    if "notify_on_delete" in params and not isinstance(
+        params["notify_on_delete"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_delete must be an bool"
+        )
+    if "notify_on_download" in params and not isinstance(
+        params["notify_on_download"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_download must be an bool"
+        )
+    if "notify_on_move" in params and not isinstance(
+        params["notify_on_move"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_move must be an bool"
+        )
+    if "notify_on_upload" in params and not isinstance(
+        params["notify_on_upload"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_upload must be an bool"
+        )
+    if "notify_user_actions" in params and not isinstance(
+        params["notify_user_actions"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_user_actions must be an bool"
+        )
+    if "recursive" in params and not isinstance(params["recursive"], bool):
+        raise InvalidParameterError("Bad parameter: recursive must be an bool")
     if "send_interval" in params and not isinstance(
         params["send_interval"], str
     ):
@@ -262,6 +306,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: triggering_user_ids must be an list"
+        )
+    if "trigger_by_share_recipients" in params and not isinstance(
+        params["trigger_by_share_recipients"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: trigger_by_share_recipients must be an bool"
         )
     if "group_id" in params and not isinstance(params["group_id"], int):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
@@ -297,6 +347,44 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "notify_on_copy" in params and not isinstance(
+        params["notify_on_copy"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_copy must be an bool"
+        )
+    if "notify_on_delete" in params and not isinstance(
+        params["notify_on_delete"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_delete must be an bool"
+        )
+    if "notify_on_download" in params and not isinstance(
+        params["notify_on_download"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_download must be an bool"
+        )
+    if "notify_on_move" in params and not isinstance(
+        params["notify_on_move"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_move must be an bool"
+        )
+    if "notify_on_upload" in params and not isinstance(
+        params["notify_on_upload"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_upload must be an bool"
+        )
+    if "notify_user_actions" in params and not isinstance(
+        params["notify_user_actions"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_user_actions must be an bool"
+        )
+    if "recursive" in params and not isinstance(params["recursive"], bool):
+        raise InvalidParameterError("Bad parameter: recursive must be an bool")
     if "send_interval" in params and not isinstance(
         params["send_interval"], str
     ):
@@ -322,6 +410,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: triggering_user_ids must be an list"
+        )
+    if "trigger_by_share_recipients" in params and not isinstance(
+        params["trigger_by_share_recipients"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: trigger_by_share_recipients must be an bool"
         )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")

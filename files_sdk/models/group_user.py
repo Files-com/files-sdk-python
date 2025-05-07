@@ -159,6 +159,8 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "admin" in params and not isinstance(params["admin"], bool):
+        raise InvalidParameterError("Bad parameter: admin must be an bool")
     if "group_id" not in params:
         raise MissingParameterError("Parameter missing: group_id")
     if "user_id" not in params:
@@ -185,6 +187,8 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "admin" in params and not isinstance(params["admin"], bool):
+        raise InvalidParameterError("Bad parameter: admin must be an bool")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     if "group_id" not in params:

@@ -94,6 +94,12 @@ def list_for(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "include_children" in params and not isinstance(
+        params["include_children"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: include_children must be an bool"
+        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     return ListObj(
@@ -119,6 +125,16 @@ def create(path, params=None, options=None):
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "allow_access_by_any_user" in params and not isinstance(
+        params["allow_access_by_any_user"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allow_access_by_any_user must be an bool"
+        )
+    if "exclusive" in params and not isinstance(params["exclusive"], bool):
+        raise InvalidParameterError("Bad parameter: exclusive must be an bool")
+    if "recursive" in params and not isinstance(params["recursive"], bool):
+        raise InvalidParameterError("Bad parameter: recursive must be an bool")
     if "timeout" in params and not isinstance(params["timeout"], int):
         raise InvalidParameterError("Bad parameter: timeout must be an int")
     if "path" not in params:

@@ -94,6 +94,24 @@ def create(params=None, options=None):
         )
     if "prefix" in params and not isinstance(params["prefix"], str):
         raise InvalidParameterError("Bad parameter: prefix must be an str")
+    if "restore_deleted_permissions" in params and not isinstance(
+        params["restore_deleted_permissions"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: restore_deleted_permissions must be an bool"
+        )
+    if "restore_in_place" in params and not isinstance(
+        params["restore_in_place"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: restore_in_place must be an bool"
+        )
+    if "update_timestamps" in params and not isinstance(
+        params["update_timestamps"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: update_timestamps must be an bool"
+        )
     if "earliest_date" not in params:
         raise MissingParameterError("Parameter missing: earliest_date")
     response, options = Api.send_request("POST", "/restores", params, options)

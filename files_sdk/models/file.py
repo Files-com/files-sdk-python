@@ -442,6 +442,18 @@ def download(path, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: preview_size must be an str"
         )
+    if "with_previews" in params and not isinstance(
+        params["with_previews"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: with_previews must be an bool"
+        )
+    if "with_priority_color" in params and not isinstance(
+        params["with_priority_color"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: with_priority_color must be an bool"
+        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
@@ -477,6 +489,12 @@ def create(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: action must be an str")
     if "length" in params and not isinstance(params["length"], int):
         raise InvalidParameterError("Bad parameter: length must be an int")
+    if "mkdir_parents" in params and not isinstance(
+        params["mkdir_parents"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: mkdir_parents must be an bool"
+        )
     if "part" in params and not isinstance(params["part"], int):
         raise InvalidParameterError("Bad parameter: part must be an int")
     if "parts" in params and not isinstance(params["parts"], int):
@@ -495,6 +513,10 @@ def create(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: size must be an int")
     if "structure" in params and not isinstance(params["structure"], str):
         raise InvalidParameterError("Bad parameter: structure must be an str")
+    if "with_rename" in params and not isinstance(params["with_rename"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: with_rename must be an bool"
+        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
@@ -551,6 +573,8 @@ def delete(path, params=None, options=None):
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "recursive" in params and not isinstance(params["recursive"], bool):
+        raise InvalidParameterError("Bad parameter: recursive must be an bool")
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     Api.send_request(
@@ -580,6 +604,18 @@ def find(path, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: preview_size must be an str"
+        )
+    if "with_previews" in params and not isinstance(
+        params["with_previews"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: with_previews must be an bool"
+        )
+    if "with_priority_color" in params and not isinstance(
+        params["with_priority_color"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: with_priority_color must be an bool"
         )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
@@ -614,6 +650,10 @@ def copy(path, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: destination must be an str"
         )
+    if "structure" in params and not isinstance(params["structure"], bool):
+        raise InvalidParameterError("Bad parameter: structure must be an bool")
+    if "overwrite" in params and not isinstance(params["overwrite"], bool):
+        raise InvalidParameterError("Bad parameter: overwrite must be an bool")
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     if "destination" not in params:
@@ -644,6 +684,8 @@ def move(path, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: destination must be an str"
         )
+    if "overwrite" in params and not isinstance(params["overwrite"], bool):
+        raise InvalidParameterError("Bad parameter: overwrite must be an bool")
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     if "destination" not in params:
@@ -675,6 +717,12 @@ def begin_upload(path, params=None, options=None):
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "mkdir_parents" in params and not isinstance(
+        params["mkdir_parents"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: mkdir_parents must be an bool"
+        )
     if "part" in params and not isinstance(params["part"], int):
         raise InvalidParameterError("Bad parameter: part must be an int")
     if "parts" in params and not isinstance(params["parts"], int):
@@ -685,6 +733,10 @@ def begin_upload(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: restart must be an int")
     if "size" in params and not isinstance(params["size"], int):
         raise InvalidParameterError("Bad parameter: size must be an int")
+    if "with_rename" in params and not isinstance(params["with_rename"], bool):
+        raise InvalidParameterError(
+            "Bad parameter: with_rename must be an bool"
+        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(

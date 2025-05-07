@@ -104,6 +104,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: company must be an str")
     if "note" in params and not isinstance(params["note"], str):
         raise InvalidParameterError("Bad parameter: note must be an str")
+    if "share_after_create" in params and not isinstance(
+        params["share_after_create"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: share_after_create must be an bool"
+        )
     if "inbox_id" not in params:
         raise MissingParameterError("Parameter missing: inbox_id")
     if "recipient" not in params:

@@ -129,6 +129,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: query_status must be an str"
         )
+    if "query_success" in params and not isinstance(
+        params["query_success"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: query_success must be an bool"
+        )
     if "query_path" in params and not isinstance(params["query_path"], str):
         raise InvalidParameterError("Bad parameter: query_path must be an str")
     if "query_folder" in params and not isinstance(
