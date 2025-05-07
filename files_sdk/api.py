@@ -23,6 +23,7 @@ class Api:
         headers = copy.deepcopy(options)
         api_key = headers.pop("api_key", None)
         session_id = headers.pop("session_id", None)
+        language = headers.pop("language", None)
 
         session = headers.pop("session", None)
         if session:
@@ -31,7 +32,12 @@ class Api:
             session_id = str(session.id)
 
         response = Api.client().send_request(
-            verb, path, api_key=api_key, session_id=session_id, params=params
+            verb,
+            path,
+            api_key=api_key,
+            session_id=session_id,
+            language=language,
+            params=params,
         )
 
         # Remove options not in the allow list

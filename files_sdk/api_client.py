@@ -48,6 +48,7 @@ class ApiClient:
         path,
         api_key=None,
         session_id=None,
+        language=None,
         headers=None,
         params=None,
     ):
@@ -66,7 +67,13 @@ class ApiClient:
                 api_key = files_sdk.get_api_key()
             self.check_api_key(api_key)
 
-        headers = {**headers, **self.request_headers(api_key, session_id)}
+        if files_sdk.language:
+            language = files_sdk.language
+
+        headers = {
+            **headers,
+            **self.request_headers(api_key, session_id, language),
+        }
 
         data = None
         query_params = None
@@ -187,7 +194,7 @@ class ApiClient:
         sleep_seconds *= 0.5 * (1 + random.random())
         return max(files_sdk.initial_network_retry_delay, sleep_seconds)
 
-    def request_headers(self, api_key, session_id):
+    def request_headers(self, api_key, session_id, language):
         user_agent = "Files.com Python SDK v{version}".format(
             version=files_sdk.version
         )
@@ -201,6 +208,8 @@ class ApiClient:
             headers["X-FilesAPI-Key"] = api_key
         if session_id:
             headers["X-FilesAPI-Auth"] = session_id
+        if language:
+            headers["Accept-Language"] = language
 
         return headers
 

@@ -208,11 +208,12 @@ import socket
 from urllib.parse import urlparse
 
 the_api_key = ""
+language = None
 session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.5.5"
+version = "1.5.6"
 
 __version__ = version
 
@@ -224,7 +225,7 @@ max_network_retries = 3
 
 console_log_level = "none"
 
-OPTS = ("api_key", "client", "session_id", "source_ip")
+OPTS = ("api_key", "client", "session_id", "source_ip", "language")
 
 
 def set_api_key(_api_key):
@@ -235,6 +236,16 @@ def set_api_key(_api_key):
 def get_api_key():
     global the_api_key
     return the_api_key
+
+
+def set_language(_language):
+    global language
+    language = _language
+
+
+def get_language():
+    global language
+    return language
 
 
 def set_session(_session):
