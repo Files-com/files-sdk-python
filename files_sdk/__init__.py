@@ -213,7 +213,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.0"
+version = "1.6.1"
 
 __version__ = version
 

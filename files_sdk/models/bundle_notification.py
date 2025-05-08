@@ -14,7 +14,7 @@ class BundleNotification:
         "id": None,  # int64 - Bundle Notification ID
         "notify_on_registration": None,  # boolean - Triggers bundle notification when a registration action occurs for it.
         "notify_on_upload": None,  # boolean - Triggers bundle notification when a upload action occurs for it.
-        "user_id": None,  # int64 - The id of the user to notify.
+        "notify_user_id": None,  # int64 - The id of the user to notify.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -149,7 +149,7 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   bundle_id (required) - int64 - Bundle ID to notify on
-#   user_id - int64 - The id of the user to notify.
+#   notify_user_id - int64 - The id of the user to notify.
 #   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
 #   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
 def create(params=None, options=None):
@@ -159,8 +159,12 @@ def create(params=None, options=None):
         options = {}
     if "bundle_id" in params and not isinstance(params["bundle_id"], int):
         raise InvalidParameterError("Bad parameter: bundle_id must be an int")
-    if "user_id" in params and not isinstance(params["user_id"], int):
-        raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "notify_user_id" in params and not isinstance(
+        params["notify_user_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_user_id must be an int"
+        )
     if "notify_on_registration" in params and not isinstance(
         params["notify_on_registration"], bool
     ):

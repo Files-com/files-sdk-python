@@ -8,7 +8,7 @@
   "id": 1,
   "notify_on_registration": True,
   "notify_on_upload": True,
-  "user_id": 1
+  "notify_user_id": 1
 }
 ```
 
@@ -16,7 +16,7 @@
 * `id` (int64): Bundle Notification ID
 * `notify_on_registration` (boolean): Triggers bundle notification when a registration action occurs for it.
 * `notify_on_upload` (boolean): Triggers bundle notification when a upload action occurs for it.
-* `user_id` (int64): The id of the user to notify.
+* `notify_user_id` (int64): The id of the user to notify.
 
 
 ---
@@ -55,7 +55,7 @@ files_sdk.bundle_notification.find(id)
 ```
 files_sdk.bundle_notification.create({
   "bundle_id": 1,
-  "user_id": 1,
+  "notify_user_id": 1,
   "notify_on_registration": True,
   "notify_on_upload": True
 })
@@ -64,7 +64,7 @@ files_sdk.bundle_notification.create({
 ### Parameters
 
 * `bundle_id` (int64): Required - Bundle ID to notify on
-* `user_id` (int64): The id of the user to notify.
+* `notify_user_id` (int64): The id of the user to notify.
 * `notify_on_registration` (boolean): Triggers bundle notification when a registration action occurs for it.
 * `notify_on_upload` (boolean): Triggers bundle notification when a upload action occurs for it.
 

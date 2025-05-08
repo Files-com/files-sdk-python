@@ -357,7 +357,7 @@ except files_sdk.error.Error as err:
 
 ## Foreign Language Support
 
-The Files.com PHP SDK supports localized responses by using the `files_sdk.set_language` configuration method.
+The Files.com Python SDK supports localized responses by using the `files_sdk.set_language` configuration method.
 When configured, this guides the API in selecting a preferred language for applicable response content.
 
 Language support currently applies to select human-facing fields only, such as notification messages
