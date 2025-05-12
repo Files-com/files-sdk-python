@@ -15,6 +15,7 @@ class BundleNotification:
         "notify_on_registration": None,  # boolean - Triggers bundle notification when a registration action occurs for it.
         "notify_on_upload": None,  # boolean - Triggers bundle notification when a upload action occurs for it.
         "notify_user_id": None,  # int64 - The id of the user to notify.
+        "user_id": None,  # int64 - User ID.  Provide a value of `0` to operate the current session's user.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -96,6 +97,7 @@ class BundleNotification:
 
 
 # Parameters:
+#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `bundle_id`.
@@ -105,6 +107,8 @@ def list(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -148,6 +152,7 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
+#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   bundle_id (required) - int64 - Bundle ID to notify on
 #   notify_user_id - int64 - The id of the user to notify.
 #   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
@@ -157,6 +162,8 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "bundle_id" in params and not isinstance(params["bundle_id"], int):
         raise InvalidParameterError("Bad parameter: bundle_id must be an int")
     if "notify_user_id" in params and not isinstance(
