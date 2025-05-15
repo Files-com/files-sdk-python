@@ -98,6 +98,7 @@ from files_sdk.models.usage_daily_snapshot import UsageDailySnapshot
 from files_sdk.models.usage_snapshot import UsageSnapshot
 from files_sdk.models.user import User
 from files_sdk.models.user_cipher_use import UserCipherUse
+from files_sdk.models.user_lifecycle_rule import UserLifecycleRule
 from files_sdk.models.user_request import UserRequest
 from files_sdk.models.user_sftp_client_use import UserSftpClientUse
 from files_sdk.models.web_dav_action_log import WebDavActionLog
