@@ -41,6 +41,54 @@ class UserLifecycleRule:
             if getattr(self, k, None) is not None
         }
 
+    # Parameters:
+    #   action (required) - string - Action to take on inactive users (disable or delete)
+    #   authentication_method (required) - string - User authentication method for the rule
+    #   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
+    #   include_site_admins - boolean - Include site admins in the rule
+    #   include_folder_admins - boolean - Include folder admins in the rule
+    def update(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "action" not in params:
+            raise MissingParameterError("Parameter missing: action")
+        if "authentication_method" not in params:
+            raise MissingParameterError(
+                "Parameter missing: authentication_method"
+            )
+        if "inactivity_days" not in params:
+            raise MissingParameterError("Parameter missing: inactivity_days")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "action" in params and not isinstance(params["action"], str):
+            raise InvalidParameterError("Bad parameter: action must be an str")
+        if "authentication_method" in params and not isinstance(
+            params["authentication_method"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: authentication_method must be an str"
+            )
+        if "inactivity_days" in params and not isinstance(
+            params["inactivity_days"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: inactivity_days must be an int"
+            )
+        response, _options = Api.send_request(
+            "PATCH",
+            "/user_lifecycle_rules/{id}".format(id=params["id"]),
+            params,
+            self.options,
+        )
+        return response.data
+
     def delete(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -65,9 +113,9 @@ class UserLifecycleRule:
 
     def save(self):
         if hasattr(self, "id") and self.id:
-            raise NotImplementedError(
-                "The UserLifecycleRule object doesn't support updates."
-            )
+            new_obj = self.update(self.get_attributes())
+            self.set_attributes(new_obj.get_attributes())
+            return True
         else:
             new_obj = create(self.get_attributes(), self.options)
             self.set_attributes(new_obj.get_attributes())
@@ -165,6 +213,63 @@ def create(params=None, options=None):
         raise MissingParameterError("Parameter missing: inactivity_days")
     response, options = Api.send_request(
         "POST", "/user_lifecycle_rules", params, options
+    )
+    return UserLifecycleRule(response.data, options)
+
+
+# Parameters:
+#   action (required) - string - Action to take on inactive users (disable or delete)
+#   authentication_method (required) - string - User authentication method for the rule
+#   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
+#   include_site_admins - boolean - Include site admins in the rule
+#   include_folder_admins - boolean - Include folder admins in the rule
+def update(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "authentication_method" in params and not isinstance(
+        params["authentication_method"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: authentication_method must be an str"
+        )
+    if "inactivity_days" in params and not isinstance(
+        params["inactivity_days"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: inactivity_days must be an int"
+        )
+    if "include_site_admins" in params and not isinstance(
+        params["include_site_admins"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: include_site_admins must be an bool"
+        )
+    if "include_folder_admins" in params and not isinstance(
+        params["include_folder_admins"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: include_folder_admins must be an bool"
+        )
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    if "action" not in params:
+        raise MissingParameterError("Parameter missing: action")
+    if "authentication_method" not in params:
+        raise MissingParameterError("Parameter missing: authentication_method")
+    if "inactivity_days" not in params:
+        raise MissingParameterError("Parameter missing: inactivity_days")
+    response, options = Api.send_request(
+        "PATCH",
+        "/user_lifecycle_rules/{id}".format(id=params["id"]),
+        params,
+        options,
     )
     return UserLifecycleRule(response.data, options)
 

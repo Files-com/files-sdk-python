@@ -8,6 +8,17 @@ from files_sdk import user_lifecycle_rule
 class UserLifecycleRuleTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/user_lifecycle_rules/{id}"), "Mock path does not exist")
+    def test_update(self):
+        params = {
+            "id" : 12345,
+            "action" : "foo",
+            "authentication_method" : "foo",
+            "inactivity_days" : 12345,
+        }
+        user_lifecycle_rule = UserLifecycleRule(params)
+        user_lifecycle_rule.update(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/user_lifecycle_rules/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
@@ -41,6 +52,17 @@ class UserLifecycleRuleTest(TestBase):
             "inactivity_days" : 12345,
         }
         user_lifecycle_rule.create(params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/user_lifecycle_rules/{id}"), "Mock path does not exist")
+    def test_update(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+            "action" : "foo",
+            "authentication_method" : "foo",
+            "inactivity_days" : 12345,
+        }
+        user_lifecycle_rule.update(id, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/user_lifecycle_rules/{id}"), "Mock path does not exist")
     def test_delete(self):

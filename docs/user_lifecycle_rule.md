@@ -74,6 +74,29 @@ files_sdk.user_lifecycle_rule.create({
 
 ---
 
+## Update User Lifecycle Rule
+
+```
+files_sdk.user_lifecycle_rule.update(id, {
+  "authentication_method": "password",
+  "inactivity_days": 12,
+  "include_site_admins": True,
+  "include_folder_admins": True
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - User Lifecycle Rule ID.
+* `action` (string): Required - Action to take on inactive users (disable or delete)
+* `authentication_method` (string): Required - User authentication method for the rule
+* `inactivity_days` (int64): Required - Number of days of inactivity before the rule applies
+* `include_site_admins` (boolean): Include site admins in the rule
+* `include_folder_admins` (boolean): Include folder admins in the rule
+
+
+---
+
 ## Delete User Lifecycle Rule
 
 ```
@@ -83,6 +106,30 @@ files_sdk.user_lifecycle_rule.delete(id)
 ### Parameters
 
 * `id` (int64): Required - User Lifecycle Rule ID.
+
+
+---
+
+## Update User Lifecycle Rule
+
+```
+user_lifecycle_rule = files_sdk.user_lifecycle_rule.find(id)
+user_lifecycle_rule.update({
+  "authentication_method": "password",
+  "inactivity_days": 12,
+  "include_site_admins": True,
+  "include_folder_admins": True
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - User Lifecycle Rule ID.
+* `action` (string): Required - Action to take on inactive users (disable or delete)
+* `authentication_method` (string): Required - User authentication method for the rule
+* `inactivity_days` (int64): Required - Number of days of inactivity before the rule applies
+* `include_site_admins` (boolean): Include site admins in the rule
+* `include_folder_admins` (boolean): Include folder admins in the rule
 
 
 ---
