@@ -12,7 +12,7 @@ class ExavaultApiRequestLog:
     default_attributes = {
         "timestamp": None,  # date-time - Start Time of Action
         "endpoint": None,  # string - Name of API Endpoint
-        "version": None,  # string - Exavault API Version
+        "version": None,  # int64 - Exavault API Version
         "request_ip": None,  # string - IP of requesting client
         "request_method": None,  # string - HTTP Method
         "error_type": None,  # string - Error type, if applicable
