@@ -17,6 +17,7 @@ class FormFieldSet:
         "skip_name": None,  # boolean - Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
         "skip_email": None,  # boolean - Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
         "skip_company": None,  # boolean - Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
+        "in_use": None,  # boolean - Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration
         "user_id": None,  # int64 - User ID.  Provide a value of `0` to operate the current session's user.
     }
 
