@@ -437,12 +437,15 @@ files_sdk.user.update(id, {
 ## Delete User
 
 ```
-files_sdk.user.delete(id)
+files_sdk.user.delete(id, {
+  "new_owner_id": 1
+})
 ```
 
 ### Parameters
 
 * `id` (int64): Required - User ID.
+* `new_owner_id` (int64): Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
 
 
 ---
@@ -595,9 +598,12 @@ user.update({
 
 ```
 user = files_sdk.user.find(id)
-user.delete()
+user.delete({
+  "new_owner_id": 1
+})
 ```
 
 ### Parameters
 
 * `id` (int64): Required - User ID.
+* `new_owner_id` (int64): Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.

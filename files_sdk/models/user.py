@@ -367,6 +367,8 @@ class User:
         )
         return response.data
 
+    # Parameters:
+    #   new_owner_id - int64 - Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
     def delete(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -379,6 +381,12 @@ class User:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
+        if "new_owner_id" in params and not isinstance(
+            params["new_owner_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: new_owner_id must be an int"
+            )
         Api.send_request(
             "DELETE",
             "/users/{id}".format(id=params["id"]),
@@ -1092,6 +1100,8 @@ def update(id, params=None, options=None):
     return User(response.data, options)
 
 
+# Parameters:
+#   new_owner_id - int64 - Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
 def delete(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -1100,6 +1110,12 @@ def delete(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "new_owner_id" in params and not isinstance(
+        params["new_owner_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: new_owner_id must be an int"
+        )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
