@@ -184,7 +184,8 @@
     "legacy_checksums_mode": True,
     "use_provided_modified_at": True,
     "windows_mode_ftp": False,
-    "user_belongs_to_parent_site": False
+    "user_belongs_to_parent_site": False,
+    "impersonator_user_id": 1
   },
   "sftp_enabled": True,
   "sftp_host_key_type": "default",

@@ -29,6 +29,7 @@ class ApiRequestLog:
         "response_code": None,  # int64 - HTTP Response Code
         "success": None,  # boolean - `false` if HTTP Response Code is 4xx or 5xx
         "duration_ms": None,  # int64 - Duration (in milliseconds)
+        "impersonator_user_id": None,  # int64 - User ID of Site Admin user impersonating this user via a Read-Only session.
     }
 
     def __init__(self, attributes=None, options=None):
