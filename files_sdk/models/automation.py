@@ -11,6 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class Automation:
     default_attributes = {
         "id": None,  # int64 - Automation ID
+        "always_serialize_jobs": None,  # boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
         "always_overwrite_size_matching_files": None,  # boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
         "automation": None,  # string - Automation type
         "deleted": None,  # boolean - Indicates if the automation has been deleted.
@@ -102,6 +103,7 @@ class Automation:
     #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
     #   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
     #   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
+    #   always_serialize_jobs - boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
     #   description - string - Description for the this Automation.
     #   disabled - boolean - If true, this automation will not run.
     #   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
@@ -368,6 +370,7 @@ def get(id, params=None, options=None):
 #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 #   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
 #   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
+#   always_serialize_jobs - boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
 #   description - string - Description for the this Automation.
 #   disabled - boolean - If true, this automation will not run.
 #   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
@@ -443,6 +446,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: always_overwrite_size_matching_files must be an bool"
+        )
+    if "always_serialize_jobs" in params and not isinstance(
+        params["always_serialize_jobs"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: always_serialize_jobs must be an bool"
         )
     if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
@@ -565,6 +574,7 @@ def manual_run(id, params=None, options=None):
 #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 #   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
 #   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
+#   always_serialize_jobs - boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
 #   description - string - Description for the this Automation.
 #   disabled - boolean - If true, this automation will not run.
 #   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
@@ -643,6 +653,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: always_overwrite_size_matching_files must be an bool"
+        )
+    if "always_serialize_jobs" in params and not isinstance(
+        params["always_serialize_jobs"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: always_serialize_jobs must be an bool"
         )
     if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
