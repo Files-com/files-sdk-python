@@ -229,7 +229,7 @@
     "billable": True,
     "billing_permission": False,
     "bypass_site_allowed_ips": False,
-    "bypass_inactive_disable": False,
+    "bypass_user_lifecycle_rules": False,
     "created_at": "2000-01-01T01:00:00Z",
     "dav_permission": True,
     "disabled": True,
@@ -299,7 +299,6 @@
   "welcome_email_enabled": True,
   "welcome_screen": "user_controlled",
   "windows_mode_ftp": True,
-  "disable_users_from_inactivity_period_days": 1,
   "group_admins_can_set_user_password": True
 }
 ```
@@ -473,7 +472,6 @@
 * `welcome_email_enabled` (boolean): Will the welcome email be sent to new users?
 * `welcome_screen` (string): Does the welcome screen appear?
 * `windows_mode_ftp` (boolean): Does FTP user Windows emulation mode?
-* `disable_users_from_inactivity_period_days` (int64): If greater than zero, users will unable to login if they do not show activity within this number of days.
 * `group_admins_can_set_user_password` (boolean): Allow group admins set password authentication method
 
 
@@ -584,7 +582,6 @@ files_sdk.site.update({
   "opt_out_global": False,
   "use_provided_modified_at": False,
   "custom_namespace": False,
-  "disable_users_from_inactivity_period_days": 1,
   "non_sso_groups_allowed": False,
   "non_sso_users_allowed": False,
   "sharing_enabled": False,
@@ -744,7 +741,6 @@ files_sdk.site.update({
 * `opt_out_global` (boolean): Use servers in the USA only?
 * `use_provided_modified_at` (boolean): Allow uploaders to set `provided_modified_at` for uploaded files?
 * `custom_namespace` (boolean): Is this site using a custom namespace for users?
-* `disable_users_from_inactivity_period_days` (int64): If greater than zero, users will unable to login if they do not show activity within this number of days.
 * `non_sso_groups_allowed` (boolean): If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
 * `non_sso_users_allowed` (boolean): If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 * `sharing_enabled` (boolean): Allow bundle creation

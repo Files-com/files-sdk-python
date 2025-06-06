@@ -179,7 +179,6 @@ class Site:
         "welcome_email_enabled": None,  # boolean - Will the welcome email be sent to new users?
         "welcome_screen": None,  # string - Does the welcome screen appear?
         "windows_mode_ftp": None,  # boolean - Does FTP user Windows emulation mode?
-        "disable_users_from_inactivity_period_days": None,  # int64 - If greater than zero, users will unable to login if they do not show activity within this number of days.
         "group_admins_can_set_user_password": None,  # boolean - Allow group admins set password authentication method
     }
 
@@ -306,7 +305,6 @@ def get_usage(params=None, options=None):
 #   opt_out_global - boolean - Use servers in the USA only?
 #   use_provided_modified_at - boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
 #   custom_namespace - boolean - Is this site using a custom namespace for users?
-#   disable_users_from_inactivity_period_days - int64 - If greater than zero, users will unable to login if they do not show activity within this number of days.
 #   non_sso_groups_allowed - boolean - If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
 #   non_sso_users_allowed - boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 #   sharing_enabled - boolean - Allow bundle creation
@@ -868,15 +866,6 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: custom_namespace must be an bool"
-        )
-    if (
-        "disable_users_from_inactivity_period_days" in params
-        and not isinstance(
-            params["disable_users_from_inactivity_period_days"], int
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: disable_users_from_inactivity_period_days must be an int"
         )
     if "non_sso_groups_allowed" in params and not isinstance(
         params["non_sso_groups_allowed"], bool

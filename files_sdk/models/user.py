@@ -22,7 +22,7 @@ class User:
         "billable": None,  # boolean - Is this a billable user record?
         "billing_permission": None,  # boolean - Allow this user to perform operations on the account, payments, and invoices?
         "bypass_site_allowed_ips": None,  # boolean - Allow this user to skip site-wide IP blacklists?
-        "bypass_inactive_disable": None,  # boolean - Exempt this user from being disabled based on inactivity?
+        "bypass_user_lifecycle_rules": None,  # boolean - Exempt this user from user lifecycle rules?
         "created_at": None,  # date-time - When this user was created
         "dav_permission": None,  # boolean - Can the user connect with WebDAV?
         "disabled": None,  # boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
@@ -185,7 +185,7 @@ class User:
     #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
     #   authentication_method - string - How is this user authenticated?
     #   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
-    #   bypass_inactive_disable - boolean - Exempt this user from being disabled based on inactivity?
+    #   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
     #   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
     #   dav_permission - boolean - Can the user connect with WebDAV?
     #   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
@@ -509,7 +509,7 @@ def get(id, params=None, options=None):
 #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
 #   authentication_method - string - How is this user authenticated?
 #   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
-#   bypass_inactive_disable - boolean - Exempt this user from being disabled based on inactivity?
+#   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
 #   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
 #   dav_permission - boolean - Can the user connect with WebDAV?
 #   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
@@ -622,11 +622,11 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: billing_permission must be an bool"
         )
-    if "bypass_inactive_disable" in params and not isinstance(
-        params["bypass_inactive_disable"], bool
+    if "bypass_user_lifecycle_rules" in params and not isinstance(
+        params["bypass_user_lifecycle_rules"], bool
     ):
         raise InvalidParameterError(
-            "Bad parameter: bypass_inactive_disable must be an bool"
+            "Bad parameter: bypass_user_lifecycle_rules must be an bool"
         )
     if "bypass_site_allowed_ips" in params and not isinstance(
         params["bypass_site_allowed_ips"], bool
@@ -838,7 +838,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
 #   authentication_method - string - How is this user authenticated?
 #   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
-#   bypass_inactive_disable - boolean - Exempt this user from being disabled based on inactivity?
+#   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
 #   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
 #   dav_permission - boolean - Can the user connect with WebDAV?
 #   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
@@ -954,11 +954,11 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: billing_permission must be an bool"
         )
-    if "bypass_inactive_disable" in params and not isinstance(
-        params["bypass_inactive_disable"], bool
+    if "bypass_user_lifecycle_rules" in params and not isinstance(
+        params["bypass_user_lifecycle_rules"], bool
     ):
         raise InvalidParameterError(
-            "Bad parameter: bypass_inactive_disable must be an bool"
+            "Bad parameter: bypass_user_lifecycle_rules must be an bool"
         )
     if "bypass_site_allowed_ips" in params and not isinstance(
         params["bypass_site_allowed_ips"], bool
