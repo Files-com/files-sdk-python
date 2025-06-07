@@ -15,6 +15,7 @@ class PublicKey:
         "created_at": None,  # date-time - Public key created at date/time
         "fingerprint": None,  # string - Public key fingerprint (MD5)
         "fingerprint_sha256": None,  # string - Public key fingerprint (SHA256)
+        "last_login_at": None,  # date-time - Key's most recent login time via SFTP
         "username": None,  # string - Username of the user this public key is associated with
         "user_id": None,  # int64 - User ID this public key is associated with
         "public_key": None,  # string - Actual contents of SSH key.
