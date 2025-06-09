@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 
 class EmailLog:
     default_attributes = {
-        "timestamp": None,  # date-time - Start Time of Action
+        "timestamp": None,  # date-time - Start Time of Action. Deprecrated: Use created_at.
         "message": None,  # string - Log Message
         "status": None,  # string - Status of E-Mail delivery
         "subject": None,  # string - Subject line of E-Mail
@@ -19,6 +19,7 @@ class EmailLog:
         "delivery_method": None,  # string - How was the email delivered?  `customer_smtp` or `files.com`
         "smtp_hostname": None,  # string - Customer SMTP Hostname used.
         "smtp_ip": None,  # string - Customer SMTP IP address as resolved for use (useful for troubleshooting DNS issues with customer SMTP).
+        "created_at": None,  # date-time - Start Time of Action
     }
 
     def __init__(self, attributes=None, options=None):
@@ -44,8 +45,12 @@ class EmailLog:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `start_date`, `end_date` or `status`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ start_date, end_date ]`, `[ start_date, status ]` or `[ end_date, status ]`.
-#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `status`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ start_date, end_date ]`, `[ start_date, status ]` or `[ end_date, status ]`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `start_date`, `end_date`, `status` or `created_at`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
+#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
+#   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
+#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `status`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
+#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
+#   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -57,11 +62,23 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "filter" in params and not isinstance(params["filter"], dict):
         raise InvalidParameterError("Bad parameter: filter must be an dict")
+    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
+        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
+    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
+        raise InvalidParameterError(
+            "Bad parameter: filter_gteq must be an dict"
+        )
     if "filter_prefix" in params and not isinstance(
         params["filter_prefix"], dict
     ):
         raise InvalidParameterError(
             "Bad parameter: filter_prefix must be an dict"
+        )
+    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
+        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
+    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
+        raise InvalidParameterError(
+            "Bad parameter: filter_lteq must be an dict"
         )
     return ListObj(EmailLog, "GET", "/email_logs", params, options)
 
