@@ -68,6 +68,7 @@
   "desktop_app_session_ip_pinning": True,
   "desktop_app_session_lifetime": 1,
   "legacy_checksums_mode": True,
+  "migrate_remote_server_sync_to_sync": True,
   "mobile_app": True,
   "mobile_app_session_ip_pinning": True,
   "mobile_app_session_lifetime": 1,
@@ -358,6 +359,7 @@
 * `desktop_app_session_ip_pinning` (boolean): Is desktop app session IP pinning enabled?
 * `desktop_app_session_lifetime` (int64): Desktop app session lifetime (in hours)
 * `legacy_checksums_mode` (boolean): Use legacy checksums mode?
+* `migrate_remote_server_sync_to_sync` (boolean): If true, we will migrate all remote server syncs to the new Sync model.
 * `mobile_app` (boolean): Is the mobile app enabled?
 * `mobile_app_session_ip_pinning` (boolean): Is mobile app session IP pinning enabled?
 * `mobile_app_session_lifetime` (int64): Mobile app session lifetime (in hours)
@@ -540,6 +542,7 @@ files_sdk.site.update({
   "calculate_file_checksums_sha1": False,
   "calculate_file_checksums_sha256": False,
   "legacy_checksums_mode": False,
+  "migrate_remote_server_sync_to_sync": False,
   "session_expiry": 1.0,
   "ssl_required": False,
   "tls_disabled": False,
@@ -699,6 +702,7 @@ files_sdk.site.update({
 * `calculate_file_checksums_sha1` (boolean): Calculate SHA1 checksums for files?
 * `calculate_file_checksums_sha256` (boolean): Calculate SHA256 checksums for files?
 * `legacy_checksums_mode` (boolean): Use legacy checksums mode?
+* `migrate_remote_server_sync_to_sync` (boolean): If true, we will migrate all remote server syncs to the new Sync model.
 * `session_expiry` (double): Session expiry in hours
 * `ssl_required` (boolean): Is SSL required?  Disabling this is insecure.
 * `tls_disabled` (boolean): DO NOT ENABLE. This setting allows TLSv1.0 and TLSv1.1 to be used on your site.  We intend to remove this capability entirely in early 2024.  If set, the `sftp_insecure_ciphers` flag will be automatically set to true.

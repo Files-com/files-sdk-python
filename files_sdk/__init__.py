@@ -87,7 +87,9 @@ import files_sdk.models.snapshot as snapshot
 import files_sdk.models.sso_strategy as sso_strategy
 import files_sdk.models.status as status
 import files_sdk.models.style as style
+import files_sdk.models.sync as sync
 import files_sdk.models.sync_log as sync_log
+import files_sdk.models.sync_run as sync_run
 import files_sdk.models.usage_by_top_level_dir as usage_by_top_level_dir
 import files_sdk.models.usage_daily_snapshot as usage_daily_snapshot
 import files_sdk.models.usage_snapshot as usage_snapshot
@@ -193,7 +195,9 @@ from files_sdk.models.snapshot import Snapshot
 from files_sdk.models.sso_strategy import SsoStrategy
 from files_sdk.models.status import Status
 from files_sdk.models.style import Style
+from files_sdk.models.sync import Sync
 from files_sdk.models.sync_log import SyncLog
+from files_sdk.models.sync_run import SyncRun
 from files_sdk.models.usage_by_top_level_dir import UsageByTopLevelDir
 from files_sdk.models.usage_daily_snapshot import UsageDailySnapshot
 from files_sdk.models.usage_snapshot import UsageSnapshot
@@ -215,7 +219,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.15"
+version = "1.6.16"
 
 __version__ = version
 
