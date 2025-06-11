@@ -26,8 +26,8 @@ class Sync:
         "interval": None,  # string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
         "trigger": None,  # string - Trigger type: daily, custom_schedule, or manual
         "trigger_file": None,  # string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
-        "include_patterns": None,  # array(array) - Array of glob patterns to include
-        "exclude_patterns": None,  # array(array) - Array of glob patterns to exclude
+        "include_patterns": None,  # array(string) - Array of glob patterns to include
+        "exclude_patterns": None,  # array(string) - Array of glob patterns to exclude
         "created_at": None,  # date-time - When this sync was created
         "updated_at": None,  # date-time - When this sync was last updated
         "sync_interval_minutes": None,  # int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.

@@ -10,6 +10,7 @@
   "domain": "domain.test",
   "hex_public_certificate_serial": "A5:EB:C1:95:DC:D8:2B:E7",
   "public_certificate_md5": "example",
+  "public_certificate": "example",
   "private_key_md5": "example",
   "public_certificate_subject": "example",
   "public_certificate_issuer": "example",
@@ -26,6 +27,7 @@
 * `domain` (string): The station's AS2 domain name.
 * `hex_public_certificate_serial` (string): Serial of public certificate used for message security in hex format.
 * `public_certificate_md5` (string): MD5 hash of public certificate used for message security.
+* `public_certificate` (string): Public certificate used for message security.
 * `private_key_md5` (string): MD5 hash of private key used for message security.
 * `public_certificate_subject` (string): Subject of public certificate used for message security.
 * `public_certificate_issuer` (string): Issuer of public certificate used for message security.
@@ -33,7 +35,6 @@
 * `public_certificate_not_before` (string): Not before value of public certificate used for message security.
 * `public_certificate_not_after` (string): Not after value of public certificate used for message security.
 * `private_key_password_md5` (string): MD5 hash of private key password used for message security.
-* `public_certificate` (string): 
 * `private_key` (string): 
 * `private_key_password` (string): 
 
@@ -92,7 +93,8 @@ files_sdk.as2_station.create({
 
 ```
 files_sdk.as2_station.update(id, {
-  "name": "AS2 Station Name"
+  "name": "AS2 Station Name",
+  "public_certificate": "example"
 })
 ```
 
@@ -125,7 +127,8 @@ files_sdk.as2_station.delete(id)
 ```
 as2_station = files_sdk.as2_station.find(id)
 as2_station.update({
-  "name": "AS2 Station Name"
+  "name": "AS2 Station Name",
+  "public_certificate": "example"
 })
 ```
 

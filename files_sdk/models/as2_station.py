@@ -16,6 +16,7 @@ class As2Station:
         "domain": None,  # string - The station's AS2 domain name.
         "hex_public_certificate_serial": None,  # string - Serial of public certificate used for message security in hex format.
         "public_certificate_md5": None,  # string - MD5 hash of public certificate used for message security.
+        "public_certificate": None,  # string - Public certificate used for message security.
         "private_key_md5": None,  # string - MD5 hash of private key used for message security.
         "public_certificate_subject": None,  # string - Subject of public certificate used for message security.
         "public_certificate_issuer": None,  # string - Issuer of public certificate used for message security.
@@ -23,7 +24,6 @@ class As2Station:
         "public_certificate_not_before": None,  # string - Not before value of public certificate used for message security.
         "public_certificate_not_after": None,  # string - Not after value of public certificate used for message security.
         "private_key_password_md5": None,  # string - MD5 hash of private key password used for message security.
-        "public_certificate": None,  # string
         "private_key": None,  # string
         "private_key_password": None,  # string
     }

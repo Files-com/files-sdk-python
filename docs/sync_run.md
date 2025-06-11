@@ -10,7 +10,9 @@
   "status": "example",
   "remote_server_type": "example",
   "body": "example",
-  "event_errors": "example",
+  "event_errors": [
+    "example"
+  ],
   "bytes_synced": 1,
   "compared_files": 1,
   "compared_folders": 1,
@@ -32,7 +34,7 @@
 * `status` (string): Status of the sync run (success, failure, partial_failure, in_progress, skipped)
 * `remote_server_type` (string): Type of remote server used, if any
 * `body` (string): Log or summary body for this run
-* `event_errors` (array(array)): Array of errors encountered during the run
+* `event_errors` (array(string)): Array of errors encountered during the run
 * `bytes_synced` (int64): Total bytes synced in this run
 * `compared_files` (int64): Number of files compared
 * `compared_folders` (int64): Number of folders compared

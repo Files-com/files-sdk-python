@@ -16,7 +16,7 @@ class SyncRun:
         "status": None,  # string - Status of the sync run (success, failure, partial_failure, in_progress, skipped)
         "remote_server_type": None,  # string - Type of remote server used, if any
         "body": None,  # string - Log or summary body for this run
-        "event_errors": None,  # array(array) - Array of errors encountered during the run
+        "event_errors": None,  # array(string) - Array of errors encountered during the run
         "bytes_synced": None,  # int64 - Total bytes synced in this run
         "compared_files": None,  # int64 - Number of files compared
         "compared_folders": None,  # int64 - Number of folders compared

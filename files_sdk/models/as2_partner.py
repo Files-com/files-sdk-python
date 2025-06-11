@@ -21,6 +21,7 @@ class As2Partner:
         "mdn_validation_level": None,  # string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
         "enable_dedicated_ips": None,  # boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
         "hex_public_certificate_serial": None,  # string - Serial of public certificate used for message security in hex format.
+        "public_certificate": None,  # string - Public certificate used for message security.
         "public_certificate_md5": None,  # string - MD5 hash of public certificate used for message security.
         "public_certificate_subject": None,  # string - Subject of public certificate used for message security.
         "public_certificate_issuer": None,  # string - Issuer of public certificate used for message security.
@@ -28,7 +29,6 @@ class As2Partner:
         "public_certificate_not_before": None,  # string - Not before value of public certificate used for message security.
         "public_certificate_not_after": None,  # string - Not after value of public certificate used for message security.
         "http_auth_password": None,  # string - Password to send to server for HTTP Authentication.
-        "public_certificate": None,  # string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
     }
 
     def __init__(self, attributes=None, options=None):

@@ -17,6 +17,7 @@
   "mdn_validation_level": "none",
   "enable_dedicated_ips": True,
   "hex_public_certificate_serial": "A5:EB:C1:95:DC:D8:2B:E7",
+  "public_certificate": "example",
   "public_certificate_md5": "example",
   "public_certificate_subject": "example",
   "public_certificate_issuer": "example",
@@ -37,6 +38,7 @@
 * `mdn_validation_level` (string): How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
 * `enable_dedicated_ips` (boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
 * `hex_public_certificate_serial` (string): Serial of public certificate used for message security in hex format.
+* `public_certificate` (string): Public certificate used for message security.
 * `public_certificate_md5` (string): MD5 hash of public certificate used for message security.
 * `public_certificate_subject` (string): Subject of public certificate used for message security.
 * `public_certificate_issuer` (string): Issuer of public certificate used for message security.
@@ -44,7 +46,6 @@
 * `public_certificate_not_before` (string): Not before value of public certificate used for message security.
 * `public_certificate_not_after` (string): Not after value of public certificate used for message security.
 * `http_auth_password` (string): Password to send to server for HTTP Authentication.
-* `public_certificate` (string): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
 
 
 ---
@@ -121,7 +122,8 @@ files_sdk.as2_partner.update(id, {
   "default_mime_type": "application/octet-stream",
   "additional_http_headers": {"key":"example value"},
   "name": "AS2 Partner Name",
-  "uri": "example"
+  "uri": "example",
+  "public_certificate": "example"
 })
 ```
 
@@ -167,7 +169,8 @@ as2_partner.update({
   "default_mime_type": "application/octet-stream",
   "additional_http_headers": {"key":"example value"},
   "name": "AS2 Partner Name",
-  "uri": "example"
+  "uri": "example",
+  "public_certificate": "example"
 })
 ```
 
