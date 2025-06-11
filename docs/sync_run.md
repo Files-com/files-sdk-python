@@ -18,7 +18,7 @@
   "compared_folders": 1,
   "errored_files": 1,
   "successful_files": 1,
-  "runtime": "example",
+  "runtime": 1.0,
   "s3_body_path": "example",
   "s3_internal_body_path": "example",
   "completed_at": "2000-01-01T01:00:00Z",
@@ -40,7 +40,7 @@
 * `compared_folders` (int64): Number of folders compared
 * `errored_files` (int64): Number of files that errored
 * `successful_files` (int64): Number of files successfully synced
-* `runtime` (float): Total runtime in seconds
+* `runtime` (double): Total runtime in seconds
 * `s3_body_path` (string): S3 path to the main log file
 * `s3_internal_body_path` (string): S3 path to the internal log file
 * `completed_at` (date-time): When this run was completed

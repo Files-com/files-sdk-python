@@ -22,7 +22,7 @@ class SyncRun:
         "compared_folders": None,  # int64 - Number of folders compared
         "errored_files": None,  # int64 - Number of files that errored
         "successful_files": None,  # int64 - Number of files successfully synced
-        "runtime": None,  # float - Total runtime in seconds
+        "runtime": None,  # double - Total runtime in seconds
         "s3_body_path": None,  # string - S3 path to the main log file
         "s3_internal_body_path": None,  # string - S3 path to the internal log file
         "completed_at": None,  # date-time - When this run was completed
