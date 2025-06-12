@@ -23,7 +23,6 @@ class Sync:
         "keep_after_copy": None,  # boolean - Keep files after copying?
         "delete_empty_folders": None,  # boolean - Delete empty folders after sync?
         "disabled": None,  # boolean - Is this sync disabled?
-        "interval": None,  # string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
         "trigger": None,  # string - Trigger type: daily, custom_schedule, or manual
         "trigger_file": None,  # string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
         "include_patterns": None,  # array(string) - Array of glob patterns to include
@@ -31,6 +30,7 @@ class Sync:
         "created_at": None,  # date-time - When this sync was created
         "updated_at": None,  # date-time - When this sync was last updated
         "sync_interval_minutes": None,  # int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
+        "interval": None,  # string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
         "recurring_day": None,  # int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
         "schedule_times_of_day": None,  # array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
@@ -67,7 +67,7 @@ class Sync:
     #   keep_after_copy - boolean - Keep files after copying?
     #   delete_empty_folders - boolean - Delete empty folders after sync?
     #   disabled - boolean - Is this sync disabled?
-    #   interval - int64 - Interval in minutes for sync (if scheduled)
+    #   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
     #   trigger - string - Trigger type: daily, custom_schedule, or manual
     #   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
     #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -114,9 +114,9 @@ class Sync:
             raise InvalidParameterError(
                 "Bad parameter: dest_remote_server_id must be an int"
             )
-        if "interval" in params and not isinstance(params["interval"], int):
+        if "interval" in params and not isinstance(params["interval"], str):
             raise InvalidParameterError(
-                "Bad parameter: interval must be an int"
+                "Bad parameter: interval must be an str"
             )
         if "trigger" in params and not isinstance(params["trigger"], str):
             raise InvalidParameterError(
@@ -245,7 +245,7 @@ def get(id, params=None, options=None):
 #   keep_after_copy - boolean - Keep files after copying?
 #   delete_empty_folders - boolean - Delete empty folders after sync?
 #   disabled - boolean - Is this sync disabled?
-#   interval - int64 - Interval in minutes for sync (if scheduled)
+#   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 #   trigger - string - Trigger type: daily, custom_schedule, or manual
 #   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
 #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -295,8 +295,8 @@ def create(params=None, options=None):
         )
     if "disabled" in params and not isinstance(params["disabled"], bool):
         raise InvalidParameterError("Bad parameter: disabled must be an bool")
-    if "interval" in params and not isinstance(params["interval"], int):
-        raise InvalidParameterError("Bad parameter: interval must be an int")
+    if "interval" in params and not isinstance(params["interval"], str):
+        raise InvalidParameterError("Bad parameter: interval must be an str")
     if "trigger" in params and not isinstance(params["trigger"], str):
         raise InvalidParameterError("Bad parameter: trigger must be an str")
     if "trigger_file" in params and not isinstance(
@@ -352,7 +352,7 @@ def create_migrate_to(params=None, options=None):
 #   keep_after_copy - boolean - Keep files after copying?
 #   delete_empty_folders - boolean - Delete empty folders after sync?
 #   disabled - boolean - Is this sync disabled?
-#   interval - int64 - Interval in minutes for sync (if scheduled)
+#   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 #   trigger - string - Trigger type: daily, custom_schedule, or manual
 #   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
 #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -405,8 +405,8 @@ def update(id, params=None, options=None):
         )
     if "disabled" in params and not isinstance(params["disabled"], bool):
         raise InvalidParameterError("Bad parameter: disabled must be an bool")
-    if "interval" in params and not isinstance(params["interval"], int):
-        raise InvalidParameterError("Bad parameter: interval must be an int")
+    if "interval" in params and not isinstance(params["interval"], str):
+        raise InvalidParameterError("Bad parameter: interval must be an str")
     if "trigger" in params and not isinstance(params["trigger"], str):
         raise InvalidParameterError("Bad parameter: trigger must be an str")
     if "trigger_file" in params and not isinstance(
