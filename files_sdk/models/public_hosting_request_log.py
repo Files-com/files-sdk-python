@@ -11,14 +11,16 @@ from files_sdk.error import (  # noqa: F401
 class PublicHostingRequestLog:
     default_attributes = {
         "timestamp": None,  # date-time - Start Time of Action. Deprecrated: Use created_at.
-        "remote_ip": None,  # string - IP Address of Public Hosting Client
-        "server_ip": None,  # string - IP Address of Public Hosting Server
-        "hostname": None,  # string - HTTP Request Hostname
+        "remote_ip": None,  # string - IP Address of Public Hosting Client.
+        "server_ip": None,  # string - IP Address of Public Hosting Server.
+        "hostname": None,  # string - HTTP Request Hostname.
         "path": None,  # string - HTTP Request Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-        "responseCode": None,  # int64 - HTTP Response Code
+        "responseCode": None,  # int64 - HTTP Response Code.
         "success": None,  # boolean - Whether SFTP Action was successful.
-        "duration_ms": None,  # int64 - Duration (in milliseconds)
-        "created_at": None,  # date-time - Start Time of Action
+        "duration_ms": None,  # int64 - Duration (in milliseconds).
+        "created_at": None,  # date-time - Start Time of Action.
+        "bytes_transferred": None,  # int64 - The number of bytes transferred for file downloads.
+        "http_method": None,  # string - Method of the HTTP call.
     }
 
     def __init__(self, attributes=None, options=None):
