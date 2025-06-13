@@ -71,6 +71,7 @@ import files_sdk.models.public_hosting_request_log as public_hosting_request_log
 import files_sdk.models.public_ip_address as public_ip_address
 import files_sdk.models.public_key as public_key
 import files_sdk.models.remote_bandwidth_snapshot as remote_bandwidth_snapshot
+import files_sdk.models.remote_mount_backend as remote_mount_backend
 import files_sdk.models.remote_server as remote_server
 import files_sdk.models.remote_server_configuration_file as remote_server_configuration_file
 import files_sdk.models.request as request
@@ -177,6 +178,7 @@ from files_sdk.models.public_hosting_request_log import PublicHostingRequestLog
 from files_sdk.models.public_ip_address import PublicIpAddress
 from files_sdk.models.public_key import PublicKey
 from files_sdk.models.remote_bandwidth_snapshot import RemoteBandwidthSnapshot
+from files_sdk.models.remote_mount_backend import RemoteMountBackend
 from files_sdk.models.remote_server import RemoteServer
 from files_sdk.models.remote_server_configuration_file import (
     RemoteServerConfigurationFile,
@@ -219,7 +221,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.21"
+version = "1.6.22"
 
 __version__ = version
 

@@ -74,6 +74,7 @@ from files_sdk.models.public_hosting_request_log import PublicHostingRequestLog
 from files_sdk.models.public_ip_address import PublicIpAddress
 from files_sdk.models.public_key import PublicKey
 from files_sdk.models.remote_bandwidth_snapshot import RemoteBandwidthSnapshot
+from files_sdk.models.remote_mount_backend import RemoteMountBackend
 from files_sdk.models.remote_server import RemoteServer
 from files_sdk.models.remote_server_configuration_file import (
     RemoteServerConfigurationFile,
