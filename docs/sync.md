@@ -155,6 +155,19 @@ files_sdk.sync.create_migrate_to()
 
 ---
 
+## Manually Run Sync
+
+```
+files_sdk.sync.manual_run(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Sync ID.
+
+
+---
+
 ## Update Sync
 
 ```
@@ -207,6 +220,20 @@ files_sdk.sync.update(id, {
 
 ```
 files_sdk.sync.delete(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Sync ID.
+
+
+---
+
+## Manually Run Sync
+
+```
+sync = files_sdk.sync.find(id)
+sync.manual_run()
 ```
 
 ### Parameters

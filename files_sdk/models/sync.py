@@ -56,6 +56,26 @@ class Sync:
             if getattr(self, k, None) is not None
         }
 
+    # Manually Run Sync
+    def manual_run(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        Api.send_request(
+            "POST",
+            "/syncs/{id}/manual_run".format(id=params["id"]),
+            params,
+            self.options,
+        )
+
     # Parameters:
     #   name - string - Name for this sync job
     #   description - string - Description for this sync job
@@ -339,6 +359,25 @@ def create_migrate_to(params=None, options=None):
     if not isinstance(options, dict):
         options = {}
     Api.send_request("POST", "/syncs/migrate_to_syncs", params, options)
+
+
+# Manually Run Sync
+def manual_run(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    Api.send_request(
+        "POST",
+        "/syncs/{id}/manual_run".format(id=params["id"]),
+        params,
+        options,
+    )
 
 
 # Parameters:
