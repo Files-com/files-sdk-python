@@ -19,8 +19,7 @@
   "errored_files": 1,
   "successful_files": 1,
   "runtime": 1.0,
-  "s3_body_path": "example",
-  "s3_internal_body_path": "example",
+  "log_url": "https://www.example.com/log_file.txt",
   "completed_at": "2000-01-01T01:00:00Z",
   "notified": True,
   "created_at": "2000-01-01T01:00:00Z",
@@ -41,8 +40,7 @@
 * `errored_files` (int64): Number of files that errored
 * `successful_files` (int64): Number of files successfully synced
 * `runtime` (double): Total runtime in seconds
-* `s3_body_path` (string): S3 path to the main log file
-* `s3_internal_body_path` (string): S3 path to the internal log file
+* `log_url` (string): Link to external log file.
 * `completed_at` (date-time): When this run was completed
 * `notified` (boolean): Whether notifications were sent for this run
 * `created_at` (date-time): When this run was created
