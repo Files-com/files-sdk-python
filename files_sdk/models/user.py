@@ -76,7 +76,6 @@ class User:
         "user_home": None,  # string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
         "days_remaining_until_password_expire": None,  # int64 - Number of days remaining until password expires
         "password_expire_at": None,  # date-time - Password expiration datetime
-        "has_reassignable_associations": None,  # boolean - Does this user have any associations that can be reassigned on delete?
         "avatar_file": None,  # file - An image file for your user avatar.
         "avatar_delete": None,  # boolean - If true, the avatar will be deleted.
         "change_password": None,  # string - Used for changing a password on an existing user.

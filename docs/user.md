@@ -71,8 +71,7 @@
   "user_root": "example",
   "user_home": "example",
   "days_remaining_until_password_expire": 1,
-  "password_expire_at": "2000-01-01T01:00:00Z",
-  "has_reassignable_associations": True
+  "password_expire_at": "2000-01-01T01:00:00Z"
 }
 ```
 
@@ -142,7 +141,6 @@
 * `user_home` (string): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 * `days_remaining_until_password_expire` (int64): Number of days remaining until password expires
 * `password_expire_at` (date-time): Password expiration datetime
-* `has_reassignable_associations` (boolean): Does this user have any associations that can be reassigned on delete?
 * `avatar_file` (file): An image file for your user avatar.
 * `avatar_delete` (boolean): If true, the avatar will be deleted.
 * `change_password` (string): Used for changing a password on an existing user.
