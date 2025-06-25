@@ -46,7 +46,6 @@ class PublicKeyTest(TestBase):
     def test_create(self):
         params = {
             "title" : "foo",
-            "public_key" : "foo",
         }
         public_key.create(params)
 

@@ -15,10 +15,16 @@ class PublicKey:
         "created_at": None,  # date-time - Public key created at date/time
         "fingerprint": None,  # string - Public key fingerprint (MD5)
         "fingerprint_sha256": None,  # string - Public key fingerprint (SHA256)
+        "status": None,  # string - Can be invalid, not_generated, generating, complete
         "last_login_at": None,  # date-time - Key's most recent login time via SFTP
+        "private_key": None,  # string - Private key generated for the user.
+        "public_key": None,  # string - Public key generated for the user.
         "username": None,  # string - Username of the user this public key is associated with
         "user_id": None,  # int64 - User ID this public key is associated with
-        "public_key": None,  # string - Actual contents of SSH key.
+        "generate_keypair": None,  # boolean - If true, generate a new SSH key pair. Can not be used with `public_key`
+        "generate_private_key_password": None,  # string - Password for the private key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+        "generate_algorithm": None,  # string - Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+        "generate_length": None,  # int64 - Length of key to generate. If algorithm is ecdsa, this is the signature size. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -165,7 +171,11 @@ def get(id, params=None, options=None):
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   title (required) - string - Internal reference for key.
-#   public_key (required) - string - Actual contents of SSH key.
+#   public_key - string - Actual contents of SSH key.
+#   generate_keypair - boolean - If true, generate a new SSH key pair. Can not be used with `public_key`
+#   generate_private_key_password - string - Password for the private key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+#   generate_algorithm - string - Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+#   generate_length - int64 - Length of key to generate. If algorithm is ecdsa, this is the signature size. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -177,10 +187,32 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: title must be an str")
     if "public_key" in params and not isinstance(params["public_key"], str):
         raise InvalidParameterError("Bad parameter: public_key must be an str")
+    if "generate_keypair" in params and not isinstance(
+        params["generate_keypair"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: generate_keypair must be an bool"
+        )
+    if "generate_private_key_password" in params and not isinstance(
+        params["generate_private_key_password"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: generate_private_key_password must be an str"
+        )
+    if "generate_algorithm" in params and not isinstance(
+        params["generate_algorithm"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: generate_algorithm must be an str"
+        )
+    if "generate_length" in params and not isinstance(
+        params["generate_length"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: generate_length must be an int"
+        )
     if "title" not in params:
         raise MissingParameterError("Parameter missing: title")
-    if "public_key" not in params:
-        raise MissingParameterError("Parameter missing: public_key")
     response, options = Api.send_request(
         "POST", "/public_keys", params, options
     )

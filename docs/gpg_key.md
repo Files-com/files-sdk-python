@@ -21,6 +21,10 @@
 * `public_key` (string): Your GPG public key
 * `private_key` (string): Your GPG private key.
 * `private_key_password` (string): Your GPG private key password. Only required for password protected keys.
+* `generate_expires_at` (string): Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+* `generate_keypair` (boolean): If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
+* `generate_full_name` (string): Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+* `generate_email` (string): Email address of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 
 
 ---
@@ -64,7 +68,11 @@ files_sdk.gpg_key.create({
   "public_key": "7f8bc1210b09b9ddf469e6b6b8920e76",
   "private_key": "ab236cfe4a195f0226bc2e674afdd6b0",
   "private_key_password": "[your GPG private key password]",
-  "name": "key name"
+  "name": "key name",
+  "generate_expires_at": "2025-06-19 12:00:00",
+  "generate_keypair": False,
+  "generate_full_name": "John Doe",
+  "generate_email": "jdoe@example.com"
 })
 ```
 
@@ -75,6 +83,10 @@ files_sdk.gpg_key.create({
 * `private_key` (string): Your GPG private key.
 * `private_key_password` (string): Your GPG private key password. Only required for password protected keys.
 * `name` (string): Required - Your GPG key name.
+* `generate_expires_at` (string): Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+* `generate_keypair` (boolean): If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
+* `generate_full_name` (string): Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+* `generate_email` (string): Email address of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 
 
 ---

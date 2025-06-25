@@ -17,6 +17,10 @@ class GpgKey:
         "public_key": None,  # string - Your GPG public key
         "private_key": None,  # string - Your GPG private key.
         "private_key_password": None,  # string - Your GPG private key password. Only required for password protected keys.
+        "generate_expires_at": None,  # string - Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+        "generate_keypair": None,  # boolean - If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
+        "generate_full_name": None,  # string - Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+        "generate_email": None,  # string - Email address of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -169,6 +173,10 @@ def get(id, params=None, options=None):
 #   private_key - string - Your GPG private key.
 #   private_key_password - string - Your GPG private key password. Only required for password protected keys.
 #   name (required) - string - Your GPG key name.
+#   generate_expires_at - string - Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+#   generate_keypair - boolean - If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
+#   generate_full_name - string - Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+#   generate_email - string - Email address of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -190,6 +198,30 @@ def create(params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "generate_expires_at" in params and not isinstance(
+        params["generate_expires_at"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: generate_expires_at must be an str"
+        )
+    if "generate_keypair" in params and not isinstance(
+        params["generate_keypair"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: generate_keypair must be an bool"
+        )
+    if "generate_full_name" in params and not isinstance(
+        params["generate_full_name"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: generate_full_name must be an str"
+        )
+    if "generate_email" in params and not isinstance(
+        params["generate_email"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: generate_email must be an str"
+        )
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     response, options = Api.send_request("POST", "/gpg_keys", params, options)
