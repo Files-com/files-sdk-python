@@ -15,6 +15,7 @@ class RemoteMountBackend:
         "fall": None,  # int64 - Number of consecutive failures before considering the backend unhealthy.
         "health_check_enabled": None,  # boolean - True if health checks are enabled for this backend.
         "health_check_type": None,  # string - Type of health check to perform.
+        "id": None,  # int64 - Unique identifier for this backend.
         "interval": None,  # int64 - Interval in seconds between health checks.
         "min_free_cpu": None,  # double - Minimum free CPU percentage required for this backend to be considered healthy.
         "min_free_mem": None,  # double - Minimum free memory percentage required for this backend to be considered healthy.
@@ -25,7 +26,6 @@ class RemoteMountBackend:
         "rise": None,  # int64 - Number of consecutive successes before considering the backend healthy.
         "status": None,  # string - Status of this backend.
         "undergoing_maintenance": None,  # boolean - True if this backend is undergoing maintenance.
-        "id": None,  # int64 - Remote Mount Backend ID.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -190,6 +190,7 @@ class RemoteMountBackend:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `remote_server_mount_id`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -199,6 +200,8 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
     return ListObj(
         RemoteMountBackend, "GET", "/remote_mount_backends", params, options
     )
