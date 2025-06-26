@@ -57,7 +57,6 @@ class Site:
         "custom_namespace": None,  # boolean - Is this site using a custom namespace for users?
         "dav_enabled": None,  # boolean - Is WebDAV enabled?
         "dav_user_root_enabled": None,  # boolean - Use user FTP roots also for WebDAV?
-        "days_before_deleting_disabled_users": None,  # int64 - Number of days to keep disabled users before deleting them. If set to 0, disabled users will not be deleted.
         "days_to_retain_backups": None,  # int64 - Number of days to keep deleted files
         "document_edits_in_bundle_allowed": None,  # boolean - If true, allow public viewers of Bundles with full permissions to use document editing integrations.
         "default_time_zone": None,  # string - Site default time zone
@@ -279,7 +278,6 @@ def get_usage(params=None, options=None):
 #   allowed_countries - string - Comma separated list of allowed Country codes
 #   allowed_ips - string - List of allowed IP addresses
 #   disallowed_countries - string - Comma separated list of disallowed Country codes
-#   days_before_deleting_disabled_users - int64 - Number of days to keep disabled users before deleting them. If set to 0, disabled users will not be deleted.
 #   days_to_retain_backups - int64 - Number of days to keep deleted files
 #   max_prior_passwords - int64 - Number of prior passwords to disallow
 #   password_validity_days - int64 - Number of days password is valid
@@ -703,12 +701,6 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: disallowed_countries must be an str"
-        )
-    if "days_before_deleting_disabled_users" in params and not isinstance(
-        params["days_before_deleting_disabled_users"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: days_before_deleting_disabled_users must be an int"
         )
     if "days_to_retain_backups" in params and not isinstance(
         params["days_to_retain_backups"], int

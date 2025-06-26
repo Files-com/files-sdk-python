@@ -16,6 +16,7 @@ class UserLifecycleRule:
         "include_folder_admins": None,  # boolean - Include folder admins in the rule
         "include_site_admins": None,  # boolean - Include site admins in the rule
         "action": None,  # string - Action to take on inactive users (disable or delete)
+        "user_state": None,  # string - State of the users to apply the rule to (inactive or disabled)
         "site_id": None,  # int64 - Site ID
     }
 
@@ -47,6 +48,7 @@ class UserLifecycleRule:
     #   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
     #   include_site_admins - boolean - Include site admins in the rule
     #   include_folder_admins - boolean - Include folder admins in the rule
+    #   user_state - string - State of the users to apply the rule to (inactive or disabled)
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -80,6 +82,12 @@ class UserLifecycleRule:
         ):
             raise InvalidParameterError(
                 "Bad parameter: inactivity_days must be an int"
+            )
+        if "user_state" in params and not isinstance(
+            params["user_state"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: user_state must be an str"
             )
         response, _options = Api.send_request(
             "PATCH",
@@ -174,6 +182,7 @@ def get(id, params=None, options=None):
 #   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
 #   include_site_admins - boolean - Include site admins in the rule
 #   include_folder_admins - boolean - Include folder admins in the rule
+#   user_state - string - State of the users to apply the rule to (inactive or disabled)
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -205,6 +214,8 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: include_folder_admins must be an bool"
         )
+    if "user_state" in params and not isinstance(params["user_state"], str):
+        raise InvalidParameterError("Bad parameter: user_state must be an str")
     if "action" not in params:
         raise MissingParameterError("Parameter missing: action")
     if "authentication_method" not in params:
@@ -223,6 +234,7 @@ def create(params=None, options=None):
 #   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
 #   include_site_admins - boolean - Include site admins in the rule
 #   include_folder_admins - boolean - Include folder admins in the rule
+#   user_state - string - State of the users to apply the rule to (inactive or disabled)
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -257,6 +269,8 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: include_folder_admins must be an bool"
         )
+    if "user_state" in params and not isinstance(params["user_state"], str):
+        raise InvalidParameterError("Bad parameter: user_state must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     if "action" not in params:

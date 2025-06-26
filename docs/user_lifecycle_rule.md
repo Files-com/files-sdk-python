@@ -10,6 +10,7 @@
   "include_folder_admins": True,
   "include_site_admins": True,
   "action": "disable",
+  "user_state": "inactive",
   "site_id": 1
 }
 ```
@@ -20,6 +21,7 @@
 * `include_folder_admins` (boolean): Include folder admins in the rule
 * `include_site_admins` (boolean): Include site admins in the rule
 * `action` (string): Action to take on inactive users (disable or delete)
+* `user_state` (string): State of the users to apply the rule to (inactive or disabled)
 * `site_id` (int64): Site ID
 
 
@@ -59,7 +61,8 @@ files_sdk.user_lifecycle_rule.create({
   "authentication_method": "password",
   "inactivity_days": 12,
   "include_site_admins": True,
-  "include_folder_admins": True
+  "include_folder_admins": True,
+  "user_state": "inactive"
 })
 ```
 
@@ -70,6 +73,7 @@ files_sdk.user_lifecycle_rule.create({
 * `inactivity_days` (int64): Required - Number of days of inactivity before the rule applies
 * `include_site_admins` (boolean): Include site admins in the rule
 * `include_folder_admins` (boolean): Include folder admins in the rule
+* `user_state` (string): State of the users to apply the rule to (inactive or disabled)
 
 
 ---
@@ -81,7 +85,8 @@ files_sdk.user_lifecycle_rule.update(id, {
   "authentication_method": "password",
   "inactivity_days": 12,
   "include_site_admins": True,
-  "include_folder_admins": True
+  "include_folder_admins": True,
+  "user_state": "inactive"
 })
 ```
 
@@ -93,6 +98,7 @@ files_sdk.user_lifecycle_rule.update(id, {
 * `inactivity_days` (int64): Required - Number of days of inactivity before the rule applies
 * `include_site_admins` (boolean): Include site admins in the rule
 * `include_folder_admins` (boolean): Include folder admins in the rule
+* `user_state` (string): State of the users to apply the rule to (inactive or disabled)
 
 
 ---
@@ -118,7 +124,8 @@ user_lifecycle_rule.update({
   "authentication_method": "password",
   "inactivity_days": 12,
   "include_site_admins": True,
-  "include_folder_admins": True
+  "include_folder_admins": True,
+  "user_state": "inactive"
 })
 ```
 
@@ -130,6 +137,7 @@ user_lifecycle_rule.update({
 * `inactivity_days` (int64): Required - Number of days of inactivity before the rule applies
 * `include_site_admins` (boolean): Include site admins in the rule
 * `include_folder_admins` (boolean): Include folder admins in the rule
+* `user_state` (string): State of the users to apply the rule to (inactive or disabled)
 
 
 ---

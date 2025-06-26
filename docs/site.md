@@ -60,7 +60,6 @@
   "custom_namespace": True,
   "dav_enabled": True,
   "dav_user_root_enabled": True,
-  "days_before_deleting_disabled_users": 30,
   "days_to_retain_backups": 30,
   "document_edits_in_bundle_allowed": True,
   "default_time_zone": "Pacific Time (US & Canada)",
@@ -352,7 +351,6 @@
 * `custom_namespace` (boolean): Is this site using a custom namespace for users?
 * `dav_enabled` (boolean): Is WebDAV enabled?
 * `dav_user_root_enabled` (boolean): Use user FTP roots also for WebDAV?
-* `days_before_deleting_disabled_users` (int64): Number of days to keep disabled users before deleting them. If set to 0, disabled users will not be deleted.
 * `days_to_retain_backups` (int64): Number of days to keep deleted files
 * `document_edits_in_bundle_allowed` (boolean): If true, allow public viewers of Bundles with full permissions to use document editing integrations.
 * `default_time_zone` (string): Site default time zone
@@ -558,7 +556,6 @@ files_sdk.site.update({
   "allowed_countries": "US,DE",
   "allowed_ips": "example",
   "disallowed_countries": "US,DE",
-  "days_before_deleting_disabled_users": 1,
   "days_to_retain_backups": 1,
   "max_prior_passwords": 1,
   "password_validity_days": 1,
@@ -718,7 +715,6 @@ files_sdk.site.update({
 * `allowed_countries` (string): Comma separated list of allowed Country codes
 * `allowed_ips` (string): List of allowed IP addresses
 * `disallowed_countries` (string): Comma separated list of disallowed Country codes
-* `days_before_deleting_disabled_users` (int64): Number of days to keep disabled users before deleting them. If set to 0, disabled users will not be deleted.
 * `days_to_retain_backups` (int64): Number of days to keep deleted files
 * `max_prior_passwords` (int64): Number of prior passwords to disallow
 * `password_validity_days` (int64): Number of days password is valid
