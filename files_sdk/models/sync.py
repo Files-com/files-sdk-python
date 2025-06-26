@@ -35,6 +35,7 @@ class Sync:
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
         "schedule_times_of_day": None,  # array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
         "schedule_time_zone": None,  # string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
+        "holiday_region": None,  # string - If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
     }
 
     def __init__(self, attributes=None, options=None):

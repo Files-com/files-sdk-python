@@ -48,6 +48,7 @@ class Automation:
         "user_ids": None,  # array(int64) - IDs of Users for the Automation (i.e. who to Request File from)
         "value": None,  # object - A Hash of attributes specific to the automation type.
         "webhook_url": None,  # string - If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
+        "holiday_region": None,  # string - If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
     }
 
     def __init__(self, attributes=None, options=None):

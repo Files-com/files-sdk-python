@@ -86,7 +86,8 @@
   "value": {
     "limit": "1"
   },
-  "webhook_url": "https://app.files.com/api/webhooks/abc123"
+  "webhook_url": "https://app.files.com/api/webhooks/abc123",
+  "holiday_region": "us_dc"
 }
 ```
 
@@ -128,6 +129,7 @@
 * `user_ids` (array(int64)): IDs of Users for the Automation (i.e. who to Request File from)
 * `value` (object): A Hash of attributes specific to the automation type.
 * `webhook_url` (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
+* `holiday_region` (string): If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
 
 
 ---

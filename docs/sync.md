@@ -39,7 +39,8 @@
     "06:30",
     "14:30"
   ],
-  "schedule_time_zone": "Eastern Time (US & Canada)"
+  "schedule_time_zone": "Eastern Time (US & Canada)",
+  "holiday_region": "us_dc"
 }
 ```
 
@@ -68,6 +69,7 @@
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (array(string)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
 * `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
+* `holiday_region` (string): If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
 
 
 ---

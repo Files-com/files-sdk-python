@@ -47,6 +47,7 @@ import files_sdk.models.group_user as group_user
 import files_sdk.models.history as history
 import files_sdk.models.history_export as history_export
 import files_sdk.models.history_export_result as history_export_result
+import files_sdk.models.holiday_region as holiday_region
 import files_sdk.models.image as image
 import files_sdk.models.inbox_recipient as inbox_recipient
 import files_sdk.models.inbox_registration as inbox_registration
@@ -154,6 +155,7 @@ from files_sdk.models.group_user import GroupUser
 from files_sdk.models.history import History
 from files_sdk.models.history_export import HistoryExport
 from files_sdk.models.history_export_result import HistoryExportResult
+from files_sdk.models.holiday_region import HolidayRegion
 from files_sdk.models.image import Image
 from files_sdk.models.inbox_recipient import InboxRecipient
 from files_sdk.models.inbox_registration import InboxRegistration
@@ -221,7 +223,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.28"
+version = "1.6.29"
 
 __version__ = version
 
