@@ -71,9 +71,6 @@ class RemoteMountBackend:
         )
 
     # Parameters:
-    #   canary_file_path (required) - string - Path to the canary file used for health checks.
-    #   remote_server_mount_id (required) - int64 - The mount ID of the Remote Server Mount that this backend is associated with.
-    #   remote_server_id (required) - int64 - The remote server that this backend is associated with.
     #   enabled - boolean - True if this backend is enabled.
     #   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
     #   health_check_enabled - boolean - True if health checks are enabled for this backend.
@@ -84,6 +81,8 @@ class RemoteMountBackend:
     #   priority - int64 - Priority of this backend.
     #   remote_path - string - Path on the remote server to treat as the root of this mount.
     #   rise - int64 - Number of consecutive successes before considering the backend healthy.
+    #   canary_file_path - string - Path to the canary file used for health checks.
+    #   remote_server_id - int64 - The remote server that this backend is associated with.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -94,34 +93,8 @@ class RemoteMountBackend:
             raise MissingParameterError("Current object doesn't have a id")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "canary_file_path" not in params:
-            raise MissingParameterError("Parameter missing: canary_file_path")
-        if "remote_server_mount_id" not in params:
-            raise MissingParameterError(
-                "Parameter missing: remote_server_mount_id"
-            )
-        if "remote_server_id" not in params:
-            raise MissingParameterError("Parameter missing: remote_server_id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "canary_file_path" in params and not isinstance(
-            params["canary_file_path"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: canary_file_path must be an str"
-            )
-        if "remote_server_mount_id" in params and not isinstance(
-            params["remote_server_mount_id"], int
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: remote_server_mount_id must be an int"
-            )
-        if "remote_server_id" in params and not isinstance(
-            params["remote_server_id"], int
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: remote_server_id must be an int"
-            )
         if "fall" in params and not isinstance(params["fall"], int):
             raise InvalidParameterError("Bad parameter: fall must be an int")
         if "health_check_type" in params and not isinstance(
@@ -146,6 +119,18 @@ class RemoteMountBackend:
             )
         if "rise" in params and not isinstance(params["rise"], int):
             raise InvalidParameterError("Bad parameter: rise must be an int")
+        if "canary_file_path" in params and not isinstance(
+            params["canary_file_path"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: canary_file_path must be an str"
+            )
+        if "remote_server_id" in params and not isinstance(
+            params["remote_server_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: remote_server_id must be an int"
+            )
         response, _options = Api.send_request(
             "PATCH",
             "/remote_mount_backends/{id}".format(id=params["id"]),
@@ -237,9 +222,6 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
-#   canary_file_path (required) - string - Path to the canary file used for health checks.
-#   remote_server_mount_id (required) - int64 - The mount ID of the Remote Server Mount that this backend is associated with.
-#   remote_server_id (required) - int64 - The remote server that this backend is associated with.
 #   enabled - boolean - True if this backend is enabled.
 #   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
 #   health_check_enabled - boolean - True if health checks are enabled for this backend.
@@ -250,29 +232,14 @@ def get(id, params=None, options=None):
 #   priority - int64 - Priority of this backend.
 #   remote_path - string - Path on the remote server to treat as the root of this mount.
 #   rise - int64 - Number of consecutive successes before considering the backend healthy.
+#   canary_file_path (required) - string - Path to the canary file used for health checks.
+#   remote_server_mount_id (required) - int64 - The mount ID of the Remote Server Mount that this backend is associated with.
+#   remote_server_id (required) - int64 - The remote server that this backend is associated with.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    if "canary_file_path" in params and not isinstance(
-        params["canary_file_path"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: canary_file_path must be an str"
-        )
-    if "remote_server_mount_id" in params and not isinstance(
-        params["remote_server_mount_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: remote_server_mount_id must be an int"
-        )
-    if "remote_server_id" in params and not isinstance(
-        params["remote_server_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: remote_server_id must be an int"
-        )
     if "enabled" in params and not isinstance(params["enabled"], bool):
         raise InvalidParameterError("Bad parameter: enabled must be an bool")
     if "fall" in params and not isinstance(params["fall"], int):
@@ -311,6 +278,24 @@ def create(params=None, options=None):
         )
     if "rise" in params and not isinstance(params["rise"], int):
         raise InvalidParameterError("Bad parameter: rise must be an int")
+    if "canary_file_path" in params and not isinstance(
+        params["canary_file_path"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: canary_file_path must be an str"
+        )
+    if "remote_server_mount_id" in params and not isinstance(
+        params["remote_server_mount_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: remote_server_mount_id must be an int"
+        )
+    if "remote_server_id" in params and not isinstance(
+        params["remote_server_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: remote_server_id must be an int"
+        )
     if "canary_file_path" not in params:
         raise MissingParameterError("Parameter missing: canary_file_path")
     if "remote_server_mount_id" not in params:
@@ -345,9 +330,6 @@ def reset_status(id, params=None, options=None):
 
 
 # Parameters:
-#   canary_file_path (required) - string - Path to the canary file used for health checks.
-#   remote_server_mount_id (required) - int64 - The mount ID of the Remote Server Mount that this backend is associated with.
-#   remote_server_id (required) - int64 - The remote server that this backend is associated with.
 #   enabled - boolean - True if this backend is enabled.
 #   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
 #   health_check_enabled - boolean - True if health checks are enabled for this backend.
@@ -358,6 +340,8 @@ def reset_status(id, params=None, options=None):
 #   priority - int64 - Priority of this backend.
 #   remote_path - string - Path on the remote server to treat as the root of this mount.
 #   rise - int64 - Number of consecutive successes before considering the backend healthy.
+#   canary_file_path - string - Path to the canary file used for health checks.
+#   remote_server_id - int64 - The remote server that this backend is associated with.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -366,24 +350,6 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
-    if "canary_file_path" in params and not isinstance(
-        params["canary_file_path"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: canary_file_path must be an str"
-        )
-    if "remote_server_mount_id" in params and not isinstance(
-        params["remote_server_mount_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: remote_server_mount_id must be an int"
-        )
-    if "remote_server_id" in params and not isinstance(
-        params["remote_server_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: remote_server_id must be an int"
-        )
     if "enabled" in params and not isinstance(params["enabled"], bool):
         raise InvalidParameterError("Bad parameter: enabled must be an bool")
     if "fall" in params and not isinstance(params["fall"], int):
@@ -422,16 +388,20 @@ def update(id, params=None, options=None):
         )
     if "rise" in params and not isinstance(params["rise"], int):
         raise InvalidParameterError("Bad parameter: rise must be an int")
+    if "canary_file_path" in params and not isinstance(
+        params["canary_file_path"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: canary_file_path must be an str"
+        )
+    if "remote_server_id" in params and not isinstance(
+        params["remote_server_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: remote_server_id must be an int"
+        )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    if "canary_file_path" not in params:
-        raise MissingParameterError("Parameter missing: canary_file_path")
-    if "remote_server_mount_id" not in params:
-        raise MissingParameterError(
-            "Parameter missing: remote_server_mount_id"
-        )
-    if "remote_server_id" not in params:
-        raise MissingParameterError("Parameter missing: remote_server_id")
     response, options = Api.send_request(
         "PATCH",
         "/remote_mount_backends/{id}".format(id=params["id"]),

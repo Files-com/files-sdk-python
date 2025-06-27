@@ -20,9 +20,6 @@ class RemoteMountBackendTest(TestBase):
     def test_update(self):
         params = {
             "id" : 12345,
-            "canary_file_path" : "foo",
-            "remote_server_mount_id" : 12345,
-            "remote_server_id" : 12345,
         }
         remote_mount_backend = RemoteMountBackend(params)
         remote_mount_backend.update(params)
@@ -74,9 +71,6 @@ class RemoteMountBackendTest(TestBase):
         id = 12345
         params = {
             "id" : 12345,
-            "canary_file_path" : "foo",
-            "remote_server_mount_id" : 12345,
-            "remote_server_id" : 12345,
         }
         remote_mount_backend.update(id, params)
 
