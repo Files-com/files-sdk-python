@@ -45,7 +45,6 @@ files_sdk.behavior.list()
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
-* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 
 
 ---
@@ -77,7 +76,6 @@ files_sdk.behavior.list_for(path, {
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
-* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 * `path` (string): Required - Path to operate on.
 * `ancestor_behaviors` (boolean): If `true`, behaviors above this path are shown.
 

@@ -118,7 +118,6 @@ class Behavior:
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
-#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -132,12 +131,6 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
         raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "filter_prefix" in params and not isinstance(
-        params["filter_prefix"], dict
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filter_prefix must be an dict"
-        )
     return ListObj(Behavior, "GET", "/behaviors", params, options)
 
 
@@ -172,7 +165,6 @@ def get(id, params=None, options=None):
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
-#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 #   path (required) - string - Path to operate on.
 #   ancestor_behaviors - boolean - If `true`, behaviors above this path are shown.
 def list_for(path, params=None, options=None):
@@ -189,12 +181,6 @@ def list_for(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
         raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "filter_prefix" in params and not isinstance(
-        params["filter_prefix"], dict
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filter_prefix must be an dict"
-        )
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "ancestor_behaviors" in params and not isinstance(
