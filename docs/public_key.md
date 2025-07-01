@@ -23,10 +23,10 @@
 * `created_at` (date-time): Public key created at date/time
 * `fingerprint` (string): Public key fingerprint (MD5)
 * `fingerprint_sha256` (string): Public key fingerprint (SHA256)
-* `status` (string): Can be invalid, not_generated, generating, complete
+* `status` (string): Only returned when generating keys. Can be invalid, not_generated, generating, complete
 * `last_login_at` (date-time): Key's most recent login time via SFTP
-* `private_key` (string): Private key generated for the user.
-* `public_key` (string): Public key generated for the user.
+* `private_key` (string): Only returned when generating keys. Private key generated for the user.
+* `public_key` (string): Only returned when generating keys. Public key generated for the user.
 * `username` (string): Username of the user this public key is associated with
 * `user_id` (int64): User ID this public key is associated with
 * `generate_keypair` (boolean): If true, generate a new SSH key pair. Can not be used with `public_key`
