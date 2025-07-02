@@ -69,7 +69,7 @@
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (array(string)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
 * `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
-* `holiday_region` (string): If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
+* `holiday_region` (string): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
 
 
 ---
@@ -118,6 +118,8 @@ files_sdk.sync.create({
   "interval": "week",
   "trigger": "example",
   "trigger_file": "example",
+  "holiday_region": "us_dc",
+  "sync_interval_minutes": 1,
   "recurring_day": 25,
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_days_of_week": [0,2,4],
@@ -140,6 +142,8 @@ files_sdk.sync.create({
 * `interval` (string): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `trigger` (string): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (string): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+* `holiday_region` (string): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+* `sync_interval_minutes` (int64): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
@@ -187,6 +191,8 @@ files_sdk.sync.update(id, {
   "interval": "week",
   "trigger": "example",
   "trigger_file": "example",
+  "holiday_region": "us_dc",
+  "sync_interval_minutes": 1,
   "recurring_day": 25,
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_days_of_week": [0,2,4],
@@ -210,6 +216,8 @@ files_sdk.sync.update(id, {
 * `interval` (string): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `trigger` (string): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (string): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+* `holiday_region` (string): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+* `sync_interval_minutes` (int64): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
@@ -263,6 +271,8 @@ sync.update({
   "interval": "week",
   "trigger": "example",
   "trigger_file": "example",
+  "holiday_region": "us_dc",
+  "sync_interval_minutes": 1,
   "recurring_day": 25,
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_days_of_week": [0,2,4],
@@ -286,6 +296,8 @@ sync.update({
 * `interval` (string): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `trigger` (string): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (string): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+* `holiday_region` (string): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+* `sync_interval_minutes` (int64): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
