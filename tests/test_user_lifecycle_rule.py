@@ -12,9 +12,6 @@ class UserLifecycleRuleTest(TestBase):
     def test_update(self):
         params = {
             "id" : 12345,
-            "action" : "foo",
-            "authentication_method" : "foo",
-            "inactivity_days" : 12345,
         }
         user_lifecycle_rule = UserLifecycleRule(params)
         user_lifecycle_rule.update(params)
@@ -46,21 +43,13 @@ class UserLifecycleRuleTest(TestBase):
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/user_lifecycle_rules"), "Mock path does not exist")
     def test_create(self):
-        params = {
-            "action" : "foo",
-            "authentication_method" : "foo",
-            "inactivity_days" : 12345,
-        }
-        user_lifecycle_rule.create(params)
+        resp = user_lifecycle_rule.create()
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/user_lifecycle_rules/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
             "id" : 12345,
-            "action" : "foo",
-            "authentication_method" : "foo",
-            "inactivity_days" : 12345,
         }
         user_lifecycle_rule.update(id, params)
 

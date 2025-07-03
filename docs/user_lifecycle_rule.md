@@ -68,9 +68,9 @@ files_sdk.user_lifecycle_rule.create({
 
 ### Parameters
 
-* `action` (string): Required - Action to take on inactive users (disable or delete)
-* `authentication_method` (string): Required - User authentication method for the rule
-* `inactivity_days` (int64): Required - Number of days of inactivity before the rule applies
+* `action` (string): Action to take on inactive users (disable or delete)
+* `authentication_method` (string): User authentication method for the rule
+* `inactivity_days` (int64): Number of days of inactivity before the rule applies
 * `include_site_admins` (boolean): Include site admins in the rule
 * `include_folder_admins` (boolean): Include folder admins in the rule
 * `user_state` (string): State of the users to apply the rule to (inactive or disabled)
@@ -93,9 +93,9 @@ files_sdk.user_lifecycle_rule.update(id, {
 ### Parameters
 
 * `id` (int64): Required - User Lifecycle Rule ID.
-* `action` (string): Required - Action to take on inactive users (disable or delete)
-* `authentication_method` (string): Required - User authentication method for the rule
-* `inactivity_days` (int64): Required - Number of days of inactivity before the rule applies
+* `action` (string): Action to take on inactive users (disable or delete)
+* `authentication_method` (string): User authentication method for the rule
+* `inactivity_days` (int64): Number of days of inactivity before the rule applies
 * `include_site_admins` (boolean): Include site admins in the rule
 * `include_folder_admins` (boolean): Include folder admins in the rule
 * `user_state` (string): State of the users to apply the rule to (inactive or disabled)
@@ -132,9 +132,9 @@ user_lifecycle_rule.update({
 ### Parameters
 
 * `id` (int64): Required - User Lifecycle Rule ID.
-* `action` (string): Required - Action to take on inactive users (disable or delete)
-* `authentication_method` (string): Required - User authentication method for the rule
-* `inactivity_days` (int64): Required - Number of days of inactivity before the rule applies
+* `action` (string): Action to take on inactive users (disable or delete)
+* `authentication_method` (string): User authentication method for the rule
+* `inactivity_days` (int64): Number of days of inactivity before the rule applies
 * `include_site_admins` (boolean): Include site admins in the rule
 * `include_folder_admins` (boolean): Include folder admins in the rule
 * `user_state` (string): State of the users to apply the rule to (inactive or disabled)

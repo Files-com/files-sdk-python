@@ -43,9 +43,9 @@ class UserLifecycleRule:
         }
 
     # Parameters:
-    #   action (required) - string - Action to take on inactive users (disable or delete)
-    #   authentication_method (required) - string - User authentication method for the rule
-    #   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
+    #   action - string - Action to take on inactive users (disable or delete)
+    #   authentication_method - string - User authentication method for the rule
+    #   inactivity_days - int64 - Number of days of inactivity before the rule applies
     #   include_site_admins - boolean - Include site admins in the rule
     #   include_folder_admins - boolean - Include folder admins in the rule
     #   user_state - string - State of the users to apply the rule to (inactive or disabled)
@@ -59,14 +59,6 @@ class UserLifecycleRule:
             raise MissingParameterError("Current object doesn't have a id")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "action" not in params:
-            raise MissingParameterError("Parameter missing: action")
-        if "authentication_method" not in params:
-            raise MissingParameterError(
-                "Parameter missing: authentication_method"
-            )
-        if "inactivity_days" not in params:
-            raise MissingParameterError("Parameter missing: inactivity_days")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "action" in params and not isinstance(params["action"], str):
@@ -177,9 +169,9 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
-#   action (required) - string - Action to take on inactive users (disable or delete)
-#   authentication_method (required) - string - User authentication method for the rule
-#   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
+#   action - string - Action to take on inactive users (disable or delete)
+#   authentication_method - string - User authentication method for the rule
+#   inactivity_days - int64 - Number of days of inactivity before the rule applies
 #   include_site_admins - boolean - Include site admins in the rule
 #   include_folder_admins - boolean - Include folder admins in the rule
 #   user_state - string - State of the users to apply the rule to (inactive or disabled)
@@ -216,12 +208,6 @@ def create(params=None, options=None):
         )
     if "user_state" in params and not isinstance(params["user_state"], str):
         raise InvalidParameterError("Bad parameter: user_state must be an str")
-    if "action" not in params:
-        raise MissingParameterError("Parameter missing: action")
-    if "authentication_method" not in params:
-        raise MissingParameterError("Parameter missing: authentication_method")
-    if "inactivity_days" not in params:
-        raise MissingParameterError("Parameter missing: inactivity_days")
     response, options = Api.send_request(
         "POST", "/user_lifecycle_rules", params, options
     )
@@ -229,9 +215,9 @@ def create(params=None, options=None):
 
 
 # Parameters:
-#   action (required) - string - Action to take on inactive users (disable or delete)
-#   authentication_method (required) - string - User authentication method for the rule
-#   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
+#   action - string - Action to take on inactive users (disable or delete)
+#   authentication_method - string - User authentication method for the rule
+#   inactivity_days - int64 - Number of days of inactivity before the rule applies
 #   include_site_admins - boolean - Include site admins in the rule
 #   include_folder_admins - boolean - Include folder admins in the rule
 #   user_state - string - State of the users to apply the rule to (inactive or disabled)
@@ -273,12 +259,6 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_state must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    if "action" not in params:
-        raise MissingParameterError("Parameter missing: action")
-    if "authentication_method" not in params:
-        raise MissingParameterError("Parameter missing: authentication_method")
-    if "inactivity_days" not in params:
-        raise MissingParameterError("Parameter missing: inactivity_days")
     response, options = Api.send_request(
         "PATCH",
         "/user_lifecycle_rules/{id}".format(id=params["id"]),
