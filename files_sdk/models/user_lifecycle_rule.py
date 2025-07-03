@@ -17,6 +17,7 @@ class UserLifecycleRule:
         "include_site_admins": None,  # boolean - Include site admins in the rule
         "action": None,  # string - Action to take on inactive users (disable or delete)
         "user_state": None,  # string - State of the users to apply the rule to (inactive or disabled)
+        "name": None,  # string - User Lifecycle Rule name
         "site_id": None,  # int64 - Site ID
     }
 
@@ -49,6 +50,7 @@ class UserLifecycleRule:
     #   include_site_admins - boolean - Include site admins in the rule
     #   include_folder_admins - boolean - Include folder admins in the rule
     #   user_state - string - State of the users to apply the rule to (inactive or disabled)
+    #   name - string - User Lifecycle Rule name
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -81,6 +83,8 @@ class UserLifecycleRule:
             raise InvalidParameterError(
                 "Bad parameter: user_state must be an str"
             )
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
         response, _options = Api.send_request(
             "PATCH",
             "/user_lifecycle_rules/{id}".format(id=params["id"]),
@@ -175,6 +179,7 @@ def get(id, params=None, options=None):
 #   include_site_admins - boolean - Include site admins in the rule
 #   include_folder_admins - boolean - Include folder admins in the rule
 #   user_state - string - State of the users to apply the rule to (inactive or disabled)
+#   name - string - User Lifecycle Rule name
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -208,6 +213,8 @@ def create(params=None, options=None):
         )
     if "user_state" in params and not isinstance(params["user_state"], str):
         raise InvalidParameterError("Bad parameter: user_state must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     response, options = Api.send_request(
         "POST", "/user_lifecycle_rules", params, options
     )
@@ -221,6 +228,7 @@ def create(params=None, options=None):
 #   include_site_admins - boolean - Include site admins in the rule
 #   include_folder_admins - boolean - Include folder admins in the rule
 #   user_state - string - State of the users to apply the rule to (inactive or disabled)
+#   name - string - User Lifecycle Rule name
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -257,6 +265,8 @@ def update(id, params=None, options=None):
         )
     if "user_state" in params and not isinstance(params["user_state"], str):
         raise InvalidParameterError("Bad parameter: user_state must be an str")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(

@@ -11,6 +11,7 @@
   "include_site_admins": True,
   "action": "disable",
   "user_state": "inactive",
+  "name": "password specific rules",
   "site_id": 1
 }
 ```
@@ -22,6 +23,7 @@
 * `include_site_admins` (boolean): Include site admins in the rule
 * `action` (string): Action to take on inactive users (disable or delete)
 * `user_state` (string): State of the users to apply the rule to (inactive or disabled)
+* `name` (string): User Lifecycle Rule name
 * `site_id` (int64): Site ID
 
 
@@ -62,7 +64,8 @@ files_sdk.user_lifecycle_rule.create({
   "inactivity_days": 12,
   "include_site_admins": True,
   "include_folder_admins": True,
-  "user_state": "inactive"
+  "user_state": "inactive",
+  "name": "password specific rules"
 })
 ```
 
@@ -74,6 +77,7 @@ files_sdk.user_lifecycle_rule.create({
 * `include_site_admins` (boolean): Include site admins in the rule
 * `include_folder_admins` (boolean): Include folder admins in the rule
 * `user_state` (string): State of the users to apply the rule to (inactive or disabled)
+* `name` (string): User Lifecycle Rule name
 
 
 ---
@@ -86,7 +90,8 @@ files_sdk.user_lifecycle_rule.update(id, {
   "inactivity_days": 12,
   "include_site_admins": True,
   "include_folder_admins": True,
-  "user_state": "inactive"
+  "user_state": "inactive",
+  "name": "password specific rules"
 })
 ```
 
@@ -99,6 +104,7 @@ files_sdk.user_lifecycle_rule.update(id, {
 * `include_site_admins` (boolean): Include site admins in the rule
 * `include_folder_admins` (boolean): Include folder admins in the rule
 * `user_state` (string): State of the users to apply the rule to (inactive or disabled)
+* `name` (string): User Lifecycle Rule name
 
 
 ---
@@ -125,7 +131,8 @@ user_lifecycle_rule.update({
   "inactivity_days": 12,
   "include_site_admins": True,
   "include_folder_admins": True,
-  "user_state": "inactive"
+  "user_state": "inactive",
+  "name": "password specific rules"
 })
 ```
 
@@ -138,6 +145,7 @@ user_lifecycle_rule.update({
 * `include_site_admins` (boolean): Include site admins in the rule
 * `include_folder_admins` (boolean): Include folder admins in the rule
 * `user_state` (string): State of the users to apply the rule to (inactive or disabled)
+* `name` (string): User Lifecycle Rule name
 
 
 ---
