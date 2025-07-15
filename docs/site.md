@@ -198,6 +198,8 @@
   "show_request_access_link": True,
   "site_footer": "example",
   "site_header": "example",
+  "site_public_footer": "example",
+  "site_public_header": "example",
   "smtp_address": "smtp.my-mail-server.com",
   "smtp_authentication": "plain",
   "smtp_from": "me@my-mail-server.com",
@@ -440,8 +442,10 @@
 * `sharing_enabled` (boolean): Allow bundle creation
 * `show_user_notifications_log_in_link` (boolean): Show log in link in user notifications?
 * `show_request_access_link` (boolean): Show request access link for users without access?  Currently unused.
-* `site_footer` (string): Custom site footer text
-* `site_header` (string): Custom site header text
+* `site_footer` (string): Custom site footer text for authenticated pages
+* `site_header` (string): Custom site header text for authenticated pages
+* `site_public_footer` (string): Custom site footer text for public pages
+* `site_public_header` (string): Custom site header text for public pages
 * `smtp_address` (string): SMTP server hostname or IP
 * `smtp_authentication` (string): SMTP server authentication type
 * `smtp_from` (string): From address to use when mailing through custom SMTP
@@ -620,6 +624,8 @@ files_sdk.site.update({
   "color2_top_text": "#ffffff",
   "site_header": "example",
   "site_footer": "example",
+  "site_public_header": "example",
+  "site_public_footer": "example",
   "login_help_text": "Login page help text.",
   "use_dedicated_ips_for_smtp": False,
   "smtp_address": "smtp.my-mail-server.com",
@@ -777,8 +783,10 @@ files_sdk.site.update({
 * `color2_link` (string): Top bar link color
 * `color2_text` (string): Page link and button color
 * `color2_top_text` (string): Top bar text color
-* `site_header` (string): Custom site header text
-* `site_footer` (string): Custom site footer text
+* `site_header` (string): Custom site header text for authenticated pages
+* `site_footer` (string): Custom site footer text for authenticated pages
+* `site_public_header` (string): Custom site header text for public pages
+* `site_public_footer` (string): Custom site footer text for public pages
 * `login_help_text` (string): Login help text
 * `use_dedicated_ips_for_smtp` (boolean): If using custom SMTP, should we use dedicated IPs to deliver emails?
 * `smtp_address` (string): SMTP server hostname or IP

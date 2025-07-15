@@ -146,8 +146,10 @@ class Site:
         "sharing_enabled": None,  # boolean - Allow bundle creation
         "show_user_notifications_log_in_link": None,  # boolean - Show log in link in user notifications?
         "show_request_access_link": None,  # boolean - Show request access link for users without access?  Currently unused.
-        "site_footer": None,  # string - Custom site footer text
-        "site_header": None,  # string - Custom site header text
+        "site_footer": None,  # string - Custom site footer text for authenticated pages
+        "site_header": None,  # string - Custom site header text for authenticated pages
+        "site_public_footer": None,  # string - Custom site footer text for public pages
+        "site_public_header": None,  # string - Custom site header text for public pages
         "smtp_address": None,  # string - SMTP server hostname or IP
         "smtp_authentication": None,  # string - SMTP server authentication type
         "smtp_from": None,  # string - From address to use when mailing through custom SMTP
@@ -340,8 +342,10 @@ def get_usage(params=None, options=None):
 #   color2_link - string - Top bar link color
 #   color2_text - string - Page link and button color
 #   color2_top_text - string - Top bar text color
-#   site_header - string - Custom site header text
-#   site_footer - string - Custom site footer text
+#   site_header - string - Custom site header text for authenticated pages
+#   site_footer - string - Custom site footer text for authenticated pages
+#   site_public_header - string - Custom site header text for public pages
+#   site_public_footer - string - Custom site footer text for public pages
 #   login_help_text - string - Login help text
 #   use_dedicated_ips_for_smtp - boolean - If using custom SMTP, should we use dedicated IPs to deliver emails?
 #   smtp_address - string - SMTP server hostname or IP
@@ -1077,6 +1081,18 @@ def update(params=None, options=None):
     if "site_footer" in params and not isinstance(params["site_footer"], str):
         raise InvalidParameterError(
             "Bad parameter: site_footer must be an str"
+        )
+    if "site_public_header" in params and not isinstance(
+        params["site_public_header"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: site_public_header must be an str"
+        )
+    if "site_public_footer" in params and not isinstance(
+        params["site_public_footer"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: site_public_footer must be an str"
         )
     if "login_help_text" in params and not isinstance(
         params["login_help_text"], str
