@@ -14,7 +14,8 @@ class SyncRun:
         "sync_id": None,  # int64 - ID of the Sync this run belongs to
         "site_id": None,  # int64 - Site ID
         "status": None,  # string - Status of the sync run (success, failure, partial_failure, in_progress, skipped)
-        "remote_server_type": None,  # string - Type of remote server used, if any
+        "src_remote_server_type": None,  # string - Source remote server type, if any
+        "dest_remote_server_type": None,  # string - Destination remote server type, if any
         "body": None,  # string - Log or summary body for this run
         "event_errors": None,  # array(string) - Array of errors encountered during the run
         "bytes_synced": None,  # int64 - Total bytes synced in this run

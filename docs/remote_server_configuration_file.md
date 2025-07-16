@@ -21,6 +21,7 @@
   "override_max_concurrent_jobs": 1,
   "graceful_shutdown_timeout": 1,
   "transfer_rate_limit": "example",
+  "auto_update_policy": "example",
   "api_token": "example",
   "port": 1,
   "hostname": "example",
@@ -58,6 +59,7 @@ Examples:
 * 10 requests/minute: '10-M'
 * 1000 requests/hour: '1000-H'
 * 2000 requests/day: '2000-D'
+* `auto_update_policy` (string): Auto update policy ['manual_trigger', 'critical_only', 'always'] (default critical_only)
 * `api_token` (string): Files Agent API Token
 * `port` (int64): Incoming port for files agent connections
 * `hostname` (string): 
