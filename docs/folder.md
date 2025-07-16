@@ -98,7 +98,8 @@ files_sdk.folder.list_for(path, {
   "search_custom_metadata_key": "some-metadata-key",
   "search_all": False,
   "with_previews": False,
-  "with_priority_color": False
+  "with_priority_color": False,
+  "type": "file"
 })
 ```
 
@@ -114,6 +115,8 @@ files_sdk.folder.list_for(path, {
 * `search_all` (boolean): Search entire site?  If set, we will ignore the folder path provided and search the entire site.  This is the same API used by the search bar in the web UI when running 'Search All Files'.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
 * `with_previews` (boolean): Include file previews?
 * `with_priority_color` (boolean): Include file priority color information?
+* `type` (string): Type of objects to return.  Can be `folder` or `file`.
+* `modified_at_datetime` (string): If provided, will only return files/folders modified after this time. Can be used only in combination with `type` filter.
 
 
 ---

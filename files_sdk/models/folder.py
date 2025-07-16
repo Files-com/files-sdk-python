@@ -85,6 +85,8 @@ class Folder:
 #   search_all - boolean - Search entire site?  If set, we will ignore the folder path provided and search the entire site.  This is the same API used by the search bar in the web UI when running 'Search All Files'.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
 #   with_previews - boolean - Include file previews?
 #   with_priority_color - boolean - Include file priority color information?
+#   type - string - Type of objects to return.  Can be `folder` or `file`.
+#   modified_at_datetime - string - If provided, will only return files/folders modified after this time. Can be used only in combination with `type` filter.
 def list_for(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -128,6 +130,14 @@ def list_for(path, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: with_priority_color must be an bool"
+        )
+    if "type" in params and not isinstance(params["type"], str):
+        raise InvalidParameterError("Bad parameter: type must be an str")
+    if "modified_at_datetime" in params and not isinstance(
+        params["modified_at_datetime"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: modified_at_datetime must be an str"
         )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
