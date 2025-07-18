@@ -152,15 +152,6 @@ files_sdk.sync.create({
 
 ---
 
-## Migrate Legacy Syncs to Syncs
-
-```
-files_sdk.sync.create_migrate_to()
-```
-
-
----
-
 ## Manually Run Sync
 
 ```

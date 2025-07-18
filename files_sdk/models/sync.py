@@ -382,14 +382,6 @@ def create(params=None, options=None):
     return Sync(response.data, options)
 
 
-def create_migrate_to(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    Api.send_request("POST", "/syncs/migrate_to_syncs", params, options)
-
-
 # Manually Run Sync
 def manual_run(id, params=None, options=None):
     if not isinstance(params, dict):
