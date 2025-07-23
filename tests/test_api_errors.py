@@ -18,10 +18,10 @@ class TestApiErrors(unittest.TestCase):
             "content-type": "application/json; charset=utf8",
         }
         r.json = lambda: {
-            "type": "not-found/folder-not-found",
+            "type": "not-found",
             "http-code": 404,
-            "error": "Folder missing not found.",
-            "title": "Folder Not Found",
+            "error": "Not Found.  This may be related to your permissions.",
+            "title": "Not Found",
         }
         mock_send.return_value = r
 
@@ -30,11 +30,11 @@ class TestApiErrors(unittest.TestCase):
                 pass
 
         self.assertEqual(context.exception.code, 404)
-        self.assertEqual(str(context.exception), "HTTP 404 Folder missing not found.")
+        self.assertEqual(str(context.exception), "HTTP 404 Not Found.  This may be related to your permissions.")
         self.assertIn("content-type", context.exception.headers)
         self.assertEqual(context.exception.headers["content-type"], "application/json; charset=utf8")
-        self.assertEqual(context.exception.title, "Folder Not Found")
-        self.assertEqual(context.exception.error_type, "not-found/folder-not-found")
+        self.assertEqual(context.exception.title, "Not Found")
+        self.assertEqual(context.exception.error_type, "not-found")
         self.assertEqual(context.exception.http_code, 404)
 
     def test_bad_gateway(self, mock_send):

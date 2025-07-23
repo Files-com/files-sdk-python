@@ -541,7 +541,6 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`CodeNotFoundError`|  `NotFoundError` |
 |`FileNotFoundError`|  `NotFoundError` |
 |`FileUploadNotFoundError`|  `NotFoundError` |
-|`FolderNotFoundError`|  `NotFoundError` |
 |`GroupNotFoundError`|  `NotFoundError` |
 |`InboxNotFoundError`|  `NotFoundError` |
 |`NestedNotFoundError`|  `NotFoundError` |
