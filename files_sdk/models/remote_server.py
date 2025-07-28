@@ -39,9 +39,6 @@ class RemoteServer:
         "wasabi_bucket": None,  # string - Wasabi: Bucket name
         "wasabi_region": None,  # string - Wasabi: Region
         "wasabi_access_key": None,  # string - Wasabi: Access Key.
-        "rackspace_username": None,  # string - Rackspace: username used to login to the Rackspace Cloud Control Panel.
-        "rackspace_region": None,  # string - Rackspace: Three letter code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
-        "rackspace_container": None,  # string - Rackspace: The name of the container (top level directory) where files will sync.
         "auth_status": None,  # string - Either `in_setup` or `complete`
         "auth_account_name": None,  # string - Describes the authorized account
         "one_drive_account_type": None,  # string - OneDrive: Either personal or business_other account types
@@ -88,7 +85,6 @@ class RemoteServer:
         "google_cloud_storage_credentials_json": None,  # string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
         "google_cloud_storage_s3_compatible_secret_key": None,  # string - Google Cloud Storage: S3-compatible secret key
         "linode_secret_key": None,  # string - Linode: Secret Key
-        "rackspace_api_key": None,  # string - Rackspace: API key from the Rackspace Cloud Control Panel
         "s3_compatible_secret_key": None,  # string - S3-compatible: Secret Key
         "wasabi_secret_key": None,  # string - Wasabi: Secret Key
     }
@@ -215,7 +211,6 @@ class RemoteServer:
     #   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
     #   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
     #   linode_secret_key - string - Linode: Secret Key
-    #   rackspace_api_key - string - Rackspace: API key from the Rackspace Cloud Control Panel
     #   s3_compatible_secret_key - string - S3-compatible: Secret Key
     #   wasabi_secret_key - string - Wasabi: Secret Key
     #   aws_access_key - string - AWS Access Key.
@@ -250,9 +245,6 @@ class RemoteServer:
     #   one_drive_account_type - string - OneDrive: Either personal or business_other account types
     #   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
     #   port - int64 - Port for remote server.  Not needed for S3.
-    #   rackspace_container - string - Rackspace: The name of the container (top level directory) where files will sync.
-    #   rackspace_region - string - Rackspace: Three letter code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
-    #   rackspace_username - string - Rackspace: username used to login to the Rackspace Cloud Control Panel.
     #   s3_bucket - string - S3 bucket name
     #   s3_compatible_access_key - string - S3-compatible: Access Key
     #   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -378,12 +370,6 @@ class RemoteServer:
         ):
             raise InvalidParameterError(
                 "Bad parameter: linode_secret_key must be an str"
-            )
-        if "rackspace_api_key" in params and not isinstance(
-            params["rackspace_api_key"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: rackspace_api_key must be an str"
             )
         if "s3_compatible_secret_key" in params and not isinstance(
             params["s3_compatible_secret_key"], str
@@ -558,24 +544,6 @@ class RemoteServer:
             )
         if "port" in params and not isinstance(params["port"], int):
             raise InvalidParameterError("Bad parameter: port must be an int")
-        if "rackspace_container" in params and not isinstance(
-            params["rackspace_container"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: rackspace_container must be an str"
-            )
-        if "rackspace_region" in params and not isinstance(
-            params["rackspace_region"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: rackspace_region must be an str"
-            )
-        if "rackspace_username" in params and not isinstance(
-            params["rackspace_username"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: rackspace_username must be an str"
-            )
         if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
             raise InvalidParameterError(
                 "Bad parameter: s3_bucket must be an str"
@@ -694,9 +662,9 @@ class RemoteServer:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `rackspace_container`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `rackspace_container`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ server_type, name ]`, `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ rackspace_container, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]` or `[ linode_bucket, name ]`.
-#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `rackspace_container`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ rackspace_container, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]` or `[ linode_bucket, name ]`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ server_type, name ]`, `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]` or `[ linode_bucket, name ]`.
+#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]` or `[ linode_bucket, name ]`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -784,7 +752,6 @@ def find_configuration_file(id, params=None, options=None):
 #   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
 #   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
 #   linode_secret_key - string - Linode: Secret Key
-#   rackspace_api_key - string - Rackspace: API key from the Rackspace Cloud Control Panel
 #   s3_compatible_secret_key - string - S3-compatible: Secret Key
 #   wasabi_secret_key - string - Wasabi: Secret Key
 #   aws_access_key - string - AWS Access Key.
@@ -819,9 +786,6 @@ def find_configuration_file(id, params=None, options=None):
 #   one_drive_account_type - string - OneDrive: Either personal or business_other account types
 #   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 #   port - int64 - Port for remote server.  Not needed for S3.
-#   rackspace_container - string - Rackspace: The name of the container (top level directory) where files will sync.
-#   rackspace_region - string - Rackspace: Three letter code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
-#   rackspace_username - string - Rackspace: username used to login to the Rackspace Cloud Control Panel.
 #   s3_bucket - string - S3 bucket name
 #   s3_compatible_access_key - string - S3-compatible: Access Key
 #   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -939,12 +903,6 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: linode_secret_key must be an str"
-        )
-    if "rackspace_api_key" in params and not isinstance(
-        params["rackspace_api_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: rackspace_api_key must be an str"
         )
     if "s3_compatible_secret_key" in params and not isinstance(
         params["s3_compatible_secret_key"], str
@@ -1144,24 +1102,6 @@ def create(params=None, options=None):
         )
     if "port" in params and not isinstance(params["port"], int):
         raise InvalidParameterError("Bad parameter: port must be an int")
-    if "rackspace_container" in params and not isinstance(
-        params["rackspace_container"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: rackspace_container must be an str"
-        )
-    if "rackspace_region" in params and not isinstance(
-        params["rackspace_region"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: rackspace_region must be an str"
-        )
-    if "rackspace_username" in params and not isinstance(
-        params["rackspace_username"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: rackspace_username must be an str"
-        )
     if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
         raise InvalidParameterError("Bad parameter: s3_bucket must be an str")
     if "s3_compatible_access_key" in params and not isinstance(
@@ -1321,7 +1261,6 @@ def configuration_file(id, params=None, options=None):
 #   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
 #   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
 #   linode_secret_key - string - Linode: Secret Key
-#   rackspace_api_key - string - Rackspace: API key from the Rackspace Cloud Control Panel
 #   s3_compatible_secret_key - string - S3-compatible: Secret Key
 #   wasabi_secret_key - string - Wasabi: Secret Key
 #   aws_access_key - string - AWS Access Key.
@@ -1356,9 +1295,6 @@ def configuration_file(id, params=None, options=None):
 #   one_drive_account_type - string - OneDrive: Either personal or business_other account types
 #   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 #   port - int64 - Port for remote server.  Not needed for S3.
-#   rackspace_container - string - Rackspace: The name of the container (top level directory) where files will sync.
-#   rackspace_region - string - Rackspace: Three letter code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
-#   rackspace_username - string - Rackspace: username used to login to the Rackspace Cloud Control Panel.
 #   s3_bucket - string - S3 bucket name
 #   s3_compatible_access_key - string - S3-compatible: Access Key
 #   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -1479,12 +1415,6 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: linode_secret_key must be an str"
-        )
-    if "rackspace_api_key" in params and not isinstance(
-        params["rackspace_api_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: rackspace_api_key must be an str"
         )
     if "s3_compatible_secret_key" in params and not isinstance(
         params["s3_compatible_secret_key"], str
@@ -1684,24 +1614,6 @@ def update(id, params=None, options=None):
         )
     if "port" in params and not isinstance(params["port"], int):
         raise InvalidParameterError("Bad parameter: port must be an int")
-    if "rackspace_container" in params and not isinstance(
-        params["rackspace_container"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: rackspace_container must be an str"
-        )
-    if "rackspace_region" in params and not isinstance(
-        params["rackspace_region"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: rackspace_region must be an str"
-        )
-    if "rackspace_username" in params and not isinstance(
-        params["rackspace_username"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: rackspace_username must be an str"
-        )
     if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
         raise InvalidParameterError("Bad parameter: s3_bucket must be an str")
     if "s3_compatible_access_key" in params and not isinstance(
