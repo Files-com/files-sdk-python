@@ -181,6 +181,7 @@ class Site:
         "welcome_screen": None,  # string - Does the welcome screen appear?
         "windows_mode_ftp": None,  # boolean - Does FTP user Windows emulation mode?
         "group_admins_can_set_user_password": None,  # boolean - Allow group admins set password authentication method
+        "managed_site_settings": None,  # array(string) - List of site settings managed by the parent site
     }
 
     def __init__(self, attributes=None, options=None):

@@ -300,7 +300,10 @@
   "welcome_email_enabled": True,
   "welcome_screen": "user_controlled",
   "windows_mode_ftp": True,
-  "group_admins_can_set_user_password": True
+  "group_admins_can_set_user_password": True,
+  "managed_site_settings": [
+    "example"
+  ]
 }
 ```
 
@@ -475,6 +478,7 @@
 * `welcome_screen` (string): Does the welcome screen appear?
 * `windows_mode_ftp` (boolean): Does FTP user Windows emulation mode?
 * `group_admins_can_set_user_password` (boolean): Allow group admins set password authentication method
+* `managed_site_settings` (array(string)): List of site settings managed by the parent site
 
 
 ---

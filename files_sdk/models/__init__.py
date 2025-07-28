@@ -26,6 +26,9 @@ from files_sdk.models.bundle_notification import BundleNotification
 from files_sdk.models.bundle_path import BundlePath
 from files_sdk.models.bundle_recipient import BundleRecipient
 from files_sdk.models.bundle_registration import BundleRegistration
+from files_sdk.models.child_site_management_policy import (
+    ChildSiteManagementPolicy,
+)
 from files_sdk.models.clickwrap import Clickwrap
 from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.email_incoming_message import EmailIncomingMessage
