@@ -1342,6 +1342,36 @@ class InsufficientPermissionForSiteError(NotAuthorizedError):
         )
 
 
+class MoverAccessDeniedError(NotAuthorizedError):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
+class MoverPackageRequiredError(NotAuthorizedError):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
 class MustAuthenticateWithApiKeyError(NotAuthorizedError):
     def __init__(
         self,
@@ -1402,6 +1432,21 @@ class NotAllowedToCreateBundleError(NotAuthorizedError):
         )
 
 
+class NotEnqueuableSyncError(NotAuthorizedError):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
 class PasswordChangeNotRequiredError(NotAuthorizedError):
     def __init__(
         self,
@@ -1418,6 +1463,21 @@ class PasswordChangeNotRequiredError(NotAuthorizedError):
 
 
 class PasswordChangeRequiredError(NotAuthorizedError):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
+class PaymentMethodErrorError(NotAuthorizedError):
     def __init__(
         self,
         message=None,
@@ -2438,6 +2498,21 @@ class ResourceLockedError(ProcessingFailureError):
 
 
 class SubfolderLockedError(ProcessingFailureError):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
+class SyncInProgressError(ProcessingFailureError):
     def __init__(
         self,
         message=None,

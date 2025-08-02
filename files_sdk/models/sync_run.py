@@ -18,7 +18,6 @@ class SyncRun:
         "dest_remote_server_type": None,  # string - Destination remote server type, if any
         "body": None,  # string - Log or summary body for this run
         "event_errors": None,  # array(string) - Array of errors encountered during the run
-        "bytes_synced": None,  # int64 - Total bytes synced in this run
         "compared_files": None,  # int64 - Number of files compared
         "compared_folders": None,  # int64 - Number of folders compared
         "errored_files": None,  # int64 - Number of files that errored
@@ -27,6 +26,9 @@ class SyncRun:
         "log_url": None,  # string - Link to external log file.
         "completed_at": None,  # date-time - When this run was completed
         "notified": None,  # boolean - Whether notifications were sent for this run
+        "dry_run": None,  # boolean - Whether this run was a dry run (no actual changes made)
+        "bytes_synced": None,  # int64 - Total bytes synced in this run
+        "estimated_bytes_count": None,  # int64 - Estimated bytes count for this run
         "created_at": None,  # date-time - When this run was created
         "updated_at": None,  # date-time - When this run was last updated
     }
@@ -55,9 +57,8 @@ class SyncRun:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `sync_id`, `created_at` or `status`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `status` and `sync_id`. Valid field combinations are `[ sync_id, status ]`.
-#   sync_id (required) - int64 - ID of the Sync this run belongs to
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `sync_id` or `created_at`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `status`, `dry_run` or `sync_id`. Valid field combinations are `[ sync_id, status ]`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -73,10 +74,6 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
         raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "sync_id" in params and not isinstance(params["sync_id"], int):
-        raise InvalidParameterError("Bad parameter: sync_id must be an int")
-    if "sync_id" not in params:
-        raise MissingParameterError("Parameter missing: sync_id")
     return ListObj(SyncRun, "GET", "/sync_runs", params, options)
 
 

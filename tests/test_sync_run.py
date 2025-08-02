@@ -12,10 +12,7 @@ class SyncRunTest(TestBase):
     # Static Methods
     @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/sync_runs"), "Mock path does not exist")
     def test_list(self):
-        params = {
-            "sync_id" : 12345,
-        }
-        sync_run.list(params)
+        resp = sync_run.list()
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/sync_runs/{id}"), "Mock path does not exist")
     def test_find(self):

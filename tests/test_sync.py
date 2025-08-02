@@ -8,6 +8,14 @@ from files_sdk import sync
 class SyncTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/syncs/{id}/dry_run"), "Mock path does not exist")
+    def test_dry_run(self):
+        params = {
+            "id" : 12345,
+        }
+        sync = Sync(params)
+        sync.dry_run(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/syncs/{id}/manual_run"), "Mock path does not exist")
     def test_manual_run(self):
         params = {
@@ -52,6 +60,14 @@ class SyncTest(TestBase):
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/syncs"), "Mock path does not exist")
     def test_create(self):
         resp = sync.create()
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/syncs/{id}/dry_run"), "Mock path does not exist")
+    def test_dry_run(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        sync.dry_run(id, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/syncs/{id}/manual_run"), "Mock path does not exist")
     def test_manual_run(self):

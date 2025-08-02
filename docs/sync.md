@@ -40,7 +40,32 @@
     "14:30"
   ],
   "schedule_time_zone": "Eastern Time (US & Canada)",
-  "holiday_region": "us_dc"
+  "holiday_region": "us_dc",
+  "latest_sync_run": {
+    "id": 1,
+    "sync_id": 1,
+    "site_id": 1,
+    "status": "example",
+    "src_remote_server_type": "example",
+    "dest_remote_server_type": "example",
+    "body": "example",
+    "event_errors": [
+      "example"
+    ],
+    "compared_files": 1,
+    "compared_folders": 1,
+    "errored_files": 1,
+    "successful_files": 1,
+    "runtime": 1.0,
+    "log_url": "https://www.example.com/log_file.txt",
+    "completed_at": "2000-01-01T01:00:00Z",
+    "notified": True,
+    "dry_run": True,
+    "bytes_synced": 1,
+    "estimated_bytes_count": 1,
+    "created_at": "2000-01-01T01:00:00Z",
+    "updated_at": "2000-01-01T01:00:00Z"
+  }
 }
 ```
 
@@ -70,6 +95,7 @@
 * `schedule_times_of_day` (array(string)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
 * `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `holiday_region` (string): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+* `latest_sync_run` (SyncRun): The latest run of this sync
 
 
 ---
@@ -152,6 +178,19 @@ files_sdk.sync.create({
 
 ---
 
+## Dry Run Sync
+
+```
+files_sdk.sync.dry_run(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Sync ID.
+
+
+---
+
 ## Manually Run Sync
 
 ```
@@ -221,6 +260,20 @@ files_sdk.sync.update(id, {
 
 ```
 files_sdk.sync.delete(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Sync ID.
+
+
+---
+
+## Dry Run Sync
+
+```
+sync = files_sdk.sync.find(id)
+sync.dry_run()
 ```
 
 ### Parameters

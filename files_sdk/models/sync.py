@@ -36,6 +36,7 @@ class Sync:
         "schedule_times_of_day": None,  # array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
         "schedule_time_zone": None,  # string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
         "holiday_region": None,  # string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+        "latest_sync_run": None,  # SyncRun - The latest run of this sync
     }
 
     def __init__(self, attributes=None, options=None):
@@ -56,6 +57,26 @@ class Sync:
             for k in Sync.default_attributes
             if getattr(self, k, None) is not None
         }
+
+    # Dry Run Sync
+    def dry_run(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        Api.send_request(
+            "POST",
+            "/syncs/{id}/dry_run".format(id=params["id"]),
+            params,
+            self.options,
+        )
 
     # Manually Run Sync
     def manual_run(self, params=None):
@@ -380,6 +401,22 @@ def create(params=None, options=None):
         )
     response, options = Api.send_request("POST", "/syncs", params, options)
     return Sync(response.data, options)
+
+
+# Dry Run Sync
+def dry_run(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    Api.send_request(
+        "POST", "/syncs/{id}/dry_run".format(id=params["id"]), params, options
+    )
 
 
 # Manually Run Sync

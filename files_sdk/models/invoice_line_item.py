@@ -9,6 +9,7 @@ from files_sdk.error import (  # noqa: F401
 
 class InvoiceLineItem:
     default_attributes = {
+        "id": None,  # int64 - Invoice Line item Id
         "amount": None,  # double - Invoice line item amount
         "created_at": None,  # date-time - Invoice line item created at date/time
         "description": None,  # string - Invoice line item description

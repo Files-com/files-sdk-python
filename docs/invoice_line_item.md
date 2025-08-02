@@ -4,6 +4,7 @@
 
 ```
 {
+  "id": 1,
   "amount": 1.0,
   "created_at": "2000-01-01T01:00:00Z",
   "description": "Service from 2019-01-01 through 2019-12-31",
@@ -15,6 +16,7 @@
 }
 ```
 
+* `id` (int64): Invoice Line item Id
 * `amount` (double): Invoice line item amount
 * `created_at` (date-time): Invoice line item created at date/time
 * `description` (string): Invoice line item description
