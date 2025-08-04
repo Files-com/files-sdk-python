@@ -618,6 +618,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`PlanNotFoundError`|  `NotFoundError` |
 |`SiteNotFoundError`|  `NotFoundError` |
 |`UserNotFoundError`|  `NotFoundError` |
+|`AgentUnavailableError`|  `ProcessingFailureError` |
 |`AlreadyCompletedError`|  `ProcessingFailureError` |
 |`AutomationCannotBeRunManuallyError`|  `ProcessingFailureError` |
 |`BehaviorNotAllowedOnRemoteServerError`|  `ProcessingFailureError` |
@@ -673,7 +674,6 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`TooManyLoginAttemptsError`|  `RateLimitedError` |
 |`TooManyRequestsError`|  `RateLimitedError` |
 |`TooManySharesError`|  `RateLimitedError` |
-|`AgentUnavailableError`|  `ServiceUnavailableError` |
 |`AutomationsUnavailableError`|  `ServiceUnavailableError` |
 |`MigrationInProgressError`|  `ServiceUnavailableError` |
 |`SiteDisabledError`|  `ServiceUnavailableError` |
