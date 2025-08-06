@@ -17,10 +17,11 @@ class PublicKey:
         "fingerprint_sha256": None,  # string - Public key fingerprint (SHA256)
         "status": None,  # string - Only returned when generating keys. Can be invalid, not_generated, generating, complete
         "last_login_at": None,  # date-time - Key's most recent login time via SFTP
-        "private_key": None,  # string - Only returned when generating keys. Private key generated for the user.
-        "public_key": None,  # string - Only returned when generating keys. Public key generated for the user.
+        "generated_private_key": None,  # string - Only returned when generating keys. Private key generated for the user.
+        "generated_public_key": None,  # string - Only returned when generating keys. Public key generated for the user.
         "username": None,  # string - Username of the user this public key is associated with
         "user_id": None,  # int64 - User ID this public key is associated with
+        "public_key": None,  # string - Actual contents of SSH key.
         "generate_keypair": None,  # boolean - If true, generate a new SSH key pair. Can not be used with `public_key`
         "generate_private_key_password": None,  # string - Password for the private key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
         "generate_algorithm": None,  # string - Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.

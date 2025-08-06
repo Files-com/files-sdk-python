@@ -10,9 +10,9 @@
   "user_id": 1,
   "public_key_md5": "7f8bc1210b09b9ddf469e6b6b8920e76",
   "private_key_md5": "ab236cfe4a195f0226bc2e674afdd6b0",
-  "public_key": "7f8bc1210b09b9ddf469e6b6b8920e76",
-  "private_key": "ab236cfe4a195f0226bc2e674afdd6b0",
-  "private_key_password": "[your GPG private key password]"
+  "generated_public_key": "7f8bc1210b09b9ddf469e6b6b8920e76",
+  "generated_private_key": "ab236cfe4a195f0226bc2e674afdd6b0",
+  "private_key_password_md5": "[your GPG private key password]"
 }
 ```
 
@@ -22,8 +22,11 @@
 * `user_id` (int64): GPG owner's user id
 * `public_key_md5` (string): MD5 hash of your GPG public key
 * `private_key_md5` (string): MD5 hash of your GPG private key.
-* `public_key` (string): Your GPG public key
-* `private_key` (string): Your GPG private key.
+* `generated_public_key` (string): Your GPG public key
+* `generated_private_key` (string): Your GPG private key.
+* `private_key_password_md5` (string): Your GPG private key password. Only required for password protected keys.
+* `public_key` (string): MD5 hash of your GPG public key
+* `private_key` (string): MD5 hash of your GPG private key.
 * `private_key_password` (string): Your GPG private key password. Only required for password protected keys.
 * `generate_expires_at` (string): Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 * `generate_keypair` (boolean): If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`

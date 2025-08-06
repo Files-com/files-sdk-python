@@ -16,8 +16,11 @@ class GpgKey:
         "user_id": None,  # int64 - GPG owner's user id
         "public_key_md5": None,  # string - MD5 hash of your GPG public key
         "private_key_md5": None,  # string - MD5 hash of your GPG private key.
-        "public_key": None,  # string - Your GPG public key
-        "private_key": None,  # string - Your GPG private key.
+        "generated_public_key": None,  # string - Your GPG public key
+        "generated_private_key": None,  # string - Your GPG private key.
+        "private_key_password_md5": None,  # string - Your GPG private key password. Only required for password protected keys.
+        "public_key": None,  # string - MD5 hash of your GPG public key
+        "private_key": None,  # string - MD5 hash of your GPG private key.
         "private_key_password": None,  # string - Your GPG private key password. Only required for password protected keys.
         "generate_expires_at": None,  # string - Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
         "generate_keypair": None,  # boolean - If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
