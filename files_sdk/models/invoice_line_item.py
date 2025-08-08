@@ -18,6 +18,10 @@ class InvoiceLineItem:
         "service_start_at": None,  # date-time - Invoice line item service start date/time
         "plan": None,  # string - Plan name
         "site": None,  # string - Site name
+        "prepaid_bytes": None,  # int64 - Prepaid bytes purchased for this invoice line item
+        "prepaid_bytes_expire_at": None,  # date-time - When the prepaid bytes expire
+        "prepaid_bytes_used": None,  # int64 - Total prepaid bytes used for this invoice line item
+        "prepaid_bytes_avaliable": None,  # int64 - Available prepaid bytes for this invoice line item
     }
 
     def __init__(self, attributes=None, options=None):
