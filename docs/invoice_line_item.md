@@ -16,7 +16,7 @@
   "prepaid_bytes": 1,
   "prepaid_bytes_expire_at": "2000-01-01T01:00:00Z",
   "prepaid_bytes_used": 1,
-  "prepaid_bytes_avaliable": 1
+  "prepaid_bytes_available": 1
 }
 ```
 
@@ -32,4 +32,4 @@
 * `prepaid_bytes` (int64): Prepaid bytes purchased for this invoice line item
 * `prepaid_bytes_expire_at` (date-time): When the prepaid bytes expire
 * `prepaid_bytes_used` (int64): Total prepaid bytes used for this invoice line item
-* `prepaid_bytes_avaliable` (int64): Available prepaid bytes for this invoice line item
+* `prepaid_bytes_available` (int64): Available prepaid bytes for this invoice line item

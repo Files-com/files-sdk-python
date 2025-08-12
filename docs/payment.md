@@ -24,7 +24,7 @@
       "prepaid_bytes": 1,
       "prepaid_bytes_expire_at": "2000-01-01T01:00:00Z",
       "prepaid_bytes_used": 1,
-      "prepaid_bytes_avaliable": 1
+      "prepaid_bytes_available": 1
     }
   ],
   "method": "paypal",
