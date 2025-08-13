@@ -151,6 +151,7 @@
 * `password` (string): User password.
 * `password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (boolean): Signifies that the user has read all the announcements in the UI.
+* `clear_2fa` (boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 
 
 ---
@@ -376,7 +377,8 @@ files_sdk.user.update(id, {
   "time_zone": "Pacific Time (US & Canada)",
   "user_root": "example",
   "user_home": "example",
-  "username": "user"
+  "username": "user",
+  "clear_2fa": False
 })
 ```
 
@@ -430,6 +432,7 @@ files_sdk.user.update(id, {
 * `user_root` (string): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 * `user_home` (string): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 * `username` (string): User's username
+* `clear_2fa` (boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 
 
 ---
@@ -536,7 +539,8 @@ user.update({
   "time_zone": "Pacific Time (US & Canada)",
   "user_root": "example",
   "user_home": "example",
-  "username": "user"
+  "username": "user",
+  "clear_2fa": False
 })
 ```
 
@@ -590,6 +594,7 @@ user.update({
 * `user_root` (string): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 * `user_home` (string): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 * `username` (string): User's username
+* `clear_2fa` (boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 
 
 ---

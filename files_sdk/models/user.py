@@ -86,6 +86,7 @@ class User:
         "password": None,  # string - User password.
         "password_confirmation": None,  # string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
         "announcements_read": None,  # boolean - Signifies that the user has read all the announcements in the UI.
+        "clear_2fa": None,  # boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -215,6 +216,7 @@ class User:
     #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
     #   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
     #   username - string - User's username
+    #   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -868,6 +870,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 #   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 #   username - string - User's username
+#   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -1092,6 +1095,8 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_home must be an str")
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
+    if "clear_2fa" in params and not isinstance(params["clear_2fa"], bool):
+        raise InvalidParameterError("Bad parameter: clear_2fa must be an bool")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
