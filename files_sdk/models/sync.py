@@ -105,7 +105,6 @@ class Sync:
     #   dest_path - string - Absolute destination path
     #   src_remote_server_id - int64 - Remote server ID for the source
     #   dest_remote_server_id - int64 - Remote server ID for the destination
-    #   two_way - boolean - Is this a two-way sync?
     #   keep_after_copy - boolean - Keep files after copying?
     #   delete_empty_folders - boolean - Delete empty folders after sync?
     #   disabled - boolean - Is this sync disabled?
@@ -297,7 +296,6 @@ def get(id, params=None, options=None):
 #   dest_path - string - Absolute destination path
 #   src_remote_server_id - int64 - Remote server ID for the source
 #   dest_remote_server_id - int64 - Remote server ID for the destination
-#   two_way - boolean - Is this a two-way sync?
 #   keep_after_copy - boolean - Keep files after copying?
 #   delete_empty_folders - boolean - Delete empty folders after sync?
 #   disabled - boolean - Is this sync disabled?
@@ -337,8 +335,6 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: dest_remote_server_id must be an int"
         )
-    if "two_way" in params and not isinstance(params["two_way"], bool):
-        raise InvalidParameterError("Bad parameter: two_way must be an bool")
     if "keep_after_copy" in params and not isinstance(
         params["keep_after_copy"], bool
     ):
@@ -445,7 +441,6 @@ def manual_run(id, params=None, options=None):
 #   dest_path - string - Absolute destination path
 #   src_remote_server_id - int64 - Remote server ID for the source
 #   dest_remote_server_id - int64 - Remote server ID for the destination
-#   two_way - boolean - Is this a two-way sync?
 #   keep_after_copy - boolean - Keep files after copying?
 #   delete_empty_folders - boolean - Delete empty folders after sync?
 #   disabled - boolean - Is this sync disabled?
@@ -488,8 +483,6 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: dest_remote_server_id must be an int"
         )
-    if "two_way" in params and not isinstance(params["two_way"], bool):
-        raise InvalidParameterError("Bad parameter: two_way must be an bool")
     if "keep_after_copy" in params and not isinstance(
         params["keep_after_copy"], bool
     ):
