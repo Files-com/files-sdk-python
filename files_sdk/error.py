@@ -2407,7 +2407,7 @@ class InvalidSiteError(ProcessingFailureError):
         )
 
 
-class MetadataNotSupportedOnRemotesErrorError(ProcessingFailureError):
+class MetadataNotSupportedOnRemotesError(ProcessingFailureError):
     def __init__(
         self,
         message=None,
