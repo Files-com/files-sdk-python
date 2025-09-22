@@ -8,6 +8,18 @@
   "enabled": True,
   "fall": 1,
   "health_check_enabled": True,
+  "health_check_results": [
+    {
+      "timestamp": "2025-09-19T12:32:52+00:00",
+      "status": "healthy",
+      "canary_timestamp": "2025-09-19T12:32:52+00:00"
+    },
+    {
+      "status": "failed",
+      "reason": "Unable to connect",
+      "timestamp": "2025-09-19T12:32:52+00:00"
+    }
+  ],
   "health_check_type": "active",
   "id": 1,
   "interval": 60,
@@ -27,6 +39,7 @@
 * `enabled` (boolean): True if this backend is enabled.
 * `fall` (int64): Number of consecutive failures before considering the backend unhealthy.
 * `health_check_enabled` (boolean): True if health checks are enabled for this backend.
+* `health_check_results` (array(object)): Array of recent health check results.
 * `health_check_type` (string): Type of health check to perform.
 * `id` (int64): Unique identifier for this backend.
 * `interval` (int64): Interval in seconds between health checks.

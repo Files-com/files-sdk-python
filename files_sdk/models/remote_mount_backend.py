@@ -14,6 +14,7 @@ class RemoteMountBackend:
         "enabled": None,  # boolean - True if this backend is enabled.
         "fall": None,  # int64 - Number of consecutive failures before considering the backend unhealthy.
         "health_check_enabled": None,  # boolean - True if health checks are enabled for this backend.
+        "health_check_results": None,  # array(object) - Array of recent health check results.
         "health_check_type": None,  # string - Type of health check to perform.
         "id": None,  # int64 - Unique identifier for this backend.
         "interval": None,  # int64 - Interval in seconds between health checks.
