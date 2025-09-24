@@ -109,6 +109,7 @@ class Site:
         "logo": None,  # Image - Branded logo
         "login_page_background_image": None,  # Image - Branded login page background
         "max_prior_passwords": None,  # int64 - Number of prior passwords to disallow
+        "managed_site_settings": None,  # object - List of site settings managed by the parent site
         "motd_text": None,  # string - A message to show users when they connect via FTP or SFTP.
         "motd_use_for_ftp": None,  # boolean - Show message to users connecting via FTP
         "motd_use_for_sftp": None,  # boolean - Show message to users connecting via SFTP
@@ -181,7 +182,6 @@ class Site:
         "welcome_screen": None,  # string - Does the welcome screen appear?
         "windows_mode_ftp": None,  # boolean - Does FTP user Windows emulation mode?
         "group_admins_can_set_user_password": None,  # boolean - Allow group admins set password authentication method
-        "managed_site_settings": None,  # array(string) - List of site settings managed by the parent site
     }
 
     def __init__(self, attributes=None, options=None):

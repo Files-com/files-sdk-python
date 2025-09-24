@@ -10,11 +10,15 @@ from files_sdk.error import (  # noqa: F401
 
 class ChildSiteManagementPolicy:
     default_attributes = {
-        "id": None,  # int64 - ChildSiteManagementPolicy ID
-        "site_id": None,  # int64 - ID of the Site managing the policy
-        "site_setting_name": None,  # string - The name of the setting that is managed by the policy
-        "managed_value": None,  # string - The value for the setting that will be enforced for all child sites that are not exempt
-        "skip_child_site_ids": None,  # array(int64) - The list of child site IDs that are exempt from this policy
+        "id": None,  # int64 - Policy ID.
+        "policy_type": None,  # string - Type of policy.  Valid values: `settings`.
+        "name": None,  # string - Name for this policy.
+        "description": None,  # string - Description for this policy.
+        "value": None,  # object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
+        "applied_child_site_ids": None,  # array(int64) - IDs of child sites that this policy has been applied to. This field is read-only.
+        "skip_child_site_ids": None,  # array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+        "created_at": None,  # date-time - When this policy was created.
+        "updated_at": None,  # date-time - When this policy was last updated.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -40,9 +44,11 @@ class ChildSiteManagementPolicy:
         }
 
     # Parameters:
-    #   site_setting_name (required) - string - The name of the setting that is managed by the policy
-    #   managed_value (required) - string - The value for the setting that will be enforced for all child sites that are not exempt
-    #   skip_child_site_ids - array(int64) - The list of child site IDs that are exempt from this policy
+    #   value - string
+    #   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+    #   policy_type - string - Type of policy.  Valid values: `settings`.
+    #   name - string - Name for this policy.
+    #   description - string - Description for this policy.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -53,29 +59,29 @@ class ChildSiteManagementPolicy:
             raise MissingParameterError("Current object doesn't have a id")
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "site_setting_name" not in params:
-            raise MissingParameterError("Parameter missing: site_setting_name")
-        if "managed_value" not in params:
-            raise MissingParameterError("Parameter missing: managed_value")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "site_setting_name" in params and not isinstance(
-            params["site_setting_name"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: site_setting_name must be an str"
-            )
-        if "managed_value" in params and not isinstance(
-            params["managed_value"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: managed_value must be an str"
-            )
+        if "value" in params and not isinstance(params["value"], str):
+            raise InvalidParameterError("Bad parameter: value must be an str")
         if "skip_child_site_ids" in params and not isinstance(
             params["skip_child_site_ids"], builtins.list
         ):
             raise InvalidParameterError(
                 "Bad parameter: skip_child_site_ids must be an list"
+            )
+        if "policy_type" in params and not isinstance(
+            params["policy_type"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: policy_type must be an str"
+            )
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
+        if "description" in params and not isinstance(
+            params["description"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: description must be an str"
             )
         response, _options = Api.send_request(
             "PATCH",
@@ -169,36 +175,36 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
-#   site_setting_name (required) - string - The name of the setting that is managed by the policy
-#   managed_value (required) - string - The value for the setting that will be enforced for all child sites that are not exempt
-#   skip_child_site_ids - array(int64) - The list of child site IDs that are exempt from this policy
+#   value - string
+#   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+#   policy_type (required) - string - Type of policy.  Valid values: `settings`.
+#   name - string - Name for this policy.
+#   description - string - Description for this policy.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    if "site_setting_name" in params and not isinstance(
-        params["site_setting_name"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: site_setting_name must be an str"
-        )
-    if "managed_value" in params and not isinstance(
-        params["managed_value"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: managed_value must be an str"
-        )
+    if "value" in params and not isinstance(params["value"], str):
+        raise InvalidParameterError("Bad parameter: value must be an str")
     if "skip_child_site_ids" in params and not isinstance(
         params["skip_child_site_ids"], builtins.list
     ):
         raise InvalidParameterError(
             "Bad parameter: skip_child_site_ids must be an list"
         )
-    if "site_setting_name" not in params:
-        raise MissingParameterError("Parameter missing: site_setting_name")
-    if "managed_value" not in params:
-        raise MissingParameterError("Parameter missing: managed_value")
+    if "policy_type" in params and not isinstance(params["policy_type"], str):
+        raise InvalidParameterError(
+            "Bad parameter: policy_type must be an str"
+        )
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
+    if "description" in params and not isinstance(params["description"], str):
+        raise InvalidParameterError(
+            "Bad parameter: description must be an str"
+        )
+    if "policy_type" not in params:
+        raise MissingParameterError("Parameter missing: policy_type")
     response, options = Api.send_request(
         "POST", "/child_site_management_policies", params, options
     )
@@ -206,41 +212,43 @@ def create(params=None, options=None):
 
 
 # Parameters:
-#   site_setting_name (required) - string - The name of the setting that is managed by the policy
-#   managed_value (required) - string - The value for the setting that will be enforced for all child sites that are not exempt
-#   skip_child_site_ids - array(int64) - The list of child site IDs that are exempt from this policy
+#   value - string
+#   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+#   policy_type - string - Type of policy.  Valid values: `settings`.
+#   name - string - Name for this policy.
+#   description - string - Description for this policy.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
     params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "site_setting_name" in params and not isinstance(
-        params["site_setting_name"], str
-    ):
+    if "id" in params and not isinstance(params["id"], (str, int, dict)):
         raise InvalidParameterError(
-            "Bad parameter: site_setting_name must be an str"
+            "Bad parameter: id must be one of str, int, dict"
         )
-    if "managed_value" in params and not isinstance(
-        params["managed_value"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: managed_value must be an str"
-        )
+    if "value" in params and not isinstance(params["value"], str):
+        raise InvalidParameterError("Bad parameter: value must be an str")
     if "skip_child_site_ids" in params and not isinstance(
         params["skip_child_site_ids"], builtins.list
     ):
         raise InvalidParameterError(
             "Bad parameter: skip_child_site_ids must be an list"
         )
+    if "policy_type" in params and not isinstance(params["policy_type"], str):
+        raise InvalidParameterError(
+            "Bad parameter: policy_type must be an str"
+        )
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
+    if "description" in params and not isinstance(
+        params["description"], (str, int, dict)
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: description must be one of str, int, dict"
+        )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
-    if "site_setting_name" not in params:
-        raise MissingParameterError("Parameter missing: site_setting_name")
-    if "managed_value" not in params:
-        raise MissingParameterError("Parameter missing: managed_value")
     response, options = Api.send_request(
         "PATCH",
         "/child_site_management_policies/{id}".format(id=params["id"]),

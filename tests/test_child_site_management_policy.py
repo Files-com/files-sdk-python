@@ -12,8 +12,6 @@ class ChildSiteManagementPolicyTest(TestBase):
     def test_update(self):
         params = {
             "id" : 12345,
-            "site_setting_name" : "foo",
-            "managed_value" : "foo",
         }
         child_site_management_policy = ChildSiteManagementPolicy(params)
         child_site_management_policy.update(params)
@@ -46,8 +44,7 @@ class ChildSiteManagementPolicyTest(TestBase):
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/child_site_management_policies"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "site_setting_name" : "foo",
-            "managed_value" : "foo",
+            "policy_type" : "foo",
         }
         child_site_management_policy.create(params)
 
@@ -56,8 +53,6 @@ class ChildSiteManagementPolicyTest(TestBase):
         id = 12345
         params = {
             "id" : 12345,
-            "site_setting_name" : "foo",
-            "managed_value" : "foo",
         }
         child_site_management_policy.update(id, params)
 
