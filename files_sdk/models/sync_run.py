@@ -25,7 +25,6 @@ class SyncRun:
         "runtime": None,  # double - Total runtime in seconds
         "log_url": None,  # string - Link to external log file.
         "completed_at": None,  # date-time - When this run was completed
-        "notified": None,  # boolean - Whether notifications were sent for this run
         "dry_run": None,  # boolean - Whether this run was a dry run (no actual changes made)
         "bytes_synced": None,  # int64 - Total bytes synced in this run
         "estimated_bytes_count": None,  # int64 - Estimated bytes count for this run

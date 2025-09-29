@@ -59,7 +59,6 @@
     "runtime": 1.0,
     "log_url": "https://www.example.com/log_file.txt",
     "completed_at": "2000-01-01T01:00:00Z",
-    "notified": True,
     "dry_run": True,
     "bytes_synced": 1,
     "estimated_bytes_count": 1,
