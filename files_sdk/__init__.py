@@ -78,6 +78,7 @@ import files_sdk.models.remote_server as remote_server
 import files_sdk.models.remote_server_configuration_file as remote_server_configuration_file
 import files_sdk.models.request as request
 import files_sdk.models.restore as restore
+import files_sdk.models.scim_log as scim_log
 import files_sdk.models.session as session
 import files_sdk.models.settings_change as settings_change
 import files_sdk.models.sftp_action_log as sftp_action_log
@@ -191,6 +192,7 @@ from files_sdk.models.remote_server_configuration_file import (
 )
 from files_sdk.models.request import Request
 from files_sdk.models.restore import Restore
+from files_sdk.models.scim_log import ScimLog
 from files_sdk.models.session import Session
 from files_sdk.models.settings_change import SettingsChange
 from files_sdk.models.sftp_action_log import SftpActionLog
@@ -227,7 +229,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.70"
+version = "1.6.71"
 
 __version__ = version
 
