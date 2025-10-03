@@ -22,6 +22,7 @@
   "allowed_countries": "US,DE",
   "allowed_ips": "example",
   "always_mkdir_parents": True,
+  "as2_message_retention_days": 1,
   "ask_about_overwrites": True,
   "bundle_activity_notifications": "never",
   "bundle_expiration": 1,
@@ -321,6 +322,7 @@
 * `allowed_countries` (string): Comma separated list of allowed Country codes
 * `allowed_ips` (string): List of allowed IP addresses
 * `always_mkdir_parents` (boolean): Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
+* `as2_message_retention_days` (int64): Number of days to retain AS2 messages (incoming and outgoing).
 * `ask_about_overwrites` (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `bundle_activity_notifications` (string): Do Bundle owners receive activity notifications?
 * `bundle_expiration` (int64): Site-wide Bundle expiration in days
@@ -545,6 +547,7 @@ files_sdk.site.update({
   "calculate_file_checksums_sha256": False,
   "legacy_checksums_mode": False,
   "migrate_remote_server_sync_to_sync": False,
+  "as2_message_retention_days": 1,
   "session_expiry": 1.0,
   "ssl_required": False,
   "sftp_insecure_ciphers": False,
@@ -705,6 +708,7 @@ files_sdk.site.update({
 * `calculate_file_checksums_sha256` (boolean): Calculate SHA256 checksums for files?
 * `legacy_checksums_mode` (boolean): Use legacy checksums mode?
 * `migrate_remote_server_sync_to_sync` (boolean): If true, we will migrate all remote server syncs to the new Sync model.
+* `as2_message_retention_days` (int64): Number of days to retain AS2 messages (incoming and outgoing).
 * `session_expiry` (double): Session expiry in hours
 * `ssl_required` (boolean): Is SSL required?  Disabling this is insecure.
 * `sftp_insecure_ciphers` (boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.

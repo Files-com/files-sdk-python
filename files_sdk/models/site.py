@@ -26,6 +26,7 @@ class Site:
         "allowed_countries": None,  # string - Comma separated list of allowed Country codes
         "allowed_ips": None,  # string - List of allowed IP addresses
         "always_mkdir_parents": None,  # boolean - Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
+        "as2_message_retention_days": None,  # int64 - Number of days to retain AS2 messages (incoming and outgoing).
         "ask_about_overwrites": None,  # boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
         "bundle_activity_notifications": None,  # string - Do Bundle owners receive activity notifications?
         "bundle_expiration": None,  # int64 - Site-wide Bundle expiration in days
@@ -266,6 +267,7 @@ def get_usage(params=None, options=None):
 #   calculate_file_checksums_sha256 - boolean - Calculate SHA256 checksums for files?
 #   legacy_checksums_mode - boolean - Use legacy checksums mode?
 #   migrate_remote_server_sync_to_sync - boolean - If true, we will migrate all remote server syncs to the new Sync model.
+#   as2_message_retention_days - int64 - Number of days to retain AS2 messages (incoming and outgoing).
 #   session_expiry - double - Session expiry in hours
 #   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
 #   sftp_insecure_ciphers - boolean - If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
@@ -622,6 +624,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: migrate_remote_server_sync_to_sync must be an bool"
+        )
+    if "as2_message_retention_days" in params and not isinstance(
+        params["as2_message_retention_days"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: as2_message_retention_days must be an int"
         )
     if "session_expiry" in params and not isinstance(
         params["session_expiry"], float
