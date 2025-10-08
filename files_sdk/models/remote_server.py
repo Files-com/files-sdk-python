@@ -20,6 +20,7 @@ class RemoteServer:
         "remote_home_path": None,  # string - Initial home folder on remote server
         "name": None,  # string - Internal name for your reference
         "port": None,  # int64 - Port for remote server.  Not needed for S3.
+        "buffer_uploads_always": None,  # boolean - If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
         "max_connections": None,  # int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
         "pin_to_site_region": None,  # boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
         "pinned_region": None,  # string - If set, all communications with this remote server are made through the provided region.
@@ -223,6 +224,7 @@ class RemoteServer:
     #   azure_files_storage_share_name - string - Azure Files:  Storage Share name
     #   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
     #   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
+    #   buffer_uploads_always - boolean - If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
     #   cloudflare_access_key - string - Cloudflare: Access Key.
     #   cloudflare_bucket - string - Cloudflare: Bucket name
     #   cloudflare_endpoint - string - Cloudflare: endpoint
@@ -764,6 +766,7 @@ def find_configuration_file(id, params=None, options=None):
 #   azure_files_storage_share_name - string - Azure Files:  Storage Share name
 #   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
 #   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
+#   buffer_uploads_always - boolean - If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
 #   cloudflare_access_key - string - Cloudflare: Access Key.
 #   cloudflare_bucket - string - Cloudflare: Bucket name
 #   cloudflare_endpoint - string - Cloudflare: endpoint
@@ -978,6 +981,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: backblaze_b2_s3_endpoint must be an str"
+        )
+    if "buffer_uploads_always" in params and not isinstance(
+        params["buffer_uploads_always"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: buffer_uploads_always must be an bool"
         )
     if "cloudflare_access_key" in params and not isinstance(
         params["cloudflare_access_key"], str
@@ -1273,6 +1282,7 @@ def configuration_file(id, params=None, options=None):
 #   azure_files_storage_share_name - string - Azure Files:  Storage Share name
 #   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
 #   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
+#   buffer_uploads_always - boolean - If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
 #   cloudflare_access_key - string - Cloudflare: Access Key.
 #   cloudflare_bucket - string - Cloudflare: Bucket name
 #   cloudflare_endpoint - string - Cloudflare: endpoint
@@ -1490,6 +1500,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: backblaze_b2_s3_endpoint must be an str"
+        )
+    if "buffer_uploads_always" in params and not isinstance(
+        params["buffer_uploads_always"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: buffer_uploads_always must be an bool"
         )
     if "cloudflare_access_key" in params and not isinstance(
         params["cloudflare_access_key"], str

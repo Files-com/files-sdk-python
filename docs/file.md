@@ -94,6 +94,7 @@
 * `restart` (int64): File byte offset to restart from.
 * `structure` (string): If copying folder, copy just the structure?
 * `with_rename` (boolean): Allow file rename instead of overwrite?
+* `buffered_upload` (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
 
 
 ---
@@ -129,7 +130,8 @@ files_sdk.file.create(path, {
   "provided_mtime": "2000-01-01T01:00:00Z",
   "restart": 1,
   "size": 1,
-  "with_rename": False
+  "with_rename": False,
+  "buffered_upload": False
 })
 ```
 
@@ -149,6 +151,7 @@ files_sdk.file.create(path, {
 * `size` (int64): Size of file.
 * `structure` (string): If copying folder, copy just the structure?
 * `with_rename` (boolean): Allow file rename instead of overwrite?
+* `buffered_upload` (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
 
 
 ---

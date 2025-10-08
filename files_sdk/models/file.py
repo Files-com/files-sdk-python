@@ -59,6 +59,7 @@ class File:
         "restart": None,  # int64 - File byte offset to restart from.
         "structure": None,  # string - If copying folder, copy just the structure?
         "with_rename": None,  # boolean - Allow file rename instead of overwrite?
+        "buffered_upload": None,  # boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
     }
 
     def __init__(self, *args):
@@ -477,6 +478,7 @@ def download(path, params=None, options=None):
 #   size - int64 - Size of file.
 #   structure - string - If copying folder, copy just the structure?
 #   with_rename - boolean - Allow file rename instead of overwrite?
+#   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
 def create(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -516,6 +518,12 @@ def create(path, params=None, options=None):
     if "with_rename" in params and not isinstance(params["with_rename"], bool):
         raise InvalidParameterError(
             "Bad parameter: with_rename must be an bool"
+        )
+    if "buffered_upload" in params and not isinstance(
+        params["buffered_upload"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: buffered_upload must be an bool"
         )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
