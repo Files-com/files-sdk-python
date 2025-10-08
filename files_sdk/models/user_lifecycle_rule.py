@@ -12,6 +12,7 @@ class UserLifecycleRule:
     default_attributes = {
         "id": None,  # int64 - User Lifecycle Rule ID
         "authentication_method": None,  # string - User authentication method for the rule
+        "group_ids": None,  # array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
         "inactivity_days": None,  # int64 - Number of days of inactivity before the rule applies
         "include_folder_admins": None,  # boolean - Include folder admins in the rule
         "include_site_admins": None,  # boolean - Include site admins in the rule
@@ -46,6 +47,7 @@ class UserLifecycleRule:
     # Parameters:
     #   action - string - Action to take on inactive users (disable or delete)
     #   authentication_method - string - User authentication method for the rule
+    #   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
     #   inactivity_days - int64 - Number of days of inactivity before the rule applies
     #   include_site_admins - boolean - Include site admins in the rule
     #   include_folder_admins - boolean - Include folder admins in the rule
@@ -70,6 +72,12 @@ class UserLifecycleRule:
         ):
             raise InvalidParameterError(
                 "Bad parameter: authentication_method must be an str"
+            )
+        if "group_ids" in params and not isinstance(
+            params["group_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: group_ids must be an list"
             )
         if "inactivity_days" in params and not isinstance(
             params["inactivity_days"], int
@@ -175,6 +183,7 @@ def get(id, params=None, options=None):
 # Parameters:
 #   action - string - Action to take on inactive users (disable or delete)
 #   authentication_method - string - User authentication method for the rule
+#   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies
 #   include_site_admins - boolean - Include site admins in the rule
 #   include_folder_admins - boolean - Include folder admins in the rule
@@ -193,6 +202,10 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: authentication_method must be an str"
         )
+    if "group_ids" in params and not isinstance(
+        params["group_ids"], builtins.list
+    ):
+        raise InvalidParameterError("Bad parameter: group_ids must be an list")
     if "inactivity_days" in params and not isinstance(
         params["inactivity_days"], int
     ):
@@ -224,6 +237,7 @@ def create(params=None, options=None):
 # Parameters:
 #   action - string - Action to take on inactive users (disable or delete)
 #   authentication_method - string - User authentication method for the rule
+#   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies
 #   include_site_admins - boolean - Include site admins in the rule
 #   include_folder_admins - boolean - Include folder admins in the rule
@@ -245,6 +259,10 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: authentication_method must be an str"
         )
+    if "group_ids" in params and not isinstance(
+        params["group_ids"], builtins.list
+    ):
+        raise InvalidParameterError("Bad parameter: group_ids must be an list")
     if "inactivity_days" in params and not isinstance(
         params["inactivity_days"], int
     ):
