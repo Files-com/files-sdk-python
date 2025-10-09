@@ -63,6 +63,7 @@ import files_sdk.models.message_comment_reaction as message_comment_reaction
 import files_sdk.models.message_reaction as message_reaction
 import files_sdk.models.notification as notification
 import files_sdk.models.outbound_connection_log as outbound_connection_log
+import files_sdk.models.partner as partner
 import files_sdk.models.payment as payment
 import files_sdk.models.payment_line_item as payment_line_item
 import files_sdk.models.permission as permission
@@ -175,6 +176,7 @@ from files_sdk.models.message_comment_reaction import MessageCommentReaction
 from files_sdk.models.message_reaction import MessageReaction
 from files_sdk.models.notification import Notification
 from files_sdk.models.outbound_connection_log import OutboundConnectionLog
+from files_sdk.models.partner import Partner
 from files_sdk.models.payment import Payment
 from files_sdk.models.payment_line_item import PaymentLineItem
 from files_sdk.models.permission import Permission
@@ -229,7 +231,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.74"
+version = "1.6.75"
 
 __version__ = version
 

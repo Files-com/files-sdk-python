@@ -259,6 +259,7 @@
     "notes": "Internal notes on this user.",
     "notification_daily_send_time": 18,
     "office_integration_enabled": True,
+    "partner_id": 1,
     "password_set_at": "2000-01-01T01:00:00Z",
     "password_validity_days": 1,
     "public_keys_count": 1,

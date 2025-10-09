@@ -50,6 +50,7 @@ class User:
         "notes": None,  # string - Any internal notes on the user
         "notification_daily_send_time": None,  # int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
         "office_integration_enabled": None,  # boolean - Enable integration with Office for the web?
+        "partner_id": None,  # int64 - Partner ID if this user belongs to a Partner
         "password_set_at": None,  # date-time - Last time the user's password was set
         "password_validity_days": None,  # int64 - Number of days to allow user to use the same password
         "public_keys_count": None,  # int64 - Number of public keys associated with this user
@@ -200,6 +201,7 @@ class User:
     #   company - string - User's company
     #   notes - string - Any internal notes on the user
     #   office_integration_enabled - boolean - Enable integration with Office for the web?
+    #   partner_id - int64 - Partner ID if this user belongs to a Partner
     #   password_validity_days - int64 - Number of days to allow user to use the same password
     #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
     #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -323,6 +325,12 @@ class User:
             )
         if "notes" in params and not isinstance(params["notes"], str):
             raise InvalidParameterError("Bad parameter: notes must be an str")
+        if "partner_id" in params and not isinstance(
+            params["partner_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: partner_id must be an int"
+            )
         if "password_validity_days" in params and not isinstance(
             params["password_validity_days"], int
         ):
@@ -532,6 +540,7 @@ def get(id, params=None, options=None):
 #   company - string - User's company
 #   notes - string - Any internal notes on the user
 #   office_integration_enabled - boolean - Enable integration with Office for the web?
+#   partner_id - int64 - Partner ID if this user belongs to a Partner
 #   password_validity_days - int64 - Number of days to allow user to use the same password
 #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
 #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -689,6 +698,8 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: office_integration_enabled must be an bool"
         )
+    if "partner_id" in params and not isinstance(params["partner_id"], int):
+        raise InvalidParameterError("Bad parameter: partner_id must be an int")
     if "password_validity_days" in params and not isinstance(
         params["password_validity_days"], int
     ):
@@ -868,6 +879,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   company - string - User's company
 #   notes - string - Any internal notes on the user
 #   office_integration_enabled - boolean - Enable integration with Office for the web?
+#   partner_id - int64 - Partner ID if this user belongs to a Partner
 #   password_validity_days - int64 - Number of days to allow user to use the same password
 #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
 #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -1029,6 +1041,8 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: office_integration_enabled must be an bool"
         )
+    if "partner_id" in params and not isinstance(params["partner_id"], int):
+        raise InvalidParameterError("Bad parameter: partner_id must be an int")
     if "password_validity_days" in params and not isinstance(
         params["password_validity_days"], int
     ):

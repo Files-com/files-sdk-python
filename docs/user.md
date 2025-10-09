@@ -46,6 +46,7 @@
   "notes": "Internal notes on this user.",
   "notification_daily_send_time": 18,
   "office_integration_enabled": True,
+  "partner_id": 1,
   "password_set_at": "2000-01-01T01:00:00Z",
   "password_validity_days": 1,
   "public_keys_count": 1,
@@ -116,6 +117,7 @@
 * `notes` (string): Any internal notes on the user
 * `notification_daily_send_time` (int64): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
+* `partner_id` (int64): Partner ID if this user belongs to a Partner
 * `password_set_at` (date-time): Last time the user's password was set
 * `password_validity_days` (int64): Number of days to allow user to use the same password
 * `public_keys_count` (int64): Number of public keys associated with this user
@@ -224,6 +226,7 @@ files_sdk.user.create({
   "company": "ACME Corp.",
   "notes": "Internal notes on this user.",
   "office_integration_enabled": True,
+  "partner_id": 1,
   "password_validity_days": 1,
   "readonly_site_admin": True,
   "receive_admin_alerts": True,
@@ -277,6 +280,7 @@ files_sdk.user.create({
 * `company` (string): User's company
 * `notes` (string): Any internal notes on the user
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
+* `partner_id` (int64): Partner ID if this user belongs to a Partner
 * `password_validity_days` (int64): Number of days to allow user to use the same password
 * `readonly_site_admin` (boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
 * `receive_admin_alerts` (boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -365,6 +369,7 @@ files_sdk.user.update(id, {
   "company": "ACME Corp.",
   "notes": "Internal notes on this user.",
   "office_integration_enabled": True,
+  "partner_id": 1,
   "password_validity_days": 1,
   "readonly_site_admin": True,
   "receive_admin_alerts": True,
@@ -420,6 +425,7 @@ files_sdk.user.update(id, {
 * `company` (string): User's company
 * `notes` (string): Any internal notes on the user
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
+* `partner_id` (int64): Partner ID if this user belongs to a Partner
 * `password_validity_days` (int64): Number of days to allow user to use the same password
 * `readonly_site_admin` (boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
 * `receive_admin_alerts` (boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -529,6 +535,7 @@ user.update({
   "company": "ACME Corp.",
   "notes": "Internal notes on this user.",
   "office_integration_enabled": True,
+  "partner_id": 1,
   "password_validity_days": 1,
   "readonly_site_admin": True,
   "receive_admin_alerts": True,
@@ -584,6 +591,7 @@ user.update({
 * `company` (string): User's company
 * `notes` (string): Any internal notes on the user
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
+* `partner_id` (int64): Partner ID if this user belongs to a Partner
 * `password_validity_days` (int64): Number of days to allow user to use the same password
 * `readonly_site_admin` (boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
 * `receive_admin_alerts` (boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
