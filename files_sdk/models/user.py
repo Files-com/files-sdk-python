@@ -50,6 +50,7 @@ class User:
         "notes": None,  # string - Any internal notes on the user
         "notification_daily_send_time": None,  # int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
         "office_integration_enabled": None,  # boolean - Enable integration with Office for the web?
+        "partner_admin": None,  # boolean - Is this user a Partner administrator?
         "partner_id": None,  # int64 - Partner ID if this user belongs to a Partner
         "password_set_at": None,  # date-time - Last time the user's password was set
         "password_validity_days": None,  # int64 - Number of days to allow user to use the same password
