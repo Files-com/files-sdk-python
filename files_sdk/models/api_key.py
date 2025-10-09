@@ -16,6 +16,9 @@ class ApiKey:
         "created_at": None,  # date-time - Time which API Key was created
         "expires_at": None,  # date-time - API Key expiration date
         "key": None,  # string - API Key actual key string
+        "aws_style_credentials": None,  # boolean - If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
+        "aws_access_key_id": None,  # string - AWS Access Key ID to use with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
+        "aws_secret_key": None,  # string - AWS Secret Key to use with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
         "last_use_at": None,  # date-time - API Key last used - note this value is only updated once per 3 hour period, so the 'actual' time of last use may be up to 3 hours later than this timestamp.
         "name": None,  # string - Internal name for the API Key.  For your use.
         "permission_set": None,  # string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
@@ -203,6 +206,7 @@ def get(id, params=None, options=None):
 #   expires_at - string - API Key expiration date
 #   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 #   name (required) - string - Internal name for the API Key.  For your use.
+#   aws_style_credentials - boolean - If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
 #   path - string - Folder path restriction for `office_integration` permission set API keys.
 def create(params=None, options=None):
     if not isinstance(params, dict):
@@ -225,6 +229,12 @@ def create(params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "aws_style_credentials" in params and not isinstance(
+        params["aws_style_credentials"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: aws_style_credentials must be an bool"
+        )
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "name" not in params:

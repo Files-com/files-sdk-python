@@ -38,7 +38,7 @@
 * `end_at` (date-time): End date/time of export range.
 * `status` (string): Status of export.  Will be: `building`, `ready`, or `failed`
 * `query_action` (string): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`, `archived_delete`
-* `query_interface` (string): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`
+* `query_interface` (string): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`, `inbound_s3`
 * `query_user_id` (string): Return results that are actions performed by the user indicated by this User ID
 * `query_file_id` (string): Return results that are file actions related to the file indicated by this File ID
 * `query_parent_id` (string): Return results that are file actions inside the parent folder specified by this folder ID
@@ -110,7 +110,7 @@ files_sdk.history_export.create({
 * `start_at` (string): Start date/time of export range.
 * `end_at` (string): End date/time of export range.
 * `query_action` (string): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`, `archived_delete`
-* `query_interface` (string): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`
+* `query_interface` (string): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`, `inbound_s3`
 * `query_user_id` (string): Return results that are actions performed by the user indicated by this User ID
 * `query_file_id` (string): Return results that are file actions related to the file indicated by this File ID
 * `query_parent_id` (string): Return results that are file actions inside the parent folder specified by this folder ID

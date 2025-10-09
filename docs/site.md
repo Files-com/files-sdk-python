@@ -162,6 +162,7 @@
   "session": {
     "id": "60525f92e859c4c3d74cb02fd176b1525901b525",
     "language": "en",
+    "aws_secret_key": "example",
     "login_token": "@tok-randomcode",
     "login_token_domain": "https://mysite.files.com",
     "max_dir_listing_size": 1,
