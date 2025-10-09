@@ -202,6 +202,7 @@ class User:
     #   company - string - User's company
     #   notes - string - Any internal notes on the user
     #   office_integration_enabled - boolean - Enable integration with Office for the web?
+    #   partner_admin - boolean - Is this user a Partner administrator?
     #   partner_id - int64 - Partner ID if this user belongs to a Partner
     #   password_validity_days - int64 - Number of days to allow user to use the same password
     #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
@@ -541,6 +542,7 @@ def get(id, params=None, options=None):
 #   company - string - User's company
 #   notes - string - Any internal notes on the user
 #   office_integration_enabled - boolean - Enable integration with Office for the web?
+#   partner_admin - boolean - Is this user a Partner administrator?
 #   partner_id - int64 - Partner ID if this user belongs to a Partner
 #   password_validity_days - int64 - Number of days to allow user to use the same password
 #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
@@ -698,6 +700,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: office_integration_enabled must be an bool"
+        )
+    if "partner_admin" in params and not isinstance(
+        params["partner_admin"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: partner_admin must be an bool"
         )
     if "partner_id" in params and not isinstance(params["partner_id"], int):
         raise InvalidParameterError("Bad parameter: partner_id must be an int")
@@ -880,6 +888,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   company - string - User's company
 #   notes - string - Any internal notes on the user
 #   office_integration_enabled - boolean - Enable integration with Office for the web?
+#   partner_admin - boolean - Is this user a Partner administrator?
 #   partner_id - int64 - Partner ID if this user belongs to a Partner
 #   password_validity_days - int64 - Number of days to allow user to use the same password
 #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
@@ -1041,6 +1050,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: office_integration_enabled must be an bool"
+        )
+    if "partner_admin" in params and not isinstance(
+        params["partner_admin"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: partner_admin must be an bool"
         )
     if "partner_id" in params and not isinstance(params["partner_id"], int):
         raise InvalidParameterError("Bad parameter: partner_id must be an int")

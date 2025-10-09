@@ -228,6 +228,7 @@ files_sdk.user.create({
   "company": "ACME Corp.",
   "notes": "Internal notes on this user.",
   "office_integration_enabled": True,
+  "partner_admin": True,
   "partner_id": 1,
   "password_validity_days": 1,
   "readonly_site_admin": True,
@@ -282,6 +283,7 @@ files_sdk.user.create({
 * `company` (string): User's company
 * `notes` (string): Any internal notes on the user
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
+* `partner_admin` (boolean): Is this user a Partner administrator?
 * `partner_id` (int64): Partner ID if this user belongs to a Partner
 * `password_validity_days` (int64): Number of days to allow user to use the same password
 * `readonly_site_admin` (boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
@@ -371,6 +373,7 @@ files_sdk.user.update(id, {
   "company": "ACME Corp.",
   "notes": "Internal notes on this user.",
   "office_integration_enabled": True,
+  "partner_admin": True,
   "partner_id": 1,
   "password_validity_days": 1,
   "readonly_site_admin": True,
@@ -427,6 +430,7 @@ files_sdk.user.update(id, {
 * `company` (string): User's company
 * `notes` (string): Any internal notes on the user
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
+* `partner_admin` (boolean): Is this user a Partner administrator?
 * `partner_id` (int64): Partner ID if this user belongs to a Partner
 * `password_validity_days` (int64): Number of days to allow user to use the same password
 * `readonly_site_admin` (boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
@@ -537,6 +541,7 @@ user.update({
   "company": "ACME Corp.",
   "notes": "Internal notes on this user.",
   "office_integration_enabled": True,
+  "partner_admin": True,
   "partner_id": 1,
   "password_validity_days": 1,
   "readonly_site_admin": True,
@@ -593,6 +598,7 @@ user.update({
 * `company` (string): User's company
 * `notes` (string): Any internal notes on the user
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
+* `partner_admin` (boolean): Is this user a Partner administrator?
 * `partner_id` (int64): Partner ID if this user belongs to a Partner
 * `password_validity_days` (int64): Number of days to allow user to use the same password
 * `readonly_site_admin` (boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
