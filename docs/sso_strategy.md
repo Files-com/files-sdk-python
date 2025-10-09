@@ -20,7 +20,7 @@
   "scim_username": "example",
   "scim_oauth_access_token": "example",
   "scim_oauth_access_token_expires_at": "example",
-  "subdomain": "my-site",
+  "subdomain": "",
   "provision_users": True,
   "provision_groups": True,
   "deprovision_users": True,
@@ -41,6 +41,7 @@
   "provision_time_zone": "Eastern Time (US & Canada)",
   "provision_company": "ACME Corp.",
   "provision_require_2fa": "always_require",
+  "provision_filesystem_layout": "integration_centric",
   "provider_identifier": "",
   "ldap_base_dn": "example",
   "ldap_domain": "mysite.com",
@@ -71,7 +72,7 @@
 * `scim_username` (string): SCIM username.
 * `scim_oauth_access_token` (string): SCIM OAuth Access Token.
 * `scim_oauth_access_token_expires_at` (string): SCIM OAuth Access Token Expiration Time.
-* `subdomain` (string): Subdomain
+* `subdomain` (string): Subdomain or domain name for your auth provider.   Example: `https://[subdomain].okta.com/`
 * `provision_users` (boolean): Auto-provision users?
 * `provision_groups` (boolean): Auto-provision group membership based on group memberships on the SSO side?
 * `deprovision_users` (boolean): Auto-deprovision users?
@@ -92,6 +93,7 @@
 * `provision_time_zone` (string): Default time zone for auto provisioned users.
 * `provision_company` (string): Default company for auto provisioned users.
 * `provision_require_2fa` (string): 2FA required setting for auto provisioned users.
+* `provision_filesystem_layout` (string): File System layout to use for auto provisioned users.
 * `provider_identifier` (string): URL-friendly, unique identifier for Azure SAML configuration
 * `ldap_base_dn` (string): Base DN for looking up users in LDAP server
 * `ldap_domain` (string): Domain name that will be appended to LDAP usernames

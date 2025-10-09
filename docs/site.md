@@ -237,6 +237,7 @@
     "disabled": True,
     "disabled_expired_or_inactive": True,
     "email": "john.doe@files.com",
+    "filesystem_layout": "site_root",
     "first_login_at": "2000-01-01T01:00:00Z",
     "ftp_permission": True,
     "group_ids": "example",

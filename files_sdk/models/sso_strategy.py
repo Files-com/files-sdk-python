@@ -26,7 +26,7 @@ class SsoStrategy:
         "scim_username": None,  # string - SCIM username.
         "scim_oauth_access_token": None,  # string - SCIM OAuth Access Token.
         "scim_oauth_access_token_expires_at": None,  # string - SCIM OAuth Access Token Expiration Time.
-        "subdomain": None,  # string - Subdomain
+        "subdomain": None,  # string - Subdomain or domain name for your auth provider.   Example: `https://[subdomain].okta.com/`
         "provision_users": None,  # boolean - Auto-provision users?
         "provision_groups": None,  # boolean - Auto-provision group membership based on group memberships on the SSO side?
         "deprovision_users": None,  # boolean - Auto-deprovision users?
@@ -47,6 +47,7 @@ class SsoStrategy:
         "provision_time_zone": None,  # string - Default time zone for auto provisioned users.
         "provision_company": None,  # string - Default company for auto provisioned users.
         "provision_require_2fa": None,  # string - 2FA required setting for auto provisioned users.
+        "provision_filesystem_layout": None,  # string - File System layout to use for auto provisioned users.
         "provider_identifier": None,  # string - URL-friendly, unique identifier for Azure SAML configuration
         "ldap_base_dn": None,  # string - Base DN for looking up users in LDAP server
         "ldap_domain": None,  # string - Domain name that will be appended to LDAP usernames
