@@ -14,5 +14,13 @@ class ScimLogTest(TestBase):
     def test_list(self):
         resp = scim_log.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/scim_logs/{id}"), "Mock path does not exist")
+    def test_find(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        scim_log.find(id, params)
+
 if __name__ == '__main__':
     unittest.main()

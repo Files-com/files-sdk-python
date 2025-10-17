@@ -17,6 +17,7 @@ class Partner:
         "name": None,  # string - The name of the Partner.
         "notes": None,  # string - Notes about this Partner.
         "root_folder": None,  # string - The root folder path for this Partner.
+        "tags": None,  # string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -39,12 +40,13 @@ class Partner:
         }
 
     # Parameters:
+    #   name - string - The name of the Partner.
     #   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
     #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
     #   allow_user_creation - boolean - Allow Partner Admins to create users.
-    #   name - string - The name of the Partner.
     #   notes - string - Notes about this Partner.
     #   root_folder - string - The root folder path for this Partner.
+    #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -67,6 +69,8 @@ class Partner:
             raise InvalidParameterError(
                 "Bad parameter: root_folder must be an str"
             )
+        if "tags" in params and not isinstance(params["tags"], str):
+            raise InvalidParameterError("Bad parameter: tags must be an str")
         response, _options = Api.send_request(
             "PATCH",
             "/partners/{id}".format(id=params["id"]),
@@ -153,17 +157,20 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
+#   name - string - The name of the Partner.
 #   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
-#   name - string - The name of the Partner.
 #   notes - string - Notes about this Partner.
 #   root_folder - string - The root folder path for this Partner.
+#   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "allow_bypassing_2fa_policies" in params and not isinstance(
         params["allow_bypassing_2fa_policies"], bool
     ):
@@ -182,25 +189,26 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: allow_user_creation must be an bool"
         )
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
     if "root_folder" in params and not isinstance(params["root_folder"], str):
         raise InvalidParameterError(
             "Bad parameter: root_folder must be an str"
         )
+    if "tags" in params and not isinstance(params["tags"], str):
+        raise InvalidParameterError("Bad parameter: tags must be an str")
     response, options = Api.send_request("POST", "/partners", params, options)
     return Partner(response.data, options)
 
 
 # Parameters:
+#   name - string - The name of the Partner.
 #   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
-#   name - string - The name of the Partner.
 #   notes - string - Notes about this Partner.
 #   root_folder - string - The root folder path for this Partner.
+#   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -209,6 +217,8 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "allow_bypassing_2fa_policies" in params and not isinstance(
         params["allow_bypassing_2fa_policies"], bool
     ):
@@ -227,14 +237,14 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: allow_user_creation must be an bool"
         )
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
     if "root_folder" in params and not isinstance(params["root_folder"], str):
         raise InvalidParameterError(
             "Bad parameter: root_folder must be an str"
         )
+    if "tags" in params and not isinstance(params["tags"], str):
+        raise InvalidParameterError("Bad parameter: tags must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(

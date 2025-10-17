@@ -72,6 +72,7 @@ class User:
         "sso_strategy_id": None,  # int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
         "subscribe_to_newsletter": None,  # boolean - Is the user subscribed to the newsletter?
         "externally_managed": None,  # boolean - Is this user managed by a SsoStrategy?
+        "tags": None,  # string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
         "time_zone": None,  # string - User time zone
         "type_of_2fa": None,  # string - Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `webauthn`, `yubi`, `email`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
         "type_of_2fa_for_display": None,  # string - Type(s) of 2FA methods in use, formatted for displaying in the UI.  Unlike `type_of_2fa`, this value will make clear when a user has more than 1 of the same type of method.
@@ -218,6 +219,7 @@ class User:
     #   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
     #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
     #   require_2fa - string - 2FA required setting
+    #   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
     #   time_zone - string - User time zone
     #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
     #   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
@@ -363,6 +365,8 @@ class User:
             raise InvalidParameterError(
                 "Bad parameter: require_2fa must be an str"
             )
+        if "tags" in params and not isinstance(params["tags"], str):
+            raise InvalidParameterError("Bad parameter: tags must be an str")
         if "time_zone" in params and not isinstance(params["time_zone"], str):
             raise InvalidParameterError(
                 "Bad parameter: time_zone must be an str"
@@ -432,7 +436,7 @@ class User:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `authenticate_until`, `email`, `last_desktop_login_at`, `last_login_at`, `name`, `company`, `password_validity_days`, `ssl_required`, `username`, `site_admin` or `disabled`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `name`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until`, `not_site_admin` or `disabled`. Valid field combinations are `[ site_admin, username ]`, `[ not_site_admin, username ]` or `[ company, name ]`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `name`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until`, `not_site_admin`, `disabled` or `partner_id`. Valid field combinations are `[ site_admin, username ]`, `[ not_site_admin, username ]` or `[ company, name ]`.
 #   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
 #   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
 #   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `username`, `name`, `email` or `company`. Valid field combinations are `[ company, name ]`.
@@ -558,6 +562,7 @@ def get(id, params=None, options=None):
 #   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
 #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
 #   require_2fa - string - 2FA required setting
+#   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 #   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
@@ -789,6 +794,8 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: require_2fa must be an str"
         )
+    if "tags" in params and not isinstance(params["tags"], str):
+        raise InvalidParameterError("Bad parameter: tags must be an str")
     if "time_zone" in params and not isinstance(params["time_zone"], str):
         raise InvalidParameterError("Bad parameter: time_zone must be an str")
     if "user_root" in params and not isinstance(params["user_root"], str):
@@ -904,6 +911,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
 #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
 #   require_2fa - string - 2FA required setting
+#   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 #   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
@@ -1139,6 +1147,8 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: require_2fa must be an str"
         )
+    if "tags" in params and not isinstance(params["tags"], str):
+        raise InvalidParameterError("Bad parameter: tags must be an str")
     if "time_zone" in params and not isinstance(params["time_zone"], str):
         raise InvalidParameterError("Bad parameter: time_zone must be an str")
     if "user_root" in params and not isinstance(params["user_root"], str):

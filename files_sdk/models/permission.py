@@ -17,6 +17,7 @@ class Permission:
         "group_id": None,  # int64 - Group ID
         "group_name": None,  # string - Group name (if applicable)
         "partner_id": None,  # int64 - Partner ID (if applicable)
+        "partner_name": None,  # string - Partner name (if applicable)
         "permission": None,  # string - Permission type.  See the table referenced in the documentation for an explanation of each permission.
         "recursive": None,  # boolean - Recursive: does this permission apply to subfolders?
         "site_id": None,  # int64 - Site ID

@@ -62,5 +62,27 @@ def all(params=None, options=None):
     list(params, options)
 
 
+# Parameters:
+#   id (required) - int64 - Scim Log ID.
+def find(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request(
+        "GET", "/scim_logs/{id}".format(id=params["id"]), params, options
+    )
+    return ScimLog(response.data, options)
+
+
+def get(id, params=None, options=None):
+    find(id, params, options)
+
+
 def new(*args, **kwargs):
     return ScimLog(*args, **kwargs)

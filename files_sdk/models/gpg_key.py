@@ -13,7 +13,8 @@ class GpgKey:
         "id": None,  # int64 - Your GPG key ID.
         "expires_at": None,  # date-time - Your GPG key expiration date.
         "name": None,  # string - Your GPG key name.
-        "user_id": None,  # int64 - GPG owner's user id
+        "partner_id": None,  # int64 - Partner ID who owns this GPG Key, if applicable.
+        "user_id": None,  # int64 - User ID who owns this GPG Key, if applicable.
         "public_key_md5": None,  # string - MD5 hash of your GPG public key
         "private_key_md5": None,  # string - MD5 hash of your GPG private key.
         "generated_public_key": None,  # string - Your GPG public key
@@ -48,6 +49,7 @@ class GpgKey:
         }
 
     # Parameters:
+    #   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
     #   public_key - string - MD5 hash of your GPG public key
     #   private_key - string - MD5 hash of your GPG private key.
     #   private_key_password - string - Your GPG private key password. Only required for password protected keys.
@@ -64,6 +66,12 @@ class GpgKey:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
+        if "partner_id" in params and not isinstance(
+            params["partner_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: partner_id must be an int"
+            )
         if "public_key" in params and not isinstance(
             params["public_key"], str
         ):
@@ -174,6 +182,7 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+#   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
 #   public_key - string - MD5 hash of your GPG public key
 #   private_key - string - MD5 hash of your GPG private key.
 #   private_key_password - string - Your GPG private key password. Only required for password protected keys.
@@ -189,6 +198,8 @@ def create(params=None, options=None):
         options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "partner_id" in params and not isinstance(params["partner_id"], int):
+        raise InvalidParameterError("Bad parameter: partner_id must be an int")
     if "public_key" in params and not isinstance(params["public_key"], str):
         raise InvalidParameterError("Bad parameter: public_key must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
@@ -234,6 +245,7 @@ def create(params=None, options=None):
 
 
 # Parameters:
+#   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
 #   public_key - string - MD5 hash of your GPG public key
 #   private_key - string - MD5 hash of your GPG private key.
 #   private_key_password - string - Your GPG private key password. Only required for password protected keys.
@@ -246,6 +258,8 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "partner_id" in params and not isinstance(params["partner_id"], int):
+        raise InvalidParameterError("Bad parameter: partner_id must be an int")
     if "public_key" in params and not isinstance(params["public_key"], str):
         raise InvalidParameterError("Bad parameter: public_key must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):

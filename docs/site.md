@@ -282,6 +282,7 @@
     "sso_strategy_id": 1,
     "subscribe_to_newsletter": True,
     "externally_managed": True,
+    "tags": "example",
     "time_zone": "Pacific Time (US & Canada)",
     "type_of_2fa": "yubi",
     "type_of_2fa_for_display": "yubi",

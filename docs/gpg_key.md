@@ -7,6 +7,7 @@
   "id": 1,
   "expires_at": "2000-01-01T01:00:00Z",
   "name": "key name",
+  "partner_id": 1,
   "user_id": 1,
   "public_key_md5": "7f8bc1210b09b9ddf469e6b6b8920e76",
   "private_key_md5": "ab236cfe4a195f0226bc2e674afdd6b0",
@@ -19,7 +20,8 @@
 * `id` (int64): Your GPG key ID.
 * `expires_at` (date-time): Your GPG key expiration date.
 * `name` (string): Your GPG key name.
-* `user_id` (int64): GPG owner's user id
+* `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
+* `user_id` (int64): User ID who owns this GPG Key, if applicable.
 * `public_key_md5` (string): MD5 hash of your GPG public key
 * `private_key_md5` (string): MD5 hash of your GPG private key.
 * `generated_public_key` (string): Your GPG public key
@@ -72,6 +74,7 @@ files_sdk.gpg_key.find(id)
 ```
 files_sdk.gpg_key.create({
   "user_id": 1,
+  "partner_id": 1,
   "public_key": "7f8bc1210b09b9ddf469e6b6b8920e76",
   "private_key": "ab236cfe4a195f0226bc2e674afdd6b0",
   "private_key_password": "[your GPG private key password]",
@@ -86,6 +89,7 @@ files_sdk.gpg_key.create({
 ### Parameters
 
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
 * `public_key` (string): MD5 hash of your GPG public key
 * `private_key` (string): MD5 hash of your GPG private key.
 * `private_key_password` (string): Your GPG private key password. Only required for password protected keys.
@@ -102,6 +106,7 @@ files_sdk.gpg_key.create({
 
 ```
 files_sdk.gpg_key.update(id, {
+  "partner_id": 1,
   "public_key": "7f8bc1210b09b9ddf469e6b6b8920e76",
   "private_key": "ab236cfe4a195f0226bc2e674afdd6b0",
   "private_key_password": "[your GPG private key password]",
@@ -112,6 +117,7 @@ files_sdk.gpg_key.update(id, {
 ### Parameters
 
 * `id` (int64): Required - Gpg Key ID.
+* `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
 * `public_key` (string): MD5 hash of your GPG public key
 * `private_key` (string): MD5 hash of your GPG private key.
 * `private_key_password` (string): Your GPG private key password. Only required for password protected keys.
@@ -138,6 +144,7 @@ files_sdk.gpg_key.delete(id)
 ```
 gpg_key = files_sdk.gpg_key.find(id)
 gpg_key.update({
+  "partner_id": 1,
   "public_key": "7f8bc1210b09b9ddf469e6b6b8920e76",
   "private_key": "ab236cfe4a195f0226bc2e674afdd6b0",
   "private_key_password": "[your GPG private key password]",
@@ -148,6 +155,7 @@ gpg_key.update({
 ### Parameters
 
 * `id` (int64): Required - Gpg Key ID.
+* `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
 * `public_key` (string): MD5 hash of your GPG public key
 * `private_key` (string): MD5 hash of your GPG private key.
 * `private_key_password` (string): Your GPG private key password. Only required for password protected keys.
