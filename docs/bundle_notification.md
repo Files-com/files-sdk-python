@@ -22,7 +22,7 @@
 
 ---
 
-## List Bundle Notifications
+## List Share Link Notifications
 
 ```
 files_sdk.bundle_notification.list({
@@ -41,7 +41,7 @@ files_sdk.bundle_notification.list({
 
 ---
 
-## Show Bundle Notification
+## Show Share Link Notification
 
 ```
 files_sdk.bundle_notification.find(id)
@@ -54,7 +54,7 @@ files_sdk.bundle_notification.find(id)
 
 ---
 
-## Create Bundle Notification
+## Create Share Link Notification
 
 ```
 files_sdk.bundle_notification.create({
@@ -77,7 +77,7 @@ files_sdk.bundle_notification.create({
 
 ---
 
-## Update Bundle Notification
+## Update Share Link Notification
 
 ```
 files_sdk.bundle_notification.update(id, {
@@ -95,7 +95,7 @@ files_sdk.bundle_notification.update(id, {
 
 ---
 
-## Delete Bundle Notification
+## Delete Share Link Notification
 
 ```
 files_sdk.bundle_notification.delete(id)
@@ -108,7 +108,7 @@ files_sdk.bundle_notification.delete(id)
 
 ---
 
-## Update Bundle Notification
+## Update Share Link Notification
 
 ```
 bundle_notification = files_sdk.bundle_notification.find(id)
@@ -127,7 +127,7 @@ bundle_notification.update({
 
 ---
 
-## Delete Bundle Notification
+## Delete Share Link Notification
 
 ```
 bundle_notification = files_sdk.bundle_notification.find(id)

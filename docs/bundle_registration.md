@@ -39,7 +39,7 @@
 
 ---
 
-## List Bundle Registrations
+## List Share Link Registrations
 
 ```
 files_sdk.bundle_registration.list({

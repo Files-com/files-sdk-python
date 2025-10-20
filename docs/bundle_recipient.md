@@ -24,7 +24,7 @@
 
 ---
 
-## List Bundle Recipients
+## List Share Link Recipients
 
 ```
 files_sdk.bundle_recipient.list({
@@ -45,7 +45,7 @@ files_sdk.bundle_recipient.list({
 
 ---
 
-## Create Bundle Recipient
+## Create Share Link Recipient
 
 ```
 files_sdk.bundle_recipient.create({

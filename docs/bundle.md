@@ -138,7 +138,7 @@
 
 ---
 
-## List Bundles
+## List Share Links
 
 ```
 files_sdk.bundle.list({
@@ -162,7 +162,7 @@ files_sdk.bundle.list({
 
 ---
 
-## Show Bundle
+## Show Share Link
 
 ```
 files_sdk.bundle.find(id)
@@ -175,7 +175,7 @@ files_sdk.bundle.find(id)
 
 ---
 
-## Create Bundle
+## Create Share Link
 
 ```
 files_sdk.bundle.create({
@@ -259,7 +259,7 @@ files_sdk.bundle.share(id, {
 
 ---
 
-## Update Bundle
+## Update Share Link
 
 ```
 files_sdk.bundle.update(id, {
@@ -322,7 +322,7 @@ files_sdk.bundle.update(id, {
 
 ---
 
-## Delete Bundle
+## Delete Share Link
 
 ```
 files_sdk.bundle.delete(id)
@@ -356,7 +356,7 @@ bundle.share({
 
 ---
 
-## Update Bundle
+## Update Share Link
 
 ```
 bundle = files_sdk.bundle.find(id)
@@ -420,7 +420,7 @@ bundle.update({
 
 ---
 
-## Delete Bundle
+## Delete Share Link
 
 ```
 bundle = files_sdk.bundle.find(id)

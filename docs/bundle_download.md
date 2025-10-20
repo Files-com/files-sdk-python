@@ -35,7 +35,7 @@
 
 ---
 
-## List Bundle Downloads
+## List Share Link Downloads
 
 ```
 files_sdk.bundle_download.list({
