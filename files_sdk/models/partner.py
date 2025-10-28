@@ -12,6 +12,7 @@ class Partner:
     default_attributes = {
         "allow_bypassing_2fa_policies": None,  # boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
         "allow_credential_changes": None,  # boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
+        "allow_providing_gpg_keys": None,  # boolean - Allow Partner Admins to provide GPG keys.
         "allow_user_creation": None,  # boolean - Allow Partner Admins to create users.
         "id": None,  # int64 - The unique ID of the Partner.
         "name": None,  # string - The name of the Partner.
@@ -43,6 +44,7 @@ class Partner:
     #   name - string - The name of the Partner.
     #   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
     #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
+    #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
     #   allow_user_creation - boolean - Allow Partner Admins to create users.
     #   notes - string - Notes about this Partner.
     #   root_folder - string - The root folder path for this Partner.
@@ -160,6 +162,7 @@ def get(id, params=None, options=None):
 #   name - string - The name of the Partner.
 #   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
+#   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
 #   notes - string - Notes about this Partner.
 #   root_folder - string - The root folder path for this Partner.
@@ -183,6 +186,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: allow_credential_changes must be an bool"
         )
+    if "allow_providing_gpg_keys" in params and not isinstance(
+        params["allow_providing_gpg_keys"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allow_providing_gpg_keys must be an bool"
+        )
     if "allow_user_creation" in params and not isinstance(
         params["allow_user_creation"], bool
     ):
@@ -205,6 +214,7 @@ def create(params=None, options=None):
 #   name - string - The name of the Partner.
 #   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
+#   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
 #   notes - string - Notes about this Partner.
 #   root_folder - string - The root folder path for this Partner.
@@ -230,6 +240,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: allow_credential_changes must be an bool"
+        )
+    if "allow_providing_gpg_keys" in params and not isinstance(
+        params["allow_providing_gpg_keys"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allow_providing_gpg_keys must be an bool"
         )
     if "allow_user_creation" in params and not isinstance(
         params["allow_user_creation"], bool
