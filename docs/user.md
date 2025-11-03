@@ -48,6 +48,7 @@
   "office_integration_enabled": True,
   "partner_admin": True,
   "partner_id": 1,
+  "partner_name": "example",
   "password_set_at": "2000-01-01T01:00:00Z",
   "password_validity_days": 1,
   "public_keys_count": 1,
@@ -121,6 +122,7 @@
 * `office_integration_enabled` (boolean): Enable integration with Office for the web?
 * `partner_admin` (boolean): Is this user a Partner administrator?
 * `partner_id` (int64): Partner ID if this user belongs to a Partner
+* `partner_name` (string): Name of the Partner if this user belongs to a Partner
 * `password_set_at` (date-time): Last time the user's password was set
 * `password_validity_days` (int64): Number of days to allow user to use the same password
 * `public_keys_count` (int64): Number of public keys associated with this user

@@ -14,6 +14,7 @@ class GpgKey:
         "expires_at": None,  # date-time - Your GPG key expiration date.
         "name": None,  # string - Your GPG key name.
         "partner_id": None,  # int64 - Partner ID who owns this GPG Key, if applicable.
+        "partner_name": None,  # string - Name of the Partner who owns this GPG Key, if applicable.
         "user_id": None,  # int64 - User ID who owns this GPG Key, if applicable.
         "public_key_md5": None,  # string - MD5 hash of your GPG public key
         "private_key_md5": None,  # string - MD5 hash of your GPG private key.

@@ -8,6 +8,7 @@
   "expires_at": "2000-01-01T01:00:00Z",
   "name": "key name",
   "partner_id": 1,
+  "partner_name": "example",
   "user_id": 1,
   "public_key_md5": "7f8bc1210b09b9ddf469e6b6b8920e76",
   "private_key_md5": "ab236cfe4a195f0226bc2e674afdd6b0",
@@ -21,6 +22,7 @@
 * `expires_at` (date-time): Your GPG key expiration date.
 * `name` (string): Your GPG key name.
 * `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
+* `partner_name` (string): Name of the Partner who owns this GPG Key, if applicable.
 * `user_id` (int64): User ID who owns this GPG Key, if applicable.
 * `public_key_md5` (string): MD5 hash of your GPG public key
 * `private_key_md5` (string): MD5 hash of your GPG private key.

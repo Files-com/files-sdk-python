@@ -52,6 +52,7 @@ class User:
         "office_integration_enabled": None,  # boolean - Enable integration with Office for the web?
         "partner_admin": None,  # boolean - Is this user a Partner administrator?
         "partner_id": None,  # int64 - Partner ID if this user belongs to a Partner
+        "partner_name": None,  # string - Name of the Partner if this user belongs to a Partner
         "password_set_at": None,  # date-time - Last time the user's password was set
         "password_validity_days": None,  # int64 - Number of days to allow user to use the same password
         "public_keys_count": None,  # int64 - Number of public keys associated with this user
