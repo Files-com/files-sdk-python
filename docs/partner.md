@@ -11,6 +11,11 @@
   "id": 1,
   "name": "Acme Corp",
   "notes": "This is a note about the partner.",
+  "partner_admin_ids": [
+    1,
+    2,
+    3
+  ],
   "root_folder": "/AcmeCorp",
   "tags": "example",
   "user_ids": [
@@ -28,6 +33,7 @@
 * `id` (int64): The unique ID of the Partner.
 * `name` (string): The name of the Partner.
 * `notes` (string): Notes about this Partner.
+* `partner_admin_ids` (array(int64)): Array of User IDs that are Partner Admins for this Partner.
 * `root_folder` (string): The root folder path for this Partner.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_ids` (array(int64)): Array of User IDs that belong to this Partner.
