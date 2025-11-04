@@ -19,6 +19,7 @@ class Partner:
         "notes": None,  # string - Notes about this Partner.
         "root_folder": None,  # string - The root folder path for this Partner.
         "tags": None,  # string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+        "user_ids": None,  # array(int64) - Array of User IDs that belong to this Partner.
     }
 
     def __init__(self, attributes=None, options=None):
