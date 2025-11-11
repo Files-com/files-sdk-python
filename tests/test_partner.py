@@ -43,7 +43,10 @@ class PartnerTest(TestBase):
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partners"), "Mock path does not exist")
     def test_create(self):
-        resp = partner.create()
+        params = {
+            "name" : "foo",
+        }
+        partner.create(params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/partners/{id}"), "Mock path does not exist")
     def test_update(self):

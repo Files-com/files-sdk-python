@@ -73,20 +73,19 @@ files_sdk.partner.find(id)
 
 ```
 files_sdk.partner.create({
-  "name": "Acme Corp",
   "allow_bypassing_2fa_policies": False,
   "allow_credential_changes": False,
   "allow_providing_gpg_keys": False,
   "allow_user_creation": False,
   "notes": "This is a note about the partner.",
   "root_folder": "/AcmeCorp",
-  "tags": "example"
+  "tags": "example",
+  "name": "Acme Corp"
 })
 ```
 
 ### Parameters
 
-* `name` (string): The name of the Partner.
 * `allow_bypassing_2fa_policies` (boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
 * `allow_credential_changes` (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
@@ -94,6 +93,7 @@ files_sdk.partner.create({
 * `notes` (string): Notes about this Partner.
 * `root_folder` (string): The root folder path for this Partner.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+* `name` (string): Required - The name of the Partner.
 
 
 ---
@@ -102,21 +102,20 @@ files_sdk.partner.create({
 
 ```
 files_sdk.partner.update(id, {
-  "name": "Acme Corp",
   "allow_bypassing_2fa_policies": False,
   "allow_credential_changes": False,
   "allow_providing_gpg_keys": False,
   "allow_user_creation": False,
   "notes": "This is a note about the partner.",
   "root_folder": "/AcmeCorp",
-  "tags": "example"
+  "tags": "example",
+  "name": "Acme Corp"
 })
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Partner ID.
-* `name` (string): The name of the Partner.
 * `allow_bypassing_2fa_policies` (boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
 * `allow_credential_changes` (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
@@ -124,6 +123,7 @@ files_sdk.partner.update(id, {
 * `notes` (string): Notes about this Partner.
 * `root_folder` (string): The root folder path for this Partner.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+* `name` (string): The name of the Partner.
 
 
 ---
@@ -146,21 +146,20 @@ files_sdk.partner.delete(id)
 ```
 partner = files_sdk.partner.find(id)
 partner.update({
-  "name": "Acme Corp",
   "allow_bypassing_2fa_policies": False,
   "allow_credential_changes": False,
   "allow_providing_gpg_keys": False,
   "allow_user_creation": False,
   "notes": "This is a note about the partner.",
   "root_folder": "/AcmeCorp",
-  "tags": "example"
+  "tags": "example",
+  "name": "Acme Corp"
 })
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Partner ID.
-* `name` (string): The name of the Partner.
 * `allow_bypassing_2fa_policies` (boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
 * `allow_credential_changes` (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
@@ -168,6 +167,7 @@ partner.update({
 * `notes` (string): Notes about this Partner.
 * `root_folder` (string): The root folder path for this Partner.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+* `name` (string): The name of the Partner.
 
 
 ---
