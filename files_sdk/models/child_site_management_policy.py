@@ -44,7 +44,7 @@ class ChildSiteManagementPolicy:
         }
 
     # Parameters:
-    #   value - string
+    #   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
     #   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
     #   policy_type - string - Type of policy.  Valid values: `settings`.
     #   name - string - Name for this policy.
@@ -61,8 +61,6 @@ class ChildSiteManagementPolicy:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "value" in params and not isinstance(params["value"], str):
-            raise InvalidParameterError("Bad parameter: value must be an str")
         if "skip_child_site_ids" in params and not isinstance(
             params["skip_child_site_ids"], builtins.list
         ):
@@ -175,7 +173,7 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
-#   value - string
+#   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
 #   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
 #   policy_type (required) - string - Type of policy.  Valid values: `settings`.
 #   name - string - Name for this policy.
@@ -185,8 +183,8 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    if "value" in params and not isinstance(params["value"], str):
-        raise InvalidParameterError("Bad parameter: value must be an str")
+    if "value" in params and not isinstance(params["value"], dict):
+        raise InvalidParameterError("Bad parameter: value must be an dict")
     if "skip_child_site_ids" in params and not isinstance(
         params["skip_child_site_ids"], builtins.list
     ):
@@ -212,7 +210,7 @@ def create(params=None, options=None):
 
 
 # Parameters:
-#   value - string
+#   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
 #   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
 #   policy_type - string - Type of policy.  Valid values: `settings`.
 #   name - string - Name for this policy.
@@ -223,12 +221,10 @@ def update(id, params=None, options=None):
     if not isinstance(options, dict):
         options = {}
     params["id"] = id
-    if "id" in params and not isinstance(params["id"], (str, int, dict)):
-        raise InvalidParameterError(
-            "Bad parameter: id must be one of str, int, dict"
-        )
-    if "value" in params and not isinstance(params["value"], str):
-        raise InvalidParameterError("Bad parameter: value must be an str")
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "value" in params and not isinstance(params["value"], dict):
+        raise InvalidParameterError("Bad parameter: value must be an dict")
     if "skip_child_site_ids" in params and not isinstance(
         params["skip_child_site_ids"], builtins.list
     ):
@@ -241,11 +237,9 @@ def update(id, params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
-    if "description" in params and not isinstance(
-        params["description"], (str, int, dict)
-    ):
+    if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
-            "Bad parameter: description must be one of str, int, dict"
+            "Bad parameter: description must be an str"
         )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
