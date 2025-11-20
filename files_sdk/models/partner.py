@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 
 class Partner:
     default_attributes = {
-        "allow_bypassing_2fa_policies": None,  # boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
+        "allow_bypassing_2fa_policies": None,  # boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
         "allow_credential_changes": None,  # boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
         "allow_providing_gpg_keys": None,  # boolean - Allow Partner Admins to provide GPG keys.
         "allow_user_creation": None,  # boolean - Allow Partner Admins to create users.
@@ -43,7 +43,7 @@ class Partner:
         }
 
     # Parameters:
-    #   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
+    #   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
     #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
     #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
     #   allow_user_creation - boolean - Allow Partner Admins to create users.
@@ -161,7 +161,7 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
-#   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
+#   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
@@ -215,7 +215,7 @@ def create(params=None, options=None):
 
 
 # Parameters:
-#   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
+#   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
