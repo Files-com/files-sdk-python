@@ -45,7 +45,6 @@ class SiemHttpDestinationTest(TestBase):
     def test_create(self):
         params = {
             "destination_type" : "foo",
-            "destination_url" : "foo",
         }
         siem_http_destination.create(params)
 
