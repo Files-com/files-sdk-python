@@ -19,6 +19,7 @@ class RemoteServer:
         "hostname": None,  # string - Hostname or IP address
         "remote_home_path": None,  # string - Initial home folder on remote server
         "name": None,  # string - Internal name for your reference
+        "description": None,  # string - Internal description for your reference
         "port": None,  # int64 - Port for remote server.  Not needed for S3.
         "buffer_uploads": None,  # string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
         "max_connections": None,  # int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
@@ -228,6 +229,7 @@ class RemoteServer:
     #   cloudflare_access_key - string - Cloudflare: Access Key.
     #   cloudflare_bucket - string - Cloudflare: Bucket name
     #   cloudflare_endpoint - string - Cloudflare: endpoint
+    #   description - string - Internal description for your reference
     #   dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
     #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
     #   filebase_access_key - string - Filebase: Access Key.
@@ -462,6 +464,12 @@ class RemoteServer:
         ):
             raise InvalidParameterError(
                 "Bad parameter: cloudflare_endpoint must be an str"
+            )
+        if "description" in params and not isinstance(
+            params["description"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: description must be an str"
             )
         if "filebase_access_key" in params and not isinstance(
             params["filebase_access_key"], str
@@ -776,6 +784,7 @@ def find_configuration_file(id, params=None, options=None):
 #   cloudflare_access_key - string - Cloudflare: Access Key.
 #   cloudflare_bucket - string - Cloudflare: Bucket name
 #   cloudflare_endpoint - string - Cloudflare: endpoint
+#   description - string - Internal description for your reference
 #   dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
 #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
 #   filebase_access_key - string - Filebase: Access Key.
@@ -1011,6 +1020,10 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: cloudflare_endpoint must be an str"
+        )
+    if "description" in params and not isinstance(params["description"], str):
+        raise InvalidParameterError(
+            "Bad parameter: description must be an str"
         )
     if "dropbox_teams" in params and not isinstance(
         params["dropbox_teams"], bool
@@ -1292,6 +1305,7 @@ def configuration_file(id, params=None, options=None):
 #   cloudflare_access_key - string - Cloudflare: Access Key.
 #   cloudflare_bucket - string - Cloudflare: Bucket name
 #   cloudflare_endpoint - string - Cloudflare: endpoint
+#   description - string - Internal description for your reference
 #   dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
 #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
 #   filebase_access_key - string - Filebase: Access Key.
@@ -1530,6 +1544,10 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: cloudflare_endpoint must be an str"
+        )
+    if "description" in params and not isinstance(params["description"], str):
+        raise InvalidParameterError(
+            "Bad parameter: description must be an str"
         )
     if "dropbox_teams" in params and not isinstance(
         params["dropbox_teams"], bool

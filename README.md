@@ -628,6 +628,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`AlreadyCompletedError`|  `ProcessingFailureError` |
 |`AutomationCannotBeRunManuallyError`|  `ProcessingFailureError` |
 |`BehaviorNotAllowedOnRemoteServerError`|  `ProcessingFailureError` |
+|`BufferedUploadDisabledForThisDestinationError`|  `ProcessingFailureError` |
 |`BundleOnlyAllowsPreviewsError`|  `ProcessingFailureError` |
 |`BundleOperationRequiresSubfolderError`|  `ProcessingFailureError` |
 |`CouldNotCreateParentError`|  `ProcessingFailureError` |
