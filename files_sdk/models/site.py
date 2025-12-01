@@ -177,6 +177,7 @@ class Site:
         "users_can_create_api_keys": None,  # boolean - Allow users to create their own API keys?
         "users_can_create_ssh_keys": None,  # boolean - Allow users to create their own SSH keys?
         "welcome_custom_text": None,  # string - Custom text send in user welcome email
+        "email_footer_custom_text": None,  # string - Custom footer text for system-generated emails. Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
         "welcome_email_cc": None,  # email - Include this email in welcome emails if enabled
         "welcome_email_subject": None,  # string - Include this email subject in welcome emails if enabled
         "welcome_email_enabled": None,  # boolean - Will the welcome email be sent to new users?
@@ -349,6 +350,7 @@ def get_usage(params=None, options=None):
 #   site_public_footer - string - Custom site footer text for public pages
 #   login_help_text - string - Login help text
 #   use_dedicated_ips_for_smtp - boolean - If using custom SMTP, should we use dedicated IPs to deliver emails?
+#   email_footer_custom_text - string - Custom footer text for system-generated emails. Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
 #   smtp_address - string - SMTP server hostname or IP
 #   smtp_authentication - string - SMTP server authentication type
 #   smtp_from - string - From address to use when mailing through custom SMTP
@@ -1106,6 +1108,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: use_dedicated_ips_for_smtp must be an bool"
+        )
+    if "email_footer_custom_text" in params and not isinstance(
+        params["email_footer_custom_text"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: email_footer_custom_text must be an str"
         )
     if "smtp_address" in params and not isinstance(
         params["smtp_address"], str

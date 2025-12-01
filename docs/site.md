@@ -303,6 +303,7 @@
   "users_can_create_api_keys": True,
   "users_can_create_ssh_keys": True,
   "welcome_custom_text": "Welcome to my site!",
+  "email_footer_custom_text": "Copyright © %Y MyCompany Inc.",
   "welcome_email_cc": "example",
   "welcome_email_subject": "example",
   "welcome_email_enabled": True,
@@ -479,6 +480,7 @@
 * `users_can_create_api_keys` (boolean): Allow users to create their own API keys?
 * `users_can_create_ssh_keys` (boolean): Allow users to create their own SSH keys?
 * `welcome_custom_text` (string): Custom text send in user welcome email
+* `email_footer_custom_text` (string): Custom footer text for system-generated emails. Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
 * `welcome_email_cc` (email): Include this email in welcome emails if enabled
 * `welcome_email_subject` (string): Include this email subject in welcome emails if enabled
 * `welcome_email_enabled` (boolean): Will the welcome email be sent to new users?
@@ -635,6 +637,7 @@ files_sdk.site.update({
   "site_public_footer": "example",
   "login_help_text": "Login page help text.",
   "use_dedicated_ips_for_smtp": False,
+  "email_footer_custom_text": "Copyright © %Y MyCompany Inc.",
   "smtp_address": "smtp.my-mail-server.com",
   "smtp_authentication": "plain",
   "smtp_from": "me@my-mail-server.com",
@@ -796,6 +799,7 @@ files_sdk.site.update({
 * `site_public_footer` (string): Custom site footer text for public pages
 * `login_help_text` (string): Login help text
 * `use_dedicated_ips_for_smtp` (boolean): If using custom SMTP, should we use dedicated IPs to deliver emails?
+* `email_footer_custom_text` (string): Custom footer text for system-generated emails. Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
 * `smtp_address` (string): SMTP server hostname or IP
 * `smtp_authentication` (string): SMTP server authentication type
 * `smtp_from` (string): From address to use when mailing through custom SMTP
