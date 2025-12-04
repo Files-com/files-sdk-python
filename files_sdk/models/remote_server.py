@@ -60,6 +60,7 @@ class RemoteServer:
         "files_agent_root": None,  # string - Agent local root path
         "files_agent_api_token": None,  # string - Files Agent API Token
         "files_agent_version": None,  # string - Files Agent version
+        "outbound_agent_id": None,  # int64 - Route traffic to outbound on a files-agent
         "filebase_bucket": None,  # string - Filebase: Bucket name
         "filebase_access_key": None,  # string - Filebase: Access Key.
         "cloudflare_bucket": None,  # string - Cloudflare: Bucket name
@@ -237,6 +238,7 @@ class RemoteServer:
     #   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
     #   files_agent_root - string - Agent local root path
     #   files_agent_version - string - Files Agent version
+    #   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
     #   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
     #   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
     #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -500,6 +502,12 @@ class RemoteServer:
         ):
             raise InvalidParameterError(
                 "Bad parameter: files_agent_version must be an str"
+            )
+        if "outbound_agent_id" in params and not isinstance(
+            params["outbound_agent_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: outbound_agent_id must be an int"
             )
         if "google_cloud_storage_bucket" in params and not isinstance(
             params["google_cloud_storage_bucket"], str
@@ -792,6 +800,7 @@ def find_configuration_file(id, params=None, options=None):
 #   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
 #   files_agent_root - string - Agent local root path
 #   files_agent_version - string - Files Agent version
+#   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
 #   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
 #   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
 #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -1067,6 +1076,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: files_agent_version must be an str"
         )
+    if "outbound_agent_id" in params and not isinstance(
+        params["outbound_agent_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: outbound_agent_id must be an int"
+        )
     if "google_cloud_storage_bucket" in params and not isinstance(
         params["google_cloud_storage_bucket"], str
     ):
@@ -1313,6 +1328,7 @@ def configuration_file(id, params=None, options=None):
 #   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
 #   files_agent_root - string - Agent local root path
 #   files_agent_version - string - Files Agent version
+#   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
 #   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
 #   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
 #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -1590,6 +1606,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: files_agent_version must be an str"
+        )
+    if "outbound_agent_id" in params and not isinstance(
+        params["outbound_agent_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: outbound_agent_id must be an int"
         )
     if "google_cloud_storage_bucket" in params and not isinstance(
         params["google_cloud_storage_bucket"], str

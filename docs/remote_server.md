@@ -51,6 +51,7 @@
   "files_agent_root": "example",
   "files_agent_api_token": "example",
   "files_agent_version": "example",
+  "outbound_agent_id": 1,
   "filebase_bucket": "my-bucket",
   "filebase_access_key": "example",
   "cloudflare_bucket": "my-bucket",
@@ -111,6 +112,7 @@
 * `files_agent_root` (string): Agent local root path
 * `files_agent_api_token` (string): Files Agent API Token
 * `files_agent_version` (string): Files Agent version
+* `outbound_agent_id` (int64): Route traffic to outbound on a files-agent
 * `filebase_bucket` (string): Filebase: Bucket name
 * `filebase_access_key` (string): Filebase: Access Key.
 * `cloudflare_bucket` (string): Cloudflare: Bucket name
@@ -214,6 +216,7 @@ files_sdk.remote_server.create({
   "files_agent_permission_set": "read_write",
   "files_agent_root": "example",
   "files_agent_version": "example",
+  "outbound_agent_id": 1,
   "google_cloud_storage_bucket": "my-bucket",
   "google_cloud_storage_project_id": "my-project",
   "google_cloud_storage_s3_compatible_access_key": "example",
@@ -286,6 +289,7 @@ files_sdk.remote_server.create({
 * `files_agent_permission_set` (string): Local permissions for files agent. read_only, write_only, or read_write
 * `files_agent_root` (string): Agent local root path
 * `files_agent_version` (string): Files Agent version
+* `outbound_agent_id` (int64): Route traffic to outbound on a files-agent
 * `google_cloud_storage_bucket` (string): Google Cloud Storage: Bucket Name
 * `google_cloud_storage_project_id` (string): Google Cloud Storage: Project ID
 * `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible Access Key.
@@ -379,6 +383,7 @@ files_sdk.remote_server.update(id, {
   "files_agent_permission_set": "read_write",
   "files_agent_root": "example",
   "files_agent_version": "example",
+  "outbound_agent_id": 1,
   "google_cloud_storage_bucket": "my-bucket",
   "google_cloud_storage_project_id": "my-project",
   "google_cloud_storage_s3_compatible_access_key": "example",
@@ -452,6 +457,7 @@ files_sdk.remote_server.update(id, {
 * `files_agent_permission_set` (string): Local permissions for files agent. read_only, write_only, or read_write
 * `files_agent_root` (string): Agent local root path
 * `files_agent_version` (string): Files Agent version
+* `outbound_agent_id` (int64): Route traffic to outbound on a files-agent
 * `google_cloud_storage_bucket` (string): Google Cloud Storage: Bucket Name
 * `google_cloud_storage_project_id` (string): Google Cloud Storage: Project ID
 * `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible Access Key.
@@ -560,6 +566,7 @@ remote_server.update({
   "files_agent_permission_set": "read_write",
   "files_agent_root": "example",
   "files_agent_version": "example",
+  "outbound_agent_id": 1,
   "google_cloud_storage_bucket": "my-bucket",
   "google_cloud_storage_project_id": "my-project",
   "google_cloud_storage_s3_compatible_access_key": "example",
@@ -633,6 +640,7 @@ remote_server.update({
 * `files_agent_permission_set` (string): Local permissions for files agent. read_only, write_only, or read_write
 * `files_agent_root` (string): Agent local root path
 * `files_agent_version` (string): Files Agent version
+* `outbound_agent_id` (int64): Route traffic to outbound on a files-agent
 * `google_cloud_storage_bucket` (string): Google Cloud Storage: Bucket Name
 * `google_cloud_storage_project_id` (string): Google Cloud Storage: Project ID
 * `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible Access Key.
