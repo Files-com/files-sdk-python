@@ -50,6 +50,7 @@ import files_sdk.models.history_export as history_export
 import files_sdk.models.history_export_result as history_export_result
 import files_sdk.models.holiday_region as holiday_region
 import files_sdk.models.image as image
+import files_sdk.models.inbound_s3_log as inbound_s3_log
 import files_sdk.models.inbox_recipient as inbox_recipient
 import files_sdk.models.inbox_registration as inbox_registration
 import files_sdk.models.inbox_upload as inbox_upload
@@ -163,6 +164,7 @@ from files_sdk.models.history_export import HistoryExport
 from files_sdk.models.history_export_result import HistoryExportResult
 from files_sdk.models.holiday_region import HolidayRegion
 from files_sdk.models.image import Image
+from files_sdk.models.inbound_s3_log import InboundS3Log
 from files_sdk.models.inbox_recipient import InboxRecipient
 from files_sdk.models.inbox_registration import InboxRegistration
 from files_sdk.models.inbox_upload import InboxUpload
@@ -231,7 +233,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.143"
+version = "1.6.144"
 
 __version__ = version
 
