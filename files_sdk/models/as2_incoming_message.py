@@ -73,12 +73,11 @@ class As2IncomingMessage:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at` and `as2_partner_id`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `as2_station_id` or `as2_partner_id`. Valid field combinations are `[ as2_station_id, created_at ]` and `[ as2_partner_id, created_at ]`.
 #   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
 #   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
 #   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
 #   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
-#   as2_partner_id - int64 - As2 Partner ID.  If provided, will return message specific to that partner.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -103,12 +102,6 @@ def list(params=None, options=None):
     if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
         raise InvalidParameterError(
             "Bad parameter: filter_lteq must be an dict"
-        )
-    if "as2_partner_id" in params and not isinstance(
-        params["as2_partner_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: as2_partner_id must be an int"
         )
     return ListObj(
         As2IncomingMessage, "GET", "/as2_incoming_messages", params, options
