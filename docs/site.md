@@ -207,7 +207,6 @@
   "smtp_from": "me@my-mail-server.com",
   "smtp_port": 25,
   "smtp_username": "mail",
-  "session_expiry": 6.0,
   "session_expiry_minutes": 360,
   "snapshot_sharing_enabled": True,
   "ssl_required": True,
@@ -460,7 +459,6 @@
 * `smtp_from` (string): From address to use when mailing through custom SMTP
 * `smtp_port` (int64): SMTP server port
 * `smtp_username` (string): SMTP server username
-* `session_expiry` (double): Session expiry in hours
 * `session_expiry_minutes` (int64): Session expiry in minutes
 * `snapshot_sharing_enabled` (boolean): Allow snapshot share links creation
 * `ssl_required` (boolean): Is SSL required?  Disabling this is insecure.
@@ -556,7 +554,7 @@ files_sdk.site.update({
   "legacy_checksums_mode": False,
   "migrate_remote_server_sync_to_sync": False,
   "as2_message_retention_days": 1,
-  "session_expiry": 1.0,
+  "session_expiry_minutes": 1,
   "ssl_required": False,
   "sftp_insecure_ciphers": False,
   "sftp_insecure_diffie_hellman": False,
@@ -667,8 +665,7 @@ files_sdk.site.update({
   "logo_delete": False,
   "bundle_watermark_attachment_delete": False,
   "login_page_background_image_delete": False,
-  "disable_2fa_with_delay": False,
-  "session_expiry_minutes": 1
+  "disable_2fa_with_delay": False
 })
 ```
 
@@ -718,7 +715,7 @@ files_sdk.site.update({
 * `legacy_checksums_mode` (boolean): Use legacy checksums mode?
 * `migrate_remote_server_sync_to_sync` (boolean): If true, we will migrate all remote server syncs to the new Sync model.
 * `as2_message_retention_days` (int64): Number of days to retain AS2 messages (incoming and outgoing).
-* `session_expiry` (double): Session expiry in hours
+* `session_expiry_minutes` (int64): Session expiry in minutes
 * `ssl_required` (boolean): Is SSL required?  Disabling this is insecure.
 * `sftp_insecure_ciphers` (boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
 * `sftp_insecure_diffie_hellman` (boolean): If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
@@ -840,4 +837,3 @@ files_sdk.site.update({
 * `ldap_password_change` (string): New LDAP password.
 * `ldap_password_change_confirmation` (string): Confirm new LDAP password.
 * `smtp_password` (string): Password for SMTP server.
-* `session_expiry_minutes` (int64): Session expiry in minutes

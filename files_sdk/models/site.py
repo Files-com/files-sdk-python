@@ -157,7 +157,6 @@ class Site:
         "smtp_from": None,  # string - From address to use when mailing through custom SMTP
         "smtp_port": None,  # int64 - SMTP server port
         "smtp_username": None,  # string - SMTP server username
-        "session_expiry": None,  # double - Session expiry in hours
         "session_expiry_minutes": None,  # int64 - Session expiry in minutes
         "snapshot_sharing_enabled": None,  # boolean - Allow snapshot share links creation
         "ssl_required": None,  # boolean - Is SSL required?  Disabling this is insecure.
@@ -269,7 +268,7 @@ def get_usage(params=None, options=None):
 #   legacy_checksums_mode - boolean - Use legacy checksums mode?
 #   migrate_remote_server_sync_to_sync - boolean - If true, we will migrate all remote server syncs to the new Sync model.
 #   as2_message_retention_days - int64 - Number of days to retain AS2 messages (incoming and outgoing).
-#   session_expiry - double - Session expiry in hours
+#   session_expiry_minutes - int64 - Session expiry in minutes
 #   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
 #   sftp_insecure_ciphers - boolean - If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
 #   sftp_insecure_diffie_hellman - boolean - If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
@@ -391,7 +390,6 @@ def get_usage(params=None, options=None):
 #   ldap_password_change - string - New LDAP password.
 #   ldap_password_change_confirmation - string - Confirm new LDAP password.
 #   smtp_password - string - Password for SMTP server.
-#   session_expiry_minutes - int64 - Session expiry in minutes
 def update(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -633,11 +631,11 @@ def update(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: as2_message_retention_days must be an int"
         )
-    if "session_expiry" in params and not isinstance(
-        params["session_expiry"], float
+    if "session_expiry_minutes" in params and not isinstance(
+        params["session_expiry_minutes"], int
     ):
         raise InvalidParameterError(
-            "Bad parameter: session_expiry must be an float"
+            "Bad parameter: session_expiry_minutes must be an int"
         )
     if "ssl_required" in params and not isinstance(
         params["ssl_required"], bool
@@ -1282,12 +1280,6 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: smtp_password must be an str"
-        )
-    if "session_expiry_minutes" in params and not isinstance(
-        params["session_expiry_minutes"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: session_expiry_minutes must be an int"
         )
     response, options = Api.send_request("PATCH", "/site", params, options)
     return Site(response.data, options)
