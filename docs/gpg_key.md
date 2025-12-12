@@ -14,24 +14,24 @@
   "private_key_md5": "ab236cfe4a195f0226bc2e674afdd6b0",
   "generated_public_key": "7f8bc1210b09b9ddf469e6b6b8920e76",
   "generated_private_key": "ab236cfe4a195f0226bc2e674afdd6b0",
-  "private_key_password_md5": "[your GPG private key password]"
+  "private_key_password_md5": "[the GPG private key password]"
 }
 ```
 
-* `id` (int64): Your GPG key ID.
-* `expires_at` (date-time): Your GPG key expiration date.
-* `name` (string): Your GPG key name.
+* `id` (int64): GPG key ID.
+* `expires_at` (date-time): GPG key expiration date.
+* `name` (string): GPG key name.
 * `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
 * `partner_name` (string): Name of the Partner who owns this GPG Key, if applicable.
 * `user_id` (int64): User ID who owns this GPG Key, if applicable.
-* `public_key_md5` (string): MD5 hash of your GPG public key
-* `private_key_md5` (string): MD5 hash of your GPG private key.
-* `generated_public_key` (string): Your GPG public key
-* `generated_private_key` (string): Your GPG private key.
-* `private_key_password_md5` (string): Your GPG private key password. Only required for password protected keys.
-* `public_key` (string): MD5 hash of your GPG public key
-* `private_key` (string): MD5 hash of your GPG private key.
-* `private_key_password` (string): Your GPG private key password. Only required for password protected keys.
+* `public_key_md5` (string): MD5 hash of the GPG public key
+* `private_key_md5` (string): MD5 hash of the GPG private key.
+* `generated_public_key` (string): GPG public key
+* `generated_private_key` (string): GPG private key.
+* `private_key_password_md5` (string): GPG private key password. Only required for password protected keys.
+* `public_key` (string): The GPG public key
+* `private_key` (string): The GPG private key
+* `private_key_password` (string): The GPG private key password
 * `generate_expires_at` (string): Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 * `generate_keypair` (boolean): If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
 * `generate_full_name` (string): Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
@@ -77,9 +77,6 @@ files_sdk.gpg_key.find(id)
 files_sdk.gpg_key.create({
   "user_id": 1,
   "partner_id": 1,
-  "public_key": "7f8bc1210b09b9ddf469e6b6b8920e76",
-  "private_key": "ab236cfe4a195f0226bc2e674afdd6b0",
-  "private_key_password": "[your GPG private key password]",
   "name": "key name",
   "generate_expires_at": "2025-06-19 12:00:00",
   "generate_keypair": False,
@@ -92,10 +89,10 @@ files_sdk.gpg_key.create({
 
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
-* `public_key` (string): MD5 hash of your GPG public key
-* `private_key` (string): MD5 hash of your GPG private key.
-* `private_key_password` (string): Your GPG private key password. Only required for password protected keys.
-* `name` (string): Required - Your GPG key name.
+* `public_key` (string): The GPG public key
+* `private_key` (string): The GPG private key
+* `private_key_password` (string): The GPG private key password
+* `name` (string): Required - GPG key name.
 * `generate_expires_at` (string): Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 * `generate_keypair` (boolean): If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
 * `generate_full_name` (string): Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
@@ -109,9 +106,6 @@ files_sdk.gpg_key.create({
 ```
 files_sdk.gpg_key.update(id, {
   "partner_id": 1,
-  "public_key": "7f8bc1210b09b9ddf469e6b6b8920e76",
-  "private_key": "ab236cfe4a195f0226bc2e674afdd6b0",
-  "private_key_password": "[your GPG private key password]",
   "name": "key name"
 })
 ```
@@ -120,10 +114,10 @@ files_sdk.gpg_key.update(id, {
 
 * `id` (int64): Required - Gpg Key ID.
 * `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
-* `public_key` (string): MD5 hash of your GPG public key
-* `private_key` (string): MD5 hash of your GPG private key.
-* `private_key_password` (string): Your GPG private key password. Only required for password protected keys.
-* `name` (string): Your GPG key name.
+* `public_key` (string): The GPG public key
+* `private_key` (string): The GPG private key
+* `private_key_password` (string): The GPG private key password
+* `name` (string): GPG key name.
 
 
 ---
@@ -147,9 +141,6 @@ files_sdk.gpg_key.delete(id)
 gpg_key = files_sdk.gpg_key.find(id)
 gpg_key.update({
   "partner_id": 1,
-  "public_key": "7f8bc1210b09b9ddf469e6b6b8920e76",
-  "private_key": "ab236cfe4a195f0226bc2e674afdd6b0",
-  "private_key_password": "[your GPG private key password]",
   "name": "key name"
 })
 ```
@@ -158,10 +149,10 @@ gpg_key.update({
 
 * `id` (int64): Required - Gpg Key ID.
 * `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
-* `public_key` (string): MD5 hash of your GPG public key
-* `private_key` (string): MD5 hash of your GPG private key.
-* `private_key_password` (string): Your GPG private key password. Only required for password protected keys.
-* `name` (string): Your GPG key name.
+* `public_key` (string): The GPG public key
+* `private_key` (string): The GPG private key
+* `private_key_password` (string): The GPG private key password
+* `name` (string): GPG key name.
 
 
 ---

@@ -10,20 +10,20 @@ from files_sdk.error import (  # noqa: F401
 
 class GpgKey:
     default_attributes = {
-        "id": None,  # int64 - Your GPG key ID.
-        "expires_at": None,  # date-time - Your GPG key expiration date.
-        "name": None,  # string - Your GPG key name.
+        "id": None,  # int64 - GPG key ID.
+        "expires_at": None,  # date-time - GPG key expiration date.
+        "name": None,  # string - GPG key name.
         "partner_id": None,  # int64 - Partner ID who owns this GPG Key, if applicable.
         "partner_name": None,  # string - Name of the Partner who owns this GPG Key, if applicable.
         "user_id": None,  # int64 - User ID who owns this GPG Key, if applicable.
-        "public_key_md5": None,  # string - MD5 hash of your GPG public key
-        "private_key_md5": None,  # string - MD5 hash of your GPG private key.
-        "generated_public_key": None,  # string - Your GPG public key
-        "generated_private_key": None,  # string - Your GPG private key.
-        "private_key_password_md5": None,  # string - Your GPG private key password. Only required for password protected keys.
-        "public_key": None,  # string - MD5 hash of your GPG public key
-        "private_key": None,  # string - MD5 hash of your GPG private key.
-        "private_key_password": None,  # string - Your GPG private key password. Only required for password protected keys.
+        "public_key_md5": None,  # string - MD5 hash of the GPG public key
+        "private_key_md5": None,  # string - MD5 hash of the GPG private key.
+        "generated_public_key": None,  # string - GPG public key
+        "generated_private_key": None,  # string - GPG private key.
+        "private_key_password_md5": None,  # string - GPG private key password. Only required for password protected keys.
+        "public_key": None,  # string - The GPG public key
+        "private_key": None,  # string - The GPG private key
+        "private_key_password": None,  # string - The GPG private key password
         "generate_expires_at": None,  # string - Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
         "generate_keypair": None,  # boolean - If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
         "generate_full_name": None,  # string - Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
@@ -51,10 +51,10 @@ class GpgKey:
 
     # Parameters:
     #   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-    #   public_key - string - MD5 hash of your GPG public key
-    #   private_key - string - MD5 hash of your GPG private key.
-    #   private_key_password - string - Your GPG private key password. Only required for password protected keys.
-    #   name - string - Your GPG key name.
+    #   public_key - string - The GPG public key
+    #   private_key - string - The GPG private key
+    #   private_key_password - string - The GPG private key password
+    #   name - string - GPG key name.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -184,10 +184,10 @@ def get(id, params=None, options=None):
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-#   public_key - string - MD5 hash of your GPG public key
-#   private_key - string - MD5 hash of your GPG private key.
-#   private_key_password - string - Your GPG private key password. Only required for password protected keys.
-#   name (required) - string - Your GPG key name.
+#   public_key - string - The GPG public key
+#   private_key - string - The GPG private key
+#   private_key_password - string - The GPG private key password
+#   name (required) - string - GPG key name.
 #   generate_expires_at - string - Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 #   generate_keypair - boolean - If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
 #   generate_full_name - string - Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
@@ -247,10 +247,10 @@ def create(params=None, options=None):
 
 # Parameters:
 #   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-#   public_key - string - MD5 hash of your GPG public key
-#   private_key - string - MD5 hash of your GPG private key.
-#   private_key_password - string - Your GPG private key password. Only required for password protected keys.
-#   name - string - Your GPG key name.
+#   public_key - string - The GPG public key
+#   private_key - string - The GPG private key
+#   private_key_password - string - The GPG private key password
+#   name - string - GPG key name.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
