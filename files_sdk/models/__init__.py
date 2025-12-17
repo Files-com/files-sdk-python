@@ -85,6 +85,7 @@ from files_sdk.models.remote_server import RemoteServer
 from files_sdk.models.remote_server_configuration_file import (
     RemoteServerConfigurationFile,
 )
+from files_sdk.models.remote_server_credential import RemoteServerCredential
 from files_sdk.models.request import Request
 from files_sdk.models.restore import Restore
 from files_sdk.models.scim_log import ScimLog

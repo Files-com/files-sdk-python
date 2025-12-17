@@ -20,11 +20,12 @@ class RemoteServer:
         "remote_home_path": None,  # string - Initial home folder on remote server
         "name": None,  # string - Internal name for your reference
         "description": None,  # string - Internal description for your reference
-        "port": None,  # int64 - Port for remote server.  Not needed for S3.
+        "port": None,  # int64 - Port for remote server.
         "buffer_uploads": None,  # string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
         "max_connections": None,  # int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
         "pin_to_site_region": None,  # boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
         "pinned_region": None,  # string - If set, all communications with this remote server are made through the provided region.
+        "remote_server_credential_id": None,  # int64 - ID of Remote Server Credential, if applicable.
         "s3_bucket": None,  # string - S3 bucket name
         "s3_region": None,  # string - S3 region
         "aws_access_key": None,  # string - AWS Access Key.
@@ -32,7 +33,7 @@ class RemoteServer:
         "server_host_key": None,  # string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
         "server_type": None,  # string - Remote server type.
         "ssl": None,  # string - Should we require SSL?
-        "username": None,  # string - Remote server username.  Not needed for S3 buckets.
+        "username": None,  # string - Remote server username.
         "google_cloud_storage_bucket": None,  # string - Google Cloud Storage: Bucket Name
         "google_cloud_storage_project_id": None,  # string - Google Cloud Storage: Project ID
         "google_cloud_storage_s3_compatible_access_key": None,  # string - Google Cloud Storage: S3-compatible Access Key.
@@ -250,7 +251,8 @@ class RemoteServer:
     #   name - string - Internal name for your reference
     #   one_drive_account_type - string - OneDrive: Either personal or business_other account types
     #   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-    #   port - int64 - Port for remote server.  Not needed for S3.
+    #   port - int64 - Port for remote server.
+    #   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
     #   s3_bucket - string - S3 bucket name
     #   s3_compatible_access_key - string - S3-compatible: Access Key
     #   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -261,7 +263,7 @@ class RemoteServer:
     #   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
     #   server_type - string - Remote server type.
     #   ssl - string - Should we require SSL?
-    #   username - string - Remote server username.  Not needed for S3 buckets.
+    #   username - string - Remote server username.
     #   wasabi_access_key - string - Wasabi: Access Key.
     #   wasabi_bucket - string - Wasabi: Bucket name
     #   wasabi_region - string - Wasabi: Region
@@ -568,6 +570,12 @@ class RemoteServer:
             )
         if "port" in params and not isinstance(params["port"], int):
             raise InvalidParameterError("Bad parameter: port must be an int")
+        if "remote_server_credential_id" in params and not isinstance(
+            params["remote_server_credential_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: remote_server_credential_id must be an int"
+            )
         if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
             raise InvalidParameterError(
                 "Bad parameter: s3_bucket must be an str"
@@ -812,7 +820,8 @@ def find_configuration_file(id, params=None, options=None):
 #   name - string - Internal name for your reference
 #   one_drive_account_type - string - OneDrive: Either personal or business_other account types
 #   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-#   port - int64 - Port for remote server.  Not needed for S3.
+#   port - int64 - Port for remote server.
+#   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
 #   s3_bucket - string - S3 bucket name
 #   s3_compatible_access_key - string - S3-compatible: Access Key
 #   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -823,7 +832,7 @@ def find_configuration_file(id, params=None, options=None):
 #   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 #   server_type - string - Remote server type.
 #   ssl - string - Should we require SSL?
-#   username - string - Remote server username.  Not needed for S3 buckets.
+#   username - string - Remote server username.
 #   wasabi_access_key - string - Wasabi: Access Key.
 #   wasabi_bucket - string - Wasabi: Bucket name
 #   wasabi_region - string - Wasabi: Region
@@ -1145,6 +1154,12 @@ def create(params=None, options=None):
         )
     if "port" in params and not isinstance(params["port"], int):
         raise InvalidParameterError("Bad parameter: port must be an int")
+    if "remote_server_credential_id" in params and not isinstance(
+        params["remote_server_credential_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: remote_server_credential_id must be an int"
+        )
     if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
         raise InvalidParameterError("Bad parameter: s3_bucket must be an str")
     if "s3_compatible_access_key" in params and not isinstance(
@@ -1340,7 +1355,8 @@ def configuration_file(id, params=None, options=None):
 #   name - string - Internal name for your reference
 #   one_drive_account_type - string - OneDrive: Either personal or business_other account types
 #   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-#   port - int64 - Port for remote server.  Not needed for S3.
+#   port - int64 - Port for remote server.
+#   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
 #   s3_bucket - string - S3 bucket name
 #   s3_compatible_access_key - string - S3-compatible: Access Key
 #   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -1351,7 +1367,7 @@ def configuration_file(id, params=None, options=None):
 #   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 #   server_type - string - Remote server type.
 #   ssl - string - Should we require SSL?
-#   username - string - Remote server username.  Not needed for S3 buckets.
+#   username - string - Remote server username.
 #   wasabi_access_key - string - Wasabi: Access Key.
 #   wasabi_bucket - string - Wasabi: Bucket name
 #   wasabi_region - string - Wasabi: Region
@@ -1676,6 +1692,12 @@ def update(id, params=None, options=None):
         )
     if "port" in params and not isinstance(params["port"], int):
         raise InvalidParameterError("Bad parameter: port must be an int")
+    if "remote_server_credential_id" in params and not isinstance(
+        params["remote_server_credential_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: remote_server_credential_id must be an int"
+        )
     if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
         raise InvalidParameterError("Bad parameter: s3_bucket must be an str")
     if "s3_compatible_access_key" in params and not isinstance(
