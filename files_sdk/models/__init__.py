@@ -63,6 +63,7 @@ from files_sdk.models.inbox_upload import InboxUpload
 from files_sdk.models.invoice import Invoice
 from files_sdk.models.invoice_line_item import InvoiceLineItem
 from files_sdk.models.ip_address import IpAddress
+from files_sdk.models.key_lifecycle_rule import KeyLifecycleRule
 from files_sdk.models.lock import Lock
 from files_sdk.models.message import Message
 from files_sdk.models.message_comment import MessageComment
