@@ -136,6 +136,7 @@ class Bundle:
     #   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
     #   skip_email - boolean - BundleRegistrations can be saved without providing email?
     #   skip_name - boolean - BundleRegistrations can be saved without providing name?
+    #   user_id - int64 - The owning user id. Only site admins can set this.
     #   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
     #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
     def update(self, params=None):
@@ -217,6 +218,10 @@ class Bundle:
         ):
             raise InvalidParameterError(
                 "Bad parameter: start_access_on_date must be an str"
+            )
+        if "user_id" in params and not isinstance(params["user_id"], int):
+            raise InvalidParameterError(
+                "Bad parameter: user_id must be an int"
             )
         response, _options = Api.send_request(
             "PATCH",
@@ -531,6 +536,7 @@ def share(id, params=None, options=None):
 #   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
 #   skip_email - boolean - BundleRegistrations can be saved without providing email?
 #   skip_name - boolean - BundleRegistrations can be saved without providing name?
+#   user_id - int64 - The owning user id. Only site admins can set this.
 #   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
 #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
 def update(id, params=None, options=None):
@@ -641,6 +647,8 @@ def update(id, params=None, options=None):
         )
     if "skip_name" in params and not isinstance(params["skip_name"], bool):
         raise InvalidParameterError("Bad parameter: skip_name must be an bool")
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "watermark_attachment_delete" in params and not isinstance(
         params["watermark_attachment_delete"], bool
     ):

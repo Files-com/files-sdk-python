@@ -286,6 +286,7 @@ files_sdk.bundle.update(id, {
   "start_access_on_date": "2000-01-01T01:00:00Z",
   "skip_email": True,
   "skip_name": True,
+  "user_id": 1,
   "watermark_attachment_delete": False
 })
 ```
@@ -316,6 +317,7 @@ files_sdk.bundle.update(id, {
 * `start_access_on_date` (string): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_email` (boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (boolean): BundleRegistrations can be saved without providing name?
+* `user_id` (int64): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (file): Preview watermark image applied to all bundle items.
 
@@ -384,6 +386,7 @@ bundle.update({
   "start_access_on_date": "2000-01-01T01:00:00Z",
   "skip_email": True,
   "skip_name": True,
+  "user_id": 1,
   "watermark_attachment_delete": False
 })
 ```
@@ -414,6 +417,7 @@ bundle.update({
 * `start_access_on_date` (string): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_email` (boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (boolean): BundleRegistrations can be saved without providing name?
+* `user_id` (int64): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (file): Preview watermark image applied to all bundle items.
 
