@@ -52,6 +52,8 @@
   "files_agent_root": "example",
   "files_agent_api_token": "example",
   "files_agent_version": "example",
+  "files_agent_up_to_date": True,
+  "files_agent_latest_version": "example",
   "outbound_agent_id": 1,
   "filebase_bucket": "my-bucket",
   "filebase_access_key": "example",
@@ -114,6 +116,8 @@
 * `files_agent_root` (string): Agent local root path
 * `files_agent_api_token` (string): Files Agent API Token
 * `files_agent_version` (string): Files Agent version
+* `files_agent_up_to_date` (boolean): If true, the Files Agent is up to date.
+* `files_agent_latest_version` (string): Latest available Files Agent version
 * `outbound_agent_id` (int64): Route traffic to outbound on a files-agent
 * `filebase_bucket` (string): Filebase: Bucket name
 * `filebase_access_key` (string): Filebase: Access Key.
@@ -324,6 +328,19 @@ files_sdk.remote_server.create({
 
 ---
 
+## Push update to Files Agent
+
+```
+files_sdk.remote_server.agent_push_update(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
+
+
+---
+
 ## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
 
 ```
@@ -498,6 +515,20 @@ files_sdk.remote_server.update(id, {
 
 ```
 files_sdk.remote_server.delete(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
+
+
+---
+
+## Push update to Files Agent
+
+```
+remote_server = files_sdk.remote_server.find(id)
+remote_server.agent_push_update()
 ```
 
 ### Parameters

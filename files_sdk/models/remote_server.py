@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from files_sdk.models.agent_push_update import AgentPushUpdate
 from files_sdk.models.remote_server_configuration_file import (
     RemoteServerConfigurationFile,
 )
@@ -61,6 +62,8 @@ class RemoteServer:
         "files_agent_root": None,  # string - Agent local root path
         "files_agent_api_token": None,  # string - Files Agent API Token
         "files_agent_version": None,  # string - Files Agent version
+        "files_agent_up_to_date": None,  # boolean - If true, the Files Agent is up to date.
+        "files_agent_latest_version": None,  # string - Latest available Files Agent version
         "outbound_agent_id": None,  # int64 - Route traffic to outbound on a files-agent
         "filebase_bucket": None,  # string - Filebase: Bucket name
         "filebase_access_key": None,  # string - Filebase: Access Key.
@@ -114,6 +117,27 @@ class RemoteServer:
             for k in RemoteServer.default_attributes
             if getattr(self, k, None) is not None
         }
+
+    # Push update to Files Agent
+    def agent_push_update(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        response, _options = Api.send_request(
+            "POST",
+            "/remote_servers/{id}/agent_push_update".format(id=params["id"]),
+            params,
+            self.options,
+        )
+        return response.data
 
     # Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
     #
@@ -1230,6 +1254,26 @@ def create(params=None, options=None):
         "POST", "/remote_servers", params, options
     )
     return RemoteServer(response.data, options)
+
+
+# Push update to Files Agent
+def agent_push_update(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request(
+        "POST",
+        "/remote_servers/{id}/agent_push_update".format(id=params["id"]),
+        params,
+        options,
+    )
+    return AgentPushUpdate(response.data, options)
 
 
 # Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
