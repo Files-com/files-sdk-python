@@ -19,8 +19,15 @@ class Restore:
         "files_errored": None,  # int64 - Number of files that were not able to be restored.
         "files_total": None,  # int64 - Total number of files processed.
         "prefix": None,  # string - Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash. To restore all deleted items, specify an empty string (`''`) in the prefix field or omit the field from the request.
+        "restoration_type": None,  # string - Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated access/authentication records.
         "restore_in_place": None,  # boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
         "restore_deleted_permissions": None,  # boolean - If true, we will also restore any Permissions that match the same path prefix from the same dates.
+        "users_restored": None,  # int64 - Number of users successfully restored (only present for `restoration_type=users`).
+        "users_errored": None,  # int64 - Number of users that failed to restore (only present for `restoration_type=users`).
+        "users_total": None,  # int64 - Total number of users processed (only present for `restoration_type=users`).
+        "api_keys_restored": None,  # int64 - Number of API keys restored (only present for `restoration_type=users`).
+        "public_keys_restored": None,  # int64 - Number of public keys restored (only present for `restoration_type=users`).
+        "two_factor_authentication_methods_restored": None,  # int64 - Number of two factor authentication methods restored (only present for `restoration_type=users`).
         "status": None,  # string - Status of the restoration process.
         "update_timestamps": None,  # boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
         "error_messages": None,  # array(string) - Error messages received while restoring files and/or directories. Only present if there were errors.
@@ -78,6 +85,7 @@ def all(params=None, options=None):
 # Parameters:
 #   earliest_date (required) - string - Restore all files deleted after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
 #   prefix - string - Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash. To restore all deleted items, specify an empty string (`''`) in the prefix field or omit the field from the request.
+#   restoration_type - string - Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated access/authentication records.
 #   restore_deleted_permissions - boolean - If true, we will also restore any Permissions that match the same path prefix from the same dates.
 #   restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
 #   update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
@@ -94,6 +102,12 @@ def create(params=None, options=None):
         )
     if "prefix" in params and not isinstance(params["prefix"], str):
         raise InvalidParameterError("Bad parameter: prefix must be an str")
+    if "restoration_type" in params and not isinstance(
+        params["restoration_type"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: restoration_type must be an str"
+        )
     if "restore_deleted_permissions" in params and not isinstance(
         params["restore_deleted_permissions"], bool
     ):
