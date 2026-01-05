@@ -116,3 +116,4 @@ from files_sdk.models.user_request import UserRequest
 from files_sdk.models.user_sftp_client_use import UserSftpClientUse
 from files_sdk.models.web_dav_action_log import WebDavActionLog
 from files_sdk.models.webhook_test import WebhookTest
+from files_sdk.models.workspace import Workspace

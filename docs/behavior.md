@@ -98,7 +98,7 @@ files_sdk.behavior.create({
 
 ### Parameters
 
-* `value` (string): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
 * `recursive` (boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
@@ -150,7 +150,7 @@ files_sdk.behavior.update(id, {
 ### Parameters
 
 * `id` (int64): Required - Behavior ID.
-* `value` (string): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
 * `recursive` (boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
@@ -191,7 +191,7 @@ behavior.update({
 ### Parameters
 
 * `id` (int64): Required - Behavior ID.
-* `value` (string): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
 * `recursive` (boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.

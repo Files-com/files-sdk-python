@@ -22,6 +22,7 @@ class Group:
         "dav_permission": None,  # boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
         "restapi_permission": None,  # boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
         "site_id": None,  # int64 - Site ID
+        "workspace_id": None,  # int64 - Workspace ID
     }
 
     def __init__(self, attributes=None, options=None):
@@ -47,6 +48,7 @@ class Group:
     #   notes - string - Group notes.
     #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
     #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+    #   workspace_id - int64 - Workspace ID
     #   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
     #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
     #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -74,6 +76,12 @@ class Group:
         if "admin_ids" in params and not isinstance(params["admin_ids"], str):
             raise InvalidParameterError(
                 "Bad parameter: admin_ids must be an str"
+            )
+        if "workspace_id" in params and not isinstance(
+            params["workspace_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
             )
         if "allowed_ips" in params and not isinstance(
             params["allowed_ips"], str
@@ -127,8 +135,8 @@ class Group:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `name`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id` or `name`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `workspace_id`. Valid field combinations are `[ workspace_id, name ]`.
 #   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
 #   ids - string - Comma-separated list of group ids to include in results.
 #   include_parent_site_groups - boolean - Include groups from the parent site.
@@ -192,6 +200,7 @@ def get(id, params=None, options=None):
 #   notes - string - Group notes.
 #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
 #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+#   workspace_id - int64 - Workspace ID
 #   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -209,6 +218,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "ftp_permission" in params and not isinstance(
         params["ftp_permission"], bool
     ):
@@ -249,6 +264,7 @@ def create(params=None, options=None):
 #   notes - string - Group notes.
 #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
 #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+#   workspace_id - int64 - Workspace ID
 #   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -269,6 +285,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "ftp_permission" in params and not isinstance(
         params["ftp_permission"], bool
     ):

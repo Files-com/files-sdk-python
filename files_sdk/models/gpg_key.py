@@ -11,6 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class GpgKey:
     default_attributes = {
         "id": None,  # int64 - GPG key ID.
+        "workspace_id": None,  # int64 - Workspace ID (0 for default workspace).
         "expires_at": None,  # date-time - GPG key expiration date.
         "name": None,  # string - GPG key name.
         "partner_id": None,  # int64 - Partner ID who owns this GPG Key, if applicable.
@@ -51,6 +52,7 @@ class GpgKey:
 
     # Parameters:
     #   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
+    #   workspace_id - int64 - Workspace ID (0 for default workspace).
     #   public_key - string - The GPG public key
     #   private_key - string - The GPG private key
     #   private_key_password - string - The GPG private key password
@@ -72,6 +74,12 @@ class GpgKey:
         ):
             raise InvalidParameterError(
                 "Bad parameter: partner_id must be an int"
+            )
+        if "workspace_id" in params and not isinstance(
+            params["workspace_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
             )
         if "public_key" in params and not isinstance(
             params["public_key"], str
@@ -138,7 +146,12 @@ class GpgKey:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name` and `expires_at`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `expires_at`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `partner_id` or `expires_at`. Valid field combinations are `[ workspace_id, expires_at ]`.
+#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
+#   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.
+#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.
+#   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -152,6 +165,20 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
+    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
+        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
+    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
+        raise InvalidParameterError(
+            "Bad parameter: filter_gteq must be an dict"
+        )
+    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
+        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
+    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
+        raise InvalidParameterError(
+            "Bad parameter: filter_lteq must be an dict"
+        )
     return ListObj(GpgKey, "GET", "/gpg_keys", params, options)
 
 
@@ -184,6 +211,7 @@ def get(id, params=None, options=None):
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
+#   workspace_id - int64 - Workspace ID (0 for default workspace).
 #   public_key - string - The GPG public key
 #   private_key - string - The GPG private key
 #   private_key_password - string - The GPG private key password
@@ -201,6 +229,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "partner_id" in params and not isinstance(params["partner_id"], int):
         raise InvalidParameterError("Bad parameter: partner_id must be an int")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "public_key" in params and not isinstance(params["public_key"], str):
         raise InvalidParameterError("Bad parameter: public_key must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
@@ -247,6 +281,7 @@ def create(params=None, options=None):
 
 # Parameters:
 #   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
+#   workspace_id - int64 - Workspace ID (0 for default workspace).
 #   public_key - string - The GPG public key
 #   private_key - string - The GPG private key
 #   private_key_password - string - The GPG private key password
@@ -261,6 +296,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "partner_id" in params and not isinstance(params["partner_id"], int):
         raise InvalidParameterError("Bad parameter: partner_id must be an int")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "public_key" in params and not isinstance(params["public_key"], str):
         raise InvalidParameterError("Bad parameter: public_key must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):

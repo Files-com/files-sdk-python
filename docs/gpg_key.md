@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "workspace_id": 1,
   "expires_at": "2000-01-01T01:00:00Z",
   "name": "key name",
   "partner_id": 1,
@@ -19,6 +20,7 @@
 ```
 
 * `id` (int64): GPG key ID.
+* `workspace_id` (int64): Workspace ID (0 for default workspace).
 * `expires_at` (date-time): GPG key expiration date.
 * `name` (string): GPG key name.
 * `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
@@ -53,7 +55,12 @@ files_sdk.gpg_key.list({
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name` and `expires_at`.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `expires_at`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `partner_id` or `expires_at`. Valid field combinations are `[ workspace_id, expires_at ]`.
+* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
+* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.
+* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.
+* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.
 
 
 ---
@@ -77,6 +84,7 @@ files_sdk.gpg_key.find(id)
 files_sdk.gpg_key.create({
   "user_id": 1,
   "partner_id": 1,
+  "workspace_id": 0,
   "name": "key name",
   "generate_expires_at": "2025-06-19 12:00:00",
   "generate_keypair": False,
@@ -89,6 +97,7 @@ files_sdk.gpg_key.create({
 
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
+* `workspace_id` (int64): Workspace ID (0 for default workspace).
 * `public_key` (string): The GPG public key
 * `private_key` (string): The GPG private key
 * `private_key_password` (string): The GPG private key password
@@ -106,6 +115,7 @@ files_sdk.gpg_key.create({
 ```
 files_sdk.gpg_key.update(id, {
   "partner_id": 1,
+  "workspace_id": 0,
   "name": "key name"
 })
 ```
@@ -114,6 +124,7 @@ files_sdk.gpg_key.update(id, {
 
 * `id` (int64): Required - Gpg Key ID.
 * `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
+* `workspace_id` (int64): Workspace ID (0 for default workspace).
 * `public_key` (string): The GPG public key
 * `private_key` (string): The GPG private key
 * `private_key_password` (string): The GPG private key password
@@ -141,6 +152,7 @@ files_sdk.gpg_key.delete(id)
 gpg_key = files_sdk.gpg_key.find(id)
 gpg_key.update({
   "partner_id": 1,
+  "workspace_id": 0,
   "name": "key name"
 })
 ```
@@ -149,6 +161,7 @@ gpg_key.update({
 
 * `id` (int64): Required - Gpg Key ID.
 * `partner_id` (int64): Partner ID who owns this GPG Key, if applicable.
+* `workspace_id` (int64): Workspace ID (0 for default workspace).
 * `public_key` (string): The GPG public key
 * `private_key` (string): The GPG private key
 * `private_key_password` (string): The GPG private key password

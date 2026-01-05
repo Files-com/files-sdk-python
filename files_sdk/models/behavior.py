@@ -43,7 +43,7 @@ class Behavior:
         }
 
     # Parameters:
-    #   value - string - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+    #   value - object - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
     #   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
     #   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
     #   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
@@ -62,8 +62,6 @@ class Behavior:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "value" in params and not isinstance(params["value"], str):
-            raise InvalidParameterError("Bad parameter: value must be an str")
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
         if "description" in params and not isinstance(
@@ -201,7 +199,7 @@ def list_for(path, params=None, options=None):
 
 
 # Parameters:
-#   value - string - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+#   value - object - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
 #   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 #   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
 #   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
@@ -214,8 +212,8 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    if "value" in params and not isinstance(params["value"], str):
-        raise InvalidParameterError("Bad parameter: value must be an str")
+    if "value" in params and not isinstance(params["value"], dict):
+        raise InvalidParameterError("Bad parameter: value must be an dict")
     if "disable_parent_folder_behavior" in params and not isinstance(
         params["disable_parent_folder_behavior"], bool
     ):
@@ -272,7 +270,7 @@ def webhook_test(params=None, options=None):
 
 
 # Parameters:
-#   value - string - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+#   value - object - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
 #   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 #   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
 #   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
@@ -285,12 +283,12 @@ def update(id, params=None, options=None):
     if not isinstance(options, dict):
         options = {}
     params["id"] = id
-    if "id" in params and not isinstance(params["id"], (str, int, dict)):
+    if "id" in params and not isinstance(params["id"], (dict, str, int)):
         raise InvalidParameterError(
-            "Bad parameter: id must be one of str, int, dict"
+            "Bad parameter: id must be one of dict, str, int"
         )
-    if "value" in params and not isinstance(params["value"], str):
-        raise InvalidParameterError("Bad parameter: value must be an str")
+    if "value" in params and not isinstance(params["value"], dict):
+        raise InvalidParameterError("Bad parameter: value must be an dict")
     if "disable_parent_folder_behavior" in params and not isinstance(
         params["disable_parent_folder_behavior"], bool
     ):
@@ -306,10 +304,10 @@ def update(id, params=None, options=None):
             "Bad parameter: description must be an str"
         )
     if "attachment_delete" in params and not isinstance(
-        params["attachment_delete"], (str, int, dict)
+        params["attachment_delete"], (dict, str, int)
     ):
         raise InvalidParameterError(
-            "Bad parameter: attachment_delete must be one of str, int, dict"
+            "Bad parameter: attachment_delete must be one of dict, str, int"
         )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")

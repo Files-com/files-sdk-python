@@ -15,7 +15,8 @@
   "sftp_permission": True,
   "dav_permission": True,
   "restapi_permission": True,
-  "site_id": 1
+  "site_id": 1,
+  "workspace_id": 1
 }
 ```
 
@@ -31,6 +32,7 @@
 * `dav_permission` (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 * `site_id` (int64): Site ID
+* `workspace_id` (int64): Workspace ID
 
 
 ---
@@ -47,8 +49,8 @@ files_sdk.group.list({
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `name`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id` or `name`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `workspace_id`. Valid field combinations are `[ workspace_id, name ]`.
 * `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
 * `ids` (string): Comma-separated list of group ids to include in results.
 * `include_parent_site_groups` (boolean): Include groups from the parent site.
@@ -76,6 +78,7 @@ files_sdk.group.create({
   "notes": "example",
   "user_ids": "1",
   "admin_ids": "1",
+  "workspace_id": 0,
   "ftp_permission": True,
   "sftp_permission": True,
   "dav_permission": True,
@@ -90,6 +93,7 @@ files_sdk.group.create({
 * `notes` (string): Group notes.
 * `user_ids` (string): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (string): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `workspace_id` (int64): Workspace ID
 * `ftp_permission` (boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -107,6 +111,7 @@ files_sdk.group.update(id, {
   "notes": "example",
   "user_ids": "1",
   "admin_ids": "1",
+  "workspace_id": 0,
   "ftp_permission": True,
   "sftp_permission": True,
   "dav_permission": True,
@@ -122,6 +127,7 @@ files_sdk.group.update(id, {
 * `notes` (string): Group notes.
 * `user_ids` (string): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (string): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `workspace_id` (int64): Workspace ID
 * `ftp_permission` (boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -153,6 +159,7 @@ group.update({
   "notes": "example",
   "user_ids": "1",
   "admin_ids": "1",
+  "workspace_id": 0,
   "ftp_permission": True,
   "sftp_permission": True,
   "dav_permission": True,
@@ -168,6 +175,7 @@ group.update({
 * `notes` (string): Group notes.
 * `user_ids` (string): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (string): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `workspace_id` (int64): Workspace ID
 * `ftp_permission` (boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.

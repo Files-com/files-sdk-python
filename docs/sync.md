@@ -8,6 +8,7 @@
   "name": "example",
   "description": "example",
   "site_id": 1,
+  "workspace_id": 1,
   "user_id": 1,
   "src_path": "example",
   "dest_path": "example",
@@ -59,6 +60,7 @@
     "log_url": "https://www.example.com/log_file.txt",
     "runtime": 1.0,
     "site_id": 1,
+    "workspace_id": 1,
     "src_remote_server_type": "example",
     "status": "example",
     "successful_files": 1,
@@ -73,6 +75,7 @@
 * `name` (string): Name for this sync job
 * `description` (string): Description for this sync job
 * `site_id` (int64): Site ID this sync belongs to
+* `workspace_id` (int64): Workspace ID this sync belongs to
 * `user_id` (int64): User who created or owns this sync
 * `src_path` (string): Absolute source path for the sync
 * `dest_path` (string): Absolute destination path for the sync
@@ -110,8 +113,8 @@ files_sdk.sync.list()
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `src_remote_server_id` and `dest_remote_server_id`.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `workspace_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `disabled`, `src_remote_server_id` or `dest_remote_server_id`. Valid field combinations are `[ workspace_id, disabled ]`, `[ workspace_id, src_remote_server_id ]`, `[ workspace_id, dest_remote_server_id ]`, `[ disabled, src_remote_server_id ]`, `[ disabled, dest_remote_server_id ]`, `[ workspace_id, disabled, src_remote_server_id ]` or `[ workspace_id, disabled, dest_remote_server_id ]`.
 
 
 ---
@@ -150,7 +153,8 @@ files_sdk.sync.create({
   "recurring_day": 25,
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_days_of_week": [0,2,4],
-  "schedule_times_of_day": ["06:30","14:30"]
+  "schedule_times_of_day": ["06:30","14:30"],
+  "workspace_id": 1
 })
 ```
 
@@ -174,6 +178,7 @@ files_sdk.sync.create({
 * `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (array(string)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
+* `workspace_id` (int64): Workspace ID this sync belongs to
 
 
 ---
@@ -225,7 +230,8 @@ files_sdk.sync.update(id, {
   "recurring_day": 25,
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_days_of_week": [0,2,4],
-  "schedule_times_of_day": ["06:30","14:30"]
+  "schedule_times_of_day": ["06:30","14:30"],
+  "workspace_id": 1
 })
 ```
 
@@ -250,6 +256,7 @@ files_sdk.sync.update(id, {
 * `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (array(string)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
+* `workspace_id` (int64): Workspace ID this sync belongs to
 
 
 ---
@@ -317,7 +324,8 @@ sync.update({
   "recurring_day": 25,
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_days_of_week": [0,2,4],
-  "schedule_times_of_day": ["06:30","14:30"]
+  "schedule_times_of_day": ["06:30","14:30"],
+  "workspace_id": 1
 })
 ```
 
@@ -342,6 +350,7 @@ sync.update({
 * `schedule_time_zone` (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (array(string)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
+* `workspace_id` (int64): Workspace ID this sync belongs to
 
 
 ---
