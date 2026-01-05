@@ -118,7 +118,6 @@ class Sync:
     #   schedule_time_zone - string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
     #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
     #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
-    #   workspace_id - int64 - Workspace ID this sync belongs to
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -208,12 +207,6 @@ class Sync:
         ):
             raise InvalidParameterError(
                 "Bad parameter: schedule_times_of_day must be an list"
-            )
-        if "workspace_id" in params and not isinstance(
-            params["workspace_id"], int
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: workspace_id must be an int"
             )
         response, _options = Api.send_request(
             "PATCH",
@@ -474,7 +467,6 @@ def manual_run(id, params=None, options=None):
 #   schedule_time_zone - string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
-#   workspace_id - int64 - Workspace ID this sync belongs to
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -564,12 +556,6 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: schedule_times_of_day must be an list"
-        )
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
         )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")

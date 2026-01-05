@@ -15,6 +15,7 @@ class Partner:
         "allow_providing_gpg_keys": None,  # boolean - Allow Partner Admins to provide GPG keys.
         "allow_user_creation": None,  # boolean - Allow Partner Admins to create users.
         "id": None,  # int64 - The unique ID of the Partner.
+        "workspace_id": None,  # int64 - ID of the Workspace associated with this Partner.
         "name": None,  # string - The name of the Partner.
         "notes": None,  # string - Notes about this Partner.
         "partner_admin_ids": None,  # array(int64) - Array of User IDs that are Partner Admins for this Partner.
@@ -119,7 +120,8 @@ class Partner:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -131,6 +133,8 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
     return ListObj(Partner, "GET", "/partners", params, options)
 
 
@@ -169,6 +173,7 @@ def get(id, params=None, options=None):
 #   root_folder - string - The root folder path for this Partner.
 #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   name (required) - string - The name of the Partner.
+#   workspace_id - int64 - ID of the Workspace associated with this Partner.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -208,6 +213,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: tags must be an str")
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     response, options = Api.send_request("POST", "/partners", params, options)

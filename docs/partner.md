@@ -9,6 +9,7 @@
   "allow_providing_gpg_keys": True,
   "allow_user_creation": True,
   "id": 1,
+  "workspace_id": 1,
   "name": "Acme Corp",
   "notes": "This is a note about the partner.",
   "partner_admin_ids": [
@@ -31,6 +32,7 @@
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (boolean): Allow Partner Admins to create users.
 * `id` (int64): The unique ID of the Partner.
+* `workspace_id` (int64): ID of the Workspace associated with this Partner.
 * `name` (string): The name of the Partner.
 * `notes` (string): Notes about this Partner.
 * `partner_admin_ids` (array(int64)): Array of User IDs that are Partner Admins for this Partner.
@@ -51,7 +53,8 @@ files_sdk.partner.list()
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
 
 
 ---
@@ -80,7 +83,8 @@ files_sdk.partner.create({
   "notes": "This is a note about the partner.",
   "root_folder": "/AcmeCorp",
   "tags": "example",
-  "name": "Acme Corp"
+  "name": "Acme Corp",
+  "workspace_id": 1
 })
 ```
 
@@ -94,6 +98,7 @@ files_sdk.partner.create({
 * `root_folder` (string): The root folder path for this Partner.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (string): Required - The name of the Partner.
+* `workspace_id` (int64): ID of the Workspace associated with this Partner.
 
 
 ---

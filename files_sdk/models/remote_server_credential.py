@@ -67,7 +67,6 @@ class RemoteServerCredential:
         }
 
     # Parameters:
-    #   workspace_id - int64 - Workspace ID (0 for default workspace)
     #   name - string - Internal name for your reference
     #   description - string - Internal description for your reference
     #   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
@@ -110,12 +109,6 @@ class RemoteServerCredential:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        if "workspace_id" in params and not isinstance(
-            params["workspace_id"], int
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: workspace_id must be an int"
-            )
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
         if "description" in params and not isinstance(
@@ -402,7 +395,6 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
-#   workspace_id - int64 - Workspace ID (0 for default workspace)
 #   name - string - Internal name for your reference
 #   description - string - Internal description for your reference
 #   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
@@ -433,17 +425,12 @@ def get(id, params=None, options=None):
 #   linode_secret_key - string - Linode: Secret Key
 #   s3_compatible_secret_key - string - S3-compatible: Secret Key
 #   wasabi_secret_key - string - Wasabi: Secret Key
+#   workspace_id - int64 - Workspace ID (0 for default workspace)
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
-        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "description" in params and not isinstance(params["description"], str):
@@ -612,6 +599,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: wasabi_secret_key must be an str"
         )
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     response, options = Api.send_request(
         "POST", "/remote_server_credentials", params, options
     )
@@ -619,7 +612,6 @@ def create(params=None, options=None):
 
 
 # Parameters:
-#   workspace_id - int64 - Workspace ID (0 for default workspace)
 #   name - string - Internal name for your reference
 #   description - string - Internal description for your reference
 #   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
@@ -658,12 +650,6 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
-        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "description" in params and not isinstance(params["description"], str):

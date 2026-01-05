@@ -11,6 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class As2Station:
     default_attributes = {
         "id": None,  # int64 - Id of the AS2 Station.
+        "workspace_id": None,  # int64 - ID of the Workspace associated with this AS2 Station.
         "name": None,  # string - The station's formal AS2 name.
         "uri": None,  # string - Public URI for sending AS2 message to.
         "domain": None,  # string - The station's AS2 domain name.
@@ -48,7 +49,7 @@ class As2Station:
         }
 
     # Parameters:
-    #   name - string - AS2 Name
+    #   name - string - The station's formal AS2 name.
     #   public_certificate - string
     #   private_key - string
     #   private_key_password - string
@@ -128,7 +129,8 @@ class As2Station:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -140,6 +142,8 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
     return ListObj(As2Station, "GET", "/as2_stations", params, options)
 
 
@@ -170,7 +174,8 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
-#   name (required) - string - AS2 Name
+#   name (required) - string - The station's formal AS2 name.
+#   workspace_id - int64 - ID of the Workspace associated with this AS2 Station.
 #   public_certificate (required) - string
 #   private_key (required) - string
 #   private_key_password - string
@@ -181,6 +186,12 @@ def create(params=None, options=None):
         options = {}
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "public_certificate" in params and not isinstance(
         params["public_certificate"], str
     ):
@@ -210,7 +221,7 @@ def create(params=None, options=None):
 
 
 # Parameters:
-#   name - string - AS2 Name
+#   name - string - The station's formal AS2 name.
 #   public_certificate - string
 #   private_key - string
 #   private_key_password - string

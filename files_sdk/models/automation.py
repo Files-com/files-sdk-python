@@ -125,7 +125,6 @@ class Automation:
     #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
     #   value - object - A Hash of attributes specific to the automation type.
     #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-    #   workspace_id - int64 - Workspace ID
     #   automation - string - Automation type
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -263,12 +262,6 @@ class Automation:
         ):
             raise InvalidParameterError(
                 "Bad parameter: recurring_day must be an int"
-            )
-        if "workspace_id" in params and not isinstance(
-            params["workspace_id"], int
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: workspace_id must be an int"
             )
         if "automation" in params and not isinstance(
             params["automation"], str
@@ -413,8 +406,8 @@ def get(id, params=None, options=None):
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
 #   value - object - A Hash of attributes specific to the automation type.
 #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-#   workspace_id - int64 - Workspace ID
 #   automation (required) - string - Automation type
+#   workspace_id - int64 - Workspace ID
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -570,14 +563,14 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
         )
+    if "automation" in params and not isinstance(params["automation"], str):
+        raise InvalidParameterError("Bad parameter: automation must be an str")
     if "workspace_id" in params and not isinstance(
         params["workspace_id"], int
     ):
         raise InvalidParameterError(
             "Bad parameter: workspace_id must be an int"
         )
-    if "automation" in params and not isinstance(params["automation"], str):
-        raise InvalidParameterError("Bad parameter: automation must be an str")
     if "automation" not in params:
         raise MissingParameterError("Parameter missing: automation")
     response, options = Api.send_request(
@@ -638,7 +631,6 @@ def manual_run(id, params=None, options=None):
 #   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
 #   value - object - A Hash of attributes specific to the automation type.
 #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-#   workspace_id - int64 - Workspace ID
 #   automation - string - Automation type
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -797,12 +789,6 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
-        )
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
         )
     if "automation" in params and not isinstance(params["automation"], str):
         raise InvalidParameterError("Bad parameter: automation must be an str")

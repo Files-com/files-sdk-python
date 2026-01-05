@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "workspace_id": 1,
   "name": "AS2 Station Name",
   "uri": "example",
   "domain": "domain.test",
@@ -22,6 +23,7 @@
 ```
 
 * `id` (int64): Id of the AS2 Station.
+* `workspace_id` (int64): ID of the Workspace associated with this AS2 Station.
 * `name` (string): The station's formal AS2 name.
 * `uri` (string): Public URI for sending AS2 message to.
 * `domain` (string): The station's AS2 domain name.
@@ -51,7 +53,8 @@ files_sdk.as2_station.list()
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
 
 
 ---
@@ -73,7 +76,8 @@ files_sdk.as2_station.find(id)
 
 ```
 files_sdk.as2_station.create({
-  "name": "name",
+  "name": "AS2 Station Name",
+  "workspace_id": 1,
   "public_certificate": "public_certificate",
   "private_key": "private_key"
 })
@@ -81,7 +85,8 @@ files_sdk.as2_station.create({
 
 ### Parameters
 
-* `name` (string): Required - AS2 Name
+* `name` (string): Required - The station's formal AS2 name.
+* `workspace_id` (int64): ID of the Workspace associated with this AS2 Station.
 * `public_certificate` (string): Required - 
 * `private_key` (string): Required - 
 * `private_key_password` (string): 
@@ -101,7 +106,7 @@ files_sdk.as2_station.update(id, {
 ### Parameters
 
 * `id` (int64): Required - As2 Station ID.
-* `name` (string): AS2 Name
+* `name` (string): The station's formal AS2 name.
 * `public_certificate` (string): 
 * `private_key` (string): 
 * `private_key_password` (string): 
@@ -135,7 +140,7 @@ as2_station.update({
 ### Parameters
 
 * `id` (int64): Required - As2 Station ID.
-* `name` (string): AS2 Name
+* `name` (string): The station's formal AS2 name.
 * `public_certificate` (string): 
 * `private_key` (string): 
 * `private_key_password` (string): 

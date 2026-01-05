@@ -48,7 +48,6 @@ class Group:
     #   notes - string - Group notes.
     #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
     #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-    #   workspace_id - int64 - Workspace ID
     #   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
     #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
     #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -76,12 +75,6 @@ class Group:
         if "admin_ids" in params and not isinstance(params["admin_ids"], str):
             raise InvalidParameterError(
                 "Bad parameter: admin_ids must be an str"
-            )
-        if "workspace_id" in params and not isinstance(
-            params["workspace_id"], int
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: workspace_id must be an int"
             )
         if "allowed_ips" in params and not isinstance(
             params["allowed_ips"], str
@@ -200,13 +193,13 @@ def get(id, params=None, options=None):
 #   notes - string - Group notes.
 #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
 #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-#   workspace_id - int64 - Workspace ID
 #   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 #   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
 #   name (required) - string - Group name.
+#   workspace_id - int64 - Workspace ID
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -218,12 +211,6 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
-        )
     if "ftp_permission" in params and not isinstance(
         params["ftp_permission"], bool
     ):
@@ -254,6 +241,12 @@ def create(params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     response, options = Api.send_request("POST", "/groups", params, options)
@@ -264,7 +257,6 @@ def create(params=None, options=None):
 #   notes - string - Group notes.
 #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
 #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-#   workspace_id - int64 - Workspace ID
 #   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -285,12 +277,6 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
-        )
     if "ftp_permission" in params and not isinstance(
         params["ftp_permission"], bool
     ):

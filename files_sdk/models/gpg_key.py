@@ -52,7 +52,6 @@ class GpgKey:
 
     # Parameters:
     #   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-    #   workspace_id - int64 - Workspace ID (0 for default workspace).
     #   public_key - string - The GPG public key
     #   private_key - string - The GPG private key
     #   private_key_password - string - The GPG private key password
@@ -74,12 +73,6 @@ class GpgKey:
         ):
             raise InvalidParameterError(
                 "Bad parameter: partner_id must be an int"
-            )
-        if "workspace_id" in params and not isinstance(
-            params["workspace_id"], int
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: workspace_id must be an int"
             )
         if "public_key" in params and not isinstance(
             params["public_key"], str
@@ -211,11 +204,11 @@ def get(id, params=None, options=None):
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-#   workspace_id - int64 - Workspace ID (0 for default workspace).
 #   public_key - string - The GPG public key
 #   private_key - string - The GPG private key
 #   private_key_password - string - The GPG private key password
 #   name (required) - string - GPG key name.
+#   workspace_id - int64 - Workspace ID (0 for default workspace).
 #   generate_expires_at - string - Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 #   generate_keypair - boolean - If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
 #   generate_full_name - string - Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
@@ -229,12 +222,6 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "partner_id" in params and not isinstance(params["partner_id"], int):
         raise InvalidParameterError("Bad parameter: partner_id must be an int")
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
-        )
     if "public_key" in params and not isinstance(params["public_key"], str):
         raise InvalidParameterError("Bad parameter: public_key must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
@@ -249,6 +236,12 @@ def create(params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "generate_expires_at" in params and not isinstance(
         params["generate_expires_at"], str
     ):
@@ -281,7 +274,6 @@ def create(params=None, options=None):
 
 # Parameters:
 #   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-#   workspace_id - int64 - Workspace ID (0 for default workspace).
 #   public_key - string - The GPG public key
 #   private_key - string - The GPG private key
 #   private_key_password - string - The GPG private key password
@@ -296,12 +288,6 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "partner_id" in params and not isinstance(params["partner_id"], int):
         raise InvalidParameterError("Bad parameter: partner_id must be an int")
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
-        )
     if "public_key" in params and not isinstance(params["public_key"], str):
         raise InvalidParameterError("Bad parameter: public_key must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
