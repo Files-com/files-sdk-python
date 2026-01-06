@@ -67,6 +67,7 @@ class User:
         "self_managed": None,  # boolean - Does this user manage it's own credentials or is it a shared/bot user?
         "sftp_permission": None,  # boolean - Can the user access with SFTP?
         "site_admin": None,  # boolean - Is the user an administrator for this site?
+        "workspace_admin": None,  # boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
         "site_id": None,  # int64 - Site ID
         "workspace_id": None,  # int64 - Workspace ID
         "skip_welcome_screen": None,  # boolean - Skip Welcome page in the UI?
@@ -226,6 +227,7 @@ class User:
     #   time_zone - string - User time zone
     #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
     #   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+    #   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
     #   username - string - User's username
     #   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
     #   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
@@ -570,6 +572,7 @@ def get(id, params=None, options=None):
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 #   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+#   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 #   username (required) - string - User's username
 #   workspace_id - int64 - Workspace ID
 def create(params=None, options=None):
@@ -807,6 +810,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_root must be an str")
     if "user_home" in params and not isinstance(params["user_home"], str):
         raise InvalidParameterError("Bad parameter: user_home must be an str")
+    if "workspace_admin" in params and not isinstance(
+        params["workspace_admin"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_admin must be an bool"
+        )
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
     if "workspace_id" in params and not isinstance(
@@ -926,6 +935,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 #   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+#   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 #   username - string - User's username
 #   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 #   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
@@ -1167,6 +1177,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_root must be an str")
     if "user_home" in params and not isinstance(params["user_home"], str):
         raise InvalidParameterError("Bad parameter: user_home must be an str")
+    if "workspace_admin" in params and not isinstance(
+        params["workspace_admin"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_admin must be an bool"
+        )
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
     if "clear_2fa" in params and not isinstance(params["clear_2fa"], bool):

@@ -276,6 +276,7 @@
     "self_managed": True,
     "sftp_permission": True,
     "site_admin": True,
+    "workspace_admin": True,
     "site_id": 1,
     "workspace_id": 1,
     "skip_welcome_screen": True,
