@@ -50,7 +50,6 @@ class ApiKey:
     # Parameters:
     #   description - string - User-supplied description of API key.
     #   expires_at - string - API Key expiration date
-    #   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
     #   name - string - Internal name for the API Key.  For your use.
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -75,12 +74,6 @@ class ApiKey:
         ):
             raise InvalidParameterError(
                 "Bad parameter: expires_at must be an str"
-            )
-        if "permission_set" in params and not isinstance(
-            params["permission_set"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: permission_set must be an str"
             )
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
@@ -204,10 +197,10 @@ def get(id, params=None, options=None):
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   description - string - User-supplied description of API key.
 #   expires_at - string - API Key expiration date
-#   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 #   name (required) - string - Internal name for the API Key.  For your use.
 #   aws_style_credentials - boolean - If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
 #   path - string - Folder path restriction for `office_integration` permission set API keys.
+#   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -221,12 +214,6 @@ def create(params=None, options=None):
         )
     if "expires_at" in params and not isinstance(params["expires_at"], str):
         raise InvalidParameterError("Bad parameter: expires_at must be an str")
-    if "permission_set" in params and not isinstance(
-        params["permission_set"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: permission_set must be an str"
-        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "aws_style_credentials" in params and not isinstance(
@@ -237,6 +224,12 @@ def create(params=None, options=None):
         )
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "permission_set" in params and not isinstance(
+        params["permission_set"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: permission_set must be an str"
+        )
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     response, options = Api.send_request("POST", "/api_keys", params, options)
@@ -269,7 +262,6 @@ def update_current(params=None, options=None):
 # Parameters:
 #   description - string - User-supplied description of API key.
 #   expires_at - string - API Key expiration date
-#   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 #   name - string - Internal name for the API Key.  For your use.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -285,12 +277,6 @@ def update(id, params=None, options=None):
         )
     if "expires_at" in params and not isinstance(params["expires_at"], str):
         raise InvalidParameterError("Bad parameter: expires_at must be an str")
-    if "permission_set" in params and not isinstance(
-        params["permission_set"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: permission_set must be an str"
-        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "id" not in params:

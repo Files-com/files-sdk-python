@@ -94,10 +94,10 @@ files_sdk.api_key.create({
   "user_id": 1,
   "description": "example",
   "expires_at": "2000-01-01T01:00:00Z",
-  "permission_set": "full",
   "name": "My Main API Key",
   "aws_style_credentials": True,
-  "path": "shared/docs"
+  "path": "shared/docs",
+  "permission_set": "full"
 })
 ```
 
@@ -106,10 +106,10 @@ files_sdk.api_key.create({
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `description` (string): User-supplied description of API key.
 * `expires_at` (string): API Key expiration date
-* `permission_set` (string): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `name` (string): Required - Internal name for the API Key.  For your use.
 * `aws_style_credentials` (boolean): If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
 * `path` (string): Folder path restriction for `office_integration` permission set API keys.
+* `permission_set` (string): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 
 
 ---
@@ -139,7 +139,6 @@ files_sdk.api_key.update_current({
 files_sdk.api_key.update(id, {
   "description": "example",
   "expires_at": "2000-01-01T01:00:00Z",
-  "permission_set": "full",
   "name": "My Main API Key"
 })
 ```
@@ -149,7 +148,6 @@ files_sdk.api_key.update(id, {
 * `id` (int64): Required - Api Key ID.
 * `description` (string): User-supplied description of API key.
 * `expires_at` (string): API Key expiration date
-* `permission_set` (string): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `name` (string): Internal name for the API Key.  For your use.
 
 
@@ -184,7 +182,6 @@ api_key = files_sdk.api_key.find(id)
 api_key.update({
   "description": "example",
   "expires_at": "2000-01-01T01:00:00Z",
-  "permission_set": "full",
   "name": "My Main API Key"
 })
 ```
@@ -194,7 +191,6 @@ api_key.update({
 * `id` (int64): Required - Api Key ID.
 * `description` (string): User-supplied description of API key.
 * `expires_at` (string): API Key expiration date
-* `permission_set` (string): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `name` (string): Internal name for the API Key.  For your use.
 
 
