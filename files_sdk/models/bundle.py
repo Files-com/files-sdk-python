@@ -46,6 +46,7 @@ class Bundle:
         "inbox_id": None,  # int64 - ID of the associated inbox, if available.
         "watermark_attachment": None,  # Image - Preview watermark image applied to all bundle items.
         "watermark_value": None,  # object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+        "send_one_time_password_to_recipient_at_registration": None,  # boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
         "has_inbox": None,  # boolean - Does this bundle have an associated inbox?
         "dont_allow_folders_in_uploads": None,  # boolean - Should folder uploads be prevented?
         "paths": None,  # array(string) - A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
@@ -131,6 +132,7 @@ class Bundle:
     #   permissions - string - Permissions that apply to Folders in this Share Link.
     #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
     #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+    #   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
     #   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
     #   skip_company - boolean - BundleRegistrations can be saved without providing company?
     #   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
@@ -357,6 +359,7 @@ def get(id, params=None, options=None):
 #   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
 #   inbox_id - int64 - ID of the associated inbox, if available.
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+#   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
 #   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
 #   skip_email - boolean - BundleRegistrations can be saved without providing email?
 #   skip_name - boolean - BundleRegistrations can be saved without providing name?
@@ -447,6 +450,15 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: require_share_recipient must be an bool"
         )
+    if (
+        "send_one_time_password_to_recipient_at_registration" in params
+        and not isinstance(
+            params["send_one_time_password_to_recipient_at_registration"], bool
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: send_one_time_password_to_recipient_at_registration must be an bool"
+        )
     if "send_email_receipt_to_uploader" in params and not isinstance(
         params["send_email_receipt_to_uploader"], bool
     ):
@@ -531,6 +543,7 @@ def share(id, params=None, options=None):
 #   permissions - string - Permissions that apply to Folders in this Share Link.
 #   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
 #   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+#   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
 #   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
 #   skip_company - boolean - BundleRegistrations can be saved without providing company?
 #   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
@@ -622,6 +635,15 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: require_share_recipient must be an bool"
+        )
+    if (
+        "send_one_time_password_to_recipient_at_registration" in params
+        and not isinstance(
+            params["send_one_time_password_to_recipient_at_registration"], bool
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: send_one_time_password_to_recipient_at_registration must be an bool"
         )
     if "send_email_receipt_to_uploader" in params and not isinstance(
         params["send_email_receipt_to_uploader"], bool
