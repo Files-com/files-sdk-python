@@ -12,8 +12,6 @@
   "aws_access_key": "example",
   "google_cloud_storage_s3_compatible_access_key": "example",
   "wasabi_access_key": "example",
-  "azure_blob_storage_account": "storage-account-name",
-  "azure_files_storage_account": "storage-account-name",
   "s3_compatible_access_key": "example",
   "filebase_access_key": "example",
   "cloudflare_access_key": "example",
@@ -30,8 +28,6 @@
 * `aws_access_key` (string): AWS Access Key.
 * `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible Access Key.
 * `wasabi_access_key` (string): Wasabi: Access Key.
-* `azure_blob_storage_account` (string): Azure Blob Storage: Account name
-* `azure_files_storage_account` (string): Azure Files: Storage Account name
 * `s3_compatible_access_key` (string): S3-compatible: Access Key
 * `filebase_access_key` (string): Filebase: Access Key.
 * `cloudflare_access_key` (string): Cloudflare: Access Key.
@@ -96,8 +92,6 @@ files_sdk.remote_server_credential.create({
   "description": "More information or notes about this credential.",
   "server_type": "s3",
   "aws_access_key": "example",
-  "azure_blob_storage_account": "storage-account-name",
-  "azure_files_storage_account": "storage-account-name",
   "cloudflare_access_key": "example",
   "filebase_access_key": "example",
   "google_cloud_storage_s3_compatible_access_key": "example",
@@ -115,8 +109,6 @@ files_sdk.remote_server_credential.create({
 * `description` (string): Internal description for your reference
 * `server_type` (string): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 * `aws_access_key` (string): AWS Access Key.
-* `azure_blob_storage_account` (string): Azure Blob Storage: Account name
-* `azure_files_storage_account` (string): Azure Files: Storage Account name
 * `cloudflare_access_key` (string): Cloudflare: Access Key.
 * `filebase_access_key` (string): Filebase: Access Key.
 * `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible Access Key.
@@ -154,8 +146,6 @@ files_sdk.remote_server_credential.update(id, {
   "description": "More information or notes about this credential.",
   "server_type": "s3",
   "aws_access_key": "example",
-  "azure_blob_storage_account": "storage-account-name",
-  "azure_files_storage_account": "storage-account-name",
   "cloudflare_access_key": "example",
   "filebase_access_key": "example",
   "google_cloud_storage_s3_compatible_access_key": "example",
@@ -173,8 +163,6 @@ files_sdk.remote_server_credential.update(id, {
 * `description` (string): Internal description for your reference
 * `server_type` (string): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 * `aws_access_key` (string): AWS Access Key.
-* `azure_blob_storage_account` (string): Azure Blob Storage: Account name
-* `azure_files_storage_account` (string): Azure Files: Storage Account name
 * `cloudflare_access_key` (string): Cloudflare: Access Key.
 * `filebase_access_key` (string): Filebase: Access Key.
 * `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible Access Key.
@@ -225,8 +213,6 @@ remote_server_credential.update({
   "description": "More information or notes about this credential.",
   "server_type": "s3",
   "aws_access_key": "example",
-  "azure_blob_storage_account": "storage-account-name",
-  "azure_files_storage_account": "storage-account-name",
   "cloudflare_access_key": "example",
   "filebase_access_key": "example",
   "google_cloud_storage_s3_compatible_access_key": "example",
@@ -244,8 +230,6 @@ remote_server_credential.update({
 * `description` (string): Internal description for your reference
 * `server_type` (string): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 * `aws_access_key` (string): AWS Access Key.
-* `azure_blob_storage_account` (string): Azure Blob Storage: Account name
-* `azure_files_storage_account` (string): Azure Files: Storage Account name
 * `cloudflare_access_key` (string): Cloudflare: Access Key.
 * `filebase_access_key` (string): Filebase: Access Key.
 * `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible Access Key.

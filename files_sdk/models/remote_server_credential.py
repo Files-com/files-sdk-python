@@ -18,8 +18,6 @@ class RemoteServerCredential:
         "aws_access_key": None,  # string - AWS Access Key.
         "google_cloud_storage_s3_compatible_access_key": None,  # string - Google Cloud Storage: S3-compatible Access Key.
         "wasabi_access_key": None,  # string - Wasabi: Access Key.
-        "azure_blob_storage_account": None,  # string - Azure Blob Storage: Account name
-        "azure_files_storage_account": None,  # string - Azure Files: Storage Account name
         "s3_compatible_access_key": None,  # string - S3-compatible: Access Key
         "filebase_access_key": None,  # string - Filebase: Access Key.
         "cloudflare_access_key": None,  # string - Cloudflare: Access Key.
@@ -71,8 +69,6 @@ class RemoteServerCredential:
     #   description - string - Internal description for your reference
     #   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
     #   aws_access_key - string - AWS Access Key.
-    #   azure_blob_storage_account - string - Azure Blob Storage: Account name
-    #   azure_files_storage_account - string - Azure Files: Storage Account name
     #   cloudflare_access_key - string - Cloudflare: Access Key.
     #   filebase_access_key - string - Filebase: Access Key.
     #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -128,18 +124,6 @@ class RemoteServerCredential:
         ):
             raise InvalidParameterError(
                 "Bad parameter: aws_access_key must be an str"
-            )
-        if "azure_blob_storage_account" in params and not isinstance(
-            params["azure_blob_storage_account"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: azure_blob_storage_account must be an str"
-            )
-        if "azure_files_storage_account" in params and not isinstance(
-            params["azure_files_storage_account"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: azure_files_storage_account must be an str"
             )
         if "cloudflare_access_key" in params and not isinstance(
             params["cloudflare_access_key"], str
@@ -399,8 +383,6 @@ def get(id, params=None, options=None):
 #   description - string - Internal description for your reference
 #   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 #   aws_access_key - string - AWS Access Key.
-#   azure_blob_storage_account - string - Azure Blob Storage: Account name
-#   azure_files_storage_account - string - Azure Files: Storage Account name
 #   cloudflare_access_key - string - Cloudflare: Access Key.
 #   filebase_access_key - string - Filebase: Access Key.
 #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -446,18 +428,6 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: aws_access_key must be an str"
-        )
-    if "azure_blob_storage_account" in params and not isinstance(
-        params["azure_blob_storage_account"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_account must be an str"
-        )
-    if "azure_files_storage_account" in params and not isinstance(
-        params["azure_files_storage_account"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_account must be an str"
         )
     if "cloudflare_access_key" in params and not isinstance(
         params["cloudflare_access_key"], str
@@ -616,8 +586,6 @@ def create(params=None, options=None):
 #   description - string - Internal description for your reference
 #   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 #   aws_access_key - string - AWS Access Key.
-#   azure_blob_storage_account - string - Azure Blob Storage: Account name
-#   azure_files_storage_account - string - Azure Files: Storage Account name
 #   cloudflare_access_key - string - Cloudflare: Access Key.
 #   filebase_access_key - string - Filebase: Access Key.
 #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -665,18 +633,6 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: aws_access_key must be an str"
-        )
-    if "azure_blob_storage_account" in params and not isinstance(
-        params["azure_blob_storage_account"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_account must be an str"
-        )
-    if "azure_files_storage_account" in params and not isinstance(
-        params["azure_files_storage_account"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_account must be an str"
         )
     if "cloudflare_access_key" in params and not isinstance(
         params["cloudflare_access_key"], str
