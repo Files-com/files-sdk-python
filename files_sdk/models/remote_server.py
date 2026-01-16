@@ -14,11 +14,12 @@ from files_sdk.error import (  # noqa: F401
 
 class RemoteServer:
     default_attributes = {
-        "id": None,  # int64 - Remote server ID
-        "disabled": None,  # boolean - If true, this server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
-        "authentication_method": None,  # string - Type of authentication method
+        "id": None,  # int64 - Remote Server ID
+        "disabled": None,  # boolean - If true, this Remote Server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
+        "authentication_method": None,  # string - Type of authentication method to use
         "hostname": None,  # string - Hostname or IP address
         "remote_home_path": None,  # string - Initial home folder on remote server
+        "upload_staging_path": None,  # string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
         "name": None,  # string - Internal name for your reference
         "description": None,  # string - Internal description for your reference
         "port": None,  # int64 - Port for remote server.
@@ -278,6 +279,7 @@ class RemoteServer:
     #   one_drive_account_type - string - OneDrive: Either personal or business_other account types
     #   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
     #   port - int64 - Port for remote server.
+    #   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
     #   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
     #   s3_bucket - string - S3 bucket name
     #   s3_compatible_access_key - string - S3-compatible: Access Key
@@ -596,6 +598,12 @@ class RemoteServer:
             )
         if "port" in params and not isinstance(params["port"], int):
             raise InvalidParameterError("Bad parameter: port must be an int")
+        if "upload_staging_path" in params and not isinstance(
+            params["upload_staging_path"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: upload_staging_path must be an str"
+            )
         if "remote_server_credential_id" in params and not isinstance(
             params["remote_server_credential_id"], int
         ):
@@ -847,6 +855,7 @@ def find_configuration_file(id, params=None, options=None):
 #   one_drive_account_type - string - OneDrive: Either personal or business_other account types
 #   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 #   port - int64 - Port for remote server.
+#   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
 #   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
 #   s3_bucket - string - S3 bucket name
 #   s3_compatible_access_key - string - S3-compatible: Access Key
@@ -1181,6 +1190,12 @@ def create(params=None, options=None):
         )
     if "port" in params and not isinstance(params["port"], int):
         raise InvalidParameterError("Bad parameter: port must be an int")
+    if "upload_staging_path" in params and not isinstance(
+        params["upload_staging_path"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: upload_staging_path must be an str"
+        )
     if "remote_server_credential_id" in params and not isinstance(
         params["remote_server_credential_id"], int
     ):
@@ -1409,6 +1424,7 @@ def configuration_file(id, params=None, options=None):
 #   one_drive_account_type - string - OneDrive: Either personal or business_other account types
 #   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 #   port - int64 - Port for remote server.
+#   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
 #   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
 #   s3_bucket - string - S3 bucket name
 #   s3_compatible_access_key - string - S3-compatible: Access Key
@@ -1745,6 +1761,12 @@ def update(id, params=None, options=None):
         )
     if "port" in params and not isinstance(params["port"], int):
         raise InvalidParameterError("Bad parameter: port must be an int")
+    if "upload_staging_path" in params and not isinstance(
+        params["upload_staging_path"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: upload_staging_path must be an str"
+        )
     if "remote_server_credential_id" in params and not isinstance(
         params["remote_server_credential_id"], int
     ):
