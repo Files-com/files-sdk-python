@@ -537,6 +537,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`InvalidUploadOffsetError`|  `BadRequestError` |
 |`InvalidUploadPartGapError`|  `BadRequestError` |
 |`InvalidUploadPartSizeError`|  `BadRequestError` |
+|`InvalidWorkspaceIdHeaderError`|  `BadRequestError` |
 |`MethodNotAllowedError`|  `BadRequestError` |
 |`MultipleSortParamsNotAllowedError`|  `BadRequestError` |
 |`NoValidInputParamsError`|  `BadRequestError` |
