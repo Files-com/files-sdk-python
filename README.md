@@ -631,6 +631,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`BufferedUploadDisabledForThisDestinationError`|  `ProcessingFailureError` |
 |`BundleOnlyAllowsPreviewsError`|  `ProcessingFailureError` |
 |`BundleOperationRequiresSubfolderError`|  `ProcessingFailureError` |
+|`ConfigurationLockedPathError`|  `ProcessingFailureError` |
 |`CouldNotCreateParentError`|  `ProcessingFailureError` |
 |`DestinationExistsError`|  `ProcessingFailureError` |
 |`DestinationFolderLimitedError`|  `ProcessingFailureError` |
