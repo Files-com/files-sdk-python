@@ -23,6 +23,8 @@ class ApiKey:
         "name": None,  # string - Internal name for the API Key.  For your use.
         "permission_set": None,  # string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
         "platform": None,  # string - If this API key represents a Desktop app, what platform was it created on?
+        "site_id": None,  # int64 - Site ID
+        "site_name": None,  # string - Site Name
         "url": None,  # string - URL for API host.
         "user_id": None,  # int64 - User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
         "path": None,  # string - Folder path restriction for `office_integration` permission set API keys.
@@ -122,7 +124,7 @@ class ApiKey:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `expires_at`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `expires_at`.
 #   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
 #   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.
