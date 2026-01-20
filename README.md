@@ -515,6 +515,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`CantMoveWithMultipleLocationsError`|  `BadRequestError` |
 |`DatetimeParseError`|  `BadRequestError` |
 |`DestinationSameError`|  `BadRequestError` |
+|`DestinationSiteMismatchError`|  `BadRequestError` |
 |`DoesNotSupportSortingError`|  `BadRequestError` |
 |`FolderMustNotBeAFileError`|  `BadRequestError` |
 |`FoldersNotAllowedError`|  `BadRequestError` |
