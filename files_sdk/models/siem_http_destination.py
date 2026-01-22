@@ -31,6 +31,8 @@ class SiemHttpDestination:
         "solar_winds_token_masked": None,  # string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
         "new_relic_api_key_masked": None,  # string - Applicable only for destination type: new_relic. API key provided by New Relic.
         "datadog_api_key_masked": None,  # string - Applicable only for destination type: datadog. API key provided by Datadog.
+        "action_send_enabled": None,  # boolean - Whether or not sending is enabled for action logs.
+        "action_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "sftp_action_send_enabled": None,  # boolean - Whether or not sending is enabled for sftp_action logs.
         "sftp_action_entries_sent": None,  # int64 - Number of log entries sent for the lifetime of this destination.
         "ftp_action_send_enabled": None,  # boolean - Whether or not sending is enabled for ftp_action logs.
@@ -111,6 +113,7 @@ class SiemHttpDestination:
     #   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
     #   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
     #   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+    #   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
     #   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
     #   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
     #   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
@@ -355,6 +358,7 @@ def get(id, params=None, options=None):
 #   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 #   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
 #   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+#   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
 #   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
 #   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
 #   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
@@ -484,6 +488,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: datadog_api_key must be an str"
         )
+    if "action_send_enabled" in params and not isinstance(
+        params["action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: action_send_enabled must be an bool"
+        )
     if "sftp_action_send_enabled" in params and not isinstance(
         params["sftp_action_send_enabled"], bool
     ):
@@ -592,6 +602,7 @@ def create(params=None, options=None):
 #   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 #   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
 #   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+#   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
 #   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
 #   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
 #   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
@@ -737,6 +748,12 @@ def send_test_entry(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: datadog_api_key must be an str"
         )
+    if "action_send_enabled" in params and not isinstance(
+        params["action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: action_send_enabled must be an bool"
+        )
     if "sftp_action_send_enabled" in params and not isinstance(
         params["sftp_action_send_enabled"], bool
     ):
@@ -827,6 +844,7 @@ def send_test_entry(params=None, options=None):
 #   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 #   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
 #   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+#   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
 #   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
 #   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
 #   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
@@ -958,6 +976,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: datadog_api_key must be an str"
+        )
+    if "action_send_enabled" in params and not isinstance(
+        params["action_send_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: action_send_enabled must be an bool"
         )
     if "sftp_action_send_enabled" in params and not isinstance(
         params["sftp_action_send_enabled"], bool

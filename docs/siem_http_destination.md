@@ -27,6 +27,8 @@
   "solar_winds_token_masked": "example",
   "new_relic_api_key_masked": "example",
   "datadog_api_key_masked": "example",
+  "action_send_enabled": True,
+  "action_entries_sent": 1,
   "sftp_action_send_enabled": True,
   "sftp_action_entries_sent": 1,
   "ftp_action_send_enabled": True,
@@ -82,6 +84,8 @@
 * `solar_winds_token_masked` (string): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 * `new_relic_api_key_masked` (string): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key_masked` (string): Applicable only for destination type: datadog. API key provided by Datadog.
+* `action_send_enabled` (boolean): Whether or not sending is enabled for action logs.
+* `action_entries_sent` (int64): Number of log entries sent for the lifetime of this destination.
 * `sftp_action_send_enabled` (boolean): Whether or not sending is enabled for sftp_action logs.
 * `sftp_action_entries_sent` (int64): Number of log entries sent for the lifetime of this destination.
 * `ftp_action_send_enabled` (boolean): Whether or not sending is enabled for ftp_action logs.
@@ -166,6 +170,7 @@ files_sdk.siem_http_destination.create({
   "azure_oauth_client_credentials_tenant_id": "example",
   "azure_oauth_client_credentials_client_id": "example",
   "qradar_username": "example",
+  "action_send_enabled": True,
   "sftp_action_send_enabled": True,
   "ftp_action_send_enabled": True,
   "web_dav_action_send_enabled": True,
@@ -202,6 +207,7 @@ files_sdk.siem_http_destination.create({
 * `solar_winds_token` (string): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 * `new_relic_api_key` (string): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key` (string): Applicable only for destination type: datadog. API key provided by Datadog.
+* `action_send_enabled` (boolean): Whether or not sending is enabled for action logs.
 * `sftp_action_send_enabled` (boolean): Whether or not sending is enabled for sftp_action logs.
 * `ftp_action_send_enabled` (boolean): Whether or not sending is enabled for ftp_action logs.
 * `web_dav_action_send_enabled` (boolean): Whether or not sending is enabled for web_dav_action logs.
@@ -236,6 +242,7 @@ files_sdk.siem_http_destination.send_test_entry({
   "azure_oauth_client_credentials_tenant_id": "example",
   "azure_oauth_client_credentials_client_id": "example",
   "qradar_username": "example",
+  "action_send_enabled": True,
   "sftp_action_send_enabled": True,
   "ftp_action_send_enabled": True,
   "web_dav_action_send_enabled": True,
@@ -273,6 +280,7 @@ files_sdk.siem_http_destination.send_test_entry({
 * `solar_winds_token` (string): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 * `new_relic_api_key` (string): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key` (string): Applicable only for destination type: datadog. API key provided by Datadog.
+* `action_send_enabled` (boolean): Whether or not sending is enabled for action logs.
 * `sftp_action_send_enabled` (boolean): Whether or not sending is enabled for sftp_action logs.
 * `ftp_action_send_enabled` (boolean): Whether or not sending is enabled for ftp_action logs.
 * `web_dav_action_send_enabled` (boolean): Whether or not sending is enabled for web_dav_action logs.
@@ -304,6 +312,7 @@ files_sdk.siem_http_destination.update(id, {
   "azure_oauth_client_credentials_tenant_id": "example",
   "azure_oauth_client_credentials_client_id": "example",
   "qradar_username": "example",
+  "action_send_enabled": True,
   "sftp_action_send_enabled": True,
   "ftp_action_send_enabled": True,
   "web_dav_action_send_enabled": True,
@@ -341,6 +350,7 @@ files_sdk.siem_http_destination.update(id, {
 * `solar_winds_token` (string): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 * `new_relic_api_key` (string): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key` (string): Applicable only for destination type: datadog. API key provided by Datadog.
+* `action_send_enabled` (boolean): Whether or not sending is enabled for action logs.
 * `sftp_action_send_enabled` (boolean): Whether or not sending is enabled for sftp_action logs.
 * `ftp_action_send_enabled` (boolean): Whether or not sending is enabled for ftp_action logs.
 * `web_dav_action_send_enabled` (boolean): Whether or not sending is enabled for web_dav_action logs.
@@ -388,6 +398,7 @@ siem_http_destination.update({
   "azure_oauth_client_credentials_tenant_id": "example",
   "azure_oauth_client_credentials_client_id": "example",
   "qradar_username": "example",
+  "action_send_enabled": True,
   "sftp_action_send_enabled": True,
   "ftp_action_send_enabled": True,
   "web_dav_action_send_enabled": True,
@@ -425,6 +436,7 @@ siem_http_destination.update({
 * `solar_winds_token` (string): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 * `new_relic_api_key` (string): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key` (string): Applicable only for destination type: datadog. API key provided by Datadog.
+* `action_send_enabled` (boolean): Whether or not sending is enabled for action logs.
 * `sftp_action_send_enabled` (boolean): Whether or not sending is enabled for sftp_action logs.
 * `ftp_action_send_enabled` (boolean): Whether or not sending is enabled for ftp_action logs.
 * `web_dav_action_send_enabled` (boolean): Whether or not sending is enabled for web_dav_action logs.
