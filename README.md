@@ -519,6 +519,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`DoesNotSupportSortingError`|  `BadRequestError` |
 |`FolderMustNotBeAFileError`|  `BadRequestError` |
 |`FoldersNotAllowedError`|  `BadRequestError` |
+|`InternalGeneralErrorError`|  `BadRequestError` |
 |`InvalidBodyError`|  `BadRequestError` |
 |`InvalidCursorError`|  `BadRequestError` |
 |`InvalidCursorTypeForSortError`|  `BadRequestError` |
