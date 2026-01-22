@@ -37,10 +37,10 @@ class Automation:
         "retry_on_failure_interval_in_minutes": None,  # int64 - If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
         "retry_on_failure_number_of_attempts": None,  # int64 - If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
         "schedule": None,  # object - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run in json format.
-        "human_readable_schedule": None,  # string - If trigger is `custom_schedule`, Human readable Custom schedule description for when the automation should be run.
+        "human_readable_schedule": None,  # string - If trigger is `custom_schedule` or `daily` with times, Human readable schedule description for when the automation should be run.
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-        "schedule_times_of_day": None,  # array(string) - If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. Times of day in HH:MM format.
-        "schedule_time_zone": None,  # string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the automation should be run.
+        "schedule_times_of_day": None,  # array(string) - Times of day to run in HH:MM format (24-hour). For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
+        "schedule_time_zone": None,  # string - Time zone for scheduled times. If not set, times are interpreted as UTC.
         "source": None,  # string - Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
         "legacy_sync_ids": None,  # array(int64) - IDs of remote sync folder behaviors to run by this Automation
         "sync_ids": None,  # array(int64) - IDs of syncs to run by this Automation. This is the new way to specify syncs, and it is recommended to use this instead of `legacy_sync_ids`.
@@ -50,7 +50,7 @@ class Automation:
         "user_ids": None,  # array(int64) - IDs of Users for the Automation (i.e. who to Request File from)
         "value": None,  # object - A Hash of attributes specific to the automation type.
         "webhook_url": None,  # string - If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
-        "holiday_region": None,  # string - If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
+        "holiday_region": None,  # string - Skip automation if there is a formal, observed holiday for this region.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -104,9 +104,9 @@ class Automation:
     #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
-    #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
-    #   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
-    #   holiday_region - string - If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
+    #   schedule_times_of_day - array(string) - Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` triggers. Optional for `daily` triggers - if not set, runs at midnight UTC.
+    #   schedule_time_zone - string - Time zone for scheduled times. Optional for both `custom_schedule` and `daily` triggers. If not set, times are interpreted as UTC.
+    #   holiday_region - string - Skip automation on holidays in this region. Optional for both `custom_schedule` and `daily` triggers.
     #   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
     #   always_serialize_jobs - boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
     #   description - string - Description for the this Automation.
@@ -385,9 +385,9 @@ def get(id, params=None, options=None):
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
-#   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
-#   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
-#   holiday_region - string - If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
+#   schedule_times_of_day - array(string) - Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` triggers. Optional for `daily` triggers - if not set, runs at midnight UTC.
+#   schedule_time_zone - string - Time zone for scheduled times. Optional for both `custom_schedule` and `daily` triggers. If not set, times are interpreted as UTC.
+#   holiday_region - string - Skip automation on holidays in this region. Optional for both `custom_schedule` and `daily` triggers.
 #   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
 #   always_serialize_jobs - boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
 #   description - string - Description for the this Automation.
@@ -610,9 +610,9 @@ def manual_run(id, params=None, options=None):
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
-#   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
-#   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
-#   holiday_region - string - If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
+#   schedule_times_of_day - array(string) - Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` triggers. Optional for `daily` triggers - if not set, runs at midnight UTC.
+#   schedule_time_zone - string - Time zone for scheduled times. Optional for both `custom_schedule` and `daily` triggers. If not set, times are interpreted as UTC.
+#   holiday_region - string - Skip automation on holidays in this region. Optional for both `custom_schedule` and `daily` triggers.
 #   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
 #   always_serialize_jobs - boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
 #   description - string - Description for the this Automation.
