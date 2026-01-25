@@ -3,6 +3,7 @@ from builtins import open as builtin_open
 from datetime import datetime
 import io
 from pathlib import Path
+from files_sdk.models.zip_list_entry import ZipListEntry
 from files_sdk.models.file_action import FileAction
 from files_sdk.models.file_upload_part import FileUploadPart
 from files_sdk.api import Api  # noqa: F401
@@ -305,6 +306,27 @@ class File:
     def destroy(self, params=None):
         self.delete(params)
 
+    # List the contents of a ZIP file
+    def zip_list_contents(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "path") and self.path:
+            params["path"] = self.path
+        else:
+            raise MissingParameterError("Current object doesn't have a path")
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        response, _options = Api.send_request(
+            "GET",
+            "/file_actions/zip_list/{path}".format(path=params["path"]),
+            params,
+            self.options,
+        )
+        return response.data
+
     # Copy File/Folder
     #
     # Parameters:
@@ -369,6 +391,41 @@ class File:
             "/file_actions/move/{path}".format(path=params["path"]),
             params,
             self.options,
+        )
+        return response.data
+
+    # Extract a ZIP file to a destination folder
+    #
+    # Parameters:
+    #   destination (required) - string - Destination folder path for extracted files.
+    #   filename - string - Optional single entry filename to extract.
+    #   overwrite - boolean - Overwrite existing files in the destination?
+    def unzip(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "path") and self.path:
+            params["path"] = self.path
+        else:
+            raise MissingParameterError("Current object doesn't have a path")
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        if "destination" not in params:
+            raise MissingParameterError("Parameter missing: destination")
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        if "destination" in params and not isinstance(
+            params["destination"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: destination must be an str"
+            )
+        if "filename" in params and not isinstance(params["filename"], str):
+            raise InvalidParameterError(
+                "Bad parameter: filename must be an str"
+            )
+        response, _options = Api.send_request(
+            "POST", "/file_actions/unzip", params, self.options
         )
         return response.data
 
@@ -640,6 +697,28 @@ def get(path, params=None, options=None):
     find(path, params, options)
 
 
+# List the contents of a ZIP file
+def zip_list_contents(path, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["path"] = path
+    if "path" in params and not isinstance(params["path"], str):
+        raise InvalidParameterError("Bad parameter: path must be an str")
+    if "path" not in params:
+        raise MissingParameterError("Parameter missing: path")
+    response, options = Api.send_request(
+        "GET",
+        "/file_actions/zip_list/{path}".format(path=params["path"]),
+        params,
+        options,
+    )
+    return [
+        ZipListEntry(entity_data, options) for entity_data in response.data
+    ]
+
+
 # Copy File/Folder
 #
 # Parameters:
@@ -703,6 +782,65 @@ def move(path, params=None, options=None):
         "/file_actions/move/{path}".format(path=params["path"]),
         params,
         options,
+    )
+    return FileAction(response.data, options)
+
+
+# Extract a ZIP file to a destination folder
+#
+# Parameters:
+#   destination (required) - string - Destination folder path for extracted files.
+#   filename - string - Optional single entry filename to extract.
+#   overwrite - boolean - Overwrite existing files in the destination?
+def unzip(path, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["path"] = path
+    if "path" in params and not isinstance(params["path"], str):
+        raise InvalidParameterError("Bad parameter: path must be an str")
+    if "destination" in params and not isinstance(params["destination"], str):
+        raise InvalidParameterError(
+            "Bad parameter: destination must be an str"
+        )
+    if "filename" in params and not isinstance(params["filename"], str):
+        raise InvalidParameterError("Bad parameter: filename must be an str")
+    if "overwrite" in params and not isinstance(params["overwrite"], bool):
+        raise InvalidParameterError("Bad parameter: overwrite must be an bool")
+    if "path" not in params:
+        raise MissingParameterError("Parameter missing: path")
+    if "destination" not in params:
+        raise MissingParameterError("Parameter missing: destination")
+    response, options = Api.send_request(
+        "POST", "/file_actions/unzip", params, options
+    )
+    return FileAction(response.data, options)
+
+
+# Parameters:
+#   paths (required) - array(string) - Paths to include in the ZIP.
+#   destination (required) - string - Destination file path for the ZIP.
+#   overwrite - boolean - Overwrite existing file in the destination?
+def zip(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "paths" in params and not isinstance(params["paths"], builtins.list):
+        raise InvalidParameterError("Bad parameter: paths must be an list")
+    if "destination" in params and not isinstance(params["destination"], str):
+        raise InvalidParameterError(
+            "Bad parameter: destination must be an str"
+        )
+    if "overwrite" in params and not isinstance(params["overwrite"], bool):
+        raise InvalidParameterError("Bad parameter: overwrite must be an bool")
+    if "paths" not in params:
+        raise MissingParameterError("Parameter missing: paths")
+    if "destination" not in params:
+        raise MissingParameterError("Parameter missing: destination")
+    response, options = Api.send_request(
+        "POST", "/file_actions/zip", params, options
     )
     return FileAction(response.data, options)
 

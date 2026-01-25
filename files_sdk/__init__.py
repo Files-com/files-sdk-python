@@ -112,6 +112,7 @@ import files_sdk.models.user_sftp_client_use as user_sftp_client_use
 import files_sdk.models.web_dav_action_log as web_dav_action_log
 import files_sdk.models.webhook_test as webhook_test
 import files_sdk.models.workspace as workspace
+import files_sdk.models.zip_list_entry as zip_list_entry
 
 from files_sdk.models.account_line_item import AccountLineItem
 from files_sdk.models.action import Action
@@ -234,6 +235,7 @@ from files_sdk.models.user_sftp_client_use import UserSftpClientUse
 from files_sdk.models.web_dav_action_log import WebDavActionLog
 from files_sdk.models.webhook_test import WebhookTest
 from files_sdk.models.workspace import Workspace
+from files_sdk.models.zip_list_entry import ZipListEntry
 
 import files_sdk.path_util
 import socket
@@ -245,7 +247,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.266"
+version = "1.6.267"
 
 __version__ = version
 

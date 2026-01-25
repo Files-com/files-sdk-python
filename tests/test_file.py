@@ -35,6 +35,14 @@ class FileTest(TestBase):
     # Alias of delete
     def test_destroy(self):
         pass
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_actions/zip_list/{path}"), "Mock path does not exist")
+    def test_zip_list_contents(self):
+        params = {
+            "path" : "foo",
+        }
+        file = File(params)
+        file.zip_list_contents(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/copy/{path}"), "Mock path does not exist")
     def test_copy(self):
         params = {
@@ -52,6 +60,15 @@ class FileTest(TestBase):
         }
         file = File(params)
         file.move(params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/unzip"), "Mock path does not exist")
+    def test_unzip(self):
+        params = {
+            "path" : "foo",
+            "destination" : "foo",
+        }
+        file = File(params)
+        file.unzip(params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/begin_upload/{path}"), "Mock path does not exist")
     def test_begin_upload(self):
@@ -103,6 +120,14 @@ class FileTest(TestBase):
         }
         file.find(path, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_actions/zip_list/{path}"), "Mock path does not exist")
+    def test_zip_list_contents(self):
+        path = "foo"
+        params = {
+            "path" : "foo",
+        }
+        file.zip_list_contents(path, params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/copy/{path}"), "Mock path does not exist")
     def test_copy(self):
         path = "foo"
@@ -120,6 +145,23 @@ class FileTest(TestBase):
             "destination" : "foo",
         }
         file.move(path, params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/unzip"), "Mock path does not exist")
+    def test_unzip(self):
+        path = "foo"
+        params = {
+            "path" : "foo",
+            "destination" : "foo",
+        }
+        file.unzip(path, params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/zip"), "Mock path does not exist")
+    def test_zip(self):
+        params = {
+            "paths" : ["foo1"],
+            "destination" : "foo",
+        }
+        file.zip(params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/begin_upload/{path}"), "Mock path does not exist")
     def test_begin_upload(self):
