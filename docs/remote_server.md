@@ -10,6 +10,7 @@
   "hostname": "remote-server.com",
   "remote_home_path": "/home/user1",
   "upload_staging_path": "/tmp/uploads",
+  "allow_relative_paths": True,
   "name": "My Remote server",
   "description": "More information or notes about my server",
   "port": 1,
@@ -77,6 +78,7 @@
 * `hostname` (string): Hostname or IP address
 * `remote_home_path` (string): Initial home folder on remote server
 * `upload_staging_path` (string): Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
+* `allow_relative_paths` (boolean): Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
 * `name` (string): Internal name for your reference
 * `description` (string): Internal description for your reference
 * `port` (int64): Port for remote server.
@@ -206,6 +208,7 @@ files_sdk.remote_server.find_configuration_file(id)
 ```
 files_sdk.remote_server.create({
   "reset_authentication": False,
+  "allow_relative_paths": True,
   "aws_access_key": "example",
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
@@ -282,6 +285,7 @@ files_sdk.remote_server.create({
 * `linode_secret_key` (string): Linode: Secret Key
 * `s3_compatible_secret_key` (string): S3-compatible: Secret Key
 * `wasabi_secret_key` (string): Wasabi: Secret Key
+* `allow_relative_paths` (boolean): Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
 * `aws_access_key` (string): AWS Access Key.
 * `azure_blob_storage_account` (string): Azure Blob Storage: Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage: Container name
@@ -392,6 +396,7 @@ files_sdk.remote_server.configuration_file(id, {
 ```
 files_sdk.remote_server.update(id, {
   "reset_authentication": False,
+  "allow_relative_paths": True,
   "aws_access_key": "example",
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
@@ -468,6 +473,7 @@ files_sdk.remote_server.update(id, {
 * `linode_secret_key` (string): Linode: Secret Key
 * `s3_compatible_secret_key` (string): S3-compatible: Secret Key
 * `wasabi_secret_key` (string): Wasabi: Secret Key
+* `allow_relative_paths` (boolean): Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
 * `aws_access_key` (string): AWS Access Key.
 * `azure_blob_storage_account` (string): Azure Blob Storage: Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage: Container name
@@ -593,6 +599,7 @@ remote_server.configuration_file({
 remote_server = files_sdk.remote_server.find(id)
 remote_server.update({
   "reset_authentication": False,
+  "allow_relative_paths": True,
   "aws_access_key": "example",
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
@@ -669,6 +676,7 @@ remote_server.update({
 * `linode_secret_key` (string): Linode: Secret Key
 * `s3_compatible_secret_key` (string): S3-compatible: Secret Key
 * `wasabi_secret_key` (string): Wasabi: Secret Key
+* `allow_relative_paths` (boolean): Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
 * `aws_access_key` (string): AWS Access Key.
 * `azure_blob_storage_account` (string): Azure Blob Storage: Account name
 * `azure_blob_storage_container` (string): Azure Blob Storage: Container name
