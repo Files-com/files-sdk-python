@@ -10,10 +10,10 @@
   "read_api_usage": 1,
   "write_api_usage": 1,
   "user_count": 1,
-  "current_storage": 1.0,
-  "deleted_files_storage": 1.0,
-  "deleted_files_counted_in_minimum": 1.0,
-  "root_storage": 1.0,
+  "current_storage": "65536",
+  "deleted_files_storage": "65536",
+  "deleted_files_counted_in_minimum": "65536",
+  "root_storage": "65536",
   "usage_by_top_level_dir": [
     {
       "dir": "dir",

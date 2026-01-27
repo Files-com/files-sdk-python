@@ -5,8 +5,8 @@
 ```
 {
   "id": 1,
-  "sync_bytes_received": 1.0,
-  "sync_bytes_sent": 1.0,
+  "sync_bytes_received": "1.0",
+  "sync_bytes_sent": "1.0",
   "logged_at": "2000-01-01T01:00:00Z",
   "remote_server_id": 1
 }

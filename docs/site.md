@@ -135,7 +135,7 @@
   "motd_text": "example",
   "motd_use_for_ftp": True,
   "motd_use_for_sftp": True,
-  "next_billing_amount": 1.0,
+  "next_billing_amount": "1.0",
   "next_billing_date": "Apr 20",
   "office_integration_available": True,
   "office_integration_type": "example",
