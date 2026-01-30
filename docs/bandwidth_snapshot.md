@@ -5,25 +5,25 @@
 ```
 {
   "id": 1,
-  "bytes_received": "1.0",
-  "bytes_sent": "1.0",
-  "sync_bytes_received": "1.0",
-  "sync_bytes_sent": "1.0",
-  "requests_get": "1.0",
-  "requests_put": "1.0",
-  "requests_other": "1.0",
+  "bytes_received": 1,
+  "bytes_sent": 1,
+  "sync_bytes_received": 1,
+  "sync_bytes_sent": 1,
+  "requests_get": 1,
+  "requests_put": 1,
+  "requests_other": 1,
   "logged_at": "2000-01-01T01:00:00Z"
 }
 ```
 
 * `id` (int64): Site bandwidth ID
-* `bytes_received` (double): Site bandwidth report bytes received
-* `bytes_sent` (double): Site bandwidth report bytes sent
-* `sync_bytes_received` (double): Site sync bandwidth report bytes received
-* `sync_bytes_sent` (double): Site sync bandwidth report bytes sent
-* `requests_get` (double): Site bandwidth report get requests
-* `requests_put` (double): Site bandwidth report put requests
-* `requests_other` (double): Site bandwidth report other requests
+* `bytes_received` (int64): Site bandwidth report bytes received
+* `bytes_sent` (int64): Site bandwidth report bytes sent
+* `sync_bytes_received` (int64): Site sync bandwidth report bytes received
+* `sync_bytes_sent` (int64): Site sync bandwidth report bytes sent
+* `requests_get` (int64): Site bandwidth report get requests
+* `requests_put` (int64): Site bandwidth report put requests
+* `requests_other` (int64): Site bandwidth report other requests
 * `logged_at` (date-time): Time the site bandwidth report was logged
 
 

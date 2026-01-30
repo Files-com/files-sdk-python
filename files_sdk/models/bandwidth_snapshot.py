@@ -11,13 +11,13 @@ from files_sdk.error import (  # noqa: F401
 class BandwidthSnapshot:
     default_attributes = {
         "id": None,  # int64 - Site bandwidth ID
-        "bytes_received": None,  # double - Site bandwidth report bytes received
-        "bytes_sent": None,  # double - Site bandwidth report bytes sent
-        "sync_bytes_received": None,  # double - Site sync bandwidth report bytes received
-        "sync_bytes_sent": None,  # double - Site sync bandwidth report bytes sent
-        "requests_get": None,  # double - Site bandwidth report get requests
-        "requests_put": None,  # double - Site bandwidth report put requests
-        "requests_other": None,  # double - Site bandwidth report other requests
+        "bytes_received": None,  # int64 - Site bandwidth report bytes received
+        "bytes_sent": None,  # int64 - Site bandwidth report bytes sent
+        "sync_bytes_received": None,  # int64 - Site sync bandwidth report bytes received
+        "sync_bytes_sent": None,  # int64 - Site sync bandwidth report bytes sent
+        "requests_get": None,  # int64 - Site bandwidth report get requests
+        "requests_put": None,  # int64 - Site bandwidth report put requests
+        "requests_other": None,  # int64 - Site bandwidth report other requests
         "logged_at": None,  # date-time - Time the site bandwidth report was logged
     }
 
