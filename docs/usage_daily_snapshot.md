@@ -10,10 +10,10 @@
   "read_api_usage": 1,
   "write_api_usage": 1,
   "user_count": 1,
-  "current_storage": "65536",
-  "deleted_files_storage": "65536",
-  "deleted_files_counted_in_minimum": "65536",
-  "root_storage": "65536",
+  "current_storage": 1,
+  "deleted_files_storage": 1,
+  "deleted_files_counted_in_minimum": 1,
+  "root_storage": 1,
   "usage_by_top_level_dir": [
     {
       "dir": "dir",
@@ -30,10 +30,10 @@
 * `read_api_usage` (int64): Read API Calls used on this day. Note: only updated for days before the current day.
 * `write_api_usage` (int64): Write API Calls used on this day. Note: only updated for days before the current day.
 * `user_count` (int64): Number of billable users as of this day.
-* `current_storage` (double): GB of Files Native Storage used on this day.
-* `deleted_files_storage` (double): GB of Files Native Storage used on this day for files that have been deleted and are stored as backups.
-* `deleted_files_counted_in_minimum` (double): GB of Files Native Storage used on this day for files that have been permanently deleted but were uploaded less than 30 days ago, and are still billable.
-* `root_storage` (double): GB of Files Native Storage used for the root folder.  Included here because this value will not be part of `usage_by_top_level_dir`
+* `current_storage` (int64): GB of Files Native Storage used on this day.
+* `deleted_files_storage` (int64): GB of Files Native Storage used on this day for files that have been deleted and are stored as backups.
+* `deleted_files_counted_in_minimum` (int64): GB of Files Native Storage used on this day for files that have been permanently deleted but were uploaded less than 30 days ago, and are still billable.
+* `root_storage` (int64): GB of Files Native Storage used for the root folder.  Included here because this value will not be part of `usage_by_top_level_dir`
 * `usage_by_top_level_dir` (array(object)): Usage broken down by each top-level folder
 
 
