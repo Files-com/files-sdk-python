@@ -33,14 +33,16 @@ class Behavior:
 
     def set_attributes(self, attributes):
         for attribute, default_value in Behavior.default_attributes.items():
-            setattr(self, attribute, attributes.get(attribute, default_value))
+            value = attributes.get(attribute, default_value)
+            setattr(self, attribute, value)
 
     def get_attributes(self):
-        return {
+        attrs = {
             k: getattr(self, k, None)
             for k in Behavior.default_attributes
             if getattr(self, k, None) is not None
         }
+        return attrs
 
     # Parameters:
     #   value - object - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.

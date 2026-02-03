@@ -28,14 +28,16 @@ class Message:
 
     def set_attributes(self, attributes):
         for attribute, default_value in Message.default_attributes.items():
-            setattr(self, attribute, attributes.get(attribute, default_value))
+            value = attributes.get(attribute, default_value)
+            setattr(self, attribute, value)
 
     def get_attributes(self):
-        return {
+        attrs = {
             k: getattr(self, k, None)
             for k in Message.default_attributes
             if getattr(self, k, None) is not None
         }
+        return attrs
 
     # Parameters:
     #   project_id (required) - int64 - Project to which the message should be attached.

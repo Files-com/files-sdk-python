@@ -31,14 +31,16 @@ class BundleNotification:
             attribute,
             default_value,
         ) in BundleNotification.default_attributes.items():
-            setattr(self, attribute, attributes.get(attribute, default_value))
+            value = attributes.get(attribute, default_value)
+            setattr(self, attribute, value)
 
     def get_attributes(self):
-        return {
+        attrs = {
             k: getattr(self, k, None)
             for k in BundleNotification.default_attributes
             if getattr(self, k, None) is not None
         }
+        return attrs
 
     # Parameters:
     #   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.

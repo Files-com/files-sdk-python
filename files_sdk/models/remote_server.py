@@ -113,14 +113,16 @@ class RemoteServer:
             attribute,
             default_value,
         ) in RemoteServer.default_attributes.items():
-            setattr(self, attribute, attributes.get(attribute, default_value))
+            value = attributes.get(attribute, default_value)
+            setattr(self, attribute, value)
 
     def get_attributes(self):
-        return {
+        attrs = {
             k: getattr(self, k, None)
             for k in RemoteServer.default_attributes
             if getattr(self, k, None) is not None
         }
+        return attrs
 
     # Push update to Files Agent
     def agent_push_update(self, params=None):

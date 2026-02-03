@@ -43,14 +43,16 @@ class As2Partner:
 
     def set_attributes(self, attributes):
         for attribute, default_value in As2Partner.default_attributes.items():
-            setattr(self, attribute, attributes.get(attribute, default_value))
+            value = attributes.get(attribute, default_value)
+            setattr(self, attribute, value)
 
     def get_attributes(self):
-        return {
+        attrs = {
             k: getattr(self, k, None)
             for k in As2Partner.default_attributes
             if getattr(self, k, None) is not None
         }
+        return attrs
 
     # Parameters:
     #   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.

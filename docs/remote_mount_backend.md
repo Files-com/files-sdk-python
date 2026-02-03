@@ -43,8 +43,8 @@
 * `health_check_type` (string): Type of health check to perform.
 * `id` (int64): Unique identifier for this backend.
 * `interval` (int64): Interval in seconds between health checks.
-* `min_free_cpu` (double): Minimum free CPU percentage required for this backend to be considered healthy.
-* `min_free_mem` (double): Minimum free memory percentage required for this backend to be considered healthy.
+* `min_free_cpu` (decimal): Minimum free CPU percentage required for this backend to be considered healthy.
+* `min_free_mem` (decimal): Minimum free memory percentage required for this backend to be considered healthy.
 * `priority` (int64): Priority of this backend.
 * `remote_path` (string): Path on the remote server to treat as the root of this mount.
 * `remote_server_id` (int64): The remote server that this backend is associated with.

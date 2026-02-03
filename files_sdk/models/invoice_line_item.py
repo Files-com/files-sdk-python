@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from decimal import Decimal
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
@@ -8,9 +9,13 @@ from files_sdk.error import (  # noqa: F401
 
 
 class InvoiceLineItem:
+    __decimal_fields = {
+        "amount",
+    }
+    __decimal_array_fields = {}
     default_attributes = {
         "id": None,  # int64 - Invoice Line item Id
-        "amount": None,  # double - Invoice line item amount
+        "amount": None,  # decimal - Invoice line item amount
         "created_at": None,  # date-time - Invoice line item created at date/time
         "description": None,  # string - Invoice line item description
         "type": None,  # string - Invoice line item type
@@ -37,14 +42,34 @@ class InvoiceLineItem:
             attribute,
             default_value,
         ) in InvoiceLineItem.default_attributes.items():
-            setattr(self, attribute, attributes.get(attribute, default_value))
+            value = attributes.get(attribute, default_value)
+            if (
+                attribute in InvoiceLineItem.__decimal_fields
+                and value is not None
+            ):
+                value = Decimal(str(value))
+            if (
+                attribute in InvoiceLineItem.__decimal_array_fields
+                and value is not None
+            ):
+                value = [Decimal(str(v)) for v in (value or [])]
+            setattr(self, attribute, value)
 
     def get_attributes(self):
-        return {
+        attrs = {
             k: getattr(self, k, None)
             for k in InvoiceLineItem.default_attributes
             if getattr(self, k, None) is not None
         }
+        for k in list(attrs.keys()):
+            if k in InvoiceLineItem.__decimal_fields and attrs[k] is not None:
+                attrs[k] = str(attrs[k])
+            if (
+                k in InvoiceLineItem.__decimal_array_fields
+                and attrs[k] is not None
+            ):
+                attrs[k] = [str(v) for v in (attrs[k] or [])]
+        return attrs
 
 
 def new(*args, **kwargs):

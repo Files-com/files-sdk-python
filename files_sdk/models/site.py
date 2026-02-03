@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from decimal import Decimal
 from files_sdk.models.usage_snapshot import UsageSnapshot
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.error import (  # noqa: F401
@@ -9,6 +10,10 @@ from files_sdk.error import (  # noqa: F401
 
 
 class Site:
+    __decimal_fields = {
+        "next_billing_amount",
+    }
+    __decimal_array_fields = {}
     default_attributes = {
         "id": None,  # int64 - Site Id
         "name": None,  # string - Site name
@@ -114,7 +119,7 @@ class Site:
         "motd_text": None,  # string - A message to show users when they connect via FTP or SFTP.
         "motd_use_for_ftp": None,  # boolean - Show message to users connecting via FTP
         "motd_use_for_sftp": None,  # boolean - Show message to users connecting via SFTP
-        "next_billing_amount": None,  # double - Next billing amount
+        "next_billing_amount": None,  # decimal - Next billing amount
         "next_billing_date": None,  # string - Next billing date
         "office_integration_available": None,  # boolean - If true, allows users to use a document editing integration.
         "office_integration_type": None,  # string - Which document editing integration to support. Files.com Editor or Microsoft Office for the Web.
@@ -195,14 +200,25 @@ class Site:
 
     def set_attributes(self, attributes):
         for attribute, default_value in Site.default_attributes.items():
-            setattr(self, attribute, attributes.get(attribute, default_value))
+            value = attributes.get(attribute, default_value)
+            if attribute in Site.__decimal_fields and value is not None:
+                value = Decimal(str(value))
+            if attribute in Site.__decimal_array_fields and value is not None:
+                value = [Decimal(str(v)) for v in (value or [])]
+            setattr(self, attribute, value)
 
     def get_attributes(self):
-        return {
+        attrs = {
             k: getattr(self, k, None)
             for k in Site.default_attributes
             if getattr(self, k, None) is not None
         }
+        for k in list(attrs.keys()):
+            if k in Site.__decimal_fields and attrs[k] is not None:
+                attrs[k] = str(attrs[k])
+            if k in Site.__decimal_array_fields and attrs[k] is not None:
+                attrs[k] = [str(v) for v in (attrs[k] or [])]
+        return attrs
 
 
 def get(params=None, options=None):

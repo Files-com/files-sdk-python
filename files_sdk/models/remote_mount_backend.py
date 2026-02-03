@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from decimal import Decimal
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -9,6 +10,11 @@ from files_sdk.error import (  # noqa: F401
 
 
 class RemoteMountBackend:
+    __decimal_fields = {
+        "min_free_cpu",
+        "min_free_mem",
+    }
+    __decimal_array_fields = {}
     default_attributes = {
         "canary_file_path": None,  # string - Path to the canary file used for health checks.
         "enabled": None,  # boolean - True if this backend is enabled.
@@ -18,8 +24,8 @@ class RemoteMountBackend:
         "health_check_type": None,  # string - Type of health check to perform.
         "id": None,  # int64 - Unique identifier for this backend.
         "interval": None,  # int64 - Interval in seconds between health checks.
-        "min_free_cpu": None,  # double - Minimum free CPU percentage required for this backend to be considered healthy.
-        "min_free_mem": None,  # double - Minimum free memory percentage required for this backend to be considered healthy.
+        "min_free_cpu": None,  # decimal - Minimum free CPU percentage required for this backend to be considered healthy.
+        "min_free_mem": None,  # decimal - Minimum free memory percentage required for this backend to be considered healthy.
         "priority": None,  # int64 - Priority of this backend.
         "remote_path": None,  # string - Path on the remote server to treat as the root of this mount.
         "remote_server_id": None,  # int64 - The remote server that this backend is associated with.
@@ -42,14 +48,37 @@ class RemoteMountBackend:
             attribute,
             default_value,
         ) in RemoteMountBackend.default_attributes.items():
-            setattr(self, attribute, attributes.get(attribute, default_value))
+            value = attributes.get(attribute, default_value)
+            if (
+                attribute in RemoteMountBackend.__decimal_fields
+                and value is not None
+            ):
+                value = Decimal(str(value))
+            if (
+                attribute in RemoteMountBackend.__decimal_array_fields
+                and value is not None
+            ):
+                value = [Decimal(str(v)) for v in (value or [])]
+            setattr(self, attribute, value)
 
     def get_attributes(self):
-        return {
+        attrs = {
             k: getattr(self, k, None)
             for k in RemoteMountBackend.default_attributes
             if getattr(self, k, None) is not None
         }
+        for k in list(attrs.keys()):
+            if (
+                k in RemoteMountBackend.__decimal_fields
+                and attrs[k] is not None
+            ):
+                attrs[k] = str(attrs[k])
+            if (
+                k in RemoteMountBackend.__decimal_array_fields
+                and attrs[k] is not None
+            ):
+                attrs[k] = [str(v) for v in (attrs[k] or [])]
+        return attrs
 
     # Reset backend status to healthy
     def reset_status(self, params=None):

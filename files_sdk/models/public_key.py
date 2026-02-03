@@ -39,14 +39,16 @@ class PublicKey:
 
     def set_attributes(self, attributes):
         for attribute, default_value in PublicKey.default_attributes.items():
-            setattr(self, attribute, attributes.get(attribute, default_value))
+            value = attributes.get(attribute, default_value)
+            setattr(self, attribute, value)
 
     def get_attributes(self):
-        return {
+        attrs = {
             k: getattr(self, k, None)
             for k in PublicKey.default_attributes
             if getattr(self, k, None) is not None
         }
+        return attrs
 
     # Parameters:
     #   title (required) - string - Internal reference for key.

@@ -3,6 +3,7 @@ import random
 import requests
 import time
 from urllib.parse import urljoin
+from decimal import Decimal
 
 import files_sdk
 from files_sdk.error import (
@@ -75,6 +76,15 @@ class ApiClient:
             **self.request_headers(api_key, session_id, language),
         }
 
+        def _serialize_value(value):
+            if isinstance(value, Decimal):
+                return str(value)
+            if isinstance(value, dict):
+                return {k: _serialize_value(v) for k, v in value.items()}
+            if isinstance(value, list):
+                return [_serialize_value(v) for v in value]
+            return value
+
         data = None
         query_params = None
         if params:
@@ -84,12 +94,12 @@ class ApiClient:
                 for k, v in params.items():
                     if isinstance(v, dict):
                         for k2, v2 in v.items():
-                            _params[f"{k}[{k2}]"] = v2
+                            _params[f"{k}[{k2}]"] = _serialize_value(v2)
                     else:
-                        _params[k] = v
+                        _params[k] = _serialize_value(v)
                 query_params = _params
             else:
-                data = params
+                data = _serialize_value(params)
                 query_params = None
 
         req = requests.Request(

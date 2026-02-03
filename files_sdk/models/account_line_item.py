@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from decimal import Decimal
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
@@ -8,10 +9,15 @@ from files_sdk.error import (  # noqa: F401
 
 
 class AccountLineItem:
+    __decimal_fields = {
+        "amount",
+        "balance",
+    }
+    __decimal_array_fields = {}
     default_attributes = {
         "id": None,  # int64 - Line item Id
-        "amount": None,  # double - Line item amount
-        "balance": None,  # double - Line item balance
+        "amount": None,  # decimal - Line item amount
+        "balance": None,  # decimal - Line item balance
         "created_at": None,  # date-time - Line item created at
         "currency": None,  # string - Line item currency
         "download_uri": None,  # string - Line item download uri
@@ -37,14 +43,34 @@ class AccountLineItem:
             attribute,
             default_value,
         ) in AccountLineItem.default_attributes.items():
-            setattr(self, attribute, attributes.get(attribute, default_value))
+            value = attributes.get(attribute, default_value)
+            if (
+                attribute in AccountLineItem.__decimal_fields
+                and value is not None
+            ):
+                value = Decimal(str(value))
+            if (
+                attribute in AccountLineItem.__decimal_array_fields
+                and value is not None
+            ):
+                value = [Decimal(str(v)) for v in (value or [])]
+            setattr(self, attribute, value)
 
     def get_attributes(self):
-        return {
+        attrs = {
             k: getattr(self, k, None)
             for k in AccountLineItem.default_attributes
             if getattr(self, k, None) is not None
         }
+        for k in list(attrs.keys()):
+            if k in AccountLineItem.__decimal_fields and attrs[k] is not None:
+                attrs[k] = str(attrs[k])
+            if (
+                k in AccountLineItem.__decimal_array_fields
+                and attrs[k] is not None
+            ):
+                attrs[k] = [str(v) for v in (attrs[k] or [])]
+        return attrs
 
 
 def new(*args, **kwargs):
