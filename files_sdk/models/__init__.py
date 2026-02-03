@@ -1,5 +1,6 @@
 from files_sdk.models.account_line_item import AccountLineItem
 from files_sdk.models.action import Action
+from files_sdk.models.action_log import ActionLog
 from files_sdk.models.action_notification_export import (
     ActionNotificationExport,
 )
