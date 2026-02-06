@@ -10,6 +10,10 @@ class PartnerSiteTest(TestBase):
     # Instance Methods
 
     # Static Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/partner_sites/linked_partner_sites"), "Mock path does not exist")
+    def test_linkeds(self):
+        resp = partner_site.linkeds()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/partner_sites"), "Mock path does not exist")
     def test_list(self):
         resp = partner_site.list()

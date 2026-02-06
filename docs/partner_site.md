@@ -6,13 +6,28 @@
 {
   "partner_id": 1,
   "partner_name": "Acme Corp",
-  "linked_site_id": 1
+  "linked_site_id": 1,
+  "linked_site_name": "Acme's Partner Site",
+  "main_site_id": 2,
+  "main_site_name": "Acme Site"
 }
 ```
 
 * `partner_id` (int64): Partner ID
 * `partner_name` (string): Partner Name
 * `linked_site_id` (int64): Linked Site ID
+* `linked_site_name` (string): Linked Site Name
+* `main_site_id` (int64): Main Site ID
+* `main_site_name` (string): Main Site Name
+
+
+---
+
+## Get Partner Sites linked to the current Site
+
+```
+files_sdk.partner_site.linkeds()
+```
 
 
 ---

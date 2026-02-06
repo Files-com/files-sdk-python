@@ -8,6 +8,7 @@
   "partner_id": 1,
   "linked_site_id": 1,
   "status": "pending",
+  "main_site_name": "Acme Site",
   "pairing_key": "abc123xyz",
   "created_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z"
@@ -18,6 +19,7 @@
 * `partner_id` (int64): Partner ID
 * `linked_site_id` (int64): Linked Site ID
 * `status` (string): Request status (pending, approved, rejected)
+* `main_site_name` (string): Main Site Name
 * `pairing_key` (string): Pairing key used to approve this request on the target site
 * `created_at` (date-time): Request creation date/time
 * `updated_at` (date-time): Request last updated date/time

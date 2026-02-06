@@ -13,6 +13,9 @@ class PartnerSite:
         "partner_id": None,  # int64 - Partner ID
         "partner_name": None,  # string - Partner Name
         "linked_site_id": None,  # int64 - Linked Site ID
+        "linked_site_name": None,  # string - Linked Site Name
+        "main_site_id": None,  # int64 - Main Site ID
+        "main_site_name": None,  # string - Main Site Name
     }
 
     def __init__(self, attributes=None, options=None):
@@ -35,6 +38,17 @@ class PartnerSite:
             if getattr(self, k, None) is not None
         }
         return attrs
+
+
+def linkeds(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    response, options = Api.send_request(
+        "GET", "/partner_sites/linked_partner_sites", params, options
+    )
+    return [PartnerSite(entity_data, options) for entity_data in response.data]
 
 
 # Parameters:

@@ -14,6 +14,7 @@ class PartnerSiteRequest:
         "partner_id": None,  # int64 - Partner ID
         "linked_site_id": None,  # int64 - Linked Site ID
         "status": None,  # string - Request status (pending, approved, rejected)
+        "main_site_name": None,  # string - Main Site Name
         "pairing_key": None,  # string - Pairing key used to approve this request on the target site
         "created_at": None,  # date-time - Request creation date/time
         "updated_at": None,  # date-time - Request last updated date/time
