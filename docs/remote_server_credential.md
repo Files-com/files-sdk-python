@@ -10,6 +10,9 @@
   "description": "More information or notes about this credential.",
   "server_type": "s3",
   "aws_access_key": "example",
+  "s3_assume_role_arn": "example",
+  "s3_assume_role_duration_seconds": 1,
+  "s3_assume_role_external_id": "example",
   "google_cloud_storage_s3_compatible_access_key": "example",
   "wasabi_access_key": "example",
   "s3_compatible_access_key": "example",
@@ -26,6 +29,9 @@
 * `description` (string): Internal description for your reference
 * `server_type` (string): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 * `aws_access_key` (string): AWS Access Key.
+* `s3_assume_role_arn` (string): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (int64): Session duration in seconds for AssumeRole authentication (900-43200).
+* `s3_assume_role_external_id` (string): External ID for AssumeRole authentication.
 * `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible Access Key.
 * `wasabi_access_key` (string): Wasabi: Access Key.
 * `s3_compatible_access_key` (string): S3-compatible: Access Key
@@ -92,6 +98,8 @@ files_sdk.remote_server_credential.create({
   "description": "More information or notes about this credential.",
   "server_type": "s3",
   "aws_access_key": "example",
+  "s3_assume_role_arn": "example",
+  "s3_assume_role_duration_seconds": 1,
   "cloudflare_access_key": "example",
   "filebase_access_key": "example",
   "google_cloud_storage_s3_compatible_access_key": "example",
@@ -109,6 +117,8 @@ files_sdk.remote_server_credential.create({
 * `description` (string): Internal description for your reference
 * `server_type` (string): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 * `aws_access_key` (string): AWS Access Key.
+* `s3_assume_role_arn` (string): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (int64): Session duration in seconds for AssumeRole authentication (900-43200).
 * `cloudflare_access_key` (string): Cloudflare: Access Key.
 * `filebase_access_key` (string): Filebase: Access Key.
 * `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible Access Key.
@@ -146,6 +156,8 @@ files_sdk.remote_server_credential.update(id, {
   "description": "More information or notes about this credential.",
   "server_type": "s3",
   "aws_access_key": "example",
+  "s3_assume_role_arn": "example",
+  "s3_assume_role_duration_seconds": 1,
   "cloudflare_access_key": "example",
   "filebase_access_key": "example",
   "google_cloud_storage_s3_compatible_access_key": "example",
@@ -163,6 +175,8 @@ files_sdk.remote_server_credential.update(id, {
 * `description` (string): Internal description for your reference
 * `server_type` (string): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 * `aws_access_key` (string): AWS Access Key.
+* `s3_assume_role_arn` (string): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (int64): Session duration in seconds for AssumeRole authentication (900-43200).
 * `cloudflare_access_key` (string): Cloudflare: Access Key.
 * `filebase_access_key` (string): Filebase: Access Key.
 * `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible Access Key.
@@ -213,6 +227,8 @@ remote_server_credential.update({
   "description": "More information or notes about this credential.",
   "server_type": "s3",
   "aws_access_key": "example",
+  "s3_assume_role_arn": "example",
+  "s3_assume_role_duration_seconds": 1,
   "cloudflare_access_key": "example",
   "filebase_access_key": "example",
   "google_cloud_storage_s3_compatible_access_key": "example",
@@ -230,6 +246,8 @@ remote_server_credential.update({
 * `description` (string): Internal description for your reference
 * `server_type` (string): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 * `aws_access_key` (string): AWS Access Key.
+* `s3_assume_role_arn` (string): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (int64): Session duration in seconds for AssumeRole authentication (900-43200).
 * `cloudflare_access_key` (string): Cloudflare: Access Key.
 * `filebase_access_key` (string): Filebase: Access Key.
 * `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible Access Key.

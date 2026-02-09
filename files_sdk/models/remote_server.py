@@ -32,6 +32,9 @@ class RemoteServer:
         "s3_bucket": None,  # string - S3 bucket name
         "s3_region": None,  # string - S3 region
         "aws_access_key": None,  # string - AWS Access Key.
+        "s3_assume_role_arn": None,  # string - AWS IAM Role ARN for AssumeRole authentication.
+        "s3_assume_role_duration_seconds": None,  # int64 - Session duration in seconds for AssumeRole authentication (900-43200).
+        "s3_assume_role_external_id": None,  # string - External ID for AssumeRole authentication.
         "server_certificate": None,  # string - Remote server certificate
         "server_host_key": None,  # string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
         "server_type": None,  # string - Remote server type.
@@ -285,6 +288,8 @@ class RemoteServer:
     #   port - int64 - Port for remote server.
     #   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
     #   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
+    #   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+    #   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
     #   s3_bucket - string - S3 bucket name
     #   s3_compatible_access_key - string - S3-compatible: Access Key
     #   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -614,6 +619,18 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: remote_server_credential_id must be an int"
             )
+        if "s3_assume_role_arn" in params and not isinstance(
+            params["s3_assume_role_arn"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_assume_role_arn must be an str"
+            )
+        if "s3_assume_role_duration_seconds" in params and not isinstance(
+            params["s3_assume_role_duration_seconds"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_assume_role_duration_seconds must be an int"
+            )
         if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
             raise InvalidParameterError(
                 "Bad parameter: s3_bucket must be an str"
@@ -862,6 +879,8 @@ def find_configuration_file(id, params=None, options=None):
 #   port - int64 - Port for remote server.
 #   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
 #   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
+#   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+#   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
 #   s3_bucket - string - S3 bucket name
 #   s3_compatible_access_key - string - S3-compatible: Access Key
 #   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -1213,6 +1232,18 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: remote_server_credential_id must be an int"
         )
+    if "s3_assume_role_arn" in params and not isinstance(
+        params["s3_assume_role_arn"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_assume_role_arn must be an str"
+        )
+    if "s3_assume_role_duration_seconds" in params and not isinstance(
+        params["s3_assume_role_duration_seconds"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_assume_role_duration_seconds must be an int"
+        )
     if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
         raise InvalidParameterError("Bad parameter: s3_bucket must be an str")
     if "s3_compatible_access_key" in params and not isinstance(
@@ -1438,6 +1469,8 @@ def configuration_file(id, params=None, options=None):
 #   port - int64 - Port for remote server.
 #   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
 #   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
+#   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+#   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
 #   s3_bucket - string - S3 bucket name
 #   s3_compatible_access_key - string - S3-compatible: Access Key
 #   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -1790,6 +1823,18 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: remote_server_credential_id must be an int"
+        )
+    if "s3_assume_role_arn" in params and not isinstance(
+        params["s3_assume_role_arn"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_assume_role_arn must be an str"
+        )
+    if "s3_assume_role_duration_seconds" in params and not isinstance(
+        params["s3_assume_role_duration_seconds"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_assume_role_duration_seconds must be an int"
         )
     if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
         raise InvalidParameterError("Bad parameter: s3_bucket must be an str")

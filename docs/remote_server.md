@@ -22,6 +22,9 @@
   "s3_bucket": "my-bucket",
   "s3_region": "us-east-1",
   "aws_access_key": "example",
+  "s3_assume_role_arn": "example",
+  "s3_assume_role_duration_seconds": 1,
+  "s3_assume_role_external_id": "example",
   "server_certificate": "require_match",
   "server_host_key": "[public key]",
   "server_type": "s3",
@@ -90,6 +93,9 @@
 * `s3_bucket` (string): S3 bucket name
 * `s3_region` (string): S3 region
 * `aws_access_key` (string): AWS Access Key.
+* `s3_assume_role_arn` (string): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (int64): Session duration in seconds for AssumeRole authentication (900-43200).
+* `s3_assume_role_external_id` (string): External ID for AssumeRole authentication.
 * `server_certificate` (string): Remote server certificate
 * `server_host_key` (string): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 * `server_type` (string): Remote server type.
@@ -246,6 +252,8 @@ files_sdk.remote_server.create({
   "port": 1,
   "upload_staging_path": "/tmp/uploads",
   "remote_server_credential_id": 1,
+  "s3_assume_role_arn": "example",
+  "s3_assume_role_duration_seconds": 1,
   "s3_bucket": "my-bucket",
   "s3_compatible_access_key": "example",
   "s3_compatible_bucket": "my-bucket",
@@ -323,6 +331,8 @@ files_sdk.remote_server.create({
 * `port` (int64): Port for remote server.
 * `upload_staging_path` (string): Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
 * `remote_server_credential_id` (int64): ID of Remote Server Credential, if applicable.
+* `s3_assume_role_arn` (string): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (int64): Session duration in seconds for AssumeRole authentication (900-43200).
 * `s3_bucket` (string): S3 bucket name
 * `s3_compatible_access_key` (string): S3-compatible: Access Key
 * `s3_compatible_bucket` (string): S3-compatible: Bucket name
@@ -434,6 +444,8 @@ files_sdk.remote_server.update(id, {
   "port": 1,
   "upload_staging_path": "/tmp/uploads",
   "remote_server_credential_id": 1,
+  "s3_assume_role_arn": "example",
+  "s3_assume_role_duration_seconds": 1,
   "s3_bucket": "my-bucket",
   "s3_compatible_access_key": "example",
   "s3_compatible_bucket": "my-bucket",
@@ -511,6 +523,8 @@ files_sdk.remote_server.update(id, {
 * `port` (int64): Port for remote server.
 * `upload_staging_path` (string): Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
 * `remote_server_credential_id` (int64): ID of Remote Server Credential, if applicable.
+* `s3_assume_role_arn` (string): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (int64): Session duration in seconds for AssumeRole authentication (900-43200).
 * `s3_bucket` (string): S3 bucket name
 * `s3_compatible_access_key` (string): S3-compatible: Access Key
 * `s3_compatible_bucket` (string): S3-compatible: Bucket name
@@ -637,6 +651,8 @@ remote_server.update({
   "port": 1,
   "upload_staging_path": "/tmp/uploads",
   "remote_server_credential_id": 1,
+  "s3_assume_role_arn": "example",
+  "s3_assume_role_duration_seconds": 1,
   "s3_bucket": "my-bucket",
   "s3_compatible_access_key": "example",
   "s3_compatible_bucket": "my-bucket",
@@ -714,6 +730,8 @@ remote_server.update({
 * `port` (int64): Port for remote server.
 * `upload_staging_path` (string): Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
 * `remote_server_credential_id` (int64): ID of Remote Server Credential, if applicable.
+* `s3_assume_role_arn` (string): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (int64): Session duration in seconds for AssumeRole authentication (900-43200).
 * `s3_bucket` (string): S3 bucket name
 * `s3_compatible_access_key` (string): S3-compatible: Access Key
 * `s3_compatible_bucket` (string): S3-compatible: Bucket name
