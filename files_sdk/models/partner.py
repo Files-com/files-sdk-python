@@ -51,9 +51,9 @@ class Partner:
     #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
     #   allow_user_creation - boolean - Allow Partner Admins to create users.
     #   notes - string - Notes about this Partner.
-    #   root_folder - string - The root folder path for this Partner.
     #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
     #   name - string - The name of the Partner.
+    #   root_folder - string - The root folder path for this Partner.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -68,16 +68,16 @@ class Partner:
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "notes" in params and not isinstance(params["notes"], str):
             raise InvalidParameterError("Bad parameter: notes must be an str")
+        if "tags" in params and not isinstance(params["tags"], str):
+            raise InvalidParameterError("Bad parameter: tags must be an str")
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
         if "root_folder" in params and not isinstance(
             params["root_folder"], str
         ):
             raise InvalidParameterError(
                 "Bad parameter: root_folder must be an str"
             )
-        if "tags" in params and not isinstance(params["tags"], str):
-            raise InvalidParameterError("Bad parameter: tags must be an str")
-        if "name" in params and not isinstance(params["name"], str):
-            raise InvalidParameterError("Bad parameter: name must be an str")
         response, _options = Api.send_request(
             "PATCH",
             "/partners/{id}".format(id=params["id"]),
@@ -172,9 +172,9 @@ def get(id, params=None, options=None):
 #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
 #   notes - string - Notes about this Partner.
-#   root_folder - string - The root folder path for this Partner.
 #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   name (required) - string - The name of the Partner.
+#   root_folder (required) - string - The root folder path for this Partner.
 #   workspace_id - int64 - ID of the Workspace associated with this Partner.
 def create(params=None, options=None):
     if not isinstance(params, dict):
@@ -207,14 +207,14 @@ def create(params=None, options=None):
         )
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
-    if "root_folder" in params and not isinstance(params["root_folder"], str):
-        raise InvalidParameterError(
-            "Bad parameter: root_folder must be an str"
-        )
     if "tags" in params and not isinstance(params["tags"], str):
         raise InvalidParameterError("Bad parameter: tags must be an str")
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "root_folder" in params and not isinstance(params["root_folder"], str):
+        raise InvalidParameterError(
+            "Bad parameter: root_folder must be an str"
+        )
     if "workspace_id" in params and not isinstance(
         params["workspace_id"], int
     ):
@@ -223,6 +223,8 @@ def create(params=None, options=None):
         )
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
+    if "root_folder" not in params:
+        raise MissingParameterError("Parameter missing: root_folder")
     response, options = Api.send_request("POST", "/partners", params, options)
     return Partner(response.data, options)
 
@@ -233,9 +235,9 @@ def create(params=None, options=None):
 #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
 #   notes - string - Notes about this Partner.
-#   root_folder - string - The root folder path for this Partner.
 #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   name - string - The name of the Partner.
+#   root_folder - string - The root folder path for this Partner.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -270,14 +272,14 @@ def update(id, params=None, options=None):
         )
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
-    if "root_folder" in params and not isinstance(params["root_folder"], str):
-        raise InvalidParameterError(
-            "Bad parameter: root_folder must be an str"
-        )
     if "tags" in params and not isinstance(params["tags"], str):
         raise InvalidParameterError("Bad parameter: tags must be an str")
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "root_folder" in params and not isinstance(params["root_folder"], str):
+        raise InvalidParameterError(
+            "Bad parameter: root_folder must be an str"
+        )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(

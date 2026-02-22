@@ -45,6 +45,7 @@ class PartnerTest(TestBase):
     def test_create(self):
         params = {
             "name" : "foo",
+            "root_folder" : "foo",
         }
         partner.create(params)
 
