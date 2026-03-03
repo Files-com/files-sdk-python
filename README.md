@@ -663,6 +663,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`InvalidPriorityColorError`|  `ProcessingFailureError` |
 |`InvalidRangeError`|  `ProcessingFailureError` |
 |`InvalidSiteError`|  `ProcessingFailureError` |
+|`InvalidZipFileError`|  `ProcessingFailureError` |
 |`MetadataNotSupportedOnRemotesError`|  `ProcessingFailureError` |
 |`ModelSaveErrorError`|  `ProcessingFailureError` |
 |`MultipleProcessingErrorsError`|  `ProcessingFailureError` |
