@@ -96,7 +96,7 @@ class Automation:
 
     # Parameters:
     #   source - string - Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
-    #   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
+    #   destinations - array(string) - A list of destination paths. Use a trailing slash for folder destinations and omit it for file destinations.
     #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
     #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
     #   interval - string - How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
@@ -377,7 +377,7 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   source - string - Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
-#   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
+#   destinations - array(string) - A list of destination paths. Use a trailing slash for folder destinations and omit it for file destinations.
 #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 #   interval - string - How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
@@ -602,7 +602,7 @@ def manual_run(id, params=None, options=None):
 
 # Parameters:
 #   source - string - Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
-#   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
+#   destinations - array(string) - A list of destination paths. Use a trailing slash for folder destinations and omit it for file destinations.
 #   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 #   interval - string - How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
