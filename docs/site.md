@@ -19,6 +19,9 @@
   "admin_user_id": 1,
   "admins_bypass_locked_subfolders": True,
   "allow_bundle_names": True,
+  "allow_user_level_2fa_override": True,
+  "allow_user_level_allowed_ip_override": True,
+  "allow_user_level_ssl_override": True,
   "allowed_countries": "US,DE",
   "allowed_ips": "example",
   "always_mkdir_parents": True,
@@ -327,6 +330,9 @@
 * `admin_user_id` (int64): User ID for the main site administrator
 * `admins_bypass_locked_subfolders` (boolean): Allow admins to bypass the locked subfolders setting.
 * `allow_bundle_names` (boolean): Are manual Bundle names allowed?
+* `allow_user_level_2fa_override` (boolean): Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
+* `allow_user_level_allowed_ip_override` (boolean): Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
+* `allow_user_level_ssl_override` (boolean): Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
 * `allowed_countries` (string): Comma separated list of allowed Country codes
 * `allowed_ips` (string): List of allowed IP addresses
 * `always_mkdir_parents` (boolean): Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
@@ -568,6 +574,9 @@ files_sdk.site.update({
   "include_password_in_welcome_email": False,
   "allowed_countries": "US,DE",
   "allowed_ips": "example",
+  "allow_user_level_2fa_override": False,
+  "allow_user_level_allowed_ip_override": False,
+  "allow_user_level_ssl_override": False,
   "disallowed_countries": "US,DE",
   "days_to_retain_backups": 1,
   "max_prior_passwords": 1,
@@ -729,6 +738,9 @@ files_sdk.site.update({
 * `include_password_in_welcome_email` (boolean): Include password in emails to new users?
 * `allowed_countries` (string): Comma separated list of allowed Country codes
 * `allowed_ips` (string): List of allowed IP addresses
+* `allow_user_level_2fa_override` (boolean): Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
+* `allow_user_level_allowed_ip_override` (boolean): Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
+* `allow_user_level_ssl_override` (boolean): Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
 * `disallowed_countries` (string): Comma separated list of disallowed Country codes
 * `days_to_retain_backups` (int64): Number of days to keep deleted files
 * `max_prior_passwords` (int64): Number of prior passwords to disallow

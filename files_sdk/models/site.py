@@ -28,6 +28,9 @@ class Site:
         "admin_user_id": None,  # int64 - User ID for the main site administrator
         "admins_bypass_locked_subfolders": None,  # boolean - Allow admins to bypass the locked subfolders setting.
         "allow_bundle_names": None,  # boolean - Are manual Bundle names allowed?
+        "allow_user_level_2fa_override": None,  # boolean - Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
+        "allow_user_level_allowed_ip_override": None,  # boolean - Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
+        "allow_user_level_ssl_override": None,  # boolean - Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
         "allowed_countries": None,  # string - Comma separated list of allowed Country codes
         "allowed_ips": None,  # string - List of allowed IP addresses
         "always_mkdir_parents": None,  # boolean - Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
@@ -296,6 +299,9 @@ def get_usage(params=None, options=None):
 #   include_password_in_welcome_email - boolean - Include password in emails to new users?
 #   allowed_countries - string - Comma separated list of allowed Country codes
 #   allowed_ips - string - List of allowed IP addresses
+#   allow_user_level_2fa_override - boolean - Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
+#   allow_user_level_allowed_ip_override - boolean - Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
+#   allow_user_level_ssl_override - boolean - Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
 #   disallowed_countries - string - Comma separated list of disallowed Country codes
 #   days_to_retain_backups - int64 - Number of days to keep deleted files
 #   max_prior_passwords - int64 - Number of prior passwords to disallow
@@ -716,6 +722,24 @@ def update(params=None, options=None):
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError(
             "Bad parameter: allowed_ips must be an str"
+        )
+    if "allow_user_level_2fa_override" in params and not isinstance(
+        params["allow_user_level_2fa_override"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allow_user_level_2fa_override must be an bool"
+        )
+    if "allow_user_level_allowed_ip_override" in params and not isinstance(
+        params["allow_user_level_allowed_ip_override"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allow_user_level_allowed_ip_override must be an bool"
+        )
+    if "allow_user_level_ssl_override" in params and not isinstance(
+        params["allow_user_level_ssl_override"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: allow_user_level_ssl_override must be an bool"
         )
     if "disallowed_countries" in params and not isinstance(
         params["disallowed_countries"], str
