@@ -27,6 +27,7 @@ import files_sdk.models.bundle_recipient as bundle_recipient
 import files_sdk.models.bundle_registration as bundle_registration
 import files_sdk.models.child_site_management_policy as child_site_management_policy
 import files_sdk.models.clickwrap as clickwrap
+import files_sdk.models.desktop_configuration_profile as desktop_configuration_profile
 import files_sdk.models.dns_record as dns_record
 import files_sdk.models.email_incoming_message as email_incoming_message
 import files_sdk.models.email_log as email_log
@@ -149,6 +150,9 @@ from files_sdk.models.child_site_management_policy import (
     ChildSiteManagementPolicy,
 )
 from files_sdk.models.clickwrap import Clickwrap
+from files_sdk.models.desktop_configuration_profile import (
+    DesktopConfigurationProfile,
+)
 from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.email_incoming_message import EmailIncomingMessage
 from files_sdk.models.email_log import EmailLog
@@ -249,7 +253,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.323"
+version = "1.6.324"
 
 __version__ = version
 

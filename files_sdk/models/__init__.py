@@ -32,6 +32,9 @@ from files_sdk.models.child_site_management_policy import (
     ChildSiteManagementPolicy,
 )
 from files_sdk.models.clickwrap import Clickwrap
+from files_sdk.models.desktop_configuration_profile import (
+    DesktopConfigurationProfile,
+)
 from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.email_incoming_message import EmailIncomingMessage
 from files_sdk.models.email_log import EmailLog

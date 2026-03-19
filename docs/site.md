@@ -239,6 +239,7 @@
     "dav_permission": True,
     "disabled": True,
     "disabled_expired_or_inactive": True,
+    "desktop_configuration_profile_id": 1,
     "email": "john.doe@files.com",
     "filesystem_layout": "site_root",
     "first_login_at": "2000-01-01T01:00:00Z",

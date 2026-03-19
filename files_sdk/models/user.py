@@ -27,6 +27,7 @@ class User:
         "dav_permission": None,  # boolean - Can the user connect with WebDAV?
         "disabled": None,  # boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
         "disabled_expired_or_inactive": None,  # boolean - Computed property that returns true if user disabled or expired or inactive.
+        "desktop_configuration_profile_id": None,  # int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
         "email": None,  # email - User email address
         "filesystem_layout": None,  # string - File system layout
         "first_login_at": None,  # date-time - User's first login time
@@ -199,6 +200,7 @@ class User:
     #   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
     #   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
     #   dav_permission - boolean - Can the user connect with WebDAV?
+    #   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
     #   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
     #   filesystem_layout - string - File system layout
     #   ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -306,6 +308,12 @@ class User:
         ):
             raise InvalidParameterError(
                 "Bad parameter: authentication_method must be an str"
+            )
+        if "desktop_configuration_profile_id" in params and not isinstance(
+            params["desktop_configuration_profile_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: desktop_configuration_profile_id must be an int"
             )
         if "filesystem_layout" in params and not isinstance(
             params["filesystem_layout"], str
@@ -544,6 +552,7 @@ def get(id, params=None, options=None):
 #   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
 #   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
 #   dav_permission - boolean - Can the user connect with WebDAV?
+#   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
 #   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 #   filesystem_layout - string - File system layout
 #   ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -677,6 +686,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: dav_permission must be an bool"
+        )
+    if "desktop_configuration_profile_id" in params and not isinstance(
+        params["desktop_configuration_profile_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: desktop_configuration_profile_id must be an int"
         )
     if "disabled" in params and not isinstance(params["disabled"], bool):
         raise InvalidParameterError("Bad parameter: disabled must be an bool")
@@ -907,6 +922,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
 #   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
 #   dav_permission - boolean - Can the user connect with WebDAV?
+#   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
 #   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 #   filesystem_layout - string - File system layout
 #   ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -1044,6 +1060,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: dav_permission must be an bool"
+        )
+    if "desktop_configuration_profile_id" in params and not isinstance(
+        params["desktop_configuration_profile_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: desktop_configuration_profile_id must be an int"
         )
     if "disabled" in params and not isinstance(params["disabled"], bool):
         raise InvalidParameterError("Bad parameter: disabled must be an bool")
