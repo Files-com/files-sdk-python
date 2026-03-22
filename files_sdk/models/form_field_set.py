@@ -19,6 +19,7 @@ class FormFieldSet:
         "skip_company": None,  # boolean - Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
         "in_use": None,  # boolean - Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration
         "user_id": None,  # int64 - User ID.  Provide a value of `0` to operate the current session's user.
+        "workspace_id": None,  # int64 - Workspace ID
     }
 
     def __init__(self, attributes=None, options=None):
@@ -47,6 +48,7 @@ class FormFieldSet:
 
     # Parameters:
     #   title - string - Title to be displayed
+    #   workspace_id - int64 - Workspace ID
     #   skip_email - boolean - Skip validating form email
     #   skip_name - boolean - Skip validating form name
     #   skip_company - boolean - Skip validating company
@@ -65,6 +67,12 @@ class FormFieldSet:
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "title" in params and not isinstance(params["title"], str):
             raise InvalidParameterError("Bad parameter: title must be an str")
+        if "workspace_id" in params and not isinstance(
+            params["workspace_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
+            )
         if "form_fields" in params and not isinstance(
             params["form_fields"], builtins.list
         ):
@@ -159,6 +167,7 @@ def get(id, params=None, options=None):
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   title - string - Title to be displayed
+#   workspace_id - int64 - Workspace ID
 #   skip_email - boolean - Skip validating form email
 #   skip_name - boolean - Skip validating form name
 #   skip_company - boolean - Skip validating company
@@ -172,6 +181,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "title" in params and not isinstance(params["title"], str):
         raise InvalidParameterError("Bad parameter: title must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "skip_email" in params and not isinstance(params["skip_email"], bool):
         raise InvalidParameterError(
             "Bad parameter: skip_email must be an bool"
@@ -198,6 +213,7 @@ def create(params=None, options=None):
 
 # Parameters:
 #   title - string - Title to be displayed
+#   workspace_id - int64 - Workspace ID
 #   skip_email - boolean - Skip validating form email
 #   skip_name - boolean - Skip validating form name
 #   skip_company - boolean - Skip validating company
@@ -212,6 +228,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "title" in params and not isinstance(params["title"], str):
         raise InvalidParameterError("Bad parameter: title must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "skip_email" in params and not isinstance(params["skip_email"], bool):
         raise InvalidParameterError(
             "Bad parameter: skip_email must be an bool"

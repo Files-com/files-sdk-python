@@ -44,6 +44,7 @@
 * `skip_company` (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
 * `in_use` (boolean): Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `workspace_id` (int64): Workspace ID
 
 
 ---
@@ -84,6 +85,7 @@ files_sdk.form_field_set.find(id)
 files_sdk.form_field_set.create({
   "user_id": 1,
   "title": "Sample Form Title",
+  "workspace_id": 1,
   "skip_email": False,
   "skip_name": False,
   "skip_company": False,
@@ -95,6 +97,7 @@ files_sdk.form_field_set.create({
 
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `title` (string): Title to be displayed
+* `workspace_id` (int64): Workspace ID
 * `skip_email` (boolean): Skip validating form email
 * `skip_name` (boolean): Skip validating form name
 * `skip_company` (boolean): Skip validating company
@@ -108,6 +111,7 @@ files_sdk.form_field_set.create({
 ```
 files_sdk.form_field_set.update(id, {
   "title": "Sample Form Title",
+  "workspace_id": 1,
   "skip_email": False,
   "skip_name": False,
   "skip_company": False,
@@ -119,6 +123,7 @@ files_sdk.form_field_set.update(id, {
 
 * `id` (int64): Required - Form Field Set ID.
 * `title` (string): Title to be displayed
+* `workspace_id` (int64): Workspace ID
 * `skip_email` (boolean): Skip validating form email
 * `skip_name` (boolean): Skip validating form name
 * `skip_company` (boolean): Skip validating company
@@ -146,6 +151,7 @@ files_sdk.form_field_set.delete(id)
 form_field_set = files_sdk.form_field_set.find(id)
 form_field_set.update({
   "title": "Sample Form Title",
+  "workspace_id": 1,
   "skip_email": False,
   "skip_name": False,
   "skip_company": False,
@@ -157,6 +163,7 @@ form_field_set.update({
 
 * `id` (int64): Required - Form Field Set ID.
 * `title` (string): Title to be displayed
+* `workspace_id` (int64): Workspace ID
 * `skip_email` (boolean): Skip validating form email
 * `skip_name` (boolean): Skip validating form name
 * `skip_company` (boolean): Skip validating company
