@@ -47,6 +47,7 @@ class Bundle:
         "watermark_attachment": None,  # Image - Preview watermark image applied to all bundle items.
         "watermark_value": None,  # object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
         "send_one_time_password_to_recipient_at_registration": None,  # boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
+        "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
         "has_inbox": None,  # boolean - Does this bundle have an associated inbox?
         "dont_allow_folders_in_uploads": None,  # boolean - Should folder uploads be prevented?
         "paths": None,  # array(string) - A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
@@ -140,6 +141,7 @@ class Bundle:
     #   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
     #   skip_email - boolean - BundleRegistrations can be saved without providing email?
     #   skip_name - boolean - BundleRegistrations can be saved without providing name?
+    #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
     #   user_id - int64 - The owning user id. Only site admins can set this.
     #   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
     #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
@@ -222,6 +224,12 @@ class Bundle:
         ):
             raise InvalidParameterError(
                 "Bad parameter: start_access_on_date must be an str"
+            )
+        if "workspace_id" in params and not isinstance(
+            params["workspace_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
             )
         if "user_id" in params and not isinstance(params["user_id"], int):
             raise InvalidParameterError(
@@ -368,6 +376,7 @@ def get(id, params=None, options=None):
 #   skip_company - boolean - BundleRegistrations can be saved without providing company?
 #   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
 #   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
+#   workspace_id - int64 - Workspace ID. `0` means the default workspace.
 #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
 def create(params=None, options=None):
     if not isinstance(params, dict):
@@ -489,6 +498,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: snapshot_id must be an int"
         )
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "paths" not in params:
         raise MissingParameterError("Parameter missing: paths")
     response, options = Api.send_request("POST", "/bundles", params, options)
@@ -551,6 +566,7 @@ def share(id, params=None, options=None):
 #   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
 #   skip_email - boolean - BundleRegistrations can be saved without providing email?
 #   skip_name - boolean - BundleRegistrations can be saved without providing name?
+#   workspace_id - int64 - Workspace ID. `0` means the default workspace.
 #   user_id - int64 - The owning user id. Only site admins can set this.
 #   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
 #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
@@ -671,6 +687,12 @@ def update(id, params=None, options=None):
         )
     if "skip_name" in params and not isinstance(params["skip_name"], bool):
         raise InvalidParameterError("Bad parameter: skip_name must be an bool")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "watermark_attachment_delete" in params and not isinstance(
