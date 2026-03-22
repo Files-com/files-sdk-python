@@ -17,9 +17,11 @@ class UserLifecycleRule:
         "inactivity_days": None,  # int64 - Number of days of inactivity before the rule applies
         "include_folder_admins": None,  # boolean - If true, the rule will apply to folder admins.
         "include_site_admins": None,  # boolean - If true, the rule will apply to site admins.
+        "apply_to_all_workspaces": None,  # boolean - If true, a default-workspace rule also applies to users in all workspaces.
         "name": None,  # string - User Lifecycle Rule name
         "partner_tag": None,  # string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
         "site_id": None,  # int64 - Site ID
+        "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
         "user_state": None,  # string - State of the users to apply the rule to (inactive or disabled)
         "user_tag": None,  # string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
     }
@@ -50,6 +52,7 @@ class UserLifecycleRule:
 
     # Parameters:
     #   action - string - Action to take on inactive users (disable or delete)
+    #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to users in all workspaces.
     #   authentication_method - string - User authentication method for which the rule will apply.
     #   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
     #   inactivity_days - int64 - Number of days of inactivity before the rule applies
@@ -59,6 +62,7 @@ class UserLifecycleRule:
     #   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
     #   user_state - string - State of the users to apply the rule to (inactive or disabled)
     #   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+    #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -109,6 +113,12 @@ class UserLifecycleRule:
             raise InvalidParameterError(
                 "Bad parameter: user_tag must be an str"
             )
+        if "workspace_id" in params and not isinstance(
+            params["workspace_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
+            )
         response, _options = Api.send_request(
             "PATCH",
             "/user_lifecycle_rules/{id}".format(id=params["id"]),
@@ -153,7 +163,8 @@ class UserLifecycleRule:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `workspace_id`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -165,6 +176,8 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
     return ListObj(
         UserLifecycleRule, "GET", "/user_lifecycle_rules", params, options
     )
@@ -201,6 +214,7 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   action - string - Action to take on inactive users (disable or delete)
+#   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to users in all workspaces.
 #   authentication_method - string - User authentication method for which the rule will apply.
 #   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies
@@ -210,6 +224,7 @@ def get(id, params=None, options=None):
 #   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 #   user_state - string - State of the users to apply the rule to (inactive or disabled)
 #   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+#   workspace_id - int64 - Workspace ID. `0` means the default workspace.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -217,6 +232,12 @@ def create(params=None, options=None):
         options = {}
     if "action" in params and not isinstance(params["action"], str):
         raise InvalidParameterError("Bad parameter: action must be an str")
+    if "apply_to_all_workspaces" in params and not isinstance(
+        params["apply_to_all_workspaces"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: apply_to_all_workspaces must be an bool"
+        )
     if "authentication_method" in params and not isinstance(
         params["authentication_method"], str
     ):
@@ -255,6 +276,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_state must be an str")
     if "user_tag" in params and not isinstance(params["user_tag"], str):
         raise InvalidParameterError("Bad parameter: user_tag must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     response, options = Api.send_request(
         "POST", "/user_lifecycle_rules", params, options
     )
@@ -263,6 +290,7 @@ def create(params=None, options=None):
 
 # Parameters:
 #   action - string - Action to take on inactive users (disable or delete)
+#   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to users in all workspaces.
 #   authentication_method - string - User authentication method for which the rule will apply.
 #   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies
@@ -272,6 +300,7 @@ def create(params=None, options=None):
 #   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 #   user_state - string - State of the users to apply the rule to (inactive or disabled)
 #   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+#   workspace_id - int64 - Workspace ID. `0` means the default workspace.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -282,6 +311,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "action" in params and not isinstance(params["action"], str):
         raise InvalidParameterError("Bad parameter: action must be an str")
+    if "apply_to_all_workspaces" in params and not isinstance(
+        params["apply_to_all_workspaces"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: apply_to_all_workspaces must be an bool"
+        )
     if "authentication_method" in params and not isinstance(
         params["authentication_method"], str
     ):
@@ -320,6 +355,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_state must be an str")
     if "user_tag" in params and not isinstance(params["user_tag"], str):
         raise InvalidParameterError("Bad parameter: user_tag must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(

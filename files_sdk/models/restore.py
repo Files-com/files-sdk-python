@@ -30,6 +30,7 @@ class Restore:
         "two_factor_authentication_methods_restored": None,  # int64 - Number of two factor authentication methods restored (only present for `restoration_type=users`).
         "status": None,  # string - Status of the restoration process.
         "update_timestamps": None,  # boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
+        "workspace_id": None,  # int64 - Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
         "error_messages": None,  # array(string) - Error messages received while restoring files and/or directories. Only present if there were errors.
     }
 
@@ -68,7 +69,7 @@ class Restore:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `restoration_type`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
@@ -97,6 +98,7 @@ def all(params=None, options=None):
 #   restore_deleted_permissions - boolean - If true, we will also restore any Permissions that match the same path prefix from the same dates.
 #   restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
 #   update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
+#   workspace_id - int64 - Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -133,6 +135,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: update_timestamps must be an bool"
+        )
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
         )
     if "earliest_date" not in params:
         raise MissingParameterError("Parameter missing: earliest_date")

@@ -13,7 +13,9 @@ class KeyLifecycleRule:
         "id": None,  # int64 - Key Lifecycle Rule ID
         "key_type": None,  # string - Key type for which the rule will apply (gpg or ssh).
         "inactivity_days": None,  # int64 - Number of days of inactivity before the rule applies.
+        "apply_to_all_workspaces": None,  # boolean - If true, a default-workspace rule also applies to keys in all workspaces.
         "name": None,  # string - Key Lifecycle Rule name
+        "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -41,9 +43,11 @@ class KeyLifecycleRule:
         return attrs
 
     # Parameters:
+    #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
     #   key_type - string - Key type for which the rule will apply (gpg or ssh).
     #   inactivity_days - int64 - Number of days of inactivity before the rule applies.
     #   name - string - Key Lifecycle Rule name
+    #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -68,6 +72,12 @@ class KeyLifecycleRule:
             )
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
+        if "workspace_id" in params and not isinstance(
+            params["workspace_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
+            )
         response, _options = Api.send_request(
             "PATCH",
             "/key_lifecycle_rules/{id}".format(id=params["id"]),
@@ -112,8 +122,8 @@ class KeyLifecycleRule:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `key_type`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `key_type`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `key_type`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -162,14 +172,22 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
+#   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
 #   key_type - string - Key type for which the rule will apply (gpg or ssh).
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies.
 #   name - string - Key Lifecycle Rule name
+#   workspace_id - int64 - Workspace ID. `0` means the default workspace.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "apply_to_all_workspaces" in params and not isinstance(
+        params["apply_to_all_workspaces"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: apply_to_all_workspaces must be an bool"
+        )
     if "key_type" in params and not isinstance(params["key_type"], str):
         raise InvalidParameterError("Bad parameter: key_type must be an str")
     if "inactivity_days" in params and not isinstance(
@@ -180,6 +198,12 @@ def create(params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     response, options = Api.send_request(
         "POST", "/key_lifecycle_rules", params, options
     )
@@ -187,9 +211,11 @@ def create(params=None, options=None):
 
 
 # Parameters:
+#   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
 #   key_type - string - Key type for which the rule will apply (gpg or ssh).
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies.
 #   name - string - Key Lifecycle Rule name
+#   workspace_id - int64 - Workspace ID. `0` means the default workspace.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -198,6 +224,12 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "apply_to_all_workspaces" in params and not isinstance(
+        params["apply_to_all_workspaces"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: apply_to_all_workspaces must be an bool"
+        )
     if "key_type" in params and not isinstance(params["key_type"], str):
         raise InvalidParameterError("Bad parameter: key_type must be an str")
     if "inactivity_days" in params and not isinstance(
@@ -208,6 +240,12 @@ def update(id, params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
