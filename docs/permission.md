@@ -10,6 +10,12 @@
   "username": "user",
   "group_id": 1,
   "group_name": "example",
+  "group_ids": [
+    1
+  ],
+  "group_names": [
+    "example"
+  ],
   "partner_id": 1,
   "partner_name": "Acme Corp.",
   "permission": "full",
@@ -24,6 +30,8 @@
 * `username` (string): Username (if applicable)
 * `group_id` (int64): Group ID
 * `group_name` (string): Group name (if applicable)
+* `group_ids` (array(int64)): Group IDs when this permission requires multiple groups
+* `group_names` (array(string)): Group names when this permission requires multiple groups
 * `partner_id` (int64): Partner ID (if applicable)
 * `partner_name` (string): Partner name (if applicable)
 * `permission` (string): Permission type.  See the table referenced in the documentation for an explanation of each permission.
@@ -67,6 +75,7 @@ files_sdk.permission.list({
 files_sdk.permission.create({
   "path": "path",
   "group_id": 1,
+  "group_ids": [1],
   "permission": "full",
   "recursive": False,
   "partner_id": 1,
@@ -81,6 +90,7 @@ files_sdk.permission.create({
 
 * `path` (string): Required - Folder path
 * `group_id` (int64): Group ID. Provide `group_name` or `group_id`
+* `group_ids` (string): Group IDs when the permission requires multiple groups. If sent as a string, it should be comma-delimited.
 * `permission` (string): Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
 * `recursive` (boolean): Apply to subfolders recursively?
 * `partner_id` (int64): Partner ID if this Permission belongs to a partner.

@@ -16,6 +16,8 @@ class Permission:
         "username": None,  # string - Username (if applicable)
         "group_id": None,  # int64 - Group ID
         "group_name": None,  # string - Group name (if applicable)
+        "group_ids": None,  # array(int64) - Group IDs when this permission requires multiple groups
+        "group_names": None,  # array(string) - Group names when this permission requires multiple groups
         "partner_id": None,  # int64 - Partner ID (if applicable)
         "partner_name": None,  # string - Partner name (if applicable)
         "permission": None,  # string - Permission type.  See the table referenced in the documentation for an explanation of each permission.
@@ -131,6 +133,7 @@ def all(params=None, options=None):
 # Parameters:
 #   path (required) - string - Folder path
 #   group_id - int64 - Group ID. Provide `group_name` or `group_id`
+#   group_ids - string - Group IDs when the permission requires multiple groups. If sent as a string, it should be comma-delimited.
 #   permission - string - Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
 #   recursive - boolean - Apply to subfolders recursively?
 #   partner_id - int64 - Partner ID if this Permission belongs to a partner.
@@ -147,6 +150,8 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "group_id" in params and not isinstance(params["group_id"], int):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
+    if "group_ids" in params and not isinstance(params["group_ids"], str):
+        raise InvalidParameterError("Bad parameter: group_ids must be an str")
     if "permission" in params and not isinstance(params["permission"], str):
         raise InvalidParameterError("Bad parameter: permission must be an str")
     if "recursive" in params and not isinstance(params["recursive"], bool):
