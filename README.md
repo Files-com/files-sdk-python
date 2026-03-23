@@ -602,6 +602,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`PasswordChangeNotRequiredError`|  `NotAuthorizedError` |
 |`PasswordChangeRequiredError`|  `NotAuthorizedError` |
 |`PaymentMethodErrorError`|  `NotAuthorizedError` |
+|`PreviewOnlyPermissionCannotDownloadError`|  `NotAuthorizedError` |
 |`ReadOnlySessionError`|  `NotAuthorizedError` |
 |`ReadPermissionRequiredError`|  `NotAuthorizedError` |
 |`ReauthenticationFailedError`|  `NotAuthorizedError` |
