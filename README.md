@@ -144,7 +144,9 @@ Global configuration is performed by setting attributes on the `files_sdk` objec
 
 #### Base URL
 
-Setting the base URL for the API is required if your site is configured to disable global acceleration.
+Set this to the full https:// URL of your Files.com subdomain (e.g. `https://MY-SUBDOMAIN.files.com`).
+This is not required in most cases, but one benefit of setting it is that it ensures that authentication failures will be logged to your site's API logs.  Without setting this, we won't know which site to associate the authentication failure with, and it won't be logged to your site's API logs.
+This is always required if your site is configured to disable global acceleration.
 This can also be set to use a mock server in development or CI.
 
 ```python title="Example setting"
