@@ -40,6 +40,9 @@ from files_sdk.models.email_incoming_message import EmailIncomingMessage
 from files_sdk.models.email_log import EmailLog
 from files_sdk.models.errors import Errors
 from files_sdk.models.exavault_api_request_log import ExavaultApiRequestLog
+from files_sdk.models.expectation import Expectation
+from files_sdk.models.expectation_evaluation import ExpectationEvaluation
+from files_sdk.models.expectation_incident import ExpectationIncident
 from files_sdk.models.external_event import ExternalEvent
 from files_sdk.models.file import File
 from files_sdk.models.file_action import FileAction
