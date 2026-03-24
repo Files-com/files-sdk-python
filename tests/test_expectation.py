@@ -8,13 +8,13 @@ from files_sdk import expectation
 class ExpectationTest(TestBase):
     pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/expectations/{id}/trigger"), "Mock path does not exist")
-    def test_trigger(self):
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/expectations/{id}/trigger_evaluation"), "Mock path does not exist")
+    def test_trigger_evaluation(self):
         params = {
             "id" : 12345,
         }
         expectation = Expectation(params)
-        expectation.trigger(params)
+        expectation.trigger_evaluation(params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/expectations/{id}"), "Mock path does not exist")
     def test_update(self):
@@ -53,13 +53,13 @@ class ExpectationTest(TestBase):
     def test_create(self):
         resp = expectation.create()
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/expectations/{id}/trigger"), "Mock path does not exist")
-    def test_trigger(self):
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/expectations/{id}/trigger_evaluation"), "Mock path does not exist")
+    def test_trigger_evaluation(self):
         id = 12345
         params = {
             "id" : 12345,
         }
-        expectation.trigger(id, params)
+        expectation.trigger_evaluation(id, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/expectations/{id}"), "Mock path does not exist")
     def test_update(self):

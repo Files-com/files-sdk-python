@@ -62,7 +62,7 @@ class Expectation:
         return attrs
 
     # Manually open an Expectation window
-    def trigger(self, params=None):
+    def trigger_evaluation(self, params=None):
         if not isinstance(params, dict):
             params = {}
 
@@ -76,7 +76,7 @@ class Expectation:
             raise InvalidParameterError("Bad parameter: id must be an int")
         response, _options = Api.send_request(
             "POST",
-            "/expectations/{id}/trigger".format(id=params["id"]),
+            "/expectations/{id}/trigger_evaluation".format(id=params["id"]),
             params,
             self.options,
         )
@@ -404,7 +404,7 @@ def create(params=None, options=None):
 
 
 # Manually open an Expectation window
-def trigger(id, params=None, options=None):
+def trigger_evaluation(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
@@ -416,7 +416,7 @@ def trigger(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
         "POST",
-        "/expectations/{id}/trigger".format(id=params["id"]),
+        "/expectations/{id}/trigger_evaluation".format(id=params["id"]),
         params,
         options,
     )

@@ -161,7 +161,7 @@ files_sdk.expectation.create({
 ## Manually open an Expectation window
 
 ```
-files_sdk.expectation.trigger(id)
+files_sdk.expectation.trigger_evaluation(id)
 ```
 
 ### Parameters
@@ -240,7 +240,7 @@ files_sdk.expectation.delete(id)
 
 ```
 expectation = files_sdk.expectation.find(id)
-expectation.trigger()
+expectation.trigger_evaluation()
 ```
 
 ### Parameters
