@@ -78,7 +78,6 @@ import files_sdk.models.payment as payment
 import files_sdk.models.payment_line_item as payment_line_item
 import files_sdk.models.permission as permission
 import files_sdk.models.preview as preview
-import files_sdk.models.priority as priority
 import files_sdk.models.project as project
 import files_sdk.models.public_hosting_request_log as public_hosting_request_log
 import files_sdk.models.public_ip_address as public_ip_address
@@ -206,7 +205,6 @@ from files_sdk.models.payment import Payment
 from files_sdk.models.payment_line_item import PaymentLineItem
 from files_sdk.models.permission import Permission
 from files_sdk.models.preview import Preview
-from files_sdk.models.priority import Priority
 from files_sdk.models.project import Project
 from files_sdk.models.public_hosting_request_log import PublicHostingRequestLog
 from files_sdk.models.public_ip_address import PublicIpAddress
@@ -259,7 +257,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.336"
+version = "1.6.337"
 
 __version__ = version
 
