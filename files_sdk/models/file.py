@@ -58,6 +58,7 @@ class File:
         "parts": None,  # int64 - How many parts to fetch?
         "ref": None,  # string -
         "restart": None,  # int64 - File byte offset to restart from.
+        "copy_behaviors": None,  # boolean - If copying a folder, also copy supported behaviors to the destination folder tree?
         "structure": None,  # string - If copying folder, copy just the structure?
         "with_rename": None,  # boolean - Allow file rename instead of overwrite?
         "buffered_upload": None,  # boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
@@ -333,6 +334,7 @@ class File:
     #
     # Parameters:
     #   destination (required) - string - Copy destination path.
+    #   copy_behaviors - boolean - If copying a folder, also copy supported behaviors to the destination folder tree?
     #   structure - boolean - Copy structure only?
     #   overwrite - boolean - Overwrite existing file(s) in the destination?
     def copy(self, params=None):
@@ -535,6 +537,7 @@ def download(path, params=None, options=None):
 #   ref - string -
 #   restart - int64 - File byte offset to restart from.
 #   size - int64 - Size of file.
+#   copy_behaviors - boolean - If copying a folder, also copy supported behaviors to the destination folder tree?
 #   structure - string - If copying folder, copy just the structure?
 #   with_rename - boolean - Allow file rename instead of overwrite?
 #   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
@@ -572,6 +575,12 @@ def create(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: restart must be an int")
     if "size" in params and not isinstance(params["size"], int):
         raise InvalidParameterError("Bad parameter: size must be an int")
+    if "copy_behaviors" in params and not isinstance(
+        params["copy_behaviors"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: copy_behaviors must be an bool"
+        )
     if "structure" in params and not isinstance(params["structure"], str):
         raise InvalidParameterError("Bad parameter: structure must be an str")
     if "with_rename" in params and not isinstance(params["with_rename"], bool):
@@ -725,6 +734,7 @@ def zip_list_contents(path, params=None, options=None):
 #
 # Parameters:
 #   destination (required) - string - Copy destination path.
+#   copy_behaviors - boolean - If copying a folder, also copy supported behaviors to the destination folder tree?
 #   structure - boolean - Copy structure only?
 #   overwrite - boolean - Overwrite existing file(s) in the destination?
 def copy(path, params=None, options=None):
@@ -738,6 +748,12 @@ def copy(path, params=None, options=None):
     if "destination" in params and not isinstance(params["destination"], str):
         raise InvalidParameterError(
             "Bad parameter: destination must be an str"
+        )
+    if "copy_behaviors" in params and not isinstance(
+        params["copy_behaviors"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: copy_behaviors must be an bool"
         )
     if "structure" in params and not isinstance(params["structure"], bool):
         raise InvalidParameterError("Bad parameter: structure must be an bool")
