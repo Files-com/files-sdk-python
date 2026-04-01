@@ -42,7 +42,7 @@ files_sdk.file_comment.list_for(path)
 
 ```
 files_sdk.file_comment.create({
-  "body": "body",
+  "body": "What a great file!",
   "path": "path"
 })
 ```
@@ -59,7 +59,7 @@ files_sdk.file_comment.create({
 
 ```
 files_sdk.file_comment.update(id, {
-  "body": "body"
+  "body": "What a great file!"
 })
 ```
 
@@ -89,7 +89,7 @@ files_sdk.file_comment.delete(id)
 ```
 file_comment = files_sdk.file_comment.list.first
 file_comment.update({
-  "body": "body"
+  "body": "What a great file!"
 })
 ```
 

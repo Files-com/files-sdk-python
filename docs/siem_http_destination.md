@@ -236,6 +236,8 @@ files_sdk.siem_http_destination.send_test_entry({
   "additional_headers": {"key":"example value"},
   "sending_active": True,
   "generic_payload_type": "example",
+  "file_destination_path": "example",
+  "file_format": "example",
   "file_interval_minutes": 1,
   "azure_dcr_immutable_id": "example",
   "azure_stream_name": "example",

@@ -61,7 +61,7 @@ files_sdk.message_comment.find(id)
 ```
 files_sdk.message_comment.create({
   "user_id": 1,
-  "body": "body"
+  "body": "What a great idea, thank you!"
 })
 ```
 
@@ -77,7 +77,7 @@ files_sdk.message_comment.create({
 
 ```
 files_sdk.message_comment.update(id, {
-  "body": "body"
+  "body": "What a great idea, thank you!"
 })
 ```
 
@@ -107,7 +107,7 @@ files_sdk.message_comment.delete(id)
 ```
 message_comment = files_sdk.message_comment.find(id)
 message_comment.update({
-  "body": "body"
+  "body": "What a great idea, thank you!"
 })
 ```
 
