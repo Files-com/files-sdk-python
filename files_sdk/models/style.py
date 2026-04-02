@@ -12,8 +12,9 @@ class Style:
         "id": None,  # int64 - Style ID
         "path": None,  # string - Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "logo": None,  # Image - Logo
+        "logo_click_href": None,  # string - URL to open when a public visitor clicks the logo
         "thumbnail": None,  # Image - Logo thumbnail
-        "file": None,  # file - Logo for custom branding.
+        "file": None,  # file - Logo for custom branding. Required when creating a new style.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -38,7 +39,8 @@ class Style:
         return attrs
 
     # Parameters:
-    #   file (required) - file - Logo for custom branding.
+    #   file - file - Logo for custom branding. Required when creating a new style.
+    #   logo_click_href - string - URL to open when a public visitor clicks the logo.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -49,10 +51,14 @@ class Style:
             raise MissingParameterError("Current object doesn't have a path")
         if "path" not in params:
             raise MissingParameterError("Parameter missing: path")
-        if "file" not in params:
-            raise MissingParameterError("Parameter missing: file")
         if "path" in params and not isinstance(params["path"], str):
             raise InvalidParameterError("Bad parameter: path must be an str")
+        if "logo_click_href" in params and not isinstance(
+            params["logo_click_href"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: logo_click_href must be an str"
+            )
         response, _options = Api.send_request(
             "PATCH",
             "/styles/{path}".format(path=params["path"]),
@@ -112,7 +118,8 @@ def get(path, params=None, options=None):
 
 
 # Parameters:
-#   file (required) - file - Logo for custom branding.
+#   file - file - Logo for custom branding. Required when creating a new style.
+#   logo_click_href - string - URL to open when a public visitor clicks the logo.
 def update(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -121,10 +128,14 @@ def update(path, params=None, options=None):
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "logo_click_href" in params and not isinstance(
+        params["logo_click_href"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: logo_click_href must be an str"
+        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
-    if "file" not in params:
-        raise MissingParameterError("Parameter missing: file")
     response, options = Api.send_request(
         "PATCH", "/styles/{path}".format(path=params["path"]), params, options
     )
