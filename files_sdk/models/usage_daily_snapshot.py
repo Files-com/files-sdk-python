@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from decimal import Decimal
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -9,12 +10,17 @@ from files_sdk.error import (  # noqa: F401
 
 
 class UsageDailySnapshot:
+    __decimal_fields = {
+        "transformation_credits_usage",
+    }
+    __decimal_array_fields = {}
     default_attributes = {
         "id": None,  # int64 - ID of the usage record
         "date": None,  # date - The date of this usage record
         "api_usage_available": None,  # boolean - True if the API usage fields `read_api_usage` and `write_api_usage` can be relied upon.  If this is false, we suggest hiding that value from any UI.
         "read_api_usage": None,  # int64 - Read API Calls used on this day. Note: only updated for days before the current day.
         "write_api_usage": None,  # int64 - Write API Calls used on this day. Note: only updated for days before the current day.
+        "transformation_credits_usage": None,  # decimal - Transformation and AI credits used on this day. Note: initially this tracks GPG encrypt, decrypt, and recrypt usage.
         "user_count": None,  # int64 - Number of billable users as of this day.
         "current_storage": None,  # int64 - GB of Files Native Storage used on this day.
         "deleted_files_storage": None,  # int64 - GB of Files Native Storage used on this day for files that have been deleted and are stored as backups.
@@ -37,6 +43,16 @@ class UsageDailySnapshot:
             default_value,
         ) in UsageDailySnapshot.default_attributes.items():
             value = attributes.get(attribute, default_value)
+            if (
+                attribute in UsageDailySnapshot.__decimal_fields
+                and value is not None
+            ):
+                value = Decimal(str(value))
+            if (
+                attribute in UsageDailySnapshot.__decimal_array_fields
+                and value is not None
+            ):
+                value = [Decimal(str(v)) for v in (value or [])]
             setattr(self, attribute, value)
 
     def get_attributes(self):
@@ -45,6 +61,17 @@ class UsageDailySnapshot:
             for k in UsageDailySnapshot.default_attributes
             if getattr(self, k, None) is not None
         }
+        for k in list(attrs.keys()):
+            if (
+                k in UsageDailySnapshot.__decimal_fields
+                and attrs[k] is not None
+            ):
+                attrs[k] = str(attrs[k])
+            if (
+                k in UsageDailySnapshot.__decimal_array_fields
+                and attrs[k] is not None
+            ):
+                attrs[k] = [str(v) for v in (attrs[k] or [])]
         return attrs
 
 
