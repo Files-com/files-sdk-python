@@ -108,7 +108,6 @@ class Sync:
     #   description - string - Description for this sync job
     #   dest_path - string - Absolute destination path for the sync
     #   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
-    #   dest_site_id - int64 - Destination site ID if syncing to a child or partner site
     #   disabled - boolean - Is this sync disabled?
     #   exclude_patterns - array(string) - Array of glob patterns to exclude
     #   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
@@ -122,7 +121,6 @@ class Sync:
     #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
     #   src_path - string - Absolute source path for the sync
     #   src_remote_server_id - int64 - Remote server ID for the source (if remote)
-    #   src_site_id - int64 - Source site ID if syncing from a child or partner site
     #   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
     #   trigger - string - Trigger type: daily, custom_schedule, or manual
     #   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
@@ -153,12 +151,6 @@ class Sync:
         ):
             raise InvalidParameterError(
                 "Bad parameter: dest_remote_server_id must be an int"
-            )
-        if "dest_site_id" in params and not isinstance(
-            params["dest_site_id"], int
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: dest_site_id must be an int"
             )
         if "exclude_patterns" in params and not isinstance(
             params["exclude_patterns"], builtins.list
@@ -217,12 +209,6 @@ class Sync:
         ):
             raise InvalidParameterError(
                 "Bad parameter: src_remote_server_id must be an int"
-            )
-        if "src_site_id" in params and not isinstance(
-            params["src_site_id"], int
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: src_site_id must be an int"
             )
         if "sync_interval_minutes" in params and not isinstance(
             params["sync_interval_minutes"], int
@@ -333,7 +319,6 @@ def get(id, params=None, options=None):
 #   description - string - Description for this sync job
 #   dest_path - string - Absolute destination path for the sync
 #   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
-#   dest_site_id - int64 - Destination site ID if syncing to a child or partner site
 #   disabled - boolean - Is this sync disabled?
 #   exclude_patterns - array(string) - Array of glob patterns to exclude
 #   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
@@ -347,7 +332,6 @@ def get(id, params=None, options=None):
 #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
 #   src_path - string - Absolute source path for the sync
 #   src_remote_server_id - int64 - Remote server ID for the source (if remote)
-#   src_site_id - int64 - Source site ID if syncing from a child or partner site
 #   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 #   trigger - string - Trigger type: daily, custom_schedule, or manual
 #   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
@@ -374,12 +358,6 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: dest_remote_server_id must be an int"
-        )
-    if "dest_site_id" in params and not isinstance(
-        params["dest_site_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: dest_site_id must be an int"
         )
     if "disabled" in params and not isinstance(params["disabled"], bool):
         raise InvalidParameterError("Bad parameter: disabled must be an bool")
@@ -442,10 +420,6 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: src_remote_server_id must be an int"
-        )
-    if "src_site_id" in params and not isinstance(params["src_site_id"], int):
-        raise InvalidParameterError(
-            "Bad parameter: src_site_id must be an int"
         )
     if "sync_interval_minutes" in params and not isinstance(
         params["sync_interval_minutes"], int
@@ -511,7 +485,6 @@ def manual_run(id, params=None, options=None):
 #   description - string - Description for this sync job
 #   dest_path - string - Absolute destination path for the sync
 #   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
-#   dest_site_id - int64 - Destination site ID if syncing to a child or partner site
 #   disabled - boolean - Is this sync disabled?
 #   exclude_patterns - array(string) - Array of glob patterns to exclude
 #   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
@@ -525,7 +498,6 @@ def manual_run(id, params=None, options=None):
 #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
 #   src_path - string - Absolute source path for the sync
 #   src_remote_server_id - int64 - Remote server ID for the source (if remote)
-#   src_site_id - int64 - Source site ID if syncing from a child or partner site
 #   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 #   trigger - string - Trigger type: daily, custom_schedule, or manual
 #   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
@@ -554,12 +526,6 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: dest_remote_server_id must be an int"
-        )
-    if "dest_site_id" in params and not isinstance(
-        params["dest_site_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: dest_site_id must be an int"
         )
     if "disabled" in params and not isinstance(params["disabled"], bool):
         raise InvalidParameterError("Bad parameter: disabled must be an bool")
@@ -622,10 +588,6 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: src_remote_server_id must be an int"
-        )
-    if "src_site_id" in params and not isinstance(params["src_site_id"], int):
-        raise InvalidParameterError(
-            "Bad parameter: src_site_id must be an int"
         )
     if "sync_interval_minutes" in params and not isinstance(
         params["sync_interval_minutes"], int
