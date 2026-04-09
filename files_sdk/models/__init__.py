@@ -114,6 +114,7 @@ from files_sdk.models.style import Style
 from files_sdk.models.sync import Sync
 from files_sdk.models.sync_log import SyncLog
 from files_sdk.models.sync_run import SyncRun
+from files_sdk.models.sync_run_live_transfer import SyncRunLiveTransfer
 from files_sdk.models.usage_by_top_level_dir import UsageByTopLevelDir
 from files_sdk.models.usage_daily_snapshot import UsageDailySnapshot
 from files_sdk.models.usage_snapshot import UsageSnapshot

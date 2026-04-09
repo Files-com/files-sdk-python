@@ -27,7 +27,18 @@
   "successful_files": 1,
   "sync_id": 1,
   "sync_name": "Azure to SharePoint Sync",
-  "updated_at": "2000-01-01T01:00:00Z"
+  "updated_at": "2000-01-01T01:00:00Z",
+  "live_transfers": [
+    {
+      "path": "example",
+      "status": "example",
+      "bytes_copied": 1,
+      "bytes_total": 1,
+      "percentage": 1.0,
+      "eta": "example",
+      "started_at": "example"
+    }
+  ]
 }
 ```
 
@@ -53,6 +64,7 @@
 * `sync_id` (int64): ID of the Sync this run belongs to
 * `sync_name` (string): Name of the Sync this run belongs to
 * `updated_at` (date-time): When this run was last updated
+* `live_transfers` (array(object)): Array of in-progress file transfers with progress data. Only present when the sync run status is in_progress.
 
 
 ---

@@ -68,7 +68,18 @@
     "successful_files": 1,
     "sync_id": 1,
     "sync_name": "Azure to SharePoint Sync",
-    "updated_at": "2000-01-01T01:00:00Z"
+    "updated_at": "2000-01-01T01:00:00Z",
+    "live_transfers": [
+      {
+        "path": "example",
+        "status": "example",
+        "bytes_copied": 1,
+        "bytes_total": 1,
+        "percentage": 1.0,
+        "eta": "example",
+        "started_at": "example"
+      }
+    ]
   }
 }
 ```

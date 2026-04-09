@@ -32,6 +32,7 @@ class SyncRun:
         "sync_id": None,  # int64 - ID of the Sync this run belongs to
         "sync_name": None,  # string - Name of the Sync this run belongs to
         "updated_at": None,  # date-time - When this run was last updated
+        "live_transfers": None,  # array(object) - Array of in-progress file transfers with progress data. Only present when the sync run status is in_progress.
     }
 
     def __init__(self, attributes=None, options=None):
