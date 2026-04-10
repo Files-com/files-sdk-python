@@ -8,6 +8,12 @@
   "path": "",
   "group_id": 1,
   "group_name": "example",
+  "group_ids": [
+    1
+  ],
+  "group_names": [
+    "example"
+  ],
   "triggering_group_ids": [
     1
   ],
@@ -40,6 +46,8 @@
 * `path` (string): Folder path to notify on. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `group_id` (int64): ID of Group to receive notifications
 * `group_name` (string): Group name, if a Group ID is set
+* `group_ids` (array(int64)): Group IDs when the notification requires multiple groups
+* `group_names` (array(string)): Group names when the notification requires multiple groups
 * `triggering_group_ids` (array(int64)): If set, will only notify on actions made by a member of one of the specified groups
 * `triggering_user_ids` (array(int64)): If set, will only notify on actions made one of the specified users
 * `trigger_by_share_recipients` (boolean): Notify when actions are performed by a share recipient?
@@ -117,6 +125,7 @@ files_sdk.notification.create({
   "triggering_user_ids": [1],
   "trigger_by_share_recipients": True,
   "group_id": 1,
+  "group_ids": [1],
   "username": "User"
 })
 ```
@@ -138,6 +147,7 @@ files_sdk.notification.create({
 * `triggering_user_ids` (array(int64)): If set, will only notify on actions made one of the specified users
 * `trigger_by_share_recipients` (boolean): Notify when actions are performed by a share recipient?
 * `group_id` (int64): The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
+* `group_ids` (string): Group IDs when the notification requires multiple groups. If sent as a string, it should be comma-delimited.
 * `path` (string): Path
 * `username` (string): The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
 

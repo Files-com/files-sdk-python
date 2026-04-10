@@ -14,6 +14,8 @@ class Notification:
         "path": None,  # string - Folder path to notify on. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "group_id": None,  # int64 - ID of Group to receive notifications
         "group_name": None,  # string - Group name, if a Group ID is set
+        "group_ids": None,  # array(int64) - Group IDs when the notification requires multiple groups
+        "group_names": None,  # array(string) - Group names when the notification requires multiple groups
         "triggering_group_ids": None,  # array(int64) - If set, will only notify on actions made by a member of one of the specified groups
         "triggering_user_ids": None,  # array(int64) - If set, will only notify on actions made one of the specified users
         "trigger_by_share_recipients": None,  # boolean - Notify when actions are performed by a share recipient?
@@ -236,6 +238,7 @@ def get(id, params=None, options=None):
 #   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
 #   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
 #   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
+#   group_ids - string - Group IDs when the notification requires multiple groups. If sent as a string, it should be comma-delimited.
 #   path - string - Path
 #   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
 def create(params=None, options=None):
@@ -317,6 +320,8 @@ def create(params=None, options=None):
         )
     if "group_id" in params and not isinstance(params["group_id"], int):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
+    if "group_ids" in params and not isinstance(params["group_ids"], str):
+        raise InvalidParameterError("Bad parameter: group_ids must be an str")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "username" in params and not isinstance(params["username"], str):
