@@ -11,6 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class Partner:
     default_attributes = {
         "allow_bypassing_2fa_policies": None,  # boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
+        "allowed_ips": None,  # string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
         "allow_credential_changes": None,  # boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
         "allow_providing_gpg_keys": None,  # boolean - Allow Partner Admins to provide GPG keys.
         "allow_user_creation": None,  # boolean - Allow Partner Admins to create users.
@@ -46,6 +47,7 @@ class Partner:
         return attrs
 
     # Parameters:
+    #   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
     #   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
     #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
     #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
@@ -66,6 +68,12 @@ class Partner:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
+        if "allowed_ips" in params and not isinstance(
+            params["allowed_ips"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allowed_ips must be an str"
+            )
         if "notes" in params and not isinstance(params["notes"], str):
             raise InvalidParameterError("Bad parameter: notes must be an str")
         if "tags" in params and not isinstance(params["tags"], str):
@@ -167,6 +175,7 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
+#   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 #   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
@@ -181,6 +190,10 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
+        raise InvalidParameterError(
+            "Bad parameter: allowed_ips must be an str"
+        )
     if "allow_bypassing_2fa_policies" in params and not isinstance(
         params["allow_bypassing_2fa_policies"], bool
     ):
@@ -230,6 +243,7 @@ def create(params=None, options=None):
 
 
 # Parameters:
+#   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 #   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
@@ -246,6 +260,10 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
+        raise InvalidParameterError(
+            "Bad parameter: allowed_ips must be an str"
+        )
     if "allow_bypassing_2fa_policies" in params and not isinstance(
         params["allow_bypassing_2fa_policies"], bool
     ):

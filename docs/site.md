@@ -88,6 +88,12 @@
   "non_sso_groups_allowed": True,
   "non_sso_users_allowed": True,
   "folder_permissions_groups_only": True,
+  "group_admins_can_add_users": True,
+  "group_admins_can_delete_users": True,
+  "group_admins_can_enable_disable_users": True,
+  "group_admins_can_modify_users": True,
+  "group_admins_can_reset_passwords": True,
+  "group_admins_can_set_user_password": True,
   "hipaa": True,
   "icon128": {
     "name": "My logo",
@@ -270,6 +276,7 @@
     "partner_name": "example",
     "password_set_at": "2000-01-01T01:00:00Z",
     "password_validity_days": 1,
+    "primary_group_id": 1,
     "public_keys_count": 1,
     "receive_admin_alerts": True,
     "require_2fa": "always_require",
@@ -315,8 +322,7 @@
   "welcome_email_subject": "example",
   "welcome_email_enabled": True,
   "welcome_screen": "user_controlled",
-  "windows_mode_ftp": True,
-  "group_admins_can_set_user_password": True
+  "windows_mode_ftp": True
 }
 ```
 
@@ -395,6 +401,12 @@
 * `non_sso_groups_allowed` (boolean): If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
 * `non_sso_users_allowed` (boolean): If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 * `folder_permissions_groups_only` (boolean): If true, permissions for this site must be bound to a group (not a user).
+* `group_admins_can_add_users` (boolean): Allow group admins to create users in their groups
+* `group_admins_can_delete_users` (boolean): Allow group admins to delete users in their groups
+* `group_admins_can_enable_disable_users` (boolean): Allow group admins to enable or disable users in their groups
+* `group_admins_can_modify_users` (boolean): Allow group admins to modify users in their groups
+* `group_admins_can_reset_passwords` (boolean): Allow group admins to reset passwords for users in their groups
+* `group_admins_can_set_user_password` (boolean): Allow group admins to set password authentication method
 * `hipaa` (boolean): Is there a signed HIPAA BAA between Files.com and this site?
 * `icon128` (Image): Branded icon 128x128
 * `icon16` (Image): Branded icon 16x16
@@ -496,7 +508,6 @@
 * `welcome_email_enabled` (boolean): Will the welcome email be sent to new users?
 * `welcome_screen` (string): Does the welcome screen appear?
 * `windows_mode_ftp` (boolean): Does FTP user Windows emulation mode?
-* `group_admins_can_set_user_password` (boolean): Allow group admins set password authentication method
 
 
 ---
@@ -627,6 +638,11 @@ files_sdk.site.update({
   "protocol_access_groups_only": False,
   "revoke_bundle_access_on_disable_or_delete": False,
   "bundle_watermark_value": {"key":"example value"},
+  "group_admins_can_add_users": False,
+  "group_admins_can_delete_users": False,
+  "group_admins_can_enable_disable_users": False,
+  "group_admins_can_modify_users": False,
+  "group_admins_can_reset_passwords": False,
   "group_admins_can_set_user_password": False,
   "bundle_recipient_blacklist_free_email_domains": False,
   "bundle_recipient_blacklist_domains": ["example"],
@@ -792,7 +808,12 @@ files_sdk.site.update({
 * `protocol_access_groups_only` (boolean): If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
 * `revoke_bundle_access_on_disable_or_delete` (boolean): Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
 * `bundle_watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
-* `group_admins_can_set_user_password` (boolean): Allow group admins set password authentication method
+* `group_admins_can_add_users` (boolean): Allow group admins to create users in their groups
+* `group_admins_can_delete_users` (boolean): Allow group admins to delete users in their groups
+* `group_admins_can_enable_disable_users` (boolean): Allow group admins to enable or disable users in their groups
+* `group_admins_can_modify_users` (boolean): Allow group admins to modify users in their groups
+* `group_admins_can_reset_passwords` (boolean): Allow group admins to reset passwords for users in their groups
+* `group_admins_can_set_user_password` (boolean): Allow group admins to set password authentication method
 * `bundle_recipient_blacklist_free_email_domains` (boolean): Disallow free email domains for Bundle/Inbox recipients?
 * `bundle_recipient_blacklist_domains` (array(string)): List of email domains to disallow when entering a Bundle/Inbox recipients
 * `admins_bypass_locked_subfolders` (boolean): Allow admins to bypass the locked subfolders setting.

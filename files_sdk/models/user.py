@@ -56,6 +56,7 @@ class User:
         "partner_name": None,  # string - Name of the Partner if this user belongs to a Partner
         "password_set_at": None,  # date-time - Last time the user's password was set
         "password_validity_days": None,  # int64 - Number of days to allow user to use the same password
+        "primary_group_id": None,  # int64 - Primary group ID for Group Admin scoping
         "public_keys_count": None,  # int64 - Number of public keys associated with this user
         "receive_admin_alerts": None,  # boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
         "require_2fa": None,  # string - 2FA required setting
@@ -214,6 +215,7 @@ class User:
     #   partner_admin - boolean - Is this user a Partner administrator?
     #   partner_id - int64 - Partner ID if this user belongs to a Partner
     #   password_validity_days - int64 - Number of days to allow user to use the same password
+    #   primary_group_id - int64 - Primary group ID for Group Admin scoping
     #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
     #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
     #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
@@ -356,6 +358,12 @@ class User:
         ):
             raise InvalidParameterError(
                 "Bad parameter: password_validity_days must be an int"
+            )
+        if "primary_group_id" in params and not isinstance(
+            params["primary_group_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: primary_group_id must be an int"
             )
         if "require_login_by" in params and not isinstance(
             params["require_login_by"], str
@@ -566,6 +574,7 @@ def get(id, params=None, options=None):
 #   partner_admin - boolean - Is this user a Partner administrator?
 #   partner_id - int64 - Partner ID if this user belongs to a Partner
 #   password_validity_days - int64 - Number of days to allow user to use the same password
+#   primary_group_id - int64 - Primary group ID for Group Admin scoping
 #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
 #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
 #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
@@ -744,6 +753,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: password_validity_days must be an int"
+        )
+    if "primary_group_id" in params and not isinstance(
+        params["primary_group_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: primary_group_id must be an int"
         )
     if "readonly_site_admin" in params and not isinstance(
         params["readonly_site_admin"], bool
@@ -936,6 +951,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   partner_admin - boolean - Is this user a Partner administrator?
 #   partner_id - int64 - Partner ID if this user belongs to a Partner
 #   password_validity_days - int64 - Number of days to allow user to use the same password
+#   primary_group_id - int64 - Primary group ID for Group Admin scoping
 #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
 #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
 #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
@@ -1118,6 +1134,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: password_validity_days must be an int"
+        )
+    if "primary_group_id" in params and not isinstance(
+        params["primary_group_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: primary_group_id must be an int"
         )
     if "readonly_site_admin" in params and not isinstance(
         params["readonly_site_admin"], bool

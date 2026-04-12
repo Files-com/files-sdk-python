@@ -1177,21 +1177,6 @@ class ApiKeyOnlyForOfficeIntegrationError(NotAuthorizedError):
         )
 
 
-class BillingOrSiteAdminPermissionRequiredError(NotAuthorizedError):
-    def __init__(
-        self,
-        message=None,
-        http_body=None,
-        http_status=None,
-        json_body=None,
-        headers=None,
-        code=None,
-    ):
-        super().__init__(
-            message, http_body, http_status, json_body, headers, code
-        )
-
-
 class BillingPermissionRequiredError(NotAuthorizedError):
     def __init__(
         self,
@@ -1643,6 +1628,87 @@ class RecaptchaFailedError(NotAuthorizedError):
 
 
 class SelfManagedRequiredError(NotAuthorizedError):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
+class SiteAdminOrPartnerAdminPermissionRequiredError(NotAuthorizedError):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
+class SiteAdminOrWorkspaceAdminOrFolderAdminPermissionRequiredError(
+    NotAuthorizedError
+):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
+class SiteAdminOrWorkspaceAdminOrPartnerAdminOrFolderAdminPermissionRequiredError(
+    NotAuthorizedError
+):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
+class SiteAdminOrWorkspaceAdminOrPartnerAdminPermissionRequiredError(
+    NotAuthorizedError
+):
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+
+
+class SiteAdminOrWorkspaceAdminPermissionRequiredError(NotAuthorizedError):
     def __init__(
         self,
         message=None,

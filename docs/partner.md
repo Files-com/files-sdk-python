@@ -5,6 +5,7 @@
 ```
 {
   "allow_bypassing_2fa_policies": True,
+  "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "allow_credential_changes": True,
   "allow_providing_gpg_keys": True,
   "allow_user_creation": True,
@@ -28,6 +29,7 @@
 ```
 
 * `allow_bypassing_2fa_policies` (boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
+* `allowed_ips` (string): A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 * `allow_credential_changes` (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (boolean): Allow Partner Admins to create users.
@@ -76,6 +78,7 @@ files_sdk.partner.find(id)
 
 ```
 files_sdk.partner.create({
+  "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "allow_bypassing_2fa_policies": False,
   "allow_credential_changes": False,
   "allow_providing_gpg_keys": False,
@@ -90,6 +93,7 @@ files_sdk.partner.create({
 
 ### Parameters
 
+* `allowed_ips` (string): A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 * `allow_bypassing_2fa_policies` (boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 * `allow_credential_changes` (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
@@ -107,6 +111,7 @@ files_sdk.partner.create({
 
 ```
 files_sdk.partner.update(id, {
+  "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "allow_bypassing_2fa_policies": False,
   "allow_credential_changes": False,
   "allow_providing_gpg_keys": False,
@@ -121,6 +126,7 @@ files_sdk.partner.update(id, {
 ### Parameters
 
 * `id` (int64): Required - Partner ID.
+* `allowed_ips` (string): A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 * `allow_bypassing_2fa_policies` (boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 * `allow_credential_changes` (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
@@ -151,6 +157,7 @@ files_sdk.partner.delete(id)
 ```
 partner = files_sdk.partner.find(id)
 partner.update({
+  "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "allow_bypassing_2fa_policies": False,
   "allow_credential_changes": False,
   "allow_providing_gpg_keys": False,
@@ -165,6 +172,7 @@ partner.update({
 ### Parameters
 
 * `id` (int64): Required - Partner ID.
+* `allowed_ips` (string): A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 * `allow_bypassing_2fa_policies` (boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 * `allow_credential_changes` (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
