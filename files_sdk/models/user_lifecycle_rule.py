@@ -11,7 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class UserLifecycleRule:
     default_attributes = {
         "id": None,  # int64 - User Lifecycle Rule ID
-        "authentication_method": None,  # string - User authentication method for which the rule will apply.
+        "authentication_method": None,  # string - User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
         "group_ids": None,  # array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
         "action": None,  # string - Action to take on inactive users (disable or delete)
         "inactivity_days": None,  # int64 - Number of days of inactivity before the rule applies
@@ -53,7 +53,7 @@ class UserLifecycleRule:
     # Parameters:
     #   action - string - Action to take on inactive users (disable or delete)
     #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to users in all workspaces.
-    #   authentication_method - string - User authentication method for which the rule will apply.
+    #   authentication_method - string - User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
     #   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
     #   inactivity_days - int64 - Number of days of inactivity before the rule applies
     #   include_site_admins - boolean - If true, the rule will apply to site admins.
@@ -215,7 +215,7 @@ def get(id, params=None, options=None):
 # Parameters:
 #   action - string - Action to take on inactive users (disable or delete)
 #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to users in all workspaces.
-#   authentication_method - string - User authentication method for which the rule will apply.
+#   authentication_method - string - User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
 #   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies
 #   include_site_admins - boolean - If true, the rule will apply to site admins.
@@ -291,7 +291,7 @@ def create(params=None, options=None):
 # Parameters:
 #   action - string - Action to take on inactive users (disable or delete)
 #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to users in all workspaces.
-#   authentication_method - string - User authentication method for which the rule will apply.
+#   authentication_method - string - User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
 #   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies
 #   include_site_admins - boolean - If true, the rule will apply to site admins.
