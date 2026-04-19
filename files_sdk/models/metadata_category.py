@@ -154,6 +154,33 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
+#   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   path (required) - string - Path to operate on.
+def list_for(path, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["path"] = path
+    if "cursor" in params and not isinstance(params["cursor"], str):
+        raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "path" in params and not isinstance(params["path"], str):
+        raise InvalidParameterError("Bad parameter: path must be an str")
+    if "path" not in params:
+        raise MissingParameterError("Parameter missing: path")
+    return ListObj(
+        MetadataCategory,
+        "GET",
+        "/metadata_categories/list_by_path/{path}".format(path=params["path"]),
+        params,
+        options,
+    )
+
+
+# Parameters:
 #   name (required) - string - Name of the metadata category.
 #   default_columns - array(string) - Metadata keys that should appear as columns in the UI by default.
 def create(params=None, options=None):

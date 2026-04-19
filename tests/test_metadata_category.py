@@ -41,6 +41,14 @@ class MetadataCategoryTest(TestBase):
         }
         metadata_category.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/metadata_categories/list_by_path/{path}"), "Mock path does not exist")
+    def test_list_for(self):
+        path = "foo"
+        params = {
+            "path" : "foo",
+        }
+        metadata_category.list_for(path, params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/metadata_categories"), "Mock path does not exist")
     def test_create(self):
         params = {

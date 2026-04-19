@@ -92,6 +92,7 @@
   "group_admins_can_delete_users": True,
   "group_admins_can_enable_disable_users": True,
   "group_admins_can_modify_users": True,
+  "group_admins_can_bypass_user_lifecycle_rules": True,
   "group_admins_can_reset_passwords": True,
   "group_admins_can_set_user_password": True,
   "hipaa": True,
@@ -405,6 +406,7 @@
 * `group_admins_can_delete_users` (boolean): Allow group admins to delete users in their groups
 * `group_admins_can_enable_disable_users` (boolean): Allow group admins to enable or disable users in their groups
 * `group_admins_can_modify_users` (boolean): Allow group admins to modify users in their groups
+* `group_admins_can_bypass_user_lifecycle_rules` (boolean): Allow group admins to exempt users in their groups from lifecycle rules
 * `group_admins_can_reset_passwords` (boolean): Allow group admins to reset passwords for users in their groups
 * `group_admins_can_set_user_password` (boolean): Allow group admins to set password authentication method
 * `hipaa` (boolean): Is there a signed HIPAA BAA between Files.com and this site?
@@ -642,6 +644,7 @@ files_sdk.site.update({
   "group_admins_can_delete_users": False,
   "group_admins_can_enable_disable_users": False,
   "group_admins_can_modify_users": False,
+  "group_admins_can_bypass_user_lifecycle_rules": False,
   "group_admins_can_reset_passwords": False,
   "group_admins_can_set_user_password": False,
   "bundle_recipient_blacklist_free_email_domains": False,
@@ -812,6 +815,7 @@ files_sdk.site.update({
 * `group_admins_can_delete_users` (boolean): Allow group admins to delete users in their groups
 * `group_admins_can_enable_disable_users` (boolean): Allow group admins to enable or disable users in their groups
 * `group_admins_can_modify_users` (boolean): Allow group admins to modify users in their groups
+* `group_admins_can_bypass_user_lifecycle_rules` (boolean): Allow group admins to exempt users in their groups from lifecycle rules
 * `group_admins_can_reset_passwords` (boolean): Allow group admins to reset passwords for users in their groups
 * `group_admins_can_set_user_password` (boolean): Allow group admins to set password authentication method
 * `bundle_recipient_blacklist_free_email_domains` (boolean): Disallow free email domains for Bundle/Inbox recipients?
