@@ -29,6 +29,7 @@
   "notify_on_upload": True,
   "recursive": True,
   "send_interval": "fifteen_minutes",
+  "subject": "Vendor A CSV Activity",
   "message": "custom notification email message",
   "triggering_filenames": [
     "*.jpg",
@@ -59,6 +60,7 @@
 * `notify_on_upload` (boolean): Trigger on files created/uploaded/updated/changed in this path?
 * `recursive` (boolean): Apply notification recursively?  This will enable notifications for each subfolder.
 * `send_interval` (string): The time interval that notifications are aggregated to
+* `subject` (string): Custom subject line to use for notification emails
 * `message` (string): Custom message to include in notification emails
 * `triggering_filenames` (array(string)): Array of filenames (possibly with wildcards) to scope trigger
 * `unsubscribed` (boolean): Is the user unsubscribed from this notification?
@@ -119,6 +121,7 @@ files_sdk.notification.create({
   "notify_user_actions": False,
   "recursive": False,
   "send_interval": "daily",
+  "subject": "Vendor A CSV Activity",
   "message": "custom notification email message",
   "triggering_filenames": ["*.jpg","notify_file.txt"],
   "triggering_group_ids": [1],
@@ -141,6 +144,7 @@ files_sdk.notification.create({
 * `notify_user_actions` (boolean): If `true` actions initiated by the user will still result in a notification
 * `recursive` (boolean): If `true`, enable notifications for each subfolder in this path
 * `send_interval` (string): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+* `subject` (string): Custom subject line to use for notification emails
 * `message` (string): Custom message to include in notification emails
 * `triggering_filenames` (array(string)): Array of filenames (possibly with wildcards) to scope trigger
 * `triggering_group_ids` (array(int64)): If set, will only notify on actions made by a member of one of the specified groups
@@ -166,6 +170,7 @@ files_sdk.notification.update(id, {
   "notify_user_actions": False,
   "recursive": False,
   "send_interval": "daily",
+  "subject": "Vendor A CSV Activity",
   "message": "custom notification email message",
   "triggering_filenames": ["*.jpg","notify_file.txt"],
   "triggering_group_ids": [1],
@@ -185,6 +190,7 @@ files_sdk.notification.update(id, {
 * `notify_user_actions` (boolean): If `true` actions initiated by the user will still result in a notification
 * `recursive` (boolean): If `true`, enable notifications for each subfolder in this path
 * `send_interval` (string): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+* `subject` (string): Custom subject line to use for notification emails
 * `message` (string): Custom message to include in notification emails
 * `triggering_filenames` (array(string)): Array of filenames (possibly with wildcards) to scope trigger
 * `triggering_group_ids` (array(int64)): If set, will only notify on actions made by a member of one of the specified groups
@@ -220,6 +226,7 @@ notification.update({
   "notify_user_actions": False,
   "recursive": False,
   "send_interval": "daily",
+  "subject": "Vendor A CSV Activity",
   "message": "custom notification email message",
   "triggering_filenames": ["*.jpg","notify_file.txt"],
   "triggering_group_ids": [1],
@@ -239,6 +246,7 @@ notification.update({
 * `notify_user_actions` (boolean): If `true` actions initiated by the user will still result in a notification
 * `recursive` (boolean): If `true`, enable notifications for each subfolder in this path
 * `send_interval` (string): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+* `subject` (string): Custom subject line to use for notification emails
 * `message` (string): Custom message to include in notification emails
 * `triggering_filenames` (array(string)): Array of filenames (possibly with wildcards) to scope trigger
 * `triggering_group_ids` (array(int64)): If set, will only notify on actions made by a member of one of the specified groups

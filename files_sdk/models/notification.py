@@ -27,6 +27,7 @@ class Notification:
         "notify_on_upload": None,  # boolean - Trigger on files created/uploaded/updated/changed in this path?
         "recursive": None,  # boolean - Apply notification recursively?  This will enable notifications for each subfolder.
         "send_interval": None,  # string - The time interval that notifications are aggregated to
+        "subject": None,  # string - Custom subject line to use for notification emails
         "message": None,  # string - Custom message to include in notification emails
         "triggering_filenames": None,  # array(string) - Array of filenames (possibly with wildcards) to scope trigger
         "unsubscribed": None,  # boolean - Is the user unsubscribed from this notification?
@@ -69,6 +70,7 @@ class Notification:
     #   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
     #   recursive - boolean - If `true`, enable notifications for each subfolder in this path
     #   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+    #   subject - string - Custom subject line to use for notification emails
     #   message - string - Custom message to include in notification emails
     #   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
     #   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
@@ -91,6 +93,10 @@ class Notification:
         ):
             raise InvalidParameterError(
                 "Bad parameter: send_interval must be an str"
+            )
+        if "subject" in params and not isinstance(params["subject"], str):
+            raise InvalidParameterError(
+                "Bad parameter: subject must be an str"
             )
         if "message" in params and not isinstance(params["message"], str):
             raise InvalidParameterError(
@@ -232,6 +238,7 @@ def get(id, params=None, options=None):
 #   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
 #   recursive - boolean - If `true`, enable notifications for each subfolder in this path
 #   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+#   subject - string - Custom subject line to use for notification emails
 #   message - string - Custom message to include in notification emails
 #   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
 #   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
@@ -292,6 +299,8 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: send_interval must be an str"
         )
+    if "subject" in params and not isinstance(params["subject"], str):
+        raise InvalidParameterError("Bad parameter: subject must be an str")
     if "message" in params and not isinstance(params["message"], str):
         raise InvalidParameterError("Bad parameter: message must be an str")
     if "triggering_filenames" in params and not isinstance(
@@ -341,6 +350,7 @@ def create(params=None, options=None):
 #   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
 #   recursive - boolean - If `true`, enable notifications for each subfolder in this path
 #   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+#   subject - string - Custom subject line to use for notification emails
 #   message - string - Custom message to include in notification emails
 #   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
 #   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
@@ -398,6 +408,8 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: send_interval must be an str"
         )
+    if "subject" in params and not isinstance(params["subject"], str):
+        raise InvalidParameterError("Bad parameter: subject must be an str")
     if "message" in params and not isinstance(params["message"], str):
         raise InvalidParameterError("Bad parameter: message must be an str")
     if "triggering_filenames" in params and not isinstance(
