@@ -15,6 +15,7 @@
   "sftp_permission": True,
   "dav_permission": True,
   "restapi_permission": True,
+  "desktop_configuration_profile_id": 1,
   "site_id": 1,
   "workspace_id": 1
 }
@@ -31,6 +32,7 @@
 * `sftp_permission` (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+* `desktop_configuration_profile_id` (int64): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `site_id` (int64): Site ID
 * `workspace_id` (int64): Workspace ID
 
@@ -82,6 +84,7 @@ files_sdk.group.create({
   "sftp_permission": True,
   "dav_permission": True,
   "restapi_permission": True,
+  "desktop_configuration_profile_id": 1,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "name": "name",
   "workspace_id": 0
@@ -97,6 +100,7 @@ files_sdk.group.create({
 * `sftp_permission` (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+* `desktop_configuration_profile_id` (int64): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `name` (string): Required - Group name.
 * `workspace_id` (int64): Workspace ID
@@ -115,6 +119,7 @@ files_sdk.group.update(id, {
   "sftp_permission": True,
   "dav_permission": True,
   "restapi_permission": True,
+  "desktop_configuration_profile_id": 1,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "name": "owners"
 })
@@ -130,6 +135,7 @@ files_sdk.group.update(id, {
 * `sftp_permission` (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+* `desktop_configuration_profile_id` (int64): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `name` (string): Group name.
 
@@ -161,6 +167,7 @@ group.update({
   "sftp_permission": True,
   "dav_permission": True,
   "restapi_permission": True,
+  "desktop_configuration_profile_id": 1,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "name": "owners"
 })
@@ -176,6 +183,7 @@ group.update({
 * `sftp_permission` (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+* `desktop_configuration_profile_id` (int64): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `name` (string): Group name.
 
