@@ -62,6 +62,7 @@ class RemoteServer:
         "s3_compatible_bucket": None,  # string - S3-compatible: Bucket name
         "s3_compatible_endpoint": None,  # string - S3-compatible: endpoint
         "s3_compatible_region": None,  # string - S3-compatible: region
+        "s3_compatible_virtual_hosted_style": None,  # boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
         "s3_compatible_access_key": None,  # string - S3-compatible: Access Key
         "enable_dedicated_ips": None,  # boolean - `true` if remote server only accepts connections from dedicated IPs
         "files_agent_permission_set": None,  # string - Local permissions for files agent. read_only, write_only, or read_write
@@ -295,6 +296,7 @@ class RemoteServer:
     #   s3_compatible_bucket - string - S3-compatible: Bucket name
     #   s3_compatible_endpoint - string - S3-compatible: endpoint
     #   s3_compatible_region - string - S3-compatible: region
+    #   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
     #   s3_region - string - S3 region
     #   server_certificate - string - Remote server certificate
     #   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
@@ -886,6 +888,7 @@ def find_configuration_file(id, params=None, options=None):
 #   s3_compatible_bucket - string - S3-compatible: Bucket name
 #   s3_compatible_endpoint - string - S3-compatible: endpoint
 #   s3_compatible_region - string - S3-compatible: region
+#   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
 #   s3_region - string - S3 region
 #   server_certificate - string - Remote server certificate
 #   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
@@ -1270,6 +1273,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: s3_compatible_region must be an str"
         )
+    if "s3_compatible_virtual_hosted_style" in params and not isinstance(
+        params["s3_compatible_virtual_hosted_style"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_compatible_virtual_hosted_style must be an bool"
+        )
     if "s3_region" in params and not isinstance(params["s3_region"], str):
         raise InvalidParameterError("Bad parameter: s3_region must be an str")
     if "server_certificate" in params and not isinstance(
@@ -1476,6 +1485,7 @@ def configuration_file(id, params=None, options=None):
 #   s3_compatible_bucket - string - S3-compatible: Bucket name
 #   s3_compatible_endpoint - string - S3-compatible: endpoint
 #   s3_compatible_region - string - S3-compatible: region
+#   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
 #   s3_region - string - S3 region
 #   server_certificate - string - Remote server certificate
 #   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
@@ -1861,6 +1871,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: s3_compatible_region must be an str"
+        )
+    if "s3_compatible_virtual_hosted_style" in params and not isinstance(
+        params["s3_compatible_virtual_hosted_style"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_compatible_virtual_hosted_style must be an bool"
         )
     if "s3_region" in params and not isinstance(params["s3_region"], str):
         raise InvalidParameterError("Bad parameter: s3_region must be an str")
