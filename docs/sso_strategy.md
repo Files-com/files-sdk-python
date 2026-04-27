@@ -46,6 +46,7 @@
   "ldap_base_dn": "example",
   "ldap_domain": "mysite.com",
   "enabled": True,
+  "display_on_login_page": True,
   "ldap_host": "ldap.site.com",
   "ldap_host_2": "ldap2.site.com",
   "ldap_host_3": "ldap3.site.com",
@@ -98,6 +99,7 @@
 * `ldap_base_dn` (string): Base DN for looking up users in LDAP server
 * `ldap_domain` (string): Domain name that will be appended to LDAP usernames
 * `enabled` (boolean): Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
+* `display_on_login_page` (boolean): Should this strategy be displayed on the login page?
 * `ldap_host` (string): LDAP host
 * `ldap_host_2` (string): LDAP backup host
 * `ldap_host_3` (string): LDAP backup host

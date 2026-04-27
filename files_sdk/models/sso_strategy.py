@@ -52,6 +52,7 @@ class SsoStrategy:
         "ldap_base_dn": None,  # string - Base DN for looking up users in LDAP server
         "ldap_domain": None,  # string - Domain name that will be appended to LDAP usernames
         "enabled": None,  # boolean - Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
+        "display_on_login_page": None,  # boolean - Should this strategy be displayed on the login page?
         "ldap_host": None,  # string - LDAP host
         "ldap_host_2": None,  # string - LDAP backup host
         "ldap_host_3": None,  # string - LDAP backup host
