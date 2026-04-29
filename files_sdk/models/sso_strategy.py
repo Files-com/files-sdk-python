@@ -57,7 +57,9 @@ class SsoStrategy:
         "ldap_host_2": None,  # string - LDAP backup host
         "ldap_host_3": None,  # string - LDAP backup host
         "ldap_port": None,  # int64 - LDAP port
+        "ldap_provisioning_enabled": None,  # boolean - Use LDAP server settings for scheduled provisioning while using this SSO provider for authentication?
         "ldap_secure": None,  # boolean - Use secure LDAP?
+        "ldap_type": None,  # string - LDAP server type
         "ldap_username": None,  # string - Username for signing in to LDAP server.
         "ldap_username_field": None,  # string - LDAP username field
     }

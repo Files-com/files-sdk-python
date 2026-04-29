@@ -36,9 +36,9 @@ class Sync:
         "interval": None,  # string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
         "recurring_day": None,  # int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-        "schedule_times_of_day": None,  # array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
-        "schedule_time_zone": None,  # string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
-        "holiday_region": None,  # string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+        "schedule_times_of_day": None,  # array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
+        "schedule_time_zone": None,  # string - Time zone for scheduled times. If not set, times are interpreted as UTC.
+        "holiday_region": None,  # string - Skip sync if there is a formal, observed holiday for this region.
         "latest_sync_run": None,  # SyncRun - The latest run of this sync
     }
 
@@ -110,15 +110,15 @@ class Sync:
     #   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
     #   disabled - boolean - Is this sync disabled?
     #   exclude_patterns - array(string) - Array of glob patterns to exclude
-    #   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+    #   holiday_region - string - Skip sync if there is a formal, observed holiday for this region.
     #   include_patterns - array(string) - Array of glob patterns to include
     #   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
     #   keep_after_copy - boolean - Keep files after copying?
     #   name - string - Name for this sync job
     #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
     #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-    #   schedule_time_zone - string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
-    #   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
+    #   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
+    #   schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
     #   src_path - string - Absolute source path for the sync
     #   src_remote_server_id - int64 - Remote server ID for the source (if remote)
     #   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
@@ -321,15 +321,15 @@ def get(id, params=None, options=None):
 #   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
 #   disabled - boolean - Is this sync disabled?
 #   exclude_patterns - array(string) - Array of glob patterns to exclude
-#   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+#   holiday_region - string - Skip sync if there is a formal, observed holiday for this region.
 #   include_patterns - array(string) - Array of glob patterns to include
 #   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 #   keep_after_copy - boolean - Keep files after copying?
 #   name - string - Name for this sync job
 #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-#   schedule_time_zone - string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
-#   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
+#   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
+#   schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 #   src_path - string - Absolute source path for the sync
 #   src_remote_server_id - int64 - Remote server ID for the source (if remote)
 #   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
@@ -487,15 +487,15 @@ def manual_run(id, params=None, options=None):
 #   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
 #   disabled - boolean - Is this sync disabled?
 #   exclude_patterns - array(string) - Array of glob patterns to exclude
-#   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+#   holiday_region - string - Skip sync if there is a formal, observed holiday for this region.
 #   include_patterns - array(string) - Array of glob patterns to include
 #   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 #   keep_after_copy - boolean - Keep files after copying?
 #   name - string - Name for this sync job
 #   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-#   schedule_time_zone - string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
-#   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
+#   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
+#   schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 #   src_path - string - Absolute source path for the sync
 #   src_remote_server_id - int64 - Remote server ID for the source (if remote)
 #   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
