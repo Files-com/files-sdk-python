@@ -7,6 +7,7 @@
   "id": 1,
   "key_type": "gpg",
   "inactivity_days": 12,
+  "expiration_days": 365,
   "apply_to_all_workspaces": True,
   "name": "inactive gpg keys",
   "workspace_id": 12
@@ -16,6 +17,7 @@
 * `id` (int64): Key Lifecycle Rule ID
 * `key_type` (string): Key type for which the rule will apply (gpg or ssh).
 * `inactivity_days` (int64): Number of days of inactivity before the rule applies.
+* `expiration_days` (int64): Number of days after creation before an SSH key expires. Applies only to SSH keys.
 * `apply_to_all_workspaces` (boolean): If true, a default-workspace rule also applies to keys in all workspaces.
 * `name` (string): Key Lifecycle Rule name
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
@@ -57,6 +59,7 @@ files_sdk.key_lifecycle_rule.find(id)
 ```
 files_sdk.key_lifecycle_rule.create({
   "apply_to_all_workspaces": True,
+  "expiration_days": 365,
   "key_type": "gpg",
   "inactivity_days": 12,
   "name": "inactive gpg keys",
@@ -67,6 +70,7 @@ files_sdk.key_lifecycle_rule.create({
 ### Parameters
 
 * `apply_to_all_workspaces` (boolean): If true, a default-workspace rule also applies to keys in all workspaces.
+* `expiration_days` (int64): Number of days after creation before an SSH key expires. Applies only to SSH keys.
 * `key_type` (string): Key type for which the rule will apply (gpg or ssh).
 * `inactivity_days` (int64): Number of days of inactivity before the rule applies.
 * `name` (string): Key Lifecycle Rule name
@@ -80,6 +84,7 @@ files_sdk.key_lifecycle_rule.create({
 ```
 files_sdk.key_lifecycle_rule.update(id, {
   "apply_to_all_workspaces": True,
+  "expiration_days": 365,
   "key_type": "gpg",
   "inactivity_days": 12,
   "name": "inactive gpg keys",
@@ -91,6 +96,7 @@ files_sdk.key_lifecycle_rule.update(id, {
 
 * `id` (int64): Required - Key Lifecycle Rule ID.
 * `apply_to_all_workspaces` (boolean): If true, a default-workspace rule also applies to keys in all workspaces.
+* `expiration_days` (int64): Number of days after creation before an SSH key expires. Applies only to SSH keys.
 * `key_type` (string): Key type for which the rule will apply (gpg or ssh).
 * `inactivity_days` (int64): Number of days of inactivity before the rule applies.
 * `name` (string): Key Lifecycle Rule name
@@ -118,6 +124,7 @@ files_sdk.key_lifecycle_rule.delete(id)
 key_lifecycle_rule = files_sdk.key_lifecycle_rule.find(id)
 key_lifecycle_rule.update({
   "apply_to_all_workspaces": True,
+  "expiration_days": 365,
   "key_type": "gpg",
   "inactivity_days": 12,
   "name": "inactive gpg keys",
@@ -129,6 +136,7 @@ key_lifecycle_rule.update({
 
 * `id` (int64): Required - Key Lifecycle Rule ID.
 * `apply_to_all_workspaces` (boolean): If true, a default-workspace rule also applies to keys in all workspaces.
+* `expiration_days` (int64): Number of days after creation before an SSH key expires. Applies only to SSH keys.
 * `key_type` (string): Key type for which the rule will apply (gpg or ssh).
 * `inactivity_days` (int64): Number of days of inactivity before the rule applies.
 * `name` (string): Key Lifecycle Rule name

@@ -13,6 +13,7 @@ class KeyLifecycleRule:
         "id": None,  # int64 - Key Lifecycle Rule ID
         "key_type": None,  # string - Key type for which the rule will apply (gpg or ssh).
         "inactivity_days": None,  # int64 - Number of days of inactivity before the rule applies.
+        "expiration_days": None,  # int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
         "apply_to_all_workspaces": None,  # boolean - If true, a default-workspace rule also applies to keys in all workspaces.
         "name": None,  # string - Key Lifecycle Rule name
         "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
@@ -44,6 +45,7 @@ class KeyLifecycleRule:
 
     # Parameters:
     #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
+    #   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
     #   key_type - string - Key type for which the rule will apply (gpg or ssh).
     #   inactivity_days - int64 - Number of days of inactivity before the rule applies.
     #   name - string - Key Lifecycle Rule name
@@ -60,6 +62,12 @@ class KeyLifecycleRule:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
+        if "expiration_days" in params and not isinstance(
+            params["expiration_days"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: expiration_days must be an int"
+            )
         if "key_type" in params and not isinstance(params["key_type"], str):
             raise InvalidParameterError(
                 "Bad parameter: key_type must be an str"
@@ -173,6 +181,7 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
+#   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
 #   key_type - string - Key type for which the rule will apply (gpg or ssh).
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies.
 #   name - string - Key Lifecycle Rule name
@@ -187,6 +196,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: apply_to_all_workspaces must be an bool"
+        )
+    if "expiration_days" in params and not isinstance(
+        params["expiration_days"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: expiration_days must be an int"
         )
     if "key_type" in params and not isinstance(params["key_type"], str):
         raise InvalidParameterError("Bad parameter: key_type must be an str")
@@ -212,6 +227,7 @@ def create(params=None, options=None):
 
 # Parameters:
 #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
+#   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
 #   key_type - string - Key type for which the rule will apply (gpg or ssh).
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies.
 #   name - string - Key Lifecycle Rule name
@@ -229,6 +245,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: apply_to_all_workspaces must be an bool"
+        )
+    if "expiration_days" in params and not isinstance(
+        params["expiration_days"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: expiration_days must be an int"
         )
     if "key_type" in params and not isinstance(params["key_type"], str):
         raise InvalidParameterError("Bad parameter: key_type must be an str")

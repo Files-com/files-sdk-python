@@ -14,6 +14,8 @@ class PublicKey:
         "workspace_id": None,  # int64 - Workspace ID (0 for default workspace).
         "title": None,  # string - Public key title
         "created_at": None,  # date-time - Public key created at date/time
+        "expires_at": None,  # date-time - Public key expiration date/time
+        "expired": None,  # boolean - Is this public key expired?
         "fingerprint": None,  # string - Public key fingerprint (MD5)
         "fingerprint_sha256": None,  # string - Public key fingerprint (SHA256)
         "status": None,  # string - Only returned when generating keys. Can be invalid, not_generated, generating, complete

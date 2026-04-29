@@ -8,6 +8,8 @@
   "workspace_id": 1,
   "title": "My public key",
   "created_at": "2000-01-01T01:00:00Z",
+  "expires_at": "2000-01-01T01:00:00Z",
+  "expired": True,
   "fingerprint": "43:51:43:a1:b5:fc:8b:b7:0a:3a:a9:b1:0f:66:73:a8",
   "fingerprint_sha256": "V5Q5t/ghT3R8Tol5GX9385bzmpygWVRnLuI9EXNrjCX",
   "status": "complete",
@@ -23,6 +25,8 @@
 * `workspace_id` (int64): Workspace ID (0 for default workspace).
 * `title` (string): Public key title
 * `created_at` (date-time): Public key created at date/time
+* `expires_at` (date-time): Public key expiration date/time
+* `expired` (boolean): Is this public key expired?
 * `fingerprint` (string): Public key fingerprint (MD5)
 * `fingerprint_sha256` (string): Public key fingerprint (SHA256)
 * `status` (string): Only returned when generating keys. Can be invalid, not_generated, generating, complete
