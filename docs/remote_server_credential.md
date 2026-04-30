@@ -56,6 +56,7 @@
 * `linode_secret_key` (string): Linode: Secret Key
 * `s3_compatible_secret_key` (string): S3-compatible: Secret Key
 * `wasabi_secret_key` (string): Wasabi: Secret Key
+* `copy_values_from_credential_id` (int64): ID of Remote Server Credential to copy omitted values from.
 
 
 ---
@@ -107,7 +108,8 @@ files_sdk.remote_server_credential.create({
   "s3_compatible_access_key": "example",
   "username": "user",
   "wasabi_access_key": "example",
-  "workspace_id": 0
+  "workspace_id": 0,
+  "copy_values_from_credential_id": 1
 })
 ```
 
@@ -144,6 +146,7 @@ files_sdk.remote_server_credential.create({
 * `s3_compatible_secret_key` (string): S3-compatible: Secret Key
 * `wasabi_secret_key` (string): Wasabi: Secret Key
 * `workspace_id` (int64): Workspace ID (0 for default workspace)
+* `copy_values_from_credential_id` (int64): ID of Remote Server Credential to copy omitted values from.
 
 
 ---

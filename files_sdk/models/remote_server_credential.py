@@ -43,6 +43,7 @@ class RemoteServerCredential:
         "linode_secret_key": None,  # string - Linode: Secret Key
         "s3_compatible_secret_key": None,  # string - S3-compatible: Secret Key
         "wasabi_secret_key": None,  # string - Wasabi: Secret Key
+        "copy_values_from_credential_id": None,  # int64 - ID of Remote Server Credential to copy omitted values from.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -429,6 +430,7 @@ def get(id, params=None, options=None):
 #   s3_compatible_secret_key - string - S3-compatible: Secret Key
 #   wasabi_secret_key - string - Wasabi: Secret Key
 #   workspace_id - int64 - Workspace ID (0 for default workspace)
+#   copy_values_from_credential_id - int64 - ID of Remote Server Credential to copy omitted values from.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -607,6 +609,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: workspace_id must be an int"
+        )
+    if "copy_values_from_credential_id" in params and not isinstance(
+        params["copy_values_from_credential_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: copy_values_from_credential_id must be an int"
         )
     response, options = Api.send_request(
         "POST", "/remote_server_credentials", params, options
