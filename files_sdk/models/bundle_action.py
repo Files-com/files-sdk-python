@@ -21,6 +21,8 @@ class BundleAction:
         "bundle_registration_name": None,  # string - Name of the registrant who performed the action
         "bundle_registration_email": None,  # string - Email of the registrant
         "bundle_registration_ip": None,  # string - IP address of the registrant
+        "form_field_set_id": None,  # int64 - Id of associated form field set
+        "form_field_data": None,  # object - Data for form field set with form field ids as keys and user data as values
     }
 
     def __init__(self, attributes=None, options=None):

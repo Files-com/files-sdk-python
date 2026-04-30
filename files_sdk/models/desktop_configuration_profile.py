@@ -14,6 +14,7 @@ class DesktopConfigurationProfile:
         "name": None,  # string - Profile name
         "workspace_id": None,  # int64 - Workspace ID
         "use_for_all_users": None,  # boolean - Whether this profile applies to all users in the Workspace by default
+        "disable_drive_mounting": None,  # boolean - Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
         "mount_mappings": None,  # object - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
     }
 
@@ -46,6 +47,7 @@ class DesktopConfigurationProfile:
     #   workspace_id - int64 - Workspace ID
     #   mount_mappings - object - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
     #   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
+    #   disable_drive_mounting - boolean - Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -168,6 +170,7 @@ def get(id, params=None, options=None):
 #   mount_mappings (required) - object - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
 #   workspace_id - int64 - Workspace ID
 #   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
+#   disable_drive_mounting - boolean - Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -193,6 +196,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: use_for_all_users must be an bool"
         )
+    if "disable_drive_mounting" in params and not isinstance(
+        params["disable_drive_mounting"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: disable_drive_mounting must be an bool"
+        )
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     if "mount_mappings" not in params:
@@ -208,6 +217,7 @@ def create(params=None, options=None):
 #   workspace_id - int64 - Workspace ID
 #   mount_mappings - object - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
 #   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
+#   disable_drive_mounting - boolean - Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -235,6 +245,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: use_for_all_users must be an bool"
+        )
+    if "disable_drive_mounting" in params and not isinstance(
+        params["disable_drive_mounting"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: disable_drive_mounting must be an bool"
         )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
