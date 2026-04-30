@@ -23,7 +23,7 @@
 
   ],
   "criteria_errors": [
-
+    "count expected exactly 2, got 1"
   ],
   "summary": null,
   "created_at": "2000-01-01T01:00:00Z",
@@ -45,7 +45,7 @@
 * `closed_at` (date-time): When the evaluation row was finalized.
 * `matched_files` (array(object)): Captured evidence for files that matched the window.
 * `missing_files` (array(object)): Captured evidence for required files that were missing.
-* `criteria_errors` (array(object)): Captured criteria failures for the window.
+* `criteria_errors` (array(string)): Captured criteria failures for the window.
 * `summary` (object): Compact evaluator summary payload.
 * `created_at` (date-time): Creation time.
 * `updated_at` (date-time): Last update time.

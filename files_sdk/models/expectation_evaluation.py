@@ -24,7 +24,7 @@ class ExpectationEvaluation:
         "closed_at": None,  # date-time - When the evaluation row was finalized.
         "matched_files": None,  # array(object) - Captured evidence for files that matched the window.
         "missing_files": None,  # array(object) - Captured evidence for required files that were missing.
-        "criteria_errors": None,  # array(object) - Captured criteria failures for the window.
+        "criteria_errors": None,  # array(string) - Captured criteria failures for the window.
         "summary": None,  # object - Compact evaluator summary payload.
         "created_at": None,  # date-time - Creation time.
         "updated_at": None,  # date-time - Last update time.
