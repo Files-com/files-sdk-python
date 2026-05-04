@@ -108,6 +108,7 @@ from files_sdk.models.share_group import ShareGroup
 from files_sdk.models.share_group_member import ShareGroupMember
 from files_sdk.models.siem_http_destination import SiemHttpDestination
 from files_sdk.models.site import Site
+from files_sdk.models.site_subdomain_redirect import SiteSubdomainRedirect
 from files_sdk.models.snapshot import Snapshot
 from files_sdk.models.sso_strategy import SsoStrategy
 from files_sdk.models.status import Status

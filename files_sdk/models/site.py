@@ -425,6 +425,7 @@ def get_usage(params=None, options=None):
 #   disable_2fa_with_delay - boolean - If set to true, we will begin the process of disabling 2FA on this site.
 #   ldap_password_change - string - New LDAP password.
 #   ldap_password_change_confirmation - string - Confirm new LDAP password.
+#   redirect_old_subdomain - boolean - If true, and if changing the site subdomain, then create a redirect from the previous Files.com subdomain to the new Files.com subdomain.
 #   smtp_password - string - Password for SMTP server.
 def update(params=None, options=None):
     if not isinstance(params, dict):
@@ -1373,6 +1374,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: ldap_password_change_confirmation must be an str"
+        )
+    if "redirect_old_subdomain" in params and not isinstance(
+        params["redirect_old_subdomain"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: redirect_old_subdomain must be an bool"
         )
     if "smtp_password" in params and not isinstance(
         params["smtp_password"], str

@@ -99,6 +99,7 @@ import files_sdk.models.share_group as share_group
 import files_sdk.models.share_group_member as share_group_member
 import files_sdk.models.siem_http_destination as siem_http_destination
 import files_sdk.models.site as site
+import files_sdk.models.site_subdomain_redirect as site_subdomain_redirect
 import files_sdk.models.snapshot as snapshot
 import files_sdk.models.sso_strategy as sso_strategy
 import files_sdk.models.status as status
@@ -230,6 +231,7 @@ from files_sdk.models.share_group import ShareGroup
 from files_sdk.models.share_group_member import ShareGroupMember
 from files_sdk.models.siem_http_destination import SiemHttpDestination
 from files_sdk.models.site import Site
+from files_sdk.models.site_subdomain_redirect import SiteSubdomainRedirect
 from files_sdk.models.snapshot import Snapshot
 from files_sdk.models.sso_strategy import SsoStrategy
 from files_sdk.models.status import Status
@@ -261,7 +263,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.362"
+version = "1.6.363"
 
 __version__ = version
 
