@@ -19,6 +19,7 @@ class UserLifecycleRule:
         "include_site_admins": None,  # boolean - If true, the rule will apply to site admins.
         "apply_to_all_workspaces": None,  # boolean - If true, a default-workspace rule also applies to users in all workspaces.
         "name": None,  # string - User Lifecycle Rule name
+        "notify_users": None,  # boolean - If true, users will be emailed before the rule disables or deletes them.
         "partner_tag": None,  # string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
         "site_id": None,  # int64 - Site ID
         "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
@@ -59,6 +60,7 @@ class UserLifecycleRule:
     #   include_site_admins - boolean - If true, the rule will apply to site admins.
     #   include_folder_admins - boolean - If true, the rule will apply to folder admins.
     #   name - string - User Lifecycle Rule name
+    #   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
     #   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
     #   user_state - string - State of the users to apply the rule to (inactive or disabled)
     #   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
@@ -221,6 +223,7 @@ def get(id, params=None, options=None):
 #   include_site_admins - boolean - If true, the rule will apply to site admins.
 #   include_folder_admins - boolean - If true, the rule will apply to folder admins.
 #   name - string - User Lifecycle Rule name
+#   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
 #   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 #   user_state - string - State of the users to apply the rule to (inactive or disabled)
 #   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
@@ -268,6 +271,12 @@ def create(params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "notify_users" in params and not isinstance(
+        params["notify_users"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_users must be an bool"
+        )
     if "partner_tag" in params and not isinstance(params["partner_tag"], str):
         raise InvalidParameterError(
             "Bad parameter: partner_tag must be an str"
@@ -297,6 +306,7 @@ def create(params=None, options=None):
 #   include_site_admins - boolean - If true, the rule will apply to site admins.
 #   include_folder_admins - boolean - If true, the rule will apply to folder admins.
 #   name - string - User Lifecycle Rule name
+#   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
 #   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 #   user_state - string - State of the users to apply the rule to (inactive or disabled)
 #   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
@@ -347,6 +357,12 @@ def update(id, params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "notify_users" in params and not isinstance(
+        params["notify_users"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_users must be an bool"
+        )
     if "partner_tag" in params and not isinstance(params["partner_tag"], str):
         raise InvalidParameterError(
             "Bad parameter: partner_tag must be an str"

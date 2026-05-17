@@ -9,6 +9,7 @@
   "allow_credential_changes": True,
   "allow_providing_gpg_keys": True,
   "allow_user_creation": True,
+  "cc_emails_to_responsible_party": True,
   "id": 1,
   "workspace_id": 1,
   "name": "Acme Corp",
@@ -18,6 +19,8 @@
     2,
     3
   ],
+  "responsible_group_id": 1,
+  "responsible_user_id": 1,
   "root_folder": "/AcmeCorp",
   "tags": "example",
   "user_ids": [
@@ -33,11 +36,14 @@
 * `allow_credential_changes` (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (boolean): Allow Partner Admins to create users.
+* `cc_emails_to_responsible_party` (boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
 * `id` (int64): The unique ID of the Partner.
 * `workspace_id` (int64): ID of the Workspace associated with this Partner.
 * `name` (string): The name of the Partner.
 * `notes` (string): Notes about this Partner.
 * `partner_admin_ids` (array(int64)): Array of User IDs that are Partner Admins for this Partner.
+* `responsible_group_id` (int64): ID of the Group responsible for this Partner.
+* `responsible_user_id` (int64): ID of the User responsible for this Partner.
 * `root_folder` (string): The root folder path for this Partner.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_ids` (array(int64)): Array of User IDs that belong to this Partner.
@@ -83,7 +89,10 @@ files_sdk.partner.create({
   "allow_credential_changes": False,
   "allow_providing_gpg_keys": False,
   "allow_user_creation": False,
+  "cc_emails_to_responsible_party": False,
   "notes": "This is a note about the partner.",
+  "responsible_group_id": 1,
+  "responsible_user_id": 1,
   "tags": "example",
   "name": "Acme Corp",
   "root_folder": "/AcmeCorp",
@@ -98,7 +107,10 @@ files_sdk.partner.create({
 * `allow_credential_changes` (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (boolean): Allow Partner Admins to create users.
+* `cc_emails_to_responsible_party` (boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
 * `notes` (string): Notes about this Partner.
+* `responsible_group_id` (int64): ID of the Group responsible for this Partner.
+* `responsible_user_id` (int64): ID of the User responsible for this Partner.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (string): Required - The name of the Partner.
 * `root_folder` (string): Required - The root folder path for this Partner.
@@ -116,7 +128,10 @@ files_sdk.partner.update(id, {
   "allow_credential_changes": False,
   "allow_providing_gpg_keys": False,
   "allow_user_creation": False,
+  "cc_emails_to_responsible_party": False,
   "notes": "This is a note about the partner.",
+  "responsible_group_id": 1,
+  "responsible_user_id": 1,
   "tags": "example",
   "name": "Acme Corp",
   "root_folder": "/AcmeCorp"
@@ -131,7 +146,10 @@ files_sdk.partner.update(id, {
 * `allow_credential_changes` (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (boolean): Allow Partner Admins to create users.
+* `cc_emails_to_responsible_party` (boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
 * `notes` (string): Notes about this Partner.
+* `responsible_group_id` (int64): ID of the Group responsible for this Partner.
+* `responsible_user_id` (int64): ID of the User responsible for this Partner.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (string): The name of the Partner.
 * `root_folder` (string): The root folder path for this Partner.
@@ -162,7 +180,10 @@ partner.update({
   "allow_credential_changes": False,
   "allow_providing_gpg_keys": False,
   "allow_user_creation": False,
+  "cc_emails_to_responsible_party": False,
   "notes": "This is a note about the partner.",
+  "responsible_group_id": 1,
+  "responsible_user_id": 1,
   "tags": "example",
   "name": "Acme Corp",
   "root_folder": "/AcmeCorp"
@@ -177,7 +198,10 @@ partner.update({
 * `allow_credential_changes` (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (boolean): Allow Partner Admins to create users.
+* `cc_emails_to_responsible_party` (boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
 * `notes` (string): Notes about this Partner.
+* `responsible_group_id` (int64): ID of the Group responsible for this Partner.
+* `responsible_user_id` (int64): ID of the User responsible for this Partner.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (string): The name of the Partner.
 * `root_folder` (string): The root folder path for this Partner.

@@ -15,11 +15,14 @@ class Partner:
         "allow_credential_changes": None,  # boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
         "allow_providing_gpg_keys": None,  # boolean - Allow Partner Admins to provide GPG keys.
         "allow_user_creation": None,  # boolean - Allow Partner Admins to create users.
+        "cc_emails_to_responsible_party": None,  # boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
         "id": None,  # int64 - The unique ID of the Partner.
         "workspace_id": None,  # int64 - ID of the Workspace associated with this Partner.
         "name": None,  # string - The name of the Partner.
         "notes": None,  # string - Notes about this Partner.
         "partner_admin_ids": None,  # array(int64) - Array of User IDs that are Partner Admins for this Partner.
+        "responsible_group_id": None,  # int64 - ID of the Group responsible for this Partner.
+        "responsible_user_id": None,  # int64 - ID of the User responsible for this Partner.
         "root_folder": None,  # string - The root folder path for this Partner.
         "tags": None,  # string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
         "user_ids": None,  # array(int64) - Array of User IDs that belong to this Partner.
@@ -52,7 +55,10 @@ class Partner:
     #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
     #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
     #   allow_user_creation - boolean - Allow Partner Admins to create users.
+    #   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
     #   notes - string - Notes about this Partner.
+    #   responsible_group_id - int64 - ID of the Group responsible for this Partner.
+    #   responsible_user_id - int64 - ID of the User responsible for this Partner.
     #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
     #   name - string - The name of the Partner.
     #   root_folder - string - The root folder path for this Partner.
@@ -76,6 +82,18 @@ class Partner:
             )
         if "notes" in params and not isinstance(params["notes"], str):
             raise InvalidParameterError("Bad parameter: notes must be an str")
+        if "responsible_group_id" in params and not isinstance(
+            params["responsible_group_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: responsible_group_id must be an int"
+            )
+        if "responsible_user_id" in params and not isinstance(
+            params["responsible_user_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: responsible_user_id must be an int"
+            )
         if "tags" in params and not isinstance(params["tags"], str):
             raise InvalidParameterError("Bad parameter: tags must be an str")
         if "name" in params and not isinstance(params["name"], str):
@@ -180,7 +198,10 @@ def get(id, params=None, options=None):
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
+#   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
 #   notes - string - Notes about this Partner.
+#   responsible_group_id - int64 - ID of the Group responsible for this Partner.
+#   responsible_user_id - int64 - ID of the User responsible for this Partner.
 #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   name (required) - string - The name of the Partner.
 #   root_folder (required) - string - The root folder path for this Partner.
@@ -218,8 +239,26 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: allow_user_creation must be an bool"
         )
+    if "cc_emails_to_responsible_party" in params and not isinstance(
+        params["cc_emails_to_responsible_party"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: cc_emails_to_responsible_party must be an bool"
+        )
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
+    if "responsible_group_id" in params and not isinstance(
+        params["responsible_group_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: responsible_group_id must be an int"
+        )
+    if "responsible_user_id" in params and not isinstance(
+        params["responsible_user_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: responsible_user_id must be an int"
+        )
     if "tags" in params and not isinstance(params["tags"], str):
         raise InvalidParameterError("Bad parameter: tags must be an str")
     if "name" in params and not isinstance(params["name"], str):
@@ -248,7 +287,10 @@ def create(params=None, options=None):
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 #   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
+#   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
 #   notes - string - Notes about this Partner.
+#   responsible_group_id - int64 - ID of the Group responsible for this Partner.
+#   responsible_user_id - int64 - ID of the User responsible for this Partner.
 #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   name - string - The name of the Partner.
 #   root_folder - string - The root folder path for this Partner.
@@ -288,8 +330,26 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: allow_user_creation must be an bool"
         )
+    if "cc_emails_to_responsible_party" in params and not isinstance(
+        params["cc_emails_to_responsible_party"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: cc_emails_to_responsible_party must be an bool"
+        )
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
+    if "responsible_group_id" in params and not isinstance(
+        params["responsible_group_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: responsible_group_id must be an int"
+        )
+    if "responsible_user_id" in params and not isinstance(
+        params["responsible_user_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: responsible_user_id must be an int"
+        )
     if "tags" in params and not isinstance(params["tags"], str):
         raise InvalidParameterError("Bad parameter: tags must be an str")
     if "name" in params and not isinstance(params["name"], str):
