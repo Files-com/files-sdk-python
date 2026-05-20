@@ -32,6 +32,11 @@ import files_sdk.models.dns_record as dns_record
 import files_sdk.models.email_incoming_message as email_incoming_message
 import files_sdk.models.email_log as email_log
 import files_sdk.models.errors as errors
+import files_sdk.models.event_channel as event_channel
+import files_sdk.models.event_delivery_attempt as event_delivery_attempt
+import files_sdk.models.event_record as event_record
+import files_sdk.models.event_subscription as event_subscription
+import files_sdk.models.event_target as event_target
 import files_sdk.models.exavault_api_request_log as exavault_api_request_log
 import files_sdk.models.expectation as expectation
 import files_sdk.models.expectation_evaluation as expectation_evaluation
@@ -77,6 +82,7 @@ import files_sdk.models.partner_site as partner_site
 import files_sdk.models.partner_site_request as partner_site_request
 import files_sdk.models.payment as payment
 import files_sdk.models.payment_line_item as payment_line_item
+import files_sdk.models.pending_work_event as pending_work_event
 import files_sdk.models.permission as permission
 import files_sdk.models.preview as preview
 import files_sdk.models.project as project
@@ -98,9 +104,11 @@ import files_sdk.models.sftp_host_key as sftp_host_key
 import files_sdk.models.share_group as share_group
 import files_sdk.models.share_group_member as share_group_member
 import files_sdk.models.siem_http_destination as siem_http_destination
+import files_sdk.models.siem_http_destination_event as siem_http_destination_event
 import files_sdk.models.site as site
 import files_sdk.models.site_subdomain_redirect as site_subdomain_redirect
 import files_sdk.models.snapshot as snapshot
+import files_sdk.models.sso_event as sso_event
 import files_sdk.models.sso_strategy as sso_strategy
 import files_sdk.models.status as status
 import files_sdk.models.style as style
@@ -115,6 +123,7 @@ import files_sdk.models.user as user
 import files_sdk.models.user_cipher_use as user_cipher_use
 import files_sdk.models.user_lifecycle_rule as user_lifecycle_rule
 import files_sdk.models.user_request as user_request
+import files_sdk.models.user_security_event as user_security_event
 import files_sdk.models.user_sftp_client_use as user_sftp_client_use
 import files_sdk.models.web_dav_action_log as web_dav_action_log
 import files_sdk.models.webhook_test as webhook_test
@@ -162,6 +171,11 @@ from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.email_incoming_message import EmailIncomingMessage
 from files_sdk.models.email_log import EmailLog
 from files_sdk.models.errors import Errors
+from files_sdk.models.event_channel import EventChannel
+from files_sdk.models.event_delivery_attempt import EventDeliveryAttempt
+from files_sdk.models.event_record import EventRecord
+from files_sdk.models.event_subscription import EventSubscription
+from files_sdk.models.event_target import EventTarget
 from files_sdk.models.exavault_api_request_log import ExavaultApiRequestLog
 from files_sdk.models.expectation import Expectation
 from files_sdk.models.expectation_evaluation import ExpectationEvaluation
@@ -207,6 +221,7 @@ from files_sdk.models.partner_site import PartnerSite
 from files_sdk.models.partner_site_request import PartnerSiteRequest
 from files_sdk.models.payment import Payment
 from files_sdk.models.payment_line_item import PaymentLineItem
+from files_sdk.models.pending_work_event import PendingWorkEvent
 from files_sdk.models.permission import Permission
 from files_sdk.models.preview import Preview
 from files_sdk.models.project import Project
@@ -230,9 +245,13 @@ from files_sdk.models.sftp_host_key import SftpHostKey
 from files_sdk.models.share_group import ShareGroup
 from files_sdk.models.share_group_member import ShareGroupMember
 from files_sdk.models.siem_http_destination import SiemHttpDestination
+from files_sdk.models.siem_http_destination_event import (
+    SiemHttpDestinationEvent,
+)
 from files_sdk.models.site import Site
 from files_sdk.models.site_subdomain_redirect import SiteSubdomainRedirect
 from files_sdk.models.snapshot import Snapshot
+from files_sdk.models.sso_event import SsoEvent
 from files_sdk.models.sso_strategy import SsoStrategy
 from files_sdk.models.status import Status
 from files_sdk.models.style import Style
@@ -247,6 +266,7 @@ from files_sdk.models.user import User
 from files_sdk.models.user_cipher_use import UserCipherUse
 from files_sdk.models.user_lifecycle_rule import UserLifecycleRule
 from files_sdk.models.user_request import UserRequest
+from files_sdk.models.user_security_event import UserSecurityEvent
 from files_sdk.models.user_sftp_client_use import UserSftpClientUse
 from files_sdk.models.web_dav_action_log import WebDavActionLog
 from files_sdk.models.webhook_test import WebhookTest
@@ -263,7 +283,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.365"
+version = "1.6.366"
 
 __version__ = version
 

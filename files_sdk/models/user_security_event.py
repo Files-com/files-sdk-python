@@ -8,14 +8,15 @@ from files_sdk.error import (  # noqa: F401
 )
 
 
-class ExternalEvent:
+class UserSecurityEvent:
     default_attributes = {
         "id": None,  # int64 - Event ID
-        "event_type": None,  # string - Type of event being recorded.
-        "status": None,  # string - Status of event.
-        "body": None,  # string - Event body
-        "created_at": None,  # date-time - External event create date/time
+        "event_type": None,  # string - Type of user security event being recorded.
+        "body": None,  # string - Event body.
+        "event_errors": None,  # array(string) - Event errors.
+        "created_at": None,  # date-time - Event create date/time.
         "body_url": None,  # string - Link to log file.
+        "user_id": None,  # int64 - User ID.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -30,34 +31,24 @@ class ExternalEvent:
         for (
             attribute,
             default_value,
-        ) in ExternalEvent.default_attributes.items():
+        ) in UserSecurityEvent.default_attributes.items():
             value = attributes.get(attribute, default_value)
             setattr(self, attribute, value)
 
     def get_attributes(self):
         attrs = {
             k: getattr(self, k, None)
-            for k in ExternalEvent.default_attributes
+            for k in UserSecurityEvent.default_attributes
             if getattr(self, k, None) is not None
         }
         return attrs
-
-    def save(self):
-        if hasattr(self, "id") and self.id:
-            raise NotImplementedError(
-                "The ExternalEvent object doesn't support updates."
-            )
-        else:
-            new_obj = create(self.get_attributes(), self.options)
-            self.set_attributes(new_obj.get_attributes())
-            return True
 
 
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status` or `event_type`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `status`. Valid field combinations are `[ status, created_at ]`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at` and `user_id`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `user_id`. Valid field combinations are `[ user_id, created_at ]`.
 #   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
 #   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
 #   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
@@ -87,7 +78,9 @@ def list(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: filter_lteq must be an dict"
         )
-    return ListObj(ExternalEvent, "GET", "/external_events", params, options)
+    return ListObj(
+        UserSecurityEvent, "GET", "/user_security_events", params, options
+    )
 
 
 def all(params=None, options=None):
@@ -95,7 +88,7 @@ def all(params=None, options=None):
 
 
 # Parameters:
-#   id (required) - int64 - External Event ID.
+#   id (required) - int64 - User Security Event ID.
 def find(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -107,36 +100,17 @@ def find(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "GET", "/external_events/{id}".format(id=params["id"]), params, options
+        "GET",
+        "/user_security_events/{id}".format(id=params["id"]),
+        params,
+        options,
     )
-    return ExternalEvent(response.data, options)
+    return UserSecurityEvent(response.data, options)
 
 
 def get(id, params=None, options=None):
     find(id, params, options)
 
 
-# Parameters:
-#   status (required) - string - Status of event.
-#   body (required) - string - Event body
-def create(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "status" in params and not isinstance(params["status"], str):
-        raise InvalidParameterError("Bad parameter: status must be an str")
-    if "body" in params and not isinstance(params["body"], str):
-        raise InvalidParameterError("Bad parameter: body must be an str")
-    if "status" not in params:
-        raise MissingParameterError("Parameter missing: status")
-    if "body" not in params:
-        raise MissingParameterError("Parameter missing: body")
-    response, options = Api.send_request(
-        "POST", "/external_events", params, options
-    )
-    return ExternalEvent(response.data, options)
-
-
 def new(*args, **kwargs):
-    return ExternalEvent(*args, **kwargs)
+    return UserSecurityEvent(*args, **kwargs)

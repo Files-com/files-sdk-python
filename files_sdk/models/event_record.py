@@ -8,14 +8,23 @@ from files_sdk.error import (  # noqa: F401
 )
 
 
-class ExternalEvent:
+class EventRecord:
     default_attributes = {
-        "id": None,  # int64 - Event ID
-        "event_type": None,  # string - Type of event being recorded.
-        "status": None,  # string - Status of event.
-        "body": None,  # string - Event body
-        "created_at": None,  # date-time - External event create date/time
-        "body_url": None,  # string - Link to log file.
+        "id": None,  # int64 - Event Record ID
+        "workspace_id": None,  # int64 - Workspace ID. 0 means the default workspace or site-wide.
+        "event_uuid": None,  # string - Stable event UUID.
+        "event_type": None,  # string - Versioned event type string.
+        "severity": None,  # string - Event severity.
+        "source_type": None,  # string - Source record type.
+        "source_id": None,  # int64 - Source record ID.
+        "occurred_at": None,  # date-time - Event occurrence date/time.
+        "human_title": None,  # string - Human-readable event title.
+        "human_summary": None,  # string - Human-readable event summary.
+        "human_fields": None,  # array(object) - Human-readable event detail fields.
+        "actor": None,  # object - Actor associated with the event.
+        "resources": None,  # array(object) - Resources associated with the event.
+        "payload": None,  # object - Event payload.
+        "created_at": None,  # date-time - Event Record create date/time.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -27,39 +36,27 @@ class ExternalEvent:
         self.options = options
 
     def set_attributes(self, attributes):
-        for (
-            attribute,
-            default_value,
-        ) in ExternalEvent.default_attributes.items():
+        for attribute, default_value in EventRecord.default_attributes.items():
             value = attributes.get(attribute, default_value)
             setattr(self, attribute, value)
 
     def get_attributes(self):
         attrs = {
             k: getattr(self, k, None)
-            for k in ExternalEvent.default_attributes
+            for k in EventRecord.default_attributes
             if getattr(self, k, None) is not None
         }
         return attrs
-
-    def save(self):
-        if hasattr(self, "id") and self.id:
-            raise NotImplementedError(
-                "The ExternalEvent object doesn't support updates."
-            )
-        else:
-            new_obj = create(self.get_attributes(), self.options)
-            self.set_attributes(new_obj.get_attributes())
-            return True
 
 
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status` or `event_type`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `status`. Valid field combinations are `[ status, created_at ]`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `event_type`, `created_at` or `workspace_id`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `event_type` or `workspace_id`. Valid field combinations are `[ event_type, created_at ]`, `[ workspace_id, created_at ]`, `[ workspace_id, event_type ]` or `[ workspace_id, event_type, created_at ]`.
 #   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
 #   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `event_type`.
 #   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
 #   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
 def list(params=None, options=None):
@@ -81,13 +78,19 @@ def list(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: filter_gteq must be an dict"
         )
+    if "filter_prefix" in params and not isinstance(
+        params["filter_prefix"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: filter_prefix must be an dict"
+        )
     if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
         raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
     if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
         raise InvalidParameterError(
             "Bad parameter: filter_lteq must be an dict"
         )
-    return ListObj(ExternalEvent, "GET", "/external_events", params, options)
+    return ListObj(EventRecord, "GET", "/event_records", params, options)
 
 
 def all(params=None, options=None):
@@ -95,7 +98,7 @@ def all(params=None, options=None):
 
 
 # Parameters:
-#   id (required) - int64 - External Event ID.
+#   id (required) - int64 - Event Record ID.
 def find(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -107,36 +110,14 @@ def find(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "GET", "/external_events/{id}".format(id=params["id"]), params, options
+        "GET", "/event_records/{id}".format(id=params["id"]), params, options
     )
-    return ExternalEvent(response.data, options)
+    return EventRecord(response.data, options)
 
 
 def get(id, params=None, options=None):
     find(id, params, options)
 
 
-# Parameters:
-#   status (required) - string - Status of event.
-#   body (required) - string - Event body
-def create(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "status" in params and not isinstance(params["status"], str):
-        raise InvalidParameterError("Bad parameter: status must be an str")
-    if "body" in params and not isinstance(params["body"], str):
-        raise InvalidParameterError("Bad parameter: body must be an str")
-    if "status" not in params:
-        raise MissingParameterError("Parameter missing: status")
-    if "body" not in params:
-        raise MissingParameterError("Parameter missing: body")
-    response, options = Api.send_request(
-        "POST", "/external_events", params, options
-    )
-    return ExternalEvent(response.data, options)
-
-
 def new(*args, **kwargs):
-    return ExternalEvent(*args, **kwargs)
+    return EventRecord(*args, **kwargs)

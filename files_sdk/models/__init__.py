@@ -39,6 +39,11 @@ from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.email_incoming_message import EmailIncomingMessage
 from files_sdk.models.email_log import EmailLog
 from files_sdk.models.errors import Errors
+from files_sdk.models.event_channel import EventChannel
+from files_sdk.models.event_delivery_attempt import EventDeliveryAttempt
+from files_sdk.models.event_record import EventRecord
+from files_sdk.models.event_subscription import EventSubscription
+from files_sdk.models.event_target import EventTarget
 from files_sdk.models.exavault_api_request_log import ExavaultApiRequestLog
 from files_sdk.models.expectation import Expectation
 from files_sdk.models.expectation_evaluation import ExpectationEvaluation
@@ -84,6 +89,7 @@ from files_sdk.models.partner_site import PartnerSite
 from files_sdk.models.partner_site_request import PartnerSiteRequest
 from files_sdk.models.payment import Payment
 from files_sdk.models.payment_line_item import PaymentLineItem
+from files_sdk.models.pending_work_event import PendingWorkEvent
 from files_sdk.models.permission import Permission
 from files_sdk.models.preview import Preview
 from files_sdk.models.project import Project
@@ -107,9 +113,13 @@ from files_sdk.models.sftp_host_key import SftpHostKey
 from files_sdk.models.share_group import ShareGroup
 from files_sdk.models.share_group_member import ShareGroupMember
 from files_sdk.models.siem_http_destination import SiemHttpDestination
+from files_sdk.models.siem_http_destination_event import (
+    SiemHttpDestinationEvent,
+)
 from files_sdk.models.site import Site
 from files_sdk.models.site_subdomain_redirect import SiteSubdomainRedirect
 from files_sdk.models.snapshot import Snapshot
+from files_sdk.models.sso_event import SsoEvent
 from files_sdk.models.sso_strategy import SsoStrategy
 from files_sdk.models.status import Status
 from files_sdk.models.style import Style
@@ -124,6 +134,7 @@ from files_sdk.models.user import User
 from files_sdk.models.user_cipher_use import UserCipherUse
 from files_sdk.models.user_lifecycle_rule import UserLifecycleRule
 from files_sdk.models.user_request import UserRequest
+from files_sdk.models.user_security_event import UserSecurityEvent
 from files_sdk.models.user_sftp_client_use import UserSftpClientUse
 from files_sdk.models.web_dav_action_log import WebDavActionLog
 from files_sdk.models.webhook_test import WebhookTest

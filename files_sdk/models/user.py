@@ -58,7 +58,15 @@ class User:
         "password_validity_days": None,  # int64 - Number of days to allow user to use the same password
         "primary_group_id": None,  # int64 - Primary group ID for Group Admin scoping
         "public_keys_count": None,  # int64 - Number of public keys associated with this user
-        "receive_admin_alerts": None,  # boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+        "receive_admin_alerts": None,  # boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+        "notify_on_all_site_warnings": None,  # boolean - Should the user receive site warnings via email?
+        "notify_on_all_sso_failures": None,  # boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
+        "notify_on_all_user_security_events": None,  # boolean - Should the user receive user security events via email?
+        "notify_on_all_pending_work_failures": None,  # boolean - Should the user receive pending work failures via email?
+        "notify_on_all_siem_http_destination_failures": None,  # boolean - Should the user receive siem failures via email?
+        "notify_on_all_sync_failures": None,  # boolean - Should the user receive sync failures via email?
+        "notify_on_all_automation_failures": None,  # boolean - Should the user receive automation failures via email?
+        "notify_on_all_expectation_failures": None,  # boolean - Should the user receive expectation failures and misses via email?
         "require_2fa": None,  # string - 2FA required setting
         "require_login_by": None,  # date-time - Require user to login by specified date otherwise it will be disabled.
         "active_2fa": None,  # boolean - Is 2fa active for the user?
@@ -217,7 +225,15 @@ class User:
     #   password_validity_days - int64 - Number of days to allow user to use the same password
     #   primary_group_id - int64 - Primary group ID for Group Admin scoping
     #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
-    #   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+    #   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+    #   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
+    #   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
+    #   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
+    #   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
+    #   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
+    #   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
+    #   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
+    #   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
     #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
     #   require_password_change - boolean - Is a password change required upon next user login?
     #   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
@@ -576,7 +592,15 @@ def get(id, params=None, options=None):
 #   password_validity_days - int64 - Number of days to allow user to use the same password
 #   primary_group_id - int64 - Primary group ID for Group Admin scoping
 #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
-#   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+#   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+#   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
+#   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
+#   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
+#   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
+#   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
+#   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
+#   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
+#   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
 #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
 #   require_password_change - boolean - Is a password change required upon next user login?
 #   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
@@ -772,6 +796,57 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: receive_admin_alerts must be an bool"
         )
+    if "notify_on_all_site_warnings" in params and not isinstance(
+        params["notify_on_all_site_warnings"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_site_warnings must be an bool"
+        )
+    if "notify_on_all_sso_failures" in params and not isinstance(
+        params["notify_on_all_sso_failures"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_sso_failures must be an bool"
+        )
+    if "notify_on_all_user_security_events" in params and not isinstance(
+        params["notify_on_all_user_security_events"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_user_security_events must be an bool"
+        )
+    if "notify_on_all_pending_work_failures" in params and not isinstance(
+        params["notify_on_all_pending_work_failures"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_pending_work_failures must be an bool"
+        )
+    if (
+        "notify_on_all_siem_http_destination_failures" in params
+        and not isinstance(
+            params["notify_on_all_siem_http_destination_failures"], bool
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_siem_http_destination_failures must be an bool"
+        )
+    if "notify_on_all_sync_failures" in params and not isinstance(
+        params["notify_on_all_sync_failures"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_sync_failures must be an bool"
+        )
+    if "notify_on_all_automation_failures" in params and not isinstance(
+        params["notify_on_all_automation_failures"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_automation_failures must be an bool"
+        )
+    if "notify_on_all_expectation_failures" in params and not isinstance(
+        params["notify_on_all_expectation_failures"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_expectation_failures must be an bool"
+        )
     if "require_login_by" in params and not isinstance(
         params["require_login_by"], str
     ):
@@ -953,7 +1028,15 @@ def user_2fa_reset(id, params=None, options=None):
 #   password_validity_days - int64 - Number of days to allow user to use the same password
 #   primary_group_id - int64 - Primary group ID for Group Admin scoping
 #   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
-#   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+#   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+#   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
+#   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
+#   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
+#   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
+#   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
+#   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
+#   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
+#   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
 #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
 #   require_password_change - boolean - Is a password change required upon next user login?
 #   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
@@ -1152,6 +1235,57 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: receive_admin_alerts must be an bool"
+        )
+    if "notify_on_all_site_warnings" in params and not isinstance(
+        params["notify_on_all_site_warnings"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_site_warnings must be an bool"
+        )
+    if "notify_on_all_sso_failures" in params and not isinstance(
+        params["notify_on_all_sso_failures"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_sso_failures must be an bool"
+        )
+    if "notify_on_all_user_security_events" in params and not isinstance(
+        params["notify_on_all_user_security_events"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_user_security_events must be an bool"
+        )
+    if "notify_on_all_pending_work_failures" in params and not isinstance(
+        params["notify_on_all_pending_work_failures"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_pending_work_failures must be an bool"
+        )
+    if (
+        "notify_on_all_siem_http_destination_failures" in params
+        and not isinstance(
+            params["notify_on_all_siem_http_destination_failures"], bool
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_siem_http_destination_failures must be an bool"
+        )
+    if "notify_on_all_sync_failures" in params and not isinstance(
+        params["notify_on_all_sync_failures"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_sync_failures must be an bool"
+        )
+    if "notify_on_all_automation_failures" in params and not isinstance(
+        params["notify_on_all_automation_failures"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_automation_failures must be an bool"
+        )
+    if "notify_on_all_expectation_failures" in params and not isinstance(
+        params["notify_on_all_expectation_failures"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: notify_on_all_expectation_failures must be an bool"
         )
     if "require_login_by" in params and not isinstance(
         params["require_login_by"], str
