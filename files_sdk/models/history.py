@@ -54,7 +54,7 @@ class History:
 #   end_at - string - Leave blank or set to a date/time to filter later entries.
 #   display - string - Display format. Leave blank or set to `full` or `parent`.
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
 #   path (required) - string - Path to operate on.
 def list_for_file(path, params=None, options=None):
@@ -93,7 +93,7 @@ def list_for_file(path, params=None, options=None):
 #   end_at - string - Leave blank or set to a date/time to filter later entries.
 #   display - string - Display format. Leave blank or set to `full` or `parent`.
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
 #   path (required) - string - Path to operate on.
 def list_for_folder(path, params=None, options=None):
@@ -132,7 +132,7 @@ def list_for_folder(path, params=None, options=None):
 #   end_at - string - Leave blank or set to a date/time to filter later entries.
 #   display - string - Display format. Leave blank or set to `full` or `parent`.
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
 #   user_id (required) - int64 - User ID.
 def list_for_user(user_id, params=None, options=None):
@@ -171,7 +171,7 @@ def list_for_user(user_id, params=None, options=None):
 #   end_at - string - Leave blank or set to a date/time to filter later entries.
 #   display - string - Display format. Leave blank or set to `full` or `parent`.
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
 def list_logins(params=None, options=None):
     if not isinstance(params, dict):
@@ -198,7 +198,7 @@ def list_logins(params=None, options=None):
 #   end_at - string - Leave blank or set to a date/time to filter later entries.
 #   display - string - Display format. Leave blank or set to `full` or `parent`.
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`. Valid field combinations are `[  ]`, `[ path ]`, `[ path ]` or `[ path ]`.
 #   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.

@@ -443,6 +443,7 @@ class File:
     #   restart - int64 - File byte offset to restart from.
     #   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
     #   with_rename - boolean - Allow file rename instead of overwrite?
+    #   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
     def begin_upload(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -873,6 +874,7 @@ def zip(params=None, options=None):
 #   restart - int64 - File byte offset to restart from.
 #   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 #   with_rename - boolean - Allow file rename instead of overwrite?
+#   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
 def begin_upload(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -900,6 +902,12 @@ def begin_upload(path, params=None, options=None):
     if "with_rename" in params and not isinstance(params["with_rename"], bool):
         raise InvalidParameterError(
             "Bad parameter: with_rename must be an bool"
+        )
+    if "buffered_upload" in params and not isinstance(
+        params["buffered_upload"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: buffered_upload must be an bool"
         )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")

@@ -41,7 +41,7 @@ class IpAddress:
 
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -60,7 +60,7 @@ def all(params=None, options=None):
 
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 def get_smartfile_reserved(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -81,7 +81,7 @@ def get_smartfile_reserved(params=None, options=None):
 
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 def get_exavault_reserved(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -102,7 +102,7 @@ def get_exavault_reserved(params=None, options=None):
 
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 def get_reserved(params=None, options=None):
     if not isinstance(params, dict):
         params = {}

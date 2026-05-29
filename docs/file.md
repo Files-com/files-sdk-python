@@ -315,7 +315,8 @@ files_sdk.file.begin_upload(path, {
   "ref": "upload-1",
   "restart": 1,
   "size": 1,
-  "with_rename": False
+  "with_rename": False,
+  "buffered_upload": False
 })
 ```
 
@@ -329,6 +330,7 @@ files_sdk.file.begin_upload(path, {
 * `restart` (int64): File byte offset to restart from.
 * `size` (int64): Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 * `with_rename` (boolean): Allow file rename instead of overwrite?
+* `buffered_upload` (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
 
 
 ---
@@ -479,7 +481,8 @@ file.begin_upload({
   "ref": "upload-1",
   "restart": 1,
   "size": 1,
-  "with_rename": False
+  "with_rename": False,
+  "buffered_upload": False
 })
 ```
 
@@ -493,3 +496,4 @@ file.begin_upload({
 * `restart` (int64): File byte offset to restart from.
 * `size` (int64): Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 * `with_rename` (boolean): Allow file rename instead of overwrite?
+* `buffered_upload` (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
