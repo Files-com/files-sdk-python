@@ -591,6 +591,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`FolderAdminPermissionRequiredError`|  `NotAuthorizedError` |
 |`FullPermissionRequiredError`|  `NotAuthorizedError` |
 |`HistoryPermissionRequiredError`|  `NotAuthorizedError` |
+|`InAppAiAssistantUnavailableError`|  `NotAuthorizedError` |
 |`InsufficientPermissionForParamsError`|  `NotAuthorizedError` |
 |`InsufficientPermissionForSiteError`|  `NotAuthorizedError` |
 |`MoverAccessDeniedError`|  `NotAuthorizedError` |

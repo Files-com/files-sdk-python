@@ -18,6 +18,7 @@ class Site:
         "id": None,  # int64 - Site Id
         "name": None,  # string - Site name
         "additional_text_file_types": None,  # array(string) - Additional extensions that are considered text files
+        "ai_feature_availability": None,  # object - Availability settings for AI features by user class
         "allowed_2fa_method_sms": None,  # boolean - Is SMS two factor authentication allowed?
         "allowed_2fa_method_totp": None,  # boolean - Is TOTP two factor authentication allowed?
         "allowed_2fa_method_webauthn": None,  # boolean - Is WebAuthn two factor authentication allowed?
@@ -78,6 +79,7 @@ class Site:
         "mobile_app_session_ip_pinning": None,  # boolean - Is mobile app session IP pinning enabled?
         "mobile_app_session_lifetime": None,  # int64 - Mobile app session lifetime (in hours)
         "disallowed_countries": None,  # string - Comma separated list of disallowed Country codes
+        "disable_all_ai_features": None,  # boolean - If true, all AI features are disabled for this site.
         "disable_files_certificate_generation": None,  # boolean - If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
         "disable_notifications": None,  # boolean - Are notifications disabled?
         "disable_password_reset": None,  # boolean - Is password reset disabled?
@@ -284,6 +286,8 @@ def get_usage(params=None, options=None):
 #   motd_use_for_ftp - boolean - Show message to users connecting via FTP
 #   motd_use_for_sftp - boolean - Show message to users connecting via SFTP
 #   left_navigation_visibility - object - Visibility settings for account navigation
+#   disable_all_ai_features - boolean - If true, all AI features are disabled for this site.
+#   ai_feature_availability - object - Availability settings for AI features by user class
 #   additional_text_file_types - array(string) - Additional extensions that are considered text files
 #   bundle_require_note - boolean - Do Bundles require internal notes?
 #   bundle_send_shared_receipts - boolean - Do Bundle creators receive receipts of invitations?
@@ -607,6 +611,18 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: left_navigation_visibility must be an dict"
+        )
+    if "disable_all_ai_features" in params and not isinstance(
+        params["disable_all_ai_features"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: disable_all_ai_features must be an bool"
+        )
+    if "ai_feature_availability" in params and not isinstance(
+        params["ai_feature_availability"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ai_feature_availability must be an dict"
         )
     if "additional_text_file_types" in params and not isinstance(
         params["additional_text_file_types"], builtins.list

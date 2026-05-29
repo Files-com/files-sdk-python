@@ -9,6 +9,14 @@
   "additional_text_file_types": [
     "example"
   ],
+  "ai_feature_availability": {
+    "in_app_ai_assistant": {
+      "site_admins": True,
+      "workspace_admins": True,
+      "folder_admins": True,
+      "all_users": True
+    }
+  },
   "allowed_2fa_method_sms": True,
   "allowed_2fa_method_totp": True,
   "allowed_2fa_method_webauthn": True,
@@ -76,6 +84,7 @@
   "mobile_app_session_ip_pinning": True,
   "mobile_app_session_lifetime": 1,
   "disallowed_countries": "US,DE",
+  "disable_all_ai_features": True,
   "disable_files_certificate_generation": True,
   "disable_notifications": True,
   "disable_password_reset": True,
@@ -339,6 +348,7 @@
 * `id` (int64): Site Id
 * `name` (string): Site name
 * `additional_text_file_types` (array(string)): Additional extensions that are considered text files
+* `ai_feature_availability` (object): Availability settings for AI features by user class
 * `allowed_2fa_method_sms` (boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_totp` (boolean): Is TOTP two factor authentication allowed?
 * `allowed_2fa_method_webauthn` (boolean): Is WebAuthn two factor authentication allowed?
@@ -399,6 +409,7 @@
 * `mobile_app_session_ip_pinning` (boolean): Is mobile app session IP pinning enabled?
 * `mobile_app_session_lifetime` (int64): Mobile app session lifetime (in hours)
 * `disallowed_countries` (string): Comma separated list of disallowed Country codes
+* `disable_all_ai_features` (boolean): If true, all AI features are disabled for this site.
 * `disable_files_certificate_generation` (boolean): If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
 * `disable_notifications` (boolean): Are notifications disabled?
 * `disable_password_reset` (boolean): Is password reset disabled?
@@ -578,6 +589,8 @@ files_sdk.site.update({
   "motd_text": "example",
   "motd_use_for_ftp": False,
   "motd_use_for_sftp": False,
+  "disable_all_ai_features": False,
+  "ai_feature_availability": {"in_app_ai_assistant":{"site_admins":True,"workspace_admins":True,"folder_admins":True,"all_users":True}},
   "additional_text_file_types": ["example"],
   "bundle_require_note": False,
   "bundle_send_shared_receipts": False,
@@ -750,6 +763,8 @@ files_sdk.site.update({
 * `motd_use_for_ftp` (boolean): Show message to users connecting via FTP
 * `motd_use_for_sftp` (boolean): Show message to users connecting via SFTP
 * `left_navigation_visibility` (object): Visibility settings for account navigation
+* `disable_all_ai_features` (boolean): If true, all AI features are disabled for this site.
+* `ai_feature_availability` (object): Availability settings for AI features by user class
 * `additional_text_file_types` (array(string)): Additional extensions that are considered text files
 * `bundle_require_note` (boolean): Do Bundles require internal notes?
 * `bundle_send_shared_receipts` (boolean): Do Bundle creators receive receipts of invitations?
