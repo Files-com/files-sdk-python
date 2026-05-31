@@ -76,6 +76,7 @@
   "workspace_admin": True,
   "site_id": 1,
   "workspace_id": 1,
+  "default_workspace_id": 1,
   "skip_welcome_screen": True,
   "ssl_required": "always_require",
   "sso_strategy_id": 1,
@@ -162,6 +163,7 @@
 * `workspace_admin` (boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `site_id` (int64): Site ID
 * `workspace_id` (int64): Workspace ID
+* `default_workspace_id` (int64): Workspace ID the user should land in by default when more than one Workspace is available.
 * `skip_welcome_screen` (boolean): Skip Welcome page in the UI?
 * `ssl_required` (string): SSL required setting
 * `sso_strategy_id` (int64): SSO (Single Sign On) strategy ID for the user, if applicable.
@@ -248,6 +250,7 @@ files_sdk.user.create({
   "bypass_site_allowed_ips": False,
   "dav_permission": True,
   "desktop_configuration_profile_id": 1,
+  "default_workspace_id": 1,
   "disabled": True,
   "filesystem_layout": "site_root",
   "ftp_permission": True,
@@ -316,6 +319,7 @@ files_sdk.user.create({
 * `bypass_site_allowed_ips` (boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (boolean): Can the user connect with WebDAV?
 * `desktop_configuration_profile_id` (int64): Desktop Configuration Profile ID assigned directly to this user, if any.
+* `default_workspace_id` (int64): Workspace ID the user should land in by default when more than one Workspace is available.
 * `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `filesystem_layout` (string): File system layout
 * `ftp_permission` (boolean): Can the user access with FTP/FTPS?
@@ -419,6 +423,7 @@ files_sdk.user.update(id, {
   "bypass_site_allowed_ips": False,
   "dav_permission": True,
   "desktop_configuration_profile_id": 1,
+  "default_workspace_id": 1,
   "disabled": True,
   "filesystem_layout": "site_root",
   "ftp_permission": True,
@@ -489,6 +494,7 @@ files_sdk.user.update(id, {
 * `bypass_site_allowed_ips` (boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (boolean): Can the user connect with WebDAV?
 * `desktop_configuration_profile_id` (int64): Desktop Configuration Profile ID assigned directly to this user, if any.
+* `default_workspace_id` (int64): Workspace ID the user should land in by default when more than one Workspace is available.
 * `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `filesystem_layout` (string): File system layout
 * `ftp_permission` (boolean): Can the user access with FTP/FTPS?
@@ -613,6 +619,7 @@ user.update({
   "bypass_site_allowed_ips": False,
   "dav_permission": True,
   "desktop_configuration_profile_id": 1,
+  "default_workspace_id": 1,
   "disabled": True,
   "filesystem_layout": "site_root",
   "ftp_permission": True,
@@ -683,6 +690,7 @@ user.update({
 * `bypass_site_allowed_ips` (boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (boolean): Can the user connect with WebDAV?
 * `desktop_configuration_profile_id` (int64): Desktop Configuration Profile ID assigned directly to this user, if any.
+* `default_workspace_id` (int64): Workspace ID the user should land in by default when more than one Workspace is available.
 * `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `filesystem_layout` (string): File system layout
 * `ftp_permission` (boolean): Can the user access with FTP/FTPS?
