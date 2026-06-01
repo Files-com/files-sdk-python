@@ -448,7 +448,7 @@ Every Site has an implicit Default workspace (ID `0`). Resources that are not ex
 
 ### SDK Support
 
-We are still in the process of adding Workspaces support to each SDK. If you require Workspaces support right now, you need to use the REST API.
+We are still in the process of adding Workspaces support to each SDK. If you require Workspaces support right now, you need to use the REST API or the CLI.
 <div></div>
 
 ### Using Workspaces with the REST API
