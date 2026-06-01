@@ -581,6 +581,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`PartNumberTooLargeError`|  `BadRequestError` |
 |`PathCannotHaveTrailingWhitespaceError`|  `BadRequestError` |
 |`ReauthenticationNeededFieldsError`|  `BadRequestError` |
+|`RequestBodyTooLargeError`|  `BadRequestError` |
 |`RequestParamsContainInvalidCharacterError`|  `BadRequestError` |
 |`RequestParamsInvalidError`|  `BadRequestError` |
 |`RequestParamsRequiredError`|  `BadRequestError` |
@@ -644,6 +645,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`ReauthenticationFailedFinalError`|  `NotAuthorizedError` |
 |`ReauthenticationNeededActionError`|  `NotAuthorizedError` |
 |`RecaptchaFailedError`|  `NotAuthorizedError` |
+|`RemoteDesktopDebugLoggingDisabledError`|  `NotAuthorizedError` |
 |`SelfManagedRequiredError`|  `NotAuthorizedError` |
 |`SiteAdminOrPartnerAdminPermissionRequiredError`|  `NotAuthorizedError` |
 |`SiteAdminOrWorkspaceAdminOrFolderAdminPermissionRequiredError`|  `NotAuthorizedError` |
