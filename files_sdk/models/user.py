@@ -253,6 +253,7 @@ class User:
     #   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
     #   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
     #   username - string - User's username
+    #   workspace_id - int64 - Workspace ID
     #   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
     #   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
     def update(self, params=None):
@@ -430,6 +431,12 @@ class User:
         if "username" in params and not isinstance(params["username"], str):
             raise InvalidParameterError(
                 "Bad parameter: username must be an str"
+            )
+        if "workspace_id" in params and not isinstance(
+            params["workspace_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
             )
         response, _options = Api.send_request(
             "PATCH",
@@ -1070,6 +1077,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 #   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 #   username - string - User's username
+#   workspace_id - int64 - Workspace ID
 #   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 #   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
 def update(id, params=None, options=None):
@@ -1387,6 +1395,12 @@ def update(id, params=None, options=None):
         )
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "clear_2fa" in params and not isinstance(params["clear_2fa"], bool):
         raise InvalidParameterError("Bad parameter: clear_2fa must be an bool")
     if "convert_to_partner_user" in params and not isinstance(
