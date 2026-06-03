@@ -14,7 +14,9 @@ class OutboundConnectionLog:
         "path": None,  # string - Remote Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "client_ip": None,  # string - End User IP
         "src_remote_server_id": None,  # int64 - Source Remote Server ID
+        "src_remote_server_name": None,  # string - Source Remote Server name
         "dest_remote_server_id": None,  # int64 - Destination Remote Server ID
+        "dest_remote_server_name": None,  # string - Destination Remote Server name
         "operation": None,  # string - Operation Type
         "error_message": None,  # string - Error message, if applicable
         "error_operation": None,  # string - Error operation, if applicable
