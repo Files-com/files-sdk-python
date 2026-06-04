@@ -39,6 +39,7 @@
   "bundle_expiration": 1,
   "bundle_not_found_message": "example",
   "bundle_password_required": True,
+  "bundles_default_owned_by_primary_group": True,
   "bundle_recipient_blacklist_domains": [
     "example"
   ],
@@ -373,6 +374,7 @@
 * `bundle_expiration` (int64): Site-wide Bundle expiration in days
 * `bundle_not_found_message` (string): Custom error message to show when bundle is not found.
 * `bundle_password_required` (boolean): Do Bundles require password protection?
+* `bundles_default_owned_by_primary_group` (boolean): If true, new Share Links created by a user with a primary group will default to that group as owner.
 * `bundle_recipient_blacklist_domains` (array(string)): List of email domains to disallow when entering a Bundle/Inbox recipients
 * `bundle_recipient_blacklist_free_email_domains` (boolean): Disallow free email domains for Bundle/Inbox recipients?
 * `bundle_registration_notifications` (string): Do Bundle owners receive registration notification?
@@ -596,6 +598,7 @@ files_sdk.site.update({
   "additional_text_file_types": ["example"],
   "bundle_require_note": False,
   "bundle_send_shared_receipts": False,
+  "bundles_default_owned_by_primary_group": False,
   "calculate_file_checksums_crc32": False,
   "calculate_file_checksums_md5": False,
   "calculate_file_checksums_sha1": False,
@@ -770,6 +773,7 @@ files_sdk.site.update({
 * `additional_text_file_types` (array(string)): Additional extensions that are considered text files
 * `bundle_require_note` (boolean): Do Bundles require internal notes?
 * `bundle_send_shared_receipts` (boolean): Do Bundle creators receive receipts of invitations?
+* `bundles_default_owned_by_primary_group` (boolean): If true, new Share Links created by a user with a primary group will default to that group as owner.
 * `calculate_file_checksums_crc32` (boolean): Calculate CRC32 checksums for files?
 * `calculate_file_checksums_md5` (boolean): Calculate MD5 checksums for files?
 * `calculate_file_checksums_sha1` (boolean): Calculate SHA1 checksums for files?

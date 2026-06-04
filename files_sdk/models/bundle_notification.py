@@ -105,6 +105,7 @@ class BundleNotification:
 #   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `bundle_id`.
 #   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
+#   bundle_id - int64 - Bundle ID
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -120,6 +121,8 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
         raise InvalidParameterError("Bad parameter: filter must be an dict")
+    if "bundle_id" in params and not isinstance(params["bundle_id"], int):
+        raise InvalidParameterError("Bad parameter: bundle_id must be an int")
     return ListObj(
         BundleNotification, "GET", "/bundle_notifications", params, options
     )

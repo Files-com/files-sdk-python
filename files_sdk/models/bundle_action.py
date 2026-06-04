@@ -60,6 +60,8 @@ class BundleAction:
 #   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
 #   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
 #   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+#   bundle_id - int64 - Bundle ID
+#   bundle_registration_id - int64 - Bundle Registration ID
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -86,6 +88,14 @@ def list(params=None, options=None):
     if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
         raise InvalidParameterError(
             "Bad parameter: filter_lteq must be an dict"
+        )
+    if "bundle_id" in params and not isinstance(params["bundle_id"], int):
+        raise InvalidParameterError("Bad parameter: bundle_id must be an int")
+    if "bundle_registration_id" in params and not isinstance(
+        params["bundle_registration_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_registration_id must be an int"
         )
     return ListObj(BundleAction, "GET", "/bundle_actions", params, options)
 

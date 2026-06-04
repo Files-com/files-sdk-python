@@ -43,6 +43,7 @@ class Bundle:
         "snapshot_id": None,  # int64 - ID of the snapshot containing this bundle's contents.
         "user_id": None,  # int64 - Bundle creator user ID
         "username": None,  # string - Bundle creator username
+        "group_id": None,  # int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
         "clickwrap_id": None,  # int64 - ID of the clickwrap to use with this bundle.
         "inbox_id": None,  # int64 - ID of the associated inbox, if available.
         "watermark_attachment": None,  # Image - Preview watermark image applied to all bundle items.
@@ -131,6 +132,7 @@ class Bundle:
     #   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
     #   inbox_id - int64 - ID of the associated inbox, if available.
     #   max_uses - int64 - Maximum number of times bundle can be accessed
+    #   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
     #   note - string - Bundle internal note
     #   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
     #   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
@@ -200,6 +202,10 @@ class Bundle:
         if "max_uses" in params and not isinstance(params["max_uses"], int):
             raise InvalidParameterError(
                 "Bad parameter: max_uses must be an int"
+            )
+        if "group_id" in params and not isinstance(params["group_id"], int):
+            raise InvalidParameterError(
+                "Bad parameter: group_id must be an int"
             )
         if "note" in params and not isinstance(params["note"], str):
             raise InvalidParameterError("Bad parameter: note must be an str")
@@ -362,6 +368,7 @@ def get(id, params=None, options=None):
 #   expires_at - string - Bundle expiration date/time
 #   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 #   max_uses - int64 - Maximum number of times bundle can be accessed
+#   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
 #   description - string - Public description
 #   note - string - Bundle internal note
 #   code - string - Bundle code.  This code forms the end part of the Public URL.
@@ -426,6 +433,8 @@ def create(params=None, options=None):
         )
     if "max_uses" in params and not isinstance(params["max_uses"], int):
         raise InvalidParameterError("Bad parameter: max_uses must be an int")
+    if "group_id" in params and not isinstance(params["group_id"], int):
+        raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
             "Bad parameter: description must be an str"
@@ -564,6 +573,7 @@ def share(id, params=None, options=None):
 #   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 #   inbox_id - int64 - ID of the associated inbox, if available.
 #   max_uses - int64 - Maximum number of times bundle can be accessed
+#   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
 #   note - string - Bundle internal note
 #   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 #   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
@@ -640,6 +650,8 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: inbox_id must be an int")
     if "max_uses" in params and not isinstance(params["max_uses"], int):
         raise InvalidParameterError("Bad parameter: max_uses must be an int")
+    if "group_id" in params and not isinstance(params["group_id"], int):
+        raise InvalidParameterError("Bad parameter: group_id must be an int")
     if "note" in params and not isinstance(params["note"], str):
         raise InvalidParameterError("Bad parameter: note must be an str")
     if "path_template" in params and not isinstance(

@@ -28,7 +28,8 @@
 
 ```
 files_sdk.bundle_notification.list({
-  "user_id": 1
+  "user_id": 1,
+  "bundle_id": 1
 })
 ```
 
@@ -39,6 +40,7 @@ files_sdk.bundle_notification.list({
 * `per_page` (int64): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `bundle_id`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
+* `bundle_id` (int64): Bundle ID
 
 
 ---

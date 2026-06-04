@@ -41,6 +41,7 @@ class Site:
         "bundle_expiration": None,  # int64 - Site-wide Bundle expiration in days
         "bundle_not_found_message": None,  # string - Custom error message to show when bundle is not found.
         "bundle_password_required": None,  # boolean - Do Bundles require password protection?
+        "bundles_default_owned_by_primary_group": None,  # boolean - If true, new Share Links created by a user with a primary group will default to that group as owner.
         "bundle_recipient_blacklist_domains": None,  # array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
         "bundle_recipient_blacklist_free_email_domains": None,  # boolean - Disallow free email domains for Bundle/Inbox recipients?
         "bundle_registration_notifications": None,  # string - Do Bundle owners receive registration notification?
@@ -291,6 +292,7 @@ def get_usage(params=None, options=None):
 #   additional_text_file_types - array(string) - Additional extensions that are considered text files
 #   bundle_require_note - boolean - Do Bundles require internal notes?
 #   bundle_send_shared_receipts - boolean - Do Bundle creators receive receipts of invitations?
+#   bundles_default_owned_by_primary_group - boolean - If true, new Share Links created by a user with a primary group will default to that group as owner.
 #   calculate_file_checksums_crc32 - boolean - Calculate CRC32 checksums for files?
 #   calculate_file_checksums_md5 - boolean - Calculate MD5 checksums for files?
 #   calculate_file_checksums_sha1 - boolean - Calculate SHA1 checksums for files?
@@ -641,6 +643,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: bundle_send_shared_receipts must be an bool"
+        )
+    if "bundles_default_owned_by_primary_group" in params and not isinstance(
+        params["bundles_default_owned_by_primary_group"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundles_default_owned_by_primary_group must be an bool"
         )
     if "calculate_file_checksums_crc32" in params and not isinstance(
         params["calculate_file_checksums_crc32"], bool
