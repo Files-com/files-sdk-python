@@ -34,6 +34,8 @@ class Bundle:
         "id": None,  # int64 - Bundle ID
         "bypasses_site_expiration_rules": None,  # boolean - If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
         "created_at": None,  # date-time - Bundle created at date/time
+        "deleted": None,  # boolean - Indicates if the bundle has been deleted.
+        "deleted_at": None,  # date-time - Bundle deleted at date/time
         "dont_separate_submissions_by_folder": None,  # boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
         "max_uses": None,  # int64 - Maximum number of times bundle can be accessed
         "note": None,  # string - Bundle internal note
@@ -295,6 +297,7 @@ class Bundle:
 #   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `code`.
 #   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at` and `expires_at`.
 #   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
+#   deleted - boolean - If true, only list deleted Share Links.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -328,6 +331,8 @@ def list(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: filter_lteq must be an dict"
         )
+    if "deleted" in params and not isinstance(params["deleted"], bool):
+        raise InvalidParameterError("Bad parameter: deleted must be an bool")
     return ListObj(Bundle, "GET", "/bundles", params, options)
 
 
