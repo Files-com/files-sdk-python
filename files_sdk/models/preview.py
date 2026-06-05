@@ -12,7 +12,7 @@ class Preview:
         "id": None,  # int64 - Preview ID
         "status": None,  # string - Preview status.  Can be invalid, not_generated, generating, complete, or file_too_large
         "download_uri": None,  # string - Link to download preview
-        "type": None,  # string - Preview type. Can be image, pdf, pdf_native, video, or audio
+        "type": None,  # string - Preview type. Can be image, pdf, pdf_native, video, audio, or text
         "size": None,  # string - Preview size
     }
 
