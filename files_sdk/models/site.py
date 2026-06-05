@@ -152,6 +152,7 @@ class Site:
         "prevent_root_permissions_for_non_site_admins": None,  # boolean - If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
         "protocol_access_groups_only": None,  # boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
         "require_2fa": None,  # boolean - Require two-factor authentication for all users?
+        "require_2fa_exempt_all_sso_users": None,  # boolean - If true, SSO users using the default user-level two-factor authentication setting are exempt from the site-wide two-factor authentication requirement.
         "require_2fa_stop_time": None,  # date-time - If set, requirement for two-factor authentication has been scheduled to end on this date-time.
         "revoke_bundle_access_on_disable_or_delete": None,  # boolean - Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
         "require_2fa_user_type": None,  # string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
@@ -379,6 +380,7 @@ def get_usage(params=None, options=None):
 #   allowed_2fa_method_static - boolean - Is OTP via static codes for two factor authentication allowed?
 #   allowed_2fa_method_bypass_for_ftp_sftp_dav - boolean - Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
 #   require_2fa - boolean - Require two-factor authentication for all users?
+#   require_2fa_exempt_all_sso_users - boolean - If true, SSO users using the default user-level two-factor authentication setting are exempt from the site-wide two-factor authentication requirement.
 #   require_2fa_user_type - string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
 #   color2_top - string - Top bar background color
 #   color2_left - string - Page link and button color
@@ -1172,6 +1174,12 @@ def update(params=None, options=None):
     if "require_2fa" in params and not isinstance(params["require_2fa"], bool):
         raise InvalidParameterError(
             "Bad parameter: require_2fa must be an bool"
+        )
+    if "require_2fa_exempt_all_sso_users" in params and not isinstance(
+        params["require_2fa_exempt_all_sso_users"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_2fa_exempt_all_sso_users must be an bool"
         )
     if "require_2fa_user_type" in params and not isinstance(
         params["require_2fa_user_type"], str

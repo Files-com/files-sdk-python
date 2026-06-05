@@ -67,7 +67,7 @@ class User:
         "notify_on_all_sync_failures": None,  # boolean - Should the user receive sync failures via email?
         "notify_on_all_automation_failures": None,  # boolean - Should the user receive automation failures via email?
         "notify_on_all_expectation_failures": None,  # boolean - Should the user receive expectation failures and misses via email?
-        "require_2fa": None,  # string - 2FA required setting
+        "require_2fa": None,  # string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
         "require_login_by": None,  # date-time - Require user to login by specified date otherwise it will be disabled.
         "active_2fa": None,  # boolean - Is 2fa active for the user?
         "require_password_change": None,  # boolean - Is a password change required upon next user login?
@@ -246,7 +246,7 @@ class User:
     #   ssl_required - string - SSL required setting
     #   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
     #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
-    #   require_2fa - string - 2FA required setting
+    #   require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
     #   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
     #   time_zone - string - User time zone
     #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
@@ -627,7 +627,7 @@ def get(id, params=None, options=None):
 #   ssl_required - string - SSL required setting
 #   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
 #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
-#   require_2fa - string - 2FA required setting
+#   require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 #   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
@@ -1070,7 +1070,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   ssl_required - string - SSL required setting
 #   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
 #   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
-#   require_2fa - string - 2FA required setting
+#   require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 #   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   time_zone - string - User time zone
 #   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
