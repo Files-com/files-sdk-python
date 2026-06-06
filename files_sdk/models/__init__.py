@@ -105,6 +105,7 @@ from files_sdk.models.remote_server_configuration_file import (
 from files_sdk.models.remote_server_credential import RemoteServerCredential
 from files_sdk.models.request import Request
 from files_sdk.models.restore import Restore
+from files_sdk.models.scheduled_export import ScheduledExport
 from files_sdk.models.scim_log import ScimLog
 from files_sdk.models.session import Session
 from files_sdk.models.settings_change import SettingsChange

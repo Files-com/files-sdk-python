@@ -96,6 +96,7 @@ import files_sdk.models.remote_server_configuration_file as remote_server_config
 import files_sdk.models.remote_server_credential as remote_server_credential
 import files_sdk.models.request as request
 import files_sdk.models.restore as restore
+import files_sdk.models.scheduled_export as scheduled_export
 import files_sdk.models.scim_log as scim_log
 import files_sdk.models.session as session
 import files_sdk.models.settings_change as settings_change
@@ -237,6 +238,7 @@ from files_sdk.models.remote_server_configuration_file import (
 from files_sdk.models.remote_server_credential import RemoteServerCredential
 from files_sdk.models.request import Request
 from files_sdk.models.restore import Restore
+from files_sdk.models.scheduled_export import ScheduledExport
 from files_sdk.models.scim_log import ScimLog
 from files_sdk.models.session import Session
 from files_sdk.models.settings_change import SettingsChange
@@ -283,7 +285,7 @@ session_id = None
 source_ip = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.381"
+version = "1.6.382"
 
 __version__ = version
 
