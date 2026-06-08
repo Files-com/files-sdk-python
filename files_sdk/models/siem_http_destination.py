@@ -20,7 +20,8 @@ class SiemHttpDestination:
         "additional_headers": None,  # object - Additional HTTP Headers included in calls to the destination URL
         "sending_active": None,  # boolean - Whether this SIEM HTTP Destination is currently being sent to or not
         "generic_payload_type": None,  # string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
-        "splunk_token_masked": None,  # string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
+        "splunk_token_masked": None,  # string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+        "crowdstrike_token_masked": None,  # string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
         "azure_dcr_immutable_id": None,  # string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
         "azure_stream_name": None,  # string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
         "azure_oauth_client_credentials_tenant_id": None,  # string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -64,7 +65,8 @@ class SiemHttpDestination:
         "last_http_call_duration_ms": None,  # int64 - Duration of the last HTTP Call in milliseconds
         "most_recent_http_call_success_time": None,  # string - Time of Most Recent Successful HTTP Call
         "connection_test_entry": None,  # string - Connection Test Entry
-        "splunk_token": None,  # string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
+        "splunk_token": None,  # string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+        "crowdstrike_token": None,  # string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
         "azure_oauth_client_credentials_client_secret": None,  # string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
         "qradar_password": None,  # string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
         "solar_winds_token": None,  # string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
@@ -104,7 +106,8 @@ class SiemHttpDestination:
     #   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
     #   file_format - string - Applicable only for destination type: file. Generated file format.
     #   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-    #   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
+    #   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+    #   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
     #   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
     #   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
     #   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -172,6 +175,12 @@ class SiemHttpDestination:
         ):
             raise InvalidParameterError(
                 "Bad parameter: splunk_token must be an str"
+            )
+        if "crowdstrike_token" in params and not isinstance(
+            params["crowdstrike_token"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: crowdstrike_token must be an str"
             )
         if "azure_dcr_immutable_id" in params and not isinstance(
             params["azure_dcr_immutable_id"], str
@@ -349,7 +358,8 @@ def get(id, params=None, options=None):
 #   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
 #   file_format - string - Applicable only for destination type: file. Generated file format.
 #   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-#   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
+#   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+#   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
 #   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 #   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
 #   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -420,6 +430,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: splunk_token must be an str"
+        )
+    if "crowdstrike_token" in params and not isinstance(
+        params["crowdstrike_token"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: crowdstrike_token must be an str"
         )
     if "azure_dcr_immutable_id" in params and not isinstance(
         params["azure_dcr_immutable_id"], str
@@ -593,7 +609,8 @@ def create(params=None, options=None):
 #   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
 #   file_format - string - Applicable only for destination type: file. Generated file format.
 #   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-#   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
+#   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+#   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
 #   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 #   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
 #   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -680,6 +697,12 @@ def send_test_entry(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: splunk_token must be an str"
+        )
+    if "crowdstrike_token" in params and not isinstance(
+        params["crowdstrike_token"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: crowdstrike_token must be an str"
         )
     if "azure_dcr_immutable_id" in params and not isinstance(
         params["azure_dcr_immutable_id"], str
@@ -835,7 +858,8 @@ def send_test_entry(params=None, options=None):
 #   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
 #   file_format - string - Applicable only for destination type: file. Generated file format.
 #   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-#   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
+#   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+#   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
 #   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 #   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
 #   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -909,6 +933,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: splunk_token must be an str"
+        )
+    if "crowdstrike_token" in params and not isinstance(
+        params["crowdstrike_token"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: crowdstrike_token must be an str"
         )
     if "azure_dcr_immutable_id" in params and not isinstance(
         params["azure_dcr_immutable_id"], str
