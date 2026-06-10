@@ -11,7 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class KeyLifecycleRule:
     default_attributes = {
         "id": None,  # int64 - Key Lifecycle Rule ID
-        "key_type": None,  # string - Key type for which the rule will apply (gpg or ssh).
+        "key_type": None,  # string - Key type for which the rule will apply (gpg, ssh, or api).
         "inactivity_days": None,  # int64 - Number of days of inactivity before the rule applies.
         "expiration_days": None,  # int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
         "apply_to_all_workspaces": None,  # boolean - If true, a default-workspace rule also applies to keys in all workspaces.
@@ -46,7 +46,7 @@ class KeyLifecycleRule:
     # Parameters:
     #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
     #   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
-    #   key_type - string - Key type for which the rule will apply (gpg or ssh).
+    #   key_type - string - Key type for which the rule will apply (gpg, ssh, or api).
     #   inactivity_days - int64 - Number of days of inactivity before the rule applies.
     #   name - string - Key Lifecycle Rule name
     #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
@@ -182,7 +182,7 @@ def get(id, params=None, options=None):
 # Parameters:
 #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
 #   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
-#   key_type - string - Key type for which the rule will apply (gpg or ssh).
+#   key_type - string - Key type for which the rule will apply (gpg, ssh, or api).
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies.
 #   name - string - Key Lifecycle Rule name
 #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
@@ -228,7 +228,7 @@ def create(params=None, options=None):
 # Parameters:
 #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
 #   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
-#   key_type - string - Key type for which the rule will apply (gpg or ssh).
+#   key_type - string - Key type for which the rule will apply (gpg, ssh, or api).
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies.
 #   name - string - Key Lifecycle Rule name
 #   workspace_id - int64 - Workspace ID. `0` means the default workspace.

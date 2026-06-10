@@ -195,6 +195,7 @@ class Site:
         "user_requests_notify_admins": None,  # boolean - Send email to site admins when a user request is received?
         "users_can_create_api_keys": None,  # boolean - Allow users to create their own API keys?
         "users_can_create_ssh_keys": None,  # boolean - Allow users to create their own SSH keys?
+        "username_display": None,  # string - How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
         "welcome_custom_text": None,  # string - Custom text send in user welcome email
         "email_footer_custom_text": None,  # string - Custom footer text for system-generated emails. Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
         "welcome_email_cc": None,  # email - Include this email in welcome emails if enabled
@@ -301,6 +302,7 @@ def get_usage(params=None, options=None):
 #   legacy_checksums_mode - boolean - Use legacy checksums mode?
 #   migrate_remote_server_sync_to_sync - boolean - If true, we will migrate all remote server syncs to the new Sync model.
 #   as2_message_retention_days - int64 - Number of days to retain AS2 messages (incoming and outgoing).
+#   username_display - string - How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
 #   session_expiry_minutes - int64 - Session expiry in minutes
 #   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
 #   sftp_insecure_ciphers - boolean - If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
@@ -693,6 +695,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: as2_message_retention_days must be an int"
+        )
+    if "username_display" in params and not isinstance(
+        params["username_display"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: username_display must be an str"
         )
     if "session_expiry_minutes" in params and not isinstance(
         params["session_expiry_minutes"], int

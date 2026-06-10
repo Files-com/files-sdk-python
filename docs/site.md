@@ -339,6 +339,7 @@
   "user_requests_notify_admins": True,
   "users_can_create_api_keys": True,
   "users_can_create_ssh_keys": True,
+  "username_display": "username_only",
   "welcome_custom_text": "Welcome to my site!",
   "email_footer_custom_text": "Copyright © %Y MyCompany Inc.",
   "welcome_email_cc": "example",
@@ -529,6 +530,7 @@
 * `user_requests_notify_admins` (boolean): Send email to site admins when a user request is received?
 * `users_can_create_api_keys` (boolean): Allow users to create their own API keys?
 * `users_can_create_ssh_keys` (boolean): Allow users to create their own SSH keys?
+* `username_display` (string): How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
 * `welcome_custom_text` (string): Custom text send in user welcome email
 * `email_footer_custom_text` (string): Custom footer text for system-generated emails. Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
 * `welcome_email_cc` (email): Include this email in welcome emails if enabled
@@ -608,6 +610,7 @@ files_sdk.site.update({
   "legacy_checksums_mode": False,
   "migrate_remote_server_sync_to_sync": False,
   "as2_message_retention_days": 1,
+  "username_display": "username_only",
   "session_expiry_minutes": 1,
   "ssl_required": False,
   "sftp_insecure_ciphers": False,
@@ -784,6 +787,7 @@ files_sdk.site.update({
 * `legacy_checksums_mode` (boolean): Use legacy checksums mode?
 * `migrate_remote_server_sync_to_sync` (boolean): If true, we will migrate all remote server syncs to the new Sync model.
 * `as2_message_retention_days` (int64): Number of days to retain AS2 messages (incoming and outgoing).
+* `username_display` (string): How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
 * `session_expiry_minutes` (int64): Session expiry in minutes
 * `ssl_required` (boolean): Is SSL required?  Disabling this is insecure.
 * `sftp_insecure_ciphers` (boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
