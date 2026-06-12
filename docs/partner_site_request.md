@@ -5,10 +5,10 @@
 ```
 {
   "id": 1,
-  "partner_id": 1,
-  "linked_site_id": 1,
+  "host_partner_id": 1,
+  "guest_site_id": 1,
   "status": "pending",
-  "main_site_name": "Acme Site",
+  "host_site_name": "Acme Site",
   "pairing_key": "abc123xyz",
   "created_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z"
@@ -16,11 +16,11 @@
 ```
 
 * `id` (int64): Partner Site Request ID
-* `partner_id` (int64): Partner ID
-* `linked_site_id` (int64): Linked Site ID
+* `host_partner_id` (int64): Host Partner ID
+* `guest_site_id` (int64): Guest Site ID
 * `status` (string): Request status (pending, approved, rejected)
-* `main_site_name` (string): Main Site Name
-* `pairing_key` (string): Pairing key used to approve this request on the target site
+* `host_site_name` (string): Host Site Name
+* `pairing_key` (string): Pairing key used to approve this request on the Guest Site
 * `created_at` (date-time): Request creation date/time
 * `updated_at` (date-time): Request last updated date/time
 * `site_url` (string): Site URL to link to
@@ -61,14 +61,14 @@ files_sdk.partner_site_request.find_by_pairing_key({
 
 ```
 files_sdk.partner_site_request.create({
-  "partner_id": 1,
+  "host_partner_id": 1,
   "site_url": "site_url"
 })
 ```
 
 ### Parameters
 
-* `partner_id` (int64): Required - Partner ID to link with
+* `host_partner_id` (int64): Required - Host Partner ID to link with
 * `site_url` (string): Required - Site URL to link to
 
 

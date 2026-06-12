@@ -51,7 +51,7 @@ class PartnerSiteRequestTest(TestBase):
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_site_requests"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "partner_id" : 12345,
+            "host_partner_id" : 12345,
             "site_url" : "foo",
         }
         partner_site_request.create(params)

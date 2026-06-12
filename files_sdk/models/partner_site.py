@@ -10,12 +10,15 @@ from files_sdk.error import (  # noqa: F401
 
 class PartnerSite:
     default_attributes = {
-        "partner_id": None,  # int64 - Partner ID
-        "partner_name": None,  # string - Partner Name
-        "linked_site_id": None,  # int64 - Linked Site ID
-        "linked_site_name": None,  # string - Linked Site Name
-        "main_site_id": None,  # int64 - Main Site ID
-        "main_site_name": None,  # string - Main Site Name
+        "host_partner_id": None,  # int64 - Host Partner ID
+        "host_partner_name": None,  # string - Host Partner Name
+        "guest_partner_id": None,  # int64 - Guest Partner ID
+        "guest_partner_name": None,  # string - Guest Partner Name
+        "host_site_id": None,  # int64 - Host Site ID
+        "host_site_name": None,  # string - Host Site Name
+        "guest_site_id": None,  # int64 - Guest Site ID
+        "guest_site_name": None,  # string - Guest Site Name
+        "workspace_id": None,  # int64 - Workspace ID for the Host Partner
     }
 
     def __init__(self, attributes=None, options=None):

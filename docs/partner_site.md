@@ -4,21 +4,27 @@
 
 ```
 {
-  "partner_id": 1,
-  "partner_name": "Acme Corp",
-  "linked_site_id": 1,
-  "linked_site_name": "Acme's Partner Site",
-  "main_site_id": 2,
-  "main_site_name": "Acme Site"
+  "host_partner_id": 1,
+  "host_partner_name": "Acme Corp",
+  "guest_partner_id": 2,
+  "guest_partner_name": "Example Corp",
+  "host_site_id": 1,
+  "host_site_name": "Acme Site",
+  "guest_site_id": 2,
+  "guest_site_name": "Example Site",
+  "workspace_id": 1
 }
 ```
 
-* `partner_id` (int64): Partner ID
-* `partner_name` (string): Partner Name
-* `linked_site_id` (int64): Linked Site ID
-* `linked_site_name` (string): Linked Site Name
-* `main_site_id` (int64): Main Site ID
-* `main_site_name` (string): Main Site Name
+* `host_partner_id` (int64): Host Partner ID
+* `host_partner_name` (string): Host Partner Name
+* `guest_partner_id` (int64): Guest Partner ID
+* `guest_partner_name` (string): Guest Partner Name
+* `host_site_id` (int64): Host Site ID
+* `host_site_name` (string): Host Site Name
+* `guest_site_id` (int64): Guest Site ID
+* `guest_site_name` (string): Guest Site Name
+* `workspace_id` (int64): Workspace ID for the Host Partner
 
 
 ---

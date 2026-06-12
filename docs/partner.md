@@ -19,6 +19,7 @@
     2,
     3
   ],
+  "partnership_role": "host",
   "responsible_group_id": 1,
   "responsible_user_id": 1,
   "root_folder": "/AcmeCorp",
@@ -42,6 +43,7 @@
 * `name` (string): The name of the Partner.
 * `notes` (string): Notes about this Partner.
 * `partner_admin_ids` (array(int64)): Array of User IDs that are Partner Admins for this Partner.
+* `partnership_role` (string): This site's role in Partner Site relationships for this Partner. Can be `host`, `guest`, `host_and_guest`, or null.
 * `responsible_group_id` (int64): ID of the Group responsible for this Partner.
 * `responsible_user_id` (int64): ID of the User responsible for this Partner.
 * `root_folder` (string): The root folder path for this Partner.

@@ -11,11 +11,11 @@ from files_sdk.error import (  # noqa: F401
 class PartnerSiteRequest:
     default_attributes = {
         "id": None,  # int64 - Partner Site Request ID
-        "partner_id": None,  # int64 - Partner ID
-        "linked_site_id": None,  # int64 - Linked Site ID
+        "host_partner_id": None,  # int64 - Host Partner ID
+        "guest_site_id": None,  # int64 - Guest Site ID
         "status": None,  # string - Request status (pending, approved, rejected)
-        "main_site_name": None,  # string - Main Site Name
-        "pairing_key": None,  # string - Pairing key used to approve this request on the target site
+        "host_site_name": None,  # string - Host Site Name
+        "pairing_key": None,  # string - Pairing key used to approve this request on the Guest Site
         "created_at": None,  # date-time - Request creation date/time
         "updated_at": None,  # date-time - Request last updated date/time
         "site_url": None,  # string - Site URL to link to
@@ -158,19 +158,23 @@ def find_by_pairing_key(params=None, options=None):
 
 
 # Parameters:
-#   partner_id (required) - int64 - Partner ID to link with
+#   host_partner_id (required) - int64 - Host Partner ID to link with
 #   site_url (required) - string - Site URL to link to
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    if "partner_id" in params and not isinstance(params["partner_id"], int):
-        raise InvalidParameterError("Bad parameter: partner_id must be an int")
+    if "host_partner_id" in params and not isinstance(
+        params["host_partner_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: host_partner_id must be an int"
+        )
     if "site_url" in params and not isinstance(params["site_url"], str):
         raise InvalidParameterError("Bad parameter: site_url must be an str")
-    if "partner_id" not in params:
-        raise MissingParameterError("Parameter missing: partner_id")
+    if "host_partner_id" not in params:
+        raise MissingParameterError("Parameter missing: host_partner_id")
     if "site_url" not in params:
         raise MissingParameterError("Parameter missing: site_url")
     response, options = Api.send_request(
