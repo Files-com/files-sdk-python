@@ -179,12 +179,15 @@ files_sdk.bundle.list({
 ## Show Share Link
 
 ```
-files_sdk.bundle.find(id)
+files_sdk.bundle.find(id, {
+  "deleted": False
+})
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Bundle ID.
+* `deleted` (boolean): If true, show a deleted Share Link.
 
 
 ---

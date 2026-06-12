@@ -342,6 +342,7 @@ def all(params=None, options=None):
 
 # Parameters:
 #   id (required) - int64 - Bundle ID.
+#   deleted - boolean - If true, show a deleted Share Link.
 def find(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -350,6 +351,8 @@ def find(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "deleted" in params and not isinstance(params["deleted"], bool):
+        raise InvalidParameterError("Bad parameter: deleted must be an bool")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
