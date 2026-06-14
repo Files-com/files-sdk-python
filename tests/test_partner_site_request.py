@@ -8,22 +8,6 @@ from files_sdk import partner_site_request
 class PartnerSiteRequestTest(TestBase):
     pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_site_requests/{id}/reject"), "Mock path does not exist")
-    def test_reject(self):
-        params = {
-            "id" : 12345,
-        }
-        partner_site_request = PartnerSiteRequest(params)
-        partner_site_request.reject(params)
-
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_site_requests/{id}/approve"), "Mock path does not exist")
-    def test_approve(self):
-        params = {
-            "id" : 12345,
-        }
-        partner_site_request = PartnerSiteRequest(params)
-        partner_site_request.approve(params)
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/partner_site_requests/{id}"), "Mock path does not exist")
     def test_delete(self):
         params = {
@@ -52,25 +36,23 @@ class PartnerSiteRequestTest(TestBase):
     def test_create(self):
         params = {
             "host_partner_id" : 12345,
-            "site_url" : "foo",
+            "guest_site_url" : "foo",
         }
         partner_site_request.create(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_site_requests/{id}/reject"), "Mock path does not exist")
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_site_requests/reject"), "Mock path does not exist")
     def test_reject(self):
-        id = 12345
         params = {
-            "id" : 12345,
+            "pairing_key" : "foo",
         }
-        partner_site_request.reject(id, params)
+        partner_site_request.reject(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_site_requests/{id}/approve"), "Mock path does not exist")
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_site_requests/approve"), "Mock path does not exist")
     def test_approve(self):
-        id = 12345
         params = {
-            "id" : 12345,
+            "pairing_key" : "foo",
         }
-        partner_site_request.approve(id, params)
+        partner_site_request.approve(params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/partner_site_requests/{id}"), "Mock path does not exist")
     def test_delete(self):

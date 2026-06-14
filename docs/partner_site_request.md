@@ -6,7 +6,7 @@
 {
   "id": 1,
   "host_partner_id": 1,
-  "guest_site_id": 1,
+  "guest_site_url": "https://example.files.com",
   "status": "pending",
   "host_site_name": "Acme Site",
   "pairing_key": "abc123xyz",
@@ -17,13 +17,12 @@
 
 * `id` (int64): Partner Site Request ID
 * `host_partner_id` (int64): Host Partner ID
-* `guest_site_id` (int64): Guest Site ID
+* `guest_site_url` (string): Guest Site URL
 * `status` (string): Request status (pending, approved, rejected)
 * `host_site_name` (string): Host Site Name
 * `pairing_key` (string): Pairing key used to approve this request on the Guest Site
 * `created_at` (date-time): Request creation date/time
 * `updated_at` (date-time): Request last updated date/time
-* `site_url` (string): Site URL to link to
 
 
 ---
@@ -38,6 +37,8 @@ files_sdk.partner_site_request.list()
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `host_partner_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `host_partner_id`.
 
 
 ---
@@ -62,14 +63,14 @@ files_sdk.partner_site_request.find_by_pairing_key({
 ```
 files_sdk.partner_site_request.create({
   "host_partner_id": 1,
-  "site_url": "site_url"
+  "guest_site_url": "guest_site_url"
 })
 ```
 
 ### Parameters
 
 * `host_partner_id` (int64): Required - Host Partner ID to link with
-* `site_url` (string): Required - Site URL to link to
+* `guest_site_url` (string): Required - Guest Site URL to link to
 
 
 ---
@@ -77,12 +78,14 @@ files_sdk.partner_site_request.create({
 ## Reject partner site request
 
 ```
-files_sdk.partner_site_request.reject(id)
+files_sdk.partner_site_request.reject({
+  "pairing_key": "pairing_key"
+})
 ```
 
 ### Parameters
 
-* `id` (int64): Required - Partner Site Request ID.
+* `pairing_key` (string): Required - Pairing key for the partner site request
 
 
 ---
@@ -90,12 +93,14 @@ files_sdk.partner_site_request.reject(id)
 ## Approve partner site request
 
 ```
-files_sdk.partner_site_request.approve(id)
+files_sdk.partner_site_request.approve({
+  "pairing_key": "pairing_key"
+})
 ```
 
 ### Parameters
 
-* `id` (int64): Required - Partner Site Request ID.
+* `pairing_key` (string): Required - Pairing key for the partner site request
 
 
 ---
@@ -104,34 +109,6 @@ files_sdk.partner_site_request.approve(id)
 
 ```
 files_sdk.partner_site_request.delete(id)
-```
-
-### Parameters
-
-* `id` (int64): Required - Partner Site Request ID.
-
-
----
-
-## Reject partner site request
-
-```
-partner_site_request = files_sdk.partner_site_request.list.first
-partner_site_request.reject()
-```
-
-### Parameters
-
-* `id` (int64): Required - Partner Site Request ID.
-
-
----
-
-## Approve partner site request
-
-```
-partner_site_request = files_sdk.partner_site_request.list.first
-partner_site_request.approve()
 ```
 
 ### Parameters

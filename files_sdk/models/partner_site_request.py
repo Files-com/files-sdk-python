@@ -12,13 +12,12 @@ class PartnerSiteRequest:
     default_attributes = {
         "id": None,  # int64 - Partner Site Request ID
         "host_partner_id": None,  # int64 - Host Partner ID
-        "guest_site_id": None,  # int64 - Guest Site ID
+        "guest_site_url": None,  # string - Guest Site URL
         "status": None,  # string - Request status (pending, approved, rejected)
         "host_site_name": None,  # string - Host Site Name
         "pairing_key": None,  # string - Pairing key used to approve this request on the Guest Site
         "created_at": None,  # date-time - Request creation date/time
         "updated_at": None,  # date-time - Request last updated date/time
-        "site_url": None,  # string - Site URL to link to
     }
 
     def __init__(self, attributes=None, options=None):
@@ -44,46 +43,6 @@ class PartnerSiteRequest:
             if getattr(self, k, None) is not None
         }
         return attrs
-
-    # Reject partner site request
-    def reject(self, params=None):
-        if not isinstance(params, dict):
-            params = {}
-
-        if hasattr(self, "id") and self.id:
-            params["id"] = self.id
-        else:
-            raise MissingParameterError("Current object doesn't have a id")
-        if "id" not in params:
-            raise MissingParameterError("Parameter missing: id")
-        if "id" in params and not isinstance(params["id"], int):
-            raise InvalidParameterError("Bad parameter: id must be an int")
-        Api.send_request(
-            "POST",
-            "/partner_site_requests/{id}/reject".format(id=params["id"]),
-            params,
-            self.options,
-        )
-
-    # Approve partner site request
-    def approve(self, params=None):
-        if not isinstance(params, dict):
-            params = {}
-
-        if hasattr(self, "id") and self.id:
-            params["id"] = self.id
-        else:
-            raise MissingParameterError("Current object doesn't have a id")
-        if "id" not in params:
-            raise MissingParameterError("Parameter missing: id")
-        if "id" in params and not isinstance(params["id"], int):
-            raise InvalidParameterError("Bad parameter: id must be an int")
-        Api.send_request(
-            "POST",
-            "/partner_site_requests/{id}/approve".format(id=params["id"]),
-            params,
-            self.options,
-        )
 
     def delete(self, params=None):
         if not isinstance(params, dict):
@@ -121,6 +80,8 @@ class PartnerSiteRequest:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `host_partner_id`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `host_partner_id`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -130,6 +91,10 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "sort_by" in params and not isinstance(params["sort_by"], dict):
+        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
     return ListObj(
         PartnerSiteRequest, "GET", "/partner_site_requests", params, options
     )
@@ -159,7 +124,7 @@ def find_by_pairing_key(params=None, options=None):
 
 # Parameters:
 #   host_partner_id (required) - int64 - Host Partner ID to link with
-#   site_url (required) - string - Site URL to link to
+#   guest_site_url (required) - string - Guest Site URL to link to
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -171,54 +136,52 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: host_partner_id must be an int"
         )
-    if "site_url" in params and not isinstance(params["site_url"], str):
-        raise InvalidParameterError("Bad parameter: site_url must be an str")
+    if "guest_site_url" in params and not isinstance(
+        params["guest_site_url"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: guest_site_url must be an str"
+        )
     if "host_partner_id" not in params:
         raise MissingParameterError("Parameter missing: host_partner_id")
-    if "site_url" not in params:
-        raise MissingParameterError("Parameter missing: site_url")
+    if "guest_site_url" not in params:
+        raise MissingParameterError("Parameter missing: guest_site_url")
     response, options = Api.send_request(
         "POST", "/partner_site_requests", params, options
     )
     return PartnerSiteRequest(response.data, options)
 
 
-# Reject partner site request
-def reject(id, params=None, options=None):
+# Parameters:
+#   pairing_key (required) - string - Pairing key for the partner site request
+def reject(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    Api.send_request(
-        "POST",
-        "/partner_site_requests/{id}/reject".format(id=params["id"]),
-        params,
-        options,
-    )
+    if "pairing_key" in params and not isinstance(params["pairing_key"], str):
+        raise InvalidParameterError(
+            "Bad parameter: pairing_key must be an str"
+        )
+    if "pairing_key" not in params:
+        raise MissingParameterError("Parameter missing: pairing_key")
+    Api.send_request("POST", "/partner_site_requests/reject", params, options)
 
 
-# Approve partner site request
-def approve(id, params=None, options=None):
+# Parameters:
+#   pairing_key (required) - string - Pairing key for the partner site request
+def approve(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    Api.send_request(
-        "POST",
-        "/partner_site_requests/{id}/approve".format(id=params["id"]),
-        params,
-        options,
-    )
+    if "pairing_key" in params and not isinstance(params["pairing_key"], str):
+        raise InvalidParameterError(
+            "Bad parameter: pairing_key must be an str"
+        )
+    if "pairing_key" not in params:
+        raise MissingParameterError("Parameter missing: pairing_key")
+    Api.send_request("POST", "/partner_site_requests/approve", params, options)
 
 
 def delete(id, params=None, options=None):

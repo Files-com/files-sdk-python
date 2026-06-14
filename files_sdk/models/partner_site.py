@@ -1,6 +1,5 @@
 import builtins  # noqa: F401
 from files_sdk.api import Api  # noqa: F401
-from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
     MissingParameterError,
@@ -9,17 +8,7 @@ from files_sdk.error import (  # noqa: F401
 
 
 class PartnerSite:
-    default_attributes = {
-        "host_partner_id": None,  # int64 - Host Partner ID
-        "host_partner_name": None,  # string - Host Partner Name
-        "guest_partner_id": None,  # int64 - Guest Partner ID
-        "guest_partner_name": None,  # string - Guest Partner Name
-        "host_site_id": None,  # int64 - Host Site ID
-        "host_site_name": None,  # string - Host Site Name
-        "guest_site_id": None,  # int64 - Guest Site ID
-        "guest_site_name": None,  # string - Guest Site Name
-        "workspace_id": None,  # int64 - Workspace ID for the Host Partner
-    }
+    default_attributes = {}
 
     def __init__(self, attributes=None, options=None):
         if not isinstance(attributes, dict):
@@ -42,35 +31,49 @@ class PartnerSite:
         }
         return attrs
 
+    def delete(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
 
-def linkeds(params=None, options=None):
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        Api.send_request(
+            "DELETE",
+            "/partner_sites/{id}".format(id=params["id"]),
+            params,
+            self.options,
+        )
+
+    def destroy(self, params=None):
+        self.delete(params)
+
+
+def delete(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
-    response, options = Api.send_request(
-        "GET", "/partner_sites/linked_partner_sites", params, options
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    Api.send_request(
+        "DELETE",
+        "/partner_sites/{id}".format(id=params["id"]),
+        params,
+        options,
     )
-    return [PartnerSite(entity_data, options) for entity_data in response.data]
 
 
-# Parameters:
-#   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-def list(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "cursor" in params and not isinstance(params["cursor"], str):
-        raise InvalidParameterError("Bad parameter: cursor must be an str")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    return ListObj(PartnerSite, "GET", "/partner_sites", params, options)
-
-
-def all(params=None, options=None):
-    list(params, options)
+def destroy(id, params=None, options=None):
+    delete(id, params, options)
 
 
 def new(*args, **kwargs):

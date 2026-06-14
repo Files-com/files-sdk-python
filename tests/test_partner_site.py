@@ -8,15 +8,26 @@ from files_sdk import partner_site
 class PartnerSiteTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/partner_sites/{id}"), "Mock path does not exist")
+    def test_delete(self):
+        params = {
+            "id" : 12345,
+        }
+        partner_site = PartnerSite(params)
+        partner_site.delete(params)
+
+    # Alias of delete
+    def test_destroy(self):
+        pass
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/partner_sites/linked_partner_sites"), "Mock path does not exist")
-    def test_linkeds(self):
-        resp = partner_site.linkeds()
-
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/partner_sites"), "Mock path does not exist")
-    def test_list(self):
-        resp = partner_site.list()
+    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/partner_sites/{id}"), "Mock path does not exist")
+    def test_delete(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        partner_site.delete(id, params)
 
 if __name__ == '__main__':
     unittest.main()
