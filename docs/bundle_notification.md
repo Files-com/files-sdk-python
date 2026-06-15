@@ -8,6 +8,7 @@
   "id": 1,
   "notify_on_registration": True,
   "notify_on_upload": True,
+  "notify_current_user": True,
   "notify_user_id": 1,
   "workspace_id": 1
 }
@@ -17,6 +18,7 @@
 * `id` (int64): Bundle Notification ID
 * `notify_on_registration` (boolean): Triggers bundle notification when a registration action occurs for it.
 * `notify_on_upload` (boolean): Triggers bundle notification when a upload action occurs for it.
+* `notify_current_user` (boolean): Is the current user the user to notify?
 * `notify_user_id` (int64): The id of the user to notify.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.

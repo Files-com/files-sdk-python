@@ -14,6 +14,7 @@ class BundleNotification:
         "id": None,  # int64 - Bundle Notification ID
         "notify_on_registration": None,  # boolean - Triggers bundle notification when a registration action occurs for it.
         "notify_on_upload": None,  # boolean - Triggers bundle notification when a upload action occurs for it.
+        "notify_current_user": None,  # boolean - Is the current user the user to notify?
         "notify_user_id": None,  # int64 - The id of the user to notify.
         "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
         "user_id": None,  # int64 - User ID.  Provide a value of `0` to operate the current session's user.
