@@ -42,6 +42,8 @@ class RemoteServer:
         "ssl": None,  # string - Should we require SSL?
         "username": None,  # string - Remote server username.
         "google_cloud_storage_bucket": None,  # string - Google Cloud Storage: Bucket Name
+        "google_cloud_storage_authentication_method": None,  # string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
+        "google_cloud_storage_oauth_scope": None,  # string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
         "google_cloud_storage_project_id": None,  # string - Google Cloud Storage: Project ID
         "google_cloud_storage_s3_compatible_access_key": None,  # string - Google Cloud Storage: S3-compatible Access Key.
         "backblaze_b2_s3_endpoint": None,  # string - Backblaze B2 Cloud Storage: S3 Endpoint
@@ -275,7 +277,9 @@ class RemoteServer:
     #   files_agent_root - string - Agent local root path
     #   files_agent_version - string - Files Agent version
     #   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
+    #   google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
     #   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
+    #   google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
     #   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
     #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
     #   hostname - string - Hostname or IP address
@@ -550,11 +554,26 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: outbound_agent_id must be an int"
             )
+        if (
+            "google_cloud_storage_authentication_method" in params
+            and not isinstance(
+                params["google_cloud_storage_authentication_method"], str
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_authentication_method must be an str"
+            )
         if "google_cloud_storage_bucket" in params and not isinstance(
             params["google_cloud_storage_bucket"], str
         ):
             raise InvalidParameterError(
                 "Bad parameter: google_cloud_storage_bucket must be an str"
+            )
+        if "google_cloud_storage_oauth_scope" in params and not isinstance(
+            params["google_cloud_storage_oauth_scope"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_oauth_scope must be an str"
             )
         if "google_cloud_storage_project_id" in params and not isinstance(
             params["google_cloud_storage_project_id"], str
@@ -867,7 +886,9 @@ def find_configuration_file(id, params=None, options=None):
 #   files_agent_root - string - Agent local root path
 #   files_agent_version - string - Files Agent version
 #   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
+#   google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
 #   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
+#   google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
 #   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
 #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
 #   hostname - string - Hostname or IP address
@@ -1160,11 +1181,26 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: outbound_agent_id must be an int"
         )
+    if (
+        "google_cloud_storage_authentication_method" in params
+        and not isinstance(
+            params["google_cloud_storage_authentication_method"], str
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: google_cloud_storage_authentication_method must be an str"
+        )
     if "google_cloud_storage_bucket" in params and not isinstance(
         params["google_cloud_storage_bucket"], str
     ):
         raise InvalidParameterError(
             "Bad parameter: google_cloud_storage_bucket must be an str"
+        )
+    if "google_cloud_storage_oauth_scope" in params and not isinstance(
+        params["google_cloud_storage_oauth_scope"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: google_cloud_storage_oauth_scope must be an str"
         )
     if "google_cloud_storage_project_id" in params and not isinstance(
         params["google_cloud_storage_project_id"], str
@@ -1464,7 +1500,9 @@ def configuration_file(id, params=None, options=None):
 #   files_agent_root - string - Agent local root path
 #   files_agent_version - string - Files Agent version
 #   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
+#   google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
 #   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
+#   google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
 #   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
 #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
 #   hostname - string - Hostname or IP address
@@ -1759,11 +1797,26 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: outbound_agent_id must be an int"
         )
+    if (
+        "google_cloud_storage_authentication_method" in params
+        and not isinstance(
+            params["google_cloud_storage_authentication_method"], str
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: google_cloud_storage_authentication_method must be an str"
+        )
     if "google_cloud_storage_bucket" in params and not isinstance(
         params["google_cloud_storage_bucket"], str
     ):
         raise InvalidParameterError(
             "Bad parameter: google_cloud_storage_bucket must be an str"
+        )
+    if "google_cloud_storage_oauth_scope" in params and not isinstance(
+        params["google_cloud_storage_oauth_scope"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: google_cloud_storage_oauth_scope must be an str"
         )
     if "google_cloud_storage_project_id" in params and not isinstance(
         params["google_cloud_storage_project_id"], str
