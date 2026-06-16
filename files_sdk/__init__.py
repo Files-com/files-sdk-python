@@ -283,9 +283,10 @@ the_api_key = ""
 language = None
 session_id = None
 source_ip = None
+workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.391"
+version = "1.6.392"
 
 __version__ = version
 
@@ -297,7 +298,14 @@ max_network_retries = 3
 
 console_log_level = "none"
 
-OPTS = ("api_key", "client", "session_id", "source_ip", "language")
+OPTS = (
+    "api_key",
+    "client",
+    "session_id",
+    "source_ip",
+    "language",
+    "workspace_id",
+)
 
 
 def set_api_key(_api_key):
@@ -318,6 +326,16 @@ def set_language(_language):
 def get_language():
     global language
     return language
+
+
+def set_workspace_id(_workspace_id):
+    global workspace_id
+    workspace_id = _workspace_id
+
+
+def get_workspace_id():
+    global workspace_id
+    return workspace_id
 
 
 def set_session(_session):

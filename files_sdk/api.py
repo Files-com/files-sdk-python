@@ -24,6 +24,7 @@ class Api:
         api_key = headers.pop("api_key", None)
         session_id = headers.pop("session_id", None)
         language = headers.pop("language", None)
+        workspace_id = headers.pop("workspace_id", None)
 
         session = headers.pop("session", None)
         if session:
@@ -37,6 +38,7 @@ class Api:
             api_key=api_key,
             session_id=session_id,
             language=language,
+            workspace_id=workspace_id,
             params=params,
         )
 

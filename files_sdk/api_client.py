@@ -50,6 +50,7 @@ class ApiClient:
         api_key=None,
         session_id=None,
         language=None,
+        workspace_id=None,
         headers=None,
         params=None,
     ):
@@ -71,9 +72,14 @@ class ApiClient:
         if files_sdk.language:
             language = files_sdk.language
 
+        if workspace_id is None:
+            workspace_id = files_sdk.get_workspace_id()
+
         headers = {
             **headers,
-            **self.request_headers(api_key, session_id, language),
+            **self.request_headers(
+                api_key, session_id, language, workspace_id
+            ),
         }
 
         def _serialize_value(value):
@@ -204,7 +210,7 @@ class ApiClient:
         sleep_seconds *= 0.5 * (1 + random.random())
         return max(files_sdk.initial_network_retry_delay, sleep_seconds)
 
-    def request_headers(self, api_key, session_id, language):
+    def request_headers(self, api_key, session_id, language, workspace_id):
         user_agent = "Files.com Python SDK v{version}".format(
             version=files_sdk.version
         )
@@ -220,6 +226,8 @@ class ApiClient:
             headers["X-FilesAPI-Auth"] = session_id
         if language:
             headers["Accept-Language"] = language
+        if workspace_id is not None and workspace_id != "":
+            headers["X-Files-Workspace-Id"] = str(workspace_id)
 
         return headers
 
