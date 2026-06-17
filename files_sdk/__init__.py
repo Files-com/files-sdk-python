@@ -79,6 +79,7 @@ import files_sdk.models.metadata_category as metadata_category
 import files_sdk.models.notification as notification
 import files_sdk.models.outbound_connection_log as outbound_connection_log
 import files_sdk.models.partner as partner
+import files_sdk.models.partner_channel as partner_channel
 import files_sdk.models.partner_site as partner_site
 import files_sdk.models.partner_site_request as partner_site_request
 import files_sdk.models.payment as payment
@@ -220,6 +221,7 @@ from files_sdk.models.metadata_category import MetadataCategory
 from files_sdk.models.notification import Notification
 from files_sdk.models.outbound_connection_log import OutboundConnectionLog
 from files_sdk.models.partner import Partner
+from files_sdk.models.partner_channel import PartnerChannel
 from files_sdk.models.partner_site import PartnerSite
 from files_sdk.models.partner_site_request import PartnerSiteRequest
 from files_sdk.models.payment import Payment
@@ -288,7 +290,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.394"
+version = "1.6.395"
 
 __version__ = version
 
