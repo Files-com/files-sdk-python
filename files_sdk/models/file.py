@@ -398,6 +398,110 @@ class File:
         )
         return response.data
 
+    # Decrypt a GPG-encrypted file and save it to a destination path
+    #
+    # Parameters:
+    #   destination (required) - string - Destination file path for the decrypted file.
+    #   gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+    #   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
+    #   use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
+    #   ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
+    #   overwrite - boolean - Overwrite existing file in the destination?
+    def gpg_decrypt(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "path") and self.path:
+            params["path"] = self.path
+        else:
+            raise MissingParameterError("Current object doesn't have a path")
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        if "destination" not in params:
+            raise MissingParameterError("Parameter missing: destination")
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        if "destination" in params and not isinstance(
+            params["destination"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: destination must be an str"
+            )
+        if "gpg_key_ids" in params and not isinstance(
+            params["gpg_key_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: gpg_key_ids must be an list"
+            )
+        if "gpg_key_partner_id" in params and not isinstance(
+            params["gpg_key_partner_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: gpg_key_partner_id must be an int"
+            )
+        response, _options = Api.send_request(
+            "POST",
+            "/file_actions/gpg_decrypt/{path}".format(path=params["path"]),
+            params,
+            self.options,
+        )
+        return response.data
+
+    # Encrypt a file with GPG and save it to a destination path
+    #
+    # Parameters:
+    #   destination (required) - string - Destination file path for the encrypted file.
+    #   gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
+    #   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
+    #   signing_key_id - int64 - Optional GPG Key ID to sign with.
+    #   armor - boolean - Output ASCII-armored encrypted data.
+    #   overwrite - boolean - Overwrite existing file in the destination?
+    def gpg_encrypt(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "path") and self.path:
+            params["path"] = self.path
+        else:
+            raise MissingParameterError("Current object doesn't have a path")
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        if "destination" not in params:
+            raise MissingParameterError("Parameter missing: destination")
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        if "destination" in params and not isinstance(
+            params["destination"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: destination must be an str"
+            )
+        if "gpg_key_ids" in params and not isinstance(
+            params["gpg_key_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: gpg_key_ids must be an list"
+            )
+        if "gpg_key_partner_id" in params and not isinstance(
+            params["gpg_key_partner_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: gpg_key_partner_id must be an int"
+            )
+        if "signing_key_id" in params and not isinstance(
+            params["signing_key_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: signing_key_id must be an int"
+            )
+        response, _options = Api.send_request(
+            "POST",
+            "/file_actions/gpg_encrypt/{path}".format(path=params["path"]),
+            params,
+            self.options,
+        )
+        return response.data
+
     # Extract a ZIP file to a destination folder
     #
     # Parameters:
@@ -799,6 +903,122 @@ def move(path, params=None, options=None):
     response, options = Api.send_request(
         "POST",
         "/file_actions/move/{path}".format(path=params["path"]),
+        params,
+        options,
+    )
+    return FileAction(response.data, options)
+
+
+# Decrypt a GPG-encrypted file and save it to a destination path
+#
+# Parameters:
+#   destination (required) - string - Destination file path for the decrypted file.
+#   gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+#   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
+#   use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
+#   ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
+#   overwrite - boolean - Overwrite existing file in the destination?
+def gpg_decrypt(path, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["path"] = path
+    if "path" in params and not isinstance(params["path"], str):
+        raise InvalidParameterError("Bad parameter: path must be an str")
+    if "destination" in params and not isinstance(params["destination"], str):
+        raise InvalidParameterError(
+            "Bad parameter: destination must be an str"
+        )
+    if "gpg_key_ids" in params and not isinstance(
+        params["gpg_key_ids"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: gpg_key_ids must be an list"
+        )
+    if "gpg_key_partner_id" in params and not isinstance(
+        params["gpg_key_partner_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: gpg_key_partner_id must be an int"
+        )
+    if "use_all_private_keys" in params and not isinstance(
+        params["use_all_private_keys"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: use_all_private_keys must be an bool"
+        )
+    if "ignore_mdc_error" in params and not isinstance(
+        params["ignore_mdc_error"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ignore_mdc_error must be an bool"
+        )
+    if "overwrite" in params and not isinstance(params["overwrite"], bool):
+        raise InvalidParameterError("Bad parameter: overwrite must be an bool")
+    if "path" not in params:
+        raise MissingParameterError("Parameter missing: path")
+    if "destination" not in params:
+        raise MissingParameterError("Parameter missing: destination")
+    response, options = Api.send_request(
+        "POST",
+        "/file_actions/gpg_decrypt/{path}".format(path=params["path"]),
+        params,
+        options,
+    )
+    return FileAction(response.data, options)
+
+
+# Encrypt a file with GPG and save it to a destination path
+#
+# Parameters:
+#   destination (required) - string - Destination file path for the encrypted file.
+#   gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
+#   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
+#   signing_key_id - int64 - Optional GPG Key ID to sign with.
+#   armor - boolean - Output ASCII-armored encrypted data.
+#   overwrite - boolean - Overwrite existing file in the destination?
+def gpg_encrypt(path, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["path"] = path
+    if "path" in params and not isinstance(params["path"], str):
+        raise InvalidParameterError("Bad parameter: path must be an str")
+    if "destination" in params and not isinstance(params["destination"], str):
+        raise InvalidParameterError(
+            "Bad parameter: destination must be an str"
+        )
+    if "gpg_key_ids" in params and not isinstance(
+        params["gpg_key_ids"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: gpg_key_ids must be an list"
+        )
+    if "gpg_key_partner_id" in params and not isinstance(
+        params["gpg_key_partner_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: gpg_key_partner_id must be an int"
+        )
+    if "signing_key_id" in params and not isinstance(
+        params["signing_key_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: signing_key_id must be an int"
+        )
+    if "armor" in params and not isinstance(params["armor"], bool):
+        raise InvalidParameterError("Bad parameter: armor must be an bool")
+    if "overwrite" in params and not isinstance(params["overwrite"], bool):
+        raise InvalidParameterError("Bad parameter: overwrite must be an bool")
+    if "path" not in params:
+        raise MissingParameterError("Parameter missing: path")
+    if "destination" not in params:
+        raise MissingParameterError("Parameter missing: destination")
+    response, options = Api.send_request(
+        "POST",
+        "/file_actions/gpg_encrypt/{path}".format(path=params["path"]),
         params,
         options,
     )

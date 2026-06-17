@@ -61,6 +61,24 @@ class FileTest(TestBase):
         file = File(params)
         file.move(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/gpg_decrypt/{path}"), "Mock path does not exist")
+    def test_gpg_decrypt(self):
+        params = {
+            "path" : "foo",
+            "destination" : "foo",
+        }
+        file = File(params)
+        file.gpg_decrypt(params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/gpg_encrypt/{path}"), "Mock path does not exist")
+    def test_gpg_encrypt(self):
+        params = {
+            "path" : "foo",
+            "destination" : "foo",
+        }
+        file = File(params)
+        file.gpg_encrypt(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/unzip"), "Mock path does not exist")
     def test_unzip(self):
         params = {
@@ -145,6 +163,24 @@ class FileTest(TestBase):
             "destination" : "foo",
         }
         file.move(path, params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/gpg_decrypt/{path}"), "Mock path does not exist")
+    def test_gpg_decrypt(self):
+        path = "foo"
+        params = {
+            "path" : "foo",
+            "destination" : "foo",
+        }
+        file.gpg_decrypt(path, params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/gpg_encrypt/{path}"), "Mock path does not exist")
+    def test_gpg_encrypt(self):
+        path = "foo"
+        params = {
+            "path" : "foo",
+            "destination" : "foo",
+        }
+        file.gpg_encrypt(path, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/unzip"), "Mock path does not exist")
     def test_unzip(self):
