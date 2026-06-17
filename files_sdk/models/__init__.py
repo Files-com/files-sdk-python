@@ -32,6 +32,7 @@ from files_sdk.models.child_site_management_policy import (
     ChildSiteManagementPolicy,
 )
 from files_sdk.models.clickwrap import Clickwrap
+from files_sdk.models.custom_domain import CustomDomain
 from files_sdk.models.desktop_configuration_profile import (
     DesktopConfigurationProfile,
 )
