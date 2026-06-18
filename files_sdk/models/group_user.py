@@ -14,7 +14,7 @@ class GroupUser:
         "group_id": None,  # int64 - Group ID
         "user_id": None,  # int64 - User ID
         "admin": None,  # boolean - Is this user an administrator of this group?
-        "usernames": None,  # string - Comma-delimited list of usernames who belong to this group (separated by commas).
+        "username": None,  # string - Username of the user
         "id": None,  # int64 - Group User ID.
     }
 

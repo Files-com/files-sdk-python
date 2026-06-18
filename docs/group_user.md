@@ -8,7 +8,7 @@
   "group_id": 1,
   "user_id": 1,
   "admin": True,
-  "usernames": "user"
+  "username": "example"
 }
 ```
 
@@ -16,7 +16,7 @@
 * `group_id` (int64): Group ID
 * `user_id` (int64): User ID
 * `admin` (boolean): Is this user an administrator of this group?
-* `usernames` (string): Comma-delimited list of usernames who belong to this group (separated by commas).
+* `username` (string): Username of the user
 * `id` (int64): Group User ID.
 
 
