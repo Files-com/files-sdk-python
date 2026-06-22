@@ -76,6 +76,7 @@ class Site:
         "desktop_app_session_lifetime": None,  # int64 - Desktop app session lifetime (in hours)
         "legacy_checksums_mode": None,  # boolean - Use legacy checksums mode?
         "migrate_remote_server_sync_to_sync": None,  # boolean - If true, we will migrate all remote server syncs to the new Sync model.
+        "mcp_dcr_enabled": None,  # boolean - Is OAuth DCR (dynamic client registration) for MCP enabled?
         "mobile_app": None,  # boolean - Is the mobile app enabled?
         "mobile_app_session_ip_pinning": None,  # boolean - Is mobile app session IP pinning enabled?
         "mobile_app_session_lifetime": None,  # int64 - Mobile app session lifetime (in hours)
@@ -291,6 +292,7 @@ def get_usage(params=None, options=None):
 #   left_navigation_visibility - object - Visibility settings for account navigation
 #   disable_all_ai_features - boolean - If true, all AI features are disabled for this site.
 #   ai_feature_availability - object - Availability settings for AI features by user class
+#   mcp_dcr_enabled - boolean - Is OAuth DCR (dynamic client registration) for MCP enabled?
 #   additional_text_file_types - array(string) - Additional extensions that are considered text files
 #   bundle_require_note - boolean - Do Bundles require internal notes?
 #   bundle_send_shared_receipts - boolean - Do Bundle creators receive receipts of invitations?
@@ -629,6 +631,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: ai_feature_availability must be an dict"
+        )
+    if "mcp_dcr_enabled" in params and not isinstance(
+        params["mcp_dcr_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: mcp_dcr_enabled must be an bool"
         )
     if "additional_text_file_types" in params and not isinstance(
         params["additional_text_file_types"], builtins.list
