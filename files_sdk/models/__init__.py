@@ -28,6 +28,8 @@ from files_sdk.models.bundle_notification import BundleNotification
 from files_sdk.models.bundle_path import BundlePath
 from files_sdk.models.bundle_recipient import BundleRecipient
 from files_sdk.models.bundle_registration import BundleRegistration
+from files_sdk.models.chat_message import ChatMessage
+from files_sdk.models.chat_session import ChatSession
 from files_sdk.models.child_site_management_policy import (
     ChildSiteManagementPolicy,
 )
