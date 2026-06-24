@@ -10,7 +10,7 @@ from files_sdk.error import (  # noqa: F401
 
 class ChatSession:
     default_attributes = {
-        "id": None,  # int64 - Chat Session ID.
+        "id": None,  # string - Chat Session ID.
         "user_id": None,  # int64 - User ID.
         "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
         "last_active_at": None,  # date-time - Most recent chat activity date/time.
@@ -60,15 +60,15 @@ def all(params=None, options=None):
 
 
 # Parameters:
-#   id (required) - int64 - Chat Session ID.
+#   id (required) - string - Chat Session ID.
 def find(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
     params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" in params and not isinstance(params["id"], str):
+        raise InvalidParameterError("Bad parameter: id must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(

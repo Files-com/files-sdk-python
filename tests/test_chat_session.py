@@ -16,9 +16,9 @@ class ChatSessionTest(TestBase):
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/chat_sessions/{id}"), "Mock path does not exist")
     def test_find(self):
-        id = 12345
+        id = "foo"
         params = {
-            "id" : 12345,
+            "id" : "foo",
         }
         chat_session.find(id, params)
 

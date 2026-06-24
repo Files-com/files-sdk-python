@@ -4,7 +4,7 @@
 
 ```
 {
-  "id": 1,
+  "id": "example",
   "user_id": 1,
   "workspace_id": 1,
   "last_active_at": "2000-01-01T01:00:00Z",
@@ -20,7 +20,7 @@
 }
 ```
 
-* `id` (int64): Chat Session ID.
+* `id` (string): Chat Session ID.
 * `user_id` (int64): User ID.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 * `last_active_at` (date-time): Most recent chat activity date/time.
@@ -52,4 +52,4 @@ files_sdk.chat_session.find(id)
 
 ### Parameters
 
-* `id` (int64): Required - Chat Session ID.
+* `id` (string): Required - Chat Session ID.
