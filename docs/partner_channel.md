@@ -8,15 +8,15 @@
   "workspace_id": 1,
   "partner_id": 1,
   "path": "claims/medical",
-  "to_partner_folder_name": "incoming",
-  "from_partner_folder_name": "outgoing",
+  "to_partner_folder_name": "outgoing",
+  "from_partner_folder_name": "incoming",
   "from_partner_route_path": "processing/from-partner",
   "to_partner_route_path": "delivery/to-partner",
-  "effective_to_partner_folder_name": "incoming",
-  "effective_from_partner_folder_name": "outgoing",
+  "effective_to_partner_folder_name": "outgoing",
+  "effective_from_partner_folder_name": "incoming",
   "channel_path": "partners/acme/claims/medical",
-  "to_partner_folder_path": "partners/acme/claims/medical/incoming",
-  "from_partner_folder_path": "partners/acme/claims/medical/outgoing"
+  "to_partner_folder_path": "partners/acme/claims/medical/outgoing",
+  "from_partner_folder_path": "partners/acme/claims/medical/incoming"
 }
 ```
 
@@ -70,9 +70,9 @@ files_sdk.partner_channel.find(id)
 
 ```
 files_sdk.partner_channel.create({
-  "from_partner_folder_name": "outgoing",
+  "from_partner_folder_name": "incoming",
   "from_partner_route_path": "processing/from-partner",
-  "to_partner_folder_name": "incoming",
+  "to_partner_folder_name": "outgoing",
   "to_partner_route_path": "delivery/to-partner",
   "partner_id": 1,
   "path": "claims/medical",
@@ -97,9 +97,9 @@ files_sdk.partner_channel.create({
 
 ```
 files_sdk.partner_channel.update(id, {
-  "from_partner_folder_name": "outgoing",
+  "from_partner_folder_name": "incoming",
   "from_partner_route_path": "processing/from-partner",
-  "to_partner_folder_name": "incoming",
+  "to_partner_folder_name": "outgoing",
   "to_partner_route_path": "delivery/to-partner",
   "path": "claims/medical"
 })
@@ -135,9 +135,9 @@ files_sdk.partner_channel.delete(id)
 ```
 partner_channel = files_sdk.partner_channel.find(id)
 partner_channel.update({
-  "from_partner_folder_name": "outgoing",
+  "from_partner_folder_name": "incoming",
   "from_partner_route_path": "processing/from-partner",
-  "to_partner_folder_name": "incoming",
+  "to_partner_folder_name": "outgoing",
   "to_partner_route_path": "delivery/to-partner",
   "path": "claims/medical"
 })
