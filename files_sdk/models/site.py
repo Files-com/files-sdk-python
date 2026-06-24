@@ -87,7 +87,7 @@ class Site:
         "disable_password_reset": None,  # boolean - Is password reset disabled?
         "domain": None,  # string - Custom domain
         "domain_hsts_header": None,  # boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
-        "domain_letsencrypt_chain": None,  # string - Letsencrypt chain to use when registering SSL Certificate for domain.
+        "domain_letsencrypt_chain": None,  # string - Letsencrypt chain to use when registering SSL Certificate for domain. No longer used as of 2026.
         "email": None,  # email - Main email for this site
         "ftp_enabled": None,  # boolean - Is FTP enabled?
         "reply_to_email": None,  # email - Reply-to email for this site
@@ -260,7 +260,7 @@ def get_usage(params=None, options=None):
 #   subdomain - string - Site subdomain
 #   domain - string - Custom domain
 #   domain_hsts_header - boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
-#   domain_letsencrypt_chain - string - Letsencrypt chain to use when registering SSL Certificate for domain.
+#   domain_letsencrypt_chain - string - Letsencrypt chain to use when registering SSL Certificate for domain. No longer used as of 2026.
 #   email - string - Main email for this site
 #   reply_to_email - string - Reply-to email for this site
 #   allow_bundle_names - boolean - Are manual Bundle names allowed?
