@@ -61,6 +61,7 @@
   "deleted_at": "2000-01-01T01:00:00Z",
   "dont_separate_submissions_by_folder": True,
   "max_uses": 1,
+  "internal_name": "Quarterly reports",
   "note": "The internal note on the bundle.",
   "path_template": "{{name}}_{{ip}}",
   "path_template_time_zone": "Eastern Time (US & Canada)",
@@ -122,6 +123,7 @@
 * `deleted_at` (date-time): Bundle deleted at date/time
 * `dont_separate_submissions_by_folder` (boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `max_uses` (int64): Maximum number of times bundle can be accessed
+* `internal_name` (string): Internal name for identifying this Share Link.
 * `note` (string): Bundle internal note
 * `path_template` (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 * `path_template_time_zone` (string): Timezone to use when rendering timestamps in path templates.
@@ -207,6 +209,7 @@ files_sdk.bundle.create({
   "finalize_snapshot": False,
   "max_uses": 1,
   "group_id": 1,
+  "internal_name": "Quarterly reports",
   "description": "The public description of the bundle.",
   "note": "The internal note on the bundle.",
   "code": "abc123",
@@ -241,6 +244,7 @@ files_sdk.bundle.create({
 * `finalize_snapshot` (boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `max_uses` (int64): Maximum number of times bundle can be accessed
 * `group_id` (int64): Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+* `internal_name` (string): Internal name for identifying this Share Link.
 * `description` (string): Public description
 * `note` (string): Bundle internal note
 * `code` (string): Bundle code.  This code forms the end part of the Public URL.
@@ -302,6 +306,7 @@ files_sdk.bundle.update(id, {
   "inbox_id": 1,
   "max_uses": 1,
   "group_id": 1,
+  "internal_name": "Quarterly reports",
   "note": "The internal note on the bundle.",
   "path_template": "{{name}}_{{ip}}",
   "path_template_time_zone": "Eastern Time (US & Canada)",
@@ -337,6 +342,7 @@ files_sdk.bundle.update(id, {
 * `inbox_id` (int64): ID of the associated inbox, if available.
 * `max_uses` (int64): Maximum number of times bundle can be accessed
 * `group_id` (int64): Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+* `internal_name` (string): Internal name for identifying this Share Link.
 * `note` (string): Bundle internal note
 * `path_template` (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 * `path_template_time_zone` (string): Timezone to use when rendering timestamps in path templates.
@@ -410,6 +416,7 @@ bundle.update({
   "inbox_id": 1,
   "max_uses": 1,
   "group_id": 1,
+  "internal_name": "Quarterly reports",
   "note": "The internal note on the bundle.",
   "path_template": "{{name}}_{{ip}}",
   "path_template_time_zone": "Eastern Time (US & Canada)",
@@ -445,6 +452,7 @@ bundle.update({
 * `inbox_id` (int64): ID of the associated inbox, if available.
 * `max_uses` (int64): Maximum number of times bundle can be accessed
 * `group_id` (int64): Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+* `internal_name` (string): Internal name for identifying this Share Link.
 * `note` (string): Bundle internal note
 * `path_template` (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 * `path_template_time_zone` (string): Timezone to use when rendering timestamps in path templates.

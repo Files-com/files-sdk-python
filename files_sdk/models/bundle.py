@@ -38,6 +38,7 @@ class Bundle:
         "deleted_at": None,  # date-time - Bundle deleted at date/time
         "dont_separate_submissions_by_folder": None,  # boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
         "max_uses": None,  # int64 - Maximum number of times bundle can be accessed
+        "internal_name": None,  # string - Internal name for identifying this Share Link.
         "note": None,  # string - Bundle internal note
         "path_template": None,  # string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
         "path_template_time_zone": None,  # string - Timezone to use when rendering timestamps in path templates.
@@ -135,6 +136,7 @@ class Bundle:
     #   inbox_id - int64 - ID of the associated inbox, if available.
     #   max_uses - int64 - Maximum number of times bundle can be accessed
     #   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+    #   internal_name - string - Internal name for identifying this Share Link.
     #   note - string - Bundle internal note
     #   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
     #   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
@@ -208,6 +210,12 @@ class Bundle:
         if "group_id" in params and not isinstance(params["group_id"], int):
             raise InvalidParameterError(
                 "Bad parameter: group_id must be an int"
+            )
+        if "internal_name" in params and not isinstance(
+            params["internal_name"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: internal_name must be an str"
             )
         if "note" in params and not isinstance(params["note"], str):
             raise InvalidParameterError("Bad parameter: note must be an str")
@@ -377,6 +385,7 @@ def get(id, params=None, options=None):
 #   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 #   max_uses - int64 - Maximum number of times bundle can be accessed
 #   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+#   internal_name - string - Internal name for identifying this Share Link.
 #   description - string - Public description
 #   note - string - Bundle internal note
 #   code - string - Bundle code.  This code forms the end part of the Public URL.
@@ -443,6 +452,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: max_uses must be an int")
     if "group_id" in params and not isinstance(params["group_id"], int):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
+    if "internal_name" in params and not isinstance(
+        params["internal_name"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: internal_name must be an str"
+        )
     if "description" in params and not isinstance(params["description"], str):
         raise InvalidParameterError(
             "Bad parameter: description must be an str"
@@ -582,6 +597,7 @@ def share(id, params=None, options=None):
 #   inbox_id - int64 - ID of the associated inbox, if available.
 #   max_uses - int64 - Maximum number of times bundle can be accessed
 #   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+#   internal_name - string - Internal name for identifying this Share Link.
 #   note - string - Bundle internal note
 #   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 #   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
@@ -660,6 +676,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: max_uses must be an int")
     if "group_id" in params and not isinstance(params["group_id"], int):
         raise InvalidParameterError("Bad parameter: group_id must be an int")
+    if "internal_name" in params and not isinstance(
+        params["internal_name"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: internal_name must be an str"
+        )
     if "note" in params and not isinstance(params["note"], str):
         raise InvalidParameterError("Bad parameter: note must be an str")
     if "path_template" in params and not isinstance(
