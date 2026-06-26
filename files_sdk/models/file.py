@@ -398,6 +398,63 @@ class File:
         )
         return response.data
 
+    # Transform a file and save the output to a destination path
+    #
+    # Parameters:
+    #   destination (required) - string - Destination file path for the transformed output.
+    #   transform_type (required) - string - Transform type. Supported values are `image_convert` and `document_convert`.
+    #   target_format (required) - string - Destination format to create.
+    #   width - int64 - Maximum output width for image_convert.
+    #   height - int64 - Maximum output height for image_convert.
+    #   overwrite - boolean - Overwrite existing file in the destination?
+    def transform(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "path") and self.path:
+            params["path"] = self.path
+        else:
+            raise MissingParameterError("Current object doesn't have a path")
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        if "destination" not in params:
+            raise MissingParameterError("Parameter missing: destination")
+        if "transform_type" not in params:
+            raise MissingParameterError("Parameter missing: transform_type")
+        if "target_format" not in params:
+            raise MissingParameterError("Parameter missing: target_format")
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        if "destination" in params and not isinstance(
+            params["destination"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: destination must be an str"
+            )
+        if "transform_type" in params and not isinstance(
+            params["transform_type"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: transform_type must be an str"
+            )
+        if "target_format" in params and not isinstance(
+            params["target_format"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: target_format must be an str"
+            )
+        if "width" in params and not isinstance(params["width"], int):
+            raise InvalidParameterError("Bad parameter: width must be an int")
+        if "height" in params and not isinstance(params["height"], int):
+            raise InvalidParameterError("Bad parameter: height must be an int")
+        response, _options = Api.send_request(
+            "POST",
+            "/file_actions/transform/{path}".format(path=params["path"]),
+            params,
+            self.options,
+        )
+        return response.data
+
     # Decrypt a GPG-encrypted file and save it to a destination path
     #
     # Parameters:
@@ -903,6 +960,62 @@ def move(path, params=None, options=None):
     response, options = Api.send_request(
         "POST",
         "/file_actions/move/{path}".format(path=params["path"]),
+        params,
+        options,
+    )
+    return FileAction(response.data, options)
+
+
+# Transform a file and save the output to a destination path
+#
+# Parameters:
+#   destination (required) - string - Destination file path for the transformed output.
+#   transform_type (required) - string - Transform type. Supported values are `image_convert` and `document_convert`.
+#   target_format (required) - string - Destination format to create.
+#   width - int64 - Maximum output width for image_convert.
+#   height - int64 - Maximum output height for image_convert.
+#   overwrite - boolean - Overwrite existing file in the destination?
+def transform(path, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["path"] = path
+    if "path" in params and not isinstance(params["path"], str):
+        raise InvalidParameterError("Bad parameter: path must be an str")
+    if "destination" in params and not isinstance(params["destination"], str):
+        raise InvalidParameterError(
+            "Bad parameter: destination must be an str"
+        )
+    if "transform_type" in params and not isinstance(
+        params["transform_type"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: transform_type must be an str"
+        )
+    if "target_format" in params and not isinstance(
+        params["target_format"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: target_format must be an str"
+        )
+    if "width" in params and not isinstance(params["width"], int):
+        raise InvalidParameterError("Bad parameter: width must be an int")
+    if "height" in params and not isinstance(params["height"], int):
+        raise InvalidParameterError("Bad parameter: height must be an int")
+    if "overwrite" in params and not isinstance(params["overwrite"], bool):
+        raise InvalidParameterError("Bad parameter: overwrite must be an bool")
+    if "path" not in params:
+        raise MissingParameterError("Parameter missing: path")
+    if "destination" not in params:
+        raise MissingParameterError("Parameter missing: destination")
+    if "transform_type" not in params:
+        raise MissingParameterError("Parameter missing: transform_type")
+    if "target_format" not in params:
+        raise MissingParameterError("Parameter missing: target_format")
+    response, options = Api.send_request(
+        "POST",
+        "/file_actions/transform/{path}".format(path=params["path"]),
         params,
         options,
     )

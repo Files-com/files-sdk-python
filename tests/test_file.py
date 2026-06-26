@@ -61,6 +61,17 @@ class FileTest(TestBase):
         file = File(params)
         file.move(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/transform/{path}"), "Mock path does not exist")
+    def test_transform(self):
+        params = {
+            "path" : "foo",
+            "destination" : "foo",
+            "transform_type" : "foo",
+            "target_format" : "foo",
+        }
+        file = File(params)
+        file.transform(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/gpg_decrypt/{path}"), "Mock path does not exist")
     def test_gpg_decrypt(self):
         params = {
@@ -163,6 +174,17 @@ class FileTest(TestBase):
             "destination" : "foo",
         }
         file.move(path, params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/transform/{path}"), "Mock path does not exist")
+    def test_transform(self):
+        path = "foo"
+        params = {
+            "path" : "foo",
+            "destination" : "foo",
+            "transform_type" : "foo",
+            "target_format" : "foo",
+        }
+        file.transform(path, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/gpg_decrypt/{path}"), "Mock path does not exist")
     def test_gpg_decrypt(self):
