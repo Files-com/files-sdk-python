@@ -12,6 +12,7 @@ class ChatSession:
     default_attributes = {
         "id": None,  # string - Chat Session ID.
         "user_id": None,  # int64 - User ID.
+        "ai_task_id": None,  # int64 - AI Task ID. Present when the conversation was started by an AI Task.
         "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
         "last_active_at": None,  # date-time - Most recent chat activity date/time.
         "created_at": None,  # date-time - Chat session creation date/time.
@@ -43,6 +44,7 @@ class ChatSession:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `ai_task_id`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -52,6 +54,8 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
     return ListObj(ChatSession, "GET", "/chat_sessions", params, options)
 
 
