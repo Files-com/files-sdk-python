@@ -17,6 +17,7 @@ class Group:
         "notes": None,  # string - Notes about this group
         "user_ids": None,  # string - Comma-delimited list of user IDs who belong to this group (separated by commas)
         "usernames": None,  # string - Comma-delimited list of usernames who belong to this group (separated by commas)
+        "ai_assistant_personality_id": None,  # int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
         "ftp_permission": None,  # boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
         "sftp_permission": None,  # boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
         "dav_permission": None,  # boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -51,6 +52,7 @@ class Group:
     #   notes - string - Group notes.
     #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
     #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+    #   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
     #   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
     #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
     #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -79,6 +81,12 @@ class Group:
         if "admin_ids" in params and not isinstance(params["admin_ids"], str):
             raise InvalidParameterError(
                 "Bad parameter: admin_ids must be an str"
+            )
+        if "ai_assistant_personality_id" in params and not isinstance(
+            params["ai_assistant_personality_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ai_assistant_personality_id must be an int"
             )
         if "desktop_configuration_profile_id" in params and not isinstance(
             params["desktop_configuration_profile_id"], int
@@ -203,6 +211,7 @@ def get(id, params=None, options=None):
 #   notes - string - Group notes.
 #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
 #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+#   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
 #   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -222,6 +231,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
+    if "ai_assistant_personality_id" in params and not isinstance(
+        params["ai_assistant_personality_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ai_assistant_personality_id must be an int"
+        )
     if "ftp_permission" in params and not isinstance(
         params["ftp_permission"], bool
     ):
@@ -274,6 +289,7 @@ def create(params=None, options=None):
 #   notes - string - Group notes.
 #   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
 #   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+#   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
 #   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -295,6 +311,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_ids must be an str")
     if "admin_ids" in params and not isinstance(params["admin_ids"], str):
         raise InvalidParameterError("Bad parameter: admin_ids must be an str")
+    if "ai_assistant_personality_id" in params and not isinstance(
+        params["ai_assistant_personality_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ai_assistant_personality_id must be an int"
+        )
     if "ftp_permission" in params and not isinstance(
         params["ftp_permission"], bool
     ):

@@ -17,6 +17,7 @@ class Partner:
         "allow_user_creation": None,  # boolean - Allow Partner Admins to create users.
         "cc_emails_to_responsible_party": None,  # boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
         "id": None,  # int64 - The unique ID of the Partner.
+        "ai_assistant_personality_id": None,  # int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
         "workspace_id": None,  # int64 - ID of the Workspace associated with this Partner.
         "name": None,  # string - The name of the Partner.
         "notes": None,  # string - Notes about this Partner.
@@ -51,6 +52,7 @@ class Partner:
         return attrs
 
     # Parameters:
+    #   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
     #   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
     #   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
     #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
@@ -75,6 +77,12 @@ class Partner:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
+        if "ai_assistant_personality_id" in params and not isinstance(
+            params["ai_assistant_personality_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ai_assistant_personality_id must be an int"
+            )
         if "allowed_ips" in params and not isinstance(
             params["allowed_ips"], str
         ):
@@ -194,6 +202,7 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
+#   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
 #   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 #   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
@@ -212,6 +221,12 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "ai_assistant_personality_id" in params and not isinstance(
+        params["ai_assistant_personality_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ai_assistant_personality_id must be an int"
+        )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError(
             "Bad parameter: allowed_ips must be an str"
@@ -283,6 +298,7 @@ def create(params=None, options=None):
 
 
 # Parameters:
+#   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
 #   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 #   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 #   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
@@ -303,6 +319,12 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "ai_assistant_personality_id" in params and not isinstance(
+        params["ai_assistant_personality_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ai_assistant_personality_id must be an int"
+        )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError(
             "Bad parameter: allowed_ips must be an str"

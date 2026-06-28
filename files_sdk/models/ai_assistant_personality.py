@@ -1,0 +1,285 @@
+import builtins  # noqa: F401
+from files_sdk.api import Api  # noqa: F401
+from files_sdk.list_obj import ListObj
+from files_sdk.error import (  # noqa: F401
+    InvalidParameterError,
+    MissingParameterError,
+    NotImplementedError,
+)
+
+
+class AiAssistantPersonality:
+    default_attributes = {
+        "id": None,  # int64 - AI Assistant Personality ID.
+        "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
+        "system_prompt": None,  # string - System prompt injected into the in-app AI Assistant.
+        "use_by_default": None,  # boolean - Whether this personality is the default personality for the Workspace.
+        "apply_to_all_workspaces": None,  # boolean - If true, this default-workspace personality can apply to users in all workspaces.
+        "created_at": None,  # date-time - Creation time.
+        "updated_at": None,  # date-time - Last update time.
+    }
+
+    def __init__(self, attributes=None, options=None):
+        if not isinstance(attributes, dict):
+            attributes = {}
+        if not isinstance(options, dict):
+            options = {}
+        self.set_attributes(attributes)
+        self.options = options
+
+    def set_attributes(self, attributes):
+        for (
+            attribute,
+            default_value,
+        ) in AiAssistantPersonality.default_attributes.items():
+            value = attributes.get(attribute, default_value)
+            setattr(self, attribute, value)
+
+    def get_attributes(self):
+        attrs = {
+            k: getattr(self, k, None)
+            for k in AiAssistantPersonality.default_attributes
+            if getattr(self, k, None) is not None
+        }
+        return attrs
+
+    # Parameters:
+    #   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
+    #   system_prompt - string - System prompt injected into the in-app AI Assistant.
+    #   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
+    #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+    def update(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "system_prompt" in params and not isinstance(
+            params["system_prompt"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: system_prompt must be an str"
+            )
+        if "workspace_id" in params and not isinstance(
+            params["workspace_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
+            )
+        response, _options = Api.send_request(
+            "PATCH",
+            "/ai_assistant_personalities/{id}".format(id=params["id"]),
+            params,
+            self.options,
+        )
+        return response.data
+
+    def delete(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        Api.send_request(
+            "DELETE",
+            "/ai_assistant_personalities/{id}".format(id=params["id"]),
+            params,
+            self.options,
+        )
+
+    def destroy(self, params=None):
+        self.delete(params)
+
+    def save(self):
+        if hasattr(self, "id") and self.id:
+            new_obj = self.update(self.get_attributes())
+            self.set_attributes(new_obj.get_attributes())
+            return True
+        else:
+            new_obj = create(self.get_attributes(), self.options)
+            self.set_attributes(new_obj.get_attributes())
+            return True
+
+
+# Parameters:
+#   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `id`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+def list(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "cursor" in params and not isinstance(params["cursor"], str):
+        raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
+    if "sort_by" in params and not isinstance(params["sort_by"], dict):
+        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
+    return ListObj(
+        AiAssistantPersonality,
+        "GET",
+        "/ai_assistant_personalities",
+        params,
+        options,
+    )
+
+
+def all(params=None, options=None):
+    list(params, options)
+
+
+# Parameters:
+#   id (required) - int64 - Ai Assistant Personality ID.
+def find(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request(
+        "GET",
+        "/ai_assistant_personalities/{id}".format(id=params["id"]),
+        params,
+        options,
+    )
+    return AiAssistantPersonality(response.data, options)
+
+
+def get(id, params=None, options=None):
+    find(id, params, options)
+
+
+# Parameters:
+#   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
+#   system_prompt (required) - string - System prompt injected into the in-app AI Assistant.
+#   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
+#   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+def create(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "apply_to_all_workspaces" in params and not isinstance(
+        params["apply_to_all_workspaces"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: apply_to_all_workspaces must be an bool"
+        )
+    if "system_prompt" in params and not isinstance(
+        params["system_prompt"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: system_prompt must be an str"
+        )
+    if "use_by_default" in params and not isinstance(
+        params["use_by_default"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: use_by_default must be an bool"
+        )
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
+    if "system_prompt" not in params:
+        raise MissingParameterError("Parameter missing: system_prompt")
+    response, options = Api.send_request(
+        "POST", "/ai_assistant_personalities", params, options
+    )
+    return AiAssistantPersonality(response.data, options)
+
+
+# Parameters:
+#   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
+#   system_prompt - string - System prompt injected into the in-app AI Assistant.
+#   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
+#   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+def update(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "apply_to_all_workspaces" in params and not isinstance(
+        params["apply_to_all_workspaces"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: apply_to_all_workspaces must be an bool"
+        )
+    if "system_prompt" in params and not isinstance(
+        params["system_prompt"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: system_prompt must be an str"
+        )
+    if "use_by_default" in params and not isinstance(
+        params["use_by_default"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: use_by_default must be an bool"
+        )
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request(
+        "PATCH",
+        "/ai_assistant_personalities/{id}".format(id=params["id"]),
+        params,
+        options,
+    )
+    return AiAssistantPersonality(response.data, options)
+
+
+def delete(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    Api.send_request(
+        "DELETE",
+        "/ai_assistant_personalities/{id}".format(id=params["id"]),
+        params,
+        options,
+    )
+
+
+def destroy(id, params=None, options=None):
+    delete(id, params, options)
+
+
+def new(*args, **kwargs):
+    return AiAssistantPersonality(*args, **kwargs)

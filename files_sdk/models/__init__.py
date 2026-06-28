@@ -8,6 +8,7 @@ from files_sdk.models.action_notification_export_result import (
     ActionNotificationExportResult,
 )
 from files_sdk.models.agent_push_update import AgentPushUpdate
+from files_sdk.models.ai_assistant_personality import AiAssistantPersonality
 from files_sdk.models.ai_task import AiTask
 from files_sdk.models.api_key import ApiKey
 from files_sdk.models.api_request_log import ApiRequestLog

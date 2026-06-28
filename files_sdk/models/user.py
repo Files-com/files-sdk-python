@@ -27,6 +27,7 @@ class User:
         "dav_permission": None,  # boolean - Can the user connect with WebDAV?
         "disabled": None,  # boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
         "disabled_expired_or_inactive": None,  # boolean - Computed property that returns true if user disabled or expired or inactive.
+        "ai_assistant_personality_id": None,  # int64 - AI Assistant Personality ID assigned directly to this user, if any.
         "desktop_configuration_profile_id": None,  # int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
         "email": None,  # email - User email address
         "filesystem_layout": None,  # string - File system layout
@@ -202,6 +203,7 @@ class User:
     #   password - string - User password.
     #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
     #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
+    #   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
     #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
     #   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
     #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
@@ -311,6 +313,12 @@ class User:
         ):
             raise InvalidParameterError(
                 "Bad parameter: password_confirmation must be an str"
+            )
+        if "ai_assistant_personality_id" in params and not isinstance(
+            params["ai_assistant_personality_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ai_assistant_personality_id must be an int"
             )
         if "allowed_ips" in params and not isinstance(
             params["allowed_ips"], str
@@ -583,6 +591,7 @@ def get(id, params=None, options=None):
 #   password - string - User password.
 #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
 #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
+#   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
 #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
 #   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
@@ -689,6 +698,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: announcements_read must be an bool"
+        )
+    if "ai_assistant_personality_id" in params and not isinstance(
+        params["ai_assistant_personality_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ai_assistant_personality_id must be an int"
         )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError(
@@ -1026,6 +1041,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   password - string - User password.
 #   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
 #   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
+#   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
 #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
 #   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 #   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
@@ -1137,6 +1153,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: announcements_read must be an bool"
+        )
+    if "ai_assistant_personality_id" in params and not isinstance(
+        params["ai_assistant_personality_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ai_assistant_personality_id must be an int"
         )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError(

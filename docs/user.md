@@ -23,6 +23,7 @@
   "dav_permission": True,
   "disabled": True,
   "disabled_expired_or_inactive": True,
+  "ai_assistant_personality_id": 1,
   "desktop_configuration_profile_id": 1,
   "email": "john.doe@files.com",
   "filesystem_layout": "site_root",
@@ -110,6 +111,7 @@
 * `dav_permission` (boolean): Can the user connect with WebDAV?
 * `disabled` (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `disabled_expired_or_inactive` (boolean): Computed property that returns true if user disabled or expired or inactive.
+* `ai_assistant_personality_id` (int64): AI Assistant Personality ID assigned directly to this user, if any.
 * `desktop_configuration_profile_id` (int64): Desktop Configuration Profile ID assigned directly to this user, if any.
 * `email` (email): User email address
 * `filesystem_layout` (string): File system layout
@@ -241,6 +243,7 @@ files_sdk.user.create({
   "group_id": 1,
   "group_ids": "example",
   "announcements_read": False,
+  "ai_assistant_personality_id": 1,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "attachments_permission": True,
   "authenticate_until": "2000-01-01T01:00:00Z",
@@ -310,6 +313,7 @@ files_sdk.user.create({
 * `password` (string): User password.
 * `password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (boolean): Signifies that the user has read all the announcements in the UI.
+* `ai_assistant_personality_id` (int64): AI Assistant Personality ID assigned directly to this user, if any.
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `attachments_permission` (boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 * `authenticate_until` (string): Scheduled Date/Time at which user will be deactivated
@@ -414,6 +418,7 @@ files_sdk.user.update(id, {
   "group_id": 1,
   "group_ids": "example",
   "announcements_read": False,
+  "ai_assistant_personality_id": 1,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "attachments_permission": True,
   "authenticate_until": "2000-01-01T01:00:00Z",
@@ -486,6 +491,7 @@ files_sdk.user.update(id, {
 * `password` (string): User password.
 * `password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (boolean): Signifies that the user has read all the announcements in the UI.
+* `ai_assistant_personality_id` (int64): AI Assistant Personality ID assigned directly to this user, if any.
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `attachments_permission` (boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 * `authenticate_until` (string): Scheduled Date/Time at which user will be deactivated
@@ -612,6 +618,7 @@ user.update({
   "group_id": 1,
   "group_ids": "example",
   "announcements_read": False,
+  "ai_assistant_personality_id": 1,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "attachments_permission": True,
   "authenticate_until": "2000-01-01T01:00:00Z",
@@ -684,6 +691,7 @@ user.update({
 * `password` (string): User password.
 * `password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (boolean): Signifies that the user has read all the announcements in the UI.
+* `ai_assistant_personality_id` (int64): AI Assistant Personality ID assigned directly to this user, if any.
 * `allowed_ips` (string): A list of allowed IPs if applicable.  Newline delimited
 * `attachments_permission` (boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 * `authenticate_until` (string): Scheduled Date/Time at which user will be deactivated
