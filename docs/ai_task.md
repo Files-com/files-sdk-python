@@ -9,6 +9,7 @@
   "name": "Summarize daily reports",
   "description": "Summarizes files uploaded by the accounting team.",
   "prompt": "Summarize the uploaded file and identify follow-up actions.",
+  "permission_set": "files_only",
   "path": "incoming/reports",
   "source": "*.pdf",
   "disabled": True,
@@ -41,6 +42,7 @@
 * `name` (string): AI Task name.
 * `description` (string): AI Task description.
 * `prompt` (string): Prompt sent when this AI Task is invoked.
+* `permission_set` (string): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 * `path` (string): Path scope used for action-triggered AI Tasks. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `source` (string): Source glob used with `path` for action-triggered AI Tasks.
 * `disabled` (boolean): If true, this AI Task will not run.
@@ -100,6 +102,7 @@ files_sdk.ai_task.create({
   "interval": "day",
   "name": "Summarize daily reports",
   "path": "incoming/reports",
+  "permission_set": "files_only",
   "prompt": "Summarize the uploaded file and identify follow-up actions.",
   "recurring_day": 1,
   "schedule_days_of_week": [1,3,5],
@@ -120,6 +123,7 @@ files_sdk.ai_task.create({
 * `interval` (string): If trigger is `daily`, this specifies how often to run the AI Task.
 * `name` (string): Required - AI Task name.
 * `path` (string): Path scope used for action-triggered AI Tasks.
+* `permission_set` (string): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 * `prompt` (string): Required - Prompt sent when this AI Task is invoked.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
@@ -156,6 +160,7 @@ files_sdk.ai_task.update(id, {
   "interval": "day",
   "name": "Summarize daily reports",
   "path": "incoming/reports",
+  "permission_set": "files_only",
   "prompt": "Summarize the uploaded file and identify follow-up actions.",
   "recurring_day": 1,
   "schedule_days_of_week": [1,3,5],
@@ -177,6 +182,7 @@ files_sdk.ai_task.update(id, {
 * `interval` (string): If trigger is `daily`, this specifies how often to run the AI Task.
 * `name` (string): AI Task name.
 * `path` (string): Path scope used for action-triggered AI Tasks.
+* `permission_set` (string): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 * `prompt` (string): Prompt sent when this AI Task is invoked.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
@@ -228,6 +234,7 @@ ai_task.update({
   "interval": "day",
   "name": "Summarize daily reports",
   "path": "incoming/reports",
+  "permission_set": "files_only",
   "prompt": "Summarize the uploaded file and identify follow-up actions.",
   "recurring_day": 1,
   "schedule_days_of_week": [1,3,5],
@@ -249,6 +256,7 @@ ai_task.update({
 * `interval` (string): If trigger is `daily`, this specifies how often to run the AI Task.
 * `name` (string): AI Task name.
 * `path` (string): Path scope used for action-triggered AI Tasks.
+* `permission_set` (string): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 * `prompt` (string): Prompt sent when this AI Task is invoked.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.

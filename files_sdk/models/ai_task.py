@@ -15,6 +15,7 @@ class AiTask:
         "name": None,  # string - AI Task name.
         "description": None,  # string - AI Task description.
         "prompt": None,  # string - Prompt sent when this AI Task is invoked.
+        "permission_set": None,  # string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
         "path": None,  # string - Path scope used for action-triggered AI Tasks. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "source": None,  # string - Source glob used with `path` for action-triggered AI Tasks.
         "disabled": None,  # boolean - If true, this AI Task will not run.
@@ -81,6 +82,7 @@ class AiTask:
     #   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
     #   name - string - AI Task name.
     #   path - string - Path scope used for action-triggered AI Tasks.
+    #   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
     #   prompt - string - Prompt sent when this AI Task is invoked.
     #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
     #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
@@ -122,6 +124,12 @@ class AiTask:
             raise InvalidParameterError("Bad parameter: name must be an str")
         if "path" in params and not isinstance(params["path"], str):
             raise InvalidParameterError("Bad parameter: path must be an str")
+        if "permission_set" in params and not isinstance(
+            params["permission_set"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: permission_set must be an str"
+            )
         if "prompt" in params and not isinstance(params["prompt"], str):
             raise InvalidParameterError("Bad parameter: prompt must be an str")
         if "recurring_day" in params and not isinstance(
@@ -261,6 +269,7 @@ def get(id, params=None, options=None):
 #   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
 #   name (required) - string - AI Task name.
 #   path - string - Path scope used for action-triggered AI Tasks.
+#   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 #   prompt (required) - string - Prompt sent when this AI Task is invoked.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
@@ -293,6 +302,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "permission_set" in params and not isinstance(
+        params["permission_set"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: permission_set must be an str"
+        )
     if "prompt" in params and not isinstance(params["prompt"], str):
         raise InvalidParameterError("Bad parameter: prompt must be an str")
     if "recurring_day" in params and not isinstance(
@@ -369,6 +384,7 @@ def manual_run(id, params=None, options=None):
 #   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
 #   name - string - AI Task name.
 #   path - string - Path scope used for action-triggered AI Tasks.
+#   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 #   prompt - string - Prompt sent when this AI Task is invoked.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
@@ -404,6 +420,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "permission_set" in params and not isinstance(
+        params["permission_set"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: permission_set must be an str"
+        )
     if "prompt" in params and not isinstance(params["prompt"], str):
         raise InvalidParameterError("Bad parameter: prompt must be an str")
     if "recurring_day" in params and not isinstance(
