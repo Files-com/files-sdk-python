@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.models.file import File
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
@@ -146,7 +147,7 @@ def list_for(path, params=None, options=None):
     return ListObj(
         File,
         "GET",
-        "/folders/{path}".format(path=params["path"]),
+        "/folders/{path}".format(path=quote(str(params["path"]), safe="")),
         params,
         options,
     )
@@ -179,7 +180,10 @@ def create(path, params=None, options=None):
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
-        "POST", "/folders/{path}".format(path=params["path"]), params, options
+        "POST",
+        "/folders/{path}".format(path=quote(str(params["path"]), safe="")),
+        params,
+        options,
     )
     return File(response.data, options)
 

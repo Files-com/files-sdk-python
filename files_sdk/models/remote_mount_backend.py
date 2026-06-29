@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from decimal import Decimal
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
@@ -95,7 +96,9 @@ class RemoteMountBackend:
             raise InvalidParameterError("Bad parameter: id must be an int")
         Api.send_request(
             "POST",
-            "/remote_mount_backends/{id}/reset_status".format(id=params["id"]),
+            "/remote_mount_backends/{id}/reset_status".format(
+                id=quote(str(params["id"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -163,7 +166,9 @@ class RemoteMountBackend:
             )
         response, _options = Api.send_request(
             "PATCH",
-            "/remote_mount_backends/{id}".format(id=params["id"]),
+            "/remote_mount_backends/{id}".format(
+                id=quote(str(params["id"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -183,7 +188,9 @@ class RemoteMountBackend:
             raise InvalidParameterError("Bad parameter: id must be an int")
         Api.send_request(
             "DELETE",
-            "/remote_mount_backends/{id}".format(id=params["id"]),
+            "/remote_mount_backends/{id}".format(
+                id=quote(str(params["id"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -240,7 +247,9 @@ def find(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
         "GET",
-        "/remote_mount_backends/{id}".format(id=params["id"]),
+        "/remote_mount_backends/{id}".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )
@@ -353,7 +362,9 @@ def reset_status(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
         "POST",
-        "/remote_mount_backends/{id}/reset_status".format(id=params["id"]),
+        "/remote_mount_backends/{id}/reset_status".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )
@@ -434,7 +445,9 @@ def update(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
         "PATCH",
-        "/remote_mount_backends/{id}".format(id=params["id"]),
+        "/remote_mount_backends/{id}".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )
@@ -453,7 +466,9 @@ def delete(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
         "DELETE",
-        "/remote_mount_backends/{id}".format(id=params["id"]),
+        "/remote_mount_backends/{id}".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )

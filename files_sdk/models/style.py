@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
@@ -61,7 +62,7 @@ class Style:
             )
         response, _options = Api.send_request(
             "PATCH",
-            "/styles/{path}".format(path=params["path"]),
+            "/styles/{path}".format(path=quote(str(params["path"]), safe="")),
             params,
             self.options,
         )
@@ -81,7 +82,7 @@ class Style:
             raise InvalidParameterError("Bad parameter: path must be an str")
         Api.send_request(
             "DELETE",
-            "/styles/{path}".format(path=params["path"]),
+            "/styles/{path}".format(path=quote(str(params["path"]), safe="")),
             params,
             self.options,
         )
@@ -108,7 +109,10 @@ def find(path, params=None, options=None):
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
-        "GET", "/styles/{path}".format(path=params["path"]), params, options
+        "GET",
+        "/styles/{path}".format(path=quote(str(params["path"]), safe="")),
+        params,
+        options,
     )
     return Style(response.data, options)
 
@@ -137,7 +141,10 @@ def update(path, params=None, options=None):
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
-        "PATCH", "/styles/{path}".format(path=params["path"]), params, options
+        "PATCH",
+        "/styles/{path}".format(path=quote(str(params["path"]), safe="")),
+        params,
+        options,
     )
     return Style(response.data, options)
 
@@ -153,7 +160,10 @@ def delete(path, params=None, options=None):
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     Api.send_request(
-        "DELETE", "/styles/{path}".format(path=params["path"]), params, options
+        "DELETE",
+        "/styles/{path}".format(path=quote(str(params["path"]), safe="")),
+        params,
+        options,
     )
 
 

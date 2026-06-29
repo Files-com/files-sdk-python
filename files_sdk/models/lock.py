@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -65,7 +66,7 @@ class Lock:
             raise InvalidParameterError("Bad parameter: token must be an str")
         Api.send_request(
             "DELETE",
-            "/locks/{path}".format(path=params["path"]),
+            "/locks/{path}".format(path=quote(str(params["path"]), safe="")),
             params,
             self.options,
         )
@@ -107,7 +108,7 @@ def list_for(path, params=None, options=None):
     return ListObj(
         Lock,
         "GET",
-        "/locks/{path}".format(path=params["path"]),
+        "/locks/{path}".format(path=quote(str(params["path"]), safe="")),
         params,
         options,
     )
@@ -142,7 +143,10 @@ def create(path, params=None, options=None):
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
-        "POST", "/locks/{path}".format(path=params["path"]), params, options
+        "POST",
+        "/locks/{path}".format(path=quote(str(params["path"]), safe="")),
+        params,
+        options,
     )
     return Lock(response.data, options)
 
@@ -164,7 +168,10 @@ def delete(path, params=None, options=None):
     if "token" not in params:
         raise MissingParameterError("Parameter missing: token")
     Api.send_request(
-        "DELETE", "/locks/{path}".format(path=params["path"]), params, options
+        "DELETE",
+        "/locks/{path}".format(path=quote(str(params["path"]), safe="")),
+        params,
+        options,
     )
 
 

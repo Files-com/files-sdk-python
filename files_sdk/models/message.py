@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -75,7 +76,7 @@ class Message:
             raise InvalidParameterError("Bad parameter: body must be an str")
         response, _options = Api.send_request(
             "PATCH",
-            "/messages/{id}".format(id=params["id"]),
+            "/messages/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -95,7 +96,7 @@ class Message:
             raise InvalidParameterError("Bad parameter: id must be an int")
         Api.send_request(
             "DELETE",
-            "/messages/{id}".format(id=params["id"]),
+            "/messages/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -154,7 +155,10 @@ def find(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "GET", "/messages/{id}".format(id=params["id"]), params, options
+        "GET",
+        "/messages/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return Message(response.data, options)
 
@@ -218,7 +222,10 @@ def update(id, params=None, options=None):
     if "body" not in params:
         raise MissingParameterError("Parameter missing: body")
     response, options = Api.send_request(
-        "PATCH", "/messages/{id}".format(id=params["id"]), params, options
+        "PATCH",
+        "/messages/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return Message(response.data, options)
 
@@ -234,7 +241,10 @@ def delete(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
-        "DELETE", "/messages/{id}".format(id=params["id"]), params, options
+        "DELETE",
+        "/messages/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
 
 

@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -57,7 +58,7 @@ class FileComment:
             raise InvalidParameterError("Bad parameter: body must be an str")
         response, _options = Api.send_request(
             "PATCH",
-            "/file_comments/{id}".format(id=params["id"]),
+            "/file_comments/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -77,7 +78,7 @@ class FileComment:
             raise InvalidParameterError("Bad parameter: id must be an int")
         Api.send_request(
             "DELETE",
-            "/file_comments/{id}".format(id=params["id"]),
+            "/file_comments/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -117,7 +118,9 @@ def list_for(path, params=None, options=None):
     return ListObj(
         FileComment,
         "GET",
-        "/file_comments/files/{path}".format(path=params["path"]),
+        "/file_comments/files/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
         params,
         options,
     )
@@ -162,7 +165,10 @@ def update(id, params=None, options=None):
     if "body" not in params:
         raise MissingParameterError("Parameter missing: body")
     response, options = Api.send_request(
-        "PATCH", "/file_comments/{id}".format(id=params["id"]), params, options
+        "PATCH",
+        "/file_comments/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return FileComment(response.data, options)
 
@@ -179,7 +185,7 @@ def delete(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
         "DELETE",
-        "/file_comments/{id}".format(id=params["id"]),
+        "/file_comments/{id}".format(id=quote(str(params["id"]), safe="")),
         params,
         options,
     )

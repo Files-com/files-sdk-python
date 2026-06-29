@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -77,7 +78,10 @@ def find(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "GET", "/scim_logs/{id}".format(id=params["id"]), params, options
+        "GET",
+        "/scim_logs/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return ScimLog(response.data, options)
 

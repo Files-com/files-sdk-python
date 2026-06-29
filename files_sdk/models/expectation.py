@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.models.expectation_evaluation import ExpectationEvaluation
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
@@ -76,7 +77,9 @@ class Expectation:
             raise InvalidParameterError("Bad parameter: id must be an int")
         response, _options = Api.send_request(
             "POST",
-            "/expectations/{id}/trigger_evaluation".format(id=params["id"]),
+            "/expectations/{id}/trigger_evaluation".format(
+                id=quote(str(params["id"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -202,7 +205,7 @@ class Expectation:
             )
         response, _options = Api.send_request(
             "PATCH",
-            "/expectations/{id}".format(id=params["id"]),
+            "/expectations/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -222,7 +225,7 @@ class Expectation:
             raise InvalidParameterError("Bad parameter: id must be an int")
         Api.send_request(
             "DELETE",
-            "/expectations/{id}".format(id=params["id"]),
+            "/expectations/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -279,7 +282,10 @@ def find(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "GET", "/expectations/{id}".format(id=params["id"]), params, options
+        "GET",
+        "/expectations/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return Expectation(response.data, options)
 
@@ -416,7 +422,9 @@ def trigger_evaluation(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
         "POST",
-        "/expectations/{id}/trigger_evaluation".format(id=params["id"]),
+        "/expectations/{id}/trigger_evaluation".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )
@@ -538,7 +546,10 @@ def update(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "PATCH", "/expectations/{id}".format(id=params["id"]), params, options
+        "PATCH",
+        "/expectations/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return Expectation(response.data, options)
 
@@ -554,7 +565,10 @@ def delete(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
-        "DELETE", "/expectations/{id}".format(id=params["id"]), params, options
+        "DELETE",
+        "/expectations/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
 
 

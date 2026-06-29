@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -69,7 +70,7 @@ class GroupUser:
             )
         response, _options = Api.send_request(
             "PATCH",
-            "/group_users/{id}".format(id=params["id"]),
+            "/group_users/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -104,7 +105,7 @@ class GroupUser:
             )
         Api.send_request(
             "DELETE",
-            "/group_users/{id}".format(id=params["id"]),
+            "/group_users/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -198,7 +199,10 @@ def update(id, params=None, options=None):
     if "user_id" not in params:
         raise MissingParameterError("Parameter missing: user_id")
     response, options = Api.send_request(
-        "PATCH", "/group_users/{id}".format(id=params["id"]), params, options
+        "PATCH",
+        "/group_users/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return GroupUser(response.data, options)
 
@@ -225,7 +229,10 @@ def delete(id, params=None, options=None):
     if "user_id" not in params:
         raise MissingParameterError("Parameter missing: user_id")
     Api.send_request(
-        "DELETE", "/group_users/{id}".format(id=params["id"]), params, options
+        "DELETE",
+        "/group_users/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
 
 

@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from decimal import Decimal
 from files_sdk.models.account_line_item import AccountLineItem
 from files_sdk.api import Api  # noqa: F401
@@ -98,7 +99,10 @@ def find(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "GET", "/payments/{id}".format(id=params["id"]), params, options
+        "GET",
+        "/payments/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return AccountLineItem(response.data, options)
 

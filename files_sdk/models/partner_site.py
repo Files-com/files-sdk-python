@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
@@ -45,7 +46,7 @@ class PartnerSite:
             raise InvalidParameterError("Bad parameter: id must be an int")
         Api.send_request(
             "DELETE",
-            "/partner_sites/{id}".format(id=params["id"]),
+            "/partner_sites/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -66,7 +67,7 @@ def delete(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
         "DELETE",
-        "/partner_sites/{id}".format(id=params["id"]),
+        "/partner_sites/{id}".format(id=quote(str(params["id"]), safe="")),
         params,
         options,
     )

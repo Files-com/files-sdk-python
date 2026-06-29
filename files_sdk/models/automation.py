@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -89,7 +90,9 @@ class Automation:
             raise InvalidParameterError("Bad parameter: id must be an int")
         Api.send_request(
             "POST",
-            "/automations/{id}/manual_run".format(id=params["id"]),
+            "/automations/{id}/manual_run".format(
+                id=quote(str(params["id"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -273,7 +276,7 @@ class Automation:
             )
         response, _options = Api.send_request(
             "PATCH",
-            "/automations/{id}".format(id=params["id"]),
+            "/automations/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -293,7 +296,7 @@ class Automation:
             raise InvalidParameterError("Bad parameter: id must be an int")
         Api.send_request(
             "DELETE",
-            "/automations/{id}".format(id=params["id"]),
+            "/automations/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -366,7 +369,10 @@ def find(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "GET", "/automations/{id}".format(id=params["id"]), params, options
+        "GET",
+        "/automations/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return Automation(response.data, options)
 
@@ -594,7 +600,9 @@ def manual_run(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
         "POST",
-        "/automations/{id}/manual_run".format(id=params["id"]),
+        "/automations/{id}/manual_run".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )
@@ -797,7 +805,10 @@ def update(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "PATCH", "/automations/{id}".format(id=params["id"]), params, options
+        "PATCH",
+        "/automations/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return Automation(response.data, options)
 
@@ -813,7 +824,10 @@ def delete(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
-        "DELETE", "/automations/{id}".format(id=params["id"]), params, options
+        "DELETE",
+        "/automations/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
 
 

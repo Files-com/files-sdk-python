@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -100,7 +101,9 @@ def find(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
         "GET",
-        "/expectation_evaluations/{id}".format(id=params["id"]),
+        "/expectation_evaluations/{id}".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )

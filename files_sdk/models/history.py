@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.models.action import Action
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
@@ -82,7 +83,9 @@ def list_for_file(path, params=None, options=None):
     return ListObj(
         Action,
         "GET",
-        "/history/files/{path}".format(path=params["path"]),
+        "/history/files/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
         params,
         options,
     )
@@ -121,7 +124,9 @@ def list_for_folder(path, params=None, options=None):
     return ListObj(
         Action,
         "GET",
-        "/history/folders/{path}".format(path=params["path"]),
+        "/history/folders/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
         params,
         options,
     )
@@ -160,7 +165,9 @@ def list_for_user(user_id, params=None, options=None):
     return ListObj(
         Action,
         "GET",
-        "/history/users/{user_id}".format(user_id=params["user_id"]),
+        "/history/users/{user_id}".format(
+            user_id=quote(str(params["user_id"]), safe="")
+        ),
         params,
         options,
     )

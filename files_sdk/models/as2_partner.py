@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -126,7 +127,7 @@ class As2Partner:
             )
         response, _options = Api.send_request(
             "PATCH",
-            "/as2_partners/{id}".format(id=params["id"]),
+            "/as2_partners/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -146,7 +147,7 @@ class As2Partner:
             raise InvalidParameterError("Bad parameter: id must be an int")
         Api.send_request(
             "DELETE",
-            "/as2_partners/{id}".format(id=params["id"]),
+            "/as2_partners/{id}".format(id=quote(str(params["id"]), safe="")),
             params,
             self.options,
         )
@@ -203,7 +204,10 @@ def find(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "GET", "/as2_partners/{id}".format(id=params["id"]), params, options
+        "GET",
+        "/as2_partners/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return As2Partner(response.data, options)
 
@@ -389,7 +393,10 @@ def update(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "PATCH", "/as2_partners/{id}".format(id=params["id"]), params, options
+        "PATCH",
+        "/as2_partners/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return As2Partner(response.data, options)
 
@@ -405,7 +412,10 @@ def delete(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
-        "DELETE", "/as2_partners/{id}".format(id=params["id"]), params, options
+        "DELETE",
+        "/as2_partners/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
 
 

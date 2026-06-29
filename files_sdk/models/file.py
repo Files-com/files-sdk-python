@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from builtins import open as builtin_open
 from datetime import datetime
 import io
@@ -243,7 +244,7 @@ class File:
             )
         response, _options = Api.send_request(
             "GET",
-            "/files/{path}".format(path=params["path"]),
+            "/files/{path}".format(path=quote(str(params["path"]), safe="")),
             params,
             self.options,
         )
@@ -279,7 +280,7 @@ class File:
             )
         response, _options = Api.send_request(
             "PATCH",
-            "/files/{path}".format(path=params["path"]),
+            "/files/{path}".format(path=quote(str(params["path"]), safe="")),
             params,
             self.options,
         )
@@ -301,7 +302,7 @@ class File:
             raise InvalidParameterError("Bad parameter: path must be an str")
         Api.send_request(
             "DELETE",
-            "/files/{path}".format(path=params["path"]),
+            "/files/{path}".format(path=quote(str(params["path"]), safe="")),
             params,
             self.options,
         )
@@ -324,7 +325,9 @@ class File:
             raise InvalidParameterError("Bad parameter: path must be an str")
         response, _options = Api.send_request(
             "GET",
-            "/file_actions/zip_list/{path}".format(path=params["path"]),
+            "/file_actions/zip_list/{path}".format(
+                path=quote(str(params["path"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -359,7 +362,9 @@ class File:
             )
         response, _options = Api.send_request(
             "POST",
-            "/file_actions/copy/{path}".format(path=params["path"]),
+            "/file_actions/copy/{path}".format(
+                path=quote(str(params["path"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -392,7 +397,9 @@ class File:
             )
         response, _options = Api.send_request(
             "POST",
-            "/file_actions/move/{path}".format(path=params["path"]),
+            "/file_actions/move/{path}".format(
+                path=quote(str(params["path"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -449,7 +456,9 @@ class File:
             raise InvalidParameterError("Bad parameter: height must be an int")
         response, _options = Api.send_request(
             "POST",
-            "/file_actions/transform/{path}".format(path=params["path"]),
+            "/file_actions/transform/{path}".format(
+                path=quote(str(params["path"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -498,7 +507,9 @@ class File:
             )
         response, _options = Api.send_request(
             "POST",
-            "/file_actions/gpg_decrypt/{path}".format(path=params["path"]),
+            "/file_actions/gpg_decrypt/{path}".format(
+                path=quote(str(params["path"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -553,7 +564,9 @@ class File:
             )
         response, _options = Api.send_request(
             "POST",
-            "/file_actions/gpg_encrypt/{path}".format(path=params["path"]),
+            "/file_actions/gpg_encrypt/{path}".format(
+                path=quote(str(params["path"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -631,7 +644,9 @@ class File:
             raise InvalidParameterError("Bad parameter: size must be an int")
         response, _options = Api.send_request(
             "POST",
-            "/file_actions/begin_upload/{path}".format(path=params["path"]),
+            "/file_actions/begin_upload/{path}".format(
+                path=quote(str(params["path"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -681,7 +696,10 @@ def download(path, params=None, options=None):
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
-        "GET", "/files/{path}".format(path=params["path"]), params, options
+        "GET",
+        "/files/{path}".format(path=quote(str(params["path"]), safe="")),
+        params,
+        options,
     )
     return File(response.data, options)
 
@@ -758,7 +776,10 @@ def create(path, params=None, options=None):
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
-        "POST", "/files/{path}".format(path=params["path"]), params, options
+        "POST",
+        "/files/{path}".format(path=quote(str(params["path"]), safe="")),
+        params,
+        options,
     )
     return File(response.data, options)
 
@@ -796,7 +817,10 @@ def update(path, params=None, options=None):
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
-        "PATCH", "/files/{path}".format(path=params["path"]), params, options
+        "PATCH",
+        "/files/{path}".format(path=quote(str(params["path"]), safe="")),
+        params,
+        options,
     )
     return File(response.data, options)
 
@@ -816,7 +840,10 @@ def delete(path, params=None, options=None):
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     Api.send_request(
-        "DELETE", "/files/{path}".format(path=params["path"]), params, options
+        "DELETE",
+        "/files/{path}".format(path=quote(str(params["path"]), safe="")),
+        params,
+        options,
     )
 
 
@@ -859,7 +886,9 @@ def find(path, params=None, options=None):
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
         "GET",
-        "/file_actions/metadata/{path}".format(path=params["path"]),
+        "/file_actions/metadata/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
         params,
         options,
     )
@@ -883,7 +912,9 @@ def zip_list_contents(path, params=None, options=None):
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
         "GET",
-        "/file_actions/zip_list/{path}".format(path=params["path"]),
+        "/file_actions/zip_list/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
         params,
         options,
     )
@@ -927,7 +958,9 @@ def copy(path, params=None, options=None):
         raise MissingParameterError("Parameter missing: destination")
     response, options = Api.send_request(
         "POST",
-        "/file_actions/copy/{path}".format(path=params["path"]),
+        "/file_actions/copy/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
         params,
         options,
     )
@@ -959,7 +992,9 @@ def move(path, params=None, options=None):
         raise MissingParameterError("Parameter missing: destination")
     response, options = Api.send_request(
         "POST",
-        "/file_actions/move/{path}".format(path=params["path"]),
+        "/file_actions/move/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
         params,
         options,
     )
@@ -1015,7 +1050,9 @@ def transform(path, params=None, options=None):
         raise MissingParameterError("Parameter missing: target_format")
     response, options = Api.send_request(
         "POST",
-        "/file_actions/transform/{path}".format(path=params["path"]),
+        "/file_actions/transform/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
         params,
         options,
     )
@@ -1075,7 +1112,9 @@ def gpg_decrypt(path, params=None, options=None):
         raise MissingParameterError("Parameter missing: destination")
     response, options = Api.send_request(
         "POST",
-        "/file_actions/gpg_decrypt/{path}".format(path=params["path"]),
+        "/file_actions/gpg_decrypt/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
         params,
         options,
     )
@@ -1131,7 +1170,9 @@ def gpg_encrypt(path, params=None, options=None):
         raise MissingParameterError("Parameter missing: destination")
     response, options = Api.send_request(
         "POST",
-        "/file_actions/gpg_encrypt/{path}".format(path=params["path"]),
+        "/file_actions/gpg_encrypt/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
         params,
         options,
     )
@@ -1246,7 +1287,9 @@ def begin_upload(path, params=None, options=None):
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
         "POST",
-        "/file_actions/begin_upload/{path}".format(path=params["path"]),
+        "/file_actions/begin_upload/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
         params,
         options,
     )

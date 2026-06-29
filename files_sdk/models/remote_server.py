@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from urllib.parse import quote
 from files_sdk.models.agent_push_update import AgentPushUpdate
 from files_sdk.models.remote_server_configuration_file import (
     RemoteServerConfigurationFile,
@@ -145,7 +146,9 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: id must be an int")
         response, _options = Api.send_request(
             "POST",
-            "/remote_servers/{id}/agent_push_update".format(id=params["id"]),
+            "/remote_servers/{id}/agent_push_update".format(
+                id=quote(str(params["id"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -227,7 +230,9 @@ class RemoteServer:
             )
         response, _options = Api.send_request(
             "POST",
-            "/remote_servers/{id}/configuration_file".format(id=params["id"]),
+            "/remote_servers/{id}/configuration_file".format(
+                id=quote(str(params["id"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -728,7 +733,9 @@ class RemoteServer:
             )
         response, _options = Api.send_request(
             "PATCH",
-            "/remote_servers/{id}".format(id=params["id"]),
+            "/remote_servers/{id}".format(
+                id=quote(str(params["id"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -748,7 +755,9 @@ class RemoteServer:
             raise InvalidParameterError("Bad parameter: id must be an int")
         Api.send_request(
             "DELETE",
-            "/remote_servers/{id}".format(id=params["id"]),
+            "/remote_servers/{id}".format(
+                id=quote(str(params["id"]), safe="")
+            ),
             params,
             self.options,
         )
@@ -812,7 +821,10 @@ def find(id, params=None, options=None):
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
-        "GET", "/remote_servers/{id}".format(id=params["id"]), params, options
+        "GET",
+        "/remote_servers/{id}".format(id=quote(str(params["id"]), safe="")),
+        params,
+        options,
     )
     return RemoteServer(response.data, options)
 
@@ -835,7 +847,9 @@ def find_configuration_file(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
         "GET",
-        "/remote_servers/{id}/configuration_file".format(id=params["id"]),
+        "/remote_servers/{id}/configuration_file".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )
@@ -1380,7 +1394,9 @@ def agent_push_update(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
         "POST",
-        "/remote_servers/{id}/agent_push_update".format(id=params["id"]),
+        "/remote_servers/{id}/agent_push_update".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )
@@ -1449,7 +1465,9 @@ def configuration_file(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
         "POST",
-        "/remote_servers/{id}/configuration_file".format(id=params["id"]),
+        "/remote_servers/{id}/configuration_file".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )
@@ -1975,7 +1993,7 @@ def update(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
         "PATCH",
-        "/remote_servers/{id}".format(id=params["id"]),
+        "/remote_servers/{id}".format(id=quote(str(params["id"]), safe="")),
         params,
         options,
     )
@@ -1994,7 +2012,7 @@ def delete(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
         "DELETE",
-        "/remote_servers/{id}".format(id=params["id"]),
+        "/remote_servers/{id}".format(id=quote(str(params["id"]), safe="")),
         params,
         options,
     )
