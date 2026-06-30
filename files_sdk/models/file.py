@@ -409,8 +409,9 @@ class File:
     #
     # Parameters:
     #   destination (required) - string - Destination file path for the transformed output.
-    #   transform_type (required) - string - Transform type. Supported values are `image_convert` and `document_convert`.
+    #   transform_type (required) - string - Transform type. Supported values are `image_convert`, `document_convert`, and `files_transform_script_execute`.
     #   target_format (required) - string - Destination format to create.
+    #   script - string - Files TransformScript source. Required when transform_type is `files_transform_script_execute`.
     #   width - int64 - Maximum output width for image_convert.
     #   height - int64 - Maximum output height for image_convert.
     #   overwrite - boolean - Overwrite existing file in the destination?
@@ -450,6 +451,8 @@ class File:
             raise InvalidParameterError(
                 "Bad parameter: target_format must be an str"
             )
+        if "script" in params and not isinstance(params["script"], str):
+            raise InvalidParameterError("Bad parameter: script must be an str")
         if "width" in params and not isinstance(params["width"], int):
             raise InvalidParameterError("Bad parameter: width must be an int")
         if "height" in params and not isinstance(params["height"], int):
@@ -1005,8 +1008,9 @@ def move(path, params=None, options=None):
 #
 # Parameters:
 #   destination (required) - string - Destination file path for the transformed output.
-#   transform_type (required) - string - Transform type. Supported values are `image_convert` and `document_convert`.
+#   transform_type (required) - string - Transform type. Supported values are `image_convert`, `document_convert`, and `files_transform_script_execute`.
 #   target_format (required) - string - Destination format to create.
+#   script - string - Files TransformScript source. Required when transform_type is `files_transform_script_execute`.
 #   width - int64 - Maximum output width for image_convert.
 #   height - int64 - Maximum output height for image_convert.
 #   overwrite - boolean - Overwrite existing file in the destination?
@@ -1034,6 +1038,8 @@ def transform(path, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: target_format must be an str"
         )
+    if "script" in params and not isinstance(params["script"], str):
+        raise InvalidParameterError("Bad parameter: script must be an str")
     if "width" in params and not isinstance(params["width"], int):
         raise InvalidParameterError("Bad parameter: width must be an int")
     if "height" in params and not isinstance(params["height"], int):
