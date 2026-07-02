@@ -6,6 +6,7 @@
 {
   "id": 1,
   "workspace_id": 1,
+  "name": "Concise Assistant",
   "system_prompt": "Respond as a concise operations assistant.",
   "use_by_default": True,
   "apply_to_all_workspaces": True,
@@ -16,6 +17,7 @@
 
 * `id` (int64): AI Assistant Personality ID.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
+* `name` (string): AI Assistant Personality name.
 * `system_prompt` (string): System prompt injected into the in-app AI Assistant.
 * `use_by_default` (boolean): Whether this personality is the default personality for the Workspace.
 * `apply_to_all_workspaces` (boolean): If true, this default-workspace personality can apply to users in all workspaces.
@@ -59,6 +61,7 @@ files_sdk.ai_assistant_personality.find(id)
 ```
 files_sdk.ai_assistant_personality.create({
   "apply_to_all_workspaces": False,
+  "name": "Concise Assistant",
   "system_prompt": "Respond as a concise operations assistant.",
   "use_by_default": False,
   "workspace_id": 0
@@ -68,6 +71,7 @@ files_sdk.ai_assistant_personality.create({
 ### Parameters
 
 * `apply_to_all_workspaces` (boolean): If true, this default-workspace personality can apply to users in all workspaces.
+* `name` (string): Required - AI Assistant Personality name.
 * `system_prompt` (string): Required - System prompt injected into the in-app AI Assistant.
 * `use_by_default` (boolean): Whether this personality is the default personality for the Workspace.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
@@ -80,6 +84,7 @@ files_sdk.ai_assistant_personality.create({
 ```
 files_sdk.ai_assistant_personality.update(id, {
   "apply_to_all_workspaces": False,
+  "name": "Concise Assistant",
   "system_prompt": "Respond as a concise operations assistant.",
   "use_by_default": False,
   "workspace_id": 0
@@ -90,6 +95,7 @@ files_sdk.ai_assistant_personality.update(id, {
 
 * `id` (int64): Required - Ai Assistant Personality ID.
 * `apply_to_all_workspaces` (boolean): If true, this default-workspace personality can apply to users in all workspaces.
+* `name` (string): AI Assistant Personality name.
 * `system_prompt` (string): System prompt injected into the in-app AI Assistant.
 * `use_by_default` (boolean): Whether this personality is the default personality for the Workspace.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
@@ -116,6 +122,7 @@ files_sdk.ai_assistant_personality.delete(id)
 ai_assistant_personality = files_sdk.ai_assistant_personality.find(id)
 ai_assistant_personality.update({
   "apply_to_all_workspaces": False,
+  "name": "Concise Assistant",
   "system_prompt": "Respond as a concise operations assistant.",
   "use_by_default": False,
   "workspace_id": 0
@@ -126,6 +133,7 @@ ai_assistant_personality.update({
 
 * `id` (int64): Required - Ai Assistant Personality ID.
 * `apply_to_all_workspaces` (boolean): If true, this default-workspace personality can apply to users in all workspaces.
+* `name` (string): AI Assistant Personality name.
 * `system_prompt` (string): System prompt injected into the in-app AI Assistant.
 * `use_by_default` (boolean): Whether this personality is the default personality for the Workspace.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.

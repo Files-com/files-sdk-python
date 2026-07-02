@@ -44,6 +44,7 @@ class AiAssistantPersonalityTest(TestBase):
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/ai_assistant_personalities"), "Mock path does not exist")
     def test_create(self):
         params = {
+            "name" : "foo",
             "system_prompt" : "foo",
         }
         ai_assistant_personality.create(params)

@@ -13,6 +13,7 @@ class AiAssistantPersonality:
     default_attributes = {
         "id": None,  # int64 - AI Assistant Personality ID.
         "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
+        "name": None,  # string - AI Assistant Personality name.
         "system_prompt": None,  # string - System prompt injected into the in-app AI Assistant.
         "use_by_default": None,  # boolean - Whether this personality is the default personality for the Workspace.
         "apply_to_all_workspaces": None,  # boolean - If true, this default-workspace personality can apply to users in all workspaces.
@@ -46,6 +47,7 @@ class AiAssistantPersonality:
 
     # Parameters:
     #   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
+    #   name - string - AI Assistant Personality name.
     #   system_prompt - string - System prompt injected into the in-app AI Assistant.
     #   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
     #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
@@ -61,6 +63,8 @@ class AiAssistantPersonality:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
         if "system_prompt" in params and not isinstance(
             params["system_prompt"], str
         ):
@@ -178,6 +182,7 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
+#   name (required) - string - AI Assistant Personality name.
 #   system_prompt (required) - string - System prompt injected into the in-app AI Assistant.
 #   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
 #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
@@ -192,6 +197,8 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: apply_to_all_workspaces must be an bool"
         )
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "system_prompt" in params and not isinstance(
         params["system_prompt"], str
     ):
@@ -210,6 +217,8 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: workspace_id must be an int"
         )
+    if "name" not in params:
+        raise MissingParameterError("Parameter missing: name")
     if "system_prompt" not in params:
         raise MissingParameterError("Parameter missing: system_prompt")
     response, options = Api.send_request(
@@ -220,6 +229,7 @@ def create(params=None, options=None):
 
 # Parameters:
 #   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
+#   name - string - AI Assistant Personality name.
 #   system_prompt - string - System prompt injected into the in-app AI Assistant.
 #   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
 #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
@@ -237,6 +247,8 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: apply_to_all_workspaces must be an bool"
         )
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "system_prompt" in params and not isinstance(
         params["system_prompt"], str
     ):
