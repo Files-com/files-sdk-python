@@ -553,6 +553,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`InvalidOauthProviderError`|  `BadRequestError` |
 |`InvalidPathError`|  `BadRequestError` |
 |`InvalidReturnToUrlError`|  `BadRequestError` |
+|`InvalidSearchQueryError`|  `BadRequestError` |
 |`InvalidSortFieldError`|  `BadRequestError` |
 |`InvalidSortFilterCombinationError`|  `BadRequestError` |
 |`InvalidUploadOffsetError`|  `BadRequestError` |
