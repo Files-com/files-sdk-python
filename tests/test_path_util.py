@@ -16,6 +16,10 @@ class TestPathUtil(unittest.TestCase):
             for entry in json.load(json_file):
                 self.assertEqual(files_sdk.path_util.normalize_for_comparison(entry[0]), entry[-1])
 
+    def test_normalize_preserves_path_identity(self):
+        self.assertEqual(files_sdk.path_util.normalize("/../../remote\\path//./to/file.txt"), "remote/path/to/file.txt")
+        self.assertEqual(files_sdk.path_util.normalize("remote/../path/to/file.txt"), "remote/path/to/file.txt")
+
 if __name__ == '__main__':
     unittest.main()
 

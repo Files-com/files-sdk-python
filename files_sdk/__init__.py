@@ -298,7 +298,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.416"
+version = "1.6.417"
 
 __version__ = version
 
@@ -373,6 +373,42 @@ def open(*args, **kwargs):
 
 def upload_file(*args, **kwargs):
     return file.upload_file(*args, **kwargs)
+
+
+def upload_to_remote_server(*args, **kwargs):
+    return file.upload_to_remote_server(*args, **kwargs)
+
+
+def copy_to_remote_server(*args, **kwargs):
+    return file.copy_to_remote_server(*args, **kwargs)
+
+
+def move_to_remote_server(*args, **kwargs):
+    return file.move_to_remote_server(*args, **kwargs)
+
+
+def upload_to_snapshot(*args, **kwargs):
+    return file.upload_to_snapshot(*args, **kwargs)
+
+
+def copy_to_snapshot(*args, **kwargs):
+    return file.copy_to_snapshot(*args, **kwargs)
+
+
+def move_to_snapshot(*args, **kwargs):
+    return file.move_to_snapshot(*args, **kwargs)
+
+
+def upload_to_child_site(*args, **kwargs):
+    return file.upload_to_child_site(*args, **kwargs)
+
+
+def copy_to_child_site(*args, **kwargs):
+    return file.copy_to_child_site(*args, **kwargs)
+
+
+def move_to_child_site(*args, **kwargs):
+    return file.move_to_child_site(*args, **kwargs)
 
 
 def download_file(*args, **kwargs):

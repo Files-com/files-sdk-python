@@ -4,6 +4,7 @@ from builtins import open as builtin_open
 from datetime import datetime
 import io
 from pathlib import Path
+import files_sdk.path_util as path_util
 from files_sdk.models.zip_list_entry import ZipListEntry
 from files_sdk.models.file_action import FileAction
 from files_sdk.models.file_upload_part import FileUploadPart
@@ -214,6 +215,64 @@ class File:
     def download_file(self, output_file):
         with builtin_open(output_file, "wb") as file:
             self.download_content(file)
+
+    def copy_to_remote_server(
+        self, remote_server_id, destination, params=None
+    ):
+        if not isinstance(params, dict):
+            params = {}
+        params = params.copy()
+        params["destination"] = _underscore_destination_path(
+            "RemoteServers", remote_server_id, destination
+        )
+        return copy(self.path, params, self.options)
+
+    def move_to_remote_server(
+        self, remote_server_id, destination, params=None
+    ):
+        if not isinstance(params, dict):
+            params = {}
+        params = params.copy()
+        params["destination"] = _underscore_destination_path(
+            "RemoteServers", remote_server_id, destination
+        )
+        return move(self.path, params, self.options)
+
+    def copy_to_snapshot(self, snapshot_id, destination, params=None):
+        if not isinstance(params, dict):
+            params = {}
+        params = params.copy()
+        params["destination"] = _underscore_destination_path(
+            "Snapshots", snapshot_id, destination
+        )
+        return copy(self.path, params, self.options)
+
+    def move_to_snapshot(self, snapshot_id, destination, params=None):
+        if not isinstance(params, dict):
+            params = {}
+        params = params.copy()
+        params["destination"] = _underscore_destination_path(
+            "Snapshots", snapshot_id, destination
+        )
+        return move(self.path, params, self.options)
+
+    def copy_to_child_site(self, site_id, destination, params=None):
+        if not isinstance(params, dict):
+            params = {}
+        params = params.copy()
+        params["destination"] = _underscore_destination_path(
+            "Sites", site_id, destination
+        )
+        return copy(self.path, params, self.options)
+
+    def move_to_child_site(self, site_id, destination, params=None):
+        if not isinstance(params, dict):
+            params = {}
+        params = params.copy()
+        params["destination"] = _underscore_destination_path(
+            "Sites", site_id, destination
+        )
+        return move(self.path, params, self.options)
 
     # Download File
     #
@@ -1304,6 +1363,12 @@ def begin_upload(path, params=None, options=None):
     ]
 
 
+def _underscore_destination_path(root, destination_id, relative_path=None):
+    return path_util.normalize(
+        f"_/{root}/{destination_id}/{relative_path or ''}"
+    )
+
+
 def open(path, mode="r", options=None):
     if not isinstance(options, dict):
         options = {}
@@ -1383,6 +1448,115 @@ def upload_file(path, destination=None, options=None, params=None):
         }
 
         create(destination, final_params, options)
+
+
+def upload_to_remote_server(
+    path, remote_server_id, destination=None, options=None, params=None
+):
+    if destination is None:
+        destination = Path(path).name
+    return upload_file(
+        path,
+        _underscore_destination_path(
+            "RemoteServers", remote_server_id, destination
+        ),
+        options,
+        params,
+    )
+
+
+def copy_to_remote_server(
+    path, remote_server_id, destination, params=None, options=None
+):
+    if not isinstance(params, dict):
+        params = {}
+    params = params.copy()
+    params["destination"] = _underscore_destination_path(
+        "RemoteServers", remote_server_id, destination
+    )
+    return copy(path, params, options)
+
+
+def move_to_remote_server(
+    path, remote_server_id, destination, params=None, options=None
+):
+    if not isinstance(params, dict):
+        params = {}
+    params = params.copy()
+    params["destination"] = _underscore_destination_path(
+        "RemoteServers", remote_server_id, destination
+    )
+    return move(path, params, options)
+
+
+def upload_to_snapshot(
+    path, snapshot_id, destination=None, options=None, params=None
+):
+    if destination is None:
+        destination = Path(path).name
+    return upload_file(
+        path,
+        _underscore_destination_path("Snapshots", snapshot_id, destination),
+        options,
+        params,
+    )
+
+
+def copy_to_snapshot(
+    path, snapshot_id, destination, params=None, options=None
+):
+    if not isinstance(params, dict):
+        params = {}
+    params = params.copy()
+    params["destination"] = _underscore_destination_path(
+        "Snapshots", snapshot_id, destination
+    )
+    return copy(path, params, options)
+
+
+def move_to_snapshot(
+    path, snapshot_id, destination, params=None, options=None
+):
+    if not isinstance(params, dict):
+        params = {}
+    params = params.copy()
+    params["destination"] = _underscore_destination_path(
+        "Snapshots", snapshot_id, destination
+    )
+    return move(path, params, options)
+
+
+def upload_to_child_site(
+    path, site_id, destination=None, options=None, params=None
+):
+    if destination is None:
+        destination = Path(path).name
+    return upload_file(
+        path,
+        _underscore_destination_path("Sites", site_id, destination),
+        options,
+        params,
+    )
+
+
+def copy_to_child_site(path, site_id, destination, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    params = params.copy()
+    params["destination"] = _underscore_destination_path(
+        "Sites", site_id, destination
+    )
+    return copy(path, params, options)
+
+
+def move_to_child_site(path, site_id, destination, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    params = params.copy()
+    params["destination"] = _underscore_destination_path(
+        "Sites", site_id, destination
+    )
+    return move(path, params, options)
 
 
 def download_file(path, local_path=None, options=None):
