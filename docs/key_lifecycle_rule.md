@@ -79,20 +79,6 @@ files_sdk.key_lifecycle_rule.create({
 
 ---
 
-## Create an export CSV of Key Lifecycle Rule resources
-
-```
-files_sdk.key_lifecycle_rule.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `key_type`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `key_type` and `workspace_id`. Valid field combinations are `[ workspace_id, key_type ]`.
-
-
----
-
 ## Update Key Lifecycle Rule
 
 ```

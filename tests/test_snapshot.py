@@ -61,10 +61,6 @@ class SnapshotTest(TestBase):
         }
         snapshot.finalize(id, params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/snapshots/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = snapshot.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/snapshots/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

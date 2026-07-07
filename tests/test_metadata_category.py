@@ -56,10 +56,6 @@ class MetadataCategoryTest(TestBase):
         }
         metadata_category.create(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/metadata_categories/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = metadata_category.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/metadata_categories/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

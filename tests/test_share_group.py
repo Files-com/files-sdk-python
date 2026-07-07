@@ -49,10 +49,6 @@ class ShareGroupTest(TestBase):
         }
         share_group.create(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/share_groups/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = share_group.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/share_groups/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

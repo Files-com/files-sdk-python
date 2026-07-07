@@ -52,13 +52,6 @@ class MessageCommentTest(TestBase):
         }
         message_comment.create(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/message_comments/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        params = {
-            "message_id" : 12345,
-        }
-        message_comment.create_export(params)
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/message_comments/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

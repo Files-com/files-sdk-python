@@ -137,7 +137,6 @@
 * `value` (object): A Hash of attributes specific to the automation type.
 * `webhook_url` (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
 * `holiday_region` (string): Skip automation if there is a formal, observed holiday for this region.
-* `cloned_from` (int64): Set to the ID of automation used as a clone template. This is an informational field only.
 
 
 ---
@@ -212,8 +211,7 @@ files_sdk.automation.create({
   "value": {"limit":"1"},
   "recurring_day": 25,
   "automation": "create_folder",
-  "workspace_id": 0,
-  "cloned_from": 1
+  "workspace_id": 0
 })
 ```
 
@@ -253,7 +251,6 @@ files_sdk.automation.create({
 * `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `automation` (string): Required - Automation type
 * `workspace_id` (int64): Workspace ID
-* `cloned_from` (int64): Set to the ID of automation used as a clone template. This is an informational field only.
 
 
 ---
@@ -267,24 +264,6 @@ files_sdk.automation.manual_run(id)
 ### Parameters
 
 * `id` (int64): Required - Automation ID.
-
-
----
-
-## Create an export CSV of Automation resources
-
-```
-files_sdk.automation.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `automation`, `last_modified_at` or `disabled`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `last_modified_at`, `workspace_id` or `automation`. Valid field combinations are `[ disabled, last_modified_at ]`, `[ workspace_id, disabled ]`, `[ disabled, automation ]`, `[ workspace_id, last_modified_at ]`, `[ automation, last_modified_at ]`, `[ workspace_id, automation ]`, `[ workspace_id, disabled, last_modified_at ]`, `[ disabled, automation, last_modified_at ]`, `[ workspace_id, disabled, automation ]`, `[ workspace_id, automation, last_modified_at ]` or `[ workspace_id, disabled, automation, last_modified_at ]`.
-* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `last_modified_at`.
-* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `last_modified_at`.
-* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `last_modified_at`.
-* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `last_modified_at`.
 
 
 ---

@@ -61,10 +61,6 @@ class ExpectationTest(TestBase):
         }
         expectation.trigger_evaluation(id, params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/expectations/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = expectation.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/expectations/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

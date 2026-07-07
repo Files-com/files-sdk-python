@@ -4,9 +4,7 @@
 
 ```
 {
-  "id": 1,
   "path": "path/file.txt",
-  "path_absolute": "path/file.txt",
   "created_by_id": 1,
   "created_by_api_key_id": 1,
   "created_by_as2_incoming_message_id": 1,
@@ -39,14 +37,6 @@
   "permissions": "rwd",
   "subfolders_locked?": True,
   "is_locked": True,
-  "remote_server_id": 1,
-  "headers": {
-    "key": "example value"
-  },
-  "socks_ips": [
-    "example"
-  ],
-  "internal_download_uri": "example",
   "download_uri": "https://mysite.files.com/...",
   "priority_color": "red",
   "preview_id": 1,
@@ -60,9 +50,7 @@
 }
 ```
 
-* `id` (int64): File/Folder ID.  Used only for ExaVault compatibility API.  Do not use for other purposes, as this value will not always be set.
 * `path` (string): File/Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-* `path_absolute` (string): File/Folder absolute path for Bundle Trusted Relay use
 * `created_by_id` (int64): User ID of the User who created the file/folder
 * `created_by_api_key_id` (int64): ID of the API key that created the file/folder
 * `created_by_as2_incoming_message_id` (int64): ID of the AS2 Incoming Message that created the file/folder
@@ -93,16 +81,11 @@
 * `permissions` (string): A short string representing the current user's permissions.  Can be `r` (Read),`w` (Write),`d` (Delete), `l` (List) or any combination
 * `subfolders_locked?` (boolean): Are subfolders locked and unable to be modified?
 * `is_locked` (boolean): Is this folder locked and unable to be modified?
-* `remote_server_id` (int64): Used for internal bandwidth tracking
-* `headers` (object): Used for internal url management
-* `socks_ips` (array(string)): Used for internal url management
-* `internal_download_uri` (string): For use with internal services and should also be with headers and socks_ips
 * `download_uri` (string): Link to download file. Provided only in response to a download request.
 * `priority_color` (string): Bookmark/priority color of file/folder
 * `preview_id` (int64): File preview ID
 * `preview` (Preview): File preview
 * `mkdir_parents` (boolean): Create parent directories if they do not exist?
-* `bundle_registration_code` (string): 
 
 
 ---
@@ -125,8 +108,6 @@ files_sdk.folder.list_for(path, {
 * `cursor` (string): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (int64): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `path` (string): Required - Path to operate on.
-* `action` (string): Action to take.  Can be `count`, `size`, `permissions`, or blank.
-* `bundle_registration_code` (string): 
 * `preview_size` (string): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 * `sort_by` (object): Search by field and direction. Valid fields are `path`, `size`, `modified_at_datetime`, `provided_modified_at`.  Valid directions are `asc` and `desc`.  Defaults to `{"path":"asc"}`.
 * `search` (string): If specified, will search the folders/files list by name. Ignores text before last `/`. This is the same API used by the search bar in the web UI when running 'Search This Folder'.  Search results are a best effort, not real time, and not guaranteed to perfectly match the latest folder listing.  Results may be truncated if more than 1,000 possible matches exist.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
@@ -154,4 +135,3 @@ files_sdk.folder.create(path, {
 * `path` (string): Required - Path to operate on.
 * `mkdir_parents` (boolean): Create parent directories if they do not exist?
 * `provided_mtime` (string): User provided modification time.
-* `bundle_registration_code` (string): 

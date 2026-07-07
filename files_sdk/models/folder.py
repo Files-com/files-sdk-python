@@ -12,9 +12,7 @@ from files_sdk.error import (  # noqa: F401
 
 class Folder:
     default_attributes = {
-        "id": None,  # int64 - File/Folder ID.  Used only for ExaVault compatibility API.  Do not use for other purposes, as this value will not always be set.
         "path": None,  # string - File/Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-        "path_absolute": None,  # string - File/Folder absolute path for Bundle Trusted Relay use
         "created_by_id": None,  # int64 - User ID of the User who created the file/folder
         "created_by_api_key_id": None,  # int64 - ID of the API key that created the file/folder
         "created_by_as2_incoming_message_id": None,  # int64 - ID of the AS2 Incoming Message that created the file/folder
@@ -45,16 +43,11 @@ class Folder:
         "permissions": None,  # string - A short string representing the current user's permissions.  Can be `r` (Read),`w` (Write),`d` (Delete), `l` (List) or any combination
         "subfolders_locked?": None,  # boolean - Are subfolders locked and unable to be modified?
         "is_locked": None,  # boolean - Is this folder locked and unable to be modified?
-        "remote_server_id": None,  # int64 - Used for internal bandwidth tracking
-        "headers": None,  # object - Used for internal url management
-        "socks_ips": None,  # array(string) - Used for internal url management
-        "internal_download_uri": None,  # string - For use with internal services and should also be with headers and socks_ips
         "download_uri": None,  # string - Link to download file. Provided only in response to a download request.
         "priority_color": None,  # string - Bookmark/priority color of file/folder
         "preview_id": None,  # int64 - File preview ID
         "preview": None,  # Preview - File preview
         "mkdir_parents": None,  # boolean - Create parent directories if they do not exist?
-        "bundle_registration_code": None,  # string
     }
 
     def __init__(self, attributes=None, options=None):
@@ -88,8 +81,6 @@ class Folder:
 #   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 #   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 #   path (required) - string - Path to operate on.
-#   action - string - Action to take.  Can be `count`, `size`, `permissions`, or blank.
-#   bundle_registration_code - string
 #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 #   sort_by - object - Search by field and direction. Valid fields are `path`, `size`, `modified_at_datetime`, `provided_modified_at`.  Valid directions are `asc` and `desc`.  Defaults to `{"path":"asc"}`.
 #   search - string - If specified, will search the folders/files list by name. Ignores text before last `/`. This is the same API used by the search bar in the web UI when running 'Search This Folder'.  Search results are a best effort, not real time, and not guaranteed to perfectly match the latest folder listing.  Results may be truncated if more than 1,000 possible matches exist.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
@@ -111,14 +102,6 @@ def list_for(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
-    if "bundle_registration_code" in params and not isinstance(
-        params["bundle_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_code must be an str"
-        )
     if "preview_size" in params and not isinstance(
         params["preview_size"], str
     ):
@@ -174,7 +157,6 @@ def list_for(path, params=None, options=None):
 #   path (required) - string - Path to operate on.
 #   mkdir_parents - boolean - Create parent directories if they do not exist?
 #   provided_mtime - string - User provided modification time.
-#   bundle_registration_code - string
 def create(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -194,12 +176,6 @@ def create(path, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: provided_mtime must be an str"
-        )
-    if "bundle_registration_code" in params and not isinstance(
-        params["bundle_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_code must be an str"
         )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")

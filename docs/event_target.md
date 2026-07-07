@@ -87,20 +87,6 @@ files_sdk.event_target.create({
 
 ---
 
-## Create an export CSV of Event Target resources
-
-```
-files_sdk.event_target.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `enabled` or `workspace_id`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `enabled`, `target_type` or `workspace_id`. Valid field combinations are `[ enabled, target_type ]`, `[ workspace_id, enabled ]` or `[ workspace_id, enabled, target_type ]`.
-
-
----
-
 ## Update Event Target
 
 ```

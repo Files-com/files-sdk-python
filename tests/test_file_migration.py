@@ -10,10 +10,6 @@ class FileMigrationTest(TestBase):
     # Instance Methods
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_migrations"), "Mock path does not exist")
-    def test_list(self):
-        resp = file_migration.list()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_migrations/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
@@ -21,10 +17,6 @@ class FileMigrationTest(TestBase):
             "id" : 12345,
         }
         file_migration.find(id, params)
-
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_migrations/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = file_migration.create_export()
 
 if __name__ == '__main__':
     unittest.main()

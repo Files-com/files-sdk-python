@@ -1,5 +1,4 @@
 import builtins  # noqa: F401
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -23,7 +22,6 @@ class ExavaultApiRequestLog:
         "success": None,  # boolean - `false` if HTTP Response Code is 4xx or 5xx
         "duration_ms": None,  # int64 - Duration (in milliseconds)
         "created_at": None,  # date-time - Start Time of Action
-        "log_type": None,  # string - Log Type
     }
 
     def __init__(self, attributes=None, options=None):
@@ -100,44 +98,6 @@ def list(params=None, options=None):
 
 def all(params=None, options=None):
     list(params, options)
-
-
-# Parameters:
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `request_ip`, `request_method`, `success` or `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
-#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
-#   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
-#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `request_ip` and `request_method`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
-#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
-#   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "filter" in params and not isinstance(params["filter"], dict):
-        raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
-    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
-        raise InvalidParameterError(
-            "Bad parameter: filter_gteq must be an dict"
-        )
-    if "filter_prefix" in params and not isinstance(
-        params["filter_prefix"], dict
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filter_prefix must be an dict"
-        )
-    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
-    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
-        raise InvalidParameterError(
-            "Bad parameter: filter_lteq must be an dict"
-        )
-    response, options = Api.send_request(
-        "POST", "/exavault_api_request_logs/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 def new(*args, **kwargs):

@@ -60,21 +60,6 @@ files_sdk.workspace.create({
 
 ---
 
-## Create an export CSV of Workspace resources
-
-```
-files_sdk.workspace.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.
-* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
-
-
----
-
 ## Update Workspace
 
 ```

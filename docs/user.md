@@ -87,12 +87,10 @@
   "time_zone": "Pacific Time (US & Canada)",
   "type_of_2fa": "yubi",
   "type_of_2fa_for_display": "yubi",
-  "updated_at": "2000-01-01T01:00:00Z",
   "user_root": "example",
   "user_home": "example",
   "days_remaining_until_password_expire": 1,
-  "password_expire_at": "2000-01-01T01:00:00Z",
-  "has_reassignable_associations": True
+  "password_expire_at": "2000-01-01T01:00:00Z"
 }
 ```
 
@@ -177,12 +175,10 @@
 * `time_zone` (string): User time zone
 * `type_of_2fa` (string): Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `webauthn`, `yubi`, `email`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
 * `type_of_2fa_for_display` (string): Type(s) of 2FA methods in use, formatted for displaying in the UI.  Unlike `type_of_2fa`, this value will make clear when a user has more than 1 of the same type of method.
-* `updated_at` (date-time): When this user was updated.  Used only for ExaVault compatibility API.  Do not use for other purposes, as this value reveals information about internal changes to users that isn't necessarily public.
 * `user_root` (string): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 * `user_home` (string): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 * `days_remaining_until_password_expire` (int64): Number of days remaining until password expires
 * `password_expire_at` (date-time): Password expiration datetime
-* `has_reassignable_associations` (boolean): Does this user have any associations that can be reassigned on delete?
 * `avatar_file` (file): An image file for your user avatar.
 * `avatar_delete` (boolean): If true, the avatar will be deleted.
 * `change_password` (string): Used for changing a password on an existing user.
@@ -218,16 +214,8 @@ files_sdk.user.list({
 * `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `username`, `name`, `email` or `company`. Valid field combinations are `[ company, name ]`.
 * `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
 * `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-* `action` (string): Set to `count` to return a count of results rather than the actual results.
 * `ids` (string): comma-separated list of User IDs
 * `include_parent_site_users` (boolean): Include users from the parent site.
-* `q[username]` (string): List users matching username.
-* `q[email]` (string): List users matching email.
-* `q[notes]` (string): List users matching notes field.
-* `q[admin]` (string): If `true`, list only admin users.
-* `q[allowed_ips]` (string): If set, list only users with overridden allowed IP setting.
-* `q[password_validity_days]` (string): If set, list only users with overridden password validity days setting.
-* `q[ssl_required]` (string): If set, list only users with overridden SSL required setting.
 * `search` (string): Searches for partial matches of name, username, or email.
 
 
@@ -236,15 +224,12 @@ files_sdk.user.list({
 ## Show User
 
 ```
-files_sdk.user.find(id, {
-  "include_reassignable_associations": False
-})
+files_sdk.user.find(id)
 ```
 
 ### Parameters
 
 * `id` (int64): Required - User ID.
-* `include_reassignable_associations` (boolean): If true includes has_reassignable_associations in the response.
 
 
 ---
@@ -420,38 +405,6 @@ files_sdk.user.user_2fa_reset(id)
 ### Parameters
 
 * `id` (int64): Required - User ID.
-
-
----
-
-## Create an export CSV of User resources
-
-```
-files_sdk.user.create_export({
-  "include_parent_site_users": False
-})
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id`, `company`, `name`, `disabled`, `authenticate_until`, `username`, `email`, `site_admin`, `last_desktop_login_at`, `last_login_at`, `password_validity_days` or `ssl_required`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `name`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until`, `not_site_admin`, `disabled`, `partner_id`, `primary_group_id` or `workspace_id`. Valid field combinations are `[ site_admin, username ]`, `[ not_site_admin, username ]`, `[ workspace_id, username ]`, `[ company, name ]`, `[ workspace_id, name ]`, `[ workspace_id, email ]`, `[ workspace_id, company ]`, `[ workspace_id, site_admin ]`, `[ workspace_id, not_site_admin ]`, `[ workspace_id, disabled ]`, `[ workspace_id, partner_id ]`, `[ workspace_id, site_admin, username ]`, `[ workspace_id, not_site_admin, username ]`, `[ workspace_id, disabled, username ]`, `[ workspace_id, partner_id, username ]` or `[ workspace_id, company, name ]`.
-* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `username`, `name`, `email` or `company`. Valid field combinations are `[ company, name ]`.
-* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-* `action` (string): Set to `count` to return a count of results rather than the actual results.
-* `ids` (string): comma-separated list of User IDs
-* `include_parent_site_users` (boolean): Include users from the parent site.
-* `q[username]` (string): List users matching username.
-* `q[email]` (string): List users matching email.
-* `q[notes]` (string): List users matching notes field.
-* `q[admin]` (string): If `true`, list only admin users.
-* `q[allowed_ips]` (string): If set, list only users with overridden allowed IP setting.
-* `q[password_validity_days]` (string): If set, list only users with overridden password validity days setting.
-* `q[ssl_required]` (string): If set, list only users with overridden SSL required setting.
-* `search` (string): Searches for partial matches of name, username, or email.
 
 
 ---

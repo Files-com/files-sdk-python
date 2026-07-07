@@ -1,6 +1,5 @@
 import builtins  # noqa: F401
 from urllib.parse import quote
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -13,6 +12,7 @@ from files_sdk.error import (  # noqa: F401
 class ChatSession:
     default_attributes = {
         "id": None,  # string - Chat Session ID.
+        "title": None,  # string - Short AI-generated chat title.
         "user_id": None,  # int64 - User ID.
         "ai_task_id": None,  # int64 - AI Task ID. Present when the conversation was started by an AI Task.
         "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
@@ -91,24 +91,6 @@ def find(id, params=None, options=None):
 
 def get(id, params=None, options=None):
     find(id, params, options)
-
-
-# Parameters:
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `id`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `ai_task_id`, `user_id` or `workspace_id`.
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "sort_by" in params and not isinstance(params["sort_by"], dict):
-        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
-    if "filter" in params and not isinstance(params["filter"], dict):
-        raise InvalidParameterError("Bad parameter: filter must be an dict")
-    response, options = Api.send_request(
-        "POST", "/chat_sessions/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 def new(*args, **kwargs):

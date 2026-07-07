@@ -49,10 +49,6 @@ class DesktopConfigurationProfileTest(TestBase):
         }
         desktop_configuration_profile.create(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/desktop_configuration_profiles/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = desktop_configuration_profile.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/desktop_configuration_profiles/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

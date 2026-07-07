@@ -105,20 +105,6 @@ files_sdk.partner_site_request.approve({
 
 ---
 
-## Create an export CSV of Partner Site Request resources
-
-```
-files_sdk.partner_site_request.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `host_partner_id`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `host_partner_id`.
-
-
----
-
 ## Delete Partner Site Request
 
 ```

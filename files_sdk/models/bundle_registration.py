@@ -1,5 +1,4 @@
 import builtins  # noqa: F401
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -25,8 +24,6 @@ class BundleRegistration:
         "bundle_recipient_id": None,  # int64 - Id of associated bundle recipient
         "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
         "created_at": None,  # date-time - Registration creation date/time
-        "bundle_recipient_registration_code": None,  # string - Bundle recipient registration code
-        "password": None,  # string - Public bundle password.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -52,16 +49,6 @@ class BundleRegistration:
             if getattr(self, k, None) is not None
         }
         return attrs
-
-    def save(self):
-        if hasattr(self, "id") and self.id:
-            raise NotImplementedError(
-                "The BundleRegistration object doesn't support updates."
-            )
-        else:
-            new_obj = create(self.get_attributes(), self.options)
-            self.set_attributes(new_obj.get_attributes())
-            return True
 
 
 # Parameters:
@@ -92,94 +79,6 @@ def list(params=None, options=None):
 
 def all(params=None, options=None):
     list(params, options)
-
-
-# Parameters:
-#   bundle_recipient_registration_code - string - Bundle recipient registration code
-#   password - string - Public bundle password.
-#   company - string - Registrant company name
-#   email - string - Registrant email address
-#   name - string - Registrant name
-#   bundle_code (required) - string - Bundle URL code
-def create(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "bundle_recipient_registration_code" in params and not isinstance(
-        params["bundle_recipient_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_recipient_registration_code must be an str"
-        )
-    if "password" in params and not isinstance(params["password"], str):
-        raise InvalidParameterError("Bad parameter: password must be an str")
-    if "company" in params and not isinstance(params["company"], str):
-        raise InvalidParameterError("Bad parameter: company must be an str")
-    if "email" in params and not isinstance(params["email"], str):
-        raise InvalidParameterError("Bad parameter: email must be an str")
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
-    if "bundle_code" in params and not isinstance(params["bundle_code"], str):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_code must be an str"
-        )
-    if "bundle_code" not in params:
-        raise MissingParameterError("Parameter missing: bundle_code")
-    response, options = Api.send_request(
-        "POST", "/bundle_registrations", params, options
-    )
-    return BundleRegistration(response.data, options)
-
-
-# Parameters:
-#   bundle_registration_code (required) - string - Bundle registration cookie code
-#   upload_in_progress - boolean - Flag that indicates if current upload is going during this registration session
-def last_activity(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "bundle_registration_code" in params and not isinstance(
-        params["bundle_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_code must be an str"
-        )
-    if "upload_in_progress" in params and not isinstance(
-        params["upload_in_progress"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: upload_in_progress must be an bool"
-        )
-    if "bundle_registration_code" not in params:
-        raise MissingParameterError(
-            "Parameter missing: bundle_registration_code"
-        )
-    Api.send_request(
-        "POST", "/bundle_registrations/last_activity", params, options
-    )
-
-
-# Parameters:
-#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `bundle_id` or `created_at`.
-#   bundle_id - int64 - ID of the associated Bundle
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "user_id" in params and not isinstance(params["user_id"], int):
-        raise InvalidParameterError("Bad parameter: user_id must be an int")
-    if "sort_by" in params and not isinstance(params["sort_by"], dict):
-        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
-    if "bundle_id" in params and not isinstance(params["bundle_id"], int):
-        raise InvalidParameterError("Bad parameter: bundle_id must be an int")
-    response, options = Api.send_request(
-        "POST", "/bundle_registrations/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 def new(*args, **kwargs):

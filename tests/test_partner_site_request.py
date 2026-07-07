@@ -54,10 +54,6 @@ class PartnerSiteRequestTest(TestBase):
         }
         partner_site_request.approve(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_site_requests/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = partner_site_request.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/partner_site_requests/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345

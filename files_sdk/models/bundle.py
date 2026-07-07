@@ -1,6 +1,5 @@
 import builtins  # noqa: F401
 from urllib.parse import quote
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -59,7 +58,6 @@ class Bundle:
         "dont_allow_folders_in_uploads": None,  # boolean - Should folder uploads be prevented?
         "paths": None,  # array(string) - A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
         "bundlepaths": None,  # array(object) - A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
-        "site_id": None,  # int64 - Site id
         "password": None,  # string - Password for this bundle.
         "form_field_set_id": None,  # int64 - Id of Form Field Set to use with this bundle
         "create_snapshot": None,  # boolean - If true, create a snapshot of this bundle's contents.
@@ -94,7 +92,6 @@ class Bundle:
     # Parameters:
     #   to - array(string) - A list of email addresses to share this bundle with. Required unless `recipients` is used.
     #   note - string - Note to include in email.
-    #   method - string - The method to use, must be email or null
     #   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
     def share(self, params=None):
         if not isinstance(params, dict):
@@ -112,8 +109,6 @@ class Bundle:
             raise InvalidParameterError("Bad parameter: to must be an list")
         if "note" in params and not isinstance(params["note"], str):
             raise InvalidParameterError("Bad parameter: note must be an str")
-        if "method" in params and not isinstance(params["method"], str):
-            raise InvalidParameterError("Bad parameter: method must be an str")
         if "recipients" in params and not isinstance(
             params["recipients"], builtins.list
         ):
@@ -383,44 +378,6 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
-#   code (required) - string - Bundle code
-#   imported_from_file_ac - boolean - Is bundle imported from File.ac?
-#   bundle_registration_code - string - Bundle registration cookie code
-#   recipient_code - string - Bundle recipient code
-def get_info(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "code" in params and not isinstance(params["code"], str):
-        raise InvalidParameterError("Bad parameter: code must be an str")
-    if "imported_from_file_ac" in params and not isinstance(
-        params["imported_from_file_ac"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: imported_from_file_ac must be an bool"
-        )
-    if "bundle_registration_code" in params and not isinstance(
-        params["bundle_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_code must be an str"
-        )
-    if "recipient_code" in params and not isinstance(
-        params["recipient_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: recipient_code must be an str"
-        )
-    if "code" not in params:
-        raise MissingParameterError("Parameter missing: code")
-    response, options = Api.send_request(
-        "GET", "/bundles/info", params, options
-    )
-    return Bundle(response.data, options)
-
-
-# Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   paths (required) - array(string) - A list of paths to include in this bundle.
 #   password - string - Password for this bundle.
@@ -598,59 +555,11 @@ def create(params=None, options=None):
     return Bundle(response.data, options)
 
 
-# Parameters:
-#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code`, `group_id`, `user_id` or `bypasses_site_expiration_rules`. Valid field combinations are `[ group_id, expires_at ]` and `[ user_id, expires_at ]`.
-#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at` and `expires_at`.
-#   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
-#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `code`.
-#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at` and `expires_at`.
-#   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
-#   deleted - boolean - If true, only list deleted Share Links.
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "user_id" in params and not isinstance(params["user_id"], int):
-        raise InvalidParameterError("Bad parameter: user_id must be an int")
-    if "sort_by" in params and not isinstance(params["sort_by"], dict):
-        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
-    if "filter" in params and not isinstance(params["filter"], dict):
-        raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
-    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
-        raise InvalidParameterError(
-            "Bad parameter: filter_gteq must be an dict"
-        )
-    if "filter_prefix" in params and not isinstance(
-        params["filter_prefix"], dict
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filter_prefix must be an dict"
-        )
-    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
-        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
-    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
-        raise InvalidParameterError(
-            "Bad parameter: filter_lteq must be an dict"
-        )
-    if "deleted" in params and not isinstance(params["deleted"], bool):
-        raise InvalidParameterError("Bad parameter: deleted must be an bool")
-    response, options = Api.send_request(
-        "POST", "/bundles/create_export", params, options
-    )
-    return Export(response.data, options)
-
-
 # Send email(s) with a link to bundle
 #
 # Parameters:
 #   to - array(string) - A list of email addresses to share this bundle with. Required unless `recipients` is used.
 #   note - string - Note to include in email.
-#   method - string - The method to use, must be email or null
 #   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
 def share(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -664,8 +573,6 @@ def share(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: to must be an list")
     if "note" in params and not isinstance(params["note"], str):
         raise InvalidParameterError("Bad parameter: note must be an str")
-    if "method" in params and not isinstance(params["method"], str):
-        raise InvalidParameterError("Bad parameter: method must be an str")
     if "recipients" in params and not isinstance(
         params["recipients"], builtins.list
     ):

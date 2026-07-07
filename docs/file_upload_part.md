@@ -25,8 +25,7 @@
   "partsize": 1,
   "path": "",
   "ref": "upload-1",
-  "upload_uri": "example",
-  "internal_upload_uri": "example"
+  "upload_uri": "example"
 }
 ```
 
@@ -46,4 +45,3 @@
 * `path` (string): New file path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `ref` (string): Reference name for this upload part
 * `upload_uri` (string): URI to upload this part to
-* `internal_upload_uri` (string): For use with internal services URI to upload this part to

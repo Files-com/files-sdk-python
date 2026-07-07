@@ -51,10 +51,6 @@ class As2PartnerTest(TestBase):
         }
         as2_partner.create(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/as2_partners/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = as2_partner.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/as2_partners/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

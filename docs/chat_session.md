@@ -5,6 +5,7 @@
 ```
 {
   "id": "example",
+  "title": "example",
   "user_id": 1,
   "ai_task_id": 1,
   "workspace_id": 1,
@@ -22,6 +23,7 @@
 ```
 
 * `id` (string): Chat Session ID.
+* `title` (string): Short AI-generated chat title.
 * `user_id` (int64): User ID.
 * `ai_task_id` (int64): AI Task ID. Present when the conversation was started by an AI Task.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
@@ -57,17 +59,3 @@ files_sdk.chat_session.find(id)
 ### Parameters
 
 * `id` (string): Required - Chat Session ID.
-
-
----
-
-## Create an export CSV of Chat Session resources
-
-```
-files_sdk.chat_session.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `id`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `ai_task_id`, `user_id` or `workspace_id`.

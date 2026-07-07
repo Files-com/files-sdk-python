@@ -1,7 +1,6 @@
 import builtins  # noqa: F401
 from urllib.parse import quote
 from decimal import Decimal
-from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -369,21 +368,6 @@ def reset_status(id, params=None, options=None):
         params,
         options,
     )
-
-
-# Parameters:
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `remote_server_mount_id`.
-def create_export(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "filter" in params and not isinstance(params["filter"], dict):
-        raise InvalidParameterError("Bad parameter: filter must be an dict")
-    response, options = Api.send_request(
-        "POST", "/remote_mount_backends/create_export", params, options
-    )
-    return Export(response.data, options)
 
 
 # Parameters:

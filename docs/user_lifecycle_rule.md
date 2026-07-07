@@ -112,20 +112,6 @@ files_sdk.user_lifecycle_rule.create({
 
 ---
 
-## Create an export CSV of User Lifecycle Rule resources
-
-```
-files_sdk.user_lifecycle_rule.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `workspace_id`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
-
-
----
-
 ## Update User Lifecycle Rule
 
 ```

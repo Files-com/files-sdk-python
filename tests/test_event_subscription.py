@@ -48,10 +48,6 @@ class EventSubscriptionTest(TestBase):
         }
         event_subscription.create(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/event_subscriptions/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = event_subscription.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/event_subscriptions/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

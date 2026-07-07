@@ -124,21 +124,6 @@ files_sdk.scheduled_export.create({
 
 ---
 
-## Create an export CSV of Scheduled Export resources
-
-```
-files_sdk.scheduled_export.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `export_type` or `disabled`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled` and `export_type`.
-* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `export_type`.
-
-
----
-
 ## Update Scheduled Export
 
 ```

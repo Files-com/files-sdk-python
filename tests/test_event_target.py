@@ -50,10 +50,6 @@ class EventTargetTest(TestBase):
         }
         event_target.create(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/event_targets/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = event_target.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/event_targets/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

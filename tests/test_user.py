@@ -96,10 +96,6 @@ class UserTest(TestBase):
         }
         user.user_2fa_reset(id, params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = user.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/users/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

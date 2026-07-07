@@ -150,20 +150,6 @@ files_sdk.ai_task.manual_run(id)
 
 ---
 
-## Create an export CSV of Ai Task resources
-
-```
-files_sdk.ai_task.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `id`, `disabled` or `updated_at`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `trigger` or `workspace_id`. Valid field combinations are `[ workspace_id, disabled ]`.
-
-
----
-
 ## Update Ai Task
 
 ```

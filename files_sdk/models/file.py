@@ -17,9 +17,7 @@ from files_sdk.error import (  # noqa: F401
 
 class File:
     default_attributes = {
-        "id": None,  # int64 - File/Folder ID.  Used only for ExaVault compatibility API.  Do not use for other purposes, as this value will not always be set.
         "path": None,  # string - File/Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-        "path_absolute": None,  # string - File/Folder absolute path for Bundle Trusted Relay use
         "created_by_id": None,  # int64 - User ID of the User who created the file/folder
         "created_by_api_key_id": None,  # int64 - ID of the API key that created the file/folder
         "created_by_as2_incoming_message_id": None,  # int64 - ID of the AS2 Incoming Message that created the file/folder
@@ -50,33 +48,20 @@ class File:
         "permissions": None,  # string - A short string representing the current user's permissions.  Can be `r` (Read),`w` (Write),`d` (Delete), `l` (List) or any combination
         "subfolders_locked?": None,  # boolean - Are subfolders locked and unable to be modified?
         "is_locked": None,  # boolean - Is this folder locked and unable to be modified?
-        "remote_server_id": None,  # int64 - Used for internal bandwidth tracking
-        "headers": None,  # object - Used for internal url management
-        "socks_ips": None,  # array(string) - Used for internal url management
-        "internal_download_uri": None,  # string - For use with internal services and should also be with headers and socks_ips
         "download_uri": None,  # string - Link to download file. Provided only in response to a download request.
         "priority_color": None,  # string - Bookmark/priority color of file/folder
         "preview_id": None,  # int64 - File preview ID
         "preview": None,  # Preview - File preview
-        "copy_destination": None,  # string
-        "move_destination": None,  # string
         "action": None,  # string - The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
-        "action_attributes": None,  # object - Attributes to pass through for recording the Action.  Used for overriding action types (i.e. representing copy/move)
-        "file": None,  # object
-        "crc32b": None,  # string
         "length": None,  # int64 - Length of file.
         "mkdir_parents": None,  # boolean - Create parent directories if they do not exist?
-        "overwrite": None,  # boolean - Overwrite existing file(s) in the destination?
         "part": None,  # int64 - Part if uploading a part.
         "parts": None,  # int64 - How many parts to fetch?
-        "prefer_spdy": None,  # boolean
         "ref": None,  # string -
         "restart": None,  # int64 - File byte offset to restart from.
         "copy_behaviors": None,  # boolean - If copying a folder, also copy supported behaviors to the destination folder tree?
         "structure": None,  # string - If copying folder, copy just the structure?
         "with_rename": None,  # boolean - Allow file rename instead of overwrite?
-        "inbox_registration_code": None,  # string
-        "bundle_registration_code": None,  # string
         "buffered_upload": None,  # boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
     }
 
@@ -234,12 +219,9 @@ class File:
     #
     # Parameters:
     #   action - string - Can be blank, `redirect` or `stat`.  If set to `stat`, we will return file information but without a download URL, and without logging a download.  If set to `redirect` we will serve a 302 redirect directly to the file.  This is used for integrations with Zapier, and is not recommended for most integrations.
-    #   bundle_registration_code - string
-    #   prefer_spdy - boolean
     #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
     #   with_previews - boolean - Include file preview information?
     #   with_priority_color - boolean - Include file priority color information?
-    #   full_document_preview - boolean - If true, always return a proxied download uri
     def download(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -254,12 +236,6 @@ class File:
             raise InvalidParameterError("Bad parameter: path must be an str")
         if "action" in params and not isinstance(params["action"], str):
             raise InvalidParameterError("Bad parameter: action must be an str")
-        if "bundle_registration_code" in params and not isinstance(
-            params["bundle_registration_code"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: bundle_registration_code must be an str"
-            )
         if "preview_size" in params and not isinstance(
             params["preview_size"], str
         ):
@@ -312,7 +288,6 @@ class File:
 
     # Parameters:
     #   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
-    #   bundle_registration_code - string
     def delete(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -325,12 +300,6 @@ class File:
             raise MissingParameterError("Parameter missing: path")
         if "path" in params and not isinstance(params["path"], str):
             raise InvalidParameterError("Bad parameter: path must be an str")
-        if "bundle_registration_code" in params and not isinstance(
-            params["bundle_registration_code"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: bundle_registration_code must be an str"
-            )
         Api.send_request(
             "DELETE",
             "/files/{path}".format(path=quote(str(params["path"]), safe="")),
@@ -371,7 +340,6 @@ class File:
     #   copy_behaviors - boolean - If copying a folder, also copy supported behaviors to the destination folder tree?
     #   structure - boolean - Copy structure only?
     #   overwrite - boolean - Overwrite existing file(s) in the destination?
-    #   bundle_registration_code - string
     def copy(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -392,12 +360,6 @@ class File:
             raise InvalidParameterError(
                 "Bad parameter: destination must be an str"
             )
-        if "bundle_registration_code" in params and not isinstance(
-            params["bundle_registration_code"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: bundle_registration_code must be an str"
-            )
         response, _options = Api.send_request(
             "POST",
             "/file_actions/copy/{path}".format(
@@ -413,7 +375,6 @@ class File:
     # Parameters:
     #   destination (required) - string - Move destination path.
     #   overwrite - boolean - Overwrite existing file(s) in the destination?
-    #   bundle_registration_code - string
     def move(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -433,12 +394,6 @@ class File:
         ):
             raise InvalidParameterError(
                 "Bad parameter: destination must be an str"
-            )
-        if "bundle_registration_code" in params and not isinstance(
-            params["bundle_registration_code"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: bundle_registration_code must be an str"
             )
         response, _options = Api.send_request(
             "POST",
@@ -661,13 +616,10 @@ class File:
     #   mkdir_parents - boolean - Create parent directories if they do not exist?
     #   part - int64 - Part if uploading a part.
     #   parts - int64 - How many parts to fetch?
-    #   prefer_spdy - boolean
     #   ref - string -
     #   restart - int64 - File byte offset to restart from.
     #   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
     #   with_rename - boolean - Allow file rename instead of overwrite?
-    #   action - string
-    #   bundle_registration_code - string
     #   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
     def begin_upload(self, params=None):
         if not isinstance(params, dict):
@@ -693,14 +645,6 @@ class File:
             )
         if "size" in params and not isinstance(params["size"], int):
             raise InvalidParameterError("Bad parameter: size must be an int")
-        if "action" in params and not isinstance(params["action"], str):
-            raise InvalidParameterError("Bad parameter: action must be an str")
-        if "bundle_registration_code" in params and not isinstance(
-            params["bundle_registration_code"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: bundle_registration_code must be an str"
-            )
         response, _options = Api.send_request(
             "POST",
             "/file_actions/begin_upload/{path}".format(
@@ -721,12 +665,9 @@ class File:
 #
 # Parameters:
 #   action - string - Can be blank, `redirect` or `stat`.  If set to `stat`, we will return file information but without a download URL, and without logging a download.  If set to `redirect` we will serve a 302 redirect directly to the file.  This is used for integrations with Zapier, and is not recommended for most integrations.
-#   bundle_registration_code - string
-#   prefer_spdy - boolean
 #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 #   with_previews - boolean - Include file preview information?
 #   with_priority_color - boolean - Include file priority color information?
-#   full_document_preview - boolean - If true, always return a proxied download uri
 def download(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -737,16 +678,6 @@ def download(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "action" in params and not isinstance(params["action"], str):
         raise InvalidParameterError("Bad parameter: action must be an str")
-    if "bundle_registration_code" in params and not isinstance(
-        params["bundle_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_code must be an str"
-        )
-    if "prefer_spdy" in params and not isinstance(params["prefer_spdy"], bool):
-        raise InvalidParameterError(
-            "Bad parameter: prefer_spdy must be an bool"
-        )
     if "preview_size" in params and not isinstance(
         params["preview_size"], str
     ):
@@ -765,12 +696,6 @@ def download(path, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: with_priority_color must be an bool"
         )
-    if "full_document_preview" in params and not isinstance(
-        params["full_document_preview"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: full_document_preview must be an bool"
-        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
@@ -784,33 +709,20 @@ def download(path, params=None, options=None):
 
 # Parameters:
 #   path (required) - string - Path to operate on.
-#   copy_destination - string
-#   move_destination - string
 #   action - string - The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
-#   action_attributes - object - Attributes to pass through for recording the Action.  Used for overriding action types (i.e. representing copy/move)
-#   file - object
-#   crc32 - string
-#   crc32b - string
 #   etags[etag] (required) - array(string) - etag identifier.
 #   etags[part] (required) - array(int64) - Part number.
 #   length - int64 - Length of file.
-#   md5 - string
 #   mkdir_parents - boolean - Create parent directories if they do not exist?
-#   overwrite - boolean - Overwrite existing file(s) in the destination?
 #   part - int64 - Part if uploading a part.
 #   parts - int64 - How many parts to fetch?
-#   prefer_spdy - boolean
 #   provided_mtime - string - User provided modification time.
 #   ref - string -
 #   restart - int64 - File byte offset to restart from.
-#   sha1 - string
-#   sha256 - string
 #   size - int64 - Size of file.
 #   copy_behaviors - boolean - If copying a folder, also copy supported behaviors to the destination folder tree?
 #   structure - string - If copying folder, copy just the structure?
 #   with_rename - boolean - Allow file rename instead of overwrite?
-#   inbox_registration_code - string
-#   bundle_registration_code - string
 #   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
 def create(path, params=None, options=None):
     if not isinstance(params, dict):
@@ -820,52 +732,20 @@ def create(path, params=None, options=None):
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
-    if "copy_destination" in params and not isinstance(
-        params["copy_destination"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: copy_destination must be an str"
-        )
-    if "move_destination" in params and not isinstance(
-        params["move_destination"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: move_destination must be an str"
-        )
     if "action" in params and not isinstance(params["action"], str):
         raise InvalidParameterError("Bad parameter: action must be an str")
-    if "action_attributes" in params and not isinstance(
-        params["action_attributes"], dict
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: action_attributes must be an dict"
-        )
-    if "file" in params and not isinstance(params["file"], dict):
-        raise InvalidParameterError("Bad parameter: file must be an dict")
-    if "crc32" in params and not isinstance(params["crc32"], str):
-        raise InvalidParameterError("Bad parameter: crc32 must be an str")
-    if "crc32b" in params and not isinstance(params["crc32b"], str):
-        raise InvalidParameterError("Bad parameter: crc32b must be an str")
     if "length" in params and not isinstance(params["length"], int):
         raise InvalidParameterError("Bad parameter: length must be an int")
-    if "md5" in params and not isinstance(params["md5"], str):
-        raise InvalidParameterError("Bad parameter: md5 must be an str")
     if "mkdir_parents" in params and not isinstance(
         params["mkdir_parents"], bool
     ):
         raise InvalidParameterError(
             "Bad parameter: mkdir_parents must be an bool"
         )
-    if "overwrite" in params and not isinstance(params["overwrite"], bool):
-        raise InvalidParameterError("Bad parameter: overwrite must be an bool")
     if "part" in params and not isinstance(params["part"], int):
         raise InvalidParameterError("Bad parameter: part must be an int")
     if "parts" in params and not isinstance(params["parts"], int):
         raise InvalidParameterError("Bad parameter: parts must be an int")
-    if "prefer_spdy" in params and not isinstance(params["prefer_spdy"], bool):
-        raise InvalidParameterError(
-            "Bad parameter: prefer_spdy must be an bool"
-        )
     if "provided_mtime" in params and not isinstance(
         params["provided_mtime"], str
     ):
@@ -876,10 +756,6 @@ def create(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: ref must be an str")
     if "restart" in params and not isinstance(params["restart"], int):
         raise InvalidParameterError("Bad parameter: restart must be an int")
-    if "sha1" in params and not isinstance(params["sha1"], str):
-        raise InvalidParameterError("Bad parameter: sha1 must be an str")
-    if "sha256" in params and not isinstance(params["sha256"], str):
-        raise InvalidParameterError("Bad parameter: sha256 must be an str")
     if "size" in params and not isinstance(params["size"], int):
         raise InvalidParameterError("Bad parameter: size must be an int")
     if "copy_behaviors" in params and not isinstance(
@@ -893,18 +769,6 @@ def create(path, params=None, options=None):
     if "with_rename" in params and not isinstance(params["with_rename"], bool):
         raise InvalidParameterError(
             "Bad parameter: with_rename must be an bool"
-        )
-    if "inbox_registration_code" in params and not isinstance(
-        params["inbox_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: inbox_registration_code must be an str"
-        )
-    if "bundle_registration_code" in params and not isinstance(
-        params["bundle_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_code must be an str"
         )
     if "buffered_upload" in params and not isinstance(
         params["buffered_upload"], bool
@@ -966,7 +830,6 @@ def update(path, params=None, options=None):
 
 # Parameters:
 #   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
-#   bundle_registration_code - string
 def delete(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -977,12 +840,6 @@ def delete(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "recursive" in params and not isinstance(params["recursive"], bool):
         raise InvalidParameterError("Bad parameter: recursive must be an bool")
-    if "bundle_registration_code" in params and not isinstance(
-        params["bundle_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_code must be an str"
-        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     Api.send_request(
@@ -998,53 +855,10 @@ def destroy(path, params=None, options=None):
 
 
 # Parameters:
-#   id (required) - int64 - File/Folder ID
-#   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
-#   with_previews - boolean - Include file preview information?
-#   with_priority_color - boolean - Include file priority color information?
-def find_id(id, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "preview_size" in params and not isinstance(
-        params["preview_size"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: preview_size must be an str"
-        )
-    if "with_previews" in params and not isinstance(
-        params["with_previews"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: with_previews must be an bool"
-        )
-    if "with_priority_color" in params and not isinstance(
-        params["with_priority_color"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: with_priority_color must be an bool"
-        )
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    response, options = Api.send_request(
-        "GET",
-        "/file_actions/id/{id}".format(id=quote(str(params["id"]), safe="")),
-        params,
-        options,
-    )
-    return File(response.data, options)
-
-
-# Parameters:
 #   path (required) - string - Path to operate on.
 #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 #   with_previews - boolean - Include file preview information?
 #   with_priority_color - boolean - Include file priority color information?
-#   bundle_registration_code - string
 def find(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -1070,12 +884,6 @@ def find(path, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: with_priority_color must be an bool"
-        )
-    if "bundle_registration_code" in params and not isinstance(
-        params["bundle_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_code must be an str"
         )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
@@ -1125,7 +933,6 @@ def zip_list_contents(path, params=None, options=None):
 #   copy_behaviors - boolean - If copying a folder, also copy supported behaviors to the destination folder tree?
 #   structure - boolean - Copy structure only?
 #   overwrite - boolean - Overwrite existing file(s) in the destination?
-#   bundle_registration_code - string
 def copy(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -1148,12 +955,6 @@ def copy(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: structure must be an bool")
     if "overwrite" in params and not isinstance(params["overwrite"], bool):
         raise InvalidParameterError("Bad parameter: overwrite must be an bool")
-    if "bundle_registration_code" in params and not isinstance(
-        params["bundle_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_code must be an str"
-        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     if "destination" not in params:
@@ -1174,7 +975,6 @@ def copy(path, params=None, options=None):
 # Parameters:
 #   destination (required) - string - Move destination path.
 #   overwrite - boolean - Overwrite existing file(s) in the destination?
-#   bundle_registration_code - string
 def move(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -1189,12 +989,6 @@ def move(path, params=None, options=None):
         )
     if "overwrite" in params and not isinstance(params["overwrite"], bool):
         raise InvalidParameterError("Bad parameter: overwrite must be an bool")
-    if "bundle_registration_code" in params and not isinstance(
-        params["bundle_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_code must be an str"
-        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     if "destination" not in params:
@@ -1456,13 +1250,10 @@ def zip(params=None, options=None):
 #   mkdir_parents - boolean - Create parent directories if they do not exist?
 #   part - int64 - Part if uploading a part.
 #   parts - int64 - How many parts to fetch?
-#   prefer_spdy - boolean
 #   ref - string -
 #   restart - int64 - File byte offset to restart from.
 #   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 #   with_rename - boolean - Allow file rename instead of overwrite?
-#   action - string
-#   bundle_registration_code - string
 #   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
 def begin_upload(path, params=None, options=None):
     if not isinstance(params, dict):
@@ -1482,10 +1273,6 @@ def begin_upload(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: part must be an int")
     if "parts" in params and not isinstance(params["parts"], int):
         raise InvalidParameterError("Bad parameter: parts must be an int")
-    if "prefer_spdy" in params and not isinstance(params["prefer_spdy"], bool):
-        raise InvalidParameterError(
-            "Bad parameter: prefer_spdy must be an bool"
-        )
     if "ref" in params and not isinstance(params["ref"], str):
         raise InvalidParameterError("Bad parameter: ref must be an str")
     if "restart" in params and not isinstance(params["restart"], int):
@@ -1495,14 +1282,6 @@ def begin_upload(path, params=None, options=None):
     if "with_rename" in params and not isinstance(params["with_rename"], bool):
         raise InvalidParameterError(
             "Bad parameter: with_rename must be an bool"
-        )
-    if "action" in params and not isinstance(params["action"], str):
-        raise InvalidParameterError("Bad parameter: action must be an str")
-    if "bundle_registration_code" in params and not isinstance(
-        params["bundle_registration_code"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_code must be an str"
         )
     if "buffered_upload" in params and not isinstance(
         params["buffered_upload"], bool

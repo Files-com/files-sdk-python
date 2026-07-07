@@ -25,7 +25,6 @@ class FileUploadPart:
         "path": None,  # string - New file path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "ref": None,  # string - Reference name for this upload part
         "upload_uri": None,  # string - URI to upload this part to
-        "internal_upload_uri": None,  # string - For use with internal services URI to upload this part to
     }
 
     def __init__(self, attributes=None, options=None):

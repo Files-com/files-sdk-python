@@ -79,20 +79,6 @@ files_sdk.event_channel.create({
 
 ---
 
-## Create an export CSV of Event Channel resources
-
-```
-files_sdk.event_channel.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `enabled`, `default_channel` or `workspace_id`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `enabled`, `default_channel` or `workspace_id`. Valid field combinations are `[ workspace_id, enabled ]` and `[ workspace_id, default_channel ]`.
-
-
----
-
 ## Update Event Channel
 
 ```

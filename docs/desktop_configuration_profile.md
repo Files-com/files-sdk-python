@@ -77,20 +77,6 @@ files_sdk.desktop_configuration_profile.create({
 
 ---
 
-## Create an export CSV of Desktop Configuration Profile resources
-
-```
-files_sdk.desktop_configuration_profile.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
-
-
----
-
 ## Update Desktop Configuration Profile
 
 ```

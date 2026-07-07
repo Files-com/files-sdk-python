@@ -96,17 +96,3 @@ files_sdk.restore.create({
 * `restore_in_place` (boolean): If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
 * `update_timestamps` (boolean): If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
 * `workspace_id` (int64): Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
-
-
----
-
-## Create an export CSV of Restore resources
-
-```
-files_sdk.restore.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `restoration_type`.

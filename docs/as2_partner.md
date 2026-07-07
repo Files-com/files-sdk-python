@@ -119,20 +119,6 @@ files_sdk.as2_partner.create({
 
 ---
 
-## Create an export CSV of AS2 Partner resources
-
-```
-files_sdk.as2_partner.create_export()
-```
-
-### Parameters
-
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `as2_station_id` or `name`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `as2_station_id` and `workspace_id`. Valid field combinations are `[ workspace_id, as2_station_id ]`.
-
-
----
-
 ## Update AS2 Partner
 
 ```

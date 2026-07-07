@@ -45,10 +45,6 @@ class GroupUserTest(TestBase):
         }
         group_user.create(params)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/group_users/create_export"), "Mock path does not exist")
-    def test_create_export(self):
-        resp = group_user.create_export()
-
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/group_users/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
