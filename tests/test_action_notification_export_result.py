@@ -17,5 +17,12 @@ class ActionNotificationExportResultTest(TestBase):
         }
         action_notification_export_result.list(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/action_notification_export_results/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        params = {
+            "action_notification_export_id" : 12345,
+        }
+        action_notification_export_result.create_export(params)
+
 if __name__ == '__main__':
     unittest.main()

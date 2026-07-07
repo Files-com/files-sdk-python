@@ -57,6 +57,15 @@ files_sdk.project.create({
 
 ---
 
+## Create an export CSV of Project resources
+
+```
+files_sdk.project.create_export()
+```
+
+
+---
+
 ## Update Project
 
 ```

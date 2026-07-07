@@ -22,5 +22,9 @@ class PendingWorkEventTest(TestBase):
         }
         pending_work_event.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/pending_work_events/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = pending_work_event.create_export()
+
 if __name__ == '__main__':
     unittest.main()

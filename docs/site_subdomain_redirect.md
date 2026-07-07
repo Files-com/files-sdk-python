@@ -47,6 +47,19 @@ files_sdk.site_subdomain_redirect.find(id)
 
 ---
 
+## Create an export CSV of Site Subdomain Redirect resources
+
+```
+files_sdk.site_subdomain_redirect.create_export()
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `id`.
+
+
+---
+
 ## Delete Site Subdomain Redirect
 
 ```

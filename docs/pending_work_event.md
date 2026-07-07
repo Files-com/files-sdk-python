@@ -58,3 +58,21 @@ files_sdk.pending_work_event.find(id)
 ### Parameters
 
 * `id` (int64): Required - Pending Work Event ID.
+
+
+---
+
+## Create an export CSV of Pending Work Event resources
+
+```
+files_sdk.pending_work_event.create_export()
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status` or `folder_behavior_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `folder_behavior_id` or `status`. Valid field combinations are `[ folder_behavior_id, created_at ]`, `[ status, created_at ]`, `[ folder_behavior_id, status ]` or `[ folder_behavior_id, status, created_at ]`.
+* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
+* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
+* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.

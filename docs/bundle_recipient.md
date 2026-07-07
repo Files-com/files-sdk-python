@@ -21,6 +21,7 @@
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `bundle_id` (int64): Bundle to share.
+* `method` (string): The method to use, must be email or null
 * `share_after_create` (boolean): Set to true to share the link with the recipient upon creation.
 
 
@@ -69,4 +70,24 @@ files_sdk.bundle_recipient.create({
 * `name` (string): Name of recipient.
 * `company` (string): Company of recipient.
 * `note` (string): Note to include in email.
+* `method` (string): The method to use, must be email or null
 * `share_after_create` (boolean): Set to true to share the link with the recipient upon creation.
+
+
+---
+
+## List Share Link Recipients
+
+```
+files_sdk.bundle_recipient.create_export({
+  "user_id": 1,
+  "bundle_id": 1
+})
+```
+
+### Parameters
+
+* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
+* `bundle_id` (int64): Required - List recipients for the bundle with this ID.

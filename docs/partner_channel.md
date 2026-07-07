@@ -93,6 +93,20 @@ files_sdk.partner_channel.create({
 
 ---
 
+## Create an export CSV of Partner Channel resources
+
+```
+files_sdk.partner_channel.create_export()
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path` or `partner_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `partner_id` and `workspace_id`. Valid field combinations are `[ workspace_id, partner_id ]`.
+
+
+---
+
 ## Update Partner Channel
 
 ```

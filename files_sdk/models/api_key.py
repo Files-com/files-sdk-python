@@ -1,5 +1,6 @@
 import builtins  # noqa: F401
 from urllib.parse import quote
+from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -22,6 +23,7 @@ class ApiKey:
         "aws_secret_key": None,  # string - AWS Secret Key to use with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
         "last_use_at": None,  # date-time - API Key last used - note this value is only updated once per 3 hour period, so the 'actual' time of last use may be up to 3 hours later than this timestamp.
         "name": None,  # string - Internal name for the API Key.  For your use.
+        "path": None,  # string - Folder path restriction for `office_integration` permission set API keys. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "permission_set": None,  # string - Permissions for this API Key. Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Keys with the `files_only` permission set can perform file operations as a full-access file user in the key's workspace scope, but cannot use site admin, workspace admin, folder admin, group admin, partner admin, or billing privileges from the owning user.
         "platform": None,  # string - If this API key represents a Desktop app, what platform was it created on?
         "site_id": None,  # int64 - Site ID
@@ -29,7 +31,7 @@ class ApiKey:
         "url": None,  # string - URL for API host.
         "user_id": None,  # int64 - User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
         "workspace_id": None,  # int64 - Workspace ID for this API Key. `0` means the default workspace.
-        "path": None,  # string - Folder path restriction for `office_integration` permission set API keys.
+        "pairing_key": None,  # string - The pairing key to use
     }
 
     def __init__(self, attributes=None, options=None):
@@ -207,6 +209,8 @@ def get(id, params=None, options=None):
 #   description - string - User-supplied description of API key.
 #   expires_at - string - API Key expiration date
 #   name (required) - string - Internal name for the API Key.  For your use.
+#   pairing_key - string - The pairing key to use
+#   platform - string
 #   aws_style_credentials - boolean - If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
 #   path - string - Folder path restriction for `office_integration` permission set API keys.
 #   permission_set - string - Permissions for this API Key. Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Keys with the `files_only` permission set can perform file operations as a full-access file user in the key's workspace scope, but cannot use site admin, workspace admin, folder admin, group admin, partner admin, or billing privileges from the owning user.
@@ -226,6 +230,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: expires_at must be an str")
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "pairing_key" in params and not isinstance(params["pairing_key"], str):
+        raise InvalidParameterError(
+            "Bad parameter: pairing_key must be an str"
+        )
+    if "platform" in params and not isinstance(params["platform"], str):
+        raise InvalidParameterError("Bad parameter: platform must be an str")
     if "aws_style_credentials" in params and not isinstance(
         params["aws_style_credentials"], bool
     ):
@@ -250,6 +260,43 @@ def create(params=None, options=None):
         raise MissingParameterError("Parameter missing: name")
     response, options = Api.send_request("POST", "/api_keys", params, options)
     return ApiKey(response.data, options)
+
+
+# Parameters:
+#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `workspace_id`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `aws_style_credentials` and `expires_at`.
+#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
+#   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.
+#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.
+#   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.
+def create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "sort_by" in params and not isinstance(params["sort_by"], dict):
+        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
+    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
+        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
+    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
+        raise InvalidParameterError(
+            "Bad parameter: filter_gteq must be an dict"
+        )
+    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
+        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
+    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
+        raise InvalidParameterError(
+            "Bad parameter: filter_lteq must be an dict"
+        )
+    response, options = Api.send_request(
+        "POST", "/api_keys/create_export", params, options
+    )
+    return Export(response.data, options)
 
 
 # Parameters:

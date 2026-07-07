@@ -41,6 +41,7 @@
   "wasabi_bucket": "my-bucket",
   "wasabi_region": "us-west-1",
   "wasabi_access_key": "example",
+  "auth_setup_link": "auth/:provider",
   "auth_status": "in_setup",
   "auth_account_name": "me@example.com",
   "one_drive_account_type": "personal",
@@ -116,6 +117,7 @@
 * `wasabi_bucket` (string): Wasabi: Bucket name
 * `wasabi_region` (string): Wasabi: Region
 * `wasabi_access_key` (string): Wasabi: Access Key.
+* `auth_setup_link` (string): Returns link to login with an Oauth provider
 * `auth_status` (string): Either `in_setup` or `complete`
 * `auth_account_name` (string): Describes the authorized account
 * `one_drive_account_type` (string): OneDrive: Either personal or business_other account types
@@ -188,6 +190,19 @@ files_sdk.remote_server.list()
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
 * `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name`, `server_type`, `workspace_id`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ server_type, name ]`, `[ workspace_id, name ]`, `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]`, `[ linode_bucket, name ]`, `[ workspace_id, server_type ]` or `[ workspace_id, server_type, name ]`.
 * `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]` or `[ linode_bucket, name ]`.
+
+
+---
+
+## ping_agent Remote Server
+
+```
+files_sdk.remote_server.find_ping_agent(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
 
 
 ---
@@ -381,6 +396,53 @@ files_sdk.remote_server.agent_push_update(id)
 
 ---
 
+## Disconnect a Files Agent Proxy
+
+```
+files_sdk.remote_server.disconnect_agent(id, {
+  "proxy_url": "",
+  "proxy_host_header": ""
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
+* `proxy_url` (string): Files Agent Proxy URL
+* `proxy_host_header` (string): Files Agent Proxy Host Header
+
+
+---
+
+## Authenticate a Files Agent Proxy
+
+```
+files_sdk.remote_server.authenticate_agent(id, {
+  "proxy_registration_refresh": False,
+  "downstream_proxy_port": 1,
+  "supports_push_updates": False
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
+* `signed_nonce` (string): Signed nonce
+* `proxy_registration_refresh` (boolean): Proxy is refreshing an already validated agent registration
+* `agent_version` (string): Agent version
+* `peer_id` (string): Peer ID
+* `proxy_url` (string): Files Agent Proxy URL
+* `proxy_host_header` (string): Files Agent Proxy Host Header
+* `root` (string): Agent local root path
+* `agent_hostname` (string): Agent local hostname used for system identification
+* `downstream_proxy_port` (int64): Agent downstream proxy port
+* `agent_platform` (string): Agent Platform (OS/Architecture)
+* `permission_set` (string): Permission set
+* `supports_push_updates` (boolean): Agent supports push updates
+
+
+---
+
 ## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
 
 ```
@@ -413,6 +475,126 @@ files_sdk.remote_server.configuration_file(id, {
 * `public_key` (string): public key
 * `server_host_key` (string): 
 * `subdomain` (string): Files.com subdomain site name
+
+
+---
+
+## Create an export CSV of Remote Server resources
+
+```
+files_sdk.remote_server.create_export()
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name`, `server_type`, `workspace_id`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ server_type, name ]`, `[ workspace_id, name ]`, `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]`, `[ linode_bucket, name ]`, `[ workspace_id, server_type ]` or `[ workspace_id, server_type, name ]`.
+* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]` or `[ linode_bucket, name ]`.
+
+
+---
+
+## list_for_testing Remote Server
+
+```
+files_sdk.remote_server.list_for_testing({
+  "azure_blob_storage_hierarchical_namespace": False,
+  "dropbox_teams": False,
+  "enable_dedicated_ips": False,
+  "outbound_agent_id": 1,
+  "max_connections": 1,
+  "pin_to_site_region": False,
+  "port": 1,
+  "remote_server_id": 1,
+  "remote_server_credential_id": 1,
+  "reset_authentication": False,
+  "s3_assume_role_duration_seconds": 1,
+  "s3_compatible_virtual_hosted_style": False,
+  "workspace_id": 1
+})
+```
+
+### Parameters
+
+* `aws_access_key` (string): AWS: Access Key
+* `aws_secret_key` (string): AWS: Secret Key
+* `azure_blob_storage_access_key` (string): Azure Blob Storage: Secret Key
+* `azure_blob_storage_account` (string): 
+* `azure_blob_storage_container` (string): 
+* `azure_blob_storage_dns_suffix` (string): 
+* `azure_blob_storage_hierarchical_namespace` (boolean): 
+* `azure_blob_storage_sas_token` (string): Azure Blob Storage: Shared Access Signature (SAS) token
+* `azure_files_storage_access_key` (string): Azure Files: Access Key
+* `azure_files_storage_account` (string): 
+* `azure_files_storage_dns_suffix` (string): 
+* `azure_files_storage_sas_token` (string): Azure Files: Shared Access Signature (SAS) token
+* `azure_files_storage_share_name` (string): 
+* `backblaze_b2_application_key` (string): Backblaze B2 Cloud Storage: applicationKey
+* `backblaze_b2_bucket` (string): 
+* `backblaze_b2_key_id` (string): Backblaze B2 Cloud Storage: keyID
+* `backblaze_b2_s3_endpoint` (string): 
+* `buffer_uploads` (string): If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
+* `cloudflare_access_key` (string): Cloudflare: Access Key
+* `cloudflare_bucket` (string): 
+* `cloudflare_endpoint` (string): 
+* `cloudflare_secret_key` (string): Cloudflare: Secret Key
+* `dropbox_teams` (boolean): 
+* `upload_staging_path` (string): Upload staging path
+* `enable_dedicated_ips` (boolean): 
+* `filebase_access_key` (string): Filebase: Access Key
+* `filebase_bucket` (string): 
+* `filebase_secret_key` (string): Filebase: Secret Key
+* `files_api_key` (string): Files.com direct link: API key used once to pair the remote server.
+* `files_agent_api_token` (string): 
+* `files_agent_public_key` (string): 
+* `files_agent_root` (string): 
+* `files_agent_version` (string): 
+* `outbound_agent_id` (int64): Route traffic to outbound on a files-agent
+* `google_cloud_storage_authentication_method` (string): Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
+* `google_cloud_storage_bucket` (string): 
+* `google_cloud_storage_credentials_json` (string): Google Cloud Storage: A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+* `google_cloud_storage_oauth_scope` (string): Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
+* `google_cloud_storage_project_id` (string): 
+* `google_cloud_storage_s3_compatible_access_key` (string): Google Cloud Storage: S3-compatible access key
+* `google_cloud_storage_s3_compatible_secret_key` (string): Google Cloud Storage: S3-compatible secret key
+* `hostname` (string): 
+* `linode_access_key` (string): Linode: access key
+* `linode_bucket` (string): 
+* `linode_region` (string): 
+* `linode_secret_key` (string): Linode: secret key
+* `max_connections` (int64): 
+* `name` (string): 
+* `one_drive_account_type` (string): 
+* `password` (string): Password, if needed
+* `pin_to_site_region` (boolean): Pin to site region?
+* `port` (int64): 
+* `private_key_passphrase` (string): Passphrase for private key, if needed
+* `private_key` (string): Private key if needed.
+* `remote_server_id` (int64): Remote Server ID
+* `remote_server_credential_id` (int64): Remote Server Credential ID
+* `reset_authentication` (boolean): Reset authenticated account?
+* `root` (string): Remote path to list
+* `s3_assume_role_arn` (string): 
+* `s3_assume_role_duration_seconds` (int64): 
+* `s3_bucket` (string): 
+* `s3_compatible_access_key` (string): 
+* `s3_compatible_bucket` (string): 
+* `s3_compatible_endpoint` (string): 
+* `s3_compatible_region` (string): 
+* `s3_compatible_virtual_hosted_style` (boolean): 
+* `s3_compatible_secret_key` (string): 
+* `s3_region` (string): 
+* `server_certificate` (string): 
+* `server_host_key` (string): 
+* `server_type` (string): 
+* `ssl_certificate` (string): SSL client certificate.
+* `ssl` (string): 
+* `username` (string): 
+* `wasabi_access_key` (string): Wasabi: Access Key
+* `wasabi_bucket` (string): 
+* `wasabi_region` (string): 
+* `wasabi_secret_key` (string): Wasabi Secret Key
+* `workspace_id` (int64): Workspace ID (0 for default workspace)
 
 
 ---
@@ -589,6 +771,55 @@ remote_server.agent_push_update()
 ### Parameters
 
 * `id` (int64): Required - Remote Server ID.
+
+
+---
+
+## Disconnect a Files Agent Proxy
+
+```
+remote_server = files_sdk.remote_server.find(id)
+remote_server.disconnect_agent({
+  "proxy_url": "",
+  "proxy_host_header": ""
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
+* `proxy_url` (string): Files Agent Proxy URL
+* `proxy_host_header` (string): Files Agent Proxy Host Header
+
+
+---
+
+## Authenticate a Files Agent Proxy
+
+```
+remote_server = files_sdk.remote_server.find(id)
+remote_server.authenticate_agent({
+  "proxy_registration_refresh": False,
+  "downstream_proxy_port": 1,
+  "supports_push_updates": False
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
+* `signed_nonce` (string): Signed nonce
+* `proxy_registration_refresh` (boolean): Proxy is refreshing an already validated agent registration
+* `agent_version` (string): Agent version
+* `peer_id` (string): Peer ID
+* `proxy_url` (string): Files Agent Proxy URL
+* `proxy_host_header` (string): Files Agent Proxy Host Header
+* `root` (string): Agent local root path
+* `agent_hostname` (string): Agent local hostname used for system identification
+* `downstream_proxy_port` (int64): Agent downstream proxy port
+* `agent_platform` (string): Agent Platform (OS/Architecture)
+* `permission_set` (string): Permission set
+* `supports_push_updates` (boolean): Agent supports push updates
 
 
 ---

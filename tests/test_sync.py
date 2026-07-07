@@ -77,6 +77,10 @@ class SyncTest(TestBase):
         }
         sync.manual_run(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/syncs/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = sync.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/syncs/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

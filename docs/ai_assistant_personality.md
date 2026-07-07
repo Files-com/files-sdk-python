@@ -79,6 +79,20 @@ files_sdk.ai_assistant_personality.create({
 
 ---
 
+## Create an export CSV of Ai Assistant Personality resources
+
+```
+files_sdk.ai_assistant_personality.create_export()
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+
+
+---
+
 ## Update Ai Assistant Personality
 
 ```

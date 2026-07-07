@@ -16,6 +16,22 @@ class RemoteServerTest(TestBase):
         remote_server = RemoteServer(params)
         remote_server.agent_push_update(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers/{id}/disconnect_agent"), "Mock path does not exist")
+    def test_disconnect_agent(self):
+        params = {
+            "id" : 12345,
+        }
+        remote_server = RemoteServer(params)
+        remote_server.disconnect_agent(params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers/{id}/authenticate_agent"), "Mock path does not exist")
+    def test_authenticate_agent(self):
+        params = {
+            "id" : 12345,
+        }
+        remote_server = RemoteServer(params)
+        remote_server.authenticate_agent(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers/{id}/configuration_file"), "Mock path does not exist")
     def test_configuration_file(self):
         params = {
@@ -49,6 +65,14 @@ class RemoteServerTest(TestBase):
     def test_list(self):
         resp = remote_server.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers/{id}/ping_agent"), "Mock path does not exist")
+    def test_find_ping_agent(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        remote_server.find_ping_agent(id, params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
@@ -77,6 +101,22 @@ class RemoteServerTest(TestBase):
         }
         remote_server.agent_push_update(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers/{id}/disconnect_agent"), "Mock path does not exist")
+    def test_disconnect_agent(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        remote_server.disconnect_agent(id, params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers/{id}/authenticate_agent"), "Mock path does not exist")
+    def test_authenticate_agent(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        remote_server.authenticate_agent(id, params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers/{id}/configuration_file"), "Mock path does not exist")
     def test_configuration_file(self):
         id = 12345
@@ -84,6 +124,11 @@ class RemoteServerTest(TestBase):
             "id" : 12345,
         }
         remote_server.configuration_file(id, params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = remote_server.create_export()
+
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/remote_servers/{id}"), "Mock path does not exist")
     def test_update(self):

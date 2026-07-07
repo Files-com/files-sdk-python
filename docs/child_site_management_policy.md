@@ -85,6 +85,15 @@ files_sdk.child_site_management_policy.create({
 
 ---
 
+## Create an export CSV of Child Site Management Policy resources
+
+```
+files_sdk.child_site_management_policy.create_export()
+```
+
+
+---
+
 ## Update Child Site Management Policy
 
 ```

@@ -74,6 +74,19 @@ files_sdk.clickwrap.create({
 
 ---
 
+## Create an export CSV of Clickwrap resources
+
+```
+files_sdk.clickwrap.create_export()
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+
+
+---
+
 ## Update Clickwrap
 
 ```

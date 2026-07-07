@@ -45,6 +45,10 @@ class RemoteServerCredentialTest(TestBase):
     def test_create(self):
         resp = remote_server_credential.create()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_server_credentials/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = remote_server_credential.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/remote_server_credentials/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

@@ -22,5 +22,9 @@ class EventRecordTest(TestBase):
         }
         event_record.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/event_records/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = event_record.create_export()
+
 if __name__ == '__main__':
     unittest.main()

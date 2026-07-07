@@ -83,3 +83,12 @@ files_sdk.invoice.find(id)
 ### Parameters
 
 * `id` (int64): Required - Invoice ID.
+
+
+---
+
+## Create an export CSV of Invoice resources
+
+```
+files_sdk.invoice.create_export()
+```

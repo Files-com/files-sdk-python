@@ -32,6 +32,10 @@ class PermissionTest(TestBase):
         }
         permission.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/permissions/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = permission.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/permissions/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345

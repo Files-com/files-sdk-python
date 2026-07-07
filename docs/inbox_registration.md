@@ -33,6 +33,9 @@
 * `inbox_recipient_id` (int64): Id of associated inbox recipient
 * `inbox_title` (string): Title of associated inbox
 * `created_at` (date-time): Registration creation date/time
+* `inbox_code` (string): Inbox URL code
+* `inbox_recipient_registration_code` (string): Inbox recipient registration code
+* `password` (string): Inbox password
 
 
 ---
@@ -49,4 +52,58 @@ files_sdk.inbox_registration.list({
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+* `folder_behavior_id` (int64): ID of the associated Inbox. This is required if the user is not a site admin.
+
+
+---
+
+## Create Inbox Registration
+
+```
+files_sdk.inbox_registration.create({
+  "inbox_code": "inbox_code",
+  "inbox_recipient_registration_code": "abc123",
+  "name": "account",
+  "company": "Action Verb",
+  "email": "john.doe@files.com"
+})
+```
+
+### Parameters
+
+* `inbox_code` (string): Required - Inbox URL code
+* `inbox_recipient_registration_code` (string): Inbox recipient registration code
+* `password` (string): Inbox password
+* `name` (string): Registrant name
+* `company` (string): Registrant company name
+* `email` (string): Registrant email address
+
+
+---
+
+## Update the last time any action happened in inbox under this registration
+
+```
+files_sdk.inbox_registration.last_activity({
+  "inbox_registration_code": "abc123"
+})
+```
+
+### Parameters
+
+* `inbox_registration_code` (string): Required - Inbox registration cookie code
+
+
+---
+
+## Create an export CSV of Inbox Registration resources
+
+```
+files_sdk.inbox_registration.create_export({
+  "folder_behavior_id": 1
+})
+```
+
+### Parameters
+
 * `folder_behavior_id` (int64): ID of the associated Inbox. This is required if the user is not a site admin.

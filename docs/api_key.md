@@ -15,6 +15,7 @@
   "aws_secret_key": "[aws_secret_key]",
   "last_use_at": "2000-01-01T01:00:00Z",
   "name": "My Main API Key",
+  "path": "shared/docs",
   "permission_set": "full",
   "platform": "win32",
   "site_id": 1,
@@ -36,6 +37,7 @@
 * `aws_secret_key` (string): AWS Secret Key to use with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
 * `last_use_at` (date-time): API Key last used - note this value is only updated once per 3 hour period, so the 'actual' time of last use may be up to 3 hours later than this timestamp.
 * `name` (string): Internal name for the API Key.  For your use.
+* `path` (string): Folder path restriction for `office_integration` permission set API keys. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `permission_set` (string): Permissions for this API Key. Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Keys with the `files_only` permission set can perform file operations as a full-access file user in the key's workspace scope, but cannot use site admin, workspace admin, folder admin, group admin, partner admin, or billing privileges from the owning user.
 * `platform` (string): If this API key represents a Desktop app, what platform was it created on?
 * `site_id` (int64): Site ID
@@ -43,7 +45,7 @@
 * `url` (string): URL for API host.
 * `user_id` (int64): User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
 * `workspace_id` (int64): Workspace ID for this API Key. `0` means the default workspace.
-* `path` (string): Folder path restriction for `office_integration` permission set API keys.
+* `pairing_key` (string): The pairing key to use
 
 
 ---
@@ -101,6 +103,7 @@ files_sdk.api_key.create({
   "description": "example",
   "expires_at": "2000-01-01T01:00:00Z",
   "name": "My Main API Key",
+  "platform": "win32",
   "aws_style_credentials": True,
   "path": "shared/docs",
   "permission_set": "full",
@@ -114,10 +117,33 @@ files_sdk.api_key.create({
 * `description` (string): User-supplied description of API key.
 * `expires_at` (string): API Key expiration date
 * `name` (string): Required - Internal name for the API Key.  For your use.
+* `pairing_key` (string): The pairing key to use
+* `platform` (string): 
 * `aws_style_credentials` (boolean): If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
 * `path` (string): Folder path restriction for `office_integration` permission set API keys.
 * `permission_set` (string): Permissions for this API Key. Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Keys with the `files_only` permission set can perform file operations as a full-access file user in the key's workspace scope, but cannot use site admin, workspace admin, folder admin, group admin, partner admin, or billing privileges from the owning user.
 * `workspace_id` (int64): Workspace ID for this API Key. `0` means the default workspace.
+
+
+---
+
+## Create an export CSV of API Key resources
+
+```
+files_sdk.api_key.create_export({
+  "user_id": 1
+})
+```
+
+### Parameters
+
+* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `workspace_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `aws_style_credentials` and `expires_at`.
+* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
+* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.
+* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.
+* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.
 
 
 ---

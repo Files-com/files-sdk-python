@@ -48,6 +48,10 @@ class GpgKeyTest(TestBase):
         }
         gpg_key.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/gpg_keys/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = gpg_key.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/gpg_keys/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

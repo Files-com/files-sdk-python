@@ -1,5 +1,6 @@
 import builtins  # noqa: F401
 from files_sdk.models.public_ip_address import PublicIpAddress
+from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -61,6 +62,23 @@ def all(params=None, options=None):
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+def get_active(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "cursor" in params and not isinstance(params["cursor"], str):
+        raise InvalidParameterError("Bad parameter: cursor must be an str")
+    if "per_page" in params and not isinstance(params["per_page"], int):
+        raise InvalidParameterError("Bad parameter: per_page must be an int")
+    return ListObj(
+        PublicIpAddress, "GET", "/ip_addresses/active", params, options
+    )
+
+
+# Parameters:
+#   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 def get_smartfile_reserved(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -115,6 +133,67 @@ def get_reserved(params=None, options=None):
     return ListObj(
         PublicIpAddress, "GET", "/ip_addresses/reserved", params, options
     )
+
+
+def active_create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    response, options = Api.send_request(
+        "POST", "/ip_addresses/active/create_export", params, options
+    )
+    return Export(response.data, options)
+
+
+def smartfile_reserved_create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    response, options = Api.send_request(
+        "POST",
+        "/ip_addresses/smartfile-reserved/create_export",
+        params,
+        options,
+    )
+    return Export(response.data, options)
+
+
+def exavault_reserved_create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    response, options = Api.send_request(
+        "POST",
+        "/ip_addresses/exavault-reserved/create_export",
+        params,
+        options,
+    )
+    return Export(response.data, options)
+
+
+def reserved_create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    response, options = Api.send_request(
+        "POST", "/ip_addresses/reserved/create_export", params, options
+    )
+    return Export(response.data, options)
+
+
+def create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    response, options = Api.send_request(
+        "POST", "/ip_addresses/create_export", params, options
+    )
+    return Export(response.data, options)
 
 
 def new(*args, **kwargs):

@@ -1,12 +1,19 @@
 from pathlib import Path
+import files_sdk.models.account as account
 import files_sdk.models.account_line_item as account_line_item
 import files_sdk.models.action as action
 import files_sdk.models.action_log as action_log
 import files_sdk.models.action_notification_export as action_notification_export
 import files_sdk.models.action_notification_export_result as action_notification_export_result
+import files_sdk.models.action_webhook_failure as action_webhook_failure
+import files_sdk.models.agent_proxy_identity as agent_proxy_identity
+import files_sdk.models.agent_proxy_identity_endpoint as agent_proxy_identity_endpoint
+import files_sdk.models.agent_proxy_identity_result as agent_proxy_identity_result
 import files_sdk.models.agent_push_update as agent_push_update
+import files_sdk.models.agent_v2_auth as agent_v2_auth
 import files_sdk.models.ai_assistant_personality as ai_assistant_personality
 import files_sdk.models.ai_task as ai_task
+import files_sdk.models.announcement as announcement
 import files_sdk.models.api_key as api_key
 import files_sdk.models.api_request_log as api_request_log
 import files_sdk.models.app as app
@@ -20,22 +27,33 @@ import files_sdk.models.automation_log as automation_log
 import files_sdk.models.automation_run as automation_run
 import files_sdk.models.bandwidth_snapshot as bandwidth_snapshot
 import files_sdk.models.behavior as behavior
+import files_sdk.models.blog_post as blog_post
 import files_sdk.models.bundle as bundle
 import files_sdk.models.bundle_action as bundle_action
 import files_sdk.models.bundle_download as bundle_download
 import files_sdk.models.bundle_notification as bundle_notification
 import files_sdk.models.bundle_path as bundle_path
 import files_sdk.models.bundle_recipient as bundle_recipient
+import files_sdk.models.bundle_recipient_registration as bundle_recipient_registration
 import files_sdk.models.bundle_registration as bundle_registration
+import files_sdk.models.certificate as certificate
 import files_sdk.models.chat_message as chat_message
 import files_sdk.models.chat_session as chat_session
+import files_sdk.models.child_site as child_site
 import files_sdk.models.child_site_management_policy as child_site_management_policy
 import files_sdk.models.clickwrap as clickwrap
+import files_sdk.models.clickwrap_acceptance as clickwrap_acceptance
+import files_sdk.models.client_log as client_log
+import files_sdk.models.crash_report as crash_report
 import files_sdk.models.custom_domain as custom_domain
+import files_sdk.models.custom_domain_for_proxy as custom_domain_for_proxy
 import files_sdk.models.desktop_configuration_profile as desktop_configuration_profile
 import files_sdk.models.dns_record as dns_record
 import files_sdk.models.email_incoming_message as email_incoming_message
 import files_sdk.models.email_log as email_log
+import files_sdk.models.email_preference as email_preference
+import files_sdk.models.email_preference_bundle_notification as email_preference_bundle_notification
+import files_sdk.models.email_preference_notification as email_preference_notification
 import files_sdk.models.errors as errors
 import files_sdk.models.event_channel as event_channel
 import files_sdk.models.event_delivery_attempt as event_delivery_attempt
@@ -46,6 +64,7 @@ import files_sdk.models.exavault_api_request_log as exavault_api_request_log
 import files_sdk.models.expectation as expectation
 import files_sdk.models.expectation_evaluation as expectation_evaluation
 import files_sdk.models.expectation_incident as expectation_incident
+import files_sdk.models.export as export
 import files_sdk.models.external_event as external_event
 import files_sdk.models.file as file
 import files_sdk.models.file_action as file_action
@@ -57,6 +76,8 @@ import files_sdk.models.file_upload_part as file_upload_part
 import files_sdk.models.folder as folder
 import files_sdk.models.form_field as form_field
 import files_sdk.models.form_field_set as form_field_set
+import files_sdk.models.front_end_server as front_end_server
+import files_sdk.models.frontend_metric as frontend_metric
 import files_sdk.models.ftp_action_log as ftp_action_log
 import files_sdk.models.gpg_key as gpg_key
 import files_sdk.models.group as group
@@ -67,34 +88,55 @@ import files_sdk.models.history_export_result as history_export_result
 import files_sdk.models.holiday_region as holiday_region
 import files_sdk.models.image as image
 import files_sdk.models.inbound_s3_log as inbound_s3_log
+import files_sdk.models.inbox as inbox
 import files_sdk.models.inbox_recipient as inbox_recipient
+import files_sdk.models.inbox_recipient_registration as inbox_recipient_registration
 import files_sdk.models.inbox_registration as inbox_registration
 import files_sdk.models.inbox_upload as inbox_upload
 import files_sdk.models.invoice as invoice
 import files_sdk.models.invoice_line_item as invoice_line_item
+import files_sdk.models.ip as ip
+import files_sdk.models.ip_abuse_entry as ip_abuse_entry
 import files_sdk.models.ip_address as ip_address
 import files_sdk.models.key_lifecycle_rule as key_lifecycle_rule
+import files_sdk.models.label as label
+import files_sdk.models.lead as lead
 import files_sdk.models.lock as lock
 import files_sdk.models.message as message
 import files_sdk.models.message_comment as message_comment
 import files_sdk.models.message_comment_reaction as message_comment_reaction
 import files_sdk.models.message_reaction as message_reaction
 import files_sdk.models.metadata_category as metadata_category
+import files_sdk.models.monitoring_stat as monitoring_stat
+import files_sdk.models.monitoring_stats as monitoring_stats
+import files_sdk.models.mover_package as mover_package
 import files_sdk.models.notification as notification
+import files_sdk.models.nps_response as nps_response
+import files_sdk.models.oauth_redirect as oauth_redirect
 import files_sdk.models.outbound_connection_log as outbound_connection_log
+import files_sdk.models.paired_api_key as paired_api_key
 import files_sdk.models.partner as partner
 import files_sdk.models.partner_channel as partner_channel
 import files_sdk.models.partner_site as partner_site
 import files_sdk.models.partner_site_request as partner_site_request
 import files_sdk.models.payment as payment
 import files_sdk.models.payment_line_item as payment_line_item
+import files_sdk.models.paypal_express_info as paypal_express_info
+import files_sdk.models.paypal_express_url as paypal_express_url
 import files_sdk.models.pending_work_event as pending_work_event
 import files_sdk.models.permission as permission
+import files_sdk.models.plan as plan
 import files_sdk.models.preview as preview
 import files_sdk.models.project as project
 import files_sdk.models.public_hosting_request_log as public_hosting_request_log
+import files_sdk.models.public_hosting_session_pairing as public_hosting_session_pairing
+import files_sdk.models.public_inbox as public_inbox
 import files_sdk.models.public_ip_address as public_ip_address
 import files_sdk.models.public_key as public_key
+import files_sdk.models.public_url as public_url
+import files_sdk.models.regional_migration as regional_migration
+import files_sdk.models.release as release
+import files_sdk.models.release_package as release_package
 import files_sdk.models.remote_bandwidth_snapshot as remote_bandwidth_snapshot
 import files_sdk.models.remote_mount_backend as remote_mount_backend
 import files_sdk.models.remote_server as remote_server
@@ -102,9 +144,14 @@ import files_sdk.models.remote_server_configuration_file as remote_server_config
 import files_sdk.models.remote_server_credential as remote_server_credential
 import files_sdk.models.request as request
 import files_sdk.models.restore as restore
+import files_sdk.models.revision as revision
+import files_sdk.models.safe_plan as safe_plan
 import files_sdk.models.scheduled_export as scheduled_export
 import files_sdk.models.scim_log as scim_log
 import files_sdk.models.session as session
+import files_sdk.models.session_available_site as session_available_site
+import files_sdk.models.setting as setting
+import files_sdk.models.settings as settings
 import files_sdk.models.settings_change as settings_change
 import files_sdk.models.sftp_action_log as sftp_action_log
 import files_sdk.models.sftp_host_key as sftp_host_key
@@ -115,14 +162,22 @@ import files_sdk.models.siem_http_destination_event as siem_http_destination_eve
 import files_sdk.models.site as site
 import files_sdk.models.site_subdomain_redirect as site_subdomain_redirect
 import files_sdk.models.snapshot as snapshot
+import files_sdk.models.ssl_certificate as ssl_certificate
 import files_sdk.models.sso_event as sso_event
 import files_sdk.models.sso_strategy as sso_strategy
+import files_sdk.models.staging_site as staging_site
 import files_sdk.models.status as status
 import files_sdk.models.style as style
+import files_sdk.models.support_request as support_request
 import files_sdk.models.sync as sync
+import files_sdk.models.sync_api_usage_snapshot as sync_api_usage_snapshot
+import files_sdk.models.sync_api_usage_snapshot_report as sync_api_usage_snapshot_report
+import files_sdk.models.sync_bandwidth_snapshot as sync_bandwidth_snapshot
 import files_sdk.models.sync_log as sync_log
 import files_sdk.models.sync_run as sync_run
 import files_sdk.models.sync_run_live_transfer as sync_run_live_transfer
+import files_sdk.models.two_factor_authentication_method as two_factor_authentication_method
+import files_sdk.models.two_factor_authentication_method as two_factor_authentication_method
 import files_sdk.models.usage_by_top_level_dir as usage_by_top_level_dir
 import files_sdk.models.usage_daily_snapshot as usage_daily_snapshot
 import files_sdk.models.usage_snapshot as usage_snapshot
@@ -132,11 +187,17 @@ import files_sdk.models.user_lifecycle_rule as user_lifecycle_rule
 import files_sdk.models.user_request as user_request
 import files_sdk.models.user_security_event as user_security_event
 import files_sdk.models.user_sftp_client_use as user_sftp_client_use
+import files_sdk.models.warning as warning
 import files_sdk.models.web_dav_action_log as web_dav_action_log
+import files_sdk.models.webauthn_sign_request as webauthn_sign_request
 import files_sdk.models.webhook_test as webhook_test
 import files_sdk.models.workspace as workspace
+import files_sdk.models.zip_download as zip_download
+import files_sdk.models.zip_download_file as zip_download_file
+import files_sdk.models.zip_download_files as zip_download_files
 import files_sdk.models.zip_list_entry as zip_list_entry
 
+from files_sdk.models.account import Account
 from files_sdk.models.account_line_item import AccountLineItem
 from files_sdk.models.action import Action
 from files_sdk.models.action_log import ActionLog
@@ -146,9 +207,19 @@ from files_sdk.models.action_notification_export import (
 from files_sdk.models.action_notification_export_result import (
     ActionNotificationExportResult,
 )
+from files_sdk.models.action_webhook_failure import ActionWebhookFailure
+from files_sdk.models.agent_proxy_identity import AgentProxyIdentity
+from files_sdk.models.agent_proxy_identity_endpoint import (
+    AgentProxyIdentityEndpoint,
+)
+from files_sdk.models.agent_proxy_identity_result import (
+    AgentProxyIdentityResult,
+)
 from files_sdk.models.agent_push_update import AgentPushUpdate
+from files_sdk.models.agent_v2_auth import AgentV2Auth
 from files_sdk.models.ai_assistant_personality import AiAssistantPersonality
 from files_sdk.models.ai_task import AiTask
+from files_sdk.models.announcement import Announcement
 from files_sdk.models.api_key import ApiKey
 from files_sdk.models.api_request_log import ApiRequestLog
 from files_sdk.models.app import App
@@ -162,26 +233,43 @@ from files_sdk.models.automation_log import AutomationLog
 from files_sdk.models.automation_run import AutomationRun
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot
 from files_sdk.models.behavior import Behavior
+from files_sdk.models.blog_post import BlogPost
 from files_sdk.models.bundle import Bundle
 from files_sdk.models.bundle_action import BundleAction
 from files_sdk.models.bundle_download import BundleDownload
 from files_sdk.models.bundle_notification import BundleNotification
 from files_sdk.models.bundle_path import BundlePath
 from files_sdk.models.bundle_recipient import BundleRecipient
+from files_sdk.models.bundle_recipient_registration import (
+    BundleRecipientRegistration,
+)
 from files_sdk.models.bundle_registration import BundleRegistration
+from files_sdk.models.certificate import Certificate
 from files_sdk.models.chat_message import ChatMessage
 from files_sdk.models.chat_session import ChatSession
+from files_sdk.models.child_site import ChildSite
 from files_sdk.models.child_site_management_policy import (
     ChildSiteManagementPolicy,
 )
 from files_sdk.models.clickwrap import Clickwrap
+from files_sdk.models.clickwrap_acceptance import ClickwrapAcceptance
+from files_sdk.models.client_log import ClientLog
+from files_sdk.models.crash_report import CrashReport
 from files_sdk.models.custom_domain import CustomDomain
+from files_sdk.models.custom_domain_for_proxy import CustomDomainForProxy
 from files_sdk.models.desktop_configuration_profile import (
     DesktopConfigurationProfile,
 )
 from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.email_incoming_message import EmailIncomingMessage
 from files_sdk.models.email_log import EmailLog
+from files_sdk.models.email_preference import EmailPreference
+from files_sdk.models.email_preference_bundle_notification import (
+    EmailPreferenceBundleNotification,
+)
+from files_sdk.models.email_preference_notification import (
+    EmailPreferenceNotification,
+)
 from files_sdk.models.errors import Errors
 from files_sdk.models.event_channel import EventChannel
 from files_sdk.models.event_delivery_attempt import EventDeliveryAttempt
@@ -192,6 +280,7 @@ from files_sdk.models.exavault_api_request_log import ExavaultApiRequestLog
 from files_sdk.models.expectation import Expectation
 from files_sdk.models.expectation_evaluation import ExpectationEvaluation
 from files_sdk.models.expectation_incident import ExpectationIncident
+from files_sdk.models.export import Export
 from files_sdk.models.external_event import ExternalEvent
 from files_sdk.models.file import File
 from files_sdk.models.file_action import FileAction
@@ -203,6 +292,8 @@ from files_sdk.models.file_upload_part import FileUploadPart
 from files_sdk.models.folder import Folder
 from files_sdk.models.form_field import FormField
 from files_sdk.models.form_field_set import FormFieldSet
+from files_sdk.models.front_end_server import FrontEndServer
+from files_sdk.models.frontend_metric import FrontendMetric
 from files_sdk.models.ftp_action_log import FtpActionLog
 from files_sdk.models.gpg_key import GpgKey
 from files_sdk.models.group import Group
@@ -213,34 +304,59 @@ from files_sdk.models.history_export_result import HistoryExportResult
 from files_sdk.models.holiday_region import HolidayRegion
 from files_sdk.models.image import Image
 from files_sdk.models.inbound_s3_log import InboundS3Log
+from files_sdk.models.inbox import Inbox
 from files_sdk.models.inbox_recipient import InboxRecipient
+from files_sdk.models.inbox_recipient_registration import (
+    InboxRecipientRegistration,
+)
 from files_sdk.models.inbox_registration import InboxRegistration
 from files_sdk.models.inbox_upload import InboxUpload
 from files_sdk.models.invoice import Invoice
 from files_sdk.models.invoice_line_item import InvoiceLineItem
+from files_sdk.models.ip import Ip
+from files_sdk.models.ip_abuse_entry import IpAbuseEntry
 from files_sdk.models.ip_address import IpAddress
 from files_sdk.models.key_lifecycle_rule import KeyLifecycleRule
+from files_sdk.models.label import Label
+from files_sdk.models.lead import Lead
 from files_sdk.models.lock import Lock
 from files_sdk.models.message import Message
 from files_sdk.models.message_comment import MessageComment
 from files_sdk.models.message_comment_reaction import MessageCommentReaction
 from files_sdk.models.message_reaction import MessageReaction
 from files_sdk.models.metadata_category import MetadataCategory
+from files_sdk.models.monitoring_stat import MonitoringStat
+from files_sdk.models.monitoring_stats import MonitoringStats
+from files_sdk.models.mover_package import MoverPackage
 from files_sdk.models.notification import Notification
+from files_sdk.models.nps_response import NpsResponse
+from files_sdk.models.oauth_redirect import OauthRedirect
 from files_sdk.models.outbound_connection_log import OutboundConnectionLog
+from files_sdk.models.paired_api_key import PairedApiKey
 from files_sdk.models.partner import Partner
 from files_sdk.models.partner_channel import PartnerChannel
 from files_sdk.models.partner_site import PartnerSite
 from files_sdk.models.partner_site_request import PartnerSiteRequest
 from files_sdk.models.payment import Payment
 from files_sdk.models.payment_line_item import PaymentLineItem
+from files_sdk.models.paypal_express_info import PaypalExpressInfo
+from files_sdk.models.paypal_express_url import PaypalExpressUrl
 from files_sdk.models.pending_work_event import PendingWorkEvent
 from files_sdk.models.permission import Permission
+from files_sdk.models.plan import Plan
 from files_sdk.models.preview import Preview
 from files_sdk.models.project import Project
 from files_sdk.models.public_hosting_request_log import PublicHostingRequestLog
+from files_sdk.models.public_hosting_session_pairing import (
+    PublicHostingSessionPairing,
+)
+from files_sdk.models.public_inbox import PublicInbox
 from files_sdk.models.public_ip_address import PublicIpAddress
 from files_sdk.models.public_key import PublicKey
+from files_sdk.models.public_url import PublicUrl
+from files_sdk.models.regional_migration import RegionalMigration
+from files_sdk.models.release import Release
+from files_sdk.models.release_package import ReleasePackage
 from files_sdk.models.remote_bandwidth_snapshot import RemoteBandwidthSnapshot
 from files_sdk.models.remote_mount_backend import RemoteMountBackend
 from files_sdk.models.remote_server import RemoteServer
@@ -250,9 +366,14 @@ from files_sdk.models.remote_server_configuration_file import (
 from files_sdk.models.remote_server_credential import RemoteServerCredential
 from files_sdk.models.request import Request
 from files_sdk.models.restore import Restore
+from files_sdk.models.revision import Revision
+from files_sdk.models.safe_plan import SafePlan
 from files_sdk.models.scheduled_export import ScheduledExport
 from files_sdk.models.scim_log import ScimLog
 from files_sdk.models.session import Session
+from files_sdk.models.session_available_site import SessionAvailableSite
+from files_sdk.models.setting import Setting
+from files_sdk.models.settings import Settings
 from files_sdk.models.settings_change import SettingsChange
 from files_sdk.models.sftp_action_log import SftpActionLog
 from files_sdk.models.sftp_host_key import SftpHostKey
@@ -265,14 +386,28 @@ from files_sdk.models.siem_http_destination_event import (
 from files_sdk.models.site import Site
 from files_sdk.models.site_subdomain_redirect import SiteSubdomainRedirect
 from files_sdk.models.snapshot import Snapshot
+from files_sdk.models.ssl_certificate import SslCertificate
 from files_sdk.models.sso_event import SsoEvent
 from files_sdk.models.sso_strategy import SsoStrategy
+from files_sdk.models.staging_site import StagingSite
 from files_sdk.models.status import Status
 from files_sdk.models.style import Style
+from files_sdk.models.support_request import SupportRequest
 from files_sdk.models.sync import Sync
+from files_sdk.models.sync_api_usage_snapshot import SyncApiUsageSnapshot
+from files_sdk.models.sync_api_usage_snapshot_report import (
+    SyncApiUsageSnapshotReport,
+)
+from files_sdk.models.sync_bandwidth_snapshot import SyncBandwidthSnapshot
 from files_sdk.models.sync_log import SyncLog
 from files_sdk.models.sync_run import SyncRun
 from files_sdk.models.sync_run_live_transfer import SyncRunLiveTransfer
+from files_sdk.models.two_factor_authentication_method import (
+    TwoFactorAuthenticationMethod,
+)
+from files_sdk.models.two_factor_authentication_method import (
+    TwoFactorAuthenticationMethod,
+)
 from files_sdk.models.usage_by_top_level_dir import UsageByTopLevelDir
 from files_sdk.models.usage_daily_snapshot import UsageDailySnapshot
 from files_sdk.models.usage_snapshot import UsageSnapshot
@@ -282,9 +417,14 @@ from files_sdk.models.user_lifecycle_rule import UserLifecycleRule
 from files_sdk.models.user_request import UserRequest
 from files_sdk.models.user_security_event import UserSecurityEvent
 from files_sdk.models.user_sftp_client_use import UserSftpClientUse
+from files_sdk.models.warning import Warning
 from files_sdk.models.web_dav_action_log import WebDavActionLog
+from files_sdk.models.webauthn_sign_request import WebauthnSignRequest
 from files_sdk.models.webhook_test import WebhookTest
 from files_sdk.models.workspace import Workspace
+from files_sdk.models.zip_download import ZipDownload
+from files_sdk.models.zip_download_file import ZipDownloadFile
+from files_sdk.models.zip_download_files import ZipDownloadFiles
 from files_sdk.models.zip_list_entry import ZipListEntry
 
 import files_sdk.path_util
@@ -298,7 +438,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.414"
+version = "1.6.415"
 
 __version__ = version
 

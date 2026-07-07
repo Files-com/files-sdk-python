@@ -79,3 +79,28 @@ files_sdk.bundle_action.list({
 * `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
 * `bundle_id` (int64): Bundle ID
 * `bundle_registration_id` (int64): Bundle Registration ID
+
+
+---
+
+## Create an export CSV of Bundle Action resources
+
+```
+files_sdk.bundle_action.create_export({
+  "user_id": 1,
+  "bundle_id": 1,
+  "bundle_registration_id": 1
+})
+```
+
+### Parameters
+
+* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `bundle_registration_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `bundle_id` or `bundle_registration_id`. Valid field combinations are `[ bundle_id, created_at ]`, `[ bundle_registration_id, created_at ]`, `[ bundle_id, bundle_registration_id ]` or `[ bundle_id, bundle_registration_id, created_at ]`.
+* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
+* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
+* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+* `bundle_id` (int64): Bundle ID
+* `bundle_registration_id` (int64): Bundle Registration ID

@@ -46,3 +46,24 @@ files_sdk.user_cipher_use.list({
 * `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `updated_at`.
 * `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `updated_at`.
 * `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `updated_at`.
+
+
+---
+
+## Create an export CSV of User Cipher Use resources
+
+```
+files_sdk.user_cipher_use.create_export({
+  "user_id": 1
+})
+```
+
+### Parameters
+
+* `user_id` (int64): User ID. If provided, will return uses for this user.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `updated_at`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `insecure` and `updated_at`. Valid field combinations are `[ insecure, updated_at ]`.
+* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `updated_at`.
+* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `updated_at`.
+* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `updated_at`.
+* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `updated_at`.

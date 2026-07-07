@@ -45,6 +45,10 @@ class FormFieldSetTest(TestBase):
     def test_create(self):
         resp = form_field_set.create()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/form_field_sets/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = form_field_set.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/form_field_sets/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

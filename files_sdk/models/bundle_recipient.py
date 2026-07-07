@@ -1,4 +1,5 @@
 import builtins  # noqa: F401
+from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -18,6 +19,7 @@ class BundleRecipient:
         "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
         "user_id": None,  # int64 - User ID.  Provide a value of `0` to operate the current session's user.
         "bundle_id": None,  # int64 - Bundle to share.
+        "method": None,  # string - The method to use, must be email or null
         "share_after_create": None,  # boolean - Set to true to share the link with the recipient upon creation.
     }
 
@@ -98,6 +100,7 @@ def all(params=None, options=None):
 #   name - string - Name of recipient.
 #   company - string - Company of recipient.
 #   note - string - Note to include in email.
+#   method - string - The method to use, must be email or null
 #   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
 def create(params=None, options=None):
     if not isinstance(params, dict):
@@ -116,6 +119,8 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: company must be an str")
     if "note" in params and not isinstance(params["note"], str):
         raise InvalidParameterError("Bad parameter: note must be an str")
+    if "method" in params and not isinstance(params["method"], str):
+        raise InvalidParameterError("Bad parameter: method must be an str")
     if "share_after_create" in params and not isinstance(
         params["share_after_create"], bool
     ):
@@ -130,6 +135,32 @@ def create(params=None, options=None):
         "POST", "/bundle_recipients", params, options
     )
     return BundleRecipient(response.data, options)
+
+
+# Parameters:
+#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
+#   bundle_id (required) - int64 - List recipients for the bundle with this ID.
+def create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "sort_by" in params and not isinstance(params["sort_by"], dict):
+        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
+    if "bundle_id" in params and not isinstance(params["bundle_id"], int):
+        raise InvalidParameterError("Bad parameter: bundle_id must be an int")
+    if "bundle_id" not in params:
+        raise MissingParameterError("Parameter missing: bundle_id")
+    response, options = Api.send_request(
+        "POST", "/bundle_recipients/create_export", params, options
+    )
+    return Export(response.data, options)
 
 
 def new(*args, **kwargs):

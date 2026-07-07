@@ -14,5 +14,9 @@ class SettingsChangeTest(TestBase):
     def test_list(self):
         resp = settings_change.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/settings_changes/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = settings_change.create_export()
+
 if __name__ == '__main__':
     unittest.main()

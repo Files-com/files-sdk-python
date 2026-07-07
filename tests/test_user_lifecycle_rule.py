@@ -45,6 +45,10 @@ class UserLifecycleRuleTest(TestBase):
     def test_create(self):
         resp = user_lifecycle_rule.create()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/user_lifecycle_rules/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = user_lifecycle_rule.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/user_lifecycle_rules/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

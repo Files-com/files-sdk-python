@@ -83,6 +83,25 @@ files_sdk.bundle_notification.create({
 
 ---
 
+## List Share Link Notifications
+
+```
+files_sdk.bundle_notification.create_export({
+  "user_id": 1,
+  "bundle_id": 1
+})
+```
+
+### Parameters
+
+* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `bundle_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
+* `bundle_id` (int64): Bundle ID
+
+
+---
+
 ## Update Share Link Notification
 
 ```

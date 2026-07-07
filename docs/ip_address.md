@@ -35,6 +35,20 @@ files_sdk.ip_address.list()
 
 ---
 
+## List all in-use public IP addresses
+
+```
+files_sdk.ip_address.get_active()
+```
+
+### Parameters
+
+* `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+* `per_page` (int64): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+
+
+---
+
 ## List all possible public SmartFile IP addresses
 
 ```
@@ -73,3 +87,48 @@ files_sdk.ip_address.get_reserved()
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+
+
+---
+
+## List all in-use public IP addresses
+
+```
+files_sdk.ip_address.active_create_export()
+```
+
+
+---
+
+## List all possible public SmartFile IP addresses
+
+```
+files_sdk.ip_address.smartfile_reserved_create_export()
+```
+
+
+---
+
+## List all possible public ExaVault IP addresses
+
+```
+files_sdk.ip_address.exavault_reserved_create_export()
+```
+
+
+---
+
+## List all possible public IP addresses
+
+```
+files_sdk.ip_address.reserved_create_export()
+```
+
+
+---
+
+## List IP Addresses associated with the current site
+
+```
+files_sdk.ip_address.create_export()
+```

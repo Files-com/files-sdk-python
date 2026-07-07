@@ -91,7 +91,8 @@
       "recursive": True,
       "path": "example"
     }
-  ]
+  ],
+  "site_id": 1
 }
 ```
 
@@ -142,6 +143,7 @@
 * `dont_allow_folders_in_uploads` (boolean): Should folder uploads be prevented?
 * `paths` (array(string)): A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
 * `bundlepaths` (array(object)): A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
+* `site_id` (int64): Site id
 * `password` (string): Password for this bundle.
 * `form_field_set_id` (int64): Id of Form Field Set to use with this bundle
 * `create_snapshot` (boolean): If true, create a snapshot of this bundle's contents.
@@ -190,6 +192,27 @@ files_sdk.bundle.find(id, {
 
 * `id` (int64): Required - Bundle ID.
 * `deleted` (boolean): If true, show a deleted Share Link.
+
+
+---
+
+## Show public information for a Bundle
+
+```
+files_sdk.bundle.get_info({
+  "code": "abc123",
+  "imported_from_file_ac": False,
+  "bundle_registration_code": "abc123",
+  "recipient_code": "abc123"
+})
+```
+
+### Parameters
+
+* `code` (string): Required - Bundle code
+* `imported_from_file_ac` (boolean): Is bundle imported from File.ac?
+* `bundle_registration_code` (string): Bundle registration cookie code
+* `recipient_code` (string): Bundle recipient code
 
 
 ---
@@ -268,6 +291,30 @@ files_sdk.bundle.create({
 
 ---
 
+## List Share Links
+
+```
+files_sdk.bundle.create_export({
+  "user_id": 1,
+  "deleted": False
+})
+```
+
+### Parameters
+
+* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code`, `group_id`, `user_id` or `bypasses_site_expiration_rules`. Valid field combinations are `[ group_id, expires_at ]` and `[ user_id, expires_at ]`.
+* `filter_gt` (object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at` and `expires_at`.
+* `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
+* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `code`.
+* `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at` and `expires_at`.
+* `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
+* `deleted` (boolean): If true, only list deleted Share Links.
+
+
+---
+
 ## Send email(s) with a link to bundle
 
 ```
@@ -283,6 +330,7 @@ files_sdk.bundle.share(id, {
 * `id` (int64): Required - Bundle ID.
 * `to` (array(string)): A list of email addresses to share this bundle with. Required unless `recipients` is used.
 * `note` (string): Note to include in email.
+* `method` (string): The method to use, must be email or null
 * `recipients` (array(object)): A list of recipients to share this bundle with. Required unless `to` is used.
 
 
@@ -392,6 +440,7 @@ bundle.share({
 * `id` (int64): Required - Bundle ID.
 * `to` (array(string)): A list of email addresses to share this bundle with. Required unless `recipients` is used.
 * `note` (string): Note to include in email.
+* `method` (string): The method to use, must be email or null
 * `recipients` (array(object)): A list of recipients to share this bundle with. Required unless `to` is used.
 
 

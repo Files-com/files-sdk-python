@@ -14,5 +14,9 @@ class EmailIncomingMessageTest(TestBase):
     def test_list(self):
         resp = email_incoming_message.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/email_incoming_messages/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = email_incoming_message.create_export()
+
 if __name__ == '__main__':
     unittest.main()

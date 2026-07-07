@@ -22,5 +22,9 @@ class SiemHttpDestinationEventTest(TestBase):
         }
         siem_http_destination_event.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/siem_http_destination_events/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = siem_http_destination_event.create_export()
+
 if __name__ == '__main__':
     unittest.main()

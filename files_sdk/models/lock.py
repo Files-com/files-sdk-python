@@ -23,6 +23,7 @@ class Lock:
         "allow_access_by_any_user": None,  # boolean - Can lock be modified by users other than its creator?
         "user_id": None,  # int64 - Lock creator user ID
         "username": None,  # string - Lock creator username
+        "bundle_registration_code": None,  # string
     }
 
     def __init__(self, attributes=None, options=None):
@@ -48,6 +49,7 @@ class Lock:
 
     # Parameters:
     #   token (required) - string - Lock token
+    #   bundle_registration_code - string
     def delete(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -64,6 +66,12 @@ class Lock:
             raise InvalidParameterError("Bad parameter: path must be an str")
         if "token" in params and not isinstance(params["token"], str):
             raise InvalidParameterError("Bad parameter: token must be an str")
+        if "bundle_registration_code" in params and not isinstance(
+            params["bundle_registration_code"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_registration_code must be an str"
+            )
         Api.send_request(
             "DELETE",
             "/locks/{path}".format(path=quote(str(params["path"]), safe="")),
@@ -85,6 +93,7 @@ class Lock:
 #   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 #   path (required) - string - Path to operate on.
 #   include_children - boolean - Include locks from children objects?
+#   bundle_registration_code - string
 def list_for(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -103,6 +112,12 @@ def list_for(path, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: include_children must be an bool"
         )
+    if "bundle_registration_code" in params and not isinstance(
+        params["bundle_registration_code"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_registration_code must be an str"
+        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     return ListObj(
@@ -116,10 +131,16 @@ def list_for(path, params=None, options=None):
 
 # Parameters:
 #   path (required) - string - Path
+#   token - string
+#   type - string
 #   allow_access_by_any_user - boolean - Can lock be modified by users other than its creator?
+#   scope - string
 #   exclusive - boolean - Is lock exclusive?
+#   depth - string
 #   recursive - boolean - Does lock apply to subfolders?
+#   owner - string
 #   timeout - int64 - Lock timeout in seconds
+#   bundle_registration_code - string
 def create(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -128,18 +149,34 @@ def create(path, params=None, options=None):
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "token" in params and not isinstance(params["token"], str):
+        raise InvalidParameterError("Bad parameter: token must be an str")
+    if "type" in params and not isinstance(params["type"], str):
+        raise InvalidParameterError("Bad parameter: type must be an str")
     if "allow_access_by_any_user" in params and not isinstance(
         params["allow_access_by_any_user"], bool
     ):
         raise InvalidParameterError(
             "Bad parameter: allow_access_by_any_user must be an bool"
         )
+    if "scope" in params and not isinstance(params["scope"], str):
+        raise InvalidParameterError("Bad parameter: scope must be an str")
     if "exclusive" in params and not isinstance(params["exclusive"], bool):
         raise InvalidParameterError("Bad parameter: exclusive must be an bool")
+    if "depth" in params and not isinstance(params["depth"], str):
+        raise InvalidParameterError("Bad parameter: depth must be an str")
     if "recursive" in params and not isinstance(params["recursive"], bool):
         raise InvalidParameterError("Bad parameter: recursive must be an bool")
+    if "owner" in params and not isinstance(params["owner"], str):
+        raise InvalidParameterError("Bad parameter: owner must be an str")
     if "timeout" in params and not isinstance(params["timeout"], int):
         raise InvalidParameterError("Bad parameter: timeout must be an int")
+    if "bundle_registration_code" in params and not isinstance(
+        params["bundle_registration_code"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_registration_code must be an str"
+        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
@@ -153,6 +190,7 @@ def create(path, params=None, options=None):
 
 # Parameters:
 #   token (required) - string - Lock token
+#   bundle_registration_code - string
 def delete(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -163,6 +201,12 @@ def delete(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "token" in params and not isinstance(params["token"], str):
         raise InvalidParameterError("Bad parameter: token must be an str")
+    if "bundle_registration_code" in params and not isinstance(
+        params["bundle_registration_code"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_registration_code must be an str"
+        )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     if "token" not in params:

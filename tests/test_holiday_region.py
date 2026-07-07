@@ -14,5 +14,9 @@ class HolidayRegionTest(TestBase):
     def test_get_supported(self):
         resp = holiday_region.get_supported()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/holiday_regions/supported/create_export"), "Mock path does not exist")
+    def test_supported_create_export(self):
+        resp = holiday_region.supported_create_export()
+
 if __name__ == '__main__':
     unittest.main()

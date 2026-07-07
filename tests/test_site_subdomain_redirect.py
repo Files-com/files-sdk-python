@@ -33,6 +33,10 @@ class SiteSubdomainRedirectTest(TestBase):
         }
         site_subdomain_redirect.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/site_subdomain_redirects/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = site_subdomain_redirect.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/site_subdomain_redirects/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345

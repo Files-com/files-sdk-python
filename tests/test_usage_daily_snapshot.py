@@ -14,5 +14,9 @@ class UsageDailySnapshotTest(TestBase):
     def test_list(self):
         resp = usage_daily_snapshot.list()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/usage_daily_snapshots/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = usage_daily_snapshot.create_export()
+
 if __name__ == '__main__':
     unittest.main()

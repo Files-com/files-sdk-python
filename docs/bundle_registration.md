@@ -37,6 +37,8 @@
 * `bundle_recipient_id` (int64): Id of associated bundle recipient
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 * `created_at` (date-time): Registration creation date/time
+* `bundle_recipient_registration_code` (string): Bundle recipient registration code
+* `password` (string): Public bundle password.
 
 
 ---
@@ -55,5 +57,64 @@ files_sdk.bundle_registration.list({
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `bundle_id` or `created_at`.
+* `bundle_id` (int64): ID of the associated Bundle
+
+
+---
+
+## Create Bundle Registration
+
+```
+files_sdk.bundle_registration.create({
+  "password": "Password",
+  "company": "Action Verb",
+  "email": "john.doe@files.com",
+  "name": "account",
+  "bundle_code": "example"
+})
+```
+
+### Parameters
+
+* `bundle_recipient_registration_code` (string): Bundle recipient registration code
+* `password` (string): Public bundle password.
+* `company` (string): Registrant company name
+* `email` (string): Registrant email address
+* `name` (string): Registrant name
+* `bundle_code` (string): Required - Bundle URL code
+
+
+---
+
+## Update the last time any action happened in bundle under this registration
+
+```
+files_sdk.bundle_registration.last_activity({
+  "bundle_registration_code": "abc123",
+  "upload_in_progress": True
+})
+```
+
+### Parameters
+
+* `bundle_registration_code` (string): Required - Bundle registration cookie code
+* `upload_in_progress` (boolean): Flag that indicates if current upload is going during this registration session
+
+
+---
+
+## List Share Link Registrations
+
+```
+files_sdk.bundle_registration.create_export({
+  "user_id": 1,
+  "bundle_id": 1
+})
+```
+
+### Parameters
+
+* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `bundle_id` or `created_at`.
 * `bundle_id` (int64): ID of the associated Bundle

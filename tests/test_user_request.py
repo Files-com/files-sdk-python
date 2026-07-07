@@ -42,6 +42,10 @@ class UserRequestTest(TestBase):
         }
         user_request.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/user_requests/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = user_request.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/user_requests/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345

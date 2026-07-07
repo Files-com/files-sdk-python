@@ -45,6 +45,10 @@ class WorkspaceTest(TestBase):
     def test_create(self):
         resp = workspace.create()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/workspaces/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = workspace.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/workspaces/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

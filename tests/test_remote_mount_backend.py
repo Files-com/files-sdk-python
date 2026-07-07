@@ -66,6 +66,10 @@ class RemoteMountBackendTest(TestBase):
         }
         remote_mount_backend.reset_status(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_mount_backends/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = remote_mount_backend.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/remote_mount_backends/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

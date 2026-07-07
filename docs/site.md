@@ -543,6 +543,19 @@
 * `welcome_email_enabled` (boolean): Will the welcome email be sent to new users?
 * `welcome_screen` (string): Does the welcome screen appear?
 * `windows_mode_ftp` (boolean): Does FTP user Windows emulation mode?
+* `lead_cookie_code` (string): 
+* `recaptcha_token` (string): 
+* `username` (string): 
+* `password` (string): 
+* `utm_term` (string): 
+* `utm_source` (string): 
+* `utm_content` (string): 
+* `utm_medium` (string): 
+* `utm_campaign` (string): 
+* `utm_domain` (string): 
+* `gclid` (string): 
+* `plan_id` (int64): 
+* `brand` (string): 
 
 
 ---
@@ -561,6 +574,123 @@ files_sdk.site.get()
 ```
 files_sdk.site.get_usage()
 ```
+
+
+---
+
+## Show plan that will be switched to in the future. (Populated if current plan is deprecated and no longer offered beyond the current billing period.)
+
+```
+files_sdk.site.get_switch_to_plan()
+```
+
+
+---
+
+## Show the current billing plan of a site
+
+```
+files_sdk.site.get_plan({
+  "currency": "USD"
+})
+```
+
+### Parameters
+
+* `currency` (string): Currency.
+
+
+---
+
+## Complete a PayPal subscription
+
+```
+files_sdk.site.get_paypal_express_info({
+  "paypal_token": "[token]"
+})
+```
+
+### Parameters
+
+* `paypal_token` (string): Required - Billing token for use with paypal.
+
+
+---
+
+## Initiate a new PayPal subscription
+
+```
+files_sdk.site.get_paypal_express({
+  "return_to_url": "https://app.files.com/...",
+  "plan_id": 1
+})
+```
+
+### Parameters
+
+* `return_to_url` (string): Required - URL that paypal express forwards the user to.
+* `plan_id` (int64): Plan ID to switch to.
+
+
+---
+
+## Apply a trial code to the current Mover site
+
+```
+files_sdk.site.mover_trial_code({
+  "code": "TRIAL30"
+})
+```
+
+### Parameters
+
+* `code` (string): Required - Mover trial code to apply
+
+
+---
+
+## Create Site
+
+```
+files_sdk.site.create({
+  "name": "Action Verb",
+  "email": "johndoe@gmail.com",
+  "lead_cookie_code": "lead_cookie_code",
+  "recaptcha_token": "recaptcha_token",
+  "reply_to_email": "customer-service@gmail.com",
+  "phone": "+18002868372",
+  "contact_name": "John Doe",
+  "username": "MyUsername",
+  "password": "MyNewPassword101",
+  "currency": "USD",
+  "language": "en",
+  "plan_id": 1,
+  "brand": "files"
+})
+```
+
+### Parameters
+
+* `name` (string): Required - 
+* `email` (string): Required - 
+* `lead_cookie_code` (string): Required - 
+* `recaptcha_token` (string): Required - 
+* `reply_to_email` (string): 
+* `phone` (string): 
+* `contact_name` (string): 
+* `username` (string): 
+* `password` (string): 
+* `currency` (string): 
+* `language` (string): 
+* `utm_term` (string): 
+* `utm_source` (string): 
+* `utm_content` (string): 
+* `utm_medium` (string): 
+* `utm_campaign` (string): 
+* `utm_domain` (string): 
+* `gclid` (string): 
+* `plan_id` (int64): 
+* `brand` (string): 
 
 
 ---
@@ -929,3 +1059,51 @@ files_sdk.site.update({
 * `ldap_password_change_confirmation` (string): Confirm new LDAP password.
 * `redirect_old_subdomain` (boolean): If true, and if changing the site subdomain, then create a redirect from the previous Files.com subdomain to the new Files.com subdomain.
 * `smtp_password` (string): Password for SMTP server.
+
+
+---
+
+## Change the current billing plan for the site
+
+```
+files_sdk.site.update_plan(id, {
+  "billing_frequency": 1
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - Plan ID.
+* `billing_frequency` (int64): The billing frequency for the site.  Must be 1 (monthly) or 12 (annual).
+
+
+---
+
+## Cancel site
+
+```
+files_sdk.site.delete({
+  "reason": "Reason"
+})
+```
+
+### Parameters
+
+* `reason` (string): Reason the site was cancelled.
+
+
+---
+
+## Change the current billing plan for the site
+
+```
+site = files_sdk.site.find(id)
+site.update_plan({
+  "billing_frequency": 1
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - Plan ID.
+* `billing_frequency` (int64): The billing frequency for the site.  Must be 1 (monthly) or 12 (annual).

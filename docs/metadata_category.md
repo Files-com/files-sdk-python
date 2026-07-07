@@ -90,6 +90,19 @@ files_sdk.metadata_category.create({
 
 ---
 
+## Create an export CSV of Metadata Category resources
+
+```
+files_sdk.metadata_category.create_export()
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+
+
+---
+
 ## Update Metadata Category
 
 ```

@@ -30,5 +30,9 @@ class ExternalEventTest(TestBase):
         }
         external_event.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/external_events/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = external_event.create_export()
+
 if __name__ == '__main__':
     unittest.main()

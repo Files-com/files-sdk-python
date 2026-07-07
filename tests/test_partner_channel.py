@@ -49,6 +49,10 @@ class PartnerChannelTest(TestBase):
         }
         partner_channel.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_channels/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = partner_channel.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/partner_channels/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

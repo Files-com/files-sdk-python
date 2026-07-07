@@ -1,5 +1,6 @@
 import builtins  # noqa: F401
 from urllib.parse import quote
+from files_sdk.models.export import Export
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -92,10 +93,12 @@ class User:
         "time_zone": None,  # string - User time zone
         "type_of_2fa": None,  # string - Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `webauthn`, `yubi`, `email`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
         "type_of_2fa_for_display": None,  # string - Type(s) of 2FA methods in use, formatted for displaying in the UI.  Unlike `type_of_2fa`, this value will make clear when a user has more than 1 of the same type of method.
+        "updated_at": None,  # date-time - When this user was updated.  Used only for ExaVault compatibility API.  Do not use for other purposes, as this value reveals information about internal changes to users that isn't necessarily public.
         "user_root": None,  # string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
         "user_home": None,  # string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
         "days_remaining_until_password_expire": None,  # int64 - Number of days remaining until password expires
         "password_expire_at": None,  # date-time - Password expiration datetime
+        "has_reassignable_associations": None,  # boolean - Does this user have any associations that can be reassigned on delete?
         "avatar_file": None,  # file - An image file for your user avatar.
         "avatar_delete": None,  # boolean - If true, the avatar will be deleted.
         "change_password": None,  # string - Used for changing a password on an existing user.
@@ -510,8 +513,16 @@ class User:
 #   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `username`, `name`, `email` or `company`. Valid field combinations are `[ company, name ]`.
 #   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
 #   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
+#   action - string - Set to `count` to return a count of results rather than the actual results.
 #   ids - string - comma-separated list of User IDs
 #   include_parent_site_users - boolean - Include users from the parent site.
+#   q[username] - string - List users matching username.
+#   q[email] - string - List users matching email.
+#   q[notes] - string - List users matching notes field.
+#   q[admin] - string - If `true`, list only admin users.
+#   q[allowed_ips] - string - If set, list only users with overridden allowed IP setting.
+#   q[password_validity_days] - string - If set, list only users with overridden password validity days setting.
+#   q[ssl_required] - string - If set, list only users with overridden SSL required setting.
 #   search - string - Searches for partial matches of name, username, or email.
 def list(params=None, options=None):
     if not isinstance(params, dict):
@@ -544,6 +555,8 @@ def list(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: filter_lteq must be an dict"
         )
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
     if "ids" in params and not isinstance(params["ids"], str):
         raise InvalidParameterError("Bad parameter: ids must be an str")
     if "include_parent_site_users" in params and not isinstance(
@@ -563,6 +576,7 @@ def all(params=None, options=None):
 
 # Parameters:
 #   id (required) - int64 - User ID.
+#   include_reassignable_associations - boolean - If true includes has_reassignable_associations in the response.
 def find(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -571,6 +585,12 @@ def find(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "include_reassignable_associations" in params and not isinstance(
+        params["include_reassignable_associations"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: include_reassignable_associations must be an bool"
+        )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
@@ -1039,6 +1059,70 @@ def user_2fa_reset(id, params=None, options=None):
         params,
         options,
     )
+
+
+# Parameters:
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id`, `company`, `name`, `disabled`, `authenticate_until`, `username`, `email`, `site_admin`, `last_desktop_login_at`, `last_login_at`, `password_validity_days` or `ssl_required`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `name`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until`, `not_site_admin`, `disabled`, `partner_id`, `primary_group_id` or `workspace_id`. Valid field combinations are `[ site_admin, username ]`, `[ not_site_admin, username ]`, `[ workspace_id, username ]`, `[ company, name ]`, `[ workspace_id, name ]`, `[ workspace_id, email ]`, `[ workspace_id, company ]`, `[ workspace_id, site_admin ]`, `[ workspace_id, not_site_admin ]`, `[ workspace_id, disabled ]`, `[ workspace_id, partner_id ]`, `[ workspace_id, site_admin, username ]`, `[ workspace_id, not_site_admin, username ]`, `[ workspace_id, disabled, username ]`, `[ workspace_id, partner_id, username ]` or `[ workspace_id, company, name ]`.
+#   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
+#   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
+#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `username`, `name`, `email` or `company`. Valid field combinations are `[ company, name ]`.
+#   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
+#   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
+#   action - string - Set to `count` to return a count of results rather than the actual results.
+#   ids - string - comma-separated list of User IDs
+#   include_parent_site_users - boolean - Include users from the parent site.
+#   q[username] - string - List users matching username.
+#   q[email] - string - List users matching email.
+#   q[notes] - string - List users matching notes field.
+#   q[admin] - string - If `true`, list only admin users.
+#   q[allowed_ips] - string - If set, list only users with overridden allowed IP setting.
+#   q[password_validity_days] - string - If set, list only users with overridden password validity days setting.
+#   q[ssl_required] - string - If set, list only users with overridden SSL required setting.
+#   search - string - Searches for partial matches of name, username, or email.
+def create_export(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "sort_by" in params and not isinstance(params["sort_by"], dict):
+        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
+    if "filter_gt" in params and not isinstance(params["filter_gt"], dict):
+        raise InvalidParameterError("Bad parameter: filter_gt must be an dict")
+    if "filter_gteq" in params and not isinstance(params["filter_gteq"], dict):
+        raise InvalidParameterError(
+            "Bad parameter: filter_gteq must be an dict"
+        )
+    if "filter_prefix" in params and not isinstance(
+        params["filter_prefix"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: filter_prefix must be an dict"
+        )
+    if "filter_lt" in params and not isinstance(params["filter_lt"], dict):
+        raise InvalidParameterError("Bad parameter: filter_lt must be an dict")
+    if "filter_lteq" in params and not isinstance(params["filter_lteq"], dict):
+        raise InvalidParameterError(
+            "Bad parameter: filter_lteq must be an dict"
+        )
+    if "action" in params and not isinstance(params["action"], str):
+        raise InvalidParameterError("Bad parameter: action must be an str")
+    if "ids" in params and not isinstance(params["ids"], str):
+        raise InvalidParameterError("Bad parameter: ids must be an str")
+    if "include_parent_site_users" in params and not isinstance(
+        params["include_parent_site_users"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: include_parent_site_users must be an bool"
+        )
+    if "search" in params and not isinstance(params["search"], str):
+        raise InvalidParameterError("Bad parameter: search must be an str")
+    response, options = Api.send_request(
+        "POST", "/users/create_export", params, options
+    )
+    return Export(response.data, options)
 
 
 # Parameters:

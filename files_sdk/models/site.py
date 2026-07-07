@@ -1,6 +1,9 @@
 import builtins  # noqa: F401
 from decimal import Decimal
+from files_sdk.models.plan import Plan
 from files_sdk.models.usage_snapshot import UsageSnapshot
+from files_sdk.models.paypal_express_info import PaypalExpressInfo
+from files_sdk.models.paypal_express_url import PaypalExpressUrl
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
@@ -204,6 +207,19 @@ class Site:
         "welcome_email_enabled": None,  # boolean - Will the welcome email be sent to new users?
         "welcome_screen": None,  # string - Does the welcome screen appear?
         "windows_mode_ftp": None,  # boolean - Does FTP user Windows emulation mode?
+        "lead_cookie_code": None,  # string
+        "recaptcha_token": None,  # string
+        "username": None,  # string
+        "password": None,  # string
+        "utm_term": None,  # string
+        "utm_source": None,  # string
+        "utm_content": None,  # string
+        "utm_medium": None,  # string
+        "utm_campaign": None,  # string
+        "utm_domain": None,  # string
+        "gclid": None,  # string
+        "plan_id": None,  # int64
+        "brand": None,  # string
     }
 
     def __init__(self, attributes=None, options=None):
@@ -236,6 +252,43 @@ class Site:
                 attrs[k] = [str(v) for v in (attrs[k] or [])]
         return attrs
 
+    # Change the current billing plan for the site
+    #
+    # Parameters:
+    #   billing_frequency - int64 - The billing frequency for the site.  Must be 1 (monthly) or 12 (annual).
+    def update_plan(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "billing_frequency" in params and not isinstance(
+            params["billing_frequency"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: billing_frequency must be an int"
+            )
+        response, _options = Api.send_request(
+            "PATCH", "/site/plan", params, self.options
+        )
+        return response.data
+
+    def save(self):
+        if hasattr(self, "id") and self.id:
+            raise NotImplementedError(
+                "The Site object doesn't support updates."
+            )
+        else:
+            new_obj = create(self.get_attributes(), self.options)
+            self.set_attributes(new_obj.get_attributes())
+            return True
+
 
 def get(params=None, options=None):
     if not isinstance(params, dict):
@@ -253,6 +306,192 @@ def get_usage(params=None, options=None):
         options = {}
     response, options = Api.send_request("GET", "/site/usage", params, options)
     return UsageSnapshot(response.data, options)
+
+
+def get_switch_to_plan(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    response, options = Api.send_request(
+        "GET", "/site/switch_to_plan", params, options
+    )
+    return Plan(response.data, options)
+
+
+# Parameters:
+#   currency - string - Currency.
+def get_plan(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "currency" in params and not isinstance(params["currency"], str):
+        raise InvalidParameterError("Bad parameter: currency must be an str")
+    response, options = Api.send_request("GET", "/site/plan", params, options)
+    return Plan(response.data, options)
+
+
+# Parameters:
+#   paypal_token (required) - string - Billing token for use with paypal.
+def get_paypal_express_info(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "paypal_token" in params and not isinstance(
+        params["paypal_token"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: paypal_token must be an str"
+        )
+    if "paypal_token" not in params:
+        raise MissingParameterError("Parameter missing: paypal_token")
+    response, options = Api.send_request(
+        "GET", "/site/paypal_express_info", params, options
+    )
+    return PaypalExpressInfo(response.data, options)
+
+
+# Parameters:
+#   return_to_url (required) - string - URL that paypal express forwards the user to.
+#   plan_id - int64 - Plan ID to switch to.
+def get_paypal_express(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "return_to_url" in params and not isinstance(
+        params["return_to_url"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: return_to_url must be an str"
+        )
+    if "plan_id" in params and not isinstance(params["plan_id"], int):
+        raise InvalidParameterError("Bad parameter: plan_id must be an int")
+    if "return_to_url" not in params:
+        raise MissingParameterError("Parameter missing: return_to_url")
+    response, options = Api.send_request(
+        "GET", "/site/paypal_express", params, options
+    )
+    return PaypalExpressUrl(response.data, options)
+
+
+# Parameters:
+#   code (required) - string - Mover trial code to apply
+def mover_trial_code(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "code" in params and not isinstance(params["code"], str):
+        raise InvalidParameterError("Bad parameter: code must be an str")
+    if "code" not in params:
+        raise MissingParameterError("Parameter missing: code")
+    response, options = Api.send_request(
+        "POST", "/site/mover_trial_code", params, options
+    )
+    return Site(response.data, options)
+
+
+# Parameters:
+#   name (required) - string
+#   email (required) - string
+#   lead_cookie_code (required) - string
+#   recaptcha_token (required) - string
+#   reply_to_email - string
+#   phone - string
+#   contact_name - string
+#   username - string
+#   password - string
+#   currency - string
+#   language - string
+#   utm_term - string
+#   utm_source - string
+#   utm_content - string
+#   utm_medium - string
+#   utm_campaign - string
+#   utm_domain - string
+#   gclid - string
+#   plan_id - int64
+#   brand - string
+def create(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
+    if "email" in params and not isinstance(params["email"], str):
+        raise InvalidParameterError("Bad parameter: email must be an str")
+    if "lead_cookie_code" in params and not isinstance(
+        params["lead_cookie_code"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: lead_cookie_code must be an str"
+        )
+    if "recaptcha_token" in params and not isinstance(
+        params["recaptcha_token"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: recaptcha_token must be an str"
+        )
+    if "reply_to_email" in params and not isinstance(
+        params["reply_to_email"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: reply_to_email must be an str"
+        )
+    if "phone" in params and not isinstance(params["phone"], str):
+        raise InvalidParameterError("Bad parameter: phone must be an str")
+    if "contact_name" in params and not isinstance(
+        params["contact_name"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: contact_name must be an str"
+        )
+    if "username" in params and not isinstance(params["username"], str):
+        raise InvalidParameterError("Bad parameter: username must be an str")
+    if "password" in params and not isinstance(params["password"], str):
+        raise InvalidParameterError("Bad parameter: password must be an str")
+    if "currency" in params and not isinstance(params["currency"], str):
+        raise InvalidParameterError("Bad parameter: currency must be an str")
+    if "language" in params and not isinstance(params["language"], str):
+        raise InvalidParameterError("Bad parameter: language must be an str")
+    if "utm_term" in params and not isinstance(params["utm_term"], str):
+        raise InvalidParameterError("Bad parameter: utm_term must be an str")
+    if "utm_source" in params and not isinstance(params["utm_source"], str):
+        raise InvalidParameterError("Bad parameter: utm_source must be an str")
+    if "utm_content" in params and not isinstance(params["utm_content"], str):
+        raise InvalidParameterError(
+            "Bad parameter: utm_content must be an str"
+        )
+    if "utm_medium" in params and not isinstance(params["utm_medium"], str):
+        raise InvalidParameterError("Bad parameter: utm_medium must be an str")
+    if "utm_campaign" in params and not isinstance(
+        params["utm_campaign"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: utm_campaign must be an str"
+        )
+    if "utm_domain" in params and not isinstance(params["utm_domain"], str):
+        raise InvalidParameterError("Bad parameter: utm_domain must be an str")
+    if "gclid" in params and not isinstance(params["gclid"], str):
+        raise InvalidParameterError("Bad parameter: gclid must be an str")
+    if "plan_id" in params and not isinstance(params["plan_id"], int):
+        raise InvalidParameterError("Bad parameter: plan_id must be an int")
+    if "brand" in params and not isinstance(params["brand"], str):
+        raise InvalidParameterError("Bad parameter: brand must be an str")
+    if "name" not in params:
+        raise MissingParameterError("Parameter missing: name")
+    if "email" not in params:
+        raise MissingParameterError("Parameter missing: email")
+    if "lead_cookie_code" not in params:
+        raise MissingParameterError("Parameter missing: lead_cookie_code")
+    if "recaptcha_token" not in params:
+        raise MissingParameterError("Parameter missing: recaptcha_token")
+    response, options = Api.send_request("POST", "/site", params, options)
+    return Site(response.data, options)
 
 
 # Parameters:
@@ -1437,6 +1676,48 @@ def update(params=None, options=None):
         )
     response, options = Api.send_request("PATCH", "/site", params, options)
     return Site(response.data, options)
+
+
+# Change the current billing plan for the site
+#
+# Parameters:
+#   billing_frequency - int64 - The billing frequency for the site.  Must be 1 (monthly) or 12 (annual).
+def update_plan(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "billing_frequency" in params and not isinstance(
+        params["billing_frequency"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: billing_frequency must be an int"
+        )
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request(
+        "PATCH", "/site/plan", params, options
+    )
+    return Plan(response.data, options)
+
+
+# Parameters:
+#   reason - string - Reason the site was cancelled.
+def delete(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    if "reason" in params and not isinstance(params["reason"], str):
+        raise InvalidParameterError("Bad parameter: reason must be an str")
+    Api.send_request("DELETE", "/site", params, options)
+
+
+def destroy(params=None, options=None):
+    delete(params, options)
 
 
 def new(*args, **kwargs):

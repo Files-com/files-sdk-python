@@ -66,6 +66,24 @@ files_sdk.message_comment_reaction.create({
 
 ---
 
+## Create an export CSV of Message Comment Reaction resources
+
+```
+files_sdk.message_comment_reaction.create_export({
+  "user_id": 1,
+  "message_comment_id": 1
+})
+```
+
+### Parameters
+
+* `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+* `message_comment_id` (int64): Required - Message comment to return reactions for.
+
+
+---
+
 ## Delete Message Comment Reaction
 
 ```

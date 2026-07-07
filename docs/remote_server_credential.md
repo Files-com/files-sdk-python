@@ -151,6 +151,21 @@ files_sdk.remote_server_credential.create({
 
 ---
 
+## Create an export CSV of Remote Server Credential resources
+
+```
+files_sdk.remote_server_credential.create_export()
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id` and `name`. Valid field combinations are `[ workspace_id, name ]`.
+* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
+
+
+---
+
 ## Update Remote Server Credential
 
 ```

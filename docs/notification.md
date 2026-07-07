@@ -162,6 +162,26 @@ files_sdk.notification.create({
 
 ---
 
+## Create an export CSV of Notification resources
+
+```
+files_sdk.notification.create_export({
+  "include_ancestors": False
+})
+```
+
+### Parameters
+
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path`, `user_id` or `group_id`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id`, `workspace_id` or `group_id`. Valid field combinations are `[ workspace_id, path ]`, `[ workspace_id, user_id ]`, `[ workspace_id, group_id ]` or `[ workspace_id, user_id, path ]`.
+* `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
+* `path` (string): Show notifications for this Path.
+* `include_ancestors` (boolean): If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
+* `group_id` (string): 
+
+
+---
+
 ## Update Notification
 
 ```

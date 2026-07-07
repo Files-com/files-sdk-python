@@ -22,5 +22,9 @@ class ScimLogTest(TestBase):
         }
         scim_log.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/scim_logs/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = scim_log.create_export()
+
 if __name__ == '__main__':
     unittest.main()

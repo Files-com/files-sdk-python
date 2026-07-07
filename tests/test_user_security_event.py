@@ -22,5 +22,9 @@ class UserSecurityEventTest(TestBase):
         }
         user_security_event.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/user_security_events/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = user_security_event.create_export()
+
 if __name__ == '__main__':
     unittest.main()

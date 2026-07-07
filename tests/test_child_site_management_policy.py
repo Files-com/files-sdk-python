@@ -48,6 +48,10 @@ class ChildSiteManagementPolicyTest(TestBase):
         }
         child_site_management_policy.create(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/child_site_management_policies/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = child_site_management_policy.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/child_site_management_policies/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345

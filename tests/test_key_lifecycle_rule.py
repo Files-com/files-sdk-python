@@ -45,6 +45,10 @@ class KeyLifecycleRuleTest(TestBase):
     def test_create(self):
         resp = key_lifecycle_rule.create()
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/key_lifecycle_rules/create_export"), "Mock path does not exist")
+    def test_create_export(self):
+        resp = key_lifecycle_rule.create_export()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/key_lifecycle_rules/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
