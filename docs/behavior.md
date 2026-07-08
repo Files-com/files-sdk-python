@@ -13,6 +13,7 @@
   "value": {
     "method": "GET"
   },
+  "public_hosting_url": "example",
   "disable_parent_folder_behavior": True,
   "recursive": True
 }
@@ -25,6 +26,7 @@
 * `name` (string): Name for this behavior.
 * `description` (string): Description for this behavior.
 * `value` (object): Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
+* `public_hosting_url` (string): Public URL for this publicly hosted folder when the `Serve Publicly` behavior has a key configured.  When a Custom Domain with `public_hosting` destination is attached to this behavior, the URL uses that domain.  Otherwise it uses the site's `subdomain.hosted-by-files.com` host.
 * `disable_parent_folder_behavior` (boolean): If true, the parent folder's behavior will be disabled for this folder and its children.
 * `recursive` (boolean): Whether this behavior is recursive for this record. `always` behaviors are always `true`, `never` behaviors are always `false`, and `sometimes` behaviors may be either value.
 * `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.

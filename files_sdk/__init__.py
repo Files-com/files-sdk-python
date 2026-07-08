@@ -104,6 +104,7 @@ import files_sdk.models.request as request
 import files_sdk.models.restore as restore
 import files_sdk.models.scheduled_export as scheduled_export
 import files_sdk.models.scim_log as scim_log
+import files_sdk.models.secret as secret
 import files_sdk.models.session as session
 import files_sdk.models.settings_change as settings_change
 import files_sdk.models.sftp_action_log as sftp_action_log
@@ -252,6 +253,7 @@ from files_sdk.models.request import Request
 from files_sdk.models.restore import Restore
 from files_sdk.models.scheduled_export import ScheduledExport
 from files_sdk.models.scim_log import ScimLog
+from files_sdk.models.secret import Secret
 from files_sdk.models.session import Session
 from files_sdk.models.settings_change import SettingsChange
 from files_sdk.models.sftp_action_log import SftpActionLog
@@ -298,7 +300,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.417"
+version = "1.6.418"
 
 __version__ = version
 

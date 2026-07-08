@@ -18,11 +18,11 @@
 
 * `id` (int64): Custom Domain ID.
 * `domain` (string): Customer-owned domain name.
-* `destination` (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
+* `destination` (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
 * `dns_status` (string): Current DNS verification status.
 * `ssl_certificate_id` (int64): Current SSL certificate ID.
 * `brick_managed` (boolean): Is this domain's SSL certificate automatically managed and renewed by Files.com?
-* `folder_behavior_id` (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+* `folder_behavior_id` (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `created_at` (date-time): When this Custom Domain was created.
 * `updated_at` (date-time): When this Custom Domain was last updated.
 
@@ -70,8 +70,8 @@ files_sdk.custom_domain.create({
 
 ### Parameters
 
-* `destination` (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
-* `folder_behavior_id` (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+* `destination` (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+* `folder_behavior_id` (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `ssl_certificate_id` (int64): Current SSL certificate ID.
 * `domain` (string): Required - Customer-owned domain name.
 
@@ -92,8 +92,8 @@ files_sdk.custom_domain.update(id, {
 ### Parameters
 
 * `id` (int64): Required - Custom Domain ID.
-* `destination` (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
-* `folder_behavior_id` (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+* `destination` (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+* `folder_behavior_id` (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `ssl_certificate_id` (int64): Current SSL certificate ID.
 * `domain` (string): Customer-owned domain name.
 
@@ -128,8 +128,8 @@ custom_domain.update({
 ### Parameters
 
 * `id` (int64): Required - Custom Domain ID.
-* `destination` (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
-* `folder_behavior_id` (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+* `destination` (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+* `folder_behavior_id` (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `ssl_certificate_id` (int64): Current SSL certificate ID.
 * `domain` (string): Customer-owned domain name.
 
