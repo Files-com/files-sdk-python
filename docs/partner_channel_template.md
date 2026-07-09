@@ -1,13 +1,12 @@
-# PartnerChannel
+# PartnerChannelTemplate
 
-## Example PartnerChannel Object
+## Example PartnerChannelTemplate Object
 
 ```
 {
   "id": 1,
   "workspace_id": 1,
-  "partner_id": 1,
-  "partner_channel_template_id": 1,
+  "name": "Claims Template",
   "path": "claims/medical",
   "to_partner_folder_name": "outgoing",
   "from_partner_folder_name": "incoming",
@@ -20,17 +19,13 @@
     "claims/received"
   ],
   "effective_to_partner_folder_name": "outgoing",
-  "effective_from_partner_folder_name": "incoming",
-  "channel_path": "partners/acme/claims/medical",
-  "to_partner_folder_path": "partners/acme/claims/medical/outgoing",
-  "from_partner_folder_path": "partners/acme/claims/medical/incoming"
+  "effective_from_partner_folder_name": "incoming"
 }
 ```
 
-* `id` (int64): The unique ID of the Partner Channel.
-* `workspace_id` (int64): ID of the Workspace associated with this Partner Channel.
-* `partner_id` (int64): ID of the Partner this Channel belongs to.
-* `partner_channel_template_id` (int64): ID of the Partner Channel Template that manages this Channel, if any.
+* `id` (int64): The unique ID of the Partner Channel Template.
+* `workspace_id` (int64): ID of the Workspace associated with this Partner Channel Template.
+* `name` (string): The name of the Partner Channel Template.
 * `path` (string): Channel path relative to the Partner root folder. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `to_partner_folder_name` (string): Optional Channel-level to-Partner folder name override.
 * `from_partner_folder_name` (string): Optional Channel-level from-Partner folder name override.
@@ -38,55 +33,52 @@
 * `to_partner_route_path` (string): Optional route path for files delivered to the Partner.
 * `to_partner_managed_folder_paths` (array(string)): Managed folder paths inside the to-Partner folder.
 * `from_partner_managed_folder_paths` (array(string)): Managed folder paths inside the from-Partner folder.
-* `effective_to_partner_folder_name` (string): Resolved to-Partner folder name after Channel override and default.
-* `effective_from_partner_folder_name` (string): Resolved from-Partner folder name after Channel override and default.
-* `channel_path` (string): Resolved Channel folder path.
-* `to_partner_folder_path` (string): Resolved to-Partner folder path.
-* `from_partner_folder_path` (string): Resolved from-Partner folder path.
+* `effective_to_partner_folder_name` (string): Resolved to-Partner folder name after Template override and default.
+* `effective_from_partner_folder_name` (string): Resolved from-Partner folder name after Template override and default.
 
 
 ---
 
-## List Partner Channels
+## List Partner Channel Templates
 
 ```
-files_sdk.partner_channel.list()
+files_sdk.partner_channel_template.list()
 ```
 
 ### Parameters
 
 * `cursor` (string): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (int64): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path` or `partner_id`.
-* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `partner_id` and `workspace_id`. Valid field combinations are `[ workspace_id, partner_id ]`.
+* `sort_by` (object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+* `filter` (object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
 
 
 ---
 
-## Show Partner Channel
+## Show Partner Channel Template
 
 ```
-files_sdk.partner_channel.find(id)
+files_sdk.partner_channel_template.find(id)
 ```
 
 ### Parameters
 
-* `id` (int64): Required - Partner Channel ID.
+* `id` (int64): Required - Partner Channel Template ID.
 
 
 ---
 
-## Create Partner Channel
+## Create Partner Channel Template
 
 ```
-files_sdk.partner_channel.create({
+files_sdk.partner_channel_template.create({
   "from_partner_folder_name": "incoming",
   "from_partner_managed_folder_paths": ["claims/received"],
   "from_partner_route_path": "processing/from-partner",
   "to_partner_folder_name": "outgoing",
   "to_partner_managed_folder_paths": ["reports/monthly"],
   "to_partner_route_path": "delivery/to-partner",
-  "partner_id": 1,
+  "name": "Claims Template",
   "path": "claims/medical",
   "workspace_id": 0
 })
@@ -100,90 +92,94 @@ files_sdk.partner_channel.create({
 * `to_partner_folder_name` (string): Optional Channel-level to-Partner folder name override.
 * `to_partner_managed_folder_paths` (array(string)): Managed folder paths inside the to-Partner folder.
 * `to_partner_route_path` (string): Optional route path for files delivered to the Partner.
-* `partner_id` (int64): Required - ID of the Partner this Channel belongs to.
+* `name` (string): Required - The name of the Partner Channel Template.
 * `path` (string): Required - Channel path relative to the Partner root folder.
-* `workspace_id` (int64): ID of the Workspace associated with this Partner Channel.
+* `workspace_id` (int64): ID of the Workspace associated with this Partner Channel Template.
 
 
 ---
 
-## Update Partner Channel
+## Update Partner Channel Template
 
 ```
-files_sdk.partner_channel.update(id, {
+files_sdk.partner_channel_template.update(id, {
   "from_partner_folder_name": "incoming",
   "from_partner_managed_folder_paths": ["claims/received"],
   "from_partner_route_path": "processing/from-partner",
   "to_partner_folder_name": "outgoing",
   "to_partner_managed_folder_paths": ["reports/monthly"],
   "to_partner_route_path": "delivery/to-partner",
+  "name": "Claims Template",
   "path": "claims/medical"
 })
 ```
 
 ### Parameters
 
-* `id` (int64): Required - Partner Channel ID.
+* `id` (int64): Required - Partner Channel Template ID.
 * `from_partner_folder_name` (string): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (array(string)): Managed folder paths inside the from-Partner folder.
 * `from_partner_route_path` (string): Optional route path for files uploaded by the Partner.
 * `to_partner_folder_name` (string): Optional Channel-level to-Partner folder name override.
 * `to_partner_managed_folder_paths` (array(string)): Managed folder paths inside the to-Partner folder.
 * `to_partner_route_path` (string): Optional route path for files delivered to the Partner.
+* `name` (string): The name of the Partner Channel Template.
 * `path` (string): Channel path relative to the Partner root folder.
 
 
 ---
 
-## Delete Partner Channel
+## Delete Partner Channel Template
 
 ```
-files_sdk.partner_channel.delete(id)
+files_sdk.partner_channel_template.delete(id)
 ```
 
 ### Parameters
 
-* `id` (int64): Required - Partner Channel ID.
+* `id` (int64): Required - Partner Channel Template ID.
 
 
 ---
 
-## Update Partner Channel
+## Update Partner Channel Template
 
 ```
-partner_channel = files_sdk.partner_channel.find(id)
-partner_channel.update({
+partner_channel_template = files_sdk.partner_channel_template.find(id)
+partner_channel_template.update({
   "from_partner_folder_name": "incoming",
   "from_partner_managed_folder_paths": ["claims/received"],
   "from_partner_route_path": "processing/from-partner",
   "to_partner_folder_name": "outgoing",
   "to_partner_managed_folder_paths": ["reports/monthly"],
   "to_partner_route_path": "delivery/to-partner",
+  "name": "Claims Template",
   "path": "claims/medical"
 })
 ```
 
 ### Parameters
 
-* `id` (int64): Required - Partner Channel ID.
+* `id` (int64): Required - Partner Channel Template ID.
 * `from_partner_folder_name` (string): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (array(string)): Managed folder paths inside the from-Partner folder.
 * `from_partner_route_path` (string): Optional route path for files uploaded by the Partner.
 * `to_partner_folder_name` (string): Optional Channel-level to-Partner folder name override.
 * `to_partner_managed_folder_paths` (array(string)): Managed folder paths inside the to-Partner folder.
 * `to_partner_route_path` (string): Optional route path for files delivered to the Partner.
+* `name` (string): The name of the Partner Channel Template.
 * `path` (string): Channel path relative to the Partner root folder.
 
 
 ---
 
-## Delete Partner Channel
+## Delete Partner Channel Template
 
 ```
-partner_channel = files_sdk.partner_channel.find(id)
-partner_channel.delete()
+partner_channel_template = files_sdk.partner_channel_template.find(id)
+partner_channel_template.delete()
 ```
 
 ### Parameters
 
-* `id` (int64): Required - Partner Channel ID.
+* `id` (int64): Required - Partner Channel Template ID.

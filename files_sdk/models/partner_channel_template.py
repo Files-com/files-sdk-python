@@ -9,12 +9,11 @@ from files_sdk.error import (  # noqa: F401
 )
 
 
-class PartnerChannel:
+class PartnerChannelTemplate:
     default_attributes = {
-        "id": None,  # int64 - The unique ID of the Partner Channel.
-        "workspace_id": None,  # int64 - ID of the Workspace associated with this Partner Channel.
-        "partner_id": None,  # int64 - ID of the Partner this Channel belongs to.
-        "partner_channel_template_id": None,  # int64 - ID of the Partner Channel Template that manages this Channel, if any.
+        "id": None,  # int64 - The unique ID of the Partner Channel Template.
+        "workspace_id": None,  # int64 - ID of the Workspace associated with this Partner Channel Template.
+        "name": None,  # string - The name of the Partner Channel Template.
         "path": None,  # string - Channel path relative to the Partner root folder. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "to_partner_folder_name": None,  # string - Optional Channel-level to-Partner folder name override.
         "from_partner_folder_name": None,  # string - Optional Channel-level from-Partner folder name override.
@@ -22,11 +21,8 @@ class PartnerChannel:
         "to_partner_route_path": None,  # string - Optional route path for files delivered to the Partner.
         "to_partner_managed_folder_paths": None,  # array(string) - Managed folder paths inside the to-Partner folder.
         "from_partner_managed_folder_paths": None,  # array(string) - Managed folder paths inside the from-Partner folder.
-        "effective_to_partner_folder_name": None,  # string - Resolved to-Partner folder name after Channel override and default.
-        "effective_from_partner_folder_name": None,  # string - Resolved from-Partner folder name after Channel override and default.
-        "channel_path": None,  # string - Resolved Channel folder path.
-        "to_partner_folder_path": None,  # string - Resolved to-Partner folder path.
-        "from_partner_folder_path": None,  # string - Resolved from-Partner folder path.
+        "effective_to_partner_folder_name": None,  # string - Resolved to-Partner folder name after Template override and default.
+        "effective_from_partner_folder_name": None,  # string - Resolved from-Partner folder name after Template override and default.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -41,14 +37,14 @@ class PartnerChannel:
         for (
             attribute,
             default_value,
-        ) in PartnerChannel.default_attributes.items():
+        ) in PartnerChannelTemplate.default_attributes.items():
             value = attributes.get(attribute, default_value)
             setattr(self, attribute, value)
 
     def get_attributes(self):
         attrs = {
             k: getattr(self, k, None)
-            for k in PartnerChannel.default_attributes
+            for k in PartnerChannelTemplate.default_attributes
             if getattr(self, k, None) is not None
         }
         return attrs
@@ -60,6 +56,7 @@ class PartnerChannel:
     #   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
     #   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
     #   to_partner_route_path - string - Optional route path for files delivered to the Partner.
+    #   name - string - The name of the Partner Channel Template.
     #   path - string - Channel path relative to the Partner root folder.
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -109,11 +106,13 @@ class PartnerChannel:
             raise InvalidParameterError(
                 "Bad parameter: to_partner_route_path must be an str"
             )
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
         if "path" in params and not isinstance(params["path"], str):
             raise InvalidParameterError("Bad parameter: path must be an str")
         response, _options = Api.send_request(
             "PATCH",
-            "/partner_channels/{id}".format(
+            "/partner_channel_templates/{id}".format(
                 id=quote(str(params["id"]), safe="")
             ),
             params,
@@ -135,7 +134,7 @@ class PartnerChannel:
             raise InvalidParameterError("Bad parameter: id must be an int")
         Api.send_request(
             "DELETE",
-            "/partner_channels/{id}".format(
+            "/partner_channel_templates/{id}".format(
                 id=quote(str(params["id"]), safe="")
             ),
             params,
@@ -159,8 +158,8 @@ class PartnerChannel:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path` or `partner_id`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `partner_id` and `workspace_id`. Valid field combinations are `[ workspace_id, partner_id ]`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -174,7 +173,13 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
     if "filter" in params and not isinstance(params["filter"], dict):
         raise InvalidParameterError("Bad parameter: filter must be an dict")
-    return ListObj(PartnerChannel, "GET", "/partner_channels", params, options)
+    return ListObj(
+        PartnerChannelTemplate,
+        "GET",
+        "/partner_channel_templates",
+        params,
+        options,
+    )
 
 
 def all(params=None, options=None):
@@ -182,7 +187,7 @@ def all(params=None, options=None):
 
 
 # Parameters:
-#   id (required) - int64 - Partner Channel ID.
+#   id (required) - int64 - Partner Channel Template ID.
 def find(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -195,11 +200,13 @@ def find(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
         "GET",
-        "/partner_channels/{id}".format(id=quote(str(params["id"]), safe="")),
+        "/partner_channel_templates/{id}".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )
-    return PartnerChannel(response.data, options)
+    return PartnerChannelTemplate(response.data, options)
 
 
 def get(id, params=None, options=None):
@@ -213,9 +220,9 @@ def get(id, params=None, options=None):
 #   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
 #   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
 #   to_partner_route_path - string - Optional route path for files delivered to the Partner.
-#   partner_id (required) - int64 - ID of the Partner this Channel belongs to.
+#   name (required) - string - The name of the Partner Channel Template.
 #   path (required) - string - Channel path relative to the Partner root folder.
-#   workspace_id - int64 - ID of the Workspace associated with this Partner Channel.
+#   workspace_id - int64 - ID of the Workspace associated with this Partner Channel Template.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -257,8 +264,8 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: to_partner_route_path must be an str"
         )
-    if "partner_id" in params and not isinstance(params["partner_id"], int):
-        raise InvalidParameterError("Bad parameter: partner_id must be an int")
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "workspace_id" in params and not isinstance(
@@ -267,14 +274,14 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: workspace_id must be an int"
         )
-    if "partner_id" not in params:
-        raise MissingParameterError("Parameter missing: partner_id")
+    if "name" not in params:
+        raise MissingParameterError("Parameter missing: name")
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
     response, options = Api.send_request(
-        "POST", "/partner_channels", params, options
+        "POST", "/partner_channel_templates", params, options
     )
-    return PartnerChannel(response.data, options)
+    return PartnerChannelTemplate(response.data, options)
 
 
 # Parameters:
@@ -284,6 +291,7 @@ def create(params=None, options=None):
 #   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
 #   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
 #   to_partner_route_path - string - Optional route path for files delivered to the Partner.
+#   name - string - The name of the Partner Channel Template.
 #   path - string - Channel path relative to the Partner root folder.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -329,17 +337,21 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: to_partner_route_path must be an str"
         )
+    if "name" in params and not isinstance(params["name"], str):
+        raise InvalidParameterError("Bad parameter: name must be an str")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     response, options = Api.send_request(
         "PATCH",
-        "/partner_channels/{id}".format(id=quote(str(params["id"]), safe="")),
+        "/partner_channel_templates/{id}".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )
-    return PartnerChannel(response.data, options)
+    return PartnerChannelTemplate(response.data, options)
 
 
 def delete(id, params=None, options=None):
@@ -354,7 +366,9 @@ def delete(id, params=None, options=None):
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(
         "DELETE",
-        "/partner_channels/{id}".format(id=quote(str(params["id"]), safe="")),
+        "/partner_channel_templates/{id}".format(
+            id=quote(str(params["id"]), safe="")
+        ),
         params,
         options,
     )
@@ -365,4 +379,4 @@ def destroy(id, params=None, options=None):
 
 
 def new(*args, **kwargs):
-    return PartnerChannel(*args, **kwargs)
+    return PartnerChannelTemplate(*args, **kwargs)

@@ -23,6 +23,7 @@ class Partner:
         "name": None,  # string - The name of the Partner.
         "notes": None,  # string - Notes about this Partner.
         "partner_admin_ids": None,  # array(int64) - Array of User IDs that are Partner Admins for this Partner.
+        "partner_channel_template_id": None,  # int64 - ID of the Partner Channel Template assigned to this Partner.
         "partnership_role": None,  # string - This site's role in Partner Site relationships for this Partner. Can be `host`, `guest`, `host_and_guest`, or null.
         "responsible_group_id": None,  # int64 - ID of the Group responsible for this Partner.
         "responsible_user_id": None,  # int64 - ID of the User responsible for this Partner.
@@ -61,6 +62,7 @@ class Partner:
     #   allow_user_creation - boolean - Allow Partner Admins to create users.
     #   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
     #   notes - string - Notes about this Partner.
+    #   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
     #   responsible_group_id - int64 - ID of the Group responsible for this Partner.
     #   responsible_user_id - int64 - ID of the User responsible for this Partner.
     #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -92,6 +94,12 @@ class Partner:
             )
         if "notes" in params and not isinstance(params["notes"], str):
             raise InvalidParameterError("Bad parameter: notes must be an str")
+        if "partner_channel_template_id" in params and not isinstance(
+            params["partner_channel_template_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: partner_channel_template_id must be an int"
+            )
         if "responsible_group_id" in params and not isinstance(
             params["responsible_group_id"], int
         ):
@@ -214,6 +222,7 @@ def get(id, params=None, options=None):
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
 #   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
 #   notes - string - Notes about this Partner.
+#   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
 #   responsible_group_id - int64 - ID of the Group responsible for this Partner.
 #   responsible_user_id - int64 - ID of the User responsible for this Partner.
 #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -267,6 +276,12 @@ def create(params=None, options=None):
         )
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
+    if "partner_channel_template_id" in params and not isinstance(
+        params["partner_channel_template_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: partner_channel_template_id must be an int"
+        )
     if "responsible_group_id" in params and not isinstance(
         params["responsible_group_id"], int
     ):
@@ -310,6 +325,7 @@ def create(params=None, options=None):
 #   allow_user_creation - boolean - Allow Partner Admins to create users.
 #   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
 #   notes - string - Notes about this Partner.
+#   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
 #   responsible_group_id - int64 - ID of the Group responsible for this Partner.
 #   responsible_user_id - int64 - ID of the User responsible for this Partner.
 #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -365,6 +381,12 @@ def update(id, params=None, options=None):
         )
     if "notes" in params and not isinstance(params["notes"], str):
         raise InvalidParameterError("Bad parameter: notes must be an str")
+    if "partner_channel_template_id" in params and not isinstance(
+        params["partner_channel_template_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: partner_channel_template_id must be an int"
+        )
     if "responsible_group_id" in params and not isinstance(
         params["responsible_group_id"], int
     ):

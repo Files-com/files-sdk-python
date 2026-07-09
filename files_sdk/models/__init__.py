@@ -91,6 +91,7 @@ from files_sdk.models.notification import Notification
 from files_sdk.models.outbound_connection_log import OutboundConnectionLog
 from files_sdk.models.partner import Partner
 from files_sdk.models.partner_channel import PartnerChannel
+from files_sdk.models.partner_channel_template import PartnerChannelTemplate
 from files_sdk.models.partner_site import PartnerSite
 from files_sdk.models.partner_site_request import PartnerSiteRequest
 from files_sdk.models.payment import Payment
