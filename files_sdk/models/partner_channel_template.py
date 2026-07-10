@@ -17,8 +17,8 @@ class PartnerChannelTemplate:
         "path": None,  # string - Channel path relative to the Partner root folder. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "to_partner_folder_name": None,  # string - Optional Channel-level to-Partner folder name override.
         "from_partner_folder_name": None,  # string - Optional Channel-level from-Partner folder name override.
-        "from_partner_route_path": None,  # string - Optional route path for files uploaded by the Partner.
-        "to_partner_route_path": None,  # string - Optional route path for files delivered to the Partner.
+        "from_partner_route_path_pattern": None,  # string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
+        "to_partner_route_path_pattern": None,  # string - Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
         "to_partner_managed_folder_paths": None,  # array(string) - Managed folder paths inside the to-Partner folder.
         "from_partner_managed_folder_paths": None,  # array(string) - Managed folder paths inside the from-Partner folder.
         "effective_to_partner_folder_name": None,  # string - Resolved to-Partner folder name after Template override and default.
@@ -52,10 +52,10 @@ class PartnerChannelTemplate:
     # Parameters:
     #   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
     #   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
-    #   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
+    #   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
     #   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
     #   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
-    #   to_partner_route_path - string - Optional route path for files delivered to the Partner.
+    #   to_partner_route_path_pattern - string - Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
     #   name - string - The name of the Partner Channel Template.
     #   path - string - Channel path relative to the Partner root folder.
     def update(self, params=None):
@@ -82,11 +82,11 @@ class PartnerChannelTemplate:
             raise InvalidParameterError(
                 "Bad parameter: from_partner_managed_folder_paths must be an list"
             )
-        if "from_partner_route_path" in params and not isinstance(
-            params["from_partner_route_path"], str
+        if "from_partner_route_path_pattern" in params and not isinstance(
+            params["from_partner_route_path_pattern"], str
         ):
             raise InvalidParameterError(
-                "Bad parameter: from_partner_route_path must be an str"
+                "Bad parameter: from_partner_route_path_pattern must be an str"
             )
         if "to_partner_folder_name" in params and not isinstance(
             params["to_partner_folder_name"], str
@@ -100,11 +100,11 @@ class PartnerChannelTemplate:
             raise InvalidParameterError(
                 "Bad parameter: to_partner_managed_folder_paths must be an list"
             )
-        if "to_partner_route_path" in params and not isinstance(
-            params["to_partner_route_path"], str
+        if "to_partner_route_path_pattern" in params and not isinstance(
+            params["to_partner_route_path_pattern"], str
         ):
             raise InvalidParameterError(
-                "Bad parameter: to_partner_route_path must be an str"
+                "Bad parameter: to_partner_route_path_pattern must be an str"
             )
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
@@ -216,10 +216,10 @@ def get(id, params=None, options=None):
 # Parameters:
 #   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
 #   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
-#   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
+#   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
 #   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
 #   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
-#   to_partner_route_path - string - Optional route path for files delivered to the Partner.
+#   to_partner_route_path_pattern - string - Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
 #   name (required) - string - The name of the Partner Channel Template.
 #   path (required) - string - Channel path relative to the Partner root folder.
 #   workspace_id - int64 - ID of the Workspace associated with this Partner Channel Template.
@@ -240,11 +240,11 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: from_partner_managed_folder_paths must be an list"
         )
-    if "from_partner_route_path" in params and not isinstance(
-        params["from_partner_route_path"], str
+    if "from_partner_route_path_pattern" in params and not isinstance(
+        params["from_partner_route_path_pattern"], str
     ):
         raise InvalidParameterError(
-            "Bad parameter: from_partner_route_path must be an str"
+            "Bad parameter: from_partner_route_path_pattern must be an str"
         )
     if "to_partner_folder_name" in params and not isinstance(
         params["to_partner_folder_name"], str
@@ -258,11 +258,11 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: to_partner_managed_folder_paths must be an list"
         )
-    if "to_partner_route_path" in params and not isinstance(
-        params["to_partner_route_path"], str
+    if "to_partner_route_path_pattern" in params and not isinstance(
+        params["to_partner_route_path_pattern"], str
     ):
         raise InvalidParameterError(
-            "Bad parameter: to_partner_route_path must be an str"
+            "Bad parameter: to_partner_route_path_pattern must be an str"
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
@@ -287,10 +287,10 @@ def create(params=None, options=None):
 # Parameters:
 #   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
 #   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
-#   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
+#   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
 #   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
 #   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
-#   to_partner_route_path - string - Optional route path for files delivered to the Partner.
+#   to_partner_route_path_pattern - string - Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
 #   name - string - The name of the Partner Channel Template.
 #   path - string - Channel path relative to the Partner root folder.
 def update(id, params=None, options=None):
@@ -313,11 +313,11 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: from_partner_managed_folder_paths must be an list"
         )
-    if "from_partner_route_path" in params and not isinstance(
-        params["from_partner_route_path"], str
+    if "from_partner_route_path_pattern" in params and not isinstance(
+        params["from_partner_route_path_pattern"], str
     ):
         raise InvalidParameterError(
-            "Bad parameter: from_partner_route_path must be an str"
+            "Bad parameter: from_partner_route_path_pattern must be an str"
         )
     if "to_partner_folder_name" in params and not isinstance(
         params["to_partner_folder_name"], str
@@ -331,11 +331,11 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: to_partner_managed_folder_paths must be an list"
         )
-    if "to_partner_route_path" in params and not isinstance(
-        params["to_partner_route_path"], str
+    if "to_partner_route_path_pattern" in params and not isinstance(
+        params["to_partner_route_path_pattern"], str
     ):
         raise InvalidParameterError(
-            "Bad parameter: to_partner_route_path must be an str"
+            "Bad parameter: to_partner_route_path_pattern must be an str"
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
