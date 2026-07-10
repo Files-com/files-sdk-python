@@ -70,6 +70,7 @@ import files_sdk.models.inbound_s3_log as inbound_s3_log
 import files_sdk.models.inbox_recipient as inbox_recipient
 import files_sdk.models.inbox_registration as inbox_registration
 import files_sdk.models.inbox_upload as inbox_upload
+import files_sdk.models.integration_centric_profile as integration_centric_profile
 import files_sdk.models.invoice as invoice
 import files_sdk.models.invoice_line_item as invoice_line_item
 import files_sdk.models.ip_address as ip_address
@@ -218,6 +219,9 @@ from files_sdk.models.inbound_s3_log import InboundS3Log
 from files_sdk.models.inbox_recipient import InboxRecipient
 from files_sdk.models.inbox_registration import InboxRegistration
 from files_sdk.models.inbox_upload import InboxUpload
+from files_sdk.models.integration_centric_profile import (
+    IntegrationCentricProfile,
+)
 from files_sdk.models.invoice import Invoice
 from files_sdk.models.invoice_line_item import InvoiceLineItem
 from files_sdk.models.ip_address import IpAddress
@@ -302,7 +306,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.420"
+version = "1.6.421"
 
 __version__ = version
 

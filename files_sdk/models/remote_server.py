@@ -87,6 +87,7 @@ class RemoteServer:
         "linode_access_key": None,  # string - Linode: Access Key
         "linode_region": None,  # string - Linode: region
         "supports_versioning": None,  # boolean - If true, this remote server supports file versioning. This value is determined automatically by Files.com.
+        "user_id": None,  # int64 - User ID.  Provide a value of `0` to operate the current session's user.
         "password": None,  # string - Password, if needed.
         "private_key": None,  # string - Private key, if needed.
         "private_key_passphrase": None,  # string - Passphrase for private key if needed.
@@ -786,6 +787,7 @@ class RemoteServer:
 
 
 # Parameters:
+#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 #   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
@@ -796,6 +798,8 @@ def list(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "cursor" in params and not isinstance(params["cursor"], str):
         raise InvalidParameterError("Bad parameter: cursor must be an str")
     if "per_page" in params and not isinstance(params["per_page"], int):
@@ -866,6 +870,7 @@ def find_configuration_file(id, params=None, options=None):
 
 
 # Parameters:
+#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   password - string - Password, if needed.
 #   private_key - string - Private key, if needed.
 #   private_key_passphrase - string - Passphrase for private key if needed.
@@ -949,6 +954,8 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "user_id" in params and not isinstance(params["user_id"], int):
+        raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "password" in params and not isinstance(params["password"], str):
         raise InvalidParameterError("Bad parameter: password must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):

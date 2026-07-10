@@ -77,6 +77,9 @@ from files_sdk.models.inbound_s3_log import InboundS3Log
 from files_sdk.models.inbox_recipient import InboxRecipient
 from files_sdk.models.inbox_registration import InboxRegistration
 from files_sdk.models.inbox_upload import InboxUpload
+from files_sdk.models.integration_centric_profile import (
+    IntegrationCentricProfile,
+)
 from files_sdk.models.invoice import Invoice
 from files_sdk.models.invoice_line_item import InvoiceLineItem
 from files_sdk.models.ip_address import IpAddress

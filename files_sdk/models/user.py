@@ -30,6 +30,7 @@ class User:
         "disabled_expired_or_inactive": None,  # boolean - Computed property that returns true if user disabled or expired or inactive.
         "ai_assistant_personality_id": None,  # int64 - AI Assistant Personality ID assigned directly to this user, if any.
         "desktop_configuration_profile_id": None,  # int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
+        "integration_centric_profile_id": None,  # int64 - Integration Centric Profile ID assigned directly to this user, if any.
         "email": None,  # email - User email address
         "filesystem_layout": None,  # string - File system layout
         "first_login_at": None,  # date-time - User's first login time
@@ -223,6 +224,7 @@ class User:
     #   filesystem_layout - string - File system layout
     #   ftp_permission - boolean - Can the user access with FTP/FTPS?
     #   header_text - string - Text to display to the user in the header of the UI
+    #   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
     #   language - string - Preferred language
     #   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
     #   name - string - User's full name
@@ -366,6 +368,12 @@ class User:
         ):
             raise InvalidParameterError(
                 "Bad parameter: header_text must be an str"
+            )
+        if "integration_centric_profile_id" in params and not isinstance(
+            params["integration_centric_profile_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: integration_centric_profile_id must be an int"
             )
         if "language" in params and not isinstance(params["language"], str):
             raise InvalidParameterError(
@@ -614,6 +622,7 @@ def get(id, params=None, options=None):
 #   filesystem_layout - string - File system layout
 #   ftp_permission - boolean - Can the user access with FTP/FTPS?
 #   header_text - string - Text to display to the user in the header of the UI
+#   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
 #   language - string - Preferred language
 #   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
 #   name - string - User's full name
@@ -788,6 +797,12 @@ def create(params=None, options=None):
     if "header_text" in params and not isinstance(params["header_text"], str):
         raise InvalidParameterError(
             "Bad parameter: header_text must be an str"
+        )
+    if "integration_centric_profile_id" in params and not isinstance(
+        params["integration_centric_profile_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: integration_centric_profile_id must be an int"
         )
     if "language" in params and not isinstance(params["language"], str):
         raise InvalidParameterError("Bad parameter: language must be an str")
@@ -1069,6 +1084,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   filesystem_layout - string - File system layout
 #   ftp_permission - boolean - Can the user access with FTP/FTPS?
 #   header_text - string - Text to display to the user in the header of the UI
+#   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
 #   language - string - Preferred language
 #   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
 #   name - string - User's full name
@@ -1248,6 +1264,12 @@ def update(id, params=None, options=None):
     if "header_text" in params and not isinstance(params["header_text"], str):
         raise InvalidParameterError(
             "Bad parameter: header_text must be an str"
+        )
+    if "integration_centric_profile_id" in params and not isinstance(
+        params["integration_centric_profile_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: integration_centric_profile_id must be an int"
         )
     if "language" in params and not isinstance(params["language"], str):
         raise InvalidParameterError("Bad parameter: language must be an str")

@@ -266,6 +266,7 @@
     "disabled_expired_or_inactive": True,
     "ai_assistant_personality_id": 1,
     "desktop_configuration_profile_id": 1,
+    "integration_centric_profile_id": 1,
     "email": "john.doe@files.com",
     "filesystem_layout": "site_root",
     "first_login_at": "2000-01-01T01:00:00Z",

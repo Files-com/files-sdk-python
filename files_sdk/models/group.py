@@ -24,6 +24,7 @@ class Group:
         "dav_permission": None,  # boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
         "restapi_permission": None,  # boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
         "desktop_configuration_profile_id": None,  # int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+        "integration_centric_profile_id": None,  # int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
         "site_id": None,  # int64 - Site ID
         "workspace_id": None,  # int64 - Workspace ID
     }
@@ -59,6 +60,7 @@ class Group:
     #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
     #   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
     #   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+    #   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
     #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
     #   name - string - Group name.
     def update(self, params=None):
@@ -94,6 +96,12 @@ class Group:
         ):
             raise InvalidParameterError(
                 "Bad parameter: desktop_configuration_profile_id must be an int"
+            )
+        if "integration_centric_profile_id" in params and not isinstance(
+            params["integration_centric_profile_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: integration_centric_profile_id must be an int"
             )
         if "allowed_ips" in params and not isinstance(
             params["allowed_ips"], str
@@ -221,6 +229,7 @@ def get(id, params=None, options=None):
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 #   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 #   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+#   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
 #   name (required) - string - Group name.
 #   workspace_id - int64 - Workspace ID
@@ -271,6 +280,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: desktop_configuration_profile_id must be an int"
         )
+    if "integration_centric_profile_id" in params and not isinstance(
+        params["integration_centric_profile_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: integration_centric_profile_id must be an int"
+        )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError(
             "Bad parameter: allowed_ips must be an str"
@@ -299,6 +314,7 @@ def create(params=None, options=None):
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 #   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 #   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+#   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
 #   name - string - Group name.
 def update(id, params=None, options=None):
@@ -350,6 +366,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: desktop_configuration_profile_id must be an int"
+        )
+    if "integration_centric_profile_id" in params and not isinstance(
+        params["integration_centric_profile_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: integration_centric_profile_id must be an int"
         )
     if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
         raise InvalidParameterError(
