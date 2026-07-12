@@ -100,6 +100,7 @@
   "non_sso_users_allowed": True,
   "folder_permissions_groups_only": True,
   "group_admins_can_add_users": True,
+  "group_admins_can_manage_group_memberships": True,
   "group_admins_can_delete_users": True,
   "group_admins_can_enable_disable_users": True,
   "group_admins_can_modify_users": True,
@@ -435,6 +436,7 @@
 * `non_sso_users_allowed` (boolean): If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 * `folder_permissions_groups_only` (boolean): If true, permissions for this site must be bound to a group (not a user).
 * `group_admins_can_add_users` (boolean): Allow group admins to create users in their groups
+* `group_admins_can_manage_group_memberships` (boolean): Allow group admins to add or remove existing users in their groups
 * `group_admins_can_delete_users` (boolean): Allow group admins to delete users in their groups
 * `group_admins_can_enable_disable_users` (boolean): Allow group admins to enable or disable users in their groups
 * `group_admins_can_modify_users` (boolean): Allow group admins to modify users in their groups
@@ -680,6 +682,7 @@ files_sdk.site.update({
   "revoke_bundle_access_on_disable_or_delete": False,
   "bundle_watermark_value": {"key":"example value"},
   "group_admins_can_add_users": False,
+  "group_admins_can_manage_group_memberships": False,
   "group_admins_can_delete_users": False,
   "group_admins_can_enable_disable_users": False,
   "group_admins_can_modify_users": False,
@@ -858,6 +861,7 @@ files_sdk.site.update({
 * `revoke_bundle_access_on_disable_or_delete` (boolean): Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
 * `bundle_watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `group_admins_can_add_users` (boolean): Allow group admins to create users in their groups
+* `group_admins_can_manage_group_memberships` (boolean): Allow group admins to add or remove existing users in their groups
 * `group_admins_can_delete_users` (boolean): Allow group admins to delete users in their groups
 * `group_admins_can_enable_disable_users` (boolean): Allow group admins to enable or disable users in their groups
 * `group_admins_can_modify_users` (boolean): Allow group admins to modify users in their groups
