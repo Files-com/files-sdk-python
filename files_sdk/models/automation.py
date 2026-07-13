@@ -18,6 +18,7 @@ class Automation:
         "automation": None,  # string - Automation type
         "deleted": None,  # boolean - Indicates if the automation has been deleted.
         "description": None,  # string - Description for the this Automation.
+        "definition": None,  # object - Automation v2 graph definition.
         "destination_replace_from": None,  # string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
         "destination_replace_to": None,  # string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
         "destinations": None,  # array(string) - Destination Paths
@@ -34,6 +35,7 @@ class Automation:
         "overwrite_files": None,  # boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
         "path": None,  # string - Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "path_time_zone": None,  # string - Timezone to use when rendering timestamps in paths.
+        "version": None,  # int64 - Current Automation v2 definition version.
         "recurring_day": None,  # int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
         "retry_on_failure_interval_in_minutes": None,  # int64 - If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
         "retry_on_failure_number_of_attempts": None,  # int64 - If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.

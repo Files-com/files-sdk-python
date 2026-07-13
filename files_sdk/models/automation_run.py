@@ -13,6 +13,7 @@ class AutomationRun:
     default_attributes = {
         "id": None,  # int64 - ID.
         "automation_id": None,  # int64 - ID of the associated Automation.
+        "automation_version_id": None,  # int64 - ID of the immutable Automation version pinned by this run.
         "workspace_id": None,  # int64 - Workspace ID.
         "completed_at": None,  # date-time - Automation run completion/failure date/time.
         "created_at": None,  # date-time - Automation run start date/time.
@@ -24,6 +25,8 @@ class AutomationRun:
         "status": None,  # string - The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
         "successful_operations": None,  # int64 - Count of successful operations.
         "failed_operations": None,  # int64 - Count of failed operations.
+        "definition": None,  # object - Automation definition snapshot pinned by this run. For performance reasons, this is not provided when listing Automation runs.
+        "journal_url": None,  # string - Link to the run journal artifact.
         "status_messages_url": None,  # string - Link to status messages log file.
     }
 
