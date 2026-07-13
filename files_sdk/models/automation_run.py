@@ -15,6 +15,7 @@ class AutomationRun:
         "automation_id": None,  # int64 - ID of the associated Automation.
         "automation_version_id": None,  # int64 - ID of the immutable Automation version pinned by this run.
         "workspace_id": None,  # int64 - Workspace ID.
+        "cancel_requested_at": None,  # date-time - Date/time at which cancellation was requested.
         "completed_at": None,  # date-time - Automation run completion/failure date/time.
         "created_at": None,  # date-time - Automation run start date/time.
         "retry_at": None,  # date-time - If set, this automation will be retried at this date/time due to `failure` or `partial_failure`.
@@ -22,10 +23,11 @@ class AutomationRun:
         "retried_in_run_id": None,  # int64 - ID of the run that is or will be retrying this run.
         "retry_of_run_id": None,  # int64 - ID of the original run that this run is retrying.
         "runtime": None,  # double - Automation run runtime.
-        "status": None,  # string - The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
+        "status": None,  # string - The status of the AutomationRun. One of `queued`, `running`, `success`, `partial_failure`, `failure`, `skipped`, or `canceled`.
         "successful_operations": None,  # int64 - Count of successful operations.
         "failed_operations": None,  # int64 - Count of failed operations.
         "definition": None,  # object - Automation definition snapshot pinned by this run. For performance reasons, this is not provided when listing Automation runs.
+        "node_states": None,  # object - Status and execution stage for each node in this run. For performance reasons, this is not provided when listing Automation runs.
         "journal_url": None,  # string - Link to the run journal artifact.
         "status_messages_url": None,  # string - Link to status messages log file.
     }
@@ -53,6 +55,29 @@ class AutomationRun:
             if getattr(self, k, None) is not None
         }
         return attrs
+
+    # Cancel Automation Run
+    def cancel(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        response, _options = Api.send_request(
+            "POST",
+            "/automation_runs/{id}/cancel".format(
+                id=quote(str(params["id"]), safe="")
+            ),
+            params,
+            self.options,
+        )
+        return response.data
 
 
 # Parameters:
@@ -115,6 +140,28 @@ def find(id, params=None, options=None):
 
 def get(id, params=None, options=None):
     find(id, params, options)
+
+
+# Cancel Automation Run
+def cancel(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request(
+        "POST",
+        "/automation_runs/{id}/cancel".format(
+            id=quote(str(params["id"]), safe="")
+        ),
+        params,
+        options,
+    )
+    return AutomationRun(response.data, options)
 
 
 def new(*args, **kwargs):

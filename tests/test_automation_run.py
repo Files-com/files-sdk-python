@@ -8,6 +8,14 @@ from files_sdk import automation_run
 class AutomationRunTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/automation_runs/{id}/cancel"), "Mock path does not exist")
+    def test_cancel(self):
+        params = {
+            "id" : 12345,
+        }
+        automation_run = AutomationRun(params)
+        automation_run.cancel(params)
+
 
     # Static Methods
     @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/automation_runs"), "Mock path does not exist")
@@ -24,6 +32,14 @@ class AutomationRunTest(TestBase):
             "id" : 12345,
         }
         automation_run.find(id, params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/automation_runs/{id}/cancel"), "Mock path does not exist")
+    def test_cancel(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        automation_run.cancel(id, params)
 
 if __name__ == '__main__':
     unittest.main()
