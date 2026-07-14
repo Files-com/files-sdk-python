@@ -16,6 +16,7 @@ import files_sdk.models.as2_partner as as2_partner
 import files_sdk.models.as2_station as as2_station
 import files_sdk.models.auto as auto
 import files_sdk.models.automation as automation
+import files_sdk.models.automation_authoring_schema as automation_authoring_schema
 import files_sdk.models.automation_log as automation_log
 import files_sdk.models.automation_run as automation_run
 import files_sdk.models.bandwidth_snapshot as bandwidth_snapshot
@@ -161,6 +162,9 @@ from files_sdk.models.as2_partner import As2Partner
 from files_sdk.models.as2_station import As2Station
 from files_sdk.models.auto import Auto
 from files_sdk.models.automation import Automation
+from files_sdk.models.automation_authoring_schema import (
+    AutomationAuthoringSchema,
+)
 from files_sdk.models.automation_log import AutomationLog
 from files_sdk.models.automation_run import AutomationRun
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot
@@ -306,7 +310,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.424"
+version = "1.6.425"
 
 __version__ = version
 

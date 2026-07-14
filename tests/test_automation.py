@@ -49,6 +49,10 @@ class AutomationTest(TestBase):
         }
         automation.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/automations/authoring_schema"), "Mock path does not exist")
+    def test_get_authoring_schema(self):
+        resp = automation.get_authoring_schema()
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/automations"), "Mock path does not exist")
     def test_create(self):
         params = {

@@ -178,6 +178,15 @@ files_sdk.automation.find(id)
 
 ---
 
+## Show the Automation v2 authoring schema and active node catalog
+
+```
+files_sdk.automation.get_authoring_schema()
+```
+
+
+---
+
 ## Create Automation
 
 ```

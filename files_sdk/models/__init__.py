@@ -19,6 +19,9 @@ from files_sdk.models.as2_partner import As2Partner
 from files_sdk.models.as2_station import As2Station
 from files_sdk.models.auto import Auto
 from files_sdk.models.automation import Automation
+from files_sdk.models.automation_authoring_schema import (
+    AutomationAuthoringSchema,
+)
 from files_sdk.models.automation_log import AutomationLog
 from files_sdk.models.automation_run import AutomationRun
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot

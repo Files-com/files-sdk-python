@@ -1,5 +1,8 @@
 import builtins  # noqa: F401
 from urllib.parse import quote
+from files_sdk.models.automation_authoring_schema import (
+    AutomationAuthoringSchema,
+)
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -381,6 +384,17 @@ def find(id, params=None, options=None):
 
 def get(id, params=None, options=None):
     find(id, params, options)
+
+
+def get_authoring_schema(params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    response, options = Api.send_request(
+        "GET", "/automations/authoring_schema", params, options
+    )
+    return AutomationAuthoringSchema(response.data, options)
 
 
 # Parameters:
