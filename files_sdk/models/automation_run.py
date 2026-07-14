@@ -1,5 +1,6 @@
 import builtins  # noqa: F401
 from urllib.parse import quote
+from files_sdk.models.automation_execution_node import AutomationExecutionNode
 from files_sdk.api import Api  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
@@ -22,12 +23,15 @@ class AutomationRun:
         "retried_at": None,  # date-time - If set, this Automation run was retried due to `failure` or `partial_failure`.
         "retried_in_run_id": None,  # int64 - ID of the run that is or will be retrying this run.
         "retry_of_run_id": None,  # int64 - ID of the original run that this run is retrying.
+        "rerun_of_run_id": None,  # int64 - ID of the run whose persisted node outputs this run reused.
+        "rerun_from_node_id": None,  # string - Node at which this run resumed execution.
         "runtime": None,  # double - Automation run runtime.
         "status": None,  # string - The status of the AutomationRun. One of `queued`, `running`, `success`, `partial_failure`, `failure`, `skipped`, or `canceled`.
         "successful_operations": None,  # int64 - Count of successful operations.
         "failed_operations": None,  # int64 - Count of failed operations.
         "definition": None,  # object - Automation definition snapshot pinned by this run. For performance reasons, this is not provided when listing Automation runs.
         "node_states": None,  # object - Status and execution stage for each node in this run. For performance reasons, this is not provided when listing Automation runs.
+        "execution_nodes": None,  # array(object) - Execution status, timing, and bounded output summaries for each node. For performance reasons, this is not provided when listing Automation runs.
         "journal_url": None,  # string - Link to the run journal artifact.
         "status_messages_url": None,  # string - Link to status messages log file.
     }
@@ -72,6 +76,38 @@ class AutomationRun:
         response, _options = Api.send_request(
             "POST",
             "/automation_runs/{id}/cancel".format(
+                id=quote(str(params["id"]), safe="")
+            ),
+            params,
+            self.options,
+        )
+        return response.data
+
+    # Re-run Automation from Node
+    #
+    # Parameters:
+    #   node_id (required) - string - Node ID at which execution should resume.
+    def rerun(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "node_id" not in params:
+            raise MissingParameterError("Parameter missing: node_id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "node_id" in params and not isinstance(params["node_id"], str):
+            raise InvalidParameterError(
+                "Bad parameter: node_id must be an str"
+            )
+        response, _options = Api.send_request(
+            "POST",
+            "/automation_runs/{id}/rerun".format(
                 id=quote(str(params["id"]), safe="")
             ),
             params,
@@ -142,6 +178,34 @@ def get(id, params=None, options=None):
     find(id, params, options)
 
 
+# Parameters:
+#   id (required) - int64 - Automation Run ID.
+#   node_id (required) - string - Node ID from the pinned Automation definition.
+def find_node(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "node_id" in params and not isinstance(params["node_id"], str):
+        raise InvalidParameterError("Bad parameter: node_id must be an str")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    if "node_id" not in params:
+        raise MissingParameterError("Parameter missing: node_id")
+    response, options = Api.send_request(
+        "GET",
+        "/automation_runs/{id}/node".format(
+            id=quote(str(params["id"]), safe="")
+        ),
+        params,
+        options,
+    )
+    return AutomationExecutionNode(response.data, options)
+
+
 # Cancel Automation Run
 def cancel(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -156,6 +220,35 @@ def cancel(id, params=None, options=None):
     response, options = Api.send_request(
         "POST",
         "/automation_runs/{id}/cancel".format(
+            id=quote(str(params["id"]), safe="")
+        ),
+        params,
+        options,
+    )
+    return AutomationRun(response.data, options)
+
+
+# Re-run Automation from Node
+#
+# Parameters:
+#   node_id (required) - string - Node ID at which execution should resume.
+def rerun(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "node_id" in params and not isinstance(params["node_id"], str):
+        raise InvalidParameterError("Bad parameter: node_id must be an str")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    if "node_id" not in params:
+        raise MissingParameterError("Parameter missing: node_id")
+    response, options = Api.send_request(
+        "POST",
+        "/automation_runs/{id}/rerun".format(
             id=quote(str(params["id"]), safe="")
         ),
         params,

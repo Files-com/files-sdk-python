@@ -17,6 +17,7 @@ import files_sdk.models.as2_station as as2_station
 import files_sdk.models.auto as auto
 import files_sdk.models.automation as automation
 import files_sdk.models.automation_authoring_schema as automation_authoring_schema
+import files_sdk.models.automation_execution_node as automation_execution_node
 import files_sdk.models.automation_log as automation_log
 import files_sdk.models.automation_run as automation_run
 import files_sdk.models.bandwidth_snapshot as bandwidth_snapshot
@@ -165,6 +166,7 @@ from files_sdk.models.automation import Automation
 from files_sdk.models.automation_authoring_schema import (
     AutomationAuthoringSchema,
 )
+from files_sdk.models.automation_execution_node import AutomationExecutionNode
 from files_sdk.models.automation_log import AutomationLog
 from files_sdk.models.automation_run import AutomationRun
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot
@@ -310,7 +312,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.426"
+version = "1.6.427"
 
 __version__ = version
 

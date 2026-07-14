@@ -22,6 +22,7 @@ from files_sdk.models.automation import Automation
 from files_sdk.models.automation_authoring_schema import (
     AutomationAuthoringSchema,
 )
+from files_sdk.models.automation_execution_node import AutomationExecutionNode
 from files_sdk.models.automation_log import AutomationLog
 from files_sdk.models.automation_run import AutomationRun
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot

@@ -32,6 +32,7 @@
       }
     }
   ],
+  "inbound_email_address": "example-automation-abc123@inbox.files.com",
   "flatten_destination_structure": True,
   "group_ids": [
     1,
@@ -112,6 +113,7 @@
 * `disabled` (boolean): If true, this automation will not run.
 * `exclude_pattern` (string): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
 * `import_urls` (array(object)): List of URLs to be imported and names to be used.
+* `inbound_email_address` (string): If trigger is `email`, this is the address that triggers the Automation.
 * `flatten_destination_structure` (boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `group_ids` (array(int64)): IDs of Groups for the Automation (i.e. who to Request File from)
 * `ignore_locked_folders` (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
@@ -268,15 +270,18 @@ files_sdk.automation.create({
 
 ---
 
-## Manually Run Automation
+## Manually Run Automation. v2 Automations require Site or Workspace Admin permission
 
 ```
-files_sdk.automation.manual_run(id)
+files_sdk.automation.manual_run(id, {
+  "items": [{"file":"incoming/report.csv"},{"data":{"customer":"Acme"}}]
+})
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Automation ID.
+* `items` (array(object)): Initial items for a v2 manual trigger. Each item contains exactly one `file` path or `data` object.
 
 
 ---
@@ -374,16 +379,19 @@ files_sdk.automation.delete(id)
 
 ---
 
-## Manually Run Automation
+## Manually Run Automation. v2 Automations require Site or Workspace Admin permission
 
 ```
 automation = files_sdk.automation.find(id)
-automation.manual_run()
+automation.manual_run({
+  "items": [{"file":"incoming/report.csv"},{"data":{"customer":"Acme"}}]
+})
 ```
 
 ### Parameters
 
 * `id` (int64): Required - Automation ID.
+* `items` (array(object)): Initial items for a v2 manual trigger. Each item contains exactly one `file` path or `data` object.
 
 
 ---

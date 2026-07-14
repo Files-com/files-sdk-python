@@ -28,6 +28,7 @@ class Automation:
         "disabled": None,  # boolean - If true, this automation will not run.
         "exclude_pattern": None,  # string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
         "import_urls": None,  # array(object) - List of URLs to be imported and names to be used.
+        "inbound_email_address": None,  # string - If trigger is `email`, this is the address that triggers the Automation.
         "flatten_destination_structure": None,  # boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
         "group_ids": None,  # array(int64) - IDs of Groups for the Automation (i.e. who to Request File from)
         "ignore_locked_folders": None,  # boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
@@ -80,7 +81,10 @@ class Automation:
         }
         return attrs
 
-    # Manually Run Automation
+    # Manually Run Automation. v2 Automations require Site or Workspace Admin permission
+    #
+    # Parameters:
+    #   items - array(object) - Initial items for a v2 manual trigger. Each item contains exactly one `file` path or `data` object.
     def manual_run(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -93,6 +97,10 @@ class Automation:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
+        if "items" in params and not isinstance(
+            params["items"], builtins.list
+        ):
+            raise InvalidParameterError("Bad parameter: items must be an list")
         Api.send_request(
             "POST",
             "/automations/{id}/manual_run".format(
@@ -603,7 +611,10 @@ def create(params=None, options=None):
     return Automation(response.data, options)
 
 
-# Manually Run Automation
+# Manually Run Automation. v2 Automations require Site or Workspace Admin permission
+#
+# Parameters:
+#   items - array(object) - Initial items for a v2 manual trigger. Each item contains exactly one `file` path or `data` object.
 def manual_run(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -612,6 +623,8 @@ def manual_run(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "items" in params and not isinstance(params["items"], builtins.list):
+        raise InvalidParameterError("Bad parameter: items must be an list")
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
     Api.send_request(

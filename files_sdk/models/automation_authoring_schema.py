@@ -12,6 +12,7 @@ class AutomationAuthoringSchema:
         "definition_schema": None,  # object - JSON Schema for active Automation v2 graph definitions.
         "error_families": None,  # array(object) - Typed error families accepted by Automation v2 on_error rules.
         "nodes": None,  # array(object) - Active Automation v2 node authoring metadata.
+        "schema_url": None,  # string - Stable public URL for the Automation v2 graph definition JSON Schema.
     }
 
     def __init__(self, attributes=None, options=None):
