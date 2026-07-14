@@ -10,6 +10,7 @@ from files_sdk.error import (  # noqa: F401
 class AutomationAuthoringSchema:
     default_attributes = {
         "definition_schema": None,  # object - JSON Schema for active Automation v2 graph definitions.
+        "error_families": None,  # array(object) - Typed error families accepted by Automation v2 on_error rules.
         "nodes": None,  # array(object) - Active Automation v2 node authoring metadata.
     }
 
