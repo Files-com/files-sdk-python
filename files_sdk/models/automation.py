@@ -81,6 +81,29 @@ class Automation:
         }
         return attrs
 
+    # Upgrade a legacy Automation to Automation v2
+    def upgrade(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        response, _options = Api.send_request(
+            "POST",
+            "/automations/{id}/upgrade".format(
+                id=quote(str(params["id"]), safe="")
+            ),
+            params,
+            self.options,
+        )
+        return response.data
+
     # Manually Run Automation. v2 Automations require Site or Workspace Admin permission
     #
     # Parameters:
@@ -607,6 +630,28 @@ def create(params=None, options=None):
         raise MissingParameterError("Parameter missing: automation")
     response, options = Api.send_request(
         "POST", "/automations", params, options
+    )
+    return Automation(response.data, options)
+
+
+# Upgrade a legacy Automation to Automation v2
+def upgrade(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request(
+        "POST",
+        "/automations/{id}/upgrade".format(
+            id=quote(str(params["id"]), safe="")
+        ),
+        params,
+        options,
     )
     return Automation(response.data, options)
 

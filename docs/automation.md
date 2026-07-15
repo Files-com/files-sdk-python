@@ -270,6 +270,19 @@ files_sdk.automation.create({
 
 ---
 
+## Upgrade a legacy Automation to Automation v2
+
+```
+files_sdk.automation.upgrade(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Automation ID.
+
+
+---
+
 ## Manually Run Automation. v2 Automations require Site or Workspace Admin permission
 
 ```
@@ -370,6 +383,20 @@ files_sdk.automation.update(id, {
 
 ```
 files_sdk.automation.delete(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Automation ID.
+
+
+---
+
+## Upgrade a legacy Automation to Automation v2
+
+```
+automation = files_sdk.automation.find(id)
+automation.upgrade()
 ```
 
 ### Parameters
