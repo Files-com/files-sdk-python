@@ -12,7 +12,7 @@
   "source": "*.csv",
   "exclude_pattern": "*.tmp",
   "disabled": True,
-  "expectations_version": 1,
+  "expectations_version": 2,
   "trigger": "manual",
   "interval": "day",
   "recurring_day": 3,
@@ -67,7 +67,7 @@
 * `late_acceptance_interval` (int64): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` (int64): How many quiet seconds are required before final closure.
 * `max_open_interval` (int64): Hard-stop duration in seconds for unscheduled expectations.
-* `criteria` (object): Structured criteria v1 definition for the expectation.
+* `criteria` (object): Versioned success criteria definition for the expectation. Criteria v2 supports optional FTS content validation.
 * `last_evaluated_at` (date-time): Last time this expectation was evaluated.
 * `last_success_at` (date-time): Last time this expectation closed successfully.
 * `last_failure_at` (date-time): Last time this expectation closed with a failure result.
@@ -152,7 +152,7 @@ files_sdk.expectation.create({
 * `late_acceptance_interval` (int64): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` (int64): How many quiet seconds are required before final closure.
 * `max_open_interval` (int64): Hard-stop duration in seconds for unscheduled expectations.
-* `criteria` (object): Structured criteria v1 definition for the expectation.
+* `criteria` (object): Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 
 
@@ -217,7 +217,7 @@ files_sdk.expectation.update(id, {
 * `late_acceptance_interval` (int64): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` (int64): How many quiet seconds are required before final closure.
 * `max_open_interval` (int64): Hard-stop duration in seconds for unscheduled expectations.
-* `criteria` (object): Structured criteria v1 definition for the expectation.
+* `criteria` (object): Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 
 
@@ -297,7 +297,7 @@ expectation.update({
 * `late_acceptance_interval` (int64): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` (int64): How many quiet seconds are required before final closure.
 * `max_open_interval` (int64): Hard-stop duration in seconds for unscheduled expectations.
-* `criteria` (object): Structured criteria v1 definition for the expectation.
+* `criteria` (object): Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 
 

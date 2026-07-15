@@ -45,7 +45,7 @@
 * `closed_at` (date-time): When the evaluation row was finalized.
 * `matched_files` (array(object)): Captured evidence for files that matched the window.
 * `missing_files` (array(object)): Captured evidence for required files that were missing.
-* `criteria_errors` (array(string)): Captured criteria failures for the window.
+* `criteria_errors` (array(string)): Captured criteria failures for the window, including file-scoped FTS errors and returned validation details.
 * `summary` (object): Compact evaluator summary payload.
 * `created_at` (date-time): Creation time.
 * `updated_at` (date-time): Last update time.
