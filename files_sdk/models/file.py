@@ -50,6 +50,7 @@ class File:
         "subfolders_locked?": None,  # boolean - Are subfolders locked and unable to be modified?
         "is_locked": None,  # boolean - Is this folder locked and unable to be modified?
         "download_uri": None,  # string - Link to download file. Provided only in response to a download request.
+        "direct_connection_info": None,  # DirectConnectionInfo - Optional direct connection information for direct Agent transfer attempts
         "priority_color": None,  # string - Bookmark/priority color of file/folder
         "preview_id": None,  # int64 - File preview ID
         "preview": None,  # Preview - File preview
@@ -64,6 +65,7 @@ class File:
         "structure": None,  # string - If copying folder, copy just the structure?
         "with_rename": None,  # boolean - Allow file rename instead of overwrite?
         "buffered_upload": None,  # boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+        "with_direct_connection_info": None,  # boolean - Include optional direct connection information for a direct Agent transfer attempt?
     }
 
     def __init__(self, *args):
@@ -281,6 +283,7 @@ class File:
     #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
     #   with_previews - boolean - Include file preview information?
     #   with_priority_color - boolean - Include file priority color information?
+    #   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
     def download(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -680,6 +683,7 @@ class File:
     #   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
     #   with_rename - boolean - Allow file rename instead of overwrite?
     #   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+    #   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
     def begin_upload(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -727,6 +731,7 @@ class File:
 #   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 #   with_previews - boolean - Include file preview information?
 #   with_priority_color - boolean - Include file priority color information?
+#   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
 def download(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -754,6 +759,12 @@ def download(path, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: with_priority_color must be an bool"
+        )
+    if "with_direct_connection_info" in params and not isinstance(
+        params["with_direct_connection_info"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: with_direct_connection_info must be an bool"
         )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
@@ -783,6 +794,7 @@ def download(path, params=None, options=None):
 #   structure - string - If copying folder, copy just the structure?
 #   with_rename - boolean - Allow file rename instead of overwrite?
 #   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+#   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
 def create(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -834,6 +846,12 @@ def create(path, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: buffered_upload must be an bool"
+        )
+    if "with_direct_connection_info" in params and not isinstance(
+        params["with_direct_connection_info"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: with_direct_connection_info must be an bool"
         )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")
@@ -1314,6 +1332,7 @@ def zip(params=None, options=None):
 #   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 #   with_rename - boolean - Allow file rename instead of overwrite?
 #   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+#   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
 def begin_upload(path, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -1347,6 +1366,12 @@ def begin_upload(path, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: buffered_upload must be an bool"
+        )
+    if "with_direct_connection_info" in params and not isinstance(
+        params["with_direct_connection_info"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: with_direct_connection_info must be an bool"
         )
     if "path" not in params:
         raise MissingParameterError("Parameter missing: path")

@@ -35,6 +35,7 @@ import files_sdk.models.child_site_management_policy as child_site_management_po
 import files_sdk.models.clickwrap as clickwrap
 import files_sdk.models.custom_domain as custom_domain
 import files_sdk.models.desktop_configuration_profile as desktop_configuration_profile
+import files_sdk.models.direct_connection_info as direct_connection_info
 import files_sdk.models.dns_record as dns_record
 import files_sdk.models.email_incoming_message as email_incoming_message
 import files_sdk.models.email_log as email_log
@@ -188,6 +189,7 @@ from files_sdk.models.custom_domain import CustomDomain
 from files_sdk.models.desktop_configuration_profile import (
     DesktopConfigurationProfile,
 )
+from files_sdk.models.direct_connection_info import DirectConnectionInfo
 from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.email_incoming_message import EmailIncomingMessage
 from files_sdk.models.email_log import EmailLog
@@ -312,7 +314,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.430"
+version = "1.6.431"
 
 __version__ = version
 

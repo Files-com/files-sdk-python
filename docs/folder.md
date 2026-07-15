@@ -38,6 +38,15 @@
   "subfolders_locked?": True,
   "is_locked": True,
   "download_uri": "https://mysite.files.com/...",
+  "direct_connection_info": {
+    "version": 1,
+    "server_name": "example",
+    "addresses": [
+      "example"
+    ],
+    "direct_uri": "example",
+    "ca_pem": "example"
+  },
   "priority_color": "red",
   "preview_id": 1,
   "preview": {
@@ -82,6 +91,7 @@
 * `subfolders_locked?` (boolean): Are subfolders locked and unable to be modified?
 * `is_locked` (boolean): Is this folder locked and unable to be modified?
 * `download_uri` (string): Link to download file. Provided only in response to a download request.
+* `direct_connection_info` (DirectConnectionInfo): Optional direct connection information for direct Agent transfer attempts
 * `priority_color` (string): Bookmark/priority color of file/folder
 * `preview_id` (int64): File preview ID
 * `preview` (Preview): File preview

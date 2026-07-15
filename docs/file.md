@@ -38,6 +38,15 @@
   "subfolders_locked?": True,
   "is_locked": True,
   "download_uri": "https://mysite.files.com/...",
+  "direct_connection_info": {
+    "version": 1,
+    "server_name": "example",
+    "addresses": [
+      "example"
+    ],
+    "direct_uri": "example",
+    "ca_pem": "example"
+  },
   "priority_color": "red",
   "preview_id": 1,
   "preview": {
@@ -82,6 +91,7 @@
 * `subfolders_locked?` (boolean): Are subfolders locked and unable to be modified?
 * `is_locked` (boolean): Is this folder locked and unable to be modified?
 * `download_uri` (string): Link to download file. Provided only in response to a download request.
+* `direct_connection_info` (DirectConnectionInfo): Optional direct connection information for direct Agent transfer attempts
 * `priority_color` (string): Bookmark/priority color of file/folder
 * `preview_id` (int64): File preview ID
 * `preview` (Preview): File preview
@@ -96,6 +106,7 @@
 * `structure` (string): If copying folder, copy just the structure?
 * `with_rename` (boolean): Allow file rename instead of overwrite?
 * `buffered_upload` (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+* `with_direct_connection_info` (boolean): Include optional direct connection information for a direct Agent transfer attempt?
 
 
 ---
@@ -105,7 +116,8 @@
 ```
 files_sdk.file.download(path, {
   "with_previews": False,
-  "with_priority_color": False
+  "with_priority_color": False,
+  "with_direct_connection_info": False
 })
 ```
 
@@ -116,6 +128,7 @@ files_sdk.file.download(path, {
 * `preview_size` (string): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 * `with_previews` (boolean): Include file preview information?
 * `with_priority_color` (boolean): Include file priority color information?
+* `with_direct_connection_info` (boolean): Include optional direct connection information for a direct Agent transfer attempt?
 
 
 ---
@@ -133,7 +146,8 @@ files_sdk.file.create(path, {
   "size": 1,
   "copy_behaviors": False,
   "with_rename": False,
-  "buffered_upload": False
+  "buffered_upload": False,
+  "with_direct_connection_info": False
 })
 ```
 
@@ -155,6 +169,7 @@ files_sdk.file.create(path, {
 * `structure` (string): If copying folder, copy just the structure?
 * `with_rename` (boolean): Allow file rename instead of overwrite?
 * `buffered_upload` (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+* `with_direct_connection_info` (boolean): Include optional direct connection information for a direct Agent transfer attempt?
 
 
 ---
@@ -393,7 +408,8 @@ files_sdk.file.begin_upload(path, {
   "restart": 1,
   "size": 1,
   "with_rename": False,
-  "buffered_upload": False
+  "buffered_upload": False,
+  "with_direct_connection_info": False
 })
 ```
 
@@ -408,6 +424,7 @@ files_sdk.file.begin_upload(path, {
 * `size` (int64): Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 * `with_rename` (boolean): Allow file rename instead of overwrite?
 * `buffered_upload` (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+* `with_direct_connection_info` (boolean): Include optional direct connection information for a direct Agent transfer attempt?
 
 
 ---
@@ -418,7 +435,8 @@ files_sdk.file.begin_upload(path, {
 file = files_sdk.file.find(path)
 file.download({
   "with_previews": False,
-  "with_priority_color": False
+  "with_priority_color": False,
+  "with_direct_connection_info": False
 })
 ```
 
@@ -429,6 +447,7 @@ file.download({
 * `preview_size` (string): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 * `with_previews` (boolean): Include file preview information?
 * `with_priority_color` (boolean): Include file priority color information?
+* `with_direct_connection_info` (boolean): Include optional direct connection information for a direct Agent transfer attempt?
 
 
 ---
@@ -639,7 +658,8 @@ file.begin_upload({
   "restart": 1,
   "size": 1,
   "with_rename": False,
-  "buffered_upload": False
+  "buffered_upload": False,
+  "with_direct_connection_info": False
 })
 ```
 
@@ -654,3 +674,4 @@ file.begin_upload({
 * `size` (int64): Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 * `with_rename` (boolean): Allow file rename instead of overwrite?
 * `buffered_upload` (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+* `with_direct_connection_info` (boolean): Include optional direct connection information for a direct Agent transfer attempt?

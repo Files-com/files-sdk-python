@@ -44,6 +44,7 @@ class Folder:
         "subfolders_locked?": None,  # boolean - Are subfolders locked and unable to be modified?
         "is_locked": None,  # boolean - Is this folder locked and unable to be modified?
         "download_uri": None,  # string - Link to download file. Provided only in response to a download request.
+        "direct_connection_info": None,  # DirectConnectionInfo - Optional direct connection information for direct Agent transfer attempts
         "priority_color": None,  # string - Bookmark/priority color of file/folder
         "preview_id": None,  # int64 - File preview ID
         "preview": None,  # Preview - File preview

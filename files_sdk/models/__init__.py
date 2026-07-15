@@ -44,6 +44,7 @@ from files_sdk.models.custom_domain import CustomDomain
 from files_sdk.models.desktop_configuration_profile import (
     DesktopConfigurationProfile,
 )
+from files_sdk.models.direct_connection_info import DirectConnectionInfo
 from files_sdk.models.dns_record import DnsRecord
 from files_sdk.models.email_incoming_message import EmailIncomingMessage
 from files_sdk.models.email_log import EmailLog
