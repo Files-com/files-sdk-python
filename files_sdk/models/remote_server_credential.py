@@ -26,6 +26,9 @@ class RemoteServerCredential:
         "filebase_access_key": None,  # string - Filebase: Access Key.
         "cloudflare_access_key": None,  # string - Cloudflare: Access Key.
         "linode_access_key": None,  # string - Linode: Access Key
+        "sharepoint_tenant_id": None,  # string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
+        "sharepoint_client_id": None,  # string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+        "sharepoint_app_credential_type": None,  # string - SharePoint: App-only credential type. Either secret or certificate.
         "username": None,  # string - Remote server username.
         "password": None,  # string - Password, if needed.
         "private_key": None,  # string - Private key, if needed.
@@ -43,6 +46,8 @@ class RemoteServerCredential:
         "google_cloud_storage_s3_compatible_secret_key": None,  # string - Google Cloud Storage: S3-compatible secret key
         "linode_secret_key": None,  # string - Linode: Secret Key
         "s3_compatible_secret_key": None,  # string - S3-compatible: Secret Key
+        "sharepoint_client_certificate": None,  # string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+        "sharepoint_client_secret": None,  # string - SharePoint: Microsoft Entra application client secret for app-only authentication.
         "wasabi_secret_key": None,  # string - Wasabi: Secret Key
         "copy_values_from_credential_id": None,  # int64 - ID of Remote Server Credential to copy omitted values from.
     }
@@ -83,6 +88,8 @@ class RemoteServerCredential:
     #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
     #   linode_access_key - string - Linode: Access Key
     #   s3_compatible_access_key - string - S3-compatible: Access Key
+    #   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+    #   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
     #   username - string - Remote server username.
     #   wasabi_access_key - string - Wasabi: Access Key.
     #   password - string - Password, if needed.
@@ -101,6 +108,8 @@ class RemoteServerCredential:
     #   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
     #   linode_secret_key - string - Linode: Secret Key
     #   s3_compatible_secret_key - string - S3-compatible: Secret Key
+    #   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+    #   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
     #   wasabi_secret_key - string - Wasabi: Secret Key
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -178,6 +187,18 @@ class RemoteServerCredential:
         ):
             raise InvalidParameterError(
                 "Bad parameter: s3_compatible_access_key must be an str"
+            )
+        if "sharepoint_client_id" in params and not isinstance(
+            params["sharepoint_client_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_id must be an str"
+            )
+        if "sharepoint_tenant_id" in params and not isinstance(
+            params["sharepoint_tenant_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_tenant_id must be an str"
             )
         if "username" in params and not isinstance(params["username"], str):
             raise InvalidParameterError(
@@ -288,6 +309,18 @@ class RemoteServerCredential:
         ):
             raise InvalidParameterError(
                 "Bad parameter: s3_compatible_secret_key must be an str"
+            )
+        if "sharepoint_client_certificate" in params and not isinstance(
+            params["sharepoint_client_certificate"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_certificate must be an str"
+            )
+        if "sharepoint_client_secret" in params and not isinstance(
+            params["sharepoint_client_secret"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_secret must be an str"
             )
         if "wasabi_secret_key" in params and not isinstance(
             params["wasabi_secret_key"], str
@@ -417,6 +450,8 @@ def get(id, params=None, options=None):
 #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
 #   linode_access_key - string - Linode: Access Key
 #   s3_compatible_access_key - string - S3-compatible: Access Key
+#   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+#   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
 #   username - string - Remote server username.
 #   wasabi_access_key - string - Wasabi: Access Key.
 #   password - string - Password, if needed.
@@ -435,6 +470,8 @@ def get(id, params=None, options=None):
 #   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
 #   linode_secret_key - string - Linode: Secret Key
 #   s3_compatible_secret_key - string - S3-compatible: Secret Key
+#   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+#   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
 #   wasabi_secret_key - string - Wasabi: Secret Key
 #   workspace_id - int64 - Workspace ID (0 for default workspace)
 #   copy_values_from_credential_id - int64 - ID of Remote Server Credential to copy omitted values from.
@@ -503,6 +540,18 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: s3_compatible_access_key must be an str"
+        )
+    if "sharepoint_client_id" in params and not isinstance(
+        params["sharepoint_client_id"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_id must be an str"
+        )
+    if "sharepoint_tenant_id" in params and not isinstance(
+        params["sharepoint_tenant_id"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_tenant_id must be an str"
         )
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
@@ -605,6 +654,18 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: s3_compatible_secret_key must be an str"
         )
+    if "sharepoint_client_certificate" in params and not isinstance(
+        params["sharepoint_client_certificate"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_certificate must be an str"
+        )
+    if "sharepoint_client_secret" in params and not isinstance(
+        params["sharepoint_client_secret"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_secret must be an str"
+        )
     if "wasabi_secret_key" in params and not isinstance(
         params["wasabi_secret_key"], str
     ):
@@ -641,6 +702,8 @@ def create(params=None, options=None):
 #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
 #   linode_access_key - string - Linode: Access Key
 #   s3_compatible_access_key - string - S3-compatible: Access Key
+#   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+#   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
 #   username - string - Remote server username.
 #   wasabi_access_key - string - Wasabi: Access Key.
 #   password - string - Password, if needed.
@@ -659,6 +722,8 @@ def create(params=None, options=None):
 #   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
 #   linode_secret_key - string - Linode: Secret Key
 #   s3_compatible_secret_key - string - S3-compatible: Secret Key
+#   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+#   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
 #   wasabi_secret_key - string - Wasabi: Secret Key
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -729,6 +794,18 @@ def update(id, params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: s3_compatible_access_key must be an str"
         )
+    if "sharepoint_client_id" in params and not isinstance(
+        params["sharepoint_client_id"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_id must be an str"
+        )
+    if "sharepoint_tenant_id" in params and not isinstance(
+        params["sharepoint_tenant_id"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_tenant_id must be an str"
+        )
     if "username" in params and not isinstance(params["username"], str):
         raise InvalidParameterError("Bad parameter: username must be an str")
     if "wasabi_access_key" in params and not isinstance(
@@ -829,6 +906,18 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: s3_compatible_secret_key must be an str"
+        )
+    if "sharepoint_client_certificate" in params and not isinstance(
+        params["sharepoint_client_certificate"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_certificate must be an str"
+        )
+    if "sharepoint_client_secret" in params and not isinstance(
+        params["sharepoint_client_secret"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_secret must be an str"
         )
     if "wasabi_secret_key" in params and not isinstance(
         params["wasabi_secret_key"], str

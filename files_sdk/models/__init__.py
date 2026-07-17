@@ -76,6 +76,7 @@ from files_sdk.models.group_user import GroupUser
 from files_sdk.models.history import History
 from files_sdk.models.history_export import HistoryExport
 from files_sdk.models.history_export_result import HistoryExportResult
+from files_sdk.models.holiday_calendar import HolidayCalendar
 from files_sdk.models.holiday_region import HolidayRegion
 from files_sdk.models.image import Image
 from files_sdk.models.inbound_s3_log import InboundS3Log

@@ -55,6 +55,11 @@ class RemoteServer:
         "auth_status": None,  # string - Either `in_setup` or `complete`
         "auth_account_name": None,  # string - Describes the authorized account
         "one_drive_account_type": None,  # string - OneDrive: Either personal or business_other account types
+        "sharepoint_tenant_id": None,  # string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
+        "sharepoint_client_id": None,  # string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+        "sharepoint_app_authentication": None,  # boolean - SharePoint: If true, this remote server uses Microsoft Entra app-only authentication.
+        "sharepoint_app_credential_type": None,  # string - SharePoint: App-only credential type. Either secret or certificate.
+        "sharepoint_site_url": None,  # string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
         "azure_blob_storage_account": None,  # string - Azure Blob Storage: Account name
         "azure_blob_storage_container": None,  # string - Azure Blob Storage: Container name
         "azure_blob_storage_hierarchical_namespace": None,  # boolean - Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
@@ -92,6 +97,8 @@ class RemoteServer:
         "private_key": None,  # string - Private key, if needed.
         "private_key_passphrase": None,  # string - Passphrase for private key if needed.
         "reset_authentication": None,  # boolean - Reset authenticated account?
+        "sharepoint_client_certificate": None,  # string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+        "sharepoint_client_secret": None,  # string - SharePoint: Microsoft Entra application client secret for app-only authentication.
         "ssl_certificate": None,  # string - SSL client certificate.
         "aws_secret_key": None,  # string - AWS: secret key.
         "azure_blob_storage_access_key": None,  # string - Azure Blob Storage: Access Key
@@ -246,6 +253,8 @@ class RemoteServer:
     #   private_key - string - Private key, if needed.
     #   private_key_passphrase - string - Passphrase for private key if needed.
     #   reset_authentication - boolean - Reset authenticated account?
+    #   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+    #   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
     #   ssl_certificate - string - SSL client certificate.
     #   aws_secret_key - string - AWS: secret key.
     #   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
@@ -314,6 +323,9 @@ class RemoteServer:
     #   server_certificate - string - Remote server certificate
     #   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
     #   server_type - string - Remote server type.
+    #   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+    #   sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+    #   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
     #   ssl - string - Should we require SSL?
     #   username - string - Remote server username.
     #   wasabi_access_key - string - Wasabi: Access Key.
@@ -346,6 +358,18 @@ class RemoteServer:
         ):
             raise InvalidParameterError(
                 "Bad parameter: private_key_passphrase must be an str"
+            )
+        if "sharepoint_client_certificate" in params and not isinstance(
+            params["sharepoint_client_certificate"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_certificate must be an str"
+            )
+        if "sharepoint_client_secret" in params and not isinstance(
+            params["sharepoint_client_secret"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_secret must be an str"
             )
         if "ssl_certificate" in params and not isinstance(
             params["ssl_certificate"], str
@@ -717,6 +741,24 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: server_type must be an str"
             )
+        if "sharepoint_client_id" in params and not isinstance(
+            params["sharepoint_client_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_id must be an str"
+            )
+        if "sharepoint_site_url" in params and not isinstance(
+            params["sharepoint_site_url"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_site_url must be an str"
+            )
+        if "sharepoint_tenant_id" in params and not isinstance(
+            params["sharepoint_tenant_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_tenant_id must be an str"
+            )
         if "ssl" in params and not isinstance(params["ssl"], str):
             raise InvalidParameterError("Bad parameter: ssl must be an str")
         if "username" in params and not isinstance(params["username"], str):
@@ -875,6 +917,8 @@ def find_configuration_file(id, params=None, options=None):
 #   private_key - string - Private key, if needed.
 #   private_key_passphrase - string - Passphrase for private key if needed.
 #   reset_authentication - boolean - Reset authenticated account?
+#   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+#   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
 #   ssl_certificate - string - SSL client certificate.
 #   aws_secret_key - string - AWS: secret key.
 #   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
@@ -943,6 +987,9 @@ def find_configuration_file(id, params=None, options=None):
 #   server_certificate - string - Remote server certificate
 #   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 #   server_type - string - Remote server type.
+#   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+#   sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+#   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
 #   ssl - string - Should we require SSL?
 #   username - string - Remote server username.
 #   wasabi_access_key - string - Wasabi: Access Key.
@@ -973,6 +1020,18 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: reset_authentication must be an bool"
+        )
+    if "sharepoint_client_certificate" in params and not isinstance(
+        params["sharepoint_client_certificate"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_certificate must be an str"
+        )
+    if "sharepoint_client_secret" in params and not isinstance(
+        params["sharepoint_client_secret"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_secret must be an str"
         )
     if "ssl_certificate" in params and not isinstance(
         params["ssl_certificate"], str
@@ -1369,6 +1428,24 @@ def create(params=None, options=None):
     if "server_type" in params and not isinstance(params["server_type"], str):
         raise InvalidParameterError(
             "Bad parameter: server_type must be an str"
+        )
+    if "sharepoint_client_id" in params and not isinstance(
+        params["sharepoint_client_id"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_id must be an str"
+        )
+    if "sharepoint_site_url" in params and not isinstance(
+        params["sharepoint_site_url"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_site_url must be an str"
+        )
+    if "sharepoint_tenant_id" in params and not isinstance(
+        params["sharepoint_tenant_id"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_tenant_id must be an str"
         )
     if "ssl" in params and not isinstance(params["ssl"], str):
         raise InvalidParameterError("Bad parameter: ssl must be an str")
@@ -1502,6 +1579,8 @@ def configuration_file(id, params=None, options=None):
 #   private_key - string - Private key, if needed.
 #   private_key_passphrase - string - Passphrase for private key if needed.
 #   reset_authentication - boolean - Reset authenticated account?
+#   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+#   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
 #   ssl_certificate - string - SSL client certificate.
 #   aws_secret_key - string - AWS: secret key.
 #   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
@@ -1570,6 +1649,9 @@ def configuration_file(id, params=None, options=None):
 #   server_certificate - string - Remote server certificate
 #   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 #   server_type - string - Remote server type.
+#   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+#   sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+#   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
 #   ssl - string - Should we require SSL?
 #   username - string - Remote server username.
 #   wasabi_access_key - string - Wasabi: Access Key.
@@ -1600,6 +1682,18 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: reset_authentication must be an bool"
+        )
+    if "sharepoint_client_certificate" in params and not isinstance(
+        params["sharepoint_client_certificate"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_certificate must be an str"
+        )
+    if "sharepoint_client_secret" in params and not isinstance(
+        params["sharepoint_client_secret"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_secret must be an str"
         )
     if "ssl_certificate" in params and not isinstance(
         params["ssl_certificate"], str
@@ -1996,6 +2090,24 @@ def update(id, params=None, options=None):
     if "server_type" in params and not isinstance(params["server_type"], str):
         raise InvalidParameterError(
             "Bad parameter: server_type must be an str"
+        )
+    if "sharepoint_client_id" in params and not isinstance(
+        params["sharepoint_client_id"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_client_id must be an str"
+        )
+    if "sharepoint_site_url" in params and not isinstance(
+        params["sharepoint_site_url"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_site_url must be an str"
+        )
+    if "sharepoint_tenant_id" in params and not isinstance(
+        params["sharepoint_tenant_id"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: sharepoint_tenant_id must be an str"
         )
     if "ssl" in params and not isinstance(params["ssl"], str):
         raise InvalidParameterError("Bad parameter: ssl must be an str")

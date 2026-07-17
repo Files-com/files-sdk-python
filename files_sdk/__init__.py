@@ -67,6 +67,7 @@ import files_sdk.models.group_user as group_user
 import files_sdk.models.history as history
 import files_sdk.models.history_export as history_export
 import files_sdk.models.history_export_result as history_export_result
+import files_sdk.models.holiday_calendar as holiday_calendar
 import files_sdk.models.holiday_region as holiday_region
 import files_sdk.models.image as image
 import files_sdk.models.inbound_s3_log as inbound_s3_log
@@ -221,6 +222,7 @@ from files_sdk.models.group_user import GroupUser
 from files_sdk.models.history import History
 from files_sdk.models.history_export import HistoryExport
 from files_sdk.models.history_export_result import HistoryExportResult
+from files_sdk.models.holiday_calendar import HolidayCalendar
 from files_sdk.models.holiday_region import HolidayRegion
 from files_sdk.models.image import Image
 from files_sdk.models.inbound_s3_log import InboundS3Log
@@ -314,7 +316,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.431"
+version = "1.6.432"
 
 __version__ = version
 
