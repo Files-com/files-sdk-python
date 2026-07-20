@@ -134,6 +134,7 @@ import files_sdk.models.usage_by_top_level_dir as usage_by_top_level_dir
 import files_sdk.models.usage_daily_snapshot as usage_daily_snapshot
 import files_sdk.models.usage_snapshot as usage_snapshot
 import files_sdk.models.user as user
+import files_sdk.models.user_additional_email_recipient as user_additional_email_recipient
 import files_sdk.models.user_cipher_use as user_cipher_use
 import files_sdk.models.user_lifecycle_rule as user_lifecycle_rule
 import files_sdk.models.user_request as user_request
@@ -295,6 +296,9 @@ from files_sdk.models.usage_by_top_level_dir import UsageByTopLevelDir
 from files_sdk.models.usage_daily_snapshot import UsageDailySnapshot
 from files_sdk.models.usage_snapshot import UsageSnapshot
 from files_sdk.models.user import User
+from files_sdk.models.user_additional_email_recipient import (
+    UserAdditionalEmailRecipient,
+)
 from files_sdk.models.user_cipher_use import UserCipherUse
 from files_sdk.models.user_lifecycle_rule import UserLifecycleRule
 from files_sdk.models.user_request import UserRequest
@@ -316,7 +320,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.432"
+version = "1.6.433"
 
 __version__ = version
 

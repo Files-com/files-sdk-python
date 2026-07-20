@@ -149,6 +149,9 @@ from files_sdk.models.usage_by_top_level_dir import UsageByTopLevelDir
 from files_sdk.models.usage_daily_snapshot import UsageDailySnapshot
 from files_sdk.models.usage_snapshot import UsageSnapshot
 from files_sdk.models.user import User
+from files_sdk.models.user_additional_email_recipient import (
+    UserAdditionalEmailRecipient,
+)
 from files_sdk.models.user_cipher_use import UserCipherUse
 from files_sdk.models.user_lifecycle_rule import UserLifecycleRule
 from files_sdk.models.user_request import UserRequest
