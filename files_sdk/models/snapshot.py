@@ -17,6 +17,7 @@ class Snapshot:
         "name": None,  # string - A name for the snapshot.
         "user_id": None,  # int64 - The user that created this snapshot, if applicable.
         "bundle_id": None,  # int64 - The bundle using this snapshot, if applicable.
+        "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
         "paths": None,  # array(string) - An array of paths to add to the snapshot.
     }
 
@@ -180,6 +181,7 @@ def get(id, params=None, options=None):
 #   expires_at - string - When the snapshot expires.
 #   name - string - A name for the snapshot.
 #   paths - array(string) - An array of paths to add to the snapshot.
+#   workspace_id - int64 - Workspace ID. `0` means the default workspace.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -191,6 +193,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "paths" in params and not isinstance(params["paths"], builtins.list):
         raise InvalidParameterError("Bad parameter: paths must be an list")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     response, options = Api.send_request("POST", "/snapshots", params, options)
     return Snapshot(response.data, options)
 
