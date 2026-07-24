@@ -45,8 +45,8 @@ class EventTargetTest(TestBase):
     def test_create(self):
         params = {
             "name" : "foo",
-            "target_type" : "foo",
             "config" : {},
+            "target_type" : "foo",
         }
         event_target.create(params)
 

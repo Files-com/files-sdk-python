@@ -17,8 +17,8 @@ class EventTarget:
         "workspace_id": None,  # int64 - Workspace ID. 0 means the default workspace or site-wide.
         "apply_to_all_workspaces": None,  # boolean - If true, this default-workspace target can receive events from all workspaces.
         "enabled": None,  # boolean - Whether this Event Target can receive events.
-        "config": None,  # object - Event Target configuration.
-        "delivery_policy": None,  # object - Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+        "config": None,  # object - Event Target configuration. Folder targets accept path and format (json or csv).
+        "delivery_policy": None,  # object - Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
         "created_at": None,  # date-time - Event Target create date/time.
         "updated_at": None,  # date-time - Event Target update date/time.
     }
@@ -48,10 +48,9 @@ class EventTarget:
     #   name - string - Event Target name.
     #   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
     #   apply_to_all_workspaces - boolean - If true, this default-workspace target can receive events from all workspaces.
-    #   target_type - string - Event Target type.
     #   enabled - boolean - Whether this Event Target can receive events.
-    #   config - object - Event Target configuration.
-    #   delivery_policy - object - Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+    #   config - object - Event Target configuration. Folder targets accept path and format (json or csv).
+    #   delivery_policy - object - Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -71,12 +70,6 @@ class EventTarget:
         ):
             raise InvalidParameterError(
                 "Bad parameter: workspace_id must be an int"
-            )
-        if "target_type" in params and not isinstance(
-            params["target_type"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: target_type must be an str"
             )
         response, _options = Api.send_request(
             "PATCH",
@@ -173,10 +166,10 @@ def get(id, params=None, options=None):
 #   name (required) - string - Event Target name.
 #   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
 #   apply_to_all_workspaces - boolean - If true, this default-workspace target can receive events from all workspaces.
-#   target_type (required) - string - Event Target type.
 #   enabled - boolean - Whether this Event Target can receive events.
-#   config (required) - object - Event Target configuration.
-#   delivery_policy - object - Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+#   config (required) - object - Event Target configuration. Folder targets accept path and format (json or csv).
+#   delivery_policy - object - Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
+#   target_type (required) - string - Event Target type.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -196,10 +189,6 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: apply_to_all_workspaces must be an bool"
         )
-    if "target_type" in params and not isinstance(params["target_type"], str):
-        raise InvalidParameterError(
-            "Bad parameter: target_type must be an str"
-        )
     if "enabled" in params and not isinstance(params["enabled"], bool):
         raise InvalidParameterError("Bad parameter: enabled must be an bool")
     if "config" in params and not isinstance(params["config"], dict):
@@ -210,12 +199,16 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: delivery_policy must be an dict"
         )
+    if "target_type" in params and not isinstance(params["target_type"], str):
+        raise InvalidParameterError(
+            "Bad parameter: target_type must be an str"
+        )
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
-    if "target_type" not in params:
-        raise MissingParameterError("Parameter missing: target_type")
     if "config" not in params:
         raise MissingParameterError("Parameter missing: config")
+    if "target_type" not in params:
+        raise MissingParameterError("Parameter missing: target_type")
     response, options = Api.send_request(
         "POST", "/event_targets", params, options
     )
@@ -226,10 +219,9 @@ def create(params=None, options=None):
 #   name - string - Event Target name.
 #   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
 #   apply_to_all_workspaces - boolean - If true, this default-workspace target can receive events from all workspaces.
-#   target_type - string - Event Target type.
 #   enabled - boolean - Whether this Event Target can receive events.
-#   config - object - Event Target configuration.
-#   delivery_policy - object - Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+#   config - object - Event Target configuration. Folder targets accept path and format (json or csv).
+#   delivery_policy - object - Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -251,10 +243,6 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: apply_to_all_workspaces must be an bool"
-        )
-    if "target_type" in params and not isinstance(params["target_type"], str):
-        raise InvalidParameterError(
-            "Bad parameter: target_type must be an str"
         )
     if "enabled" in params and not isinstance(params["enabled"], bool):
         raise InvalidParameterError("Bad parameter: enabled must be an bool")
