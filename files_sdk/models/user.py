@@ -75,6 +75,8 @@ class User:
         "active_2fa": None,  # boolean - Is 2fa active for the user?
         "require_password_change": None,  # boolean - Is a password change required upon next user login?
         "password_expired": None,  # boolean - Is user's password expired?
+        "responsible_group_id": None,  # int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
+        "responsible_user_id": None,  # int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
         "readonly_site_admin": None,  # boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
         "restapi_permission": None,  # boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
         "self_managed": None,  # boolean - Does this user manage it's own credentials or is it a shared/bot user?
@@ -247,6 +249,8 @@ class User:
     #   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
     #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
     #   require_password_change - boolean - Is a password change required upon next user login?
+    #   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
+    #   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
     #   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
     #   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
     #   sftp_permission - boolean - Can the user access with SFTP?
@@ -416,6 +420,18 @@ class User:
         ):
             raise InvalidParameterError(
                 "Bad parameter: require_login_by must be an str"
+            )
+        if "responsible_group_id" in params and not isinstance(
+            params["responsible_group_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: responsible_group_id must be an int"
+            )
+        if "responsible_user_id" in params and not isinstance(
+            params["responsible_user_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: responsible_user_id must be an int"
             )
         if "ssl_required" in params and not isinstance(
             params["ssl_required"], str
@@ -645,6 +661,8 @@ def get(id, params=None, options=None):
 #   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
 #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
 #   require_password_change - boolean - Is a password change required upon next user login?
+#   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
+#   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
 #   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
 #   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
 #   sftp_permission - boolean - Can the user access with SFTP?
@@ -919,6 +937,18 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: require_password_change must be an bool"
         )
+    if "responsible_group_id" in params and not isinstance(
+        params["responsible_group_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: responsible_group_id must be an int"
+        )
+    if "responsible_user_id" in params and not isinstance(
+        params["responsible_user_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: responsible_user_id must be an int"
+        )
     if "restapi_permission" in params and not isinstance(
         params["restapi_permission"], bool
     ):
@@ -1107,6 +1137,8 @@ def user_2fa_reset(id, params=None, options=None):
 #   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
 #   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
 #   require_password_change - boolean - Is a password change required upon next user login?
+#   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
+#   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
 #   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
 #   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
 #   sftp_permission - boolean - Can the user access with SFTP?
@@ -1385,6 +1417,18 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: require_password_change must be an bool"
+        )
+    if "responsible_group_id" in params and not isinstance(
+        params["responsible_group_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: responsible_group_id must be an int"
+        )
+    if "responsible_user_id" in params and not isinstance(
+        params["responsible_user_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: responsible_user_id must be an int"
         )
     if "restapi_permission" in params and not isinstance(
         params["restapi_permission"], bool
