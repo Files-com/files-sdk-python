@@ -17,6 +17,11 @@
     1,
     2
   ],
+  "child_site_ids": [
+    1,
+    2
+  ],
+  "default_policy": True,
   "created_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z"
 }
@@ -28,7 +33,9 @@
 * `description` (string): Description for this policy.
 * `value` (object): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
 * `applied_child_site_ids` (array(int64)): IDs of child sites that this policy has been applied to. This field is read-only.
-* `skip_child_site_ids` (array(int64)): IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+* `skip_child_site_ids` (array(int64)): IDs of child sites excluded from this default policy.
+* `child_site_ids` (array(int64)): IDs of child sites explicitly assigned to this non-default policy.
+* `default_policy` (boolean): Whether this policy applies to child sites not explicitly assigned to another policy.
 * `created_at` (date-time): When this policy was created.
 * `updated_at` (date-time): When this policy was last updated.
 
@@ -68,6 +75,8 @@ files_sdk.child_site_management_policy.find(id)
 files_sdk.child_site_management_policy.create({
   "value": {"color2_left":"#000000"},
   "skip_child_site_ids": [1,2],
+  "child_site_ids": [1,2],
+  "default_policy": True,
   "policy_type": "settings",
   "name": "example",
   "description": "example"
@@ -77,7 +86,9 @@ files_sdk.child_site_management_policy.create({
 ### Parameters
 
 * `value` (object): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-* `skip_child_site_ids` (array(int64)): IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+* `skip_child_site_ids` (array(int64)): IDs of child sites excluded from this default policy.
+* `child_site_ids` (array(int64)): IDs of child sites explicitly assigned to this non-default policy.
+* `default_policy` (boolean): Whether this policy applies to child sites not explicitly assigned to another policy.
 * `policy_type` (string): Required - Type of policy.  Valid values: `settings`.
 * `name` (string): Name for this policy.
 * `description` (string): Description for this policy.
@@ -91,6 +102,8 @@ files_sdk.child_site_management_policy.create({
 files_sdk.child_site_management_policy.update(id, {
   "value": {"color2_left":"#000000"},
   "skip_child_site_ids": [1,2],
+  "child_site_ids": [1,2],
+  "default_policy": True,
   "policy_type": "settings",
   "name": "example",
   "description": "example"
@@ -101,7 +114,9 @@ files_sdk.child_site_management_policy.update(id, {
 
 * `id` (int64): Required - Child Site Management Policy ID.
 * `value` (object): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-* `skip_child_site_ids` (array(int64)): IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+* `skip_child_site_ids` (array(int64)): IDs of child sites excluded from this default policy.
+* `child_site_ids` (array(int64)): IDs of child sites explicitly assigned to this non-default policy.
+* `default_policy` (boolean): Whether this policy applies to child sites not explicitly assigned to another policy.
 * `policy_type` (string): Type of policy.  Valid values: `settings`.
 * `name` (string): Name for this policy.
 * `description` (string): Description for this policy.
@@ -129,6 +144,8 @@ child_site_management_policy = files_sdk.child_site_management_policy.find(id)
 child_site_management_policy.update({
   "value": {"color2_left":"#000000"},
   "skip_child_site_ids": [1,2],
+  "child_site_ids": [1,2],
+  "default_policy": True,
   "policy_type": "settings",
   "name": "example",
   "description": "example"
@@ -139,7 +156,9 @@ child_site_management_policy.update({
 
 * `id` (int64): Required - Child Site Management Policy ID.
 * `value` (object): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-* `skip_child_site_ids` (array(int64)): IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+* `skip_child_site_ids` (array(int64)): IDs of child sites excluded from this default policy.
+* `child_site_ids` (array(int64)): IDs of child sites explicitly assigned to this non-default policy.
+* `default_policy` (boolean): Whether this policy applies to child sites not explicitly assigned to another policy.
 * `policy_type` (string): Type of policy.  Valid values: `settings`.
 * `name` (string): Name for this policy.
 * `description` (string): Description for this policy.

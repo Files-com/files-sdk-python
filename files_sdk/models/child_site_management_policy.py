@@ -17,7 +17,9 @@ class ChildSiteManagementPolicy:
         "description": None,  # string - Description for this policy.
         "value": None,  # object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
         "applied_child_site_ids": None,  # array(int64) - IDs of child sites that this policy has been applied to. This field is read-only.
-        "skip_child_site_ids": None,  # array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+        "skip_child_site_ids": None,  # array(int64) - IDs of child sites excluded from this default policy.
+        "child_site_ids": None,  # array(int64) - IDs of child sites explicitly assigned to this non-default policy.
+        "default_policy": None,  # boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
         "created_at": None,  # date-time - When this policy was created.
         "updated_at": None,  # date-time - When this policy was last updated.
     }
@@ -48,7 +50,9 @@ class ChildSiteManagementPolicy:
 
     # Parameters:
     #   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-    #   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+    #   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
+    #   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
+    #   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
     #   policy_type - string - Type of policy.  Valid values: `settings`.
     #   name - string - Name for this policy.
     #   description - string - Description for this policy.
@@ -69,6 +73,12 @@ class ChildSiteManagementPolicy:
         ):
             raise InvalidParameterError(
                 "Bad parameter: skip_child_site_ids must be an list"
+            )
+        if "child_site_ids" in params and not isinstance(
+            params["child_site_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: child_site_ids must be an list"
             )
         if "policy_type" in params and not isinstance(
             params["policy_type"], str
@@ -183,7 +193,9 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-#   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+#   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
+#   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
+#   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
 #   policy_type (required) - string - Type of policy.  Valid values: `settings`.
 #   name - string - Name for this policy.
 #   description - string - Description for this policy.
@@ -199,6 +211,18 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: skip_child_site_ids must be an list"
+        )
+    if "child_site_ids" in params and not isinstance(
+        params["child_site_ids"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: child_site_ids must be an list"
+        )
+    if "default_policy" in params and not isinstance(
+        params["default_policy"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: default_policy must be an bool"
         )
     if "policy_type" in params and not isinstance(params["policy_type"], str):
         raise InvalidParameterError(
@@ -220,7 +244,9 @@ def create(params=None, options=None):
 
 # Parameters:
 #   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-#   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+#   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
+#   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
+#   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
 #   policy_type - string - Type of policy.  Valid values: `settings`.
 #   name - string - Name for this policy.
 #   description - string - Description for this policy.
@@ -239,6 +265,18 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: skip_child_site_ids must be an list"
+        )
+    if "child_site_ids" in params and not isinstance(
+        params["child_site_ids"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: child_site_ids must be an list"
+        )
+    if "default_policy" in params and not isinstance(
+        params["default_policy"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: default_policy must be an bool"
         )
     if "policy_type" in params and not isinstance(params["policy_type"], str):
         raise InvalidParameterError(
