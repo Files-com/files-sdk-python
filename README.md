@@ -632,6 +632,8 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`ReauthenticationNeededActionError`|  `NotAuthorizedError` |
 |`RecaptchaFailedError`|  `NotAuthorizedError` |
 |`RemoteDesktopDebugLoggingDisabledError`|  `NotAuthorizedError` |
+|`RootFolderBehaviorSiteAdminRequiredError`|  `NotAuthorizedError` |
+|`RootFolderBehaviorSkipSiteAdminRequiredError`|  `NotAuthorizedError` |
 |`SelfManagedRequiredError`|  `NotAuthorizedError` |
 |`SiteAdminOrPartnerAdminPermissionRequiredError`|  `NotAuthorizedError` |
 |`SiteAdminOrWorkspaceAdminOrFolderAdminPermissionRequiredError`|  `NotAuthorizedError` |
