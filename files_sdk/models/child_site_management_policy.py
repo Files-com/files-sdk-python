@@ -15,7 +15,7 @@ class ChildSiteManagementPolicy:
         "policy_type": None,  # string - Type of policy.  Valid values: `settings`.
         "name": None,  # string - Name for this policy.
         "description": None,  # string - Description for this policy.
-        "value": None,  # object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
+        "value": None,  # object - Policy configuration data. Settings policies accept site settings plus an optional `folder_behaviors` array for parent-managed root behaviors on child sites. For more information, refer to the Value Hash section of the developer documentation.
         "applied_child_site_ids": None,  # array(int64) - IDs of child sites that this policy has been applied to. This field is read-only.
         "skip_child_site_ids": None,  # array(int64) - IDs of child sites excluded from this default policy.
         "child_site_ids": None,  # array(int64) - IDs of child sites explicitly assigned to this non-default policy.
