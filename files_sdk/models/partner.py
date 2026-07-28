@@ -28,6 +28,7 @@ class Partner:
         "responsible_group_id": None,  # int64 - ID of the Group responsible for this Partner.
         "responsible_user_id": None,  # int64 - ID of the User responsible for this Partner.
         "root_folder": None,  # string - The root folder path for this Partner.
+        "show_partner_channel_home_page": None,  # boolean - Show Partner users a simplified home page built from this Partner's Channels.
         "tags": None,  # string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
         "user_ids": None,  # array(int64) - Array of User IDs that belong to this Partner.
     }
@@ -65,6 +66,7 @@ class Partner:
     #   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
     #   responsible_group_id - int64 - ID of the Group responsible for this Partner.
     #   responsible_user_id - int64 - ID of the User responsible for this Partner.
+    #   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
     #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
     #   name - string - The name of the Partner.
     #   root_folder - string - The root folder path for this Partner.
@@ -225,6 +227,7 @@ def get(id, params=None, options=None):
 #   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
 #   responsible_group_id - int64 - ID of the Group responsible for this Partner.
 #   responsible_user_id - int64 - ID of the User responsible for this Partner.
+#   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
 #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   name (required) - string - The name of the Partner.
 #   root_folder (required) - string - The root folder path for this Partner.
@@ -294,6 +297,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: responsible_user_id must be an int"
         )
+    if "show_partner_channel_home_page" in params and not isinstance(
+        params["show_partner_channel_home_page"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: show_partner_channel_home_page must be an bool"
+        )
     if "tags" in params and not isinstance(params["tags"], str):
         raise InvalidParameterError("Bad parameter: tags must be an str")
     if "name" in params and not isinstance(params["name"], str):
@@ -328,6 +337,7 @@ def create(params=None, options=None):
 #   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
 #   responsible_group_id - int64 - ID of the Group responsible for this Partner.
 #   responsible_user_id - int64 - ID of the User responsible for this Partner.
+#   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
 #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   name - string - The name of the Partner.
 #   root_folder - string - The root folder path for this Partner.
@@ -398,6 +408,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: responsible_user_id must be an int"
+        )
+    if "show_partner_channel_home_page" in params and not isinstance(
+        params["show_partner_channel_home_page"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: show_partner_channel_home_page must be an bool"
         )
     if "tags" in params and not isinstance(params["tags"], str):
         raise InvalidParameterError("Bad parameter: tags must be an str")

@@ -25,6 +25,7 @@
   "responsible_group_id": 1,
   "responsible_user_id": 1,
   "root_folder": "/AcmeCorp",
+  "show_partner_channel_home_page": True,
   "tags": "example",
   "user_ids": [
     1,
@@ -51,6 +52,7 @@
 * `responsible_group_id` (int64): ID of the Group responsible for this Partner.
 * `responsible_user_id` (int64): ID of the User responsible for this Partner.
 * `root_folder` (string): The root folder path for this Partner.
+* `show_partner_channel_home_page` (boolean): Show Partner users a simplified home page built from this Partner's Channels.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_ids` (array(int64)): Array of User IDs that belong to this Partner.
 
@@ -101,6 +103,7 @@ files_sdk.partner.create({
   "partner_channel_template_id": 1,
   "responsible_group_id": 1,
   "responsible_user_id": 1,
+  "show_partner_channel_home_page": False,
   "tags": "example",
   "name": "Acme Corp",
   "root_folder": "/AcmeCorp",
@@ -121,6 +124,7 @@ files_sdk.partner.create({
 * `partner_channel_template_id` (int64): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (int64): ID of the Group responsible for this Partner.
 * `responsible_user_id` (int64): ID of the User responsible for this Partner.
+* `show_partner_channel_home_page` (boolean): Show Partner users a simplified home page built from this Partner's Channels.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (string): Required - The name of the Partner.
 * `root_folder` (string): Required - The root folder path for this Partner.
@@ -144,6 +148,7 @@ files_sdk.partner.update(id, {
   "partner_channel_template_id": 1,
   "responsible_group_id": 1,
   "responsible_user_id": 1,
+  "show_partner_channel_home_page": False,
   "tags": "example",
   "name": "Acme Corp",
   "root_folder": "/AcmeCorp"
@@ -164,6 +169,7 @@ files_sdk.partner.update(id, {
 * `partner_channel_template_id` (int64): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (int64): ID of the Group responsible for this Partner.
 * `responsible_user_id` (int64): ID of the User responsible for this Partner.
+* `show_partner_channel_home_page` (boolean): Show Partner users a simplified home page built from this Partner's Channels.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (string): The name of the Partner.
 * `root_folder` (string): The root folder path for this Partner.
@@ -200,6 +206,7 @@ partner.update({
   "partner_channel_template_id": 1,
   "responsible_group_id": 1,
   "responsible_user_id": 1,
+  "show_partner_channel_home_page": False,
   "tags": "example",
   "name": "Acme Corp",
   "root_folder": "/AcmeCorp"
@@ -220,6 +227,7 @@ partner.update({
 * `partner_channel_template_id` (int64): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (int64): ID of the Group responsible for this Partner.
 * `responsible_user_id` (int64): ID of the User responsible for this Partner.
+* `show_partner_channel_home_page` (boolean): Show Partner users a simplified home page built from this Partner's Channels.
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (string): The name of the Partner.
 * `root_folder` (string): The root folder path for this Partner.
