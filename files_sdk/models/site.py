@@ -89,6 +89,7 @@ class Site:
         "domain_hsts_header": None,  # boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
         "domain_letsencrypt_chain": None,  # string - Letsencrypt chain to use when registering SSL Certificate for domain. No longer used as of 2026.
         "email": None,  # email - Main email for this site
+        "fedramp": None,  # boolean - Are FedRAMP security restrictions enabled for this site?
         "ftp_enabled": None,  # boolean - Is FTP enabled?
         "reply_to_email": None,  # email - Reply-to email for this site
         "non_sso_groups_allowed": None,  # boolean - If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
@@ -313,6 +314,7 @@ def get_usage(params=None, options=None):
 #   sftp_insecure_ciphers - boolean - If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
 #   sftp_insecure_diffie_hellman - boolean - If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
 #   disable_files_certificate_generation - boolean - If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
+#   fedramp - boolean - Are FedRAMP security restrictions enabled for this site?
 #   user_lockout - boolean - Will users be locked out after incorrect login attempts?
 #   user_lockout_tries - int64 - Number of login tries within `user_lockout_within` hours before users are locked out
 #   user_lockout_within - int64 - Number of hours for user lockout window
@@ -746,6 +748,8 @@ def update(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: disable_files_certificate_generation must be an bool"
         )
+    if "fedramp" in params and not isinstance(params["fedramp"], bool):
+        raise InvalidParameterError("Bad parameter: fedramp must be an bool")
     if "user_lockout" in params and not isinstance(
         params["user_lockout"], bool
     ):
