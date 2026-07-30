@@ -80,6 +80,7 @@ class RemoteServer:
         "files_agent_up_to_date": None,  # boolean - If true, the Files Agent is up to date.
         "files_agent_latest_version": None,  # string - Latest available Files Agent version
         "files_agent_supports_push_updates": None,  # boolean - Files Agent supports receiving push updates
+        "direct_transfer_available": None,  # boolean - Whether the Files Agent Proxy recently validated a direct transfer connection. `true` means a direct connection was recently validated (actual availability can vary by client network), `false` means direct transfers are enabled but not currently available, and `null` means direct transfers are disabled or unsupported. Only provided for a connected Files Agent when showing a single Remote Server.
         "outbound_agent_id": None,  # int64 - Route traffic to outbound on a files-agent
         "filebase_bucket": None,  # string - Filebase: Bucket name
         "filebase_access_key": None,  # string - Filebase: Access Key.
