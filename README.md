@@ -563,6 +563,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`MethodNotAllowedError`|  `BadRequestError` |
 |`MultipleSortParamsNotAllowedError`|  `BadRequestError` |
 |`NoValidInputParamsError`|  `BadRequestError` |
+|`OffsetUploadNotAllowedWithMalwareScanningError`|  `BadRequestError` |
 |`PartNumberTooLargeError`|  `BadRequestError` |
 |`PathCannotHaveTrailingWhitespaceError`|  `BadRequestError` |
 |`ReauthenticationNeededFieldsError`|  `BadRequestError` |
