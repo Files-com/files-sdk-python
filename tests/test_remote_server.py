@@ -8,6 +8,14 @@ from files_sdk import remote_server
 class RemoteServerTest(TestBase):
     pass 
     # Instance Methods
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers/{id}/agent_nodes"), "Mock path does not exist")
+    def test_agent_nodes(self):
+        params = {
+            "id" : 12345,
+        }
+        remote_server = RemoteServer(params)
+        remote_server.agent_nodes(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers/{id}/agent_push_update"), "Mock path does not exist")
     def test_agent_push_update(self):
         params = {
@@ -56,6 +64,14 @@ class RemoteServerTest(TestBase):
             "id" : 12345,
         }
         remote_server.find(id, params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers/{id}/agent_nodes"), "Mock path does not exist")
+    def test_agent_nodes(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+        }
+        remote_server.agent_nodes(id, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers/{id}/configuration_file"), "Mock path does not exist")
     def test_find_configuration_file(self):

@@ -14,6 +14,7 @@ class RemoteServerConfigurationFile:
         "private_key": None,  # string - The private key for the agent
         "subdomain": None,  # string - Files.com subdomain site name
         "root": None,  # string - The root directory for the agent
+        "node_name": None,  # string - Optional customer-facing name for this Agent installation
         "follow_links": None,  # boolean - Follow symlinks when traversing directories
         "prefer_protocol": None,  # string - Preferred network protocol ['udp', 'tcp'] (default udp)
         "dns": None,  # string - DNS lookup method ['auto','doh','system'] (default auto)

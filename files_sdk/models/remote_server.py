@@ -1,5 +1,6 @@
 import builtins  # noqa: F401
 from urllib.parse import quote
+from files_sdk.models.agent_node import AgentNode
 from files_sdk.models.agent_push_update import AgentPushUpdate
 from files_sdk.models.remote_server_configuration_file import (
     RemoteServerConfigurationFile,
@@ -141,6 +142,29 @@ class RemoteServer:
             if getattr(self, k, None) is not None
         }
         return attrs
+
+    # List Files.com Agent nodes
+    def agent_nodes(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "id") and self.id:
+            params["id"] = self.id
+        else:
+            raise MissingParameterError("Current object doesn't have a id")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and not isinstance(params["id"], int):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        response, _options = Api.send_request(
+            "GET",
+            "/remote_servers/{id}/agent_nodes".format(
+                id=quote(str(params["id"]), safe="")
+            ),
+            params,
+            self.options,
+        )
+        return response.data
 
     # Push update to Files Agent
     def agent_push_update(self, params=None):
@@ -887,6 +911,28 @@ def find(id, params=None, options=None):
 
 def get(id, params=None, options=None):
     find(id, params, options)
+
+
+# List Files.com Agent nodes
+def agent_nodes(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    response, options = Api.send_request(
+        "GET",
+        "/remote_servers/{id}/agent_nodes".format(
+            id=quote(str(params["id"]), safe="")
+        ),
+        params,
+        options,
+    )
+    return AgentNode(response.data, options)
 
 
 # Parameters:

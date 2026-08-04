@@ -9,6 +9,7 @@
   "private_key": "example",
   "subdomain": "example",
   "root": "C:\\Users\\",
+  "node_name": "example",
   "follow_links": True,
   "prefer_protocol": "example",
   "dns": "example",
@@ -37,6 +38,7 @@
 * `private_key` (string): The private key for the agent
 * `subdomain` (string): Files.com subdomain site name
 * `root` (string): The root directory for the agent
+* `node_name` (string): Optional customer-facing name for this Agent installation
 * `follow_links` (boolean): Follow symlinks when traversing directories
 * `prefer_protocol` (string): Preferred network protocol ['udp', 'tcp'] (default udp)
 * `dns` (string): DNS lookup method ['auto','doh','system'] (default auto)

@@ -4,6 +4,7 @@ import files_sdk.models.action as action
 import files_sdk.models.action_log as action_log
 import files_sdk.models.action_notification_export as action_notification_export
 import files_sdk.models.action_notification_export_result as action_notification_export_result
+import files_sdk.models.agent_node as agent_node
 import files_sdk.models.agent_push_update as agent_push_update
 import files_sdk.models.ai_assistant_personality as ai_assistant_personality
 import files_sdk.models.ai_task as ai_task
@@ -154,6 +155,7 @@ from files_sdk.models.action_notification_export import (
 from files_sdk.models.action_notification_export_result import (
     ActionNotificationExportResult,
 )
+from files_sdk.models.agent_node import AgentNode
 from files_sdk.models.agent_push_update import AgentPushUpdate
 from files_sdk.models.ai_assistant_personality import AiAssistantPersonality
 from files_sdk.models.ai_task import AiTask
@@ -320,7 +322,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.446"
+version = "1.6.447"
 
 __version__ = version
 

@@ -223,6 +223,19 @@ files_sdk.remote_server.find(id)
 
 ---
 
+## List Files.com Agent nodes
+
+```
+files_sdk.remote_server.agent_nodes(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
+
+
+---
+
 ## Download configuration file (required for some Remote Server integrations, such as the Files.com Agent)
 
 ```
@@ -606,6 +619,20 @@ files_sdk.remote_server.update(id, {
 
 ```
 files_sdk.remote_server.delete(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - Remote Server ID.
+
+
+---
+
+## List Files.com Agent nodes
+
+```
+remote_server = files_sdk.remote_server.find(id)
+remote_server.agent_nodes()
 ```
 
 ### Parameters
