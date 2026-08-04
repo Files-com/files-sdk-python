@@ -16,6 +16,7 @@ class SsoStrategy:
         "label": None,  # string - Custom label for the SSO provider on the login page.
         "logo_url": None,  # string - URL holding a custom logo for the SSO provider on the login page.
         "id": None,  # int64 - ID
+        "enabled": None,  # boolean - Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
         "user_count": None,  # int64 - Count of users with this SSO Strategy
         "saml_provider_cert_fingerprint": None,  # string - Identity provider sha256 cert fingerprint if saml_provider_metadata_url is not available.
         "saml_provider_issuer_url": None,  # string - Identity provider issuer url
@@ -52,7 +53,6 @@ class SsoStrategy:
         "provider_identifier": None,  # string - URL-friendly, unique identifier for Azure SAML configuration
         "ldap_base_dn": None,  # string - Base DN for looking up users in LDAP server
         "ldap_domain": None,  # string - Domain name that will be appended to LDAP usernames
-        "enabled": None,  # boolean - Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
         "display_on_login_page": None,  # boolean - Should this strategy be displayed on the login page?
         "ldap_host": None,  # string - LDAP host
         "ldap_host_2": None,  # string - LDAP backup host
