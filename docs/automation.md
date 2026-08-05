@@ -283,7 +283,7 @@ files_sdk.automation.upgrade(id)
 
 ---
 
-## Manually Run Automation. v2 Automations require Site or Workspace Admin permission
+## Manually Run Automation
 
 ```
 files_sdk.automation.manual_run(id, {
@@ -406,7 +406,7 @@ automation.upgrade()
 
 ---
 
-## Manually Run Automation. v2 Automations require Site or Workspace Admin permission
+## Manually Run Automation
 
 ```
 automation = files_sdk.automation.find(id)
