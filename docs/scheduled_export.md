@@ -16,6 +16,10 @@
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
+  "recurring_days": [
+    1,
+    15
+  ],
   "schedule_id": 1,
   "schedule_days_of_week": [
     1,
@@ -45,6 +49,7 @@
 * `trigger` (string): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (array(int64)): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the scheduled export schedule.
@@ -101,6 +106,7 @@ files_sdk.scheduled_export.create({
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
+  "recurring_days": [1,15],
   "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_times_of_day": ["06:30"],
@@ -119,6 +125,7 @@ files_sdk.scheduled_export.create({
 * `trigger` (string): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (array(int64)): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the scheduled export schedule.
@@ -140,6 +147,7 @@ files_sdk.scheduled_export.update(id, {
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
+  "recurring_days": [1,15],
   "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_times_of_day": ["06:30"],
@@ -159,6 +167,7 @@ files_sdk.scheduled_export.update(id, {
 * `trigger` (string): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (array(int64)): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the scheduled export schedule.
@@ -194,6 +203,7 @@ scheduled_export.update({
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
+  "recurring_days": [1,15],
   "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_times_of_day": ["06:30"],
@@ -213,6 +223,7 @@ scheduled_export.update({
 * `trigger` (string): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (array(int64)): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the scheduled export schedule.

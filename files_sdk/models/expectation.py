@@ -24,6 +24,7 @@ class Expectation:
         "trigger": None,  # string - How this expectation opens windows.
         "interval": None,  # string - If trigger is `daily`, this specifies how often to run the expectation.
         "recurring_day": None,  # int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+        "recurring_days": None,  # array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
         "schedule_id": None,  # int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
         "schedule_times_of_day": None,  # array(string) - Times of day in HH:MM format for the Expectation schedule.
@@ -96,6 +97,7 @@ class Expectation:
     #   trigger - string - How this expectation opens windows.
     #   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
     #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+    #   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
     #   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
     #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
     #   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
@@ -150,6 +152,12 @@ class Expectation:
         ):
             raise InvalidParameterError(
                 "Bad parameter: recurring_day must be an int"
+            )
+        if "recurring_days" in params and not isinstance(
+            params["recurring_days"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: recurring_days must be an list"
             )
         if "schedule_id" in params and not isinstance(
             params["schedule_id"], int
@@ -312,6 +320,7 @@ def get(id, params=None, options=None):
 #   trigger - string - How this expectation opens windows.
 #   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+#   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 #   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 #   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
@@ -355,6 +364,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
+        )
+    if "recurring_days" in params and not isinstance(
+        params["recurring_days"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: recurring_days must be an list"
         )
     if "schedule_id" in params and not isinstance(params["schedule_id"], int):
         raise InvalidParameterError(
@@ -454,6 +469,7 @@ def trigger_evaluation(id, params=None, options=None):
 #   trigger - string - How this expectation opens windows.
 #   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+#   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 #   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 #   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
@@ -500,6 +516,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
+        )
+    if "recurring_days" in params and not isinstance(
+        params["recurring_days"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: recurring_days must be an list"
         )
     if "schedule_id" in params and not isinstance(params["schedule_id"], int):
         raise InvalidParameterError(

@@ -24,6 +24,7 @@ class AiTask:
         "trigger_actions": None,  # array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
         "interval": None,  # string - If trigger is `daily`, this specifies how often to run the AI Task.
         "recurring_day": None,  # int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+        "recurring_days": None,  # array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
         "schedule_id": None,  # int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
         "schedule_times_of_day": None,  # array(string) - Times of day in HH:MM format for the AI Task schedule.
@@ -89,6 +90,7 @@ class AiTask:
     #   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
     #   prompt - string - Prompt sent when this AI Task is invoked.
     #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+    #   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
     #   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
     #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
     #   schedule_time_zone - string - Time zone used by the AI Task schedule.
@@ -142,6 +144,12 @@ class AiTask:
         ):
             raise InvalidParameterError(
                 "Bad parameter: recurring_day must be an int"
+            )
+        if "recurring_days" in params and not isinstance(
+            params["recurring_days"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: recurring_days must be an list"
             )
         if "schedule_id" in params and not isinstance(
             params["schedule_id"], int
@@ -286,6 +294,7 @@ def get(id, params=None, options=None):
 #   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 #   prompt (required) - string - Prompt sent when this AI Task is invoked.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+#   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 #   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 #   schedule_time_zone - string - Time zone used by the AI Task schedule.
@@ -330,6 +339,12 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
+        )
+    if "recurring_days" in params and not isinstance(
+        params["recurring_days"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: recurring_days must be an list"
         )
     if "schedule_id" in params and not isinstance(params["schedule_id"], int):
         raise InvalidParameterError(
@@ -408,6 +423,7 @@ def manual_run(id, params=None, options=None):
 #   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 #   prompt - string - Prompt sent when this AI Task is invoked.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+#   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 #   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 #   schedule_time_zone - string - Time zone used by the AI Task schedule.
@@ -455,6 +471,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
+        )
+    if "recurring_days" in params and not isinstance(
+        params["recurring_days"], builtins.list
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: recurring_days must be an list"
         )
     if "schedule_id" in params and not isinstance(params["schedule_id"], int):
         raise InvalidParameterError(

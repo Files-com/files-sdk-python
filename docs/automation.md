@@ -48,6 +48,10 @@
   "path_time_zone": "Eastern Time (US & Canada)",
   "version": 1,
   "recurring_day": 25,
+  "recurring_days": [
+    1,
+    15
+  ],
   "schedule_id": 1,
   "retry_on_failure_interval_in_minutes": 60,
   "retry_on_failure_number_of_attempts": 10,
@@ -127,6 +131,7 @@
 * `path_time_zone` (string): Timezone to use when rendering timestamps in paths.
 * `version` (int64): Current Automation v2 definition version.
 * `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` (array(int64)): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
 * `retry_on_failure_interval_in_minutes` (int64): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
 * `retry_on_failure_number_of_attempts` (int64): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
@@ -228,6 +233,7 @@ files_sdk.automation.create({
   "trigger_actions": ["create"],
   "value": {"limit":"1"},
   "recurring_day": 25,
+  "recurring_days": [1,15],
   "automation": "create_folder",
   "workspace_id": 0
 })
@@ -268,6 +274,7 @@ files_sdk.automation.create({
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
 * `value` (object): A Hash of attributes specific to the automation type.
 * `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` (array(int64)): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `automation` (string): Required - Automation type
 * `workspace_id` (int64): Workspace ID
 
@@ -340,6 +347,7 @@ files_sdk.automation.update(id, {
   "trigger_actions": ["create"],
   "value": {"limit":"1"},
   "recurring_day": 25,
+  "recurring_days": [1,15],
   "automation": "create_folder"
 })
 ```
@@ -380,6 +388,7 @@ files_sdk.automation.update(id, {
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
 * `value` (object): A Hash of attributes specific to the automation type.
 * `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` (array(int64)): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `automation` (string): Automation type
 
 
@@ -467,6 +476,7 @@ automation.update({
   "trigger_actions": ["create"],
   "value": {"limit":"1"},
   "recurring_day": 25,
+  "recurring_days": [1,15],
   "automation": "create_folder"
 })
 ```
@@ -507,6 +517,7 @@ automation.update({
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
 * `value` (object): A Hash of attributes specific to the automation type.
 * `recurring_day` (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` (array(int64)): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `automation` (string): Automation type
 
 
