@@ -16,6 +16,7 @@
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
+  "schedule_id": 1,
   "schedule_days_of_week": [
     1,
     3,
@@ -44,10 +45,11 @@
 * `trigger` (string): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for schedule-driven exports.
-* `schedule_time_zone` (string): Time zone used by the scheduled export.
-* `holiday_region` (string): Optional holiday region used by schedule-driven exports.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the scheduled export schedule.
+* `schedule_time_zone` (string): Time zone used by the scheduled export schedule.
+* `holiday_region` (string): Optional holiday region used by the scheduled export schedule.
 * `human_readable_schedule` (string): Human-readable schedule description.
 * `last_run_at` (date-time): Most recent scheduled run time.
 * `last_export_id` (int64): Most recent Export ID created by this schedule.
@@ -99,6 +101,7 @@ files_sdk.scheduled_export.create({
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
+  "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_times_of_day": ["06:30"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
@@ -116,10 +119,11 @@ files_sdk.scheduled_export.create({
 * `trigger` (string): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for schedule-driven exports.
-* `schedule_time_zone` (string): Time zone used by the scheduled export.
-* `holiday_region` (string): Optional holiday region used by schedule-driven exports.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the scheduled export schedule.
+* `schedule_time_zone` (string): Time zone used by the scheduled export schedule.
+* `holiday_region` (string): Optional holiday region used by the scheduled export schedule.
 
 
 ---
@@ -136,6 +140,7 @@ files_sdk.scheduled_export.update(id, {
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
+  "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_times_of_day": ["06:30"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
@@ -154,10 +159,11 @@ files_sdk.scheduled_export.update(id, {
 * `trigger` (string): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for schedule-driven exports.
-* `schedule_time_zone` (string): Time zone used by the scheduled export.
-* `holiday_region` (string): Optional holiday region used by schedule-driven exports.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the scheduled export schedule.
+* `schedule_time_zone` (string): Time zone used by the scheduled export schedule.
+* `holiday_region` (string): Optional holiday region used by the scheduled export schedule.
 
 
 ---
@@ -188,6 +194,7 @@ scheduled_export.update({
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
+  "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_times_of_day": ["06:30"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
@@ -206,10 +213,11 @@ scheduled_export.update({
 * `trigger` (string): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for schedule-driven exports.
-* `schedule_time_zone` (string): Time zone used by the scheduled export.
-* `holiday_region` (string): Optional holiday region used by schedule-driven exports.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the scheduled export schedule.
+* `schedule_time_zone` (string): Time zone used by the scheduled export schedule.
+* `holiday_region` (string): Optional holiday region used by the scheduled export schedule.
 
 
 ---

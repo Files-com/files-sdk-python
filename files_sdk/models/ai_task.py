@@ -24,10 +24,11 @@ class AiTask:
         "trigger_actions": None,  # array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
         "interval": None,  # string - If trigger is `daily`, this specifies how often to run the AI Task.
         "recurring_day": None,  # int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+        "schedule_id": None,  # int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-        "schedule_times_of_day": None,  # array(string) - Times of day in HH:MM format for scheduled AI Tasks.
+        "schedule_times_of_day": None,  # array(string) - Times of day in HH:MM format for the AI Task schedule.
         "schedule_time_zone": None,  # string - Time zone used by the AI Task schedule.
-        "holiday_region": None,  # string - Optional holiday region used by scheduled AI Tasks.
+        "holiday_region": None,  # string - Optional holiday region used by the AI Task schedule.
         "human_readable_schedule": None,  # string - Human-readable schedule description.
         "last_run_at": None,  # date-time - Most recent successful invocation time.
         "master_admin_user_id": None,  # int64 - Master User ID used for AI Task invocations.
@@ -81,16 +82,17 @@ class AiTask:
     # Parameters:
     #   description - string - AI Task description.
     #   disabled - boolean - If true, this AI Task will not run.
-    #   holiday_region - string - Optional holiday region used by scheduled AI Tasks.
+    #   holiday_region - string - Optional holiday region used by the AI Task schedule.
     #   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
     #   name - string - AI Task name.
     #   path - string - Path scope used for action-triggered AI Tasks.
     #   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
     #   prompt - string - Prompt sent when this AI Task is invoked.
     #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+    #   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
     #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
     #   schedule_time_zone - string - Time zone used by the AI Task schedule.
-    #   schedule_times_of_day - array(string) - Times of day in HH:MM format for scheduled AI Tasks.
+    #   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
     #   source - string - Source glob used with `path` for action-triggered AI Tasks.
     #   trigger - string - How this AI Task is triggered.
     #   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
@@ -140,6 +142,12 @@ class AiTask:
         ):
             raise InvalidParameterError(
                 "Bad parameter: recurring_day must be an int"
+            )
+        if "schedule_id" in params and not isinstance(
+            params["schedule_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_id must be an int"
             )
         if "schedule_days_of_week" in params and not isinstance(
             params["schedule_days_of_week"], builtins.list
@@ -271,16 +279,17 @@ def get(id, params=None, options=None):
 # Parameters:
 #   description - string - AI Task description.
 #   disabled - boolean - If true, this AI Task will not run.
-#   holiday_region - string - Optional holiday region used by scheduled AI Tasks.
+#   holiday_region - string - Optional holiday region used by the AI Task schedule.
 #   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
 #   name (required) - string - AI Task name.
 #   path - string - Path scope used for action-triggered AI Tasks.
 #   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 #   prompt (required) - string - Prompt sent when this AI Task is invoked.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+#   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 #   schedule_time_zone - string - Time zone used by the AI Task schedule.
-#   schedule_times_of_day - array(string) - Times of day in HH:MM format for scheduled AI Tasks.
+#   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
 #   source - string - Source glob used with `path` for action-triggered AI Tasks.
 #   trigger - string - How this AI Task is triggered.
 #   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
@@ -321,6 +330,10 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
+        )
+    if "schedule_id" in params and not isinstance(params["schedule_id"], int):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_id must be an int"
         )
     if "schedule_days_of_week" in params and not isinstance(
         params["schedule_days_of_week"], builtins.list
@@ -388,16 +401,17 @@ def manual_run(id, params=None, options=None):
 # Parameters:
 #   description - string - AI Task description.
 #   disabled - boolean - If true, this AI Task will not run.
-#   holiday_region - string - Optional holiday region used by scheduled AI Tasks.
+#   holiday_region - string - Optional holiday region used by the AI Task schedule.
 #   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
 #   name - string - AI Task name.
 #   path - string - Path scope used for action-triggered AI Tasks.
 #   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 #   prompt - string - Prompt sent when this AI Task is invoked.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+#   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 #   schedule_time_zone - string - Time zone used by the AI Task schedule.
-#   schedule_times_of_day - array(string) - Times of day in HH:MM format for scheduled AI Tasks.
+#   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
 #   source - string - Source glob used with `path` for action-triggered AI Tasks.
 #   trigger - string - How this AI Task is triggered.
 #   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
@@ -441,6 +455,10 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
+        )
+    if "schedule_id" in params and not isinstance(params["schedule_id"], int):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_id must be an int"
         )
     if "schedule_days_of_week" in params and not isinstance(
         params["schedule_days_of_week"], builtins.list

@@ -19,6 +19,7 @@
   ],
   "interval": "day",
   "recurring_day": 1,
+  "schedule_id": 1,
   "schedule_days_of_week": [
     1,
     3,
@@ -50,10 +51,11 @@
 * `trigger_actions` (array(string)): If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the AI Task.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for scheduled AI Tasks.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the AI Task schedule.
 * `schedule_time_zone` (string): Time zone used by the AI Task schedule.
-* `holiday_region` (string): Optional holiday region used by scheduled AI Tasks.
+* `holiday_region` (string): Optional holiday region used by the AI Task schedule.
 * `human_readable_schedule` (string): Human-readable schedule description.
 * `last_run_at` (date-time): Most recent successful invocation time.
 * `master_admin_user_id` (int64): Master User ID used for AI Task invocations.
@@ -105,6 +107,7 @@ files_sdk.ai_task.create({
   "permission_set": "files_only",
   "prompt": "Summarize the uploaded file and identify follow-up actions.",
   "recurring_day": 1,
+  "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_times_of_day": ["06:30"],
@@ -119,16 +122,17 @@ files_sdk.ai_task.create({
 
 * `description` (string): AI Task description.
 * `disabled` (boolean): If true, this AI Task will not run.
-* `holiday_region` (string): Optional holiday region used by scheduled AI Tasks.
+* `holiday_region` (string): Optional holiday region used by the AI Task schedule.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the AI Task.
 * `name` (string): Required - AI Task name.
 * `path` (string): Path scope used for action-triggered AI Tasks.
 * `permission_set` (string): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 * `prompt` (string): Required - Prompt sent when this AI Task is invoked.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_time_zone` (string): Time zone used by the AI Task schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for scheduled AI Tasks.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the AI Task schedule.
 * `source` (string): Source glob used with `path` for action-triggered AI Tasks.
 * `trigger` (string): How this AI Task is triggered.
 * `trigger_actions` (array(string)): If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
@@ -163,6 +167,7 @@ files_sdk.ai_task.update(id, {
   "permission_set": "files_only",
   "prompt": "Summarize the uploaded file and identify follow-up actions.",
   "recurring_day": 1,
+  "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_times_of_day": ["06:30"],
@@ -178,16 +183,17 @@ files_sdk.ai_task.update(id, {
 * `id` (int64): Required - Ai Task ID.
 * `description` (string): AI Task description.
 * `disabled` (boolean): If true, this AI Task will not run.
-* `holiday_region` (string): Optional holiday region used by scheduled AI Tasks.
+* `holiday_region` (string): Optional holiday region used by the AI Task schedule.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the AI Task.
 * `name` (string): AI Task name.
 * `path` (string): Path scope used for action-triggered AI Tasks.
 * `permission_set` (string): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 * `prompt` (string): Prompt sent when this AI Task is invoked.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_time_zone` (string): Time zone used by the AI Task schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for scheduled AI Tasks.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the AI Task schedule.
 * `source` (string): Source glob used with `path` for action-triggered AI Tasks.
 * `trigger` (string): How this AI Task is triggered.
 * `trigger_actions` (array(string)): If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
@@ -237,6 +243,7 @@ ai_task.update({
   "permission_set": "files_only",
   "prompt": "Summarize the uploaded file and identify follow-up actions.",
   "recurring_day": 1,
+  "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_times_of_day": ["06:30"],
@@ -252,16 +259,17 @@ ai_task.update({
 * `id` (int64): Required - Ai Task ID.
 * `description` (string): AI Task description.
 * `disabled` (boolean): If true, this AI Task will not run.
-* `holiday_region` (string): Optional holiday region used by scheduled AI Tasks.
+* `holiday_region` (string): Optional holiday region used by the AI Task schedule.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the AI Task.
 * `name` (string): AI Task name.
 * `path` (string): Path scope used for action-triggered AI Tasks.
 * `permission_set` (string): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 * `prompt` (string): Prompt sent when this AI Task is invoked.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_time_zone` (string): Time zone used by the AI Task schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for scheduled AI Tasks.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the AI Task schedule.
 * `source` (string): Source glob used with `path` for action-triggered AI Tasks.
 * `trigger` (string): How this AI Task is triggered.
 * `trigger_actions` (array(string)): If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.

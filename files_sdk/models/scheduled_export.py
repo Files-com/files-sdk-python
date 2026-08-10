@@ -21,10 +21,11 @@ class ScheduledExport:
         "trigger": None,  # string - Schedule trigger type: `daily` or `custom_schedule`.
         "interval": None,  # string - If trigger is `daily`, this specifies how often to run the scheduled export.
         "recurring_day": None,  # int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+        "schedule_id": None,  # int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-        "schedule_times_of_day": None,  # array(string) - Times of day in HH:MM format for schedule-driven exports.
-        "schedule_time_zone": None,  # string - Time zone used by the scheduled export.
-        "holiday_region": None,  # string - Optional holiday region used by schedule-driven exports.
+        "schedule_times_of_day": None,  # array(string) - Times of day in HH:MM format for the scheduled export schedule.
+        "schedule_time_zone": None,  # string - Time zone used by the scheduled export schedule.
+        "holiday_region": None,  # string - Optional holiday region used by the scheduled export schedule.
         "human_readable_schedule": None,  # string - Human-readable schedule description.
         "last_run_at": None,  # date-time - Most recent scheduled run time.
         "last_export_id": None,  # int64 - Most recent Export ID created by this schedule.
@@ -65,10 +66,11 @@ class ScheduledExport:
     #   trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
     #   interval - string - If trigger is `daily`, this specifies how often to run the scheduled export.
     #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+    #   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
     #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-    #   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven exports.
-    #   schedule_time_zone - string - Time zone used by the scheduled export.
-    #   holiday_region - string - Optional holiday region used by schedule-driven exports.
+    #   schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
+    #   schedule_time_zone - string - Time zone used by the scheduled export schedule.
+    #   holiday_region - string - Optional holiday region used by the scheduled export schedule.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -106,6 +108,12 @@ class ScheduledExport:
         ):
             raise InvalidParameterError(
                 "Bad parameter: recurring_day must be an int"
+            )
+        if "schedule_id" in params and not isinstance(
+            params["schedule_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_id must be an int"
             )
         if "schedule_days_of_week" in params and not isinstance(
             params["schedule_days_of_week"], builtins.list
@@ -244,10 +252,11 @@ def get(id, params=None, options=None):
 #   trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
 #   interval - string - If trigger is `daily`, this specifies how often to run the scheduled export.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+#   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-#   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven exports.
-#   schedule_time_zone - string - Time zone used by the scheduled export.
-#   holiday_region - string - Optional holiday region used by schedule-driven exports.
+#   schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
+#   schedule_time_zone - string - Time zone used by the scheduled export schedule.
+#   holiday_region - string - Optional holiday region used by the scheduled export schedule.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -278,6 +287,10 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
+        )
+    if "schedule_id" in params and not isinstance(params["schedule_id"], int):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_id must be an int"
         )
     if "schedule_days_of_week" in params and not isinstance(
         params["schedule_days_of_week"], builtins.list
@@ -322,10 +335,11 @@ def create(params=None, options=None):
 #   trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
 #   interval - string - If trigger is `daily`, this specifies how often to run the scheduled export.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+#   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-#   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven exports.
-#   schedule_time_zone - string - Time zone used by the scheduled export.
-#   holiday_region - string - Optional holiday region used by schedule-driven exports.
+#   schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
+#   schedule_time_zone - string - Time zone used by the scheduled export schedule.
+#   holiday_region - string - Optional holiday region used by the scheduled export schedule.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -359,6 +373,10 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
+        )
+    if "schedule_id" in params and not isinstance(params["schedule_id"], int):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_id must be an int"
         )
     if "schedule_days_of_week" in params and not isinstance(
         params["schedule_days_of_week"], builtins.list

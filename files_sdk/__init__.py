@@ -5,6 +5,8 @@ import files_sdk.models.action_log as action_log
 import files_sdk.models.action_notification_export as action_notification_export
 import files_sdk.models.action_notification_export_result as action_notification_export_result
 import files_sdk.models.agent_node as agent_node
+import files_sdk.models.agent_node_connection as agent_node_connection
+import files_sdk.models.agent_node_instance as agent_node_instance
 import files_sdk.models.agent_push_update as agent_push_update
 import files_sdk.models.ai_assistant_personality as ai_assistant_personality
 import files_sdk.models.ai_task as ai_task
@@ -109,6 +111,7 @@ import files_sdk.models.remote_server_configuration_file as remote_server_config
 import files_sdk.models.remote_server_credential as remote_server_credential
 import files_sdk.models.request as request
 import files_sdk.models.restore as restore
+import files_sdk.models.schedule as schedule
 import files_sdk.models.scheduled_export as scheduled_export
 import files_sdk.models.scim_log as scim_log
 import files_sdk.models.secret as secret
@@ -156,6 +159,8 @@ from files_sdk.models.action_notification_export_result import (
     ActionNotificationExportResult,
 )
 from files_sdk.models.agent_node import AgentNode
+from files_sdk.models.agent_node_connection import AgentNodeConnection
+from files_sdk.models.agent_node_instance import AgentNodeInstance
 from files_sdk.models.agent_push_update import AgentPushUpdate
 from files_sdk.models.ai_assistant_personality import AiAssistantPersonality
 from files_sdk.models.ai_task import AiTask
@@ -270,6 +275,7 @@ from files_sdk.models.remote_server_configuration_file import (
 from files_sdk.models.remote_server_credential import RemoteServerCredential
 from files_sdk.models.request import Request
 from files_sdk.models.restore import Restore
+from files_sdk.models.schedule import Schedule
 from files_sdk.models.scheduled_export import ScheduledExport
 from files_sdk.models.scim_log import ScimLog
 from files_sdk.models.secret import Secret
@@ -322,7 +328,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.448"
+version = "1.6.449"
 
 __version__ = version
 

@@ -13,11 +13,11 @@ class AgentNode:
         "name": None,  # string - Customer-configured Agent node name
         "hostname": None,  # string - Hostname reported by the Agent
         "availability_role": None,  # string - Configured traffic preference
-        "connection_status": None,  # string - Whether this node is currently available for traffic
+        "status": None,  # string - Whether this node currently has an available Agent instance
         "is_default": None,  # boolean - Whether this node is the current default route for new unscoped work
-        "agent_version": None,  # string - Agent version reported by this node
         "direct_transfer_available": None,  # boolean - Whether the proxy recently validated a direct connection to this Agent node. False means direct transfers are enabled but not currently available; null means disabled or unsupported.
         "last_seen_at": None,  # date-time - Most recent successful node observation
+        "instances": None,  # array(object) - Current Agent processes for this node
     }
 
     def __init__(self, attributes=None, options=None):

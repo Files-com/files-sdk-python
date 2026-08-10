@@ -24,10 +24,11 @@ class Expectation:
         "trigger": None,  # string - How this expectation opens windows.
         "interval": None,  # string - If trigger is `daily`, this specifies how often to run the expectation.
         "recurring_day": None,  # int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+        "schedule_id": None,  # int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-        "schedule_times_of_day": None,  # array(string) - Times of day in HH:MM format for schedule-driven expectations.
-        "schedule_time_zone": None,  # string - Time zone used by the expectation schedule.
-        "holiday_region": None,  # string - Optional holiday region used by schedule-driven expectations.
+        "schedule_times_of_day": None,  # array(string) - Times of day in HH:MM format for the Expectation schedule.
+        "schedule_time_zone": None,  # string - Time zone used by the Expectation schedule.
+        "holiday_region": None,  # string - Optional holiday region used by the Expectation schedule.
         "lookback_interval": None,  # int64 - How many seconds before the due boundary the window starts.
         "late_acceptance_interval": None,  # int64 - How many seconds a schedule-driven window may remain eligible to close as late.
         "inactivity_interval": None,  # int64 - How many quiet seconds are required before final closure.
@@ -95,10 +96,11 @@ class Expectation:
     #   trigger - string - How this expectation opens windows.
     #   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
     #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+    #   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
     #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-    #   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven expectations.
-    #   schedule_time_zone - string - Time zone used by the expectation schedule.
-    #   holiday_region - string - Optional holiday region used by schedule-driven expectations.
+    #   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
+    #   schedule_time_zone - string - Time zone used by the Expectation schedule.
+    #   holiday_region - string - Optional holiday region used by the Expectation schedule.
     #   lookback_interval - int64 - How many seconds before the due boundary the window starts.
     #   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
     #   inactivity_interval - int64 - How many quiet seconds are required before final closure.
@@ -148,6 +150,12 @@ class Expectation:
         ):
             raise InvalidParameterError(
                 "Bad parameter: recurring_day must be an int"
+            )
+        if "schedule_id" in params and not isinstance(
+            params["schedule_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_id must be an int"
             )
         if "schedule_days_of_week" in params and not isinstance(
             params["schedule_days_of_week"], builtins.list
@@ -304,10 +312,11 @@ def get(id, params=None, options=None):
 #   trigger - string - How this expectation opens windows.
 #   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+#   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-#   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven expectations.
-#   schedule_time_zone - string - Time zone used by the expectation schedule.
-#   holiday_region - string - Optional holiday region used by schedule-driven expectations.
+#   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
+#   schedule_time_zone - string - Time zone used by the Expectation schedule.
+#   holiday_region - string - Optional holiday region used by the Expectation schedule.
 #   lookback_interval - int64 - How many seconds before the due boundary the window starts.
 #   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
 #   inactivity_interval - int64 - How many quiet seconds are required before final closure.
@@ -346,6 +355,10 @@ def create(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
+        )
+    if "schedule_id" in params and not isinstance(params["schedule_id"], int):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_id must be an int"
         )
     if "schedule_days_of_week" in params and not isinstance(
         params["schedule_days_of_week"], builtins.list
@@ -441,10 +454,11 @@ def trigger_evaluation(id, params=None, options=None):
 #   trigger - string - How this expectation opens windows.
 #   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
 #   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+#   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 #   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-#   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven expectations.
-#   schedule_time_zone - string - Time zone used by the expectation schedule.
-#   holiday_region - string - Optional holiday region used by schedule-driven expectations.
+#   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
+#   schedule_time_zone - string - Time zone used by the Expectation schedule.
+#   holiday_region - string - Optional holiday region used by the Expectation schedule.
 #   lookback_interval - int64 - How many seconds before the due boundary the window starts.
 #   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
 #   inactivity_interval - int64 - How many quiet seconds are required before final closure.
@@ -486,6 +500,10 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: recurring_day must be an int"
+        )
+    if "schedule_id" in params and not isinstance(params["schedule_id"], int):
+        raise InvalidParameterError(
+            "Bad parameter: schedule_id must be an int"
         )
     if "schedule_days_of_week" in params and not isinstance(
         params["schedule_days_of_week"], builtins.list

@@ -8,6 +8,8 @@ from files_sdk.models.action_notification_export_result import (
     ActionNotificationExportResult,
 )
 from files_sdk.models.agent_node import AgentNode
+from files_sdk.models.agent_node_connection import AgentNodeConnection
+from files_sdk.models.agent_node_instance import AgentNodeInstance
 from files_sdk.models.agent_push_update import AgentPushUpdate
 from files_sdk.models.ai_assistant_personality import AiAssistantPersonality
 from files_sdk.models.ai_task import AiTask
@@ -122,6 +124,7 @@ from files_sdk.models.remote_server_configuration_file import (
 from files_sdk.models.remote_server_credential import RemoteServerCredential
 from files_sdk.models.request import Request
 from files_sdk.models.restore import Restore
+from files_sdk.models.schedule import Schedule
 from files_sdk.models.scheduled_export import ScheduledExport
 from files_sdk.models.scim_log import ScimLog
 from files_sdk.models.secret import Secret

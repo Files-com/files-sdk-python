@@ -16,6 +16,7 @@
   "trigger": "manual",
   "interval": "day",
   "recurring_day": 3,
+  "schedule_id": 1,
   "schedule_days_of_week": [
     1,
     3,
@@ -59,10 +60,11 @@
 * `trigger` (string): How this expectation opens windows.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the expectation.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for schedule-driven expectations.
-* `schedule_time_zone` (string): Time zone used by the expectation schedule.
-* `holiday_region` (string): Optional holiday region used by schedule-driven expectations.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the Expectation schedule.
+* `schedule_time_zone` (string): Time zone used by the Expectation schedule.
+* `holiday_region` (string): Optional holiday region used by the Expectation schedule.
 * `lookback_interval` (int64): How many seconds before the due boundary the window starts.
 * `late_acceptance_interval` (int64): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` (int64): How many quiet seconds are required before final closure.
@@ -120,6 +122,7 @@ files_sdk.expectation.create({
   "trigger": "manual",
   "interval": "day",
   "recurring_day": 3,
+  "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_times_of_day": ["06:00"],
   "schedule_time_zone": "UTC",
@@ -144,10 +147,11 @@ files_sdk.expectation.create({
 * `trigger` (string): How this expectation opens windows.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the expectation.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for schedule-driven expectations.
-* `schedule_time_zone` (string): Time zone used by the expectation schedule.
-* `holiday_region` (string): Optional holiday region used by schedule-driven expectations.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the Expectation schedule.
+* `schedule_time_zone` (string): Time zone used by the Expectation schedule.
+* `holiday_region` (string): Optional holiday region used by the Expectation schedule.
 * `lookback_interval` (int64): How many seconds before the due boundary the window starts.
 * `late_acceptance_interval` (int64): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` (int64): How many quiet seconds are required before final closure.
@@ -184,6 +188,7 @@ files_sdk.expectation.update(id, {
   "trigger": "manual",
   "interval": "day",
   "recurring_day": 3,
+  "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_times_of_day": ["06:00"],
   "schedule_time_zone": "UTC",
@@ -209,10 +214,11 @@ files_sdk.expectation.update(id, {
 * `trigger` (string): How this expectation opens windows.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the expectation.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for schedule-driven expectations.
-* `schedule_time_zone` (string): Time zone used by the expectation schedule.
-* `holiday_region` (string): Optional holiday region used by schedule-driven expectations.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the Expectation schedule.
+* `schedule_time_zone` (string): Time zone used by the Expectation schedule.
+* `holiday_region` (string): Optional holiday region used by the Expectation schedule.
 * `lookback_interval` (int64): How many seconds before the due boundary the window starts.
 * `late_acceptance_interval` (int64): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` (int64): How many quiet seconds are required before final closure.
@@ -264,6 +270,7 @@ expectation.update({
   "trigger": "manual",
   "interval": "day",
   "recurring_day": 3,
+  "schedule_id": 1,
   "schedule_days_of_week": [1,3,5],
   "schedule_times_of_day": ["06:00"],
   "schedule_time_zone": "UTC",
@@ -289,10 +296,11 @@ expectation.update({
 * `trigger` (string): How this expectation opens windows.
 * `interval` (string): If trigger is `daily`, this specifies how often to run the expectation.
 * `recurring_day` (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for schedule-driven expectations.
-* `schedule_time_zone` (string): Time zone used by the expectation schedule.
-* `holiday_region` (string): Optional holiday region used by schedule-driven expectations.
+* `schedule_times_of_day` (array(string)): Times of day in HH:MM format for the Expectation schedule.
+* `schedule_time_zone` (string): Time zone used by the Expectation schedule.
+* `holiday_region` (string): Optional holiday region used by the Expectation schedule.
 * `lookback_interval` (int64): How many seconds before the due boundary the window starts.
 * `late_acceptance_interval` (int64): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` (int64): How many quiet seconds are required before final closure.
