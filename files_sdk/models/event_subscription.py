@@ -16,6 +16,8 @@ class EventSubscription:
         "workspace_id": None,  # int64 - Workspace ID. 0 means the default workspace or site-wide.
         "apply_to_all_workspaces": None,  # boolean - If true, this default-workspace subscription applies to events from all workspaces.
         "name": None,  # string - Event Subscription name.
+        "subject": None,  # string - Custom subject line to use for notification emails.
+        "message": None,  # string - Custom message to include in notification emails.
         "enabled": None,  # boolean - Whether this Event Subscription can dispatch events.
         "event_types": None,  # array(string) - Event type strings matched by this subscription. Blank means all event types.
         "filter": None,  # object - Structured event payload filter.
@@ -54,6 +56,8 @@ class EventSubscription:
     #   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
     #   apply_to_all_workspaces - boolean - If true, this default-workspace subscription applies to events from all workspaces.
     #   name - string - Event Subscription name.
+    #   subject - string - Custom subject line to use for notification emails.
+    #   message - string - Custom message to include in notification emails.
     #   enabled - boolean - Whether this Event Subscription can dispatch events.
     #   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
     #   filter - object - Structured event payload filter.
@@ -85,6 +89,14 @@ class EventSubscription:
             )
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
+        if "subject" in params and not isinstance(params["subject"], str):
+            raise InvalidParameterError(
+                "Bad parameter: subject must be an str"
+            )
+        if "message" in params and not isinstance(params["message"], str):
+            raise InvalidParameterError(
+                "Bad parameter: message must be an str"
+            )
         if "event_types" in params and not isinstance(
             params["event_types"], builtins.list
         ):
@@ -201,6 +213,8 @@ def get(id, params=None, options=None):
 #   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
 #   apply_to_all_workspaces - boolean - If true, this default-workspace subscription applies to events from all workspaces.
 #   name (required) - string - Event Subscription name.
+#   subject - string - Custom subject line to use for notification emails.
+#   message - string - Custom message to include in notification emails.
 #   enabled - boolean - Whether this Event Subscription can dispatch events.
 #   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
 #   filter - object - Structured event payload filter.
@@ -231,6 +245,10 @@ def create(params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "subject" in params and not isinstance(params["subject"], str):
+        raise InvalidParameterError("Bad parameter: subject must be an str")
+    if "message" in params and not isinstance(params["message"], str):
+        raise InvalidParameterError("Bad parameter: message must be an str")
     if "enabled" in params and not isinstance(params["enabled"], bool):
         raise InvalidParameterError("Bad parameter: enabled must be an bool")
     if "event_types" in params and not isinstance(
@@ -266,6 +284,8 @@ def create(params=None, options=None):
 #   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
 #   apply_to_all_workspaces - boolean - If true, this default-workspace subscription applies to events from all workspaces.
 #   name - string - Event Subscription name.
+#   subject - string - Custom subject line to use for notification emails.
+#   message - string - Custom message to include in notification emails.
 #   enabled - boolean - Whether this Event Subscription can dispatch events.
 #   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
 #   filter - object - Structured event payload filter.
@@ -299,6 +319,10 @@ def update(id, params=None, options=None):
         )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "subject" in params and not isinstance(params["subject"], str):
+        raise InvalidParameterError("Bad parameter: subject must be an str")
+    if "message" in params and not isinstance(params["message"], str):
+        raise InvalidParameterError("Bad parameter: message must be an str")
     if "enabled" in params and not isinstance(params["enabled"], bool):
         raise InvalidParameterError("Bad parameter: enabled must be an bool")
     if "event_types" in params and not isinstance(
