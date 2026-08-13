@@ -47,6 +47,7 @@ class Site:
         "bundle_registration_notifications": None,  # string - Do Bundle owners receive registration notification?
         "bundle_require_registration": None,  # boolean - Do Bundles require registration?
         "bundle_require_share_recipient": None,  # boolean - Do Bundles require recipients for sharing?
+        "bundle_send_one_time_password_to_recipient_at_registration": None,  # boolean - If true, new Share Links must send a one-time password to the recipient when they register. Requires bundle_require_share_recipient and cannot be enabled with bundle_password_required.
         "bundle_require_note": None,  # boolean - Do Bundles require internal notes?
         "bundle_send_shared_receipts": None,  # boolean - Do Bundle creators receive receipts of invitations?
         "bundle_upload_receipt_notifications": None,  # string - Do Bundle uploaders receive upload confirmation notifications?
@@ -344,6 +345,7 @@ def get_usage(params=None, options=None):
 #   bundle_password_required - boolean - Do Bundles require password protection?
 #   bundle_require_registration - boolean - Do Bundles require registration?
 #   bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
+#   bundle_send_one_time_password_to_recipient_at_registration - boolean - If true, new Share Links must send a one-time password to the recipient when they register. Requires bundle_require_share_recipient and cannot be enabled with bundle_password_required.
 #   bundle_registration_notifications - string - Do Bundle owners receive registration notification?
 #   bundle_activity_notifications - string - Do Bundle owners receive activity notifications?
 #   bundle_upload_receipt_notifications - string - Do Bundle uploaders receive upload confirmation notifications?
@@ -921,6 +923,18 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: bundle_require_share_recipient must be an bool"
+        )
+    if (
+        "bundle_send_one_time_password_to_recipient_at_registration" in params
+        and not isinstance(
+            params[
+                "bundle_send_one_time_password_to_recipient_at_registration"
+            ],
+            bool,
+        )
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_send_one_time_password_to_recipient_at_registration must be an bool"
         )
     if "bundle_registration_notifications" in params and not isinstance(
         params["bundle_registration_notifications"], str
