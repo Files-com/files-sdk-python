@@ -56,6 +56,7 @@ class Bundle:
         "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
         "has_inbox": None,  # boolean - Does this bundle have an associated inbox?
         "dont_allow_folders_in_uploads": None,  # boolean - Should folder uploads be prevented?
+        "requested_upload_slots": None,  # array(object) - Upload slots requested by the associated Inbox. Each slot contains a name used as its label and destination subfolder name.
         "paths": None,  # array(string) - A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
         "bundlepaths": None,  # array(object) - A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
         "password": None,  # string - Password for this bundle.
