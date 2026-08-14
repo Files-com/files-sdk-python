@@ -44,6 +44,7 @@ class HolidayCalendarTest(TestBase):
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/holiday_calendars"), "Mock path does not exist")
     def test_create(self):
         params = {
+            "definition" : {},
             "name" : "foo",
         }
         holiday_calendar.create(params)

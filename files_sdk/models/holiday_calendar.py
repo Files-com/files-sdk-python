@@ -11,9 +11,9 @@ from files_sdk.error import (  # noqa: F401
 
 class HolidayCalendar:
     default_attributes = {
-        "id": None,  # int64 - Holiday Calendar ID. Use `custom_<id>` as a scheduled resource's `holiday_region`.
+        "id": None,  # int64 - Holiday Calendar ID. Set a scheduled resource's `holiday_region` to `custom_` followed by this ID to make it skip the days in this calendar.
         "name": None,  # string - Holiday Calendar name.
-        "definition": None,  # object - Holiday rules for the calendar. For more information, refer to the Holiday Calendars section of the Files.com documentation.
+        "definition": None,  # object - Holiday rules for the calendar.
         "created_at": None,  # date-time - Creation time.
         "updated_at": None,  # date-time - Last update time.
     }
@@ -43,6 +43,7 @@ class HolidayCalendar:
         return attrs
 
     # Parameters:
+    #   definition - object - Holiday rules for the calendar.
     #   name - string - Holiday Calendar name.
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -153,14 +154,21 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
+#   definition (required) - object - Holiday rules for the calendar.
 #   name (required) - string - Holiday Calendar name.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "definition" in params and not isinstance(params["definition"], dict):
+        raise InvalidParameterError(
+            "Bad parameter: definition must be an dict"
+        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "definition" not in params:
+        raise MissingParameterError("Parameter missing: definition")
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
     response, options = Api.send_request(
@@ -170,6 +178,7 @@ def create(params=None, options=None):
 
 
 # Parameters:
+#   definition - object - Holiday rules for the calendar.
 #   name - string - Holiday Calendar name.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -179,6 +188,10 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "definition" in params and not isinstance(params["definition"], dict):
+        raise InvalidParameterError(
+            "Bad parameter: definition must be an dict"
+        )
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "id" not in params:
