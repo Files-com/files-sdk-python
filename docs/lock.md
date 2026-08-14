@@ -10,10 +10,10 @@
   "recursive": True,
   "owner": "user",
   "scope": "shared",
-  "exclusive": True,
+  "exclusive": False,
   "token": "17c54824e9931a4688ca032d03f6663c",
   "type": "write",
-  "allow_access_by_any_user": True,
+  "allow_access_by_any_user": False,
   "user_id": 1,
   "username": ""
 }

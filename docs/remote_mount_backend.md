@@ -31,7 +31,7 @@
   "remote_server_mount_id": 1,
   "rise": 1,
   "status": "healthy",
-  "undergoing_maintenance": True
+  "undergoing_maintenance": False
 }
 ```
 

@@ -9,7 +9,7 @@
   "api_key_prefix": "example",
   "user_id": 1,
   "username": "example",
-  "user_is_from_parent_site": True,
+  "user_is_from_parent_site": False,
   "interface": "example",
   "request_method": "example",
   "request_path": "example",

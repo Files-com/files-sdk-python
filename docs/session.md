@@ -7,7 +7,7 @@
   "id": "60525f92e859c4c3d74cb02fd176b1525901b525",
   "language": "en",
   "read_only": True,
-  "sftp_insecure_ciphers": True
+  "sftp_insecure_ciphers": False
 }
 ```
 

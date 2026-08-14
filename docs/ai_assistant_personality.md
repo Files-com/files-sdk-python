@@ -8,8 +8,8 @@
   "workspace_id": 1,
   "name": "Concise Assistant",
   "system_prompt": "Respond as a concise operations assistant.",
-  "use_by_default": True,
-  "apply_to_all_workspaces": True,
+  "use_by_default": False,
+  "apply_to_all_workspaces": False,
   "created_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z"
 }

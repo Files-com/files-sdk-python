@@ -11,7 +11,30 @@
   "automation": "create_folder",
   "deleted": True,
   "description": "example",
-  "definition": "example",
+  "definition": {
+    "schema_version": 1,
+    "nodes": [
+      {
+        "id": "trigger",
+        "type": "trigger_manual"
+      },
+      {
+        "id": "create_reports",
+        "type": "create_folder",
+        "config": {
+          "destinations": [
+            "reports/"
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "trigger",
+        "to": "create_reports"
+      }
+    ]
+  },
   "destination_replace_from": "example",
   "destination_replace_to": "example",
   "destinations": [
@@ -41,7 +64,7 @@
   "ignore_locked_folders": True,
   "interval": "week",
   "last_modified_at": "2000-01-01T01:00:00Z",
-  "legacy_folder_matching": True,
+  "legacy_folder_matching": False,
   "name": "example",
   "overwrite_files": True,
   "path": "example",
@@ -218,7 +241,7 @@ files_sdk.automation.create({
   "always_overwrite_size_matching_files": True,
   "always_serialize_jobs": True,
   "description": "example",
-  "definition": "example",
+  "definition": {"schema_version":1,"nodes":[{"id":"trigger","type":"trigger_manual"},{"id":"create_reports","type":"create_folder","config":{"destinations":["reports/"]}}],"edges":[{"from":"trigger","to":"create_reports"}]},
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
   "import_urls": [{"name":"users.json","url":"http://example.com/users","method":"POST","headers":{"Content-Type":"application/json"},"content":{"group":"support"}}],
@@ -334,7 +357,7 @@ files_sdk.automation.update(id, {
   "always_overwrite_size_matching_files": True,
   "always_serialize_jobs": True,
   "description": "example",
-  "definition": "example",
+  "definition": {"schema_version":1,"nodes":[{"id":"trigger","type":"trigger_manual"},{"id":"create_reports","type":"create_folder","config":{"destinations":["reports/"]}}],"edges":[{"from":"trigger","to":"create_reports"}]},
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
   "import_urls": [{"name":"users.json","url":"http://example.com/users","method":"POST","headers":{"Content-Type":"application/json"},"content":{"group":"support"}}],
@@ -465,7 +488,7 @@ automation.update({
   "always_overwrite_size_matching_files": True,
   "always_serialize_jobs": True,
   "description": "example",
-  "definition": "example",
+  "definition": {"schema_version":1,"nodes":[{"id":"trigger","type":"trigger_manual"},{"id":"create_reports","type":"create_folder","config":{"destinations":["reports/"]}}],"edges":[{"from":"trigger","to":"create_reports"}]},
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
   "import_urls": [{"name":"users.json","url":"http://example.com/users","method":"POST","headers":{"Content-Type":"application/json"},"content":{"group":"support"}}],

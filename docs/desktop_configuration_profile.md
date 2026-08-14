@@ -7,8 +7,8 @@
   "id": 1,
   "name": "North America Desktop Profile",
   "workspace_id": 1,
-  "use_for_all_users": True,
-  "disable_drive_mounting": True,
+  "use_for_all_users": False,
+  "disable_drive_mounting": False,
   "mount_mappings": {
     "key": "example value"
   }
