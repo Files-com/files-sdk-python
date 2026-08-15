@@ -328,7 +328,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.455"
+version = "1.6.456"
 
 __version__ = version
 

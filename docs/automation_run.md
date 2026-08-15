@@ -7,6 +7,7 @@
   "id": 1,
   "automation_id": 1,
   "automation_version_id": 1,
+  "version": 1,
   "workspace_id": 1,
   "cancel_requested_at": "2000-01-01T01:00:00Z",
   "completed_at": "2000-01-01T01:00:00Z",
@@ -51,6 +52,7 @@
 * `id` (int64): ID.
 * `automation_id` (int64): ID of the associated Automation.
 * `automation_version_id` (int64): ID of the immutable Automation version pinned by this run.
+* `version` (int64): Pinned Automation v2 definition version.
 * `workspace_id` (int64): Workspace ID.
 * `cancel_requested_at` (date-time): Date/time at which cancellation was requested.
 * `completed_at` (date-time): Automation run completion/failure date/time.

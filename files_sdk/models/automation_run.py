@@ -15,6 +15,7 @@ class AutomationRun:
         "id": None,  # int64 - ID.
         "automation_id": None,  # int64 - ID of the associated Automation.
         "automation_version_id": None,  # int64 - ID of the immutable Automation version pinned by this run.
+        "version": None,  # int64 - Pinned Automation v2 definition version.
         "workspace_id": None,  # int64 - Workspace ID.
         "cancel_requested_at": None,  # date-time - Date/time at which cancellation was requested.
         "completed_at": None,  # date-time - Automation run completion/failure date/time.
