@@ -659,6 +659,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`PlanNotFoundError`|  `NotFoundError` |
 |`SiteNotFoundError`|  `NotFoundError` |
 |`UserNotFoundError`|  `NotFoundError` |
+|`AgentPushUpdateBlockedError`|  `ProcessingFailureError` |
 |`AgentUnavailableError`|  `ProcessingFailureError` |
 |`AiTaskCannotBeRunManuallyError`|  `ProcessingFailureError` |
 |`AlreadyCompletedError`|  `ProcessingFailureError` |
