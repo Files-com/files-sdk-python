@@ -4,15 +4,19 @@
 
 ```
 {
+  "active": True,
   "id": 1,
   "name": "My Key",
+  "key_type": "ssh-rsa",
   "fingerprint_md5": "12:7e:f8:61:78:a4:b2:c2:ee:12:51:92:25:a7:42:cc",
   "fingerprint_sha256": "SHA256:5ANRkDpXWA+PgOquzZAG9RtQ1Bt8KXYAH2hecr7LQk8"
 }
 ```
 
+* `active` (boolean): If true, use this SFTP Host Key.
 * `id` (int64): SFTP Host Key ID
 * `name` (string): The friendly name of this SFTP Host Key.
+* `key_type` (string): SSH key type
 * `fingerprint_md5` (string): MD5 Fingerprint of the public key
 * `fingerprint_sha256` (string): SHA256 Fingerprint of the public key
 * `private_key` (string): The private key data.
@@ -51,12 +55,14 @@ files_sdk.sftp_host_key.find(id)
 
 ```
 files_sdk.sftp_host_key.create({
+  "active": True,
   "name": "My Key"
 })
 ```
 
 ### Parameters
 
+* `active` (boolean): If true, use this SFTP Host Key.
 * `name` (string): The friendly name of this SFTP Host Key.
 * `private_key` (string): The private key data.
 
@@ -67,6 +73,7 @@ files_sdk.sftp_host_key.create({
 
 ```
 files_sdk.sftp_host_key.update(id, {
+  "active": True,
   "name": "My Key"
 })
 ```
@@ -74,6 +81,7 @@ files_sdk.sftp_host_key.update(id, {
 ### Parameters
 
 * `id` (int64): Required - Sftp Host Key ID.
+* `active` (boolean): If true, use this SFTP Host Key.
 * `name` (string): The friendly name of this SFTP Host Key.
 * `private_key` (string): The private key data.
 
@@ -98,6 +106,7 @@ files_sdk.sftp_host_key.delete(id)
 ```
 sftp_host_key = files_sdk.sftp_host_key.find(id)
 sftp_host_key.update({
+  "active": True,
   "name": "My Key"
 })
 ```
@@ -105,6 +114,7 @@ sftp_host_key.update({
 ### Parameters
 
 * `id` (int64): Required - Sftp Host Key ID.
+* `active` (boolean): If true, use this SFTP Host Key.
 * `name` (string): The friendly name of this SFTP Host Key.
 * `private_key` (string): The private key data.
 

@@ -225,6 +225,9 @@
   "sftp_finalize_partial_uploads": True,
   "sftp_host_key_type": "default",
   "active_sftp_host_key_id": 1,
+  "active_sftp_host_key_ids": [
+    1
+  ],
   "sftp_insecure_ciphers": False,
   "sftp_insecure_diffie_hellman": False,
   "sftp_user_root_enabled": False,
@@ -515,6 +518,7 @@
 * `sftp_finalize_partial_uploads` (boolean): Finalize partial SFTP uploads from interrupted connections? Default: true.
 * `sftp_host_key_type` (string): Sftp Host Key Type
 * `active_sftp_host_key_id` (int64): Id of the currently selected custom SFTP Host Key
+* `active_sftp_host_key_ids` (array(int64)): Ids of the selected custom SFTP Host Keys
 * `sftp_insecure_ciphers` (boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
 * `sftp_insecure_diffie_hellman` (boolean): If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
 * `sftp_user_root_enabled` (boolean): Use user FTP roots also for SFTP?
@@ -692,6 +696,7 @@ files_sdk.site.update({
   "show_user_notifications_log_in_link": False,
   "sftp_host_key_type": "default",
   "active_sftp_host_key_id": 1,
+  "active_sftp_host_key_ids": [1],
   "protocol_access_groups_only": False,
   "revoke_bundle_access_on_disable_or_delete": False,
   "bundle_watermark_value": {"key":"example value"},
@@ -875,6 +880,7 @@ files_sdk.site.update({
 * `show_user_notifications_log_in_link` (boolean): Show log in link in user notifications?
 * `sftp_host_key_type` (string): Sftp Host Key Type
 * `active_sftp_host_key_id` (int64): Id of the currently selected custom SFTP Host Key
+* `active_sftp_host_key_ids` (array(int64)): Ids of the selected custom SFTP Host Keys
 * `protocol_access_groups_only` (boolean): If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
 * `revoke_bundle_access_on_disable_or_delete` (boolean): Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
 * `bundle_watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value

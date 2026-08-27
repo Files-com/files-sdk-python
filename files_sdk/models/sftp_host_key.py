@@ -11,8 +11,10 @@ from files_sdk.error import (  # noqa: F401
 
 class SftpHostKey:
     default_attributes = {
+        "active": None,  # boolean - If true, use this SFTP Host Key.
         "id": None,  # int64 - SFTP Host Key ID
         "name": None,  # string - The friendly name of this SFTP Host Key.
+        "key_type": None,  # string - SSH key type
         "fingerprint_md5": None,  # string - MD5 Fingerprint of the public key
         "fingerprint_sha256": None,  # string - SHA256 Fingerprint of the public key
         "private_key": None,  # string - The private key data.
@@ -40,6 +42,7 @@ class SftpHostKey:
         return attrs
 
     # Parameters:
+    #   active - boolean - If true, use this SFTP Host Key.
     #   name - string - The friendly name of this SFTP Host Key.
     #   private_key - string - The private key data.
     def update(self, params=None):
@@ -152,6 +155,7 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
+#   active - boolean - If true, use this SFTP Host Key.
 #   name - string - The friendly name of this SFTP Host Key.
 #   private_key - string - The private key data.
 def create(params=None, options=None):
@@ -159,6 +163,8 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "active" in params and not isinstance(params["active"], bool):
+        raise InvalidParameterError("Bad parameter: active must be an bool")
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
@@ -172,6 +178,7 @@ def create(params=None, options=None):
 
 
 # Parameters:
+#   active - boolean - If true, use this SFTP Host Key.
 #   name - string - The friendly name of this SFTP Host Key.
 #   private_key - string - The private key data.
 def update(id, params=None, options=None):
@@ -182,6 +189,8 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "active" in params and not isinstance(params["active"], bool):
+        raise InvalidParameterError("Bad parameter: active must be an bool")
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
     if "private_key" in params and not isinstance(params["private_key"], str):
