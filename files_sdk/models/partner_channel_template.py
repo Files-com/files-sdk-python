@@ -13,6 +13,7 @@ class PartnerChannelTemplate:
     default_attributes = {
         "id": None,  # int64 - The unique ID of the Partner Channel Template.
         "workspace_id": None,  # int64 - ID of the Workspace associated with this Partner Channel Template.
+        "direction": None,  # string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
         "name": None,  # string - The name of the Partner Channel Template.
         "path": None,  # string - Channel path relative to the Partner root folder. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "to_partner_folder_name": None,  # string - Optional Channel-level to-Partner folder name override.
@@ -50,6 +51,7 @@ class PartnerChannelTemplate:
         return attrs
 
     # Parameters:
+    #   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
     #   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
     #   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
     #   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
@@ -70,6 +72,10 @@ class PartnerChannelTemplate:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
+        if "direction" in params and not isinstance(params["direction"], str):
+            raise InvalidParameterError(
+                "Bad parameter: direction must be an str"
+            )
         if "from_partner_folder_name" in params and not isinstance(
             params["from_partner_folder_name"], str
         ):
@@ -214,6 +220,7 @@ def get(id, params=None, options=None):
 
 
 # Parameters:
+#   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
 #   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
 #   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
 #   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
@@ -228,6 +235,8 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "direction" in params and not isinstance(params["direction"], str):
+        raise InvalidParameterError("Bad parameter: direction must be an str")
     if "from_partner_folder_name" in params and not isinstance(
         params["from_partner_folder_name"], str
     ):
@@ -285,6 +294,7 @@ def create(params=None, options=None):
 
 
 # Parameters:
+#   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
 #   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
 #   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
 #   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
@@ -301,6 +311,8 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "direction" in params and not isinstance(params["direction"], str):
+        raise InvalidParameterError("Bad parameter: direction must be an str")
     if "from_partner_folder_name" in params and not isinstance(
         params["from_partner_folder_name"], str
     ):

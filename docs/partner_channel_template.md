@@ -6,6 +6,7 @@
 {
   "id": 1,
   "workspace_id": 1,
+  "direction": "two_way",
   "name": "Claims Template",
   "path": "claims/medical",
   "to_partner_folder_name": "outgoing",
@@ -25,6 +26,7 @@
 
 * `id` (int64): The unique ID of the Partner Channel Template.
 * `workspace_id` (int64): ID of the Workspace associated with this Partner Channel Template.
+* `direction` (string): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
 * `name` (string): The name of the Partner Channel Template.
 * `path` (string): Channel path relative to the Partner root folder. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `to_partner_folder_name` (string): Optional Channel-level to-Partner folder name override.
@@ -72,6 +74,7 @@ files_sdk.partner_channel_template.find(id)
 
 ```
 files_sdk.partner_channel_template.create({
+  "direction": "two_way",
   "from_partner_folder_name": "incoming",
   "from_partner_managed_folder_paths": ["claims/received"],
   "from_partner_route_path_pattern": "processing/{{partner_name}}/from-partner",
@@ -86,6 +89,7 @@ files_sdk.partner_channel_template.create({
 
 ### Parameters
 
+* `direction` (string): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
 * `from_partner_folder_name` (string): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (array(string)): Managed folder paths inside the from-Partner folder.
 * `from_partner_route_path_pattern` (string): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
@@ -103,6 +107,7 @@ files_sdk.partner_channel_template.create({
 
 ```
 files_sdk.partner_channel_template.update(id, {
+  "direction": "two_way",
   "from_partner_folder_name": "incoming",
   "from_partner_managed_folder_paths": ["claims/received"],
   "from_partner_route_path_pattern": "processing/{{partner_name}}/from-partner",
@@ -117,6 +122,7 @@ files_sdk.partner_channel_template.update(id, {
 ### Parameters
 
 * `id` (int64): Required - Partner Channel Template ID.
+* `direction` (string): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
 * `from_partner_folder_name` (string): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (array(string)): Managed folder paths inside the from-Partner folder.
 * `from_partner_route_path_pattern` (string): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
@@ -147,6 +153,7 @@ files_sdk.partner_channel_template.delete(id)
 ```
 partner_channel_template = files_sdk.partner_channel_template.find(id)
 partner_channel_template.update({
+  "direction": "two_way",
   "from_partner_folder_name": "incoming",
   "from_partner_managed_folder_paths": ["claims/received"],
   "from_partner_route_path_pattern": "processing/{{partner_name}}/from-partner",
@@ -161,6 +168,7 @@ partner_channel_template.update({
 ### Parameters
 
 * `id` (int64): Required - Partner Channel Template ID.
+* `direction` (string): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
 * `from_partner_folder_name` (string): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (array(string)): Managed folder paths inside the from-Partner folder.
 * `from_partner_route_path_pattern` (string): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
