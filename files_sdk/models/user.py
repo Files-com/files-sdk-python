@@ -110,7 +110,7 @@ class User:
         "password_confirmation": None,  # string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
         "announcements_read": None,  # boolean - Signifies that the user has read all the announcements in the UI.
         "clear_2fa": None,  # boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-        "convert_to_partner_user": None,  # boolean - If true, convert this user to a partner user by assigning the partner_id provided.
+        "convert_to_partner_user": None,  # boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -268,7 +268,7 @@ class User:
     #   username - string - User's username
     #   workspace_id - int64 - Workspace ID
     #   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-    #   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
+    #   convert_to_partner_user - boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -1156,7 +1156,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   username - string - User's username
 #   workspace_id - int64 - Workspace ID
 #   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-#   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
+#   convert_to_partner_user - boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
