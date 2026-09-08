@@ -18,6 +18,7 @@ class EventSubscription:
         "name": None,  # string - Event Subscription name.
         "subject": None,  # string - Custom subject line to use for notification emails.
         "message": None,  # string - Custom message to include in notification emails.
+        "message_only": None,  # boolean - If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
         "enabled": None,  # boolean - Whether this Event Subscription can dispatch events.
         "event_types": None,  # array(string) - Event type strings matched by this subscription. Blank means all event types.
         "filter": None,  # object - Structured event payload filter.
@@ -58,6 +59,7 @@ class EventSubscription:
     #   name - string - Event Subscription name.
     #   subject - string - Custom subject line to use for notification emails.
     #   message - string - Custom message to include in notification emails.
+    #   message_only - boolean - If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
     #   enabled - boolean - Whether this Event Subscription can dispatch events.
     #   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
     #   filter - object - Structured event payload filter.
@@ -215,6 +217,7 @@ def get(id, params=None, options=None):
 #   name (required) - string - Event Subscription name.
 #   subject - string - Custom subject line to use for notification emails.
 #   message - string - Custom message to include in notification emails.
+#   message_only - boolean - If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
 #   enabled - boolean - Whether this Event Subscription can dispatch events.
 #   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
 #   filter - object - Structured event payload filter.
@@ -249,6 +252,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: subject must be an str")
     if "message" in params and not isinstance(params["message"], str):
         raise InvalidParameterError("Bad parameter: message must be an str")
+    if "message_only" in params and not isinstance(
+        params["message_only"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: message_only must be an bool"
+        )
     if "enabled" in params and not isinstance(params["enabled"], bool):
         raise InvalidParameterError("Bad parameter: enabled must be an bool")
     if "event_types" in params and not isinstance(
@@ -286,6 +295,7 @@ def create(params=None, options=None):
 #   name - string - Event Subscription name.
 #   subject - string - Custom subject line to use for notification emails.
 #   message - string - Custom message to include in notification emails.
+#   message_only - boolean - If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
 #   enabled - boolean - Whether this Event Subscription can dispatch events.
 #   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
 #   filter - object - Structured event payload filter.
@@ -323,6 +333,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: subject must be an str")
     if "message" in params and not isinstance(params["message"], str):
         raise InvalidParameterError("Bad parameter: message must be an str")
+    if "message_only" in params and not isinstance(
+        params["message_only"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: message_only must be an bool"
+        )
     if "enabled" in params and not isinstance(params["enabled"], bool):
         raise InvalidParameterError("Bad parameter: enabled must be an bool")
     if "event_types" in params and not isinstance(
