@@ -94,10 +94,6 @@ from files_sdk.models.invoice_line_item import InvoiceLineItem
 from files_sdk.models.ip_address import IpAddress
 from files_sdk.models.key_lifecycle_rule import KeyLifecycleRule
 from files_sdk.models.lock import Lock
-from files_sdk.models.message import Message
-from files_sdk.models.message_comment import MessageComment
-from files_sdk.models.message_comment_reaction import MessageCommentReaction
-from files_sdk.models.message_reaction import MessageReaction
 from files_sdk.models.metadata_category import MetadataCategory
 from files_sdk.models.notification import Notification
 from files_sdk.models.outbound_connection_log import OutboundConnectionLog
@@ -111,7 +107,6 @@ from files_sdk.models.payment_line_item import PaymentLineItem
 from files_sdk.models.pending_work_event import PendingWorkEvent
 from files_sdk.models.permission import Permission
 from files_sdk.models.preview import Preview
-from files_sdk.models.project import Project
 from files_sdk.models.public_hosting_request_log import PublicHostingRequestLog
 from files_sdk.models.public_ip_address import PublicIpAddress
 from files_sdk.models.public_key import PublicKey

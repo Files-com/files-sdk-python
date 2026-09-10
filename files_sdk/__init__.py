@@ -83,10 +83,6 @@ import files_sdk.models.invoice_line_item as invoice_line_item
 import files_sdk.models.ip_address as ip_address
 import files_sdk.models.key_lifecycle_rule as key_lifecycle_rule
 import files_sdk.models.lock as lock
-import files_sdk.models.message as message
-import files_sdk.models.message_comment as message_comment
-import files_sdk.models.message_comment_reaction as message_comment_reaction
-import files_sdk.models.message_reaction as message_reaction
 import files_sdk.models.metadata_category as metadata_category
 import files_sdk.models.notification as notification
 import files_sdk.models.outbound_connection_log as outbound_connection_log
@@ -100,7 +96,6 @@ import files_sdk.models.payment_line_item as payment_line_item
 import files_sdk.models.pending_work_event as pending_work_event
 import files_sdk.models.permission as permission
 import files_sdk.models.preview as preview
-import files_sdk.models.project as project
 import files_sdk.models.public_hosting_request_log as public_hosting_request_log
 import files_sdk.models.public_ip_address as public_ip_address
 import files_sdk.models.public_key as public_key
@@ -245,10 +240,6 @@ from files_sdk.models.invoice_line_item import InvoiceLineItem
 from files_sdk.models.ip_address import IpAddress
 from files_sdk.models.key_lifecycle_rule import KeyLifecycleRule
 from files_sdk.models.lock import Lock
-from files_sdk.models.message import Message
-from files_sdk.models.message_comment import MessageComment
-from files_sdk.models.message_comment_reaction import MessageCommentReaction
-from files_sdk.models.message_reaction import MessageReaction
 from files_sdk.models.metadata_category import MetadataCategory
 from files_sdk.models.notification import Notification
 from files_sdk.models.outbound_connection_log import OutboundConnectionLog
@@ -262,7 +253,6 @@ from files_sdk.models.payment_line_item import PaymentLineItem
 from files_sdk.models.pending_work_event import PendingWorkEvent
 from files_sdk.models.permission import Permission
 from files_sdk.models.preview import Preview
-from files_sdk.models.project import Project
 from files_sdk.models.public_hosting_request_log import PublicHostingRequestLog
 from files_sdk.models.public_ip_address import PublicIpAddress
 from files_sdk.models.public_key import PublicKey
@@ -328,7 +318,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.462"
+version = "1.6.463"
 
 __version__ = version
 
