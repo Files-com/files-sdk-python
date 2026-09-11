@@ -14,6 +14,7 @@ class UsageSnapshot:
         "start_at": None,  # date-time - Usage snapshot start date/time
         "end_at": None,  # date-time - Usage snapshot end date/time
         "high_water_user_count": None,  # int64 - Highest user count number in time period
+        "transformation_credits_usage": None,  # int64 - Total Transformation and AI credits used in this usage period. Updated daily. Does not include credits consumed today.
         "current_storage": None,  # int64 - Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
         "high_water_storage": None,  # int64 - Highest Storage Usage GB recorded in time period (used for billing)
         "root_storage": None,  # int64 - Storage Usage for root folder as of end date (not necessarily high water mark, which is used for billing)
