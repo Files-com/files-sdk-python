@@ -59,7 +59,9 @@ class ApiClient:
         full_path = files_sdk.base_path + path
         url = urljoin(files_sdk.base_url, full_path)
 
-        if files_sdk.session_id:
+        if api_key is not None:
+            session_id = None
+        elif session_id is None:
             session_id = files_sdk.session_id
 
         if session_id and session_id != "":
