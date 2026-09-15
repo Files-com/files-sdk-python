@@ -780,6 +780,7 @@ def download(path, params=None, options=None):
 # Parameters:
 #   path (required) - string - Path to operate on.
 #   action - string - The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
+#   custom_metadata - object - Custom metadata map to save when `action=end` completes the upload.  Replaces existing metadata; an empty map clears it.  No separate metadata-edit permission is required.  Supported on native files and configured remote mounts, excluding remote server automount paths.  Limited to 32 keys, 256 characters per key and 1024 characters per value.
 #   etags[etag] (required) - array(string) - etag identifier.
 #   etags[part] (required) - array(int64) - Part number.
 #   length - int64 - Length of file.
@@ -805,6 +806,12 @@ def create(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: path must be an str")
     if "action" in params and not isinstance(params["action"], str):
         raise InvalidParameterError("Bad parameter: action must be an str")
+    if "custom_metadata" in params and not isinstance(
+        params["custom_metadata"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: custom_metadata must be an dict"
+        )
     if "length" in params and not isinstance(params["length"], int):
         raise InvalidParameterError("Bad parameter: length must be an int")
     if "mkdir_parents" in params and not isinstance(
