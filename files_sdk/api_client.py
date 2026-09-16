@@ -142,15 +142,26 @@ class ApiClient:
 
     def stream_download(self, uri, io, is_string_io=False):
         # NOTE the stream=True parameter below
-        with requests.get(uri, stream=True) as r:
-            r.raise_for_status()  # TODO check this later
-            for chunk in r.iter_content(
-                chunk_size=8192, decode_unicode=is_string_io
-            ):
-                # If you have chunk encoded response uncomment if
-                # and set chunk_size parameter to None.
-                # if chunk:
-                io.write(chunk)
+        try:
+            with requests.get(
+                uri,
+                stream=True,
+                timeout=(files_sdk.open_timeout, files_sdk.read_timeout),
+            ) as r:
+                r.raise_for_status()  # TODO check this later
+                for chunk in r.iter_content(
+                    chunk_size=8192, decode_unicode=is_string_io
+                ):
+                    # If you have chunk encoded response uncomment if
+                    # and set chunk_size parameter to None.
+                    # if chunk:
+                    io.write(chunk)
+        except (
+            requests.exceptions.Timeout,
+            requests.exceptions.ConnectionError,
+            requests.exceptions.ChunkedEncodingError,
+        ) as e:
+            raise self.handle_network_error(e, e.request, 0) from None
 
     def execute_request_with_auto_retry(
         self, request, skip_body_logging=False
