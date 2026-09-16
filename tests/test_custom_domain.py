@@ -41,6 +41,15 @@ class CustomDomainTest(TestBase):
         }
         custom_domain.find(id, params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/custom_domains/{id}/allocate_ips"), "Mock path does not exist")
+    def test_create_allocate_ip(self):
+        id = 12345
+        params = {
+            "id" : 12345,
+            "count" : 12345,
+        }
+        custom_domain.create_allocate_ip(id, params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/custom_domains"), "Mock path does not exist")
     def test_create(self):
         params = {

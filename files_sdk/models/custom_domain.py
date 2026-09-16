@@ -18,6 +18,7 @@ class CustomDomain:
         "ssl_certificate_id": None,  # int64 - Current SSL certificate ID.
         "brick_managed": None,  # boolean - Is this domain's SSL certificate automatically managed and renewed by Files.com?
         "folder_behavior_id": None,  # int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
+        "ip_addresses": None,  # array(string) - Dedicated public IP addresses allocated to this Custom Domain.
         "created_at": None,  # date-time - When this Custom Domain was created.
         "updated_at": None,  # date-time - When this Custom Domain was last updated.
     }
@@ -173,6 +174,34 @@ def find(id, params=None, options=None):
 
 def get(id, params=None, options=None):
     find(id, params, options)
+
+
+# Parameters:
+#   id (required) - int64 - Custom Domain ID.
+#   count (required) - int64 - Number of dedicated IP addresses to allocate.
+def create_allocate_ip(id, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["id"] = id
+    if "id" in params and not isinstance(params["id"], int):
+        raise InvalidParameterError("Bad parameter: id must be an int")
+    if "count" in params and not isinstance(params["count"], int):
+        raise InvalidParameterError("Bad parameter: count must be an int")
+    if "id" not in params:
+        raise MissingParameterError("Parameter missing: id")
+    if "count" not in params:
+        raise MissingParameterError("Parameter missing: count")
+    response, options = Api.send_request(
+        "POST",
+        "/custom_domains/{id}/allocate_ips".format(
+            id=quote(str(params["id"]), safe="")
+        ),
+        params,
+        options,
+    )
+    return CustomDomain(response.data, options)
 
 
 # Parameters:

@@ -5,6 +5,7 @@
 ```
 {
   "active": True,
+  "custom_domain_id": 1,
   "id": 1,
   "name": "My Key",
   "key_type": "ssh-rsa",
@@ -14,6 +15,7 @@
 ```
 
 * `active` (boolean): If true, use this SFTP Host Key.
+* `custom_domain_id` (int64): Custom Domain ID. If set, this key is used only for that Custom Domain.
 * `id` (int64): SFTP Host Key ID
 * `name` (string): The friendly name of this SFTP Host Key.
 * `key_type` (string): SSH key type
@@ -56,6 +58,7 @@ files_sdk.sftp_host_key.find(id)
 ```
 files_sdk.sftp_host_key.create({
   "active": True,
+  "custom_domain_id": 1,
   "name": "My Key"
 })
 ```
@@ -63,6 +66,7 @@ files_sdk.sftp_host_key.create({
 ### Parameters
 
 * `active` (boolean): If true, use this SFTP Host Key.
+* `custom_domain_id` (int64): Custom Domain ID. If set, this key is used only for that Custom Domain.
 * `name` (string): The friendly name of this SFTP Host Key.
 * `private_key` (string): The private key data.
 
@@ -74,6 +78,7 @@ files_sdk.sftp_host_key.create({
 ```
 files_sdk.sftp_host_key.update(id, {
   "active": True,
+  "custom_domain_id": 1,
   "name": "My Key"
 })
 ```
@@ -82,6 +87,7 @@ files_sdk.sftp_host_key.update(id, {
 
 * `id` (int64): Required - Sftp Host Key ID.
 * `active` (boolean): If true, use this SFTP Host Key.
+* `custom_domain_id` (int64): Custom Domain ID. If set, this key is used only for that Custom Domain.
 * `name` (string): The friendly name of this SFTP Host Key.
 * `private_key` (string): The private key data.
 
@@ -107,6 +113,7 @@ files_sdk.sftp_host_key.delete(id)
 sftp_host_key = files_sdk.sftp_host_key.find(id)
 sftp_host_key.update({
   "active": True,
+  "custom_domain_id": 1,
   "name": "My Key"
 })
 ```
@@ -115,6 +122,7 @@ sftp_host_key.update({
 
 * `id` (int64): Required - Sftp Host Key ID.
 * `active` (boolean): If true, use this SFTP Host Key.
+* `custom_domain_id` (int64): Custom Domain ID. If set, this key is used only for that Custom Domain.
 * `name` (string): The friendly name of this SFTP Host Key.
 * `private_key` (string): The private key data.
 

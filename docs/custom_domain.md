@@ -11,6 +11,10 @@
   "ssl_certificate_id": 1,
   "brick_managed": True,
   "folder_behavior_id": 1,
+  "ip_addresses": [
+    "203.0.113.1",
+    "203.0.113.2"
+  ],
   "created_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z"
 }
@@ -23,6 +27,7 @@
 * `ssl_certificate_id` (int64): Current SSL certificate ID.
 * `brick_managed` (boolean): Is this domain's SSL certificate automatically managed and renewed by Files.com?
 * `folder_behavior_id` (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
+* `ip_addresses` (array(string)): Dedicated public IP addresses allocated to this Custom Domain.
 * `created_at` (date-time): When this Custom Domain was created.
 * `updated_at` (date-time): When this Custom Domain was last updated.
 
@@ -53,6 +58,22 @@ files_sdk.custom_domain.find(id)
 ### Parameters
 
 * `id` (int64): Required - Custom Domain ID.
+
+
+---
+
+## Allocate dedicated IP addresses to this Custom Domain
+
+```
+files_sdk.custom_domain.create_allocate_ip(id, {
+  "count": 1
+})
+```
+
+### Parameters
+
+* `id` (int64): Required - Custom Domain ID.
+* `count` (int64): Required - Number of dedicated IP addresses to allocate.
 
 
 ---
