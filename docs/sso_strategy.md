@@ -74,7 +74,7 @@
 * `saml_provider_sso_target_url` (string): Identity provider SSO endpoint if saml_provider_metadata_url is not available.
 * `scim_authentication_method` (string): SCIM authentication type.
 * `scim_username` (string): SCIM username.
-* `scim_oauth_access_token` (string): SCIM OAuth Access Token.
+* `scim_oauth_access_token` (string): SCIM OAuth Access Token. Only returned when the token is first issued or reset.
 * `scim_oauth_access_token_expires_at` (string): SCIM OAuth Access Token Expiration Time.
 * `subdomain` (string): Subdomain or domain name for your auth provider.   Example: `https://[subdomain].okta.com/`
 * `provision_users` (boolean): Auto-provision users?

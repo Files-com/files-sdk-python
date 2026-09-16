@@ -26,7 +26,7 @@ class SsoStrategy:
         "saml_provider_sso_target_url": None,  # string - Identity provider SSO endpoint if saml_provider_metadata_url is not available.
         "scim_authentication_method": None,  # string - SCIM authentication type.
         "scim_username": None,  # string - SCIM username.
-        "scim_oauth_access_token": None,  # string - SCIM OAuth Access Token.
+        "scim_oauth_access_token": None,  # string - SCIM OAuth Access Token. Only returned when the token is first issued or reset.
         "scim_oauth_access_token_expires_at": None,  # string - SCIM OAuth Access Token Expiration Time.
         "subdomain": None,  # string - Subdomain or domain name for your auth provider.   Example: `https://[subdomain].okta.com/`
         "provision_users": None,  # boolean - Auto-provision users?
