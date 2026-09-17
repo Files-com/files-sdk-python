@@ -154,6 +154,7 @@ class Bundle:
     #   user_id - int64 - The owning user id. Only site admins can set this.
     #   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
     #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
+    #   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
     #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -410,6 +411,7 @@ def get(id, params=None, options=None):
 #   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
 #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
 #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
+#   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -550,6 +552,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: workspace_id must be an int"
         )
+    if "watermark_value" in params and not isinstance(
+        params["watermark_value"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: watermark_value must be an dict"
+        )
     if "paths" not in params:
         raise MissingParameterError("Parameter missing: paths")
     response, options = Api.send_request("POST", "/bundles", params, options)
@@ -621,6 +629,7 @@ def share(id, params=None, options=None):
 #   user_id - int64 - The owning user id. Only site admins can set this.
 #   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
 #   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
+#   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -760,6 +769,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: watermark_attachment_delete must be an bool"
+        )
+    if "watermark_value" in params and not isinstance(
+        params["watermark_value"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: watermark_value must be an dict"
         )
     if "workspace_id" in params and not isinstance(
         params["workspace_id"], int

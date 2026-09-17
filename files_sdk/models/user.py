@@ -79,6 +79,7 @@ class User:
         "responsible_user_id": None,  # int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
         "readonly_site_admin": None,  # boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
         "restapi_permission": None,  # boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+        "s3_compatible_endpoint_permission": None,  # boolean - Can the user access the S3-compatible endpoint? Defaults to true.
         "self_managed": None,  # boolean - Does this user manage it's own credentials or is it a shared/bot user?
         "sftp_permission": None,  # boolean - Can the user access with SFTP?
         "site_admin": None,  # boolean - Is the user an administrator for this site?
@@ -252,6 +253,7 @@ class User:
     #   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
     #   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
     #   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+    #   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
     #   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
     #   sftp_permission - boolean - Can the user access with SFTP?
     #   site_admin - boolean - Is the user an administrator for this site?
@@ -664,6 +666,7 @@ def get(id, params=None, options=None):
 #   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
 #   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
 #   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+#   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
 #   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
 #   sftp_permission - boolean - Can the user access with SFTP?
 #   site_admin - boolean - Is the user an administrator for this site?
@@ -955,6 +958,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: restapi_permission must be an bool"
         )
+    if "s3_compatible_endpoint_permission" in params and not isinstance(
+        params["s3_compatible_endpoint_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_compatible_endpoint_permission must be an bool"
+        )
     if "self_managed" in params and not isinstance(
         params["self_managed"], bool
     ):
@@ -1140,6 +1149,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
 #   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
 #   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+#   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
 #   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
 #   sftp_permission - boolean - Can the user access with SFTP?
 #   site_admin - boolean - Is the user an administrator for this site?
@@ -1435,6 +1445,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: restapi_permission must be an bool"
+        )
+    if "s3_compatible_endpoint_permission" in params and not isinstance(
+        params["s3_compatible_endpoint_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_compatible_endpoint_permission must be an bool"
         )
     if "self_managed" in params and not isinstance(
         params["self_managed"], bool

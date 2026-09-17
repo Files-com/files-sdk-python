@@ -14,7 +14,7 @@
   "created_by_remote_server_id": 1,
   "created_by_sync_id": 1,
   "custom_metadata": {
-    "key": "value"
+    "department": "finance"
   },
   "display_name": "file.txt",
   "type": "file",
@@ -137,7 +137,7 @@ files_sdk.file.download(path, {
 
 ```
 files_sdk.file.create(path, {
-  "custom_metadata": {"key":"value"},
+  "custom_metadata": {"department":"finance"},
   "length": 1,
   "mkdir_parents": False,
   "part": 1,
@@ -180,7 +180,7 @@ files_sdk.file.create(path, {
 
 ```
 files_sdk.file.update(path, {
-  "custom_metadata": {"key":"value"},
+  "custom_metadata": {"department":"finance"},
   "provided_mtime": "2000-01-01T01:00:00Z",
   "priority_color": "red"
 })
@@ -459,7 +459,7 @@ file.download({
 ```
 file = files_sdk.file.find(path)
 file.update({
-  "custom_metadata": {"key":"value"},
+  "custom_metadata": {"department":"finance"},
   "provided_mtime": "2000-01-01T01:00:00Z",
   "priority_color": "red"
 })

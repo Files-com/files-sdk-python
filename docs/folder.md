@@ -14,7 +14,7 @@
   "created_by_remote_server_id": 1,
   "created_by_sync_id": 1,
   "custom_metadata": {
-    "key": "value"
+    "department": "finance"
   },
   "display_name": "file.txt",
   "type": "file",

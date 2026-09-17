@@ -23,6 +23,7 @@ class Group:
         "sftp_permission": None,  # boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
         "dav_permission": None,  # boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
         "restapi_permission": None,  # boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+        "s3_compatible_endpoint_permission": None,  # boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
         "desktop_configuration_profile_id": None,  # int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
         "integration_centric_profile_id": None,  # int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
         "site_id": None,  # int64 - Site ID
@@ -59,6 +60,7 @@ class Group:
     #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
     #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
     #   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+    #   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
     #   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
     #   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
     #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
@@ -228,6 +230,7 @@ def get(id, params=None, options=None):
 #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 #   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+#   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
 #   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 #   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
@@ -274,6 +277,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: restapi_permission must be an bool"
         )
+    if "s3_compatible_endpoint_permission" in params and not isinstance(
+        params["s3_compatible_endpoint_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_compatible_endpoint_permission must be an bool"
+        )
     if "desktop_configuration_profile_id" in params and not isinstance(
         params["desktop_configuration_profile_id"], int
     ):
@@ -313,6 +322,7 @@ def create(params=None, options=None):
 #   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 #   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 #   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+#   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
 #   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 #   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 #   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
@@ -360,6 +370,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: restapi_permission must be an bool"
+        )
+    if "s3_compatible_endpoint_permission" in params and not isinstance(
+        params["s3_compatible_endpoint_permission"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_compatible_endpoint_permission must be an bool"
         )
     if "desktop_configuration_profile_id" in params and not isinstance(
         params["desktop_configuration_profile_id"], int

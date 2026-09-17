@@ -10,7 +10,7 @@
   "use_for_all_users": False,
   "disable_drive_mounting": False,
   "mount_mappings": {
-    "key": "example value"
+    "W": "Americas"
   }
 }
 ```
@@ -59,7 +59,7 @@ files_sdk.desktop_configuration_profile.find(id)
 ```
 files_sdk.desktop_configuration_profile.create({
   "name": "North America Desktop Profile",
-  "mount_mappings": {"key":"example value"},
+  "mount_mappings": {"W":"Americas"},
   "workspace_id": 1,
   "use_for_all_users": False,
   "disable_drive_mounting": False
@@ -83,7 +83,7 @@ files_sdk.desktop_configuration_profile.create({
 files_sdk.desktop_configuration_profile.update(id, {
   "name": "North America Desktop Profile",
   "workspace_id": 1,
-  "mount_mappings": {"key":"example value"},
+  "mount_mappings": {"W":"Americas"},
   "use_for_all_users": False,
   "disable_drive_mounting": False
 })
@@ -121,7 +121,7 @@ desktop_configuration_profile = files_sdk.desktop_configuration_profile.find(id)
 desktop_configuration_profile.update({
   "name": "North America Desktop Profile",
   "workspace_id": 1,
-  "mount_mappings": {"key":"example value"},
+  "mount_mappings": {"W":"Americas"},
   "use_for_all_users": False,
   "disable_drive_mounting": False
 })

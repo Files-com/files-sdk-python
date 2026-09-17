@@ -56,7 +56,9 @@
     "uri": "https://mysite.files.com/.../my_image.png"
   },
   "bundle_watermark_value": {
-    "key": "example value"
+    "gravity": "SouthWest",
+    "max_height_or_width": 20,
+    "transparency": 25
   },
   "calculate_file_checksums_crc32": True,
   "calculate_file_checksums_md5": True,
@@ -323,6 +325,7 @@
     "responsible_user_id": 1,
     "readonly_site_admin": True,
     "restapi_permission": True,
+    "s3_compatible_endpoint_permission": True,
     "self_managed": True,
     "sftp_permission": True,
     "site_admin": True,
@@ -699,7 +702,6 @@ files_sdk.site.update({
   "active_sftp_host_key_ids": [1],
   "protocol_access_groups_only": False,
   "revoke_bundle_access_on_disable_or_delete": False,
-  "bundle_watermark_value": {"key":"example value"},
   "group_admins_can_add_users": False,
   "group_admins_can_manage_group_memberships": False,
   "group_admins_can_delete_users": False,
@@ -755,6 +757,7 @@ files_sdk.site.update({
   "ldap_group_inclusion": "example",
   "ldap_base_dn": "example",
   "uploads_via_email_authentication": False,
+  "bundle_watermark_value": {"gravity":"SouthWest","max_height_or_width":20,"transparency":25},
   "icon16_delete": False,
   "icon32_delete": False,
   "icon48_delete": False,
@@ -883,7 +886,6 @@ files_sdk.site.update({
 * `active_sftp_host_key_ids` (array(int64)): Ids of the selected custom SFTP Host Keys
 * `protocol_access_groups_only` (boolean): If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
 * `revoke_bundle_access_on_disable_or_delete` (boolean): Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
-* `bundle_watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `group_admins_can_add_users` (boolean): Allow group admins to create users in their groups
 * `group_admins_can_manage_group_memberships` (boolean): Allow group admins to add or remove existing users in their groups
 * `group_admins_can_delete_users` (boolean): Allow group admins to delete users in their groups
@@ -939,6 +941,7 @@ files_sdk.site.update({
 * `ldap_group_inclusion` (string): Comma or newline separated list of group names (with optional wildcards) to include when syncing.
 * `ldap_base_dn` (string): Base DN for looking up users in LDAP server
 * `uploads_via_email_authentication` (boolean): Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
+* `bundle_watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `icon16_file` (file): 
 * `icon16_delete` (boolean): If true, will delete the file stored in icon16
 * `icon32_file` (file): 

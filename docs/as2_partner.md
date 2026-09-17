@@ -12,7 +12,7 @@
   "server_certificate": "require_match",
   "http_auth_username": "username",
   "additional_http_headers": {
-    "key": "example value"
+    "X-Partner": "acme"
   },
   "default_mime_type": "application/octet-stream",
   "mdn_validation_level": "none",
@@ -93,7 +93,7 @@ files_sdk.as2_partner.create({
   "signature_validation_level": "normal",
   "server_certificate": "require_match",
   "default_mime_type": "application/octet-stream",
-  "additional_http_headers": {"key":"example value"},
+  "additional_http_headers": {"X-Partner":"acme"},
   "as2_station_id": 1,
   "name": "AS2 Partner Name",
   "uri": "example",
@@ -129,7 +129,7 @@ files_sdk.as2_partner.update(id, {
   "signature_validation_level": "normal",
   "server_certificate": "require_match",
   "default_mime_type": "application/octet-stream",
-  "additional_http_headers": {"key":"example value"},
+  "additional_http_headers": {"X-Partner":"acme"},
   "name": "AS2 Partner Name",
   "uri": "example",
   "public_certificate": "example"
@@ -178,7 +178,7 @@ as2_partner.update({
   "signature_validation_level": "normal",
   "server_certificate": "require_match",
   "default_mime_type": "application/octet-stream",
-  "additional_http_headers": {"key":"example value"},
+  "additional_http_headers": {"X-Partner":"acme"},
   "name": "AS2 Partner Name",
   "uri": "example",
   "public_certificate": "example"

@@ -9,7 +9,10 @@
   "workspace_id": 1,
   "use_for_all_users": False,
   "expected_remote_servers": [
-    "example"
+    {
+      "server_type": "dropbox",
+      "name": "Dropbox"
+    }
   ]
 }
 ```
@@ -57,7 +60,7 @@ files_sdk.integration_centric_profile.find(id)
 ```
 files_sdk.integration_centric_profile.create({
   "name": "Business Systems Onboarding",
-  "expected_remote_servers": ["example"],
+  "expected_remote_servers": [{"server_type":"dropbox","name":"Dropbox"}],
   "workspace_id": 1,
   "use_for_all_users": False
 })
@@ -79,7 +82,7 @@ files_sdk.integration_centric_profile.create({
 files_sdk.integration_centric_profile.update(id, {
   "name": "Business Systems Onboarding",
   "workspace_id": 1,
-  "expected_remote_servers": ["example"],
+  "expected_remote_servers": [{"server_type":"dropbox","name":"Dropbox"}],
   "use_for_all_users": False
 })
 ```
@@ -115,7 +118,7 @@ integration_centric_profile = files_sdk.integration_centric_profile.find(id)
 integration_centric_profile.update({
   "name": "Business Systems Onboarding",
   "workspace_id": 1,
-  "expected_remote_servers": ["example"],
+  "expected_remote_servers": [{"server_type":"dropbox","name":"Dropbox"}],
   "use_for_all_users": False
 })
 ```

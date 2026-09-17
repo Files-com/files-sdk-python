@@ -12,7 +12,7 @@
   "file_format": "example",
   "file_interval_minutes": 1,
   "additional_headers": {
-    "key": "example value"
+    "Authorization": "Bearer YOUR_TOKEN"
   },
   "sending_active": True,
   "generic_payload_type": "example",
@@ -162,7 +162,7 @@ files_sdk.siem_http_destination.find(id)
 ```
 files_sdk.siem_http_destination.create({
   "name": "example",
-  "additional_headers": {"key":"example value"},
+  "additional_headers": {"Authorization":"Bearer YOUR_TOKEN"},
   "sending_active": True,
   "generic_payload_type": "example",
   "file_destination_path": "example",
@@ -237,7 +237,7 @@ files_sdk.siem_http_destination.send_test_entry({
   "destination_type": "example",
   "destination_url": "example",
   "name": "example",
-  "additional_headers": {"key":"example value"},
+  "additional_headers": {"Authorization":"Bearer YOUR_TOKEN"},
   "sending_active": True,
   "generic_payload_type": "example",
   "file_destination_path": "example",
@@ -308,7 +308,7 @@ files_sdk.siem_http_destination.send_test_entry({
 ```
 files_sdk.siem_http_destination.update(id, {
   "name": "example",
-  "additional_headers": {"key":"example value"},
+  "additional_headers": {"Authorization":"Bearer YOUR_TOKEN"},
   "sending_active": True,
   "generic_payload_type": "example",
   "file_destination_path": "example",
@@ -395,7 +395,7 @@ files_sdk.siem_http_destination.delete(id)
 siem_http_destination = files_sdk.siem_http_destination.find(id)
 siem_http_destination.update({
   "name": "example",
-  "additional_headers": {"key":"example value"},
+  "additional_headers": {"Authorization":"Bearer YOUR_TOKEN"},
   "sending_active": True,
   "generic_payload_type": "example",
   "file_destination_path": "example",

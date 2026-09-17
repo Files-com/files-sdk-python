@@ -376,7 +376,6 @@ def get_usage(params=None, options=None):
 #   active_sftp_host_key_ids - array(int64) - Ids of the selected custom SFTP Host Keys
 #   protocol_access_groups_only - boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
 #   revoke_bundle_access_on_disable_or_delete - boolean - Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
-#   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 #   group_admins_can_add_users - boolean - Allow group admins to create users in their groups
 #   group_admins_can_manage_group_memberships - boolean - Allow group admins to add or remove existing users in their groups
 #   group_admins_can_delete_users - boolean - Allow group admins to delete users in their groups
@@ -432,6 +431,7 @@ def get_usage(params=None, options=None):
 #   ldap_group_inclusion - string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
 #   ldap_base_dn - string - Base DN for looking up users in LDAP server
 #   uploads_via_email_authentication - boolean - Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
+#   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 #   icon16_file - file
 #   icon16_delete - boolean - If true, will delete the file stored in icon16
 #   icon32_file - file
@@ -1120,12 +1120,6 @@ def update(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: revoke_bundle_access_on_disable_or_delete must be an bool"
         )
-    if "bundle_watermark_value" in params and not isinstance(
-        params["bundle_watermark_value"], dict
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_watermark_value must be an dict"
-        )
     if "group_admins_can_add_users" in params and not isinstance(
         params["group_admins_can_add_users"], bool
     ):
@@ -1423,6 +1417,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: uploads_via_email_authentication must be an bool"
+        )
+    if "bundle_watermark_value" in params and not isinstance(
+        params["bundle_watermark_value"], dict
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: bundle_watermark_value must be an dict"
         )
     if "icon16_delete" in params and not isinstance(
         params["icon16_delete"], bool
