@@ -583,7 +583,6 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`ApiKeySessionsNotSupportedError`|  `NotAuthenticatedError` |
 |`AuthenticationRequiredError`|  `NotAuthenticatedError` |
 |`BundleRegistrationCodeFailedError`|  `NotAuthenticatedError` |
-|`FilesAgentTokenFailedError`|  `NotAuthenticatedError` |
 |`InboxRegistrationCodeFailedError`|  `NotAuthenticatedError` |
 |`InvalidCredentialsError`|  `NotAuthenticatedError` |
 |`InvalidOauthError`|  `NotAuthenticatedError` |

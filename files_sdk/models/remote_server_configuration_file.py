@@ -38,13 +38,6 @@ class RemoteServerConfigurationFile:
         # * 1000 requests/hour: '1000-H'
         # * 2000 requests/day: '2000-D'
         "auto_update_policy": None,  # string - Auto update policy ['manual_trigger', 'critical_only', 'always', 'never'] (default always)
-        "api_token": None,  # string - Files Agent API Token
-        "port": None,  # int64 - Incoming port for files agent connections
-        "hostname": None,  # string
-        "public_key": None,  # string - public key
-        "status": None,  # string - either running or shutdown
-        "server_host_key": None,  # string
-        "config_version": None,  # string - agent config version
     }
 
     def __init__(self, attributes=None, options=None):

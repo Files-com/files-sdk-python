@@ -17,7 +17,7 @@ from files_sdk.error import (  # noqa: F401
 class RemoteServer:
     default_attributes = {
         "id": None,  # int64 - Remote Server ID
-        "disabled": None,  # boolean - If true, this Remote Server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
+        "disabled": None,  # boolean - If true, this Remote Server is disabled. Updating it clears this flag, except for retired Agent v1 records, which remain disabled.
         "authentication_method": None,  # string - Type of authentication method to use
         "hostname": None,  # string - Hostname or IP address
         "remote_home_path": None,  # string - Initial home folder on remote server
@@ -76,7 +76,6 @@ class RemoteServer:
         "enable_dedicated_ips": None,  # boolean - `true` if remote server only accepts connections from dedicated IPs
         "files_agent_permission_set": None,  # string - Local permissions for files agent. read_only, write_only, or read_write
         "files_agent_root": None,  # string - Agent local root path
-        "files_agent_api_token": None,  # string - Files Agent API Token
         "files_agent_version": None,  # string - Files Agent version
         "files_agent_up_to_date": None,  # boolean - If true, the Files Agent is up to date.
         "files_agent_latest_version": None,  # string - Latest available Files Agent version
@@ -182,90 +181,6 @@ class RemoteServer:
         response, _options = Api.send_request(
             "POST",
             "/remote_servers/{id}/agent_push_update".format(
-                id=quote(str(params["id"]), safe="")
-            ),
-            params,
-            self.options,
-        )
-        return response.data
-
-    # Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
-    #
-    # Parameters:
-    #   api_token - string - Files Agent API Token
-    #   permission_set - string - The permission set for the agent ['read_write', 'read_only', 'write_only']
-    #   root - string - The root directory for the agent
-    #   hostname - string
-    #   port - int64 - Incoming port for files agent connections
-    #   status - string - either running or shutdown
-    #   config_version - string - agent config version
-    #   private_key - string - The private key for the agent
-    #   public_key - string - public key
-    #   server_host_key - string
-    #   subdomain - string - Files.com subdomain site name
-    def configuration_file(self, params=None):
-        if not isinstance(params, dict):
-            params = {}
-
-        if hasattr(self, "id") and self.id:
-            params["id"] = self.id
-        else:
-            raise MissingParameterError("Current object doesn't have a id")
-        if "id" not in params:
-            raise MissingParameterError("Parameter missing: id")
-        if "id" in params and not isinstance(params["id"], int):
-            raise InvalidParameterError("Bad parameter: id must be an int")
-        if "api_token" in params and not isinstance(params["api_token"], str):
-            raise InvalidParameterError(
-                "Bad parameter: api_token must be an str"
-            )
-        if "permission_set" in params and not isinstance(
-            params["permission_set"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: permission_set must be an str"
-            )
-        if "root" in params and not isinstance(params["root"], str):
-            raise InvalidParameterError("Bad parameter: root must be an str")
-        if "hostname" in params and not isinstance(params["hostname"], str):
-            raise InvalidParameterError(
-                "Bad parameter: hostname must be an str"
-            )
-        if "port" in params and not isinstance(params["port"], int):
-            raise InvalidParameterError("Bad parameter: port must be an int")
-        if "status" in params and not isinstance(params["status"], str):
-            raise InvalidParameterError("Bad parameter: status must be an str")
-        if "config_version" in params and not isinstance(
-            params["config_version"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: config_version must be an str"
-            )
-        if "private_key" in params and not isinstance(
-            params["private_key"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: private_key must be an str"
-            )
-        if "public_key" in params and not isinstance(
-            params["public_key"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: public_key must be an str"
-            )
-        if "server_host_key" in params and not isinstance(
-            params["server_host_key"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: server_host_key must be an str"
-            )
-        if "subdomain" in params and not isinstance(params["subdomain"], str):
-            raise InvalidParameterError(
-                "Bad parameter: subdomain must be an str"
-            )
-        response, _options = Api.send_request(
-            "POST",
-            "/remote_servers/{id}/configuration_file".format(
                 id=quote(str(params["id"]), safe="")
             ),
             params,
@@ -1548,77 +1463,6 @@ def agent_push_update(id, params=None, options=None):
         options,
     )
     return AgentPushUpdate(response.data, options)
-
-
-# Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
-#
-# Parameters:
-#   api_token - string - Files Agent API Token
-#   permission_set - string - The permission set for the agent ['read_write', 'read_only', 'write_only']
-#   root - string - The root directory for the agent
-#   hostname - string
-#   port - int64 - Incoming port for files agent connections
-#   status - string - either running or shutdown
-#   config_version - string - agent config version
-#   private_key - string - The private key for the agent
-#   public_key - string - public key
-#   server_host_key - string
-#   subdomain - string - Files.com subdomain site name
-def configuration_file(id, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "api_token" in params and not isinstance(params["api_token"], str):
-        raise InvalidParameterError("Bad parameter: api_token must be an str")
-    if "permission_set" in params and not isinstance(
-        params["permission_set"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: permission_set must be an str"
-        )
-    if "root" in params and not isinstance(params["root"], str):
-        raise InvalidParameterError("Bad parameter: root must be an str")
-    if "hostname" in params and not isinstance(params["hostname"], str):
-        raise InvalidParameterError("Bad parameter: hostname must be an str")
-    if "port" in params and not isinstance(params["port"], int):
-        raise InvalidParameterError("Bad parameter: port must be an int")
-    if "status" in params and not isinstance(params["status"], str):
-        raise InvalidParameterError("Bad parameter: status must be an str")
-    if "config_version" in params and not isinstance(
-        params["config_version"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: config_version must be an str"
-        )
-    if "private_key" in params and not isinstance(params["private_key"], str):
-        raise InvalidParameterError(
-            "Bad parameter: private_key must be an str"
-        )
-    if "public_key" in params and not isinstance(params["public_key"], str):
-        raise InvalidParameterError("Bad parameter: public_key must be an str")
-    if "server_host_key" in params and not isinstance(
-        params["server_host_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: server_host_key must be an str"
-        )
-    if "subdomain" in params and not isinstance(params["subdomain"], str):
-        raise InvalidParameterError("Bad parameter: subdomain must be an str")
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    response, options = Api.send_request(
-        "POST",
-        "/remote_servers/{id}/configuration_file".format(
-            id=quote(str(params["id"]), safe="")
-        ),
-        params,
-        options,
-    )
-    return RemoteServerConfigurationFile(response.data, options)
 
 
 # Parameters:
