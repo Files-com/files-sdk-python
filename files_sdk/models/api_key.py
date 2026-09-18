@@ -29,7 +29,7 @@ class ApiKey:
         "url": None,  # string - URL for API host.
         "user_id": None,  # int64 - User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
         "workspace_id": None,  # int64 - Workspace ID for this API Key. `0` means the default workspace.
-        "path": None,  # string - Folder path restriction for `office_integration` permission set API keys.
+        "path": None,  # string - Restricts this API key to the specified folder and its descendants. Applies to every permission set and all paths accessed by a request, including copy and move destinations. Does not grant access beyond the owning user's permissions. Optional except for `office_integration` keys, which require a path the owning user can read.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -208,7 +208,7 @@ def get(id, params=None, options=None):
 #   expires_at - string - API Key expiration date
 #   name (required) - string - Internal name for the API Key.  For your use.
 #   aws_style_credentials - boolean - If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
-#   path - string - Folder path restriction for `office_integration` permission set API keys.
+#   path - string - Restricts this API key to the specified folder and its descendants. Applies to every permission set and all paths accessed by a request, including copy and move destinations. Does not grant access beyond the owning user's permissions. Optional except for `office_integration` keys, which require a path the owning user can read.
 #   permission_set - string - Permissions for this API Key. Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Keys with the `files_only` permission set can perform file operations as a full-access file user in the key's workspace scope, but cannot use site admin, workspace admin, folder admin, group admin, partner admin, or billing privileges from the owning user.
 #   workspace_id - int64 - Workspace ID for this API Key. `0` means the default workspace.
 def create(params=None, options=None):
