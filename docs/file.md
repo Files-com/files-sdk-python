@@ -102,7 +102,7 @@
 * `parts` (int64): How many parts to fetch?
 * `ref` (string): 
 * `restart` (int64): File byte offset to restart from.
-* `copy_behaviors` (boolean): If copying a folder, also copy supported behaviors to the destination folder tree?
+* `copy_behaviors` (boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
 * `structure` (string): If copying folder, copy just the structure?
 * `with_rename` (boolean): Allow file rename instead of overwrite?
 * `buffered_upload` (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
@@ -167,7 +167,7 @@ files_sdk.file.create(path, {
 * `ref` (string): 
 * `restart` (int64): File byte offset to restart from.
 * `size` (int64): Size of file.
-* `copy_behaviors` (boolean): If copying a folder, also copy supported behaviors to the destination folder tree?
+* `copy_behaviors` (boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
 * `structure` (string): If copying folder, copy just the structure?
 * `with_rename` (boolean): Allow file rename instead of overwrite?
 * `buffered_upload` (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
@@ -259,7 +259,7 @@ files_sdk.file.copy(path, {
 
 * `path` (string): Required - Path to operate on.
 * `destination` (string): Required - Copy destination path.
-* `copy_behaviors` (boolean): If copying a folder, also copy supported behaviors to the destination folder tree?
+* `copy_behaviors` (boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
 * `structure` (boolean): Copy structure only?
 * `overwrite` (boolean): Overwrite existing file(s) in the destination?
 
@@ -522,7 +522,7 @@ file.copy({
 
 * `path` (string): Required - Path to operate on.
 * `destination` (string): Required - Copy destination path.
-* `copy_behaviors` (boolean): If copying a folder, also copy supported behaviors to the destination folder tree?
+* `copy_behaviors` (boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
 * `structure` (boolean): Copy structure only?
 * `overwrite` (boolean): Overwrite existing file(s) in the destination?
 
