@@ -24,7 +24,7 @@ class Partner:
         "notes": None,  # string - Notes about this Partner.
         "partner_admin_ids": None,  # array(int64) - Array of User IDs that are Partner Admins for this Partner.
         "partner_channel_template_id": None,  # int64 - ID of the Partner Channel Template assigned to this Partner.
-        "partnership_role": None,  # string - This site's role in Partner Site relationships for this Partner. Can be `host`, `guest`, `host_and_guest`, or null.
+        "partnership_role": None,  # string - This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
         "responsible_group_id": None,  # int64 - ID of the Group responsible for this Partner.
         "responsible_user_id": None,  # int64 - ID of the User responsible for this Partner.
         "root_folder": None,  # string - The root folder path for this Partner.
@@ -69,6 +69,7 @@ class Partner:
     #   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
     #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
     #   name - string - The name of the Partner.
+    #   partnership_role - string - This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
     #   root_folder - string - The root folder path for this Partner.
     def update(self, params=None):
         if not isinstance(params, dict):
@@ -118,6 +119,12 @@ class Partner:
             raise InvalidParameterError("Bad parameter: tags must be an str")
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
+        if "partnership_role" in params and not isinstance(
+            params["partnership_role"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: partnership_role must be an str"
+            )
         if "root_folder" in params and not isinstance(
             params["root_folder"], str
         ):
@@ -340,6 +347,7 @@ def create(params=None, options=None):
 #   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
 #   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 #   name - string - The name of the Partner.
+#   partnership_role - string - This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
 #   root_folder - string - The root folder path for this Partner.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
@@ -419,6 +427,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: tags must be an str")
     if "name" in params and not isinstance(params["name"], str):
         raise InvalidParameterError("Bad parameter: name must be an str")
+    if "partnership_role" in params and not isinstance(
+        params["partnership_role"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: partnership_role must be an str"
+        )
     if "root_folder" in params and not isinstance(params["root_folder"], str):
         raise InvalidParameterError(
             "Bad parameter: root_folder must be an str"

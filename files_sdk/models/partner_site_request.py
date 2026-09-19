@@ -173,6 +173,7 @@ def reject(params=None, options=None):
 
 # Parameters:
 #   pairing_key (required) - string - Pairing key for the partner site request
+#   partner_id - int64 - ID of an existing Partner on this site, with the host role, that represents the requesting organization. The connection binds to that Partner and makes it host_and_guest. When omitted, a guest Partner named after the host site is created.
 def approve(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -182,6 +183,8 @@ def approve(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: pairing_key must be an str"
         )
+    if "partner_id" in params and not isinstance(params["partner_id"], int):
+        raise InvalidParameterError("Bad parameter: partner_id must be an int")
     if "pairing_key" not in params:
         raise MissingParameterError("Parameter missing: pairing_key")
     Api.send_request("POST", "/partner_site_requests/approve", params, options)
