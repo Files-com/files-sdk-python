@@ -597,6 +597,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`ApiKeyIsDisabledError`|  `NotAuthorizedError` |
 |`ApiKeyIsPathRestrictedError`|  `NotAuthorizedError` |
 |`ApiKeyOnlyForDesktopAppError`|  `NotAuthorizedError` |
+|`ApiKeyOnlyForFileOperationsError`|  `NotAuthorizedError` |
 |`ApiKeyOnlyForMobileAppError`|  `NotAuthorizedError` |
 |`ApiKeyOnlyForOfficeIntegrationError`|  `NotAuthorizedError` |
 |`BillingInformationHiddenError`|  `NotAuthorizedError` |
