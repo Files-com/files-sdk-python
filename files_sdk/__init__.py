@@ -89,6 +89,7 @@ import files_sdk.models.outbound_connection_log as outbound_connection_log
 import files_sdk.models.partner as partner
 import files_sdk.models.partner_channel as partner_channel
 import files_sdk.models.partner_channel_template as partner_channel_template
+import files_sdk.models.partner_connection as partner_connection
 import files_sdk.models.partner_site as partner_site
 import files_sdk.models.partner_site_request as partner_site_request
 import files_sdk.models.payment as payment
@@ -246,6 +247,7 @@ from files_sdk.models.outbound_connection_log import OutboundConnectionLog
 from files_sdk.models.partner import Partner
 from files_sdk.models.partner_channel import PartnerChannel
 from files_sdk.models.partner_channel_template import PartnerChannelTemplate
+from files_sdk.models.partner_connection import PartnerConnection
 from files_sdk.models.partner_site import PartnerSite
 from files_sdk.models.partner_site_request import PartnerSiteRequest
 from files_sdk.models.payment import Payment
@@ -318,7 +320,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "1.6.478"
+version = "1.6.479"
 
 __version__ = version
 

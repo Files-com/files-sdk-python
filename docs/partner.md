@@ -10,6 +10,15 @@
   "allow_providing_gpg_keys": False,
   "allow_user_creation": False,
   "cc_emails_to_responsible_party": False,
+  "connections": [
+    {
+      "id": 1,
+      "role": "guest",
+      "site_id": 2,
+      "site_name": "Acme Site",
+      "mount_path": "_/Sites/2"
+    }
+  ],
   "id": 1,
   "ai_assistant_personality_id": 1,
   "workspace_id": 1,
@@ -41,6 +50,7 @@
 * `allow_providing_gpg_keys` (boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (boolean): Allow Partner Admins to create users.
 * `cc_emails_to_responsible_party` (boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
+* `connections` (array(object)): Approved Connected Sites relationships for this Partner, in both directions. Empty when this Partner has no connections. Read-only.
 * `id` (int64): The unique ID of the Partner.
 * `ai_assistant_personality_id` (int64): AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
 * `workspace_id` (int64): ID of the Workspace associated with this Partner.

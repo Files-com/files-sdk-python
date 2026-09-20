@@ -17,6 +17,7 @@ class Partner:
         "allow_providing_gpg_keys": None,  # boolean - Allow Partner Admins to provide GPG keys.
         "allow_user_creation": None,  # boolean - Allow Partner Admins to create users.
         "cc_emails_to_responsible_party": None,  # boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
+        "connections": None,  # array(object) - Approved Connected Sites relationships for this Partner, in both directions. Empty when this Partner has no connections. Read-only.
         "id": None,  # int64 - The unique ID of the Partner.
         "ai_assistant_personality_id": None,  # int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
         "workspace_id": None,  # int64 - ID of the Workspace associated with this Partner.

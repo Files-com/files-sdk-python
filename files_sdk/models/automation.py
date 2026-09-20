@@ -51,8 +51,7 @@ class Automation:
         "schedule_times_of_day": None,  # array(string) - Times of day to run in HH:MM format (24-hour). For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
         "schedule_time_zone": None,  # string - Time zone for the schedule. If not set, times are interpreted as UTC.
         "source": None,  # string - Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
-        "legacy_sync_ids": None,  # array(int64) - IDs of remote sync folder behaviors to run by this Automation
-        "sync_ids": None,  # array(int64) - IDs of syncs to run by this Automation. This is the new way to specify syncs, and it is recommended to use this instead of `legacy_sync_ids`.
+        "sync_ids": None,  # array(int64) - IDs of Syncs to run by this Automation.
         "trigger_actions": None,  # array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
         "trigger": None,  # string - How this automation is triggered to run.
         "user_id": None,  # int64 - User ID of the Automation's creator.
@@ -142,7 +141,6 @@ class Automation:
     #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
     #   interval - string - How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
     #   path - string - Path on which this Automation runs.  Supports globs, except on remote mounts.
-    #   legacy_sync_ids - string - A list of legacy sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
@@ -210,12 +208,6 @@ class Automation:
             )
         if "path" in params and not isinstance(params["path"], str):
             raise InvalidParameterError("Bad parameter: path must be an str")
-        if "legacy_sync_ids" in params and not isinstance(
-            params["legacy_sync_ids"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: legacy_sync_ids must be an str"
-            )
         if "sync_ids" in params and not isinstance(params["sync_ids"], str):
             raise InvalidParameterError(
                 "Bad parameter: sync_ids must be an str"
@@ -452,7 +444,6 @@ def get_authoring_schema(params=None, options=None):
 #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 #   interval - string - How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 #   path - string - Path on which this Automation runs.  Supports globs, except on remote mounts.
-#   legacy_sync_ids - string - A list of legacy sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
@@ -512,12 +503,6 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: interval must be an str")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
-    if "legacy_sync_ids" in params and not isinstance(
-        params["legacy_sync_ids"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: legacy_sync_ids must be an str"
-        )
     if "sync_ids" in params and not isinstance(params["sync_ids"], str):
         raise InvalidParameterError("Bad parameter: sync_ids must be an str")
     if "user_ids" in params and not isinstance(params["user_ids"], str):
@@ -723,7 +708,6 @@ def manual_run(id, params=None, options=None):
 #   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 #   interval - string - How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 #   path - string - Path on which this Automation runs.  Supports globs, except on remote mounts.
-#   legacy_sync_ids - string - A list of legacy sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 #   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
@@ -785,12 +769,6 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: interval must be an str")
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
-    if "legacy_sync_ids" in params and not isinstance(
-        params["legacy_sync_ids"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: legacy_sync_ids must be an str"
-        )
     if "sync_ids" in params and not isinstance(params["sync_ids"], str):
         raise InvalidParameterError("Bad parameter: sync_ids must be an str")
     if "user_ids" in params and not isinstance(params["user_ids"], str):
