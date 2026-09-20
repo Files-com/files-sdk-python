@@ -268,7 +268,7 @@ class User:
     #   user_home - string - Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
     #   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
     #   username - string - User's username
-    #   workspace_id - int64 - Workspace ID
+    #   workspace_id - int64 - Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
     #   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
     #   convert_to_partner_user - boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
     def update(self, params=None):
@@ -1164,7 +1164,7 @@ def user_2fa_reset(id, params=None, options=None):
 #   user_home - string - Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
 #   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 #   username - string - User's username
-#   workspace_id - int64 - Workspace ID
+#   workspace_id - int64 - Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
 #   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 #   convert_to_partner_user - boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
 def update(id, params=None, options=None):
