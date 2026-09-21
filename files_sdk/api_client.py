@@ -2,7 +2,7 @@ import json
 import random
 import requests
 import time
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 from decimal import Decimal
 
 import files_sdk
@@ -16,6 +16,31 @@ import files_sdk.util as util
 from requests_toolbelt.adapters import source
 
 
+FILES_AUTH_HEADERS = (
+    "X-FilesAPI-Key",
+    "X-FilesAPI-Auth",
+    "X-Files-Workspace-Id",
+)
+
+
+def _url_origin(url):
+    parsed = urlparse(url)
+    port = parsed.port
+    if port is None:
+        port = 443 if parsed.scheme.lower() == "https" else 80
+    return parsed.scheme.lower(), (parsed.hostname or "").lower(), port
+
+
+class FilesSession(requests.Session):
+    def rebuild_auth(self, prepared_request, response):
+        super().rebuild_auth(prepared_request, response)
+        if _url_origin(response.request.url) != _url_origin(
+            prepared_request.url
+        ):
+            for header in FILES_AUTH_HEADERS:
+                prepared_request.headers.pop(header, None)
+
+
 class ApiClient:
     """
     The Files.com API Client.
@@ -24,7 +49,7 @@ class ApiClient:
     def __init__(self):
         pass
 
-        self.session = requests.Session()
+        self.session = FilesSession()
 
         if (
             files_sdk.get_source_ip() is not None
