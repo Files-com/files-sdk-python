@@ -65,7 +65,7 @@ class ApiClient:
             headers = {}
         req = requests.Request(method, url=url, headers=headers, data=body)
 
-        response = self.execute_request_with_auto_retry(req)
+        response = self.execute_request_with_auto_retry(req, is_transfer=True)
         return response
 
     def send_request(
@@ -166,6 +166,7 @@ class ApiClient:
         return response
 
     def stream_download(self, uri, io, is_string_io=False):
+        util.log_debug("Download request", url=uri)
         # NOTE the stream=True parameter below
         try:
             with requests.get(
@@ -187,9 +188,14 @@ class ApiClient:
             requests.exceptions.ChunkedEncodingError,
         ) as e:
             raise self.handle_network_error(e, e.request, 0) from None
+        except requests.exceptions.HTTPError as e:
+            util.log_debug("Transfer error details", error_message=e)
+            raise APIError(
+                "Transfer request failed", http_status=e.response.status_code
+            ) from None
 
     def execute_request_with_auto_retry(
-        self, request, skip_body_logging=False
+        self, request, skip_body_logging=False, is_transfer=False
     ):
         for try_num in range(0, files_sdk.max_network_retries):
             response = None
@@ -227,7 +233,9 @@ class ApiClient:
 
                 if try_num + 1 == files_sdk.max_network_retries:
                     if response is not None:
-                        self.handle_error_response(response)
+                        self.handle_error_response(
+                            response, is_transfer=is_transfer
+                        )
                     else:
                         raise self.handle_network_error(
                             e, request, try_num
@@ -296,7 +304,7 @@ class ApiClient:
             msg += " Additional Information: {}".format(extra_info)
         return APIError(msg)
 
-    def handle_error_response(self, response):
+    def handle_error_response(self, response, is_transfer=False):
         error_data = None
 
         try:
@@ -317,18 +325,27 @@ class ApiClient:
             if not error_data:
                 raise Error("Unknown error")
         except Error:
+            if is_transfer:
+                raise APIError(
+                    "Transfer request failed", http_status=response.status_code
+                ) from None
             raise self.general_api_error(response, "Unknown error")
 
-        error = self.specific_api_error(response, error_data)
+        error = self.specific_api_error(
+            response, error_data, is_transfer=is_transfer
+        )
 
         error.response = response
-        raise error
+        raise error from None
 
-    def specific_api_error(self, response, error_data):
+    def specific_api_error(self, response, error_data, is_transfer=False):
         import files_sdk.error
 
+        message = (
+            "Transfer request failed" if is_transfer else error_data["message"]
+        )
         util.log_error(
-            "API error", status=response.status_code, error_message=error_data
+            "API error", status=response.status_code, error_message=message
         )
 
         opts = {
@@ -344,32 +361,31 @@ class ApiClient:
             "".join(list(map(str.capitalize, error_type.split("-")))) + "Error"
         )
         try:
-            return getattr(files_sdk.error, error_class_name)(
-                error_data["message"], **opts
-            )
+            return getattr(files_sdk.error, error_class_name)(message, **opts)
         except AttributeError:
-            return APIError(error_data["message"], **opts)
+            return APIError(message, **opts)
 
     def handle_network_error(self, error, request, num_retries):
-        util.log_error("Network error", error_message=error)
+        util.log_error("Network error", error_type=type(error).__name__)
+        util.log_debug("Network error details", error_message=error)
         msg = "Could not connect to Files.com at URL {}. Please check your internet connection and try again. If this problem persists, you should check Files.com's service status at https://status.files.com, or contact your primary account representative.".format(
             files_sdk.base_url
         )
         if num_retries > 0:
             msg += " Request was retried {} times.".format(num_retries)
-        msg += "\n\n(Network error: {})".format(error)
+        msg += "\n\n(Network error: {})".format(type(error).__name__)
 
         return APIConnectionError(msg)
 
     def log_request(self, request, num_retries):
         util.log_info(
-            "Request",
-            method=request.method,
-            num_retries=num_retries,
-            url=request.url,
+            "Request", method=request.method, num_retries=num_retries
         )
         util.log_debug(
-            "Request details", body=request.data, query_params=request.params
+            "Request details",
+            url=request.url,
+            body=request.data,
+            query_params=request.params,
         )
 
     def log_response(self, request, request_start, status, body):
@@ -377,7 +393,6 @@ class ApiClient:
             "Response",
             elapsed=(time.time() - request_start),
             method=request.method,
-            url=request.url,
             status=status,
         )
         util.log_debug("Response details", body=body)
@@ -386,7 +401,7 @@ class ApiClient:
         util.log_error(
             "Error",
             elapsed=(time.time() - request_start),
-            error_message=error,
+            error_type=type(error).__name__,
             method=request.method,
-            url=request.url,
         )
+        util.log_debug("Error details", error_message=error, url=request.url)
