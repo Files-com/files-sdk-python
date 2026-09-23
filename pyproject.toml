@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "files_com"
-version = "1.6.484"
+version = "1.6.485"
 description = "Python bindings for the Files.com API"
 readme = "README.md"
 license = { text = "MIT" }
@@ -21,11 +21,11 @@ include-package-data = true
 exclude = ["tests", "tests.*", "doc"]
 
 [tool.setuptools.package-data]
-files_sdk = ["../_VERSION", "../README.md"]
+files_sdk = ["../_VERSION", "../README.md", "path_comparison.json"]
 
 [tool.black]
 line-length=79
-include="files_sdk/"
+include='files_sdk/.*\.pyi?$'
 [tool.pyright]
 include=["files_sdk"]
 reportMissingTypeArgument=true
