@@ -11,6 +11,7 @@ from files_sdk.error import (  # noqa: F401
 class ActionNotificationExport:
     default_attributes = {
         "id": None,  # int64 - History Export ID
+        "workspace_id": None,  # int64 - Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
         "export_version": None,  # string - Version of the underlying records for the export.
         "start_at": None,  # date-time - Start date/time of export range.
         "end_at": None,  # date-time - End date/time of export range.
@@ -90,6 +91,7 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+#   workspace_id - int64 - Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
 #   start_at - string - Start date/time of export range.
 #   end_at - string - End date/time of export range.
 #   query_message - string - Error message associated with the request, if any.
@@ -106,6 +108,12 @@ def create(params=None, options=None):
         options = {}
     if "user_id" in params and not isinstance(params["user_id"], int):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "start_at" in params and not isinstance(params["start_at"], str):
         raise InvalidParameterError("Bad parameter: start_at must be an str")
     if "end_at" in params and not isinstance(params["end_at"], str):

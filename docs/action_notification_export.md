@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "workspace_id": 1,
   "export_version": "20201213.2",
   "start_at": "2000-01-01T01:00:00Z",
   "end_at": "2000-01-01T01:00:00Z",
@@ -21,6 +22,7 @@
 ```
 
 * `id` (int64): History Export ID
+* `workspace_id` (int64): Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
 * `export_version` (string): Version of the underlying records for the export.
 * `start_at` (date-time): Start date/time of export range.
 * `end_at` (date-time): End date/time of export range.
@@ -56,6 +58,7 @@ files_sdk.action_notification_export.find(id)
 ```
 files_sdk.action_notification_export.create({
   "user_id": 1,
+  "workspace_id": 1,
   "start_at": "2000-01-01T01:00:00Z",
   "end_at": "2000-01-01T01:00:00Z",
   "query_message": "Connection Refused",
@@ -71,6 +74,7 @@ files_sdk.action_notification_export.create({
 ### Parameters
 
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `workspace_id` (int64): Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
 * `start_at` (string): Start date/time of export range.
 * `end_at` (string): End date/time of export range.
 * `query_message` (string): Error message associated with the request, if any.
