@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Exit on non-zero status
+set -e
+
 # Execute running tests from same directory as current script
 cd "$(dirname "$0")"
 
