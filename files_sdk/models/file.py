@@ -132,8 +132,7 @@ class File:
             self.mode = "r"
             self.upload = None
             self.etags = None
-            self.io_obj = io.StringIO()
-        self.io_obj.close
+        self.io_obj.close()
         self.closed = True
 
     def fileno(self):

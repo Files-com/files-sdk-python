@@ -68,6 +68,24 @@ class TestStreamDownload(unittest.TestCase):
             ApiClient().stream_download(self.url + "/incomplete-body", output)
         self.assertEqual(output.getvalue(), b"\x00\xff" * 4096)
 
+    def test_file_close_releases_its_read_buffer(self):
+        with self.subTest("explicit close after a complete read"):
+            f = files_sdk.file.open("remote.bin", "rb")
+            f.download_uri = self.url + "/stream"
+            self.assertEqual(f.read(), b"\x00\xff" * 4096 * 3)
+            f.close()
+            self.assertTrue(f.closed)
+            self.assertTrue(f.io_obj.closed)
+
+        with self.subTest("context exit after an interrupted read"):
+            f = files_sdk.file.open("remote.bin", "rb")
+            f.download_uri = self.url + "/incomplete-body"
+            with self.assertRaises(files_sdk.error.APIConnectionError):
+                with f:
+                    f.read()
+            self.assertTrue(f.closed)
+            self.assertTrue(f.io_obj.closed)
+
 
 if __name__ == "__main__":
     unittest.main()
