@@ -12,6 +12,9 @@ from files_sdk.error import (  # noqa: F401
 class CustomDomain:
     default_attributes = {
         "id": None,  # int64 - Custom Domain ID.
+        "workspace_id": None,  # int64 - Workspace ID (0 for the default workspace).
+        "available_to_all_workspaces": None,  # boolean - Allow all workspaces to use this default-workspace Custom Domain.
+        "outbound_ip_addresses": None,  # array(string) - Eligible public IP addresses for Remote Server outbound connections. Empty when this Custom Domain is not eligible for outbound selection.
         "domain": None,  # string - Customer-owned domain name.
         "destination": None,  # string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
         "dns_status": None,  # string - Current DNS verification status.
@@ -48,6 +51,8 @@ class CustomDomain:
         return attrs
 
     # Parameters:
+    #   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
+    #   workspace_id - int64 - Workspace ID (0 for the default workspace).
     #   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
     #   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
     #   ssl_certificate_id - int64 - Current SSL certificate ID.
@@ -64,6 +69,12 @@ class CustomDomain:
             raise MissingParameterError("Parameter missing: id")
         if "id" in params and not isinstance(params["id"], int):
             raise InvalidParameterError("Bad parameter: id must be an int")
+        if "workspace_id" in params and not isinstance(
+            params["workspace_id"], int
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
+            )
         if "destination" in params and not isinstance(
             params["destination"], str
         ):
@@ -132,7 +143,8 @@ class CustomDomain:
 # Parameters:
 #   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 #   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `id`.
+#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `id` or `available_to_all_workspaces`.
+#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
 def list(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -144,6 +156,8 @@ def list(params=None, options=None):
         raise InvalidParameterError("Bad parameter: per_page must be an int")
     if "sort_by" in params and not isinstance(params["sort_by"], dict):
         raise InvalidParameterError("Bad parameter: sort_by must be an dict")
+    if "filter" in params and not isinstance(params["filter"], dict):
+        raise InvalidParameterError("Bad parameter: filter must be an dict")
     return ListObj(CustomDomain, "GET", "/custom_domains", params, options)
 
 
@@ -205,6 +219,8 @@ def create_allocate_ip(id, params=None, options=None):
 
 
 # Parameters:
+#   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
+#   workspace_id - int64 - Workspace ID (0 for the default workspace).
 #   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
 #   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 #   ssl_certificate_id - int64 - Current SSL certificate ID.
@@ -214,6 +230,18 @@ def create(params=None, options=None):
         params = {}
     if not isinstance(options, dict):
         options = {}
+    if "available_to_all_workspaces" in params and not isinstance(
+        params["available_to_all_workspaces"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: available_to_all_workspaces must be an bool"
+        )
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "destination" in params and not isinstance(params["destination"], str):
         raise InvalidParameterError(
             "Bad parameter: destination must be an str"
@@ -241,6 +269,8 @@ def create(params=None, options=None):
 
 
 # Parameters:
+#   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
+#   workspace_id - int64 - Workspace ID (0 for the default workspace).
 #   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
 #   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 #   ssl_certificate_id - int64 - Current SSL certificate ID.
@@ -253,6 +283,18 @@ def update(id, params=None, options=None):
     params["id"] = id
     if "id" in params and not isinstance(params["id"], int):
         raise InvalidParameterError("Bad parameter: id must be an int")
+    if "available_to_all_workspaces" in params and not isinstance(
+        params["available_to_all_workspaces"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: available_to_all_workspaces must be an bool"
+        )
+    if "workspace_id" in params and not isinstance(
+        params["workspace_id"], int
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: workspace_id must be an int"
+        )
     if "destination" in params and not isinstance(params["destination"], str):
         raise InvalidParameterError(
             "Bad parameter: destination must be an str"
