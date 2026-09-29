@@ -14,6 +14,7 @@ class PartnerChannel:
         "id": None,  # int64 - The unique ID of the Partner Channel.
         "workspace_id": None,  # int64 - ID of the Workspace associated with this Partner Channel.
         "direction": None,  # string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
+        "use_channel_root": None,  # boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.
         "partner_id": None,  # int64 - ID of the Partner this Channel belongs to.
         "partner_channel_template_id": None,  # int64 - ID of the Partner Channel Template that manages this Channel, if any.
         "path": None,  # string - Channel path relative to the Partner root folder. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -23,8 +24,8 @@ class PartnerChannel:
         "to_partner_route_path": None,  # string - Optional route path for files delivered to the Partner.
         "to_partner_managed_folder_paths": None,  # array(string) - Managed folder paths inside the to-Partner folder.
         "from_partner_managed_folder_paths": None,  # array(string) - Managed folder paths inside the from-Partner folder.
-        "effective_to_partner_folder_name": None,  # string - Resolved to-Partner folder name after Channel override and default.
-        "effective_from_partner_folder_name": None,  # string - Resolved from-Partner folder name after Channel override and default.
+        "effective_to_partner_folder_name": None,  # string - Resolved to-Partner subfolder name. Null when the direction is disabled or uses the Channel folder directly.
+        "effective_from_partner_folder_name": None,  # string - Resolved from-Partner subfolder name. Null when the direction is disabled or uses the Channel folder directly.
         "channel_path": None,  # string - Resolved Channel folder path.
         "to_partner_folder_path": None,  # string - Resolved to-Partner folder path.
         "from_partner_folder_path": None,  # string - Resolved from-Partner folder path.
@@ -56,6 +57,7 @@ class PartnerChannel:
 
     # Parameters:
     #   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
+    #   use_channel_root - boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.
     #   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
     #   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
     #   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
@@ -214,6 +216,7 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
+#   use_channel_root - boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.
 #   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
 #   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
 #   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
@@ -230,6 +233,12 @@ def create(params=None, options=None):
         options = {}
     if "direction" in params and not isinstance(params["direction"], str):
         raise InvalidParameterError("Bad parameter: direction must be an str")
+    if "use_channel_root" in params and not isinstance(
+        params["use_channel_root"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: use_channel_root must be an bool"
+        )
     if "from_partner_folder_name" in params and not isinstance(
         params["from_partner_folder_name"], str
     ):
@@ -288,6 +297,7 @@ def create(params=None, options=None):
 
 # Parameters:
 #   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
+#   use_channel_root - boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.
 #   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
 #   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
 #   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
@@ -305,6 +315,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "direction" in params and not isinstance(params["direction"], str):
         raise InvalidParameterError("Bad parameter: direction must be an str")
+    if "use_channel_root" in params and not isinstance(
+        params["use_channel_root"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: use_channel_root must be an bool"
+        )
     if "from_partner_folder_name" in params and not isinstance(
         params["from_partner_folder_name"], str
     ):
