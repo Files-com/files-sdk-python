@@ -53,6 +53,7 @@
   "ldap_port": 1,
   "ldap_provisioning_enabled": True,
   "ldap_secure": True,
+  "ldap_server_certificate": "require_match",
   "ldap_type": "active_directory",
   "ldap_username": "[ldap username]",
   "ldap_username_field": "sAMAccountName"
@@ -108,6 +109,7 @@
 * `ldap_port` (int64): LDAP port
 * `ldap_provisioning_enabled` (boolean): Use LDAP server settings for scheduled provisioning while using this SSO provider for authentication?
 * `ldap_secure` (boolean): Use secure LDAP?
+* `ldap_server_certificate` (string): How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
 * `ldap_type` (string): LDAP server type
 * `ldap_username` (string): Username for signing in to LDAP server.
 * `ldap_username_field` (string): LDAP username field

@@ -123,6 +123,7 @@ class Site:
         "ldap_host_3": None,  # string - LDAP backup host
         "ldap_port": None,  # int64 - LDAP port
         "ldap_secure": None,  # boolean - Use secure LDAP?
+        "ldap_server_certificate": None,  # string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
         "ldap_type": None,  # string - LDAP type
         "ldap_user_action": None,  # string - Should we sync users from LDAP server?
         "ldap_user_include_groups": None,  # string - Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
@@ -421,6 +422,7 @@ def get_usage(params=None, options=None):
 #   ldap_host_3 - string - LDAP backup host
 #   ldap_port - int64 - LDAP port
 #   ldap_secure - boolean - Use secure LDAP?
+#   ldap_server_certificate - string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
 #   ldap_username - string - Username for signing in to LDAP server.
 #   ldap_username_field - string - LDAP username field
 #   ldap_domain - string - Domain name that will be appended to usernames
@@ -1359,6 +1361,12 @@ def update(params=None, options=None):
     if "ldap_secure" in params and not isinstance(params["ldap_secure"], bool):
         raise InvalidParameterError(
             "Bad parameter: ldap_secure must be an bool"
+        )
+    if "ldap_server_certificate" in params and not isinstance(
+        params["ldap_server_certificate"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: ldap_server_certificate must be an str"
         )
     if "ldap_username" in params and not isinstance(
         params["ldap_username"], str

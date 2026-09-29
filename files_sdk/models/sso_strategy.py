@@ -60,6 +60,7 @@ class SsoStrategy:
         "ldap_port": None,  # int64 - LDAP port
         "ldap_provisioning_enabled": None,  # boolean - Use LDAP server settings for scheduled provisioning while using this SSO provider for authentication?
         "ldap_secure": None,  # boolean - Use secure LDAP?
+        "ldap_server_certificate": None,  # string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
         "ldap_type": None,  # string - LDAP server type
         "ldap_username": None,  # string - Username for signing in to LDAP server.
         "ldap_username_field": None,  # string - LDAP username field

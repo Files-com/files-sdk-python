@@ -142,6 +142,7 @@
   "ldap_host_3": "ldap3.site.com",
   "ldap_port": 1,
   "ldap_secure": True,
+  "ldap_server_certificate": "require_match",
   "ldap_type": "open_ldap",
   "ldap_user_action": "disabled",
   "ldap_user_include_groups": "example",
@@ -476,6 +477,7 @@
 * `ldap_host_3` (string): LDAP backup host
 * `ldap_port` (int64): LDAP port
 * `ldap_secure` (boolean): Use secure LDAP?
+* `ldap_server_certificate` (string): How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
 * `ldap_type` (string): LDAP type
 * `ldap_user_action` (string): Should we sync users from LDAP server?
 * `ldap_user_include_groups` (string): Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
@@ -747,6 +749,7 @@ files_sdk.site.update({
   "ldap_host_3": "ldap3.site.com",
   "ldap_port": 1,
   "ldap_secure": False,
+  "ldap_server_certificate": "require_match",
   "ldap_username": "[ldap username]",
   "ldap_username_field": "sAMAccountName",
   "ldap_domain": "mysite.com",
@@ -931,6 +934,7 @@ files_sdk.site.update({
 * `ldap_host_3` (string): LDAP backup host
 * `ldap_port` (int64): LDAP port
 * `ldap_secure` (boolean): Use secure LDAP?
+* `ldap_server_certificate` (string): How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
 * `ldap_username` (string): Username for signing in to LDAP server.
 * `ldap_username_field` (string): LDAP username field
 * `ldap_domain` (string): Domain name that will be appended to usernames
