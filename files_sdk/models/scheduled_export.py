@@ -28,8 +28,9 @@ class ScheduledExport:
         "schedule_time_zone": None,  # string - Time zone used by the scheduled export schedule.
         "holiday_region": None,  # string - Optional holiday region used by the scheduled export schedule.
         "human_readable_schedule": None,  # string - Human-readable schedule description.
-        "last_run_at": None,  # date-time - Most recent scheduled run time.
+        "last_run_at": None,  # date-time - Most recent scheduled attempt time, including attempts that failed validation.
         "last_export_id": None,  # int64 - Most recent Export ID created by this schedule.
+        "last_error": None,  # string - Validation error from the most recent scheduled attempt. The schedule remains enabled and retries at its next scheduled time. Cleared when an export is successfully created; does not describe errors during export generation.
         "created_at": None,  # date-time - Creation time.
         "updated_at": None,  # date-time - Last update time.
     }
