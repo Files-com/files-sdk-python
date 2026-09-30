@@ -57,7 +57,7 @@ class Site:
         "calculate_file_checksums_md5": None,  # boolean - Calculate MD5 checksums for files?
         "calculate_file_checksums_sha1": None,  # boolean - Calculate SHA1 checksums for files?
         "calculate_file_checksums_sha256": None,  # boolean - Calculate SHA256 checksums for files?
-        "uploads_via_email_authentication": None,  # boolean - Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
+        "uploads_via_email_authentication": None,  # boolean - Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
         "color2_left": None,  # string - Page link and button color
         "color2_link": None,  # string - Top bar link color
         "color2_text": None,  # string - Page link and button color
@@ -432,7 +432,7 @@ def get_usage(params=None, options=None):
 #   ldap_group_exclusion - string - Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
 #   ldap_group_inclusion - string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
 #   ldap_base_dn - string - Base DN for looking up users in LDAP server
-#   uploads_via_email_authentication - boolean - Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
+#   uploads_via_email_authentication - boolean - Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
 #   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 #   icon16_file - file
 #   icon16_delete - boolean - If true, will delete the file stored in icon16
