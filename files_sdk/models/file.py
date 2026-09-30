@@ -3,6 +3,7 @@ from urllib.parse import quote
 from builtins import open as builtin_open
 from datetime import datetime
 import io
+import os
 from pathlib import Path
 import files_sdk.path_util as path_util
 from files_sdk.models.zip_list_entry import ZipListEntry
@@ -1590,11 +1591,22 @@ def move_to_child_site(path, site_id, destination, params=None, options=None):
     return move(path, params, options)
 
 
+def _default_local_path(path):
+    name = path_util.normalize(path).split("/")[-1]
+    # On Windows a colon makes the name a drive-relative path or an NTFS
+    # stream, which can write outside the working directory or onto another file.
+    if os.name == "nt" and ":" in name:
+        raise InvalidParameterError(
+            f"Bad parameter: local_path is required because {name!r} is not a valid local file name"
+        )
+    return name
+
+
 def download_file(path, local_path=None, options=None):
     if not isinstance(options, dict):
         options = {}
     if local_path is None:
-        local_path = Path(path).name
+        local_path = _default_local_path(path)
     return File(path, {}, options).download_file(local_path)
 
 
