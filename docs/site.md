@@ -14,7 +14,12 @@
       "site_admins": True,
       "workspace_admins": True,
       "folder_admins": True,
-      "all_users": True
+      "all_users": False,
+      "selected_group_members": True,
+      "group_ids": [
+        1,
+        2
+      ]
     }
   },
   "allowed_2fa_method_sms": True,
@@ -224,6 +229,7 @@
     "user_belongs_to_parent_site": False,
     "impersonator_user_id": 1
   },
+  "s3_compatible_endpoint_enabled": True,
   "sftp_enabled": True,
   "sftp_finalize_partial_uploads": True,
   "sftp_host_key_type": "default",
@@ -372,7 +378,7 @@
 * `id` (int64): Site Id
 * `name` (string): Site name
 * `additional_text_file_types` (array(string)): Additional extensions that are considered text files
-* `ai_feature_availability` (object): Availability settings for AI features by user class
+* `ai_feature_availability` (object): Availability settings for AI features. Each feature requires the site_admins, workspace_admins, folder_admins, and all_users keys. Optional selected_group_members defaults to false; when true, members of at least one group in group_ids get access regardless of the other options. All availability options are additive: any enabled option matching the user grants access. Optional group_ids is an array of integer IDs of active groups on this site, from any workspace. Omitted or empty group_ids grants no access through selected_group_members and does not affect other options. Disabling all AI features overrides these settings.
 * `allowed_2fa_method_sms` (boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_totp` (boolean): Is TOTP two factor authentication allowed?
 * `allowed_2fa_method_webauthn` (boolean): Is WebAuthn two factor authentication allowed?
@@ -519,6 +525,7 @@
 * `require_2fa_user_type` (string): What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
 * `require_logout_from_bundles_and_inboxes` (boolean): If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
 * `session` (Session): Current session
+* `s3_compatible_endpoint_enabled` (boolean): Is the S3-compatible endpoint enabled for all users and workspaces on this site? Defaults to true. When false, user and group S3 permissions do not allow access.
 * `sftp_enabled` (boolean): Is SFTP enabled?
 * `sftp_finalize_partial_uploads` (boolean): Finalize partial SFTP uploads from interrupted connections? Default: true.
 * `sftp_host_key_type` (string): Sftp Host Key Type
@@ -625,7 +632,7 @@ files_sdk.site.update({
   "motd_use_for_ftp": False,
   "motd_use_for_sftp": False,
   "disable_all_ai_features": False,
-  "ai_feature_availability": {"in_app_ai_assistant":{"site_admins":True,"workspace_admins":True,"folder_admins":True,"all_users":True}},
+  "ai_feature_availability": {"in_app_ai_assistant":{"site_admins":True,"workspace_admins":True,"folder_admins":True,"all_users":False,"selected_group_members":True,"group_ids":[1,2]}},
   "mcp_dcr_enabled": False,
   "additional_text_file_types": ["example"],
   "bundle_require_note": False,
@@ -694,6 +701,7 @@ files_sdk.site.update({
   "user_requests_notify_admins": False,
   "dav_enabled": False,
   "ftp_enabled": False,
+  "s3_compatible_endpoint_enabled": False,
   "sftp_enabled": False,
   "sftp_finalize_partial_uploads": False,
   "users_can_create_api_keys": False,
@@ -810,7 +818,7 @@ files_sdk.site.update({
 * `motd_use_for_sftp` (boolean): Show message to users connecting via SFTP
 * `left_navigation_visibility` (object): Visibility settings for account navigation
 * `disable_all_ai_features` (boolean): If true, all AI features are disabled for this site.
-* `ai_feature_availability` (object): Availability settings for AI features by user class
+* `ai_feature_availability` (object): Availability settings for AI features. Each feature requires the site_admins, workspace_admins, folder_admins, and all_users keys. Optional selected_group_members defaults to false; when true, members of at least one group in group_ids get access regardless of the other options. All availability options are additive: any enabled option matching the user grants access. Optional group_ids is an array of integer IDs of active groups on this site, from any workspace. Omitted or empty group_ids grants no access through selected_group_members and does not affect other options. Disabling all AI features overrides these settings.
 * `mcp_dcr_enabled` (boolean): Is OAuth DCR (dynamic client registration) for MCP enabled?
 * `additional_text_file_types` (array(string)): Additional extensions that are considered text files
 * `bundle_require_note` (boolean): Do Bundles require internal notes?
@@ -879,6 +887,7 @@ files_sdk.site.update({
 * `user_requests_notify_admins` (boolean): Send email to site admins when a user request is received?
 * `dav_enabled` (boolean): Is WebDAV enabled?
 * `ftp_enabled` (boolean): Is FTP enabled?
+* `s3_compatible_endpoint_enabled` (boolean): Is the S3-compatible endpoint enabled for all users and workspaces on this site? Defaults to true. When false, user and group S3 permissions do not allow access.
 * `sftp_enabled` (boolean): Is SFTP enabled?
 * `sftp_finalize_partial_uploads` (boolean): Finalize partial SFTP uploads from interrupted connections? Default: true.
 * `users_can_create_api_keys` (boolean): Allow users to create their own API keys?

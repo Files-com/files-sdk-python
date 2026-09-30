@@ -599,6 +599,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`BillingPermissionRequiredError`|  `NotAuthorizedError` |
 |`BundleMaximumUsesReachedError`|  `NotAuthorizedError` |
 |`BundlePermissionRequiredError`|  `NotAuthorizedError` |
+|`CannotAdministerHigherLevelUserError`|  `NotAuthorizedError` |
 |`CannotLoginWhileUsingKeyError`|  `NotAuthorizedError` |
 |`CantActForOtherUserError`|  `NotAuthorizedError` |
 |`ContactAdminForPasswordChangeHelpError`|  `NotAuthorizedError` |
@@ -700,6 +701,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`MultipleProcessingErrorsError`|  `ProcessingFailureError` |
 |`PathTooLongError`|  `ProcessingFailureError` |
 |`RecipientAlreadySharedError`|  `ProcessingFailureError` |
+|`RemoteEntryReadOnlyError`|  `ProcessingFailureError` |
 |`RemoteServerErrorError`|  `ProcessingFailureError` |
 |`ResourceBelongsToParentSiteError`|  `ProcessingFailureError` |
 |`ResourceLockedError`|  `ProcessingFailureError` |
