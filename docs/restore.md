@@ -39,10 +39,10 @@
 * `files_restored` (int64): Number of files successfully restored.
 * `files_errored` (int64): Number of files that were not able to be restored.
 * `files_total` (int64): Total number of files processed.
-* `prefix` (string): Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash. To restore all deleted items of the selected restoration type, specify an empty string (`''`) in the prefix field or omit the field from the request.
+* `prefix` (string): Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.
 * `restoration_type` (string): Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated access/authentication records removed as part of deleting those users.
 * `restore_in_place` (boolean): If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
-* `restore_deleted_permissions` (boolean): If true, restore permissions removed as part of deleting the selected users for a user restore, or permissions matching the selected path prefix and deletion dates for a file restore.
+* `restore_deleted_permissions` (boolean): If true, a user restore restores permissions removed as part of deleting the selected users. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.
 * `users_restored` (int64): Number of users successfully restored (only present for `restoration_type=users`).
 * `users_errored` (int64): Number of users that failed to restore (only present for `restoration_type=users`).
 * `users_total` (int64): Total number of users processed (only present for `restoration_type=users`).
@@ -90,9 +90,9 @@ files_sdk.restore.create({
 ### Parameters
 
 * `earliest_date` (string): Required - Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
-* `prefix` (string): Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash. To restore all deleted items of the selected restoration type, specify an empty string (`''`) in the prefix field or omit the field from the request.
+* `prefix` (string): Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.
 * `restoration_type` (string): Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated access/authentication records removed as part of deleting those users.
-* `restore_deleted_permissions` (boolean): If true, restore permissions removed as part of deleting the selected users for a user restore, or permissions matching the selected path prefix and deletion dates for a file restore.
+* `restore_deleted_permissions` (boolean): If true, a user restore restores permissions removed as part of deleting the selected users. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.
 * `restore_in_place` (boolean): If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
 * `update_timestamps` (boolean): If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
 * `workspace_id` (int64): Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
