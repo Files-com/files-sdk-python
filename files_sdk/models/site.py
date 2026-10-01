@@ -185,6 +185,7 @@ class Site:
         "smtp_authentication": None,  # string - SMTP server authentication type
         "smtp_from": None,  # string - From address to use when mailing through custom SMTP
         "smtp_port": None,  # int64 - SMTP server port
+        "smtp_ssl": None,  # string - Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted; require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address.
         "smtp_username": None,  # string - SMTP server username
         "session_expiry_minutes": None,  # int64 - Session expiry in minutes
         "snapshot_sharing_enabled": None,  # boolean - Allow snapshot share links creation
@@ -417,6 +418,7 @@ def get_usage(params=None, options=None):
 #   smtp_from - string - From address to use when mailing through custom SMTP
 #   smtp_username - string - SMTP server username
 #   smtp_port - int64 - SMTP server port
+#   smtp_ssl - string - Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted; require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address.
 #   ldap_enabled - boolean - Main LDAP setting: is LDAP enabled?
 #   ldap_type - string - LDAP type
 #   ldap_host - string - LDAP host
@@ -1346,6 +1348,8 @@ def update(params=None, options=None):
         )
     if "smtp_port" in params and not isinstance(params["smtp_port"], int):
         raise InvalidParameterError("Bad parameter: smtp_port must be an int")
+    if "smtp_ssl" in params and not isinstance(params["smtp_ssl"], str):
+        raise InvalidParameterError("Bad parameter: smtp_ssl must be an str")
     if "ldap_enabled" in params and not isinstance(
         params["ldap_enabled"], bool
     ):
