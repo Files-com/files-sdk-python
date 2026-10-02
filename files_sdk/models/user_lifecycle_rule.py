@@ -17,13 +17,13 @@ class UserLifecycleRule:
         "action": None,  # string - Action to take on inactive users (disable or delete)
         "inactivity_days": None,  # int64 - Number of days of inactivity before the rule applies
         "include_folder_admins": None,  # boolean - If true, the rule will apply to folder admins.
-        "include_site_admins": None,  # boolean - If true, the rule will apply to site admins.
-        "apply_to_all_workspaces": None,  # boolean - If true, a default-workspace rule also applies to users in all workspaces.
+        "include_site_admins": None,  # boolean - If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
+        "apply_to_all_workspaces": None,  # boolean - If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
         "name": None,  # string - User Lifecycle Rule name
         "notify_users": None,  # boolean - If true, users will be emailed before the rule disables or deletes them.
         "partner_tag": None,  # string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
         "site_id": None,  # int64 - Site ID
-        "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
+        "workspace_id": None,  # int64 - Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
         "user_state": None,  # string - State of the users to apply the rule to (inactive or disabled)
         "user_tag": None,  # string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
     }
@@ -54,18 +54,18 @@ class UserLifecycleRule:
 
     # Parameters:
     #   action - string - Action to take on inactive users (disable or delete)
-    #   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to users in all workspaces.
+    #   apply_to_all_workspaces - boolean - If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
     #   authentication_method - string - User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
     #   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
     #   inactivity_days - int64 - Number of days of inactivity before the rule applies
-    #   include_site_admins - boolean - If true, the rule will apply to site admins.
+    #   include_site_admins - boolean - If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
     #   include_folder_admins - boolean - If true, the rule will apply to folder admins.
     #   name - string - User Lifecycle Rule name
     #   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
     #   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
     #   user_state - string - State of the users to apply the rule to (inactive or disabled)
     #   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-    #   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+    #   workspace_id - int64 - Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -223,18 +223,18 @@ def get(id, params=None, options=None):
 
 # Parameters:
 #   action - string - Action to take on inactive users (disable or delete)
-#   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to users in all workspaces.
+#   apply_to_all_workspaces - boolean - If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
 #   authentication_method - string - User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
 #   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies
-#   include_site_admins - boolean - If true, the rule will apply to site admins.
+#   include_site_admins - boolean - If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
 #   include_folder_admins - boolean - If true, the rule will apply to folder admins.
 #   name - string - User Lifecycle Rule name
 #   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
 #   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 #   user_state - string - State of the users to apply the rule to (inactive or disabled)
 #   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-#   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+#   workspace_id - int64 - Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -306,18 +306,18 @@ def create(params=None, options=None):
 
 # Parameters:
 #   action - string - Action to take on inactive users (disable or delete)
-#   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to users in all workspaces.
+#   apply_to_all_workspaces - boolean - If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
 #   authentication_method - string - User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
 #   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 #   inactivity_days - int64 - Number of days of inactivity before the rule applies
-#   include_site_admins - boolean - If true, the rule will apply to site admins.
+#   include_site_admins - boolean - If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
 #   include_folder_admins - boolean - If true, the rule will apply to folder admins.
 #   name - string - User Lifecycle Rule name
 #   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
 #   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 #   user_state - string - State of the users to apply the rule to (inactive or disabled)
 #   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-#   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+#   workspace_id - int64 - Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
