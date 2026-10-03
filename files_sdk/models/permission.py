@@ -12,17 +12,17 @@ from files_sdk.error import (  # noqa: F401
 class Permission:
     default_attributes = {
         "id": None,  # int64 - Permission ID
-        "path": None,  # string - Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        "path": None,  # string - Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "user_id": None,  # int64 - User ID
         "username": None,  # string - Username (if applicable)
         "group_id": None,  # int64 - Group ID
         "group_name": None,  # string - Group name (if applicable)
-        "group_ids": None,  # array(int64) - Group IDs when this permission requires multiple groups
+        "group_ids": None,  # array(int64) - Group IDs when this Permission requires membership in every listed group.
         "group_names": None,  # array(string) - Group names when this permission requires multiple groups
         "partner_id": None,  # int64 - Partner ID (if applicable)
         "partner_name": None,  # string - Partner name (if applicable)
         "permission": None,  # string - Permission type.  See the table referenced in the documentation for an explanation of each permission.
-        "recursive": None,  # boolean - Recursive: does this permission apply to subfolders?
+        "recursive": None,  # boolean - Whether this Permission applies to subfolders. Must be true for `admin` Permissions.
         "site_id": None,  # int64 - Site ID
     }
 
@@ -134,9 +134,9 @@ def all(params=None, options=None):
 # Parameters:
 #   path (required) - string - Folder path
 #   group_id - int64 - Group ID. Provide `group_name` or `group_id`
-#   group_ids - string - Group IDs when the permission requires multiple groups. If sent as a string, it should be comma-delimited.
+#   group_ids - string - Group IDs when the Permission requires membership in every listed group. If sent as a string, it should be comma-delimited.
 #   permission - string - Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
-#   recursive - boolean - Apply to subfolders recursively?
+#   recursive - boolean - Apply to subfolders recursively? Must be true for `admin` Permissions.
 #   partner_id - int64 - Partner ID if this Permission belongs to a partner.
 #   user_id - int64 - User ID.  Provide `username` or `user_id`
 #   username - string - User username.  Provide `username` or `user_id`
