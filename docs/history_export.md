@@ -4,6 +4,7 @@
 
 ```
 {
+  "workspace_id": 1,
   "id": 1,
   "history_version": "20201213.2",
   "start_at": "2000-01-01T01:00:00Z",
@@ -32,6 +33,7 @@
 }
 ```
 
+* `workspace_id` (int64): Workspace of the export. 0 represents the default workspace. A null value means a site-wide export.
 * `id` (int64): History Export ID
 * `history_version` (string): Version of the history for the export.
 * `start_at` (date-time): Start date/time of export range.

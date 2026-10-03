@@ -10,6 +10,7 @@ from files_sdk.error import (  # noqa: F401
 
 class HistoryExport:
     default_attributes = {
+        "workspace_id": None,  # int64 - Workspace of the export. 0 represents the default workspace. A null value means a site-wide export.
         "id": None,  # int64 - History Export ID
         "history_version": None,  # string - Version of the history for the export.
         "start_at": None,  # date-time - Start date/time of export range.
