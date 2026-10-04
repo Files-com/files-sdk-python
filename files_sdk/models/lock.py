@@ -23,6 +23,7 @@ class Lock:
         "allow_access_by_any_user": None,  # boolean - Can lock be modified by users other than its creator?
         "user_id": None,  # int64 - Lock creator user ID
         "username": None,  # string - Lock creator username
+        "expected_token": None,  # string - Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -116,6 +117,8 @@ def list_for(path, params=None, options=None):
 
 # Parameters:
 #   path (required) - string - Path
+#   token - string - Lock token. With expected_token, use the same value to refresh or a different value to replace the existing token.
+#   expected_token - string - Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
 #   allow_access_by_any_user - boolean - Can lock be modified by users other than its creator?
 #   exclusive - boolean - Is lock exclusive?
 #   recursive - boolean - Does lock apply to subfolders?
@@ -128,6 +131,14 @@ def create(path, params=None, options=None):
     params["path"] = path
     if "path" in params and not isinstance(params["path"], str):
         raise InvalidParameterError("Bad parameter: path must be an str")
+    if "token" in params and not isinstance(params["token"], str):
+        raise InvalidParameterError("Bad parameter: token must be an str")
+    if "expected_token" in params and not isinstance(
+        params["expected_token"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: expected_token must be an str"
+        )
     if "allow_access_by_any_user" in params and not isinstance(
         params["allow_access_by_any_user"], bool
     ):

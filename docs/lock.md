@@ -31,6 +31,7 @@
 * `allow_access_by_any_user` (boolean): Can lock be modified by users other than its creator?
 * `user_id` (int64): Lock creator user ID
 * `username` (string): Lock creator username
+* `expected_token` (string): Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
 
 
 ---
@@ -57,6 +58,7 @@ files_sdk.lock.list_for(path, {
 
 ```
 files_sdk.lock.create(path, {
+  "token": "17c54824e9931a4688ca032d03f6663c",
   "allow_access_by_any_user": False,
   "exclusive": False,
   "recursive": True,
@@ -67,6 +69,8 @@ files_sdk.lock.create(path, {
 ### Parameters
 
 * `path` (string): Required - Path
+* `token` (string): Lock token. With expected_token, use the same value to refresh or a different value to replace the existing token.
+* `expected_token` (string): Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
 * `allow_access_by_any_user` (boolean): Can lock be modified by users other than its creator?
 * `exclusive` (boolean): Is lock exclusive?
 * `recursive` (boolean): Does lock apply to subfolders?
