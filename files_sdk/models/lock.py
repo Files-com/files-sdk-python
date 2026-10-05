@@ -15,7 +15,7 @@ class Lock:
         "timeout": None,  # int64 - Lock timeout in seconds
         "depth": None,  # string
         "recursive": None,  # boolean - Does lock apply to subfolders?
-        "owner": None,  # string - Owner of the lock.  This can be any arbitrary string.
+        "owner": None,  # string - Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
         "scope": None,  # string
         "exclusive": None,  # boolean - Is lock exclusive?
         "token": None,  # string - Lock token.  Use to release lock.
@@ -122,6 +122,7 @@ def list_for(path, params=None, options=None):
 #   allow_access_by_any_user - boolean - Can lock be modified by users other than its creator?
 #   exclusive - boolean - Is lock exclusive?
 #   recursive - boolean - Does lock apply to subfolders?
+#   owner - string - Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
 #   timeout - int64 - Lock timeout in seconds
 def create(path, params=None, options=None):
     if not isinstance(params, dict):
@@ -149,6 +150,8 @@ def create(path, params=None, options=None):
         raise InvalidParameterError("Bad parameter: exclusive must be an bool")
     if "recursive" in params and not isinstance(params["recursive"], bool):
         raise InvalidParameterError("Bad parameter: recursive must be an bool")
+    if "owner" in params and not isinstance(params["owner"], str):
+        raise InvalidParameterError("Bad parameter: owner must be an str")
     if "timeout" in params and not isinstance(params["timeout"], int):
         raise InvalidParameterError("Bad parameter: timeout must be an int")
     if "path" not in params:

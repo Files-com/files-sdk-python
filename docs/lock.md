@@ -23,7 +23,7 @@
 * `timeout` (int64): Lock timeout in seconds
 * `depth` (string): 
 * `recursive` (boolean): Does lock apply to subfolders?
-* `owner` (string): Owner of the lock.  This can be any arbitrary string.
+* `owner` (string): Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
 * `scope` (string): 
 * `exclusive` (boolean): Is lock exclusive?
 * `token` (string): Lock token.  Use to release lock.
@@ -62,6 +62,7 @@ files_sdk.lock.create(path, {
   "allow_access_by_any_user": False,
   "exclusive": False,
   "recursive": True,
+  "owner": "user",
   "timeout": 1
 })
 ```
@@ -74,6 +75,7 @@ files_sdk.lock.create(path, {
 * `allow_access_by_any_user` (boolean): Can lock be modified by users other than its creator?
 * `exclusive` (boolean): Is lock exclusive?
 * `recursive` (boolean): Does lock apply to subfolders?
+* `owner` (string): Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
 * `timeout` (int64): Lock timeout in seconds
 
 

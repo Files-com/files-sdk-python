@@ -793,6 +793,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`TooManyRequestsError`|  `RateLimitedError` |
 |`TooManySharesError`|  `RateLimitedError` |
 |`AutomationsUnavailableError`|  `ServiceUnavailableError` |
+|`LockOperationBusyError`|  `ServiceUnavailableError` |
 |`MigrationInProgressError`|  `ServiceUnavailableError` |
 |`SearchUnavailableError`|  `ServiceUnavailableError` |
 |`SiteDisabledError`|  `ServiceUnavailableError` |
