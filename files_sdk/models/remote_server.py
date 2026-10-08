@@ -33,6 +33,7 @@ class RemoteServer:
         "remote_server_credential_id": None,  # int64 - ID of Remote Server Credential, if applicable.
         "s3_bucket": None,  # string - S3 bucket name
         "s3_region": None,  # string - S3 region
+        "s3_kms_key_id": None,  # string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
         "aws_access_key": None,  # string - AWS Access Key.
         "s3_assume_role_arn": None,  # string - AWS IAM Role ARN for AssumeRole authentication.
         "s3_assume_role_duration_seconds": None,  # int64 - Session duration in seconds for AssumeRole authentication (900-43200).
@@ -262,6 +263,7 @@ class RemoteServer:
     #   s3_compatible_endpoint - string - S3-compatible: endpoint
     #   s3_compatible_region - string - S3-compatible: region
     #   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+    #   s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
     #   s3_region - string - S3 region
     #   server_certificate - string - Remote server certificate
     #   server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
@@ -668,6 +670,12 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: s3_compatible_region must be an str"
             )
+        if "s3_kms_key_id" in params and not isinstance(
+            params["s3_kms_key_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_kms_key_id must be an str"
+            )
         if "s3_region" in params and not isinstance(params["s3_region"], str):
             raise InvalidParameterError(
                 "Bad parameter: s3_region must be an str"
@@ -955,6 +963,7 @@ def find_configuration_file(id, params=None, options=None):
 #   s3_compatible_endpoint - string - S3-compatible: endpoint
 #   s3_compatible_region - string - S3-compatible: region
 #   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+#   s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
 #   s3_region - string - S3 region
 #   server_certificate - string - Remote server certificate
 #   server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
@@ -1389,6 +1398,12 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: s3_compatible_virtual_hosted_style must be an bool"
         )
+    if "s3_kms_key_id" in params and not isinstance(
+        params["s3_kms_key_id"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_kms_key_id must be an str"
+        )
     if "s3_region" in params and not isinstance(params["s3_region"], str):
         raise InvalidParameterError("Bad parameter: s3_region must be an str")
     if "server_certificate" in params and not isinstance(
@@ -1553,6 +1568,7 @@ def agent_push_update(id, params=None, options=None):
 #   s3_compatible_endpoint - string - S3-compatible: endpoint
 #   s3_compatible_region - string - S3-compatible: region
 #   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+#   s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
 #   s3_region - string - S3 region
 #   server_certificate - string - Remote server certificate
 #   server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
@@ -1986,6 +2002,12 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: s3_compatible_virtual_hosted_style must be an bool"
+        )
+    if "s3_kms_key_id" in params and not isinstance(
+        params["s3_kms_key_id"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: s3_kms_key_id must be an str"
         )
     if "s3_region" in params and not isinstance(params["s3_region"], str):
         raise InvalidParameterError("Bad parameter: s3_region must be an str")
