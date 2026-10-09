@@ -47,7 +47,6 @@ class As2PartnerTest(TestBase):
             "as2_station_id" : 12345,
             "name" : "foo",
             "uri" : "foo",
-            "public_certificate" : "foo",
         }
         as2_partner.create(params)
 

@@ -45,8 +45,6 @@ class As2StationTest(TestBase):
     def test_create(self):
         params = {
             "name" : "foo",
-            "public_certificate" : "foo",
-            "private_key" : "foo",
         }
         as2_station.create(params)
 

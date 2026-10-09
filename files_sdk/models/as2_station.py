@@ -26,8 +26,10 @@ class As2Station:
         "public_certificate_not_before": None,  # string - Not before value of public certificate used for message security.
         "public_certificate_not_after": None,  # string - Not after value of public certificate used for message security.
         "private_key_password_md5": None,  # string - MD5 hash of private key password used for message security.
-        "private_key": None,  # string
-        "private_key_password": None,  # string
+        "private_key": None,  # string - PEM-encoded private key matching public_certificate.
+        "private_key_password": None,  # string - Password for the PEM-encoded private key.
+        "pkcs12": None,  # string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
+        "pkcs12_password": None,  # string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
     }
 
     def __init__(self, attributes=None, options=None):
@@ -53,9 +55,11 @@ class As2Station:
 
     # Parameters:
     #   name - string - The station's formal AS2 name.
-    #   public_certificate - string
-    #   private_key - string
-    #   private_key_password - string
+    #   public_certificate - string - Public certificate used for message security.
+    #   private_key - string - PEM-encoded private key matching public_certificate.
+    #   private_key_password - string - Password for the PEM-encoded private key.
+    #   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
+    #   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
     def update(self, params=None):
         if not isinstance(params, dict):
             params = {}
@@ -87,6 +91,14 @@ class As2Station:
         ):
             raise InvalidParameterError(
                 "Bad parameter: private_key_password must be an str"
+            )
+        if "pkcs12" in params and not isinstance(params["pkcs12"], str):
+            raise InvalidParameterError("Bad parameter: pkcs12 must be an str")
+        if "pkcs12_password" in params and not isinstance(
+            params["pkcs12_password"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: pkcs12_password must be an str"
             )
         response, _options = Api.send_request(
             "PATCH",
@@ -182,9 +194,11 @@ def get(id, params=None, options=None):
 # Parameters:
 #   name (required) - string - The station's formal AS2 name.
 #   workspace_id - int64 - ID of the Workspace associated with this AS2 Station.
-#   public_certificate (required) - string
-#   private_key (required) - string
-#   private_key_password - string
+#   public_certificate - string - Public certificate used for message security.
+#   private_key - string - PEM-encoded private key matching public_certificate.
+#   private_key_password - string - Password for the PEM-encoded private key.
+#   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
+#   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
 def create(params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -214,12 +228,16 @@ def create(params=None, options=None):
         raise InvalidParameterError(
             "Bad parameter: private_key_password must be an str"
         )
+    if "pkcs12" in params and not isinstance(params["pkcs12"], str):
+        raise InvalidParameterError("Bad parameter: pkcs12 must be an str")
+    if "pkcs12_password" in params and not isinstance(
+        params["pkcs12_password"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: pkcs12_password must be an str"
+        )
     if "name" not in params:
         raise MissingParameterError("Parameter missing: name")
-    if "public_certificate" not in params:
-        raise MissingParameterError("Parameter missing: public_certificate")
-    if "private_key" not in params:
-        raise MissingParameterError("Parameter missing: private_key")
     response, options = Api.send_request(
         "POST", "/as2_stations", params, options
     )
@@ -228,9 +246,11 @@ def create(params=None, options=None):
 
 # Parameters:
 #   name - string - The station's formal AS2 name.
-#   public_certificate - string
-#   private_key - string
-#   private_key_password - string
+#   public_certificate - string - Public certificate used for message security.
+#   private_key - string - PEM-encoded private key matching public_certificate.
+#   private_key_password - string - Password for the PEM-encoded private key.
+#   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
+#   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
 def update(id, params=None, options=None):
     if not isinstance(params, dict):
         params = {}
@@ -256,6 +276,14 @@ def update(id, params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: private_key_password must be an str"
+        )
+    if "pkcs12" in params and not isinstance(params["pkcs12"], str):
+        raise InvalidParameterError("Bad parameter: pkcs12 must be an str")
+    if "pkcs12_password" in params and not isinstance(
+        params["pkcs12_password"], str
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: pkcs12_password must be an str"
         )
     if "id" not in params:
         raise MissingParameterError("Parameter missing: id")
