@@ -43,6 +43,14 @@ class FileTest(TestBase):
         file = File(params)
         file.zip_list_contents(params)
 
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/delete/{path}"), "Mock path does not exist")
+    def test_begin_delete(self):
+        params = {
+            "path" : "foo",
+        }
+        file = File(params)
+        file.begin_delete(params)
+
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/copy/{path}"), "Mock path does not exist")
     def test_copy(self):
         params = {
@@ -156,6 +164,14 @@ class FileTest(TestBase):
             "path" : "foo",
         }
         file.zip_list_contents(path, params)
+
+    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/delete/{path}"), "Mock path does not exist")
+    def test_begin_delete(self):
+        path = "foo"
+        params = {
+            "path" : "foo",
+        }
+        file.begin_delete(path, params)
 
     @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/copy/{path}"), "Mock path does not exist")
     def test_copy(self):

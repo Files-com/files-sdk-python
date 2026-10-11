@@ -395,6 +395,32 @@ class File:
         )
         return response.data
 
+    # Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+    #
+    # Parameters:
+    #   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+    def begin_delete(self, params=None):
+        if not isinstance(params, dict):
+            params = {}
+
+        if hasattr(self, "path") and self.path:
+            params["path"] = self.path
+        else:
+            raise MissingParameterError("Current object doesn't have a path")
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        response, _options = Api.send_request(
+            "POST",
+            "/file_actions/delete/{path}".format(
+                path=quote(str(params["path"]), safe="")
+            ),
+            params,
+            self.options,
+        )
+        return response.data
+
     # Copy File/Folder
     #
     # Parameters:
@@ -1008,6 +1034,33 @@ def zip_list_contents(path, params=None, options=None):
     return [
         ZipListEntry(entity_data, options) for entity_data in response.data
     ]
+
+
+# Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+#
+# Parameters:
+#   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+def begin_delete(path, params=None, options=None):
+    if not isinstance(params, dict):
+        params = {}
+    if not isinstance(options, dict):
+        options = {}
+    params["path"] = path
+    if "path" in params and not isinstance(params["path"], str):
+        raise InvalidParameterError("Bad parameter: path must be an str")
+    if "recursive" in params and not isinstance(params["recursive"], bool):
+        raise InvalidParameterError("Bad parameter: recursive must be an bool")
+    if "path" not in params:
+        raise MissingParameterError("Parameter missing: path")
+    response, options = Api.send_request(
+        "POST",
+        "/file_actions/delete/{path}".format(
+            path=quote(str(params["path"]), safe="")
+        ),
+        params,
+        options,
+    )
+    return FileAction(response.data, options)
 
 
 # Copy File/Folder
