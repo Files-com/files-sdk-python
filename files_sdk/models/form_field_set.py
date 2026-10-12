@@ -13,6 +13,7 @@ class FormFieldSet:
     default_attributes = {
         "id": None,  # int64 - Form field set id
         "title": None,  # string - Title to be displayed
+        "require_complete_metadata_capture": None,  # boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
         "form_layout": None,  # array(int64) - Layout of the form
         "form_fields": None,  # array(object) - Associated form field definitions; authenticated form field set responses include historical definitions, while form_layout identifies current fields
         "skip_name": None,  # boolean - Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
@@ -49,6 +50,7 @@ class FormFieldSet:
 
     # Parameters:
     #   title - string - Title to be displayed
+    #   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
     #   workspace_id - int64 - Workspace ID
     #   skip_email - boolean - Skip validating form email
     #   skip_name - boolean - Skip validating form name
@@ -175,6 +177,7 @@ def get(id, params=None, options=None):
 # Parameters:
 #   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
 #   title - string - Title to be displayed
+#   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
 #   workspace_id - int64 - Workspace ID
 #   skip_email - boolean - Skip validating form email
 #   skip_name - boolean - Skip validating form name
@@ -189,6 +192,12 @@ def create(params=None, options=None):
         raise InvalidParameterError("Bad parameter: user_id must be an int")
     if "title" in params and not isinstance(params["title"], str):
         raise InvalidParameterError("Bad parameter: title must be an str")
+    if "require_complete_metadata_capture" in params and not isinstance(
+        params["require_complete_metadata_capture"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_complete_metadata_capture must be an bool"
+        )
     if "workspace_id" in params and not isinstance(
         params["workspace_id"], int
     ):
@@ -221,6 +230,7 @@ def create(params=None, options=None):
 
 # Parameters:
 #   title - string - Title to be displayed
+#   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
 #   workspace_id - int64 - Workspace ID
 #   skip_email - boolean - Skip validating form email
 #   skip_name - boolean - Skip validating form name
@@ -236,6 +246,12 @@ def update(id, params=None, options=None):
         raise InvalidParameterError("Bad parameter: id must be an int")
     if "title" in params and not isinstance(params["title"], str):
         raise InvalidParameterError("Bad parameter: title must be an str")
+    if "require_complete_metadata_capture" in params and not isinstance(
+        params["require_complete_metadata_capture"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: require_complete_metadata_capture must be an bool"
+        )
     if "workspace_id" in params and not isinstance(
         params["workspace_id"], int
     ):

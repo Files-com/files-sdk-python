@@ -85,6 +85,7 @@ class Site:
         "disable_all_ai_features": None,  # boolean - If true, all AI features are disabled for this site.
         "disable_files_certificate_generation": None,  # boolean - If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
         "disable_notifications": None,  # boolean - Are notifications disabled?
+        "file_activity_events_enabled": None,  # boolean - If true, file operations produce file_action.activity.v1 EventChannel events in all workspaces. Defaults to false; subscription filters and workspace access still control delivery.
         "disable_password_reset": None,  # boolean - Is password reset disabled?
         "domain": None,  # string - Custom domain
         "domain_hsts_header": None,  # boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
@@ -314,6 +315,7 @@ def get_usage(params=None, options=None):
 #   legacy_checksums_mode - boolean - Use legacy checksums mode?
 #   migrate_remote_server_sync_to_sync - boolean - If true, we will migrate all remote server syncs to the new Sync model.
 #   as2_message_retention_days - int64 - Number of days to retain AS2 messages (incoming and outgoing).
+#   file_activity_events_enabled - boolean - If true, file operations produce file_action.activity.v1 EventChannel events in all workspaces. Defaults to false; subscription filters and workspace access still control delivery.
 #   username_display - string - How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
 #   session_expiry_minutes - int64 - Session expiry in minutes
 #   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
@@ -723,6 +725,12 @@ def update(params=None, options=None):
     ):
         raise InvalidParameterError(
             "Bad parameter: as2_message_retention_days must be an int"
+        )
+    if "file_activity_events_enabled" in params and not isinstance(
+        params["file_activity_events_enabled"], bool
+    ):
+        raise InvalidParameterError(
+            "Bad parameter: file_activity_events_enabled must be an bool"
         )
     if "username_display" in params and not isinstance(
         params["username_display"], str

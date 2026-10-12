@@ -23,6 +23,7 @@
   "form_field_set": {
     "id": 1,
     "title": "Sample Form Title",
+    "require_complete_metadata_capture": False,
     "form_layout": [
       1,
       2,

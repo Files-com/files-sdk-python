@@ -15,6 +15,7 @@ class EventDeliveryAttempt:
         "event_record_id": None,  # int64 - Event Record ID
         "event_subscription_id": None,  # int64 - Event Subscription ID
         "event_target_id": None,  # int64 - Event Target ID
+        "activity_notification_batch_id": None,  # int64 - Shared summary ID when this event is delivered in a Slack or Teams subfolder summary. All events in a summary share its delivery outcome.
         "workspace_id": None,  # int64 - Workspace ID. 0 means the default workspace or site-wide.
         "status": None,  # string - Delivery status.
         "attempt_number": None,  # int64 - Number of delivery attempts made.

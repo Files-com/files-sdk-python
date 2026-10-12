@@ -8,6 +8,7 @@
   "event_record_id": 1,
   "event_subscription_id": 1,
   "event_target_id": 1,
+  "activity_notification_batch_id": 1,
   "workspace_id": 1,
   "status": "example",
   "attempt_number": 1,
@@ -26,6 +27,7 @@
 * `event_record_id` (int64): Event Record ID
 * `event_subscription_id` (int64): Event Subscription ID
 * `event_target_id` (int64): Event Target ID
+* `activity_notification_batch_id` (int64): Shared summary ID when this event is delivered in a Slack or Teams subfolder summary. All events in a summary share its delivery outcome.
 * `workspace_id` (int64): Workspace ID. 0 means the default workspace or site-wide.
 * `status` (string): Delivery status.
 * `attempt_number` (int64): Number of delivery attempts made.
