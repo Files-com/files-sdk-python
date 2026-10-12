@@ -1448,6 +1448,42 @@ def begin_upload(path, params=None, options=None):
     ]
 
 
+_WINDOWS_DEVICE_NAMES = frozenset(
+    [
+        "CON",
+        "PRN",
+        "AUX",
+        "NUL",
+        "CONIN$",
+        "CONOUT$",
+        "COM1",
+        "COM2",
+        "COM3",
+        "COM4",
+        "COM5",
+        "COM6",
+        "COM7",
+        "COM8",
+        "COM9",
+        "COM\u00b9",
+        "COM\u00b2",
+        "COM\u00b3",
+        "LPT1",
+        "LPT2",
+        "LPT3",
+        "LPT4",
+        "LPT5",
+        "LPT6",
+        "LPT7",
+        "LPT8",
+        "LPT9",
+        "LPT\u00b9",
+        "LPT\u00b2",
+        "LPT\u00b3",
+    ]
+)
+
+
 def _underscore_destination_path(root, destination_id, relative_path=None):
     return path_util.normalize(
         f"_/{root}/{destination_id}/{relative_path or ''}"
@@ -1644,11 +1680,23 @@ def move_to_child_site(path, site_id, destination, params=None, options=None):
     return move(path, params, options)
 
 
+def _is_windows_device_name(name):
+    # A bare device name is always a device. Anything after it, such as the
+    # extension in NUL.txt, makes it a device on some Windows versions and a
+    # file on others, so Windows decides those names: it resolves a device to
+    # a \\.\ path.
+    base = name.split(".", 1)[0].rstrip(" ")
+    if base.upper() not in _WINDOWS_DEVICE_NAMES:
+        return False
+    return base == name or os.path.abspath(name).startswith("\\\\.\\")
+
+
 def _default_local_path(path):
     name = path_util.normalize(path).split("/")[-1]
     # On Windows a colon makes the name a drive-relative path or an NTFS
-    # stream, which can write outside the working directory or onto another file.
-    if os.name == "nt" and ":" in name:
+    # stream, which can write outside the working directory or onto another
+    # file, and a device name such as NUL writes to the device instead of a file.
+    if os.name == "nt" and (":" in name or _is_windows_device_name(name)):
         raise InvalidParameterError(
             f"Bad parameter: local_path is required because {name!r} is not a valid local file name"
         )

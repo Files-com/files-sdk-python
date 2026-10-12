@@ -13,8 +13,8 @@ class TestFileDownloadDefaultPath(unittest.TestCase):
 
         mock_download_file.assert_called_once_with("report:2026.txt")
 
-    def test_windows_download_without_local_path_rejects_drive_and_stream_names(self):
-        for remote_path in ("folder/C:victim.txt", "C:victim.txt", "folder/victim.txt::$DATA"):
+    def test_windows_download_without_local_path_rejects_drive_stream_and_device_names(self):
+        for remote_path in ("folder/C:victim.txt", "C:victim.txt", "folder/victim.txt::$DATA", "folder/NUL", "folder/con", "COM1", "folder/CONIN$"):
             with self.subTest(remote_path=remote_path):
                 with mock.patch.object(file_model.os, "name", "nt"), mock.patch.object(file_model.File, "download_file") as mock_download_file:
                     with self.assertRaises(InvalidParameterError):
