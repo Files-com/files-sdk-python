@@ -94,6 +94,7 @@ files_sdk.event_subscription.create({
   "message_only": True,
   "enabled": True,
   "event_types": ["sync_run.failure.v1"],
+  "filter": {"payload.sync_name":{"prefix":"Nightly"},"payload.event_errors":{"exists":True}},
   "delivery_policy": "example",
   "event_target_ids": [1]
 })
@@ -130,6 +131,7 @@ files_sdk.event_subscription.update(id, {
   "message_only": True,
   "enabled": True,
   "event_types": ["sync_run.failure.v1"],
+  "filter": {"payload.sync_name":{"prefix":"Nightly"},"payload.event_errors":{"exists":True}},
   "delivery_policy": "example",
   "event_target_ids": [1]
 })
@@ -181,6 +183,7 @@ event_subscription.update({
   "message_only": True,
   "enabled": True,
   "event_types": ["sync_run.failure.v1"],
+  "filter": {"payload.sync_name":{"prefix":"Nightly"},"payload.event_errors":{"exists":True}},
   "delivery_policy": "example",
   "event_target_ids": [1]
 })
