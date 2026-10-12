@@ -498,7 +498,7 @@
 * `logo` (Image): Branded logo
 * `login_page_background_image` (Image): Branded login page background
 * `max_prior_passwords` (int64): Number of prior passwords to disallow
-* `managed_site_settings` (object): List of site settings managed by the parent site
+* `managed_site_settings` (object): Site settings managed by the parent site. Each key identifies a managed setting, with a null value. Non-secret effective values are returned in their own Site settings fields.
 * `motd_text` (string): A message to show users when they connect via FTP or SFTP.
 * `motd_use_for_ftp` (boolean): Show message to users connecting via FTP
 * `motd_use_for_sftp` (boolean): Show message to users connecting via SFTP

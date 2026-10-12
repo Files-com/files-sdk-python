@@ -31,7 +31,7 @@
 * `policy_type` (string): Type of policy.  Valid values: `settings`.
 * `name` (string): Name for this policy.
 * `description` (string): Description for this policy.
-* `value` (object): Policy configuration data. Settings policies accept site settings plus an optional `folder_behaviors` array for parent-managed root behaviors on child sites. For more information, refer to the Value Hash section of the developer documentation.
+* `value` (object): Policy configuration data. On a Child Site, contains only managed setting names with null values. Settings policies accept site settings plus an optional `folder_behaviors` array for parent-managed root behaviors on child sites. For more information, refer to the Value Hash section of the developer documentation.
 * `applied_child_site_ids` (array(int64)): IDs of child sites that this policy has been applied to. This field is read-only.
 * `skip_child_site_ids` (array(int64)): IDs of child sites excluded from this default policy.
 * `child_site_ids` (array(int64)): IDs of child sites explicitly assigned to this non-default policy.
@@ -42,7 +42,7 @@
 
 ---
 
-## List Child Site Management Policies
+## List Child Site Management Policies. On a Child Site, returns only the policy covering that site. Its value contains managed setting names with null values
 
 ```
 files_sdk.child_site_management_policy.list()
