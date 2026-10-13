@@ -324,7 +324,7 @@ except files_sdk.error.Error as err:
 import files_sdk
 
 try:
-  # users who haven't logged in since 2024-01-01
+  # users who have logged in on or after 2024-01-01
   users = files_sdk.user.list({
     "filter_gteq": { "last_login_at": "2024-01-01" }
   })
