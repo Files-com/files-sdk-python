@@ -2,7 +2,9 @@
 
 ## Example Action Object
 
-```
+The API sends each `Action` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "path": "",
@@ -15,7 +17,7 @@
   },
   "user_id": 1,
   "username": "user",
-  "user_is_from_parent_site": False,
+  "user_is_from_parent_site": false,
   "action": "create",
   "failure_type": "none",
   "interface": "web"

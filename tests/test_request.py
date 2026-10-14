@@ -1,53 +1,52 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import Request
 from files_sdk import request
 
+
 class RequestTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/requests/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         request = Request(params)
         request.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(request)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/requests"), "Mock path does not exist")
     def test_list(self):
-        resp = request.list()
+        result = request.list()
+        self.assert_returns(request.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/requests/folders/{path}"), "Mock path does not exist")
     def test_get_folder(self):
         path = "foo"
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        request.get_folder(path, params)
+        result = request.get_folder(path, params)
+        self.assert_returns(request.get_folder, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/requests"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "path" : "foo",
-            "destination" : "foo",
+            "path": "foo",
+            "destination": "foo",
         }
-        request.create(params)
+        result = request.create(params)
+        self.assert_returns(request.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/requests/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        request.delete(id, params)
+        result = request.delete(id, params)
+        self.assert_returns(request.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

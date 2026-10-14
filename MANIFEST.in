@@ -1,0 +1,7 @@
+# The sdist holds only what builds the wheel. setuptools adds the metadata
+# files itself, and by default also tests/test*.py, which cannot run without
+# the rest of the test suite and the mock server, so prune them. Anything
+# else stays out because no rule includes it. Keep the patterns ASCII.
+include LICENSE README.md pyproject.toml
+recursive-include files_sdk *.py *.json
+prune tests

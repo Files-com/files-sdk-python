@@ -2,7 +2,9 @@
 
 ## Example AutomationRun Object
 
-```
+The API sends each `AutomationRun` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "automation_id": 1,
@@ -30,7 +32,7 @@
       "node_type": "example",
       "status": "example",
       "run_stage": "example",
-      "reused": True,
+      "reused": true,
       "successful_operations": 1,
       "failed_operations": 1,
       "started_at": "2000-01-01T01:00:00Z",
@@ -73,12 +75,17 @@
 * `journal_url` (string): Link to the run journal artifact.
 * `status_messages_url` (string): Link to status messages log file.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.automation_run` resource, such as
+`client.automation_run.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Automation Runs
 
-```
+```python
 files_sdk.automation_run.list({
   "user_id": 1,
   "automation_id": 1
@@ -99,7 +106,7 @@ files_sdk.automation_run.list({
 
 ## Show Automation Run
 
-```
+```python
 files_sdk.automation_run.find(id)
 ```
 
@@ -112,7 +119,7 @@ files_sdk.automation_run.find(id)
 
 ## Show Automation Run Node
 
-```
+```python
 files_sdk.automation_run.find_node(id, {
   "node_id": "node_id"
 })
@@ -128,7 +135,7 @@ files_sdk.automation_run.find_node(id, {
 
 ## Cancel Automation Run
 
-```
+```python
 files_sdk.automation_run.cancel(id)
 ```
 
@@ -141,7 +148,7 @@ files_sdk.automation_run.cancel(id)
 
 ## Re-run Automation from Node
 
-```
+```python
 files_sdk.automation_run.rerun(id, {
   "node_id": "node_id"
 })
@@ -157,7 +164,7 @@ files_sdk.automation_run.rerun(id, {
 
 ## Cancel Automation Run
 
-```
+```python
 automation_run = files_sdk.automation_run.find(id)
 automation_run.cancel()
 ```
@@ -171,7 +178,7 @@ automation_run.cancel()
 
 ## Re-run Automation from Node
 
-```
+```python
 automation_run = files_sdk.automation_run.find(id)
 automation_run.rerun({
   "node_id": "node_id"

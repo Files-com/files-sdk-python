@@ -2,7 +2,9 @@
 
 ## Example FileAction Object
 
-```
+The API sends each `FileAction` record as JSON, such as:
+
+```json
 {
   "status": "pending",
   "file_migration_id": 1

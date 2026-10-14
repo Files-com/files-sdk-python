@@ -1,80 +1,84 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import ApiKey
 from files_sdk import api_key
 
+
 class ApiKeyTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/api_keys/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         api_key = ApiKey(params)
-        api_key.update(params)
+        result = api_key.update(params)
+        self.assert_returns(ApiKey.update, result)
+        self.assert_typed(api_key)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/api_keys/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         api_key = ApiKey(params)
         api_key.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(api_key)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/api_keys"), "Mock path does not exist")
     def test_list(self):
-        resp = api_key.list()
+        result = api_key.list()
+        self.assert_returns(api_key.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/api_key"), "Mock path does not exist")
     def test_find_current(self):
-        resp = api_key.find_current()
+        result = api_key.find_current()
+        self.assert_returns(api_key.find_current, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/api_keys/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        api_key.find(id, params)
+        result = api_key.find(id, params)
+        self.assert_returns(api_key.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/api_keys"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "name" : "foo",
+            "name": "foo",
         }
-        api_key.create(params)
+        result = api_key.create(params)
+        self.assert_returns(api_key.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/api_key"), "Mock path does not exist")
     def test_update_current(self):
-        resp = api_key.update_current()
+        result = api_key.update_current()
+        self.assert_returns(api_key.update_current, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/api_keys/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        api_key.update(id, params)
+        result = api_key.update(id, params)
+        self.assert_returns(api_key.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/api_key"), "Mock path does not exist")
     def test_delete_current(self):
-        resp = api_key.delete_current()
+        result = api_key.delete_current()
+        self.assert_returns(api_key.delete_current, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/api_keys/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        api_key.delete(id, params)
+        result = api_key.delete(id, params)
+        self.assert_returns(api_key.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

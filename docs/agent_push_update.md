@@ -2,7 +2,9 @@
 
 ## Example AgentPushUpdate Object
 
-```
+The API sends each `AgentPushUpdate` record as JSON, such as:
+
+```json
 {
   "version": "example",
   "message": "example",

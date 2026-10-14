@@ -2,18 +2,20 @@
 
 ## Example Lock Object
 
-```
+The API sends each `Lock` record as JSON, such as:
+
+```json
 {
   "path": "locked_file",
   "timeout": 1,
   "depth": "infinity",
-  "recursive": True,
+  "recursive": true,
   "owner": "user",
   "scope": "shared",
-  "exclusive": False,
+  "exclusive": false,
   "token": "17c54824e9931a4688ca032d03f6663c",
   "type": "write",
-  "allow_access_by_any_user": False,
+  "allow_access_by_any_user": false,
   "user_id": 1,
   "username": ""
 }
@@ -33,12 +35,17 @@
 * `username` (string): Lock creator username
 * `expected_token` (string): Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.lock` resource, such as
+`client.lock.list_for(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Locks by Path
 
-```
+```python
 files_sdk.lock.list_for(path, {
   "include_children": False
 })
@@ -56,7 +63,7 @@ files_sdk.lock.list_for(path, {
 
 ## Create Lock
 
-```
+```python
 files_sdk.lock.create(path, {
   "token": "17c54824e9931a4688ca032d03f6663c",
   "allow_access_by_any_user": False,
@@ -83,7 +90,7 @@ files_sdk.lock.create(path, {
 
 ## Delete Lock
 
-```
+```python
 files_sdk.lock.delete(path, {
   "token": "token"
 })
@@ -99,11 +106,12 @@ files_sdk.lock.delete(path, {
 
 ## Delete Lock
 
-```
-lock = files_sdk.lock.list.first
-lock.delete({
-  "token": "token"
-})
+```python
+lock = next(files_sdk.lock.list_for(path).auto_paging_iter(), None)
+if lock is not None:
+    lock.delete({
+      "token": "token"
+    })
 ```
 
 ### Parameters

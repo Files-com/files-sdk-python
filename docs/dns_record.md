@@ -2,7 +2,9 @@
 
 ## Example DnsRecord Object
 
-```
+The API sends each `DnsRecord` record as JSON, such as:
+
+```json
 {
   "id": "customdomain.com-CNAME-site.files.com",
   "domain": "my-custom-domain.com",
@@ -16,12 +18,17 @@
 * `rrtype` (string): DNS record type
 * `value` (string): DNS record value
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.dns_record` resource, such as
+`client.dns_record.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## Show Site DNS Configuration
 
-```
+```python
 files_sdk.dns_record.list()
 ```
 

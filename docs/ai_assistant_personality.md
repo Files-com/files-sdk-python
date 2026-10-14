@@ -2,14 +2,16 @@
 
 ## Example AiAssistantPersonality Object
 
-```
+The API sends each `AiAssistantPersonality` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
   "name": "Concise Assistant",
   "system_prompt": "Respond as a concise operations assistant.",
-  "use_by_default": False,
-  "apply_to_all_workspaces": False,
+  "use_by_default": false,
+  "apply_to_all_workspaces": false,
   "created_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z"
 }
@@ -24,12 +26,17 @@
 * `created_at` (date-time): Creation time.
 * `updated_at` (date-time): Last update time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.ai_assistant_personality` resource, such as
+`client.ai_assistant_personality.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Ai Assistant Personalities
 
-```
+```python
 files_sdk.ai_assistant_personality.list()
 ```
 
@@ -45,7 +52,7 @@ files_sdk.ai_assistant_personality.list()
 
 ## Show Ai Assistant Personality
 
-```
+```python
 files_sdk.ai_assistant_personality.find(id)
 ```
 
@@ -58,7 +65,7 @@ files_sdk.ai_assistant_personality.find(id)
 
 ## Create Ai Assistant Personality
 
-```
+```python
 files_sdk.ai_assistant_personality.create({
   "apply_to_all_workspaces": False,
   "name": "Concise Assistant",
@@ -81,7 +88,7 @@ files_sdk.ai_assistant_personality.create({
 
 ## Update Ai Assistant Personality
 
-```
+```python
 files_sdk.ai_assistant_personality.update(id, {
   "apply_to_all_workspaces": False,
   "name": "Concise Assistant",
@@ -105,7 +112,7 @@ files_sdk.ai_assistant_personality.update(id, {
 
 ## Delete Ai Assistant Personality
 
-```
+```python
 files_sdk.ai_assistant_personality.delete(id)
 ```
 
@@ -118,7 +125,7 @@ files_sdk.ai_assistant_personality.delete(id)
 
 ## Update Ai Assistant Personality
 
-```
+```python
 ai_assistant_personality = files_sdk.ai_assistant_personality.find(id)
 ai_assistant_personality.update({
   "apply_to_all_workspaces": False,
@@ -143,7 +150,7 @@ ai_assistant_personality.update({
 
 ## Delete Ai Assistant Personality
 
-```
+```python
 ai_assistant_personality = files_sdk.ai_assistant_personality.find(id)
 ai_assistant_personality.delete()
 ```

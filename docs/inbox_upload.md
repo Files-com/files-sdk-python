@@ -2,7 +2,9 @@
 
 ## Example InboxUpload Object
 
-```
+The API sends each `InboxUpload` record as JSON, such as:
+
+```json
 {
   "inbox_registration": {
     "code": "abc123",
@@ -29,12 +31,17 @@
 * `path` (string): Upload path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `created_at` (date-time): Upload date/time
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.inbox_upload` resource, such as
+`client.inbox_upload.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Inbox Uploads
 
-```
+```python
 files_sdk.inbox_upload.list()
 ```
 

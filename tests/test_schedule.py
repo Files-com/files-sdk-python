@@ -1,70 +1,71 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import Schedule
 from files_sdk import schedule
 
+
 class ScheduleTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/schedules/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         schedule = Schedule(params)
-        schedule.update(params)
+        result = schedule.update(params)
+        self.assert_returns(Schedule.update, result)
+        self.assert_typed(schedule)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/schedules/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         schedule = Schedule(params)
         schedule.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(schedule)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/schedules"), "Mock path does not exist")
     def test_list(self):
-        resp = schedule.list()
+        result = schedule.list()
+        self.assert_returns(schedule.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/schedules/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        schedule.find(id, params)
+        result = schedule.find(id, params)
+        self.assert_returns(schedule.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/schedules"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "name" : "foo",
-            "schedule_days_of_week" : [1],
-            "schedule_times_of_day" : ["foo1"],
+            "name": "foo",
+            "schedule_days_of_week": [1],
+            "schedule_times_of_day": ["foo1"],
         }
-        schedule.create(params)
+        result = schedule.create(params)
+        self.assert_returns(schedule.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/schedules/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        schedule.update(id, params)
+        result = schedule.update(id, params)
+        self.assert_returns(schedule.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/schedules/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        schedule.delete(id, params)
+        result = schedule.delete(id, params)
+        self.assert_returns(schedule.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

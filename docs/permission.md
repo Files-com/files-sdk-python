@@ -2,7 +2,9 @@
 
 ## Example Permission Object
 
-```
+The API sends each `Permission` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "path": "example",
@@ -19,7 +21,7 @@
   "partner_id": 1,
   "partner_name": "Acme Corp.",
   "permission": "full",
-  "recursive": True,
+  "recursive": true,
   "site_id": 1
 }
 ```
@@ -38,18 +40,23 @@
 * `recursive` (boolean): Whether this Permission applies to subfolders. Must be true for `admin` Permissions.
 * `site_id` (int64): Site ID
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.permission` resource, such as
+`client.permission.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Permissions
 
-```
+```python
 files_sdk.permission.list({
   "path": "example",
   "include_groups": False,
-  "group_id": 1,
-  "partner_id": 1,
-  "user_id": 1
+  "group_id": "1",
+  "partner_id": "1",
+  "user_id": "1"
 })
 ```
 
@@ -71,11 +78,10 @@ files_sdk.permission.list({
 
 ## Create Permission
 
-```
+```python
 files_sdk.permission.create({
   "path": "path",
   "group_id": 1,
-  "group_ids": [1],
   "permission": "full",
   "recursive": False,
   "partner_id": 1,
@@ -104,7 +110,7 @@ files_sdk.permission.create({
 
 ## Delete Permission
 
-```
+```python
 files_sdk.permission.delete(id)
 ```
 
@@ -117,9 +123,10 @@ files_sdk.permission.delete(id)
 
 ## Delete Permission
 
-```
-permission = files_sdk.permission.list.first
-permission.delete()
+```python
+permission = next(files_sdk.permission.list().auto_paging_iter(), None)
+if permission is not None:
+    permission.delete()
 ```
 
 ### Parameters

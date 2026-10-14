@@ -2,7 +2,9 @@
 
 ## Example PendingWorkEvent Object
 
-```
+The API sends each `PendingWorkEvent` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "event_type": "example",
@@ -26,12 +28,17 @@
 * `body_url` (string): Link to log file.
 * `folder_behavior_id` (int64): Folder Behavior ID.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.pending_work_event` resource, such as
+`client.pending_work_event.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Pending Work Events
 
-```
+```python
 files_sdk.pending_work_event.list()
 ```
 
@@ -51,7 +58,7 @@ files_sdk.pending_work_event.list()
 
 ## Show Pending Work Event
 
-```
+```python
 files_sdk.pending_work_event.find(id)
 ```
 

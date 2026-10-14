@@ -2,11 +2,13 @@
 
 ## Example UsageDailySnapshot Object
 
-```
+The API sends each `UsageDailySnapshot` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "date": "2000-01-01T01:00:00Z",
-  "api_usage_available": True,
+  "api_usage_available": true,
   "read_api_usage": 1,
   "write_api_usage": 1,
   "transformation_credits_usage": 1,
@@ -38,12 +40,17 @@
 * `root_storage` (int64): GB of Files Native Storage used for the root folder.  Included here because this value will not be part of `usage_by_top_level_dir`
 * `usage_by_top_level_dir` (array(object)): Usage broken down by each top-level folder
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.usage_daily_snapshot` resource, such as
+`client.usage_daily_snapshot.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Usage Daily Snapshots
 
-```
+```python
 files_sdk.usage_daily_snapshot.list()
 ```
 

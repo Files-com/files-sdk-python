@@ -2,7 +2,9 @@
 
 ## Example Expectation Object
 
-```
+The API sends each `Expectation` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -11,7 +13,7 @@
   "path": "incoming/vendor_a",
   "source": "*.csv",
   "exclude_pattern": "*.tmp",
-  "disabled": True,
+  "disabled": true,
   "expectations_version": 2,
   "trigger": "manual",
   "interval": "day",
@@ -82,12 +84,17 @@
 * `created_at` (date-time): Creation time.
 * `updated_at` (date-time): Last update time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.expectation` resource, such as
+`client.expectation.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Expectations
 
-```
+```python
 files_sdk.expectation.list()
 ```
 
@@ -103,7 +110,7 @@ files_sdk.expectation.list()
 
 ## Show Expectation
 
-```
+```python
 files_sdk.expectation.find(id)
 ```
 
@@ -116,7 +123,7 @@ files_sdk.expectation.find(id)
 
 ## Create Expectation
 
-```
+```python
 files_sdk.expectation.create({
   "name": "Daily Vendor Feed",
   "description": "Wait for the vendor CSV every morning.",
@@ -127,9 +134,9 @@ files_sdk.expectation.create({
   "trigger": "manual",
   "interval": "day",
   "recurring_day": 3,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [1,3,5],
+  "schedule_days_of_week": [1, 3, 5],
   "schedule_times_of_day": ["06:00"],
   "schedule_time_zone": "UTC",
   "holiday_region": "us",
@@ -137,7 +144,7 @@ files_sdk.expectation.create({
   "late_acceptance_interval": 900,
   "inactivity_interval": 300,
   "max_open_interval": 43200,
-  "criteria": {"count":{"exact":1},"extensions":["csv"]},
+  "criteria": {"count": {"exact": 1}, "extensions": ["csv"]},
   "workspace_id": 0
 })
 ```
@@ -171,7 +178,7 @@ files_sdk.expectation.create({
 
 ## Manually open an Expectation window
 
-```
+```python
 files_sdk.expectation.trigger_evaluation(id)
 ```
 
@@ -184,7 +191,7 @@ files_sdk.expectation.trigger_evaluation(id)
 
 ## Update Expectation
 
-```
+```python
 files_sdk.expectation.update(id, {
   "name": "Daily Vendor Feed",
   "description": "Wait for the vendor CSV every morning.",
@@ -195,9 +202,9 @@ files_sdk.expectation.update(id, {
   "trigger": "manual",
   "interval": "day",
   "recurring_day": 3,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [1,3,5],
+  "schedule_days_of_week": [1, 3, 5],
   "schedule_times_of_day": ["06:00"],
   "schedule_time_zone": "UTC",
   "holiday_region": "us",
@@ -205,7 +212,7 @@ files_sdk.expectation.update(id, {
   "late_acceptance_interval": 900,
   "inactivity_interval": 300,
   "max_open_interval": 43200,
-  "criteria": {"count":{"exact":1},"extensions":["csv"]},
+  "criteria": {"count": {"exact": 1}, "extensions": ["csv"]},
   "workspace_id": 0
 })
 ```
@@ -240,7 +247,7 @@ files_sdk.expectation.update(id, {
 
 ## Delete Expectation
 
-```
+```python
 files_sdk.expectation.delete(id)
 ```
 
@@ -253,7 +260,7 @@ files_sdk.expectation.delete(id)
 
 ## Manually open an Expectation window
 
-```
+```python
 expectation = files_sdk.expectation.find(id)
 expectation.trigger_evaluation()
 ```
@@ -267,7 +274,7 @@ expectation.trigger_evaluation()
 
 ## Update Expectation
 
-```
+```python
 expectation = files_sdk.expectation.find(id)
 expectation.update({
   "name": "Daily Vendor Feed",
@@ -279,9 +286,9 @@ expectation.update({
   "trigger": "manual",
   "interval": "day",
   "recurring_day": 3,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [1,3,5],
+  "schedule_days_of_week": [1, 3, 5],
   "schedule_times_of_day": ["06:00"],
   "schedule_time_zone": "UTC",
   "holiday_region": "us",
@@ -289,7 +296,7 @@ expectation.update({
   "late_acceptance_interval": 900,
   "inactivity_interval": 300,
   "max_open_interval": 43200,
-  "criteria": {"count":{"exact":1},"extensions":["csv"]},
+  "criteria": {"count": {"exact": 1}, "extensions": ["csv"]},
   "workspace_id": 0
 })
 ```
@@ -324,7 +331,7 @@ expectation.update({
 
 ## Delete Expectation
 
-```
+```python
 expectation = files_sdk.expectation.find(id)
 expectation.delete()
 ```

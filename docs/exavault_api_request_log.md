@@ -2,7 +2,9 @@
 
 ## Example ExavaultApiRequestLog Object
 
-```
+The API sends each `ExavaultApiRequestLog` record as JSON, such as:
+
+```json
 {
   "timestamp": "2000-01-01T01:00:00Z",
   "endpoint": "example",
@@ -13,7 +15,7 @@
   "error_message": "example",
   "user_agent": "example",
   "response_code": 1,
-  "success": True,
+  "success": true,
   "duration_ms": 1,
   "created_at": "2000-01-01T01:00:00Z"
 }
@@ -32,12 +34,17 @@
 * `duration_ms` (int64): Duration (in milliseconds)
 * `created_at` (date-time): Start Time of Action
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.exavault_api_request_log` resource, such as
+`client.exavault_api_request_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Exavault API Request Logs
 
-```
+```python
 files_sdk.exavault_api_request_log.list()
 ```
 

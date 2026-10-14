@@ -2,21 +2,23 @@
 
 ## Example RemoteServer Object
 
-```
+The API sends each `RemoteServer` record as JSON, such as:
+
+```json
 {
   "id": 1,
-  "disabled": True,
+  "disabled": true,
   "authentication_method": "password",
   "hostname": "remote-server.com",
   "remote_home_path": "/home/user1",
   "upload_staging_path": "/tmp/uploads",
-  "allow_relative_paths": True,
+  "allow_relative_paths": true,
   "name": "My Remote server",
   "description": "More information or notes about my server",
   "port": 1,
   "buffer_uploads": "example",
   "max_connections": 1,
-  "pin_to_site_region": True,
+  "pin_to_site_region": true,
   "pinned_region": "us-east-1",
   "remote_server_credential_id": 1,
   "s3_bucket": "my-bucket",
@@ -47,12 +49,12 @@
   "one_drive_account_type": "personal",
   "sharepoint_tenant_id": "00000000-0000-0000-0000-000000000000",
   "sharepoint_client_id": "00000000-0000-0000-0000-000000000000",
-  "sharepoint_app_authentication": True,
+  "sharepoint_app_authentication": true,
   "sharepoint_app_credential_type": "secret",
   "sharepoint_site_url": "https://example.sharepoint.com/sites/accounting",
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
-  "azure_blob_storage_hierarchical_namespace": True,
+  "azure_blob_storage_hierarchical_namespace": true,
   "azure_blob_storage_dns_suffix": "usgovcloudapi.net",
   "azure_files_storage_account": "storage-account-name",
   "azure_files_storage_share_name": "share-name",
@@ -60,9 +62,9 @@
   "s3_compatible_bucket": "my-bucket",
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
-  "s3_compatible_virtual_hosted_style": True,
+  "s3_compatible_virtual_hosted_style": true,
   "s3_compatible_access_key": "example",
-  "enable_dedicated_ips": True,
+  "enable_dedicated_ips": true,
   "custom_domain_id": 1,
   "outbound_ip_addresses": [
     "203.0.113.1",
@@ -71,10 +73,10 @@
   "files_agent_permission_set": "read_write",
   "files_agent_root": "example",
   "files_agent_version": "example",
-  "files_agent_up_to_date": True,
+  "files_agent_up_to_date": true,
   "files_agent_latest_version": "example",
-  "files_agent_supports_push_updates": True,
-  "direct_transfer_available": True,
+  "files_agent_supports_push_updates": true,
+  "direct_transfer_available": true,
   "outbound_agent_id": 1,
   "filebase_bucket": "my-bucket",
   "filebase_access_key": "example",
@@ -82,11 +84,11 @@
   "cloudflare_bucket": "my-bucket",
   "cloudflare_access_key": "example",
   "cloudflare_endpoint": "https://<ACCOUNT_ID>.r2.cloudflarestorage.com",
-  "dropbox_teams": True,
+  "dropbox_teams": true,
   "linode_bucket": "my-bucket",
   "linode_access_key": "example",
   "linode_region": "us-east-1",
-  "supports_versioning": False
+  "supports_versioning": false
 }
 ```
 
@@ -194,12 +196,17 @@
 * `wasabi_secret_key` (string): Wasabi: Secret Key
 * `files_api_key` (string): Files.com direct link: API key used once to pair the remote server.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.remote_server` resource, such as
+`client.remote_server.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Remote Servers
 
-```
+```python
 files_sdk.remote_server.list({
   "user_id": 1
 })
@@ -219,7 +226,7 @@ files_sdk.remote_server.list({
 
 ## Show Remote Server
 
-```
+```python
 files_sdk.remote_server.find(id)
 ```
 
@@ -232,7 +239,7 @@ files_sdk.remote_server.find(id)
 
 ## List Files.com Agent nodes
 
-```
+```python
 files_sdk.remote_server.agent_nodes(id)
 ```
 
@@ -245,7 +252,7 @@ files_sdk.remote_server.agent_nodes(id)
 
 ## Download configuration file (required for some Remote Server integrations, such as the Files.com Agent)
 
-```
+```python
 files_sdk.remote_server.find_configuration_file(id)
 ```
 
@@ -258,7 +265,7 @@ files_sdk.remote_server.find_configuration_file(id)
 
 ## Create Remote Server
 
-```
+```python
 files_sdk.remote_server.create({
   "user_id": 1,
   "reset_authentication": False,
@@ -422,7 +429,7 @@ files_sdk.remote_server.create({
 
 ## Push update to Files Agent
 
-```
+```python
 files_sdk.remote_server.agent_push_update(id)
 ```
 
@@ -435,7 +442,7 @@ files_sdk.remote_server.agent_push_update(id)
 
 ## Update Remote Server
 
-```
+```python
 files_sdk.remote_server.update(id, {
   "reset_authentication": False,
   "allow_relative_paths": True,
@@ -596,7 +603,7 @@ files_sdk.remote_server.update(id, {
 
 ## Delete Remote Server
 
-```
+```python
 files_sdk.remote_server.delete(id)
 ```
 
@@ -609,7 +616,7 @@ files_sdk.remote_server.delete(id)
 
 ## List Files.com Agent nodes
 
-```
+```python
 remote_server = files_sdk.remote_server.find(id)
 remote_server.agent_nodes()
 ```
@@ -623,7 +630,7 @@ remote_server.agent_nodes()
 
 ## Push update to Files Agent
 
-```
+```python
 remote_server = files_sdk.remote_server.find(id)
 remote_server.agent_push_update()
 ```
@@ -637,7 +644,7 @@ remote_server.agent_push_update()
 
 ## Update Remote Server
 
-```
+```python
 remote_server = files_sdk.remote_server.find(id)
 remote_server.update({
   "reset_authentication": False,
@@ -799,7 +806,7 @@ remote_server.update({
 
 ## Delete Remote Server
 
-```
+```python
 remote_server = files_sdk.remote_server.find(id)
 remote_server.delete()
 ```

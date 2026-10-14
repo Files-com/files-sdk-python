@@ -2,11 +2,13 @@
 
 ## Example FormField Object
 
-```
+The API sends each `FormField` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "label": "Sample Label",
-  "required": True,
+  "required": true,
   "help_text": "Help Text",
   "field_type": "text",
   "options_for_select": [

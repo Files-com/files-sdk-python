@@ -2,11 +2,13 @@
 
 ## Example CustomDomain Object
 
-```
+The API sends each `CustomDomain` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
-  "available_to_all_workspaces": False,
+  "available_to_all_workspaces": false,
   "outbound_ip_addresses": [
     "203.0.113.1",
     "203.0.113.2"
@@ -15,7 +17,7 @@
   "destination": "site_alias",
   "dns_status": "correct",
   "ssl_certificate_id": 1,
-  "brick_managed": True,
+  "brick_managed": true,
   "folder_behavior_id": 1,
   "ip_addresses": [
     "203.0.113.1",
@@ -40,12 +42,17 @@
 * `created_at` (date-time): When this Custom Domain was created.
 * `updated_at` (date-time): When this Custom Domain was last updated.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.custom_domain` resource, such as
+`client.custom_domain.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Custom Domains
 
-```
+```python
 files_sdk.custom_domain.list()
 ```
 
@@ -61,7 +68,7 @@ files_sdk.custom_domain.list()
 
 ## Show Custom Domain
 
-```
+```python
 files_sdk.custom_domain.find(id)
 ```
 
@@ -74,7 +81,7 @@ files_sdk.custom_domain.find(id)
 
 ## Allocate dedicated IP addresses to this Custom Domain
 
-```
+```python
 files_sdk.custom_domain.create_allocate_ip(id, {
   "count": 1
 })
@@ -90,7 +97,7 @@ files_sdk.custom_domain.create_allocate_ip(id, {
 
 ## Create Custom Domain
 
-```
+```python
 files_sdk.custom_domain.create({
   "available_to_all_workspaces": False,
   "workspace_id": 0,
@@ -115,7 +122,7 @@ files_sdk.custom_domain.create({
 
 ## Update Custom Domain
 
-```
+```python
 files_sdk.custom_domain.update(id, {
   "available_to_all_workspaces": False,
   "workspace_id": 0,
@@ -141,7 +148,7 @@ files_sdk.custom_domain.update(id, {
 
 ## Delete Custom Domain
 
-```
+```python
 files_sdk.custom_domain.delete(id)
 ```
 
@@ -154,7 +161,7 @@ files_sdk.custom_domain.delete(id)
 
 ## Update Custom Domain
 
-```
+```python
 custom_domain = files_sdk.custom_domain.find(id)
 custom_domain.update({
   "available_to_all_workspaces": False,
@@ -181,7 +188,7 @@ custom_domain.update({
 
 ## Delete Custom Domain
 
-```
+```python
 custom_domain = files_sdk.custom_domain.find(id)
 custom_domain.delete()
 ```

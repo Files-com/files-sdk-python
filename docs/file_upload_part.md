@@ -2,13 +2,15 @@
 
 ## Example FileUploadPart Object
 
-```
+The API sends each `FileUploadPart` record as JSON, such as:
+
+```json
 {
   "send": {
     "key": "example value"
   },
   "action": "multipart",
-  "ask_about_overwrites": True,
+  "ask_about_overwrites": true,
   "available_parts": 1,
   "expires": "example",
   "headers": {
@@ -16,8 +18,8 @@
   },
   "http_method": "PUT",
   "next_partsize": 1,
-  "parallel_parts": True,
-  "retry_parts": True,
+  "parallel_parts": true,
+  "retry_parts": true,
   "parameters": {
     "key": "example value"
   },

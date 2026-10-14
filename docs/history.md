@@ -2,7 +2,9 @@
 
 ## Example History Object
 
-```
+The API sends each `History` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "path": "",
@@ -15,7 +17,7 @@
   },
   "user_id": 1,
   "username": "user",
-  "user_is_from_parent_site": False,
+  "user_is_from_parent_site": false,
   "action": "create",
   "failure_type": "none",
   "interface": "web"
@@ -37,12 +39,17 @@
 * `failure_type` (string): Failure type.  If action was a user login or session failure, why did it fail?
 * `interface` (string): Interface on which this action occurred.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.history` resource, such as
+`client.history.list_for_file(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List history for specific file
 
-```
+```python
 files_sdk.history.list_for_file(path, {
   "display": "Actual text of the action here."
 })
@@ -63,7 +70,7 @@ files_sdk.history.list_for_file(path, {
 
 ## List history for specific folder
 
-```
+```python
 files_sdk.history.list_for_folder(path, {
   "display": "Actual text of the action here."
 })
@@ -84,7 +91,7 @@ files_sdk.history.list_for_folder(path, {
 
 ## List history for specific user
 
-```
+```python
 files_sdk.history.list_for_user(user_id, {
   "display": "Actual text of the action here."
 })
@@ -105,7 +112,7 @@ files_sdk.history.list_for_user(user_id, {
 
 ## List site login history
 
-```
+```python
 files_sdk.history.list_logins({
   "display": "Actual text of the action here."
 })
@@ -125,7 +132,7 @@ files_sdk.history.list_logins({
 
 ## List site full action history
 
-```
+```python
 files_sdk.history.list({
   "display": "Actual text of the action here."
 })

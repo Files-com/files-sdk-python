@@ -2,7 +2,9 @@
 
 ## Example ScheduledExport Object
 
-```
+The API sends each `ScheduledExport` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "Monthly access review",
@@ -12,7 +14,7 @@
     "group_by": "user"
   },
   "user_id": 1,
-  "disabled": True,
+  "disabled": true,
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
@@ -63,12 +65,17 @@
 * `created_at` (date-time): Creation time.
 * `updated_at` (date-time): Last update time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.scheduled_export` resource, such as
+`client.scheduled_export.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Scheduled Exports
 
-```
+```python
 files_sdk.scheduled_export.list()
 ```
 
@@ -85,7 +92,7 @@ files_sdk.scheduled_export.list()
 
 ## Show Scheduled Export
 
-```
+```python
 files_sdk.scheduled_export.find(id)
 ```
 
@@ -98,19 +105,19 @@ files_sdk.scheduled_export.find(id)
 
 ## Create Scheduled Export
 
-```
+```python
 files_sdk.scheduled_export.create({
   "name": "Monthly access review",
   "export_type": "permission_audit",
-  "export_options": {"group_by":"user"},
+  "export_options": {"group_by": "user"},
   "user_id": 1,
   "disabled": True,
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [1,3,5],
+  "schedule_days_of_week": [1, 3, 5],
   "schedule_times_of_day": ["06:30"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "holiday_region": "us"
@@ -139,19 +146,19 @@ files_sdk.scheduled_export.create({
 
 ## Update Scheduled Export
 
-```
+```python
 files_sdk.scheduled_export.update(id, {
   "name": "Monthly access review",
   "export_type": "permission_audit",
-  "export_options": {"group_by":"user"},
+  "export_options": {"group_by": "user"},
   "user_id": 1,
   "disabled": True,
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [1,3,5],
+  "schedule_days_of_week": [1, 3, 5],
   "schedule_times_of_day": ["06:30"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "holiday_region": "us"
@@ -181,7 +188,7 @@ files_sdk.scheduled_export.update(id, {
 
 ## Delete Scheduled Export
 
-```
+```python
 files_sdk.scheduled_export.delete(id)
 ```
 
@@ -194,20 +201,20 @@ files_sdk.scheduled_export.delete(id)
 
 ## Update Scheduled Export
 
-```
+```python
 scheduled_export = files_sdk.scheduled_export.find(id)
 scheduled_export.update({
   "name": "Monthly access review",
   "export_type": "permission_audit",
-  "export_options": {"group_by":"user"},
+  "export_options": {"group_by": "user"},
   "user_id": 1,
   "disabled": True,
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [1,3,5],
+  "schedule_days_of_week": [1, 3, 5],
   "schedule_times_of_day": ["06:30"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "holiday_region": "us"
@@ -237,7 +244,7 @@ scheduled_export.update({
 
 ## Delete Scheduled Export
 
-```
+```python
 scheduled_export = files_sdk.scheduled_export.find(id)
 scheduled_export.delete()
 ```

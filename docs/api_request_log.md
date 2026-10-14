@@ -2,14 +2,16 @@
 
 ## Example ApiRequestLog Object
 
-```
+The API sends each `ApiRequestLog` record as JSON, such as:
+
+```json
 {
   "timestamp": "2000-01-01T01:00:00Z",
   "api_key_id": 1,
   "api_key_prefix": "example",
   "user_id": 1,
   "username": "example",
-  "user_is_from_parent_site": False,
+  "user_is_from_parent_site": false,
   "interface": "example",
   "request_method": "example",
   "request_path": "example",
@@ -21,7 +23,7 @@
   "error_type": "example",
   "error_message": "example",
   "response_code": 1,
-  "success": True,
+  "success": true,
   "duration_ms": 1,
   "impersonator_user_id": 1,
   "created_at": "2000-01-01T01:00:00Z"
@@ -50,12 +52,17 @@
 * `impersonator_user_id` (int64): User ID of Site Admin user impersonating this user via a Read-Only session.
 * `created_at` (date-time): Start Time of Action
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.api_request_log` resource, such as
+`client.api_request_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List API Request Logs
 
-```
+```python
 files_sdk.api_request_log.list()
 ```
 

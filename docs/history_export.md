@@ -2,7 +2,9 @@
 
 ## Example HistoryExport Object
 
-```
+The API sends each `HistoryExport` record as JSON, such as:
+
+```json
 {
   "workspace_id": 1,
   "id": 1,
@@ -61,12 +63,17 @@
 * `results_url` (string): If `status` is `ready`, this will be a URL where all the results can be downloaded at once as a CSV.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.history_export` resource, such as
+`client.history_export.find(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## Show History Export
 
-```
+```python
 files_sdk.history_export.find(id)
 ```
 
@@ -79,7 +86,7 @@ files_sdk.history_export.find(id)
 
 ## Create History Export
 
-```
+```python
 files_sdk.history_export.create({
   "user_id": 1,
   "start_at": "2000-01-01T01:00:00Z",

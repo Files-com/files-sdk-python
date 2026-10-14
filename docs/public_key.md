@@ -2,14 +2,16 @@
 
 ## Example PublicKey Object
 
-```
+The API sends each `PublicKey` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
   "title": "My public key",
   "created_at": "2000-01-01T01:00:00Z",
   "expires_at": "2000-01-01T01:00:00Z",
-  "expired": True,
+  "expired": true,
   "fingerprint": "43:51:43:a1:b5:fc:8b:b7:0a:3a:a9:b1:0f:66:73:a8",
   "fingerprint_sha256": "V5Q5t/ghT3R8Tol5GX9385bzmpygWVRnLuI9EXNrjCX",
   "status": "complete",
@@ -41,12 +43,17 @@
 * `generate_algorithm` (string): Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 * `generate_length` (int64): Length of key to generate. If algorithm is ecdsa, this is the signature size. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.public_key` resource, such as
+`client.public_key.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Public Keys
 
-```
+```python
 files_sdk.public_key.list({
   "user_id": 1
 })
@@ -69,7 +76,7 @@ files_sdk.public_key.list({
 
 ## Show Public Key
 
-```
+```python
 files_sdk.public_key.find(id)
 ```
 
@@ -82,7 +89,7 @@ files_sdk.public_key.find(id)
 
 ## Create Public Key
 
-```
+```python
 files_sdk.public_key.create({
   "user_id": 1,
   "title": "My Main Key",
@@ -108,7 +115,7 @@ files_sdk.public_key.create({
 
 ## Update Public Key
 
-```
+```python
 files_sdk.public_key.update(id, {
   "title": "My Main Key"
 })
@@ -124,7 +131,7 @@ files_sdk.public_key.update(id, {
 
 ## Delete Public Key
 
-```
+```python
 files_sdk.public_key.delete(id)
 ```
 
@@ -137,7 +144,7 @@ files_sdk.public_key.delete(id)
 
 ## Update Public Key
 
-```
+```python
 public_key = files_sdk.public_key.find(id)
 public_key.update({
   "title": "My Main Key"
@@ -154,7 +161,7 @@ public_key.update({
 
 ## Delete Public Key
 
-```
+```python
 public_key = files_sdk.public_key.find(id)
 public_key.delete()
 ```

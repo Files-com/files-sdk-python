@@ -2,11 +2,13 @@
 
 ## Example FormFieldSet Object
 
-```
+The API sends each `FormFieldSet` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "title": "Sample Form Title",
-  "require_complete_metadata_capture": False,
+  "require_complete_metadata_capture": false,
   "form_layout": [
     1,
     2,
@@ -17,7 +19,7 @@
     {
       "id": 1,
       "label": "Sample Label",
-      "required": True,
+      "required": true,
       "help_text": "Help Text",
       "field_type": "text",
       "options_for_select": [
@@ -29,10 +31,10 @@
       "form_field_set_id": 1
     }
   ],
-  "skip_name": True,
-  "skip_email": True,
-  "skip_company": True,
-  "in_use": True
+  "skip_name": true,
+  "skip_email": true,
+  "skip_company": true,
+  "in_use": true
 }
 ```
 
@@ -48,12 +50,17 @@
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `workspace_id` (int64): Workspace ID
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.form_field_set` resource, such as
+`client.form_field_set.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Form Field Sets
 
-```
+```python
 files_sdk.form_field_set.list({
   "user_id": 1
 })
@@ -70,7 +77,7 @@ files_sdk.form_field_set.list({
 
 ## Show Form Field Set
 
-```
+```python
 files_sdk.form_field_set.find(id)
 ```
 
@@ -83,7 +90,7 @@ files_sdk.form_field_set.find(id)
 
 ## Create Form Field Set
 
-```
+```python
 files_sdk.form_field_set.create({
   "user_id": 1,
   "title": "Sample Form Title",
@@ -92,7 +99,7 @@ files_sdk.form_field_set.create({
   "skip_email": False,
   "skip_name": False,
   "skip_company": False,
-  "form_fields": [{"label":"Sample Label","required":True,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]
+  "form_fields": [{"label": "Sample Label", "required": True, "help_text": "Help Text", "field_type": "text", "options_for_select": ["red", "green", "blue"], "default_option": "red", "form_field_set_id": 1}]
 })
 ```
 
@@ -112,7 +119,7 @@ files_sdk.form_field_set.create({
 
 ## Update Form Field Set
 
-```
+```python
 files_sdk.form_field_set.update(id, {
   "title": "Sample Form Title",
   "require_complete_metadata_capture": False,
@@ -120,7 +127,7 @@ files_sdk.form_field_set.update(id, {
   "skip_email": False,
   "skip_name": False,
   "skip_company": False,
-  "form_fields": [{"id":1,"label":"Sample Label","required":True,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]
+  "form_fields": [{"id": 1, "label": "Sample Label", "required": True, "help_text": "Help Text", "field_type": "text", "options_for_select": ["red", "green", "blue"], "default_option": "red", "form_field_set_id": 1}]
 })
 ```
 
@@ -140,7 +147,7 @@ files_sdk.form_field_set.update(id, {
 
 ## Delete Form Field Set
 
-```
+```python
 files_sdk.form_field_set.delete(id)
 ```
 
@@ -153,7 +160,7 @@ files_sdk.form_field_set.delete(id)
 
 ## Update Form Field Set
 
-```
+```python
 form_field_set = files_sdk.form_field_set.find(id)
 form_field_set.update({
   "title": "Sample Form Title",
@@ -162,7 +169,7 @@ form_field_set.update({
   "skip_email": False,
   "skip_name": False,
   "skip_company": False,
-  "form_fields": [{"id":1,"label":"Sample Label","required":True,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]
+  "form_fields": [{"id": 1, "label": "Sample Label", "required": True, "help_text": "Help Text", "field_type": "text", "options_for_select": ["red", "green", "blue"], "default_option": "red", "form_field_set_id": 1}]
 })
 ```
 
@@ -182,7 +189,7 @@ form_field_set.update({
 
 ## Delete Form Field Set
 
-```
+```python
 form_field_set = files_sdk.form_field_set.find(id)
 form_field_set.delete()
 ```

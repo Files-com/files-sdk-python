@@ -1,65 +1,66 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import FormFieldSet
 from files_sdk import form_field_set
 
+
 class FormFieldSetTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/form_field_sets/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         form_field_set = FormFieldSet(params)
-        form_field_set.update(params)
+        result = form_field_set.update(params)
+        self.assert_returns(FormFieldSet.update, result)
+        self.assert_typed(form_field_set)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/form_field_sets/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         form_field_set = FormFieldSet(params)
         form_field_set.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(form_field_set)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/form_field_sets"), "Mock path does not exist")
     def test_list(self):
-        resp = form_field_set.list()
+        result = form_field_set.list()
+        self.assert_returns(form_field_set.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/form_field_sets/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        form_field_set.find(id, params)
+        result = form_field_set.find(id, params)
+        self.assert_returns(form_field_set.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/form_field_sets"), "Mock path does not exist")
     def test_create(self):
-        resp = form_field_set.create()
+        result = form_field_set.create()
+        self.assert_returns(form_field_set.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/form_field_sets/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        form_field_set.update(id, params)
+        result = form_field_set.update(id, params)
+        self.assert_returns(form_field_set.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/form_field_sets/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        form_field_set.delete(id, params)
+        result = form_field_set.delete(id, params)
+        self.assert_returns(form_field_set.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -2,7 +2,9 @@
 
 ## Example ExpectationEvaluation Object
 
-```
+The API sends each `ExpectationEvaluation` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -51,12 +53,17 @@
 * `created_at` (date-time): Creation time.
 * `updated_at` (date-time): Last update time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.expectation_evaluation` resource, such as
+`client.expectation_evaluation.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Expectation Evaluations
 
-```
+```python
 files_sdk.expectation_evaluation.list()
 ```
 
@@ -72,7 +79,7 @@ files_sdk.expectation_evaluation.list()
 
 ## Show Expectation Evaluation
 
-```
+```python
 files_sdk.expectation_evaluation.find(id)
 ```
 

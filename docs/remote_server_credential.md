@@ -2,7 +2,9 @@
 
 ## Example RemoteServerCredential Object
 
-```
+The API sends each `RemoteServerCredential` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -66,12 +68,17 @@
 * `wasabi_secret_key` (string): Wasabi: Secret Key
 * `copy_values_from_credential_id` (int64): ID of Remote Server Credential to copy omitted values from.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.remote_server_credential` resource, such as
+`client.remote_server_credential.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Remote Server Credentials
 
-```
+```python
 files_sdk.remote_server_credential.list()
 ```
 
@@ -88,7 +95,7 @@ files_sdk.remote_server_credential.list()
 
 ## Show Remote Server Credential
 
-```
+```python
 files_sdk.remote_server_credential.find(id)
 ```
 
@@ -101,7 +108,7 @@ files_sdk.remote_server_credential.find(id)
 
 ## Create Remote Server Credential
 
-```
+```python
 files_sdk.remote_server_credential.create({
   "name": "My Credential",
   "description": "More information or notes about this credential.",
@@ -167,7 +174,7 @@ files_sdk.remote_server_credential.create({
 
 ## Update Remote Server Credential
 
-```
+```python
 files_sdk.remote_server_credential.update(id, {
   "name": "My Credential",
   "description": "More information or notes about this credential.",
@@ -230,7 +237,7 @@ files_sdk.remote_server_credential.update(id, {
 
 ## Delete Remote Server Credential
 
-```
+```python
 files_sdk.remote_server_credential.delete(id)
 ```
 
@@ -243,7 +250,7 @@ files_sdk.remote_server_credential.delete(id)
 
 ## Update Remote Server Credential
 
-```
+```python
 remote_server_credential = files_sdk.remote_server_credential.find(id)
 remote_server_credential.update({
   "name": "My Credential",
@@ -307,7 +314,7 @@ remote_server_credential.update({
 
 ## Delete Remote Server Credential
 
-```
+```python
 remote_server_credential = files_sdk.remote_server_credential.find(id)
 remote_server_credential.delete()
 ```

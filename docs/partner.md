@@ -2,14 +2,16 @@
 
 ## Example Partner Object
 
-```
+The API sends each `Partner` record as JSON, such as:
+
+```json
 {
-  "allow_bypassing_2fa_policies": False,
+  "allow_bypassing_2fa_policies": false,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
-  "allow_credential_changes": False,
-  "allow_providing_gpg_keys": False,
-  "allow_user_creation": False,
-  "cc_emails_to_responsible_party": False,
+  "allow_credential_changes": false,
+  "allow_providing_gpg_keys": false,
+  "allow_user_creation": false,
+  "cc_emails_to_responsible_party": false,
   "connections": [
     {
       "id": 1,
@@ -34,7 +36,7 @@
   "responsible_group_id": 1,
   "responsible_user_id": 1,
   "root_folder": "/AcmeCorp",
-  "show_partner_channel_home_page": False,
+  "show_partner_channel_home_page": false,
   "tags": "example",
   "user_ids": [
     1,
@@ -66,12 +68,17 @@
 * `tags` (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_ids` (array(int64)): Array of User IDs that belong to this Partner.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.partner` resource, such as
+`client.partner.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Partners
 
-```
+```python
 files_sdk.partner.list()
 ```
 
@@ -87,7 +94,7 @@ files_sdk.partner.list()
 
 ## Show Partner
 
-```
+```python
 files_sdk.partner.find(id)
 ```
 
@@ -100,7 +107,7 @@ files_sdk.partner.find(id)
 
 ## Create Partner
 
-```
+```python
 files_sdk.partner.create({
   "ai_assistant_personality_id": 1,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
@@ -145,7 +152,7 @@ files_sdk.partner.create({
 
 ## Update Partner
 
-```
+```python
 files_sdk.partner.update(id, {
   "ai_assistant_personality_id": 1,
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
@@ -191,7 +198,7 @@ files_sdk.partner.update(id, {
 
 ## Delete Partner
 
-```
+```python
 files_sdk.partner.delete(id)
 ```
 
@@ -204,7 +211,7 @@ files_sdk.partner.delete(id)
 
 ## Update Partner
 
-```
+```python
 partner = files_sdk.partner.find(id)
 partner.update({
   "ai_assistant_personality_id": 1,
@@ -251,7 +258,7 @@ partner.update({
 
 ## Delete Partner
 
-```
+```python
 partner = files_sdk.partner.find(id)
 partner.delete()
 ```

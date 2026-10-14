@@ -2,7 +2,9 @@
 
 ## Example Preview Object
 
-```
+The API sends each `Preview` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "status": "complete",

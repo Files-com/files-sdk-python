@@ -2,7 +2,9 @@
 
 ## Example SyncRunLiveTransfer Object
 
-```
+The API sends each `SyncRunLiveTransfer` record as JSON, such as:
+
+```json
 {
   "path": "example",
   "status": "example",

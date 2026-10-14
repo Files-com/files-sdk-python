@@ -2,7 +2,9 @@
 
 ## Example ChatSession Object
 
-```
+The API sends each `ChatSession` record as JSON, such as:
+
+```json
 {
   "id": "example",
   "title": "example",
@@ -31,12 +33,17 @@
 * `created_at` (date-time): Chat session creation date/time.
 * `messages` (array(object)): Visible conversation messages in this chat session. For performance reasons, this is not provided when listing chat sessions.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.chat_session` resource, such as
+`client.chat_session.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Chat Sessions
 
-```
+```python
 files_sdk.chat_session.list()
 ```
 
@@ -52,7 +59,7 @@ files_sdk.chat_session.list()
 
 ## Show Chat Session
 
-```
+```python
 files_sdk.chat_session.find(id)
 ```
 

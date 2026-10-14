@@ -2,13 +2,15 @@
 
 ## Example KeyLifecycleRule Object
 
-```
+The API sends each `KeyLifecycleRule` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "key_type": "gpg",
   "inactivity_days": 12,
   "expiration_days": 365,
-  "apply_to_all_workspaces": True,
+  "apply_to_all_workspaces": true,
   "name": "inactive gpg keys",
   "workspace_id": 12
 }
@@ -22,12 +24,17 @@
 * `name` (string): Key Lifecycle Rule name
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.key_lifecycle_rule` resource, such as
+`client.key_lifecycle_rule.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Key Lifecycle Rules
 
-```
+```python
 files_sdk.key_lifecycle_rule.list()
 ```
 
@@ -43,7 +50,7 @@ files_sdk.key_lifecycle_rule.list()
 
 ## Show Key Lifecycle Rule
 
-```
+```python
 files_sdk.key_lifecycle_rule.find(id)
 ```
 
@@ -56,7 +63,7 @@ files_sdk.key_lifecycle_rule.find(id)
 
 ## Create Key Lifecycle Rule
 
-```
+```python
 files_sdk.key_lifecycle_rule.create({
   "apply_to_all_workspaces": True,
   "expiration_days": 365,
@@ -81,7 +88,7 @@ files_sdk.key_lifecycle_rule.create({
 
 ## Update Key Lifecycle Rule
 
-```
+```python
 files_sdk.key_lifecycle_rule.update(id, {
   "apply_to_all_workspaces": True,
   "expiration_days": 365,
@@ -107,7 +114,7 @@ files_sdk.key_lifecycle_rule.update(id, {
 
 ## Delete Key Lifecycle Rule
 
-```
+```python
 files_sdk.key_lifecycle_rule.delete(id)
 ```
 
@@ -120,7 +127,7 @@ files_sdk.key_lifecycle_rule.delete(id)
 
 ## Update Key Lifecycle Rule
 
-```
+```python
 key_lifecycle_rule = files_sdk.key_lifecycle_rule.find(id)
 key_lifecycle_rule.update({
   "apply_to_all_workspaces": True,
@@ -147,7 +154,7 @@ key_lifecycle_rule.update({
 
 ## Delete Key Lifecycle Rule
 
-```
+```python
 key_lifecycle_rule = files_sdk.key_lifecycle_rule.find(id)
 key_lifecycle_rule.delete()
 ```

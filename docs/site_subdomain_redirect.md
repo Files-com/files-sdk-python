@@ -2,7 +2,9 @@
 
 ## Example SiteSubdomainRedirect Object
 
-```
+The API sends each `SiteSubdomainRedirect` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "subdomain": "old-company",
@@ -16,12 +18,17 @@
 * `created_at` (date-time): When this redirect was created.
 * `updated_at` (date-time): When this redirect was last updated.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.site_subdomain_redirect` resource, such as
+`client.site_subdomain_redirect.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Site Subdomain Redirects
 
-```
+```python
 files_sdk.site_subdomain_redirect.list()
 ```
 
@@ -36,7 +43,7 @@ files_sdk.site_subdomain_redirect.list()
 
 ## Show Site Subdomain Redirect
 
-```
+```python
 files_sdk.site_subdomain_redirect.find(id)
 ```
 
@@ -49,7 +56,7 @@ files_sdk.site_subdomain_redirect.find(id)
 
 ## Delete Site Subdomain Redirect
 
-```
+```python
 files_sdk.site_subdomain_redirect.delete(id)
 ```
 
@@ -62,7 +69,7 @@ files_sdk.site_subdomain_redirect.delete(id)
 
 ## Delete Site Subdomain Redirect
 
-```
+```python
 site_subdomain_redirect = files_sdk.site_subdomain_redirect.find(id)
 site_subdomain_redirect.delete()
 ```

@@ -1,104 +1,109 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import Automation
 from files_sdk import automation
 
+
 class AutomationTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/automations/{id}/upgrade"), "Mock path does not exist")
-    def test_upgrade(self):
+    def test_instance_upgrade(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         automation = Automation(params)
-        automation.upgrade(params)
+        result = automation.upgrade(params)
+        self.assert_returns(Automation.upgrade, result)
+        self.assert_typed(automation)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/automations/{id}/manual_run"), "Mock path does not exist")
-    def test_manual_run(self):
+    def test_instance_manual_run(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         automation = Automation(params)
         automation.manual_run(params)
+        self.assert_typed(automation)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/automations/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         automation = Automation(params)
-        automation.update(params)
+        result = automation.update(params)
+        self.assert_returns(Automation.update, result)
+        self.assert_typed(automation)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/automations/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         automation = Automation(params)
         automation.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(automation)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/automations"), "Mock path does not exist")
     def test_list(self):
-        resp = automation.list()
+        result = automation.list()
+        self.assert_returns(automation.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/automations/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        automation.find(id, params)
+        result = automation.find(id, params)
+        self.assert_returns(automation.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/automations/authoring_schema"), "Mock path does not exist")
     def test_get_authoring_schema(self):
-        resp = automation.get_authoring_schema()
+        result = automation.get_authoring_schema()
+        self.assert_returns(automation.get_authoring_schema, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/automations"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "automation" : "foo",
+            "automation": "foo",
         }
-        automation.create(params)
+        result = automation.create(params)
+        self.assert_returns(automation.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/automations/{id}/upgrade"), "Mock path does not exist")
     def test_upgrade(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        automation.upgrade(id, params)
+        result = automation.upgrade(id, params)
+        self.assert_returns(automation.upgrade, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/automations/{id}/manual_run"), "Mock path does not exist")
     def test_manual_run(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        automation.manual_run(id, params)
+        result = automation.manual_run(id, params)
+        self.assert_returns(automation.manual_run, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/automations/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        automation.update(id, params)
+        result = automation.update(id, params)
+        self.assert_returns(automation.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/automations/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        automation.delete(id, params)
+        result = automation.delete(id, params)
+        self.assert_returns(automation.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

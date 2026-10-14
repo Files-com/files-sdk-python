@@ -2,7 +2,9 @@
 
 ## Example ActionLog Object
 
-```
+The API sends each `ActionLog` record as JSON, such as:
+
+```json
 {
   "action": "example",
   "created_at": "2000-01-01T01:00:00Z",
@@ -36,12 +38,17 @@
 * `user_id` (int64): User ID who performed the action
 * `username` (string): Username who performed the action
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.action_log` resource, such as
+`client.action_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Action Logs
 
-```
+```python
 files_sdk.action_log.list()
 ```
 

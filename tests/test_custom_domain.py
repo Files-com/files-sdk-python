@@ -1,77 +1,79 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import CustomDomain
 from files_sdk import custom_domain
 
+
 class CustomDomainTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/custom_domains/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         custom_domain = CustomDomain(params)
-        custom_domain.update(params)
+        result = custom_domain.update(params)
+        self.assert_returns(CustomDomain.update, result)
+        self.assert_typed(custom_domain)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/custom_domains/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         custom_domain = CustomDomain(params)
         custom_domain.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(custom_domain)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/custom_domains"), "Mock path does not exist")
     def test_list(self):
-        resp = custom_domain.list()
+        result = custom_domain.list()
+        self.assert_returns(custom_domain.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/custom_domains/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        custom_domain.find(id, params)
+        result = custom_domain.find(id, params)
+        self.assert_returns(custom_domain.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/custom_domains/{id}/allocate_ips"), "Mock path does not exist")
     def test_create_allocate_ip(self):
         id = 12345
         params = {
-            "id" : 12345,
-            "count" : 12345,
+            "id": 12345,
+            "count": 12345,
         }
-        custom_domain.create_allocate_ip(id, params)
+        result = custom_domain.create_allocate_ip(id, params)
+        self.assert_returns(custom_domain.create_allocate_ip, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/custom_domains"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "domain" : "foo",
+            "domain": "foo",
         }
-        custom_domain.create(params)
+        result = custom_domain.create(params)
+        self.assert_returns(custom_domain.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/custom_domains/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        custom_domain.update(id, params)
+        result = custom_domain.update(id, params)
+        self.assert_returns(custom_domain.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/custom_domains/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        custom_domain.delete(id, params)
+        result = custom_domain.delete(id, params)
+        self.assert_returns(custom_domain.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

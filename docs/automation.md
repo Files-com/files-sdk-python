@@ -2,14 +2,16 @@
 
 ## Example Automation Object
 
-```
+The API sends each `Automation` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
-  "always_serialize_jobs": True,
-  "always_overwrite_size_matching_files": True,
+  "always_serialize_jobs": true,
+  "always_overwrite_size_matching_files": true,
   "automation": "create_folder",
-  "deleted": True,
+  "deleted": true,
   "description": "example",
   "definition": {
     "schema_version": 1,
@@ -40,7 +42,7 @@
   "destinations": [
     "destination"
   ],
-  "disabled": True,
+  "disabled": true,
   "exclude_pattern": "path/to/exclude/*",
   "import_urls": [
     {
@@ -56,17 +58,17 @@
     }
   ],
   "inbound_email_address": "example-automation-abc123@inbox.files.com",
-  "flatten_destination_structure": True,
+  "flatten_destination_structure": true,
   "group_ids": [
     1,
     2
   ],
-  "ignore_locked_folders": True,
+  "ignore_locked_folders": true,
   "interval": "week",
   "last_modified_at": "2000-01-01T01:00:00Z",
-  "legacy_folder_matching": False,
+  "legacy_folder_matching": false,
   "name": "example",
-  "overwrite_files": True,
+  "overwrite_files": true,
   "path": "example",
   "path_time_zone": "Eastern Time (US & Canada)",
   "version": 1,
@@ -169,12 +171,17 @@
 * `webhook_url` (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
 * `holiday_region` (string): Skip the automation if there is a formal, observed holiday for this region.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.automation` resource, such as
+`client.automation.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Automations
 
-```
+```python
 files_sdk.automation.list()
 ```
 
@@ -194,7 +201,7 @@ files_sdk.automation.list()
 
 ## Show Automation
 
-```
+```python
 files_sdk.automation.find(id)
 ```
 
@@ -207,7 +214,7 @@ files_sdk.automation.find(id)
 
 ## Show the Automation v2 authoring schema and active node catalog
 
-```
+```python
 files_sdk.automation.get_authoring_schema()
 ```
 
@@ -216,29 +223,26 @@ files_sdk.automation.get_authoring_schema()
 
 ## Create Automation
 
-```
+```python
 files_sdk.automation.create({
   "source": "example",
-  "destinations": ["folder_a/file_a.txt","folder_b/","./relative-folder/"],
+  "destinations": ["folder_a/file_a.txt", "folder_b/", "./relative-folder/"],
   "destination_replace_from": "example",
   "destination_replace_to": "example",
   "interval": "year",
   "path": "example",
-  "sync_ids": [1,2],
-  "user_ids": [1,2],
-  "group_ids": [1,2],
   "schedule_id": 1,
-  "schedule_days_of_week": [0,1,3],
-  "schedule_times_of_day": ["7:30","11:30"],
+  "schedule_days_of_week": [0, 1, 3],
+  "schedule_times_of_day": ["7:30", "11:30"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "holiday_region": "us_dc",
   "always_overwrite_size_matching_files": True,
   "always_serialize_jobs": True,
   "description": "example",
-  "definition": {"schema_version":1,"nodes":[{"id":"trigger","type":"trigger_manual"},{"id":"create_reports","type":"create_folder","config":{"destinations":["reports/"]}}],"edges":[{"from":"trigger","to":"create_reports"}]},
+  "definition": {"schema_version": 1, "nodes": [{"id": "trigger", "type": "trigger_manual"}, {"id": "create_reports", "type": "create_folder", "config": {"destinations": ["reports/"]}}], "edges": [{"from": "trigger", "to": "create_reports"}]},
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
-  "import_urls": [{"name":"users.json","url":"http://example.com/users","method":"POST","headers":{"Content-Type":"application/json"},"content":{"group":"support"}}],
+  "import_urls": [{"name": "users.json", "url": "http://example.com/users", "method": "POST", "headers": {"Content-Type": "application/json"}, "content": {"group": "support"}}],
   "flatten_destination_structure": True,
   "ignore_locked_folders": True,
   "legacy_folder_matching": False,
@@ -249,9 +253,9 @@ files_sdk.automation.create({
   "retry_on_failure_number_of_attempts": 10,
   "trigger": "daily",
   "trigger_actions": ["create"],
-  "value": {"limit":"1"},
+  "value": {"limit": "1"},
   "recurring_day": 25,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "automation": "create_folder",
   "workspace_id": 0
 })
@@ -301,7 +305,7 @@ files_sdk.automation.create({
 
 ## Upgrade a legacy Automation to Automation v2
 
-```
+```python
 files_sdk.automation.upgrade(id)
 ```
 
@@ -314,9 +318,9 @@ files_sdk.automation.upgrade(id)
 
 ## Manually Run Automation
 
-```
+```python
 files_sdk.automation.manual_run(id, {
-  "items": [{"file":"incoming/report.csv"},{"data":{"customer":"Acme"}}]
+  "items": [{"file": "incoming/report.csv"}, {"data": {"customer": "Acme"}}]
 })
 ```
 
@@ -330,29 +334,26 @@ files_sdk.automation.manual_run(id, {
 
 ## Update Automation
 
-```
+```python
 files_sdk.automation.update(id, {
   "source": "example",
-  "destinations": ["folder_a/file_a.txt","folder_b/","./relative-folder/"],
+  "destinations": ["folder_a/file_a.txt", "folder_b/", "./relative-folder/"],
   "destination_replace_from": "example",
   "destination_replace_to": "example",
   "interval": "year",
   "path": "example",
-  "sync_ids": [1,2],
-  "user_ids": [1,2],
-  "group_ids": [1,2],
   "schedule_id": 1,
-  "schedule_days_of_week": [0,1,3],
-  "schedule_times_of_day": ["7:30","11:30"],
+  "schedule_days_of_week": [0, 1, 3],
+  "schedule_times_of_day": ["7:30", "11:30"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "holiday_region": "us_dc",
   "always_overwrite_size_matching_files": True,
   "always_serialize_jobs": True,
   "description": "example",
-  "definition": {"schema_version":1,"nodes":[{"id":"trigger","type":"trigger_manual"},{"id":"create_reports","type":"create_folder","config":{"destinations":["reports/"]}}],"edges":[{"from":"trigger","to":"create_reports"}]},
+  "definition": {"schema_version": 1, "nodes": [{"id": "trigger", "type": "trigger_manual"}, {"id": "create_reports", "type": "create_folder", "config": {"destinations": ["reports/"]}}], "edges": [{"from": "trigger", "to": "create_reports"}]},
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
-  "import_urls": [{"name":"users.json","url":"http://example.com/users","method":"POST","headers":{"Content-Type":"application/json"},"content":{"group":"support"}}],
+  "import_urls": [{"name": "users.json", "url": "http://example.com/users", "method": "POST", "headers": {"Content-Type": "application/json"}, "content": {"group": "support"}}],
   "flatten_destination_structure": True,
   "ignore_locked_folders": True,
   "legacy_folder_matching": False,
@@ -363,9 +364,9 @@ files_sdk.automation.update(id, {
   "retry_on_failure_number_of_attempts": 10,
   "trigger": "daily",
   "trigger_actions": ["create"],
-  "value": {"limit":"1"},
+  "value": {"limit": "1"},
   "recurring_day": 25,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "automation": "create_folder"
 })
 ```
@@ -414,7 +415,7 @@ files_sdk.automation.update(id, {
 
 ## Delete Automation
 
-```
+```python
 files_sdk.automation.delete(id)
 ```
 
@@ -427,7 +428,7 @@ files_sdk.automation.delete(id)
 
 ## Upgrade a legacy Automation to Automation v2
 
-```
+```python
 automation = files_sdk.automation.find(id)
 automation.upgrade()
 ```
@@ -441,10 +442,10 @@ automation.upgrade()
 
 ## Manually Run Automation
 
-```
+```python
 automation = files_sdk.automation.find(id)
 automation.manual_run({
-  "items": [{"file":"incoming/report.csv"},{"data":{"customer":"Acme"}}]
+  "items": [{"file": "incoming/report.csv"}, {"data": {"customer": "Acme"}}]
 })
 ```
 
@@ -458,30 +459,27 @@ automation.manual_run({
 
 ## Update Automation
 
-```
+```python
 automation = files_sdk.automation.find(id)
 automation.update({
   "source": "example",
-  "destinations": ["folder_a/file_a.txt","folder_b/","./relative-folder/"],
+  "destinations": ["folder_a/file_a.txt", "folder_b/", "./relative-folder/"],
   "destination_replace_from": "example",
   "destination_replace_to": "example",
   "interval": "year",
   "path": "example",
-  "sync_ids": [1,2],
-  "user_ids": [1,2],
-  "group_ids": [1,2],
   "schedule_id": 1,
-  "schedule_days_of_week": [0,1,3],
-  "schedule_times_of_day": ["7:30","11:30"],
+  "schedule_days_of_week": [0, 1, 3],
+  "schedule_times_of_day": ["7:30", "11:30"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "holiday_region": "us_dc",
   "always_overwrite_size_matching_files": True,
   "always_serialize_jobs": True,
   "description": "example",
-  "definition": {"schema_version":1,"nodes":[{"id":"trigger","type":"trigger_manual"},{"id":"create_reports","type":"create_folder","config":{"destinations":["reports/"]}}],"edges":[{"from":"trigger","to":"create_reports"}]},
+  "definition": {"schema_version": 1, "nodes": [{"id": "trigger", "type": "trigger_manual"}, {"id": "create_reports", "type": "create_folder", "config": {"destinations": ["reports/"]}}], "edges": [{"from": "trigger", "to": "create_reports"}]},
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
-  "import_urls": [{"name":"users.json","url":"http://example.com/users","method":"POST","headers":{"Content-Type":"application/json"},"content":{"group":"support"}}],
+  "import_urls": [{"name": "users.json", "url": "http://example.com/users", "method": "POST", "headers": {"Content-Type": "application/json"}, "content": {"group": "support"}}],
   "flatten_destination_structure": True,
   "ignore_locked_folders": True,
   "legacy_folder_matching": False,
@@ -492,9 +490,9 @@ automation.update({
   "retry_on_failure_number_of_attempts": 10,
   "trigger": "daily",
   "trigger_actions": ["create"],
-  "value": {"limit":"1"},
+  "value": {"limit": "1"},
   "recurring_day": 25,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "automation": "create_folder"
 })
 ```
@@ -543,7 +541,7 @@ automation.update({
 
 ## Delete Automation
 
-```
+```python
 automation = files_sdk.automation.find(id)
 automation.delete()
 ```

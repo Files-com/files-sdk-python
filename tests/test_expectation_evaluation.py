@@ -1,26 +1,26 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
-from files_sdk.models import ExpectationEvaluation
 from files_sdk import expectation_evaluation
 
+
 class ExpectationEvaluationTest(TestBase):
-    pass 
     # Instance Methods
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/expectation_evaluations"), "Mock path does not exist")
     def test_list(self):
-        resp = expectation_evaluation.list()
+        result = expectation_evaluation.list()
+        self.assert_returns(expectation_evaluation.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/expectation_evaluations/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        expectation_evaluation.find(id, params)
+        result = expectation_evaluation.find(id, params)
+        self.assert_returns(expectation_evaluation.find, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

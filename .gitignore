@@ -1,2 +1,7 @@
 __pycache__
 *.pyc
+# Tool environments and artifacts from scripts/tasks.py
+.tools/
+build/
+dist/
+*.egg-info/

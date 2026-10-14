@@ -2,7 +2,9 @@
 
 ## Example SsoEvent Object
 
-```
+The API sends each `SsoEvent` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "event_type": "example",
@@ -38,12 +40,17 @@
 * `ip` (string): IP address for the SSO login attempt.
 * `region` (string): Region for the SSO login attempt.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.sso_event` resource, such as
+`client.sso_event.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List SSO Events
 
-```
+```python
 files_sdk.sso_event.list()
 ```
 
@@ -64,7 +71,7 @@ files_sdk.sso_event.list()
 
 ## Show SSO Event
 
-```
+```python
 files_sdk.sso_event.find(id)
 ```
 

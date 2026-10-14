@@ -2,12 +2,14 @@
 
 ## Example GroupUser Object
 
-```
+The API sends each `GroupUser` record as JSON, such as:
+
+```json
 {
   "group_name": "My Group",
   "group_id": 1,
   "user_id": 1,
-  "admin": True,
+  "admin": true,
   "username": "example"
 }
 ```
@@ -19,12 +21,17 @@
 * `username` (string): Username of the user
 * `id` (int64): Group User ID.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.group_user` resource, such as
+`client.group_user.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Group Users
 
-```
+```python
 files_sdk.group_user.list({
   "group_id": 1,
   "user_id": 1
@@ -43,7 +50,7 @@ files_sdk.group_user.list({
 
 ## Create Group User
 
-```
+```python
 files_sdk.group_user.create({
   "group_id": 1,
   "user_id": 1,
@@ -62,7 +69,7 @@ files_sdk.group_user.create({
 
 ## Update Group User
 
-```
+```python
 files_sdk.group_user.update(id, {
   "group_id": 1,
   "user_id": 1,
@@ -82,7 +89,7 @@ files_sdk.group_user.update(id, {
 
 ## Delete Group User
 
-```
+```python
 files_sdk.group_user.delete(id, {
   "group_id": 1,
   "user_id": 1
@@ -100,8 +107,12 @@ files_sdk.group_user.delete(id, {
 
 ## Update Group User
 
-```
-group_user = files_sdk.group_user.list.first
+A `GroupUser` record from the API does not include its `id`,
+so set the `id` you already know before calling `update()`.
+
+```python
+group_user = files_sdk.group_user.new()
+group_user.id = id
 group_user.update({
   "group_id": 1,
   "user_id": 1,
@@ -121,8 +132,12 @@ group_user.update({
 
 ## Delete Group User
 
-```
-group_user = files_sdk.group_user.list.first
+A `GroupUser` record from the API does not include its `id`,
+so set the `id` you already know before calling `delete()`.
+
+```python
+group_user = files_sdk.group_user.new()
+group_user.id = id
 group_user.delete({
   "group_id": 1,
   "user_id": 1

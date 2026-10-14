@@ -2,7 +2,9 @@
 
 ## Example As2OutgoingMessage Object
 
-```
+The API sends each `As2OutgoingMessage` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -29,12 +31,12 @@
     "key": "example value"
   },
   "http_transmission_duration": 1.0,
-  "mdn_received": True,
-  "mdn_valid": True,
-  "mdn_signature_verified": True,
-  "mdn_message_id_matched": True,
-  "mdn_mic_matched": True,
-  "mdn_processing_success": True,
+  "mdn_received": true,
+  "mdn_valid": true,
+  "mdn_signature_verified": true,
+  "mdn_message_id_matched": true,
+  "mdn_mic_matched": true,
+  "mdn_processing_success": true,
   "raw_uri": "example",
   "smime_uri": "example",
   "smime_signed_uri": "example",
@@ -76,12 +78,17 @@
 * `encrypted_uri` (string): URL to download the encrypted signed smime that is to sent as AS2 body
 * `mdn_response_uri` (string): URL to download the http response body
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.as2_outgoing_message` resource, such as
+`client.as2_outgoing_message.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List AS2 Outgoing Messages
 
-```
+```python
 files_sdk.as2_outgoing_message.list()
 ```
 

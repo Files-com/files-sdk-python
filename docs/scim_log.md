@@ -2,7 +2,9 @@
 
 ## Example ScimLog Object
 
-```
+The API sends each `ScimLog` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "created_at": "2023-01-01T12:00:00Z",
@@ -24,12 +26,17 @@
 * `request_json` (string): The JSON payload sent with the request.
 * `response_json` (string): The JSON payload returned in the response.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.scim_log` resource, such as
+`client.scim_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Scim Logs
 
-```
+```python
 files_sdk.scim_log.list()
 ```
 
@@ -44,7 +51,7 @@ files_sdk.scim_log.list()
 
 ## Show Scim Log
 
-```
+```python
 files_sdk.scim_log.find(id)
 ```
 

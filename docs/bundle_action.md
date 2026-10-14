@@ -2,7 +2,9 @@
 
 ## Example BundleAction Object
 
-```
+The API sends each `BundleAction` record as JSON, such as:
+
+```json
 {
   "action": "create",
   "bundle_registration": {
@@ -53,12 +55,17 @@
 * `form_field_set_id` (int64): Id of associated form field set
 * `form_field_data` (object): Data for form field set with form field ids as keys and user data as values
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.bundle_action` resource, such as
+`client.bundle_action.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Bundle Actions
 
-```
+```python
 files_sdk.bundle_action.list({
   "user_id": 1,
   "bundle_id": 1,

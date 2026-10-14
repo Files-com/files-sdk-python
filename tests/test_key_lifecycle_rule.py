@@ -1,65 +1,66 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import KeyLifecycleRule
 from files_sdk import key_lifecycle_rule
 
+
 class KeyLifecycleRuleTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/key_lifecycle_rules/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         key_lifecycle_rule = KeyLifecycleRule(params)
-        key_lifecycle_rule.update(params)
+        result = key_lifecycle_rule.update(params)
+        self.assert_returns(KeyLifecycleRule.update, result)
+        self.assert_typed(key_lifecycle_rule)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/key_lifecycle_rules/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         key_lifecycle_rule = KeyLifecycleRule(params)
         key_lifecycle_rule.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(key_lifecycle_rule)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/key_lifecycle_rules"), "Mock path does not exist")
     def test_list(self):
-        resp = key_lifecycle_rule.list()
+        result = key_lifecycle_rule.list()
+        self.assert_returns(key_lifecycle_rule.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/key_lifecycle_rules/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        key_lifecycle_rule.find(id, params)
+        result = key_lifecycle_rule.find(id, params)
+        self.assert_returns(key_lifecycle_rule.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/key_lifecycle_rules"), "Mock path does not exist")
     def test_create(self):
-        resp = key_lifecycle_rule.create()
+        result = key_lifecycle_rule.create()
+        self.assert_returns(key_lifecycle_rule.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/key_lifecycle_rules/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        key_lifecycle_rule.update(id, params)
+        result = key_lifecycle_rule.update(id, params)
+        self.assert_returns(key_lifecycle_rule.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/key_lifecycle_rules/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        key_lifecycle_rule.delete(id, params)
+        result = key_lifecycle_rule.delete(id, params)
+        self.assert_returns(key_lifecycle_rule.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

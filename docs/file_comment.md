@@ -2,7 +2,9 @@
 
 ## Example FileComment Object
 
-```
+The API sends each `FileComment` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "body": "What a great file!",
@@ -20,12 +22,17 @@
 * `reactions` (array(object)): Reactions to this comment.
 * `path` (string): File path.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.file_comment` resource, such as
+`client.file_comment.list_for(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List File Comments by Path
 
-```
+```python
 files_sdk.file_comment.list_for(path)
 ```
 
@@ -40,7 +47,7 @@ files_sdk.file_comment.list_for(path)
 
 ## Create File Comment
 
-```
+```python
 files_sdk.file_comment.create({
   "body": "What a great file!",
   "path": "path"
@@ -57,7 +64,7 @@ files_sdk.file_comment.create({
 
 ## Update File Comment
 
-```
+```python
 files_sdk.file_comment.update(id, {
   "body": "What a great file!"
 })
@@ -73,7 +80,7 @@ files_sdk.file_comment.update(id, {
 
 ## Delete File Comment
 
-```
+```python
 files_sdk.file_comment.delete(id)
 ```
 
@@ -86,11 +93,12 @@ files_sdk.file_comment.delete(id)
 
 ## Update File Comment
 
-```
-file_comment = files_sdk.file_comment.list.first
-file_comment.update({
-  "body": "What a great file!"
-})
+```python
+file_comment = next(files_sdk.file_comment.list_for(path).auto_paging_iter(), None)
+if file_comment is not None:
+    file_comment.update({
+      "body": "What a great file!"
+    })
 ```
 
 ### Parameters
@@ -103,9 +111,10 @@ file_comment.update({
 
 ## Delete File Comment
 
-```
-file_comment = files_sdk.file_comment.list.first
-file_comment.delete()
+```python
+file_comment = next(files_sdk.file_comment.list_for(path).auto_paging_iter(), None)
+if file_comment is not None:
+    file_comment.delete()
 ```
 
 ### Parameters

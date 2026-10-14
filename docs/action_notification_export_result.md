@@ -2,13 +2,15 @@
 
 ## Example ActionNotificationExportResult Object
 
-```
+The API sends each `ActionNotificationExportResult` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "created_at": 1,
   "status": 200,
   "message": "Success",
-  "success": True,
+  "success": true,
   "request_headers": "{\"User-Agent\":\"Files.com Webhook\"}",
   "request_method": "GET",
   "request_url": "www.example.com/webhook_receiver",
@@ -28,12 +30,17 @@
 * `path` (string): The path to the actual file that triggered this notification. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `folder` (string): The folder associated with the triggering action for this notification.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.action_notification_export_result` resource, such as
+`client.action_notification_export_result.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Action Notification Export Results
 
-```
+```python
 files_sdk.action_notification_export_result.list({
   "user_id": 1,
   "action_notification_export_id": 1

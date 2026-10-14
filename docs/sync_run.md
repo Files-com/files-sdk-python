@@ -2,7 +2,9 @@
 
 ## Example SyncRun Object
 
-```
+The API sends each `SyncRun` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "body": "example",
@@ -12,7 +14,7 @@
   "completed_at": "2000-01-01T01:00:00Z",
   "created_at": "2000-01-01T01:00:00Z",
   "dest_remote_server_type": "example",
-  "dry_run": True,
+  "dry_run": true,
   "errored_files": 1,
   "estimated_bytes_count": 1,
   "event_errors": [
@@ -66,12 +68,17 @@
 * `updated_at` (date-time): When this run was last updated
 * `live_transfers` (array(object)): Array of in-progress file transfers with progress data. Only present when the sync run status is in_progress.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.sync_run` resource, such as
+`client.sync_run.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Sync Runs
 
-```
+```python
 files_sdk.sync_run.list({
   "user_id": 1
 })
@@ -94,7 +101,7 @@ files_sdk.sync_run.list({
 
 ## Show Sync Run
 
-```
+```python
 files_sdk.sync_run.find(id)
 ```
 

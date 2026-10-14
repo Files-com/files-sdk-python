@@ -2,7 +2,9 @@
 
 ## Example Sync Object
 
-```
+The API sends each `Sync` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "example",
@@ -16,13 +18,13 @@
   "dest_remote_server_id": 1,
   "src_site_id": 1,
   "dest_site_id": 1,
-  "two_way": True,
-  "keep_after_copy": True,
-  "delete_empty_folders": True,
-  "disabled": True,
+  "two_way": true,
+  "keep_after_copy": true,
+  "delete_empty_folders": true,
+  "disabled": true,
   "trigger": "example",
   "trigger_file": "example",
-  "always_write_trigger_file": True,
+  "always_write_trigger_file": true,
   "include_patterns": [
     "example"
   ],
@@ -59,7 +61,7 @@
     "completed_at": "2000-01-01T01:00:00Z",
     "created_at": "2000-01-01T01:00:00Z",
     "dest_remote_server_type": "example",
-    "dry_run": True,
+    "dry_run": true,
     "errored_files": 1,
     "estimated_bytes_count": 1,
     "event_errors": [
@@ -124,12 +126,17 @@
 * `holiday_region` (string): Skip the sync if there is a formal, observed holiday for this region.
 * `latest_sync_run` (SyncRun): The latest run of this sync
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.sync` resource, such as
+`client.sync.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Syncs
 
-```
+```python
 files_sdk.sync.list()
 ```
 
@@ -145,7 +152,7 @@ files_sdk.sync.list()
 
 ## Show Sync
 
-```
+```python
 files_sdk.sync.find(id)
 ```
 
@@ -158,7 +165,7 @@ files_sdk.sync.find(id)
 
 ## Create Sync
 
-```
+```python
 files_sdk.sync.create({
   "delete_empty_folders": True,
   "description": "example",
@@ -172,11 +179,11 @@ files_sdk.sync.create({
   "keep_after_copy": True,
   "name": "example",
   "recurring_day": 25,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [0,2,4],
+  "schedule_days_of_week": [0, 2, 4],
   "schedule_time_zone": "Eastern Time (US & Canada)",
-  "schedule_times_of_day": ["06:30","14:30"],
+  "schedule_times_of_day": ["06:30", "14:30"],
   "src_path": "example",
   "src_remote_server_id": 1,
   "sync_interval_minutes": 1,
@@ -219,7 +226,7 @@ files_sdk.sync.create({
 
 ## Dry Run Sync
 
-```
+```python
 files_sdk.sync.dry_run(id)
 ```
 
@@ -232,7 +239,7 @@ files_sdk.sync.dry_run(id)
 
 ## Manually Run Sync
 
-```
+```python
 files_sdk.sync.manual_run(id)
 ```
 
@@ -245,7 +252,7 @@ files_sdk.sync.manual_run(id)
 
 ## Update Sync
 
-```
+```python
 files_sdk.sync.update(id, {
   "delete_empty_folders": True,
   "description": "example",
@@ -259,11 +266,11 @@ files_sdk.sync.update(id, {
   "keep_after_copy": True,
   "name": "example",
   "recurring_day": 25,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [0,2,4],
+  "schedule_days_of_week": [0, 2, 4],
   "schedule_time_zone": "Eastern Time (US & Canada)",
-  "schedule_times_of_day": ["06:30","14:30"],
+  "schedule_times_of_day": ["06:30", "14:30"],
   "src_path": "example",
   "src_remote_server_id": 1,
   "sync_interval_minutes": 1,
@@ -305,7 +312,7 @@ files_sdk.sync.update(id, {
 
 ## Delete Sync
 
-```
+```python
 files_sdk.sync.delete(id)
 ```
 
@@ -318,7 +325,7 @@ files_sdk.sync.delete(id)
 
 ## Dry Run Sync
 
-```
+```python
 sync = files_sdk.sync.find(id)
 sync.dry_run()
 ```
@@ -332,7 +339,7 @@ sync.dry_run()
 
 ## Manually Run Sync
 
-```
+```python
 sync = files_sdk.sync.find(id)
 sync.manual_run()
 ```
@@ -346,7 +353,7 @@ sync.manual_run()
 
 ## Update Sync
 
-```
+```python
 sync = files_sdk.sync.find(id)
 sync.update({
   "delete_empty_folders": True,
@@ -361,11 +368,11 @@ sync.update({
   "keep_after_copy": True,
   "name": "example",
   "recurring_day": 25,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [0,2,4],
+  "schedule_days_of_week": [0, 2, 4],
   "schedule_time_zone": "Eastern Time (US & Canada)",
-  "schedule_times_of_day": ["06:30","14:30"],
+  "schedule_times_of_day": ["06:30", "14:30"],
   "src_path": "example",
   "src_remote_server_id": 1,
   "sync_interval_minutes": 1,
@@ -407,7 +414,7 @@ sync.update({
 
 ## Delete Sync
 
-```
+```python
 sync = files_sdk.sync.find(id)
 sync.delete()
 ```

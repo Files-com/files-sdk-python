@@ -2,7 +2,9 @@
 
 ## Example EventRecord Object
 
-```
+The API sends each `EventRecord` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -42,12 +44,17 @@
 * `payload` (object): Event payload.
 * `created_at` (date-time): Event Record create date/time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.event_record` resource, such as
+`client.event_record.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Event Records
 
-```
+```python
 files_sdk.event_record.list()
 ```
 
@@ -68,7 +75,7 @@ files_sdk.event_record.list()
 
 ## Show Event Record
 
-```
+```python
 files_sdk.event_record.find(id)
 ```
 

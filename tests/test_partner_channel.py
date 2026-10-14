@@ -1,69 +1,70 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import PartnerChannel
 from files_sdk import partner_channel
 
+
 class PartnerChannelTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/partner_channels/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         partner_channel = PartnerChannel(params)
-        partner_channel.update(params)
+        result = partner_channel.update(params)
+        self.assert_returns(PartnerChannel.update, result)
+        self.assert_typed(partner_channel)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/partner_channels/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         partner_channel = PartnerChannel(params)
         partner_channel.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(partner_channel)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/partner_channels"), "Mock path does not exist")
     def test_list(self):
-        resp = partner_channel.list()
+        result = partner_channel.list()
+        self.assert_returns(partner_channel.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/partner_channels/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        partner_channel.find(id, params)
+        result = partner_channel.find(id, params)
+        self.assert_returns(partner_channel.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_channels"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "partner_id" : 12345,
-            "path" : "foo",
+            "partner_id": 12345,
+            "path": "foo",
         }
-        partner_channel.create(params)
+        result = partner_channel.create(params)
+        self.assert_returns(partner_channel.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/partner_channels/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        partner_channel.update(id, params)
+        result = partner_channel.update(id, params)
+        self.assert_returns(partner_channel.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/partner_channels/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        partner_channel.delete(id, params)
+        result = partner_channel.delete(id, params)
+        self.assert_returns(partner_channel.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

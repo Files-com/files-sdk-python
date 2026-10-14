@@ -2,7 +2,9 @@
 
 ## Example File Object
 
-```
+The API sends each `File` record as JSON, such as:
+
+```json
 {
   "path": "path/file.txt",
   "created_by_id": 1,
@@ -35,8 +37,8 @@
   "mime_type": "application/octet-stream",
   "region": "us-east-1",
   "permissions": "rwd",
-  "subfolders_locked?": True,
-  "is_locked": True,
+  "subfolders_locked?": true,
+  "is_locked": true,
   "download_uri": "https://mysite.files.com/...",
   "direct_connection_info": {
     "version": 1,
@@ -108,12 +110,17 @@
 * `buffered_upload` (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
 * `with_direct_connection_info` (boolean): Include optional direct connection information for a direct Agent transfer attempt?
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.file` resource, such as
+`client.file.download(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## Download File
 
-```
+```python
 files_sdk.file.download(path, {
   "with_previews": False,
   "with_priority_color": False,
@@ -135,9 +142,9 @@ files_sdk.file.download(path, {
 
 ## Upload File
 
-```
+```python
 files_sdk.file.create(path, {
-  "custom_metadata": {"department":"finance"},
+  "custom_metadata": {"department": "finance"},
   "length": 1,
   "mkdir_parents": False,
   "part": 1,
@@ -178,9 +185,9 @@ files_sdk.file.create(path, {
 
 ## Update File/Folder Metadata
 
-```
+```python
 files_sdk.file.update(path, {
-  "custom_metadata": {"department":"finance"},
+  "custom_metadata": {"department": "finance"},
   "provided_mtime": "2000-01-01T01:00:00Z",
   "priority_color": "red"
 })
@@ -198,7 +205,7 @@ files_sdk.file.update(path, {
 
 ## Delete File/Folder
 
-```
+```python
 files_sdk.file.delete(path, {
   "recursive": False
 })
@@ -214,7 +221,7 @@ files_sdk.file.delete(path, {
 
 ## Find File/Folder by Path
 
-```
+```python
 files_sdk.file.find(path, {
   "with_previews": False,
   "with_priority_color": False
@@ -233,7 +240,7 @@ files_sdk.file.find(path, {
 
 ## List the contents of a ZIP file
 
-```
+```python
 files_sdk.file.zip_list_contents(path)
 ```
 
@@ -246,7 +253,7 @@ files_sdk.file.zip_list_contents(path)
 
 ## Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
 
-```
+```python
 files_sdk.file.begin_delete(path, {
   "recursive": False
 })
@@ -262,7 +269,7 @@ files_sdk.file.begin_delete(path, {
 
 ## Copy File/Folder
 
-```
+```python
 files_sdk.file.copy(path, {
   "destination": "destination",
   "copy_behaviors": False,
@@ -284,7 +291,7 @@ files_sdk.file.copy(path, {
 
 ## Move File/Folder
 
-```
+```python
 files_sdk.file.move(path, {
   "destination": "destination",
   "overwrite": False
@@ -302,7 +309,7 @@ files_sdk.file.move(path, {
 
 ## Transform a file and save the output to a destination path
 
-```
+```python
 files_sdk.file.transform(path, {
   "destination": "destination",
   "transform_type": "transform_type",
@@ -329,7 +336,7 @@ files_sdk.file.transform(path, {
 
 ## Decrypt a GPG-encrypted file and save it to a destination path
 
-```
+```python
 files_sdk.file.gpg_decrypt(path, {
   "destination": "destination",
   "gpg_key_partner_id": 1,
@@ -354,7 +361,7 @@ files_sdk.file.gpg_decrypt(path, {
 
 ## Encrypt a file with GPG and save it to a destination path
 
-```
+```python
 files_sdk.file.gpg_encrypt(path, {
   "destination": "destination",
   "gpg_key_partner_id": 1,
@@ -379,7 +386,7 @@ files_sdk.file.gpg_encrypt(path, {
 
 ## Extract a ZIP file to a destination folder
 
-```
+```python
 files_sdk.file.unzip(path, {
   "destination": "destination",
   "overwrite": False
@@ -398,9 +405,9 @@ files_sdk.file.unzip(path, {
 
 ## Create a ZIP from one or more paths and save it to a destination path
 
-```
+```python
 files_sdk.file.zip({
-  "paths": "paths",
+  "paths": ["paths"],
   "destination": "destination",
   "overwrite": False
 })
@@ -417,7 +424,7 @@ files_sdk.file.zip({
 
 ## Begin File Upload
 
-```
+```python
 files_sdk.file.begin_upload(path, {
   "mkdir_parents": False,
   "part": 1,
@@ -449,7 +456,7 @@ files_sdk.file.begin_upload(path, {
 
 ## Download File
 
-```
+```python
 file = files_sdk.file.find(path)
 file.download({
   "with_previews": False,
@@ -472,10 +479,10 @@ file.download({
 
 ## Update File/Folder Metadata
 
-```
+```python
 file = files_sdk.file.find(path)
 file.update({
-  "custom_metadata": {"department":"finance"},
+  "custom_metadata": {"department": "finance"},
   "provided_mtime": "2000-01-01T01:00:00Z",
   "priority_color": "red"
 })
@@ -493,7 +500,7 @@ file.update({
 
 ## Delete File/Folder
 
-```
+```python
 file = files_sdk.file.find(path)
 file.delete({
   "recursive": False
@@ -510,7 +517,7 @@ file.delete({
 
 ## List the contents of a ZIP file
 
-```
+```python
 file = files_sdk.file.find(path)
 file.zip_list_contents()
 ```
@@ -524,7 +531,7 @@ file.zip_list_contents()
 
 ## Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
 
-```
+```python
 file = files_sdk.file.find(path)
 file.begin_delete({
   "recursive": False
@@ -541,7 +548,7 @@ file.begin_delete({
 
 ## Copy File/Folder
 
-```
+```python
 file = files_sdk.file.find(path)
 file.copy({
   "destination": "destination",
@@ -564,7 +571,7 @@ file.copy({
 
 ## Move File/Folder
 
-```
+```python
 file = files_sdk.file.find(path)
 file.move({
   "destination": "destination",
@@ -583,7 +590,7 @@ file.move({
 
 ## Transform a file and save the output to a destination path
 
-```
+```python
 file = files_sdk.file.find(path)
 file.transform({
   "destination": "destination",
@@ -611,7 +618,7 @@ file.transform({
 
 ## Decrypt a GPG-encrypted file and save it to a destination path
 
-```
+```python
 file = files_sdk.file.find(path)
 file.gpg_decrypt({
   "destination": "destination",
@@ -637,7 +644,7 @@ file.gpg_decrypt({
 
 ## Encrypt a file with GPG and save it to a destination path
 
-```
+```python
 file = files_sdk.file.find(path)
 file.gpg_encrypt({
   "destination": "destination",
@@ -663,7 +670,7 @@ file.gpg_encrypt({
 
 ## Extract a ZIP file to a destination folder
 
-```
+```python
 file = files_sdk.file.find(path)
 file.unzip({
   "destination": "destination",
@@ -683,7 +690,7 @@ file.unzip({
 
 ## Begin File Upload
 
-```
+```python
 file = files_sdk.file.find(path)
 file.begin_upload({
   "mkdir_parents": False,

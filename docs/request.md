@@ -2,7 +2,9 @@
 
 ## Example Request Object
 
-```
+The API sends each `Request` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "path": "example",
@@ -22,12 +24,17 @@
 * `user_ids` (string): A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.request` resource, such as
+`client.request.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Requests
 
-```
+```python
 files_sdk.request.list({
   "mine": False,
   "path": "example"
@@ -47,7 +54,7 @@ files_sdk.request.list({
 
 ## List Requests
 
-```
+```python
 files_sdk.request.get_folder(path, {
   "mine": False
 })
@@ -66,7 +73,7 @@ files_sdk.request.get_folder(path, {
 
 ## Create Request
 
-```
+```python
 files_sdk.request.create({
   "path": "path",
   "destination": "destination"
@@ -85,7 +92,7 @@ files_sdk.request.create({
 
 ## Delete Request
 
-```
+```python
 files_sdk.request.delete(id)
 ```
 
@@ -98,9 +105,10 @@ files_sdk.request.delete(id)
 
 ## Delete Request
 
-```
-request = files_sdk.request.list.first
-request.delete()
+```python
+request = next(files_sdk.request.list().auto_paging_iter(), None)
+if request is not None:
+    request.delete()
 ```
 
 ### Parameters

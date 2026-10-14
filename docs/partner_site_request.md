@@ -2,7 +2,9 @@
 
 ## Example PartnerSiteRequest Object
 
-```
+The API sends each `PartnerSiteRequest` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "host_partner_id": 1,
@@ -24,12 +26,17 @@
 * `created_at` (date-time): Request creation date/time
 * `updated_at` (date-time): Request last updated date/time
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.partner_site_request` resource, such as
+`client.partner_site_request.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Partner Site Requests
 
-```
+```python
 files_sdk.partner_site_request.list()
 ```
 
@@ -45,7 +52,7 @@ files_sdk.partner_site_request.list()
 
 ## Find partner site request by pairing key
 
-```
+```python
 files_sdk.partner_site_request.find_by_pairing_key({
   "pairing_key": "pairing_key"
 })
@@ -60,7 +67,7 @@ files_sdk.partner_site_request.find_by_pairing_key({
 
 ## Create Partner Site Request
 
-```
+```python
 files_sdk.partner_site_request.create({
   "host_partner_id": 1,
   "guest_site_url": "guest_site_url"
@@ -77,7 +84,7 @@ files_sdk.partner_site_request.create({
 
 ## Reject partner site request
 
-```
+```python
 files_sdk.partner_site_request.reject({
   "pairing_key": "pairing_key"
 })
@@ -92,7 +99,7 @@ files_sdk.partner_site_request.reject({
 
 ## Approve partner site request
 
-```
+```python
 files_sdk.partner_site_request.approve({
   "pairing_key": "pairing_key",
   "partner_id": 1
@@ -109,7 +116,7 @@ files_sdk.partner_site_request.approve({
 
 ## Delete Partner Site Request
 
-```
+```python
 files_sdk.partner_site_request.delete(id)
 ```
 
@@ -122,9 +129,10 @@ files_sdk.partner_site_request.delete(id)
 
 ## Delete Partner Site Request
 
-```
-partner_site_request = files_sdk.partner_site_request.list.first
-partner_site_request.delete()
+```python
+partner_site_request = next(files_sdk.partner_site_request.list().auto_paging_iter(), None)
+if partner_site_request is not None:
+    partner_site_request.delete()
 ```
 
 ### Parameters

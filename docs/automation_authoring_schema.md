@@ -2,7 +2,9 @@
 
 ## Example AutomationAuthoringSchema Object
 
-```
+The API sends each `AutomationAuthoringSchema` record as JSON, such as:
+
+```json
 {
   "definition_schema": "example",
   "error_families": [

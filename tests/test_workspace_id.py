@@ -1,89 +1,41 @@
 import unittest
-from unittest.mock import patch
 
 import files_sdk
-import requests
-from files_sdk.api import Api
-from files_sdk.api_client import ApiClient
+from tests.loopback_api import serve_loopback_api
 
 
 class TestWorkspaceId(unittest.TestCase):
     def setUp(self):
-        super().setUp()
-        files_sdk.set_api_key("testkey")
+        self.api = serve_loopback_api(self)
         files_sdk.set_workspace_id(None)
+        self.addCleanup(files_sdk.set_workspace_id, None)
 
-    def test_request_headers_include_configured_workspace_id(self):
+    def workspace_header(self, options=None):
+        self.api.reply_json([])
+        files_sdk.folder.list_for("/", {}, options)
+        return self.api.requests.pop().headers.get("X-Files-Workspace-Id")
+
+    def test_the_module_workspace_is_sent_and_an_option_overrides_it(self):
         files_sdk.set_workspace_id(123)
-        client = ApiClient()
-        response = requests.Response()
-        response.status_code = 204
 
-        with patch.object(
-            client, "execute_request_with_auto_retry", return_value=response
-        ) as mock_execute:
-            client.send_request(
-                "GET", "/folders", api_key="testkey", params={}
-            )
+        self.assertEqual("123", self.workspace_header())
+        self.assertEqual("456", self.workspace_header({"workspace_id": 456}))
 
-        request = mock_execute.call_args[0][0]
-        self.assertEqual(request.headers["X-Files-Workspace-Id"], "123")
+    def test_workspace_zero_is_a_workspace(self):
+        self.assertEqual("0", self.workspace_header({"workspace_id": 0}))
+        files_sdk.set_workspace_id(0)
+        self.assertEqual("0", self.workspace_header())
 
-    def test_per_call_workspace_id_overrides_configured_workspace_id(self):
+    def test_no_workspace_sends_no_header(self):
+        self.assertIsNone(self.workspace_header())
+
+    def test_clear_and_an_empty_string_remove_the_module_workspace(self):
         files_sdk.set_workspace_id(123)
-        client = ApiClient()
-        response = requests.Response()
-        response.status_code = 204
 
-        with patch.object(
-            client, "execute_request_with_auto_retry", return_value=response
-        ) as mock_execute:
-            client.send_request(
-                "GET",
-                "/folders",
-                api_key="testkey",
-                workspace_id=456,
-                params={},
-            )
-
-        request = mock_execute.call_args[0][0]
-        self.assertEqual(request.headers["X-Files-Workspace-Id"], "456")
-
-    def test_request_headers_omit_workspace_id_when_unset(self):
-        client = ApiClient()
-        response = requests.Response()
-        response.status_code = 204
-
-        with patch.object(
-            client, "execute_request_with_auto_retry", return_value=response
-        ) as mock_execute:
-            client.send_request(
-                "GET", "/folders", api_key="testkey", params={}
-            )
-
-        request = mock_execute.call_args[0][0]
-        self.assertNotIn("X-Files-Workspace-Id", request.headers)
-
-    def test_per_call_options_pass_workspace_id_to_api_client(self):
-        with patch.object(Api, "client") as mock_client:
-            response = requests.Response()
-            mock_client.return_value.send_request.return_value = response
-
-            actual_response, options = Api.send_request(
-                "GET", "/folders", {}, {"workspace_id": 456}
-            )
-
-        self.assertEqual(actual_response, response)
-        self.assertEqual(options["workspace_id"], 456)
-        mock_client.return_value.send_request.assert_called_once_with(
-            "GET",
-            "/folders",
-            api_key=None,
-            session_id=None,
-            language=None,
-            workspace_id=456,
-            params={},
+        self.assertIsNone(
+            self.workspace_header({"workspace_id": files_sdk.CLEAR})
         )
+        self.assertIsNone(self.workspace_header({"workspace_id": ""}))
 
 
 if __name__ == "__main__":

@@ -2,7 +2,9 @@
 
 ## Example As2Station Object
 
-```
+The API sends each `As2Station` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -42,12 +44,17 @@
 * `pkcs12` (string): Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
 * `pkcs12_password` (string): Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.as2_station` resource, such as
+`client.as2_station.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List AS2 Stations
 
-```
+```python
 files_sdk.as2_station.list()
 ```
 
@@ -63,7 +70,7 @@ files_sdk.as2_station.list()
 
 ## Show AS2 Station
 
-```
+```python
 files_sdk.as2_station.find(id)
 ```
 
@@ -76,7 +83,7 @@ files_sdk.as2_station.find(id)
 
 ## Create AS2 Station
 
-```
+```python
 files_sdk.as2_station.create({
   "name": "AS2 Station Name",
   "workspace_id": 1,
@@ -99,7 +106,7 @@ files_sdk.as2_station.create({
 
 ## Update AS2 Station
 
-```
+```python
 files_sdk.as2_station.update(id, {
   "name": "AS2 Station Name",
   "public_certificate": "example"
@@ -121,7 +128,7 @@ files_sdk.as2_station.update(id, {
 
 ## Delete AS2 Station
 
-```
+```python
 files_sdk.as2_station.delete(id)
 ```
 
@@ -134,7 +141,7 @@ files_sdk.as2_station.delete(id)
 
 ## Update AS2 Station
 
-```
+```python
 as2_station = files_sdk.as2_station.find(id)
 as2_station.update({
   "name": "AS2 Station Name",
@@ -157,7 +164,7 @@ as2_station.update({
 
 ## Delete AS2 Station
 
-```
+```python
 as2_station = files_sdk.as2_station.find(id)
 as2_station.delete()
 ```

@@ -1,5 +1,15 @@
 import builtins  # noqa: F401
-from files_sdk.api import Api  # noqa: F401
+from typing import Any, Mapping  # noqa: F401
+from files_sdk.api import (  # noqa: F401
+    LEGACY,
+    LegacyScope,
+    Operation,
+    copy_params,
+    decode_record,
+    path_value,
+)
+from files_sdk.api_client import unexpected_response_error  # noqa: F401
+from files_sdk.context import RequestOptions  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
@@ -9,6 +19,39 @@ from files_sdk.error import (  # noqa: F401
 
 
 class HistoryExportResult:
+    """A history export result record from the Files.com API.
+
+    An attribute the API did not send is None.
+
+    Attributes:
+        id: int64 - Action ID
+        created_at: int64 - When the action happened
+        created_at_iso8601: string - When the action happened, in ISO8601 format.
+        user_id: int64 - User ID
+        file_id: int64 - File ID related to the action
+        parent_id: int64 - ID of the parent folder
+        path: string - Path of the related action. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+        folder: string - Folder in which the action occurred
+        src: string - File move originated from this path
+        destination: string - File moved to this destination folder
+        ip: string - Client IP that performed the action
+        username: string - Username of the user that performed the action
+        user_is_from_parent_site: boolean - true if this change was performed by a user on a parent site.
+        action: string - What action was taken. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`, `archived_delete`
+        failure_type: string - The type of login failure, if applicable. Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`, `country_mismatch`, `insecure_ftp`, `insecure_cipher`, `rate_limited`, `no_s3_compatible_endpoint_permission`, `mobile_ip_mismatch`, `mobile_api_key_not_used_quickly_enough`, `desktop_app_disabled`, `mobile_app_disabled`
+        interface: string - Interface through which the action was taken. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`, `inbound_s3`
+        target_id: int64 - ID of the object (such as Users, or API Keys) on which the action was taken
+        target_name: string - Name of the User, Group or other object with a name related to this action
+        target_permission: string - Permission level of the action
+        target_recursive: boolean - Whether or not the action was recursive
+        target_expires_at: int64 - If searching for Histories about API keys, this is when the API key will expire. Represented as a Unix timestamp.
+        target_expires_at_iso8601: string - If searching for Histories about API keys, this is when the API key will expire. Represented in ISO8601 format.
+        target_permission_set: string - If searching for Histories about API keys, this represents the permission set of the associated API key
+        target_platform: string - If searching for Histories about API keys, this is the platform on which the action was taken
+        target_username: string - If searching for Histories about API keys, this is the username on which the action was taken
+        target_user_id: int64 - If searching for Histories about API keys, this is the User ID on which the action was taken
+    """
+
     default_attributes = {
         "id": None,  # int64 - Action ID
         "created_at": None,  # int64 - When the action happened
@@ -38,13 +81,48 @@ class HistoryExportResult:
         "target_user_id": None,  # int64 - If searching for Histories about API keys, this is the User ID on which the action was taken
     }
 
+    # Declared for type checkers and editors: the type the API sends each
+    # attribute as, or None. set_attributes stores each value as given,
+    # converting only decimals, so a value a caller sets can differ.
+    id: int | None
+    created_at: int | None
+    created_at_iso8601: str | None
+    user_id: int | None
+    file_id: int | None
+    parent_id: int | None
+    path: str | None
+    folder: str | None
+    src: str | None
+    destination: str | None
+    ip: str | None
+    username: str | None
+    user_is_from_parent_site: bool | None
+    action: str | None
+    failure_type: str | None
+    interface: str | None
+    target_id: int | None
+    target_name: str | None
+    target_permission: str | None
+    target_recursive: bool | None
+    target_expires_at: int | None
+    target_expires_at_iso8601: str | None
+    target_permission_set: str | None
+    target_platform: str | None
+    target_username: str | None
+    target_user_id: int | None
+
+    # The client and settings this object's operations use: those of the
+    # operation or client that made it, or the module's when it starts an
+    # operation if neither did.
+    _context: Any = None
+
     def __init__(self, attributes=None, options=None):
         if not isinstance(attributes, dict):
             attributes = {}
         if not isinstance(options, dict):
             options = {}
         self.set_attributes(attributes)
-        self.options = options
+        self.options = dict(options)
 
     def set_attributes(self, attributes):
         for (
@@ -62,39 +140,112 @@ class HistoryExportResult:
         }
         return attrs
 
+    def _scope(self):
+        if self._context is not None:
+            return self._context
+        return LegacyScope(self.options)
 
-# Parameters:
-#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-#   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-#   history_export_id (required) - int64 - ID of the associated history export.
-def list(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "user_id" in params and not isinstance(params["user_id"], int):
-        raise InvalidParameterError("Bad parameter: user_id must be an int")
-    if "cursor" in params and not isinstance(params["cursor"], str):
-        raise InvalidParameterError("Bad parameter: cursor must be an str")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "history_export_id" in params and not isinstance(
-        params["history_export_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: history_export_id must be an int"
+
+class HistoryExportResultResource:
+    """HistoryExportResult operations that use one client's configuration.
+
+    Get one from a client, such as ``client.history_export_result``. Each operation
+    takes the same arguments as the module-level function of the same name,
+    and its options apply on top of the client's.
+    """
+
+    def __init__(self, scope):
+        self._scope = scope
+
+    def list(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[HistoryExportResult]:
+        """Parameters:
+        user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+        history_export_id (required) - int64 - ID of the associated history export.
+        """
+        params = copy_params(params)
+        if "user_id" in params and (
+            not isinstance(params["user_id"], int)
+            or isinstance(params["user_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: user_id must be an int"
+            )
+        if "cursor" in params and not isinstance(params["cursor"], str):
+            raise InvalidParameterError("Bad parameter: cursor must be an str")
+        if "per_page" in params and (
+            not isinstance(params["per_page"], int)
+            or isinstance(params["per_page"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: per_page must be an int"
+            )
+        if "history_export_id" in params and (
+            not isinstance(params["history_export_id"], int)
+            or isinstance(params["history_export_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: history_export_id must be an int"
+            )
+        if "history_export_id" not in params:
+            raise MissingParameterError("Parameter missing: history_export_id")
+        operation = Operation.start(self._scope, options)
+        return ListObj(
+            HistoryExportResult,
+            "GET",
+            "/history_export_results",
+            params,
+            operation,
         )
-    if "history_export_id" not in params:
-        raise MissingParameterError("Parameter missing: history_export_id")
-    return ListObj(
-        HistoryExportResult, "GET", "/history_export_results", params, options
-    )
+
+    def all(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[HistoryExportResult]:
+        """The same as list()."""
+        return self.list(params, options)
+
+    def new(
+        self,
+        attributes: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> HistoryExportResult:
+        """A new HistoryExportResult with attributes, not yet saved, whose
+        operations use this resource's client."""
+        obj = HistoryExportResult(attributes, options)
+        obj._context = self._scope._context_for(options)
+        return obj
 
 
-def all(params=None, options=None):
-    list(params, options)
+_legacy_resource = HistoryExportResultResource(LEGACY)
 
 
-def new(*args, **kwargs):
+def list(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[HistoryExportResult]:
+    """Parameters:
+    user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+    history_export_id (required) - int64 - ID of the associated history export.
+    """
+    return _legacy_resource.list(params, options)
+
+
+def all(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[HistoryExportResult]:
+    """The same as list()."""
+    return _legacy_resource.list(params, options)
+
+
+def new(*args, **kwargs) -> HistoryExportResult:
     return HistoryExportResult(*args, **kwargs)

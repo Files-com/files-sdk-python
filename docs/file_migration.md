@@ -2,7 +2,9 @@
 
 ## Example FileMigration Object
 
-```
+The API sends each `FileMigration` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "path": "MyFolder",
@@ -28,12 +30,17 @@
 * `status` (string): Status
 * `log_url` (string): Link to download the log file for this migration.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.file_migration` resource, such as
+`client.file_migration.find(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## Show File Migration
 
-```
+```python
 files_sdk.file_migration.find(id)
 ```
 

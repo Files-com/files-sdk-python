@@ -2,12 +2,14 @@
 
 ## Example PublicIpAddress Object
 
-```
+The API sends each `PublicIpAddress` record as JSON, such as:
+
+```json
 {
   "ip_address": "1.1.1.1",
   "server_name": "server-1",
-  "ftp_enabled": True,
-  "sftp_enabled": True
+  "ftp_enabled": true,
+  "sftp_enabled": true
 }
 ```
 

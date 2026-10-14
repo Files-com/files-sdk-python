@@ -1,0 +1,8 @@
+{
+  "name": "files-sdk-python-type-checker",
+  "private": true,
+  "description": "Pins the Pyright version that test.sh uses to type-check the Files.com Python SDK.",
+  "devDependencies": {
+    "pyright": "1.1.414"
+  }
+}

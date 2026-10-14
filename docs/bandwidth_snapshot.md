@@ -2,7 +2,9 @@
 
 ## Example BandwidthSnapshot Object
 
-```
+The API sends each `BandwidthSnapshot` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "bytes_received": 1,
@@ -26,12 +28,17 @@
 * `requests_other` (int64): Site bandwidth report other requests
 * `logged_at` (date-time): Time the site bandwidth report was logged
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.bandwidth_snapshot` resource, such as
+`client.bandwidth_snapshot.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Bandwidth Snapshots
 
-```
+```python
 files_sdk.bandwidth_snapshot.list()
 ```
 

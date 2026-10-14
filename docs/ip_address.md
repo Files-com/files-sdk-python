@@ -2,7 +2,9 @@
 
 ## Example IpAddress Object
 
-```
+The API sends each `IpAddress` record as JSON, such as:
+
+```json
 {
   "id": "Site",
   "associated_with": "Site",
@@ -18,12 +20,17 @@
 * `group_id` (int64): Group ID
 * `ip_addresses` (array(string)): A list of IP addresses.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.ip_address` resource, such as
+`client.ip_address.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List IP Addresses associated with the current site
 
-```
+```python
 files_sdk.ip_address.list()
 ```
 
@@ -37,7 +44,7 @@ files_sdk.ip_address.list()
 
 ## List all possible public SmartFile IP addresses
 
-```
+```python
 files_sdk.ip_address.get_smartfile_reserved()
 ```
 
@@ -51,7 +58,7 @@ files_sdk.ip_address.get_smartfile_reserved()
 
 ## List all possible public ExaVault IP addresses
 
-```
+```python
 files_sdk.ip_address.get_exavault_reserved()
 ```
 
@@ -65,7 +72,7 @@ files_sdk.ip_address.get_exavault_reserved()
 
 ## List all possible public IP addresses
 
-```
+```python
 files_sdk.ip_address.get_reserved()
 ```
 

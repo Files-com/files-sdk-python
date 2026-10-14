@@ -1,26 +1,26 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
-from files_sdk.models import ScimLog
 from files_sdk import scim_log
 
+
 class ScimLogTest(TestBase):
-    pass 
     # Instance Methods
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/scim_logs"), "Mock path does not exist")
     def test_list(self):
-        resp = scim_log.list()
+        result = scim_log.list()
+        self.assert_returns(scim_log.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/scim_logs/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        scim_log.find(id, params)
+        result = scim_log.find(id, params)
+        self.assert_returns(scim_log.find, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

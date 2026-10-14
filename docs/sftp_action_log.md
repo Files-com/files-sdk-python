@@ -2,7 +2,9 @@
 
 ## Example SftpActionLog Object
 
-```
+The API sends each `SftpActionLog` record as JSON, such as:
+
+```json
 {
   "timestamp": "2000-01-01T01:00:00Z",
   "remote_ip": "example",
@@ -15,7 +17,7 @@
   "auth_ciphers": "example",
   "action_type": "example",
   "path": "example",
-  "True_path": "example",
+  "true_path": "example",
   "name": "example",
   "sftp_response_code": "example",
   "sftp_response_message": "example",
@@ -24,7 +26,7 @@
   "data_length": 1,
   "bytes_transferred": 1,
   "entries_returned": 1,
-  "success": True,
+  "success": true,
   "status": "SUCCESS",
   "duration_ms": 1,
   "created_at": "2000-01-01T01:00:00Z"
@@ -56,12 +58,17 @@
 * `duration_ms` (int64): Duration (in milliseconds)
 * `created_at` (date-time): Start Time of Action
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.sftp_action_log` resource, such as
+`client.sftp_action_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List SFTP Action Logs
 
-```
+```python
 files_sdk.sftp_action_log.list()
 ```
 

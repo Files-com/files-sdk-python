@@ -2,7 +2,9 @@
 
 ## Example Behavior Object
 
-```
+The API sends each `Behavior` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "path": "example",
@@ -18,11 +20,11 @@
     "encoding": "JSON"
   },
   "public_hosting_url": "example",
-  "disable_parent_folder_behavior": True,
-  "recursive": True,
-  "inherited": True,
-  "managed": True,
-  "root_behavior_site_admin_only": True
+  "disable_parent_folder_behavior": true,
+  "recursive": true,
+  "inherited": true,
+  "managed": true,
+  "root_behavior_site_admin_only": true
 }
 ```
 
@@ -42,12 +44,17 @@
 * `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `attachment_delete` (boolean): If `true`, delete the file stored in `attachment`.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.behavior` resource, such as
+`client.behavior.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Behaviors
 
-```
+```python
 files_sdk.behavior.list()
 ```
 
@@ -63,7 +70,7 @@ files_sdk.behavior.list()
 
 ## Show Behavior
 
-```
+```python
 files_sdk.behavior.find(id)
 ```
 
@@ -76,7 +83,7 @@ files_sdk.behavior.find(id)
 
 ## List Behaviors by Path
 
-```
+```python
 files_sdk.behavior.list_for(path, {
   "ancestor_behaviors": False
 })
@@ -96,9 +103,9 @@ files_sdk.behavior.list_for(path, {
 
 ## Create Behavior
 
-```
+```python
 files_sdk.behavior.create({
-  "value": {"urls":["https://example.com/webhook"],"method":"POST","encoding":"JSON"},
+  "value": {"urls": ["https://example.com/webhook"], "method": "POST", "encoding": "JSON"},
   "disable_parent_folder_behavior": True,
   "recursive": False,
   "name": "example",
@@ -111,7 +118,7 @@ files_sdk.behavior.create({
 ### Parameters
 
 * `value` (object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
-* `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+* `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here. Pass bytes, a binary stream, a `files_sdk.Attachment` or a JSON file object. See [File Attachments](../README.md#file-attachments).
 * `disable_parent_folder_behavior` (boolean): If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
 * `recursive` (boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
 * `name` (string): Name for this behavior.
@@ -124,13 +131,13 @@ files_sdk.behavior.create({
 
 ## Test Webhook
 
-```
+```python
 files_sdk.behavior.webhook_test({
   "url": "https://www.site.com/...",
   "method": "GET",
   "encoding": "RAW",
-  "headers": {"x-test-header":"testvalue"},
-  "body": {"test-param":"testvalue"}
+  "headers": {"x-test-header": "testvalue"},
+  "body": {"test-param": "testvalue"}
 })
 ```
 
@@ -148,14 +155,13 @@ files_sdk.behavior.webhook_test({
 
 ## Update Behavior
 
-```
+```python
 files_sdk.behavior.update(id, {
-  "value": {"urls":["https://example.com/webhook"],"method":"POST","encoding":"JSON"},
+  "value": {"urls": ["https://example.com/webhook"], "method": "POST", "encoding": "JSON"},
   "disable_parent_folder_behavior": True,
   "recursive": False,
   "name": "example",
-  "description": "example",
-  "attachment_delete": False
+  "description": "example"
 })
 ```
 
@@ -163,7 +169,7 @@ files_sdk.behavior.update(id, {
 
 * `id` (int64): Required - Behavior ID.
 * `value` (object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
-* `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+* `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here. Pass bytes, a binary stream, a `files_sdk.Attachment` or a JSON file object. See [File Attachments](../README.md#file-attachments).
 * `disable_parent_folder_behavior` (boolean): If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
 * `recursive` (boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
 * `name` (string): Name for this behavior.
@@ -175,7 +181,7 @@ files_sdk.behavior.update(id, {
 
 ## Delete Behavior
 
-```
+```python
 files_sdk.behavior.delete(id)
 ```
 
@@ -188,15 +194,14 @@ files_sdk.behavior.delete(id)
 
 ## Update Behavior
 
-```
+```python
 behavior = files_sdk.behavior.find(id)
 behavior.update({
-  "value": {"urls":["https://example.com/webhook"],"method":"POST","encoding":"JSON"},
+  "value": {"urls": ["https://example.com/webhook"], "method": "POST", "encoding": "JSON"},
   "disable_parent_folder_behavior": True,
   "recursive": False,
   "name": "example",
-  "description": "example",
-  "attachment_delete": False
+  "description": "example"
 })
 ```
 
@@ -204,7 +209,7 @@ behavior.update({
 
 * `id` (int64): Required - Behavior ID.
 * `value` (object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
-* `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+* `attachment_file` (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here. Pass bytes, a binary stream, a `files_sdk.Attachment` or a JSON file object. See [File Attachments](../README.md#file-attachments).
 * `disable_parent_folder_behavior` (boolean): If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
 * `recursive` (boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
 * `name` (string): Name for this behavior.
@@ -216,7 +221,7 @@ behavior.update({
 
 ## Delete Behavior
 
-```
+```python
 behavior = files_sdk.behavior.find(id)
 behavior.delete()
 ```

@@ -2,12 +2,14 @@
 
 ## Example IntegrationCentricProfile Object
 
-```
+The API sends each `IntegrationCentricProfile` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "Business Systems Onboarding",
   "workspace_id": 1,
-  "use_for_all_users": False,
+  "use_for_all_users": false,
   "expected_remote_servers": [
     {
       "server_type": "dropbox",
@@ -23,12 +25,17 @@
 * `use_for_all_users` (boolean): Whether this profile applies to all users in the Workspace by default
 * `expected_remote_servers` (array(object)): Remote Server integrations the user is expected to add and connect. Each entry requires `server_type` and may include a display `name`.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.integration_centric_profile` resource, such as
+`client.integration_centric_profile.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Integration Centric Profiles
 
-```
+```python
 files_sdk.integration_centric_profile.list()
 ```
 
@@ -44,7 +51,7 @@ files_sdk.integration_centric_profile.list()
 
 ## Show Integration Centric Profile
 
-```
+```python
 files_sdk.integration_centric_profile.find(id)
 ```
 
@@ -57,10 +64,10 @@ files_sdk.integration_centric_profile.find(id)
 
 ## Create Integration Centric Profile
 
-```
+```python
 files_sdk.integration_centric_profile.create({
   "name": "Business Systems Onboarding",
-  "expected_remote_servers": [{"server_type":"dropbox","name":"Dropbox"}],
+  "expected_remote_servers": [{"server_type": "dropbox", "name": "Dropbox"}],
   "workspace_id": 1,
   "use_for_all_users": False
 })
@@ -78,11 +85,11 @@ files_sdk.integration_centric_profile.create({
 
 ## Update Integration Centric Profile
 
-```
+```python
 files_sdk.integration_centric_profile.update(id, {
   "name": "Business Systems Onboarding",
   "workspace_id": 1,
-  "expected_remote_servers": [{"server_type":"dropbox","name":"Dropbox"}],
+  "expected_remote_servers": [{"server_type": "dropbox", "name": "Dropbox"}],
   "use_for_all_users": False
 })
 ```
@@ -100,7 +107,7 @@ files_sdk.integration_centric_profile.update(id, {
 
 ## Delete Integration Centric Profile
 
-```
+```python
 files_sdk.integration_centric_profile.delete(id)
 ```
 
@@ -113,12 +120,12 @@ files_sdk.integration_centric_profile.delete(id)
 
 ## Update Integration Centric Profile
 
-```
+```python
 integration_centric_profile = files_sdk.integration_centric_profile.find(id)
 integration_centric_profile.update({
   "name": "Business Systems Onboarding",
   "workspace_id": 1,
-  "expected_remote_servers": [{"server_type":"dropbox","name":"Dropbox"}],
+  "expected_remote_servers": [{"server_type": "dropbox", "name": "Dropbox"}],
   "use_for_all_users": False
 })
 ```
@@ -136,7 +143,7 @@ integration_centric_profile.update({
 
 ## Delete Integration Centric Profile
 
-```
+```python
 integration_centric_profile = files_sdk.integration_centric_profile.find(id)
 integration_centric_profile.delete()
 ```

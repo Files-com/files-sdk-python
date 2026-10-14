@@ -2,9 +2,11 @@
 
 ## Example SftpHostKey Object
 
-```
+The API sends each `SftpHostKey` record as JSON, such as:
+
+```json
 {
-  "active": True,
+  "active": true,
   "custom_domain_id": 1,
   "id": 1,
   "name": "My Key",
@@ -23,12 +25,17 @@
 * `fingerprint_sha256` (string): SHA256 Fingerprint of the public key
 * `private_key` (string): The private key data.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.sftp_host_key` resource, such as
+`client.sftp_host_key.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List SFTP Host Keys
 
-```
+```python
 files_sdk.sftp_host_key.list()
 ```
 
@@ -42,7 +49,7 @@ files_sdk.sftp_host_key.list()
 
 ## Show SFTP Host Key
 
-```
+```python
 files_sdk.sftp_host_key.find(id)
 ```
 
@@ -55,7 +62,7 @@ files_sdk.sftp_host_key.find(id)
 
 ## Create SFTP Host Key
 
-```
+```python
 files_sdk.sftp_host_key.create({
   "active": True,
   "custom_domain_id": 1,
@@ -75,7 +82,7 @@ files_sdk.sftp_host_key.create({
 
 ## Update SFTP Host Key
 
-```
+```python
 files_sdk.sftp_host_key.update(id, {
   "active": True,
   "custom_domain_id": 1,
@@ -96,7 +103,7 @@ files_sdk.sftp_host_key.update(id, {
 
 ## Delete SFTP Host Key
 
-```
+```python
 files_sdk.sftp_host_key.delete(id)
 ```
 
@@ -109,7 +116,7 @@ files_sdk.sftp_host_key.delete(id)
 
 ## Update SFTP Host Key
 
-```
+```python
 sftp_host_key = files_sdk.sftp_host_key.find(id)
 sftp_host_key.update({
   "active": True,
@@ -131,7 +138,7 @@ sftp_host_key.update({
 
 ## Delete SFTP Host Key
 
-```
+```python
 sftp_host_key = files_sdk.sftp_host_key.find(id)
 sftp_host_key.delete()
 ```

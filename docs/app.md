@@ -2,7 +2,9 @@
 
 ## Example App Object
 
-```
+The API sends each `App` record as JSON, such as:
+
+```json
 {
   "app_type": "example",
   "documentation_links": {
@@ -11,7 +13,7 @@
   "extended_description": "example",
   "extended_description_for_marketing_site": "example",
   "external_homepage_url": "example",
-  "featured": True,
+  "featured": true,
   "folder_behavior_type": "example",
   "icon_url": "example",
   "logo_thumbnail_url": "example",
@@ -54,12 +56,17 @@
 * `siem_type` (string): Associated SIEM type, if any
 * `tutorial_youtube_url` (string): Tutorial video page
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.app` resource, such as
+`client.app.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Apps
 
-```
+```python
 files_sdk.app.list()
 ```
 

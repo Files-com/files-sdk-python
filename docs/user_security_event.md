@@ -2,7 +2,9 @@
 
 ## Example UserSecurityEvent Object
 
-```
+The API sends each `UserSecurityEvent` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "event_type": "example",
@@ -24,12 +26,17 @@
 * `body_url` (string): Link to log file.
 * `user_id` (int64): User ID.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.user_security_event` resource, such as
+`client.user_security_event.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List User Security Events
 
-```
+```python
 files_sdk.user_security_event.list()
 ```
 
@@ -49,7 +56,7 @@ files_sdk.user_security_event.list()
 
 ## Show User Security Event
 
-```
+```python
 files_sdk.user_security_event.find(id)
 ```
 

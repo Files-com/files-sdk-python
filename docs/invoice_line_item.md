@@ -2,7 +2,9 @@
 
 ## Example InvoiceLineItem Object
 
-```
+The API sends each `InvoiceLineItem` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "amount": "1.0",

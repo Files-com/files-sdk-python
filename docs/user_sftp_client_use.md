@@ -2,7 +2,9 @@
 
 ## Example UserSftpClientUse Object
 
-```
+The API sends each `UserSftpClientUse` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "sftp_client": "example",
@@ -18,12 +20,17 @@
 * `updated_at` (date-time): The most recent use of this SFTP client (for this user)
 * `user_id` (int64): ID of the user who performed this access
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.user_sftp_client_use` resource, such as
+`client.user_sftp_client_use.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List User SFTP Client Uses
 
-```
+```python
 files_sdk.user_sftp_client_use.list({
   "user_id": 1
 })

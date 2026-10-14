@@ -1,33 +1,30 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import PartnerSite
 from files_sdk import partner_site
 
+
 class PartnerSiteTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/partner_sites/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         partner_site = PartnerSite(params)
+        partner_site.id = params["id"]
         partner_site.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(partner_site)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/partner_sites/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        partner_site.delete(id, params)
+        result = partner_site.delete(id, params)
+        self.assert_returns(partner_site.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

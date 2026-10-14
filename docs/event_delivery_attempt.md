@@ -2,7 +2,9 @@
 
 ## Example EventDeliveryAttempt Object
 
-```
+The API sends each `EventDeliveryAttempt` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "event_record_id": 1,
@@ -40,12 +42,17 @@
 * `next_attempt_at` (date-time): Next scheduled attempt date/time.
 * `created_at` (date-time): Delivery Attempt create date/time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.event_delivery_attempt` resource, such as
+`client.event_delivery_attempt.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Event Delivery Attempts
 
-```
+```python
 files_sdk.event_delivery_attempt.list()
 ```
 
@@ -61,7 +68,7 @@ files_sdk.event_delivery_attempt.list()
 
 ## Show Event Delivery Attempt
 
-```
+```python
 files_sdk.event_delivery_attempt.find(id)
 ```
 

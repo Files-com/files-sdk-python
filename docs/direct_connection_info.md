@@ -2,7 +2,9 @@
 
 ## Example DirectConnectionInfo Object
 
-```
+The API sends each `DirectConnectionInfo` record as JSON, such as:
+
+```json
 {
   "version": 1,
   "server_name": "example",

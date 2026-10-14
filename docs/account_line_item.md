@@ -2,7 +2,9 @@
 
 ## Example AccountLineItem Object
 
-```
+The API sends each `AccountLineItem` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "amount": "1.0",

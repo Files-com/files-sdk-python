@@ -2,7 +2,9 @@
 
 ## Example EmailLog Object
 
-```
+The API sends each `EmailLog` record as JSON, such as:
+
+```json
 {
   "timestamp": "2000-01-01T01:00:00Z",
   "message": "example",
@@ -28,12 +30,17 @@
 * `smtp_ip` (string): Customer SMTP IP address as resolved for use (useful for troubleshooting DNS issues with customer SMTP).
 * `created_at` (date-time): Start Time of Action
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.email_log` resource, such as
+`client.email_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Email Logs
 
-```
+```python
 files_sdk.email_log.list()
 ```
 

@@ -2,12 +2,14 @@
 
 ## Example RemoteMountBackend Object
 
-```
+The API sends each `RemoteMountBackend` record as JSON, such as:
+
+```json
 {
   "canary_file_path": "backend1.txt",
-  "enabled": True,
+  "enabled": true,
   "fall": 1,
-  "health_check_enabled": True,
+  "health_check_enabled": true,
   "health_check_results": [
     {
       "timestamp": "2025-09-19T12:32:52+00:00",
@@ -31,7 +33,7 @@
   "remote_server_mount_id": 1,
   "rise": 1,
   "status": "healthy",
-  "undergoing_maintenance": False
+  "undergoing_maintenance": false
 }
 ```
 
@@ -53,12 +55,17 @@
 * `status` (string): Status of this backend.
 * `undergoing_maintenance` (boolean): True if this backend is undergoing maintenance.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.remote_mount_backend` resource, such as
+`client.remote_mount_backend.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Remote Mount Backends
 
-```
+```python
 files_sdk.remote_mount_backend.list()
 ```
 
@@ -73,7 +80,7 @@ files_sdk.remote_mount_backend.list()
 
 ## Show Remote Mount Backend
 
-```
+```python
 files_sdk.remote_mount_backend.find(id)
 ```
 
@@ -86,7 +93,7 @@ files_sdk.remote_mount_backend.find(id)
 
 ## Create Remote Mount Backend
 
-```
+```python
 files_sdk.remote_mount_backend.create({
   "enabled": True,
   "fall": 1,
@@ -111,8 +118,8 @@ files_sdk.remote_mount_backend.create({
 * `health_check_enabled` (boolean): True if health checks are enabled for this backend.
 * `health_check_type` (string): Type of health check to perform.
 * `interval` (int64): Interval in seconds between health checks.
-* `min_free_cpu` (double): Minimum free CPU percentage required for this backend to be considered healthy.
-* `min_free_mem` (double): Minimum free memory percentage required for this backend to be considered healthy.
+* `min_free_cpu` (double): Minimum free CPU percentage required for this backend to be considered healthy. Pass a `Decimal`, its exact text such as `"12.5"`, or a float.
+* `min_free_mem` (double): Minimum free memory percentage required for this backend to be considered healthy. Pass a `Decimal`, its exact text such as `"12.5"`, or a float.
 * `priority` (int64): Priority of this backend.
 * `remote_path` (string): Path on the remote server to treat as the root of this mount.
 * `rise` (int64): Number of consecutive successes before considering the backend healthy.
@@ -125,7 +132,7 @@ files_sdk.remote_mount_backend.create({
 
 ## Reset backend status to healthy
 
-```
+```python
 files_sdk.remote_mount_backend.reset_status(id)
 ```
 
@@ -138,7 +145,7 @@ files_sdk.remote_mount_backend.reset_status(id)
 
 ## Update Remote Mount Backend
 
-```
+```python
 files_sdk.remote_mount_backend.update(id, {
   "enabled": True,
   "fall": 1,
@@ -163,8 +170,8 @@ files_sdk.remote_mount_backend.update(id, {
 * `health_check_enabled` (boolean): True if health checks are enabled for this backend.
 * `health_check_type` (string): Type of health check to perform.
 * `interval` (int64): Interval in seconds between health checks.
-* `min_free_cpu` (double): Minimum free CPU percentage required for this backend to be considered healthy.
-* `min_free_mem` (double): Minimum free memory percentage required for this backend to be considered healthy.
+* `min_free_cpu` (double): Minimum free CPU percentage required for this backend to be considered healthy. Pass a `Decimal`, its exact text such as `"12.5"`, or a float.
+* `min_free_mem` (double): Minimum free memory percentage required for this backend to be considered healthy. Pass a `Decimal`, its exact text such as `"12.5"`, or a float.
 * `priority` (int64): Priority of this backend.
 * `remote_path` (string): Path on the remote server to treat as the root of this mount.
 * `rise` (int64): Number of consecutive successes before considering the backend healthy.
@@ -176,7 +183,7 @@ files_sdk.remote_mount_backend.update(id, {
 
 ## Delete Remote Mount Backend
 
-```
+```python
 files_sdk.remote_mount_backend.delete(id)
 ```
 
@@ -189,7 +196,7 @@ files_sdk.remote_mount_backend.delete(id)
 
 ## Reset backend status to healthy
 
-```
+```python
 remote_mount_backend = files_sdk.remote_mount_backend.find(id)
 remote_mount_backend.reset_status()
 ```
@@ -203,7 +210,7 @@ remote_mount_backend.reset_status()
 
 ## Update Remote Mount Backend
 
-```
+```python
 remote_mount_backend = files_sdk.remote_mount_backend.find(id)
 remote_mount_backend.update({
   "enabled": True,
@@ -229,8 +236,8 @@ remote_mount_backend.update({
 * `health_check_enabled` (boolean): True if health checks are enabled for this backend.
 * `health_check_type` (string): Type of health check to perform.
 * `interval` (int64): Interval in seconds between health checks.
-* `min_free_cpu` (double): Minimum free CPU percentage required for this backend to be considered healthy.
-* `min_free_mem` (double): Minimum free memory percentage required for this backend to be considered healthy.
+* `min_free_cpu` (double): Minimum free CPU percentage required for this backend to be considered healthy. Pass a `Decimal`, its exact text such as `"12.5"`, or a float.
+* `min_free_mem` (double): Minimum free memory percentage required for this backend to be considered healthy. Pass a `Decimal`, its exact text such as `"12.5"`, or a float.
 * `priority` (int64): Priority of this backend.
 * `remote_path` (string): Path on the remote server to treat as the root of this mount.
 * `rise` (int64): Number of consecutive successes before considering the backend healthy.
@@ -242,7 +249,7 @@ remote_mount_backend.update({
 
 ## Delete Remote Mount Backend
 
-```
+```python
 remote_mount_backend = files_sdk.remote_mount_backend.find(id)
 remote_mount_backend.delete()
 ```

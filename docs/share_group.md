@@ -2,7 +2,9 @@
 
 ## Example ShareGroup Object
 
-```
+The API sends each `ShareGroup` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "Test group 1",
@@ -24,12 +26,17 @@
 * `user_id` (int64): Owner User ID
 * `members` (array(object)): A list of share group members
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.share_group` resource, such as
+`client.share_group.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Share Groups
 
-```
+```python
 files_sdk.share_group.list({
   "user_id": 1
 })
@@ -46,7 +53,7 @@ files_sdk.share_group.list({
 
 ## Show Share Group
 
-```
+```python
 files_sdk.share_group.find(id)
 ```
 
@@ -59,12 +66,12 @@ files_sdk.share_group.find(id)
 
 ## Create Share Group
 
-```
+```python
 files_sdk.share_group.create({
   "user_id": 1,
   "notes": "This group is defined for testing purposes",
   "name": "Test group 1",
-  "members": [{"name":"John Doe","company":"Acme Ltd","email":"johndoe@gmail.com"}]
+  "members": [{"name": "John Doe", "company": "Acme Ltd", "email": "johndoe@gmail.com"}]
 })
 ```
 
@@ -80,11 +87,11 @@ files_sdk.share_group.create({
 
 ## Update Share Group
 
-```
+```python
 files_sdk.share_group.update(id, {
   "notes": "This group is defined for testing purposes",
   "name": "Test group 1",
-  "members": [{"name":"John Doe","company":"Acme Ltd","email":"johndoe@gmail.com"}]
+  "members": [{"name": "John Doe", "company": "Acme Ltd", "email": "johndoe@gmail.com"}]
 })
 ```
 
@@ -100,7 +107,7 @@ files_sdk.share_group.update(id, {
 
 ## Delete Share Group
 
-```
+```python
 files_sdk.share_group.delete(id)
 ```
 
@@ -113,12 +120,12 @@ files_sdk.share_group.delete(id)
 
 ## Update Share Group
 
-```
+```python
 share_group = files_sdk.share_group.find(id)
 share_group.update({
   "notes": "This group is defined for testing purposes",
   "name": "Test group 1",
-  "members": [{"name":"John Doe","company":"Acme Ltd","email":"johndoe@gmail.com"}]
+  "members": [{"name": "John Doe", "company": "Acme Ltd", "email": "johndoe@gmail.com"}]
 })
 ```
 
@@ -134,7 +141,7 @@ share_group.update({
 
 ## Delete Share Group
 
-```
+```python
 share_group = files_sdk.share_group.find(id)
 share_group.delete()
 ```

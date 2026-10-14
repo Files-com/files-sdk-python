@@ -2,7 +2,9 @@
 
 ## Example OutboundConnectionLog Object
 
-```
+The API sends each `OutboundConnectionLog` record as JSON, such as:
+
+```json
 {
   "timestamp": "2000-01-01T01:00:00Z",
   "path": "example",
@@ -42,12 +44,17 @@
 * `list_count` (int64): Number of entries returned for a folder list action.
 * `created_at` (date-time): Start Time of Action
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.outbound_connection_log` resource, such as
+`client.outbound_connection_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Outbound Connection Logs
 
-```
+```python
 files_sdk.outbound_connection_log.list()
 ```
 

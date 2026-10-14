@@ -2,7 +2,9 @@
 
 ## Example ShareGroupMember Object
 
-```
+The API sends each `ShareGroupMember` record as JSON, such as:
+
+```json
 {
   "name": "John Doe",
   "company": "Acme Ltd",

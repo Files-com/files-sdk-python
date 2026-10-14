@@ -2,7 +2,9 @@
 
 ## Example As2Partner Object
 
-```
+The API sends each `As2Partner` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -17,7 +19,7 @@
   "default_mime_type": "application/octet-stream",
   "mdn_validation_level": "none",
   "signature_validation_level": "normal",
-  "enable_dedicated_ips": True,
+  "enable_dedicated_ips": true,
   "hex_public_certificate_serial": "A5:EB:C1:95:DC:D8:2B:E7",
   "public_certificate": "example",
   "public_certificate_md5": "example",
@@ -53,12 +55,17 @@
 * `pkcs12` (string): Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
 * `pkcs12_password` (string): Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.as2_partner` resource, such as
+`client.as2_partner.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List AS2 Partners
 
-```
+```python
 files_sdk.as2_partner.list()
 ```
 
@@ -74,7 +81,7 @@ files_sdk.as2_partner.list()
 
 ## Show AS2 Partner
 
-```
+```python
 files_sdk.as2_partner.find(id)
 ```
 
@@ -87,7 +94,7 @@ files_sdk.as2_partner.find(id)
 
 ## Create AS2 Partner
 
-```
+```python
 files_sdk.as2_partner.create({
   "enable_dedicated_ips": True,
   "http_auth_username": "username",
@@ -95,7 +102,7 @@ files_sdk.as2_partner.create({
   "signature_validation_level": "normal",
   "server_certificate": "require_match",
   "default_mime_type": "application/octet-stream",
-  "additional_http_headers": {"X-Partner":"acme"},
+  "additional_http_headers": {"X-Partner": "acme"},
   "as2_station_id": 1,
   "name": "AS2 Partner Name",
   "uri": "example",
@@ -125,7 +132,7 @@ files_sdk.as2_partner.create({
 
 ## Update AS2 Partner
 
-```
+```python
 files_sdk.as2_partner.update(id, {
   "enable_dedicated_ips": True,
   "http_auth_username": "username",
@@ -133,7 +140,7 @@ files_sdk.as2_partner.update(id, {
   "signature_validation_level": "normal",
   "server_certificate": "require_match",
   "default_mime_type": "application/octet-stream",
-  "additional_http_headers": {"X-Partner":"acme"},
+  "additional_http_headers": {"X-Partner": "acme"},
   "name": "AS2 Partner Name",
   "uri": "example",
   "public_certificate": "example"
@@ -162,7 +169,7 @@ files_sdk.as2_partner.update(id, {
 
 ## Delete AS2 Partner
 
-```
+```python
 files_sdk.as2_partner.delete(id)
 ```
 
@@ -175,7 +182,7 @@ files_sdk.as2_partner.delete(id)
 
 ## Update AS2 Partner
 
-```
+```python
 as2_partner = files_sdk.as2_partner.find(id)
 as2_partner.update({
   "enable_dedicated_ips": True,
@@ -184,7 +191,7 @@ as2_partner.update({
   "signature_validation_level": "normal",
   "server_certificate": "require_match",
   "default_mime_type": "application/octet-stream",
-  "additional_http_headers": {"X-Partner":"acme"},
+  "additional_http_headers": {"X-Partner": "acme"},
   "name": "AS2 Partner Name",
   "uri": "example",
   "public_certificate": "example"
@@ -213,7 +220,7 @@ as2_partner.update({
 
 ## Delete AS2 Partner
 
-```
+```python
 as2_partner = files_sdk.as2_partner.find(id)
 as2_partner.delete()
 ```

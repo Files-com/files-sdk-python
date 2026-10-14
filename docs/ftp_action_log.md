@@ -2,7 +2,9 @@
 
 ## Example FtpActionLog Object
 
-```
+The API sends each `FtpActionLog` record as JSON, such as:
+
+```json
 {
   "timestamp": "2000-01-01T01:00:00Z",
   "remote_ip": "example",
@@ -13,14 +15,14 @@
   "auth_ciphers": "example",
   "action_type": "example",
   "path": "example",
-  "True_path": "example",
+  "true_path": "example",
   "name": "example",
   "cmd": "example",
   "param": "example",
   "responseCode": 1,
   "responseMessage": "example",
   "entries_returned": 1,
-  "success": True,
+  "success": true,
   "status": "SUCCESS",
   "duration_ms": 1,
   "created_at": "2000-01-01T01:00:00Z"
@@ -48,12 +50,17 @@
 * `duration_ms` (int64): Duration (in milliseconds)
 * `created_at` (date-time): Start Time of Action
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.ftp_action_log` resource, such as
+`client.ftp_action_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List FTP Action Logs
 
-```
+```python
 files_sdk.ftp_action_log.list()
 ```
 

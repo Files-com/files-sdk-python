@@ -2,7 +2,9 @@
 
 ## Example ExpectationIncident Object
 
-```
+The API sends each `ExpectationIncident` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -39,12 +41,17 @@
 * `created_at` (date-time): Creation time.
 * `updated_at` (date-time): Last update time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.expectation_incident` resource, such as
+`client.expectation_incident.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Expectation Incidents
 
-```
+```python
 files_sdk.expectation_incident.list()
 ```
 
@@ -60,7 +67,7 @@ files_sdk.expectation_incident.list()
 
 ## Show Expectation Incident
 
-```
+```python
 files_sdk.expectation_incident.find(id)
 ```
 
@@ -73,7 +80,7 @@ files_sdk.expectation_incident.find(id)
 
 ## Resolve an expectation incident
 
-```
+```python
 files_sdk.expectation_incident.resolve(id)
 ```
 
@@ -86,7 +93,7 @@ files_sdk.expectation_incident.resolve(id)
 
 ## Snooze an expectation incident until a specified time
 
-```
+```python
 files_sdk.expectation_incident.snooze(id, {
   "snoozed_until": "snoozed_until"
 })
@@ -102,7 +109,7 @@ files_sdk.expectation_incident.snooze(id, {
 
 ## Acknowledge an expectation incident
 
-```
+```python
 files_sdk.expectation_incident.acknowledge(id)
 ```
 
@@ -115,7 +122,7 @@ files_sdk.expectation_incident.acknowledge(id)
 
 ## Resolve an expectation incident
 
-```
+```python
 expectation_incident = files_sdk.expectation_incident.find(id)
 expectation_incident.resolve()
 ```
@@ -129,7 +136,7 @@ expectation_incident.resolve()
 
 ## Snooze an expectation incident until a specified time
 
-```
+```python
 expectation_incident = files_sdk.expectation_incident.find(id)
 expectation_incident.snooze({
   "snoozed_until": "snoozed_until"
@@ -146,7 +153,7 @@ expectation_incident.snooze({
 
 ## Acknowledge an expectation incident
 
-```
+```python
 expectation_incident = files_sdk.expectation_incident.find(id)
 expectation_incident.acknowledge()
 ```

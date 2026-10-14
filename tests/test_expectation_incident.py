@@ -1,76 +1,82 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import ExpectationIncident
 from files_sdk import expectation_incident
 
+
 class ExpectationIncidentTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/expectation_incidents/{id}/resolve"), "Mock path does not exist")
-    def test_resolve(self):
+    def test_instance_resolve(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         expectation_incident = ExpectationIncident(params)
-        expectation_incident.resolve(params)
+        result = expectation_incident.resolve(params)
+        self.assert_returns(ExpectationIncident.resolve, result)
+        self.assert_typed(expectation_incident)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/expectation_incidents/{id}/snooze"), "Mock path does not exist")
-    def test_snooze(self):
+    def test_instance_snooze(self):
         params = {
-            "id" : 12345,
-            "snoozed_until" : "foo",
+            "id": 12345,
+            "snoozed_until": "foo",
         }
         expectation_incident = ExpectationIncident(params)
-        expectation_incident.snooze(params)
+        result = expectation_incident.snooze(params)
+        self.assert_returns(ExpectationIncident.snooze, result)
+        self.assert_typed(expectation_incident)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/expectation_incidents/{id}/acknowledge"), "Mock path does not exist")
-    def test_acknowledge(self):
+    def test_instance_acknowledge(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         expectation_incident = ExpectationIncident(params)
-        expectation_incident.acknowledge(params)
-
+        result = expectation_incident.acknowledge(params)
+        self.assert_returns(ExpectationIncident.acknowledge, result)
+        self.assert_typed(expectation_incident)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/expectation_incidents"), "Mock path does not exist")
     def test_list(self):
-        resp = expectation_incident.list()
+        result = expectation_incident.list()
+        self.assert_returns(expectation_incident.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/expectation_incidents/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        expectation_incident.find(id, params)
+        result = expectation_incident.find(id, params)
+        self.assert_returns(expectation_incident.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/expectation_incidents/{id}/resolve"), "Mock path does not exist")
     def test_resolve(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        expectation_incident.resolve(id, params)
+        result = expectation_incident.resolve(id, params)
+        self.assert_returns(expectation_incident.resolve, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/expectation_incidents/{id}/snooze"), "Mock path does not exist")
     def test_snooze(self):
         id = 12345
         params = {
-            "id" : 12345,
-            "snoozed_until" : "foo",
+            "id": 12345,
+            "snoozed_until": "foo",
         }
-        expectation_incident.snooze(id, params)
+        result = expectation_incident.snooze(id, params)
+        self.assert_returns(expectation_incident.snooze, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/expectation_incidents/{id}/acknowledge"), "Mock path does not exist")
     def test_acknowledge(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        expectation_incident.acknowledge(id, params)
+        result = expectation_incident.acknowledge(id, params)
+        self.assert_returns(expectation_incident.acknowledge, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

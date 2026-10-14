@@ -2,7 +2,9 @@
 
 ## Example ChatMessage Object
 
-```
+The API sends each `ChatMessage` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "role": "example",

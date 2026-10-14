@@ -2,7 +2,9 @@
 
 ## Example HistoryExportResult Object
 
-```
+The API sends each `HistoryExportResult` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "created_at": 1,
@@ -16,14 +18,14 @@
   "destination": "DestFolder",
   "ip": "127.0.0.1",
   "username": "jerry",
-  "user_is_from_parent_site": False,
+  "user_is_from_parent_site": false,
   "action": "read",
   "failure_type": "bad_password",
   "interface": "ftp",
   "target_id": 1,
   "target_name": "full",
   "target_permission": "full",
-  "target_recursive": True,
+  "target_recursive": true,
   "target_expires_at": 1,
   "target_expires_at_iso8601": "example",
   "target_permission_set": "desktop_app",
@@ -60,12 +62,17 @@
 * `target_username` (string): If searching for Histories about API keys, this is the username on which the action was taken
 * `target_user_id` (int64): If searching for Histories about API keys, this is the User ID on which the action was taken
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.history_export_result` resource, such as
+`client.history_export_result.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List History Export Results
 
-```
+```python
 files_sdk.history_export_result.list({
   "user_id": 1,
   "history_export_id": 1

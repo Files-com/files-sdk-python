@@ -1,81 +1,83 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import Snapshot
 from files_sdk import snapshot
 
+
 class SnapshotTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/snapshots/{id}/finalize"), "Mock path does not exist")
-    def test_finalize(self):
+    def test_instance_finalize(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         snapshot = Snapshot(params)
         snapshot.finalize(params)
+        self.assert_typed(snapshot)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/snapshots/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         snapshot = Snapshot(params)
-        snapshot.update(params)
+        result = snapshot.update(params)
+        self.assert_returns(Snapshot.update, result)
+        self.assert_typed(snapshot)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/snapshots/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         snapshot = Snapshot(params)
         snapshot.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(snapshot)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/snapshots"), "Mock path does not exist")
     def test_list(self):
-        resp = snapshot.list()
+        result = snapshot.list()
+        self.assert_returns(snapshot.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/snapshots/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        snapshot.find(id, params)
+        result = snapshot.find(id, params)
+        self.assert_returns(snapshot.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/snapshots"), "Mock path does not exist")
     def test_create(self):
-        resp = snapshot.create()
+        result = snapshot.create()
+        self.assert_returns(snapshot.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/snapshots/{id}/finalize"), "Mock path does not exist")
     def test_finalize(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        snapshot.finalize(id, params)
+        result = snapshot.finalize(id, params)
+        self.assert_returns(snapshot.finalize, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/snapshots/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        snapshot.update(id, params)
+        result = snapshot.update(id, params)
+        self.assert_returns(snapshot.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/snapshots/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        snapshot.delete(id, params)
+        result = snapshot.delete(id, params)
+        self.assert_returns(snapshot.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -2,7 +2,9 @@
 
 ## Example SiemHttpDestinationEvent Object
 
-```
+The API sends each `SiemHttpDestinationEvent` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "event_type": "example",
@@ -26,12 +28,17 @@
 * `body_url` (string): Link to log file.
 * `siem_http_destination_id` (int64): SIEM ID.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.siem_http_destination_event` resource, such as
+`client.siem_http_destination_event.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List SIEM HTTP Destination Events
 
-```
+```python
 files_sdk.siem_http_destination_event.list()
 ```
 
@@ -51,7 +58,7 @@ files_sdk.siem_http_destination_event.list()
 
 ## Show SIEM HTTP Destination Event
 
-```
+```python
 files_sdk.siem_http_destination_event.find(id)
 ```
 

@@ -1,65 +1,66 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import Clickwrap
 from files_sdk import clickwrap
 
+
 class ClickwrapTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/clickwraps/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         clickwrap = Clickwrap(params)
-        clickwrap.update(params)
+        result = clickwrap.update(params)
+        self.assert_returns(Clickwrap.update, result)
+        self.assert_typed(clickwrap)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/clickwraps/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         clickwrap = Clickwrap(params)
         clickwrap.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(clickwrap)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/clickwraps"), "Mock path does not exist")
     def test_list(self):
-        resp = clickwrap.list()
+        result = clickwrap.list()
+        self.assert_returns(clickwrap.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/clickwraps/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        clickwrap.find(id, params)
+        result = clickwrap.find(id, params)
+        self.assert_returns(clickwrap.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/clickwraps"), "Mock path does not exist")
     def test_create(self):
-        resp = clickwrap.create()
+        result = clickwrap.create()
+        self.assert_returns(clickwrap.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/clickwraps/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        clickwrap.update(id, params)
+        result = clickwrap.update(id, params)
+        self.assert_returns(clickwrap.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/clickwraps/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        clickwrap.delete(id, params)
+        result = clickwrap.delete(id, params)
+        self.assert_returns(clickwrap.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

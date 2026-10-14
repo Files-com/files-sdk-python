@@ -2,9 +2,11 @@
 
 ## Example BundlePath Object
 
-```
+The API sends each `BundlePath` record as JSON, such as:
+
+```json
 {
-  "recursive": True,
+  "recursive": true,
   "path": "example"
 }
 ```

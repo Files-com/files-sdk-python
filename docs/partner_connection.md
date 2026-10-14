@@ -2,7 +2,9 @@
 
 ## Example PartnerConnection Object
 
-```
+The API sends each `PartnerConnection` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "role": "guest",

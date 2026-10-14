@@ -1,67 +1,67 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import FileComment
 from files_sdk import file_comment
 
+
 class FileCommentTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/file_comments/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
-            "body" : "foo",
+            "id": 12345,
+            "body": "foo",
         }
         file_comment = FileComment(params)
-        file_comment.update(params)
+        result = file_comment.update(params)
+        self.assert_returns(FileComment.update, result)
+        self.assert_typed(file_comment)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/file_comments/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         file_comment = FileComment(params)
         file_comment.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(file_comment)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_comments/files/{path}"), "Mock path does not exist")
     def test_list_for(self):
         path = "foo"
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        file_comment.list_for(path, params)
+        result = file_comment.list_for(path, params)
+        self.assert_returns(file_comment.list_for, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_comments"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "body" : "foo",
-            "path" : "foo",
+            "body": "foo",
+            "path": "foo",
         }
-        file_comment.create(params)
+        result = file_comment.create(params)
+        self.assert_returns(file_comment.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/file_comments/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
-            "body" : "foo",
+            "id": 12345,
+            "body": "foo",
         }
-        file_comment.update(id, params)
+        result = file_comment.update(id, params)
+        self.assert_returns(file_comment.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/file_comments/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        file_comment.delete(id, params)
+        result = file_comment.delete(id, params)
+        self.assert_returns(file_comment.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -2,7 +2,9 @@
 
 ## Example ZipListEntry Object
 
-```
+The API sends each `ZipListEntry` record as JSON, such as:
+
+```json
 {
   "path": "example",
   "size": 1

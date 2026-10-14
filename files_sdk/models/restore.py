@@ -1,5 +1,15 @@
 import builtins  # noqa: F401
-from files_sdk.api import Api  # noqa: F401
+from typing import Any, Mapping  # noqa: F401
+from files_sdk.api import (  # noqa: F401
+    LEGACY,
+    LegacyScope,
+    Operation,
+    copy_params,
+    decode_record,
+    path_value,
+)
+from files_sdk.api_client import unexpected_response_error  # noqa: F401
+from files_sdk.context import RequestOptions  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
@@ -9,6 +19,35 @@ from files_sdk.error import (  # noqa: F401
 
 
 class Restore:
+    """A restore record from the Files.com API.
+
+    An attribute the API did not send is None.
+
+    Attributes:
+        earliest_date: date-time - Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
+        id: int64 - Restore Record ID.
+        dirs_restored: int64 - Number of directories that were successfully restored.
+        dirs_errored: int64 - Number of directories that were not able to be restored.
+        dirs_total: int64 - Total number of directories processed.
+        files_restored: int64 - Number of files successfully restored.
+        files_errored: int64 - Number of files that were not able to be restored.
+        files_total: int64 - Total number of files processed.
+        prefix: string - Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.
+        restoration_type: string - Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated authentication records, plus permissions when `restore_deleted_permissions=true`. A 5-minute grace period allows for batch deletion processes: associated records deleted within the 5 minutes before the user are included, even if removed independently. Records deleted earlier, or before `earliest_date`, remain deleted.
+        restore_in_place: boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
+        restore_deleted_permissions: boolean - If true, a user restore restores permissions deleted along with the selected users, including permissions removed independently within the 5 minutes before user deletion. Permissions deleted earlier, or before `earliest_date`, remain deleted. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.
+        users_restored: int64 - Number of users successfully restored (only present for `restoration_type=users`).
+        users_errored: int64 - Number of users that failed to restore (only present for `restoration_type=users`).
+        users_total: int64 - Total number of users processed (only present for `restoration_type=users`).
+        api_keys_restored: int64 - Number of API keys restored (only present for `restoration_type=users`).
+        public_keys_restored: int64 - Number of public keys restored (only present for `restoration_type=users`).
+        two_factor_authentication_methods_restored: int64 - Number of two factor authentication methods restored (only present for `restoration_type=users`).
+        status: string - Status of the restoration process.
+        update_timestamps: boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
+        workspace_id: int64 - Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
+        error_messages: array(string) - Error messages received while restoring files and/or directories. Only present if there were errors.
+    """
+
     default_attributes = {
         "earliest_date": None,  # date-time - Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
         "id": None,  # int64 - Restore Record ID.
@@ -34,13 +73,44 @@ class Restore:
         "error_messages": None,  # array(string) - Error messages received while restoring files and/or directories. Only present if there were errors.
     }
 
+    # Declared for type checkers and editors: the type the API sends each
+    # attribute as, or None. set_attributes stores each value as given,
+    # converting only decimals, so a value a caller sets can differ.
+    earliest_date: str | None
+    id: int | None
+    dirs_restored: int | None
+    dirs_errored: int | None
+    dirs_total: int | None
+    files_restored: int | None
+    files_errored: int | None
+    files_total: int | None
+    prefix: str | None
+    restoration_type: str | None
+    restore_in_place: bool | None
+    restore_deleted_permissions: bool | None
+    users_restored: int | None
+    users_errored: int | None
+    users_total: int | None
+    api_keys_restored: int | None
+    public_keys_restored: int | None
+    two_factor_authentication_methods_restored: int | None
+    status: str | None
+    update_timestamps: bool | None
+    workspace_id: int | None
+    error_messages: builtins.list[str] | None
+
+    # The client and settings this object's operations use: those of the
+    # operation or client that made it, or the module's when it starts an
+    # operation if neither did.
+    _context: Any = None
+
     def __init__(self, attributes=None, options=None):
         if not isinstance(attributes, dict):
             attributes = {}
         if not isinstance(options, dict):
             options = {}
         self.set_attributes(attributes)
-        self.options = options
+        self.options = dict(options)
 
     def set_attributes(self, attributes):
         for attribute, default_value in Restore.default_attributes.items():
@@ -55,98 +125,189 @@ class Restore:
         }
         return attrs
 
-    def save(self):
+    def _scope(self):
+        if self._context is not None:
+            return self._context
+        return LegacyScope(self.options)
+
+    def save(self) -> None:
+        """Create this object on the server, taking in place the record it
+        returns. One that already has an id cannot be updated, and raises
+        NotImplementedError."""
         if hasattr(self, "id") and self.id:
             raise NotImplementedError(
                 "The Restore object doesn't support updates."
             )
         else:
-            new_obj = create(self.get_attributes(), self.options)
+            new_obj = RestoreResource(self._scope()).create(
+                self.get_attributes()
+            )
             self.set_attributes(new_obj.get_attributes())
-            return True
+            self._context = new_obj._context
 
 
-# Parameters:
-#   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `restoration_type`.
-def list(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "cursor" in params and not isinstance(params["cursor"], str):
-        raise InvalidParameterError("Bad parameter: cursor must be an str")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "sort_by" in params and not isinstance(params["sort_by"], dict):
-        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
-    if "filter" in params and not isinstance(params["filter"], dict):
-        raise InvalidParameterError("Bad parameter: filter must be an dict")
-    return ListObj(Restore, "GET", "/restores", params, options)
+class RestoreResource:
+    """Restore operations that use one client's configuration.
+
+    Get one from a client, such as ``client.restore``. Each operation
+    takes the same arguments as the module-level function of the same name,
+    and its options apply on top of the client's.
+    """
+
+    def __init__(self, scope):
+        self._scope = scope
+
+    def list(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[Restore]:
+        """Parameters:
+        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+        sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
+        filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `restoration_type`.
+        """
+        params = copy_params(params)
+        if "cursor" in params and not isinstance(params["cursor"], str):
+            raise InvalidParameterError("Bad parameter: cursor must be an str")
+        if "per_page" in params and (
+            not isinstance(params["per_page"], int)
+            or isinstance(params["per_page"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: per_page must be an int"
+            )
+        if "sort_by" in params and not isinstance(params["sort_by"], dict):
+            raise InvalidParameterError(
+                "Bad parameter: sort_by must be an dict"
+            )
+        if "filter" in params and not isinstance(params["filter"], dict):
+            raise InvalidParameterError(
+                "Bad parameter: filter must be an dict"
+            )
+        operation = Operation.start(self._scope, options)
+        return ListObj(Restore, "GET", "/restores", params, operation)
+
+    def all(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[Restore]:
+        """The same as list()."""
+        return self.list(params, options)
+
+    def create(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> Restore:
+        """Parameters:
+        earliest_date (required) - string - Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
+        prefix - string - Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.
+        restoration_type - string - Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated authentication records, plus permissions when `restore_deleted_permissions=true`. A 5-minute grace period allows for batch deletion processes: associated records deleted within the 5 minutes before the user are included, even if removed independently. Records deleted earlier, or before `earliest_date`, remain deleted.
+        restore_deleted_permissions - boolean - If true, a user restore restores permissions deleted along with the selected users, including permissions removed independently within the 5 minutes before user deletion. Permissions deleted earlier, or before `earliest_date`, remain deleted. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.
+        restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
+        update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
+        workspace_id - int64 - Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
+        """
+        params = copy_params(params)
+        if "earliest_date" in params and not isinstance(
+            params["earliest_date"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: earliest_date must be an str"
+            )
+        if "prefix" in params and not isinstance(params["prefix"], str):
+            raise InvalidParameterError("Bad parameter: prefix must be an str")
+        if "restoration_type" in params and not isinstance(
+            params["restoration_type"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: restoration_type must be an str"
+            )
+        if "restore_deleted_permissions" in params and not isinstance(
+            params["restore_deleted_permissions"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: restore_deleted_permissions must be an bool"
+            )
+        if "restore_in_place" in params and not isinstance(
+            params["restore_in_place"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: restore_in_place must be an bool"
+            )
+        if "update_timestamps" in params and not isinstance(
+            params["update_timestamps"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: update_timestamps must be an bool"
+            )
+        if "workspace_id" in params and (
+            not isinstance(params["workspace_id"], int)
+            or isinstance(params["workspace_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
+            )
+        if "earliest_date" not in params:
+            raise MissingParameterError("Parameter missing: earliest_date")
+        operation = Operation.start(self._scope, options)
+        response = operation.request("POST", "/restores", params)
+        return operation.decode_model(response, Restore)
+
+    def new(
+        self,
+        attributes: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> Restore:
+        """A new Restore with attributes, not yet saved, whose
+        operations use this resource's client."""
+        obj = Restore(attributes, options)
+        obj._context = self._scope._context_for(options)
+        return obj
 
 
-def all(params=None, options=None):
-    list(params, options)
+_legacy_resource = RestoreResource(LEGACY)
 
 
-# Parameters:
-#   earliest_date (required) - string - Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
-#   prefix - string - Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.
-#   restoration_type - string - Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated authentication records, plus permissions when `restore_deleted_permissions=true`. A 5-minute grace period allows for batch deletion processes: associated records deleted within the 5 minutes before the user are included, even if removed independently. Records deleted earlier, or before `earliest_date`, remain deleted.
-#   restore_deleted_permissions - boolean - If true, a user restore restores permissions deleted along with the selected users, including permissions removed independently within the 5 minutes before user deletion. Permissions deleted earlier, or before `earliest_date`, remain deleted. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.
-#   restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
-#   update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
-#   workspace_id - int64 - Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
-def create(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "earliest_date" in params and not isinstance(
-        params["earliest_date"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: earliest_date must be an str"
-        )
-    if "prefix" in params and not isinstance(params["prefix"], str):
-        raise InvalidParameterError("Bad parameter: prefix must be an str")
-    if "restoration_type" in params and not isinstance(
-        params["restoration_type"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: restoration_type must be an str"
-        )
-    if "restore_deleted_permissions" in params and not isinstance(
-        params["restore_deleted_permissions"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: restore_deleted_permissions must be an bool"
-        )
-    if "restore_in_place" in params and not isinstance(
-        params["restore_in_place"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: restore_in_place must be an bool"
-        )
-    if "update_timestamps" in params and not isinstance(
-        params["update_timestamps"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: update_timestamps must be an bool"
-        )
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
-        )
-    if "earliest_date" not in params:
-        raise MissingParameterError("Parameter missing: earliest_date")
-    response, options = Api.send_request("POST", "/restores", params, options)
-    return Restore(response.data, options)
+def list(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[Restore]:
+    """Parameters:
+    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
+    filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `restoration_type`.
+    """
+    return _legacy_resource.list(params, options)
 
 
-def new(*args, **kwargs):
+def all(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[Restore]:
+    """The same as list()."""
+    return _legacy_resource.list(params, options)
+
+
+def create(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> Restore:
+    """Parameters:
+    earliest_date (required) - string - Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
+    prefix - string - Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.
+    restoration_type - string - Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated authentication records, plus permissions when `restore_deleted_permissions=true`. A 5-minute grace period allows for batch deletion processes: associated records deleted within the 5 minutes before the user are included, even if removed independently. Records deleted earlier, or before `earliest_date`, remain deleted.
+    restore_deleted_permissions - boolean - If true, a user restore restores permissions deleted along with the selected users, including permissions removed independently within the 5 minutes before user deletion. Permissions deleted earlier, or before `earliest_date`, remain deleted. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.
+    restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
+    update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
+    workspace_id - int64 - Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
+    """
+    return _legacy_resource.create(params, options)
+
+
+def new(*args, **kwargs) -> Restore:
     return Restore(*args, **kwargs)

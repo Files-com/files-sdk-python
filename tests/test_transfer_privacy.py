@@ -27,7 +27,9 @@ class TransferHandler(BaseHTTPRequestHandler):
         status = 403 if self.path.startswith("/denied") else 200
         if self.path.startswith("/typed"):
             status = 404
-            body = json.dumps({"type": "not-found", "error": self.path}).encode()
+            body = json.dumps(
+                {"type": "not-found", "error": self.path}
+            ).encode()
         self.send_response(status)
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
@@ -47,6 +49,7 @@ class TestTransferPrivacy(unittest.TestCase):
         self.addCleanup(self.server.server_close)
         self.addCleanup(self.server.shutdown)
         for name, value in {
+            "base_url": "http://localhost:4042",  # Plain HTTP: so is the storage stand-in.
             "max_network_retries": 2,
             "initial_network_retry_delay": 0,
             "max_network_retry_delay": 0,
@@ -62,36 +65,61 @@ class TestTransferPrivacy(unittest.TestCase):
         )
 
     def assert_safe(self, text):
-        for secret in ("127.0.0.1", "X-Amz", "private-credential", "private-signature"):
+        for secret in (
+            "127.0.0.1",
+            "X-Amz",
+            "private-credential",
+            "private-signature",
+        ):
             self.assertNotIn(secret, text)
 
     def test_transfer_failures_keep_urls_out_of_logs_and_error_text(self):
         for download in (False, True):
-            for path, error_type in (("disconnect", APIConnectionError), ("denied", APIError)):
+            for path, error_type in (
+                ("disconnect", APIConnectionError),
+                ("denied", APIError),
+            ):
                 with self.subTest(download=download, path=path):
-                    with self.assertLogs("files_sdk", level=logging.DEBUG) as logs:
+                    with self.assertLogs(
+                        "files_sdk", level=logging.DEBUG
+                    ) as logs:
                         with self.assertRaises(error_type) as caught:
                             if download:
-                                ApiClient().stream_download(self.url(path), io.BytesIO())
+                                ApiClient().stream_download(
+                                    self.url(path), io.BytesIO()
+                                )
                             else:
-                                ApiClient().send_remote_request("PUT", self.url(path), body=b"part")
+                                ApiClient().send_remote_request(
+                                    "PUT", self.url(path), body=b"part"
+                                )
                     self.assert_safe(str(caught.exception))
-                    self.assert_safe("\n".join(record.getMessage() for record in logs.records if record.levelno > logging.DEBUG))
+                    self.assert_safe(
+                        "\n".join(
+                            record.getMessage()
+                            for record in logs.records
+                            if record.levelno > logging.DEBUG
+                        )
+                    )
                     self.assertIn("private-signature", "\n".join(logs.output))
                     if path == "denied":
                         self.assertEqual(caught.exception.http_status, 403)
-        self.assertEqual(self.server.requests, 6)
+        # Each dropped connection was retried twice; the 403s were not.
+        self.assertEqual(self.server.requests, 8)
 
     def test_successful_upload_does_not_log_the_transfer_url_at_info(self):
         with self.assertLogs("files_sdk", level=logging.INFO) as logs:
-            response = ApiClient().send_remote_request("PUT", self.url("upload"), body=b"part")
+            response = ApiClient().send_remote_request(
+                "PUT", self.url("upload"), body=b"part"
+            )
         self.assertEqual(response.status_code, 200)
         self.assert_safe("\n".join(logs.output))
 
     def test_transfer_api_errors_keep_their_type_without_echoing_the_url(self):
         with self.assertLogs("files_sdk", level=logging.INFO) as logs:
             with self.assertRaises(NotFoundError) as caught:
-                ApiClient().send_remote_request("PUT", self.url("typed"), body=b"part")
+                ApiClient().send_remote_request(
+                    "PUT", self.url("typed"), body=b"part"
+                )
         self.assertEqual(caught.exception.http_status, 404)
         self.assert_safe(str(caught.exception))
         self.assert_safe("\n".join(logs.output))

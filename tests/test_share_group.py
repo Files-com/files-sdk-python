@@ -1,69 +1,70 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import ShareGroup
 from files_sdk import share_group
 
+
 class ShareGroupTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/share_groups/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         share_group = ShareGroup(params)
-        share_group.update(params)
+        result = share_group.update(params)
+        self.assert_returns(ShareGroup.update, result)
+        self.assert_typed(share_group)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/share_groups/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         share_group = ShareGroup(params)
         share_group.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(share_group)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/share_groups"), "Mock path does not exist")
     def test_list(self):
-        resp = share_group.list()
+        result = share_group.list()
+        self.assert_returns(share_group.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/share_groups/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        share_group.find(id, params)
+        result = share_group.find(id, params)
+        self.assert_returns(share_group.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/share_groups"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "name" : "foo",
-            "members" : [{}],
+            "name": "foo",
+            "members": [{}],
         }
-        share_group.create(params)
+        result = share_group.create(params)
+        self.assert_returns(share_group.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/share_groups/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        share_group.update(id, params)
+        result = share_group.update(id, params)
+        self.assert_returns(share_group.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/share_groups/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        share_group.delete(id, params)
+        result = share_group.delete(id, params)
+        self.assert_returns(share_group.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

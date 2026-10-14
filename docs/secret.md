@@ -2,7 +2,9 @@
 
 ## Example Secret Object
 
-```
+The API sends each `Secret` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -30,12 +32,17 @@
 * `created_at` (date-time): Secret create date/time.
 * `updated_at` (date-time): Secret update date/time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.secret` resource, such as
+`client.secret.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Secrets
 
-```
+```python
 files_sdk.secret.list()
 ```
 
@@ -52,7 +59,7 @@ files_sdk.secret.list()
 
 ## Show Secret
 
-```
+```python
 files_sdk.secret.find(id)
 ```
 
@@ -65,12 +72,12 @@ files_sdk.secret.find(id)
 
 ## Create Secret
 
-```
+```python
 files_sdk.secret.create({
   "name": "Production API token",
   "description": "Used by production API integrations.",
   "secret_type": "token",
-  "metadata": {"header_name":"Authorization"},
+  "metadata": {"header_name": "Authorization"},
   "workspace_id": 0
 })
 ```
@@ -88,12 +95,12 @@ files_sdk.secret.create({
 
 ## Update Secret
 
-```
+```python
 files_sdk.secret.update(id, {
   "name": "Production API token",
   "description": "Used by production API integrations.",
   "secret_type": "token",
-  "metadata": {"header_name":"Authorization"}
+  "metadata": {"header_name": "Authorization"}
 })
 ```
 
@@ -110,7 +117,7 @@ files_sdk.secret.update(id, {
 
 ## Delete Secret
 
-```
+```python
 files_sdk.secret.delete(id)
 ```
 
@@ -123,13 +130,13 @@ files_sdk.secret.delete(id)
 
 ## Update Secret
 
-```
+```python
 secret = files_sdk.secret.find(id)
 secret.update({
   "name": "Production API token",
   "description": "Used by production API integrations.",
   "secret_type": "token",
-  "metadata": {"header_name":"Authorization"}
+  "metadata": {"header_name": "Authorization"}
 })
 ```
 
@@ -146,7 +153,7 @@ secret.update({
 
 ## Delete Secret
 
-```
+```python
 secret = files_sdk.secret.find(id)
 secret.delete()
 ```

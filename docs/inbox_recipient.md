@@ -2,7 +2,9 @@
 
 ## Example InboxRecipient Object
 
-```
+The API sends each `InboxRecipient` record as JSON, such as:
+
+```json
 {
   "company": "Acme Inc.",
   "name": "John Doe",
@@ -20,12 +22,17 @@
 * `inbox_id` (int64): Inbox to share.
 * `share_after_create` (boolean): Set to true to share the link with the recipient upon creation.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.inbox_recipient` resource, such as
+`client.inbox_recipient.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Inbox Recipients
 
-```
+```python
 files_sdk.inbox_recipient.list({
   "inbox_id": 1
 })
@@ -44,7 +51,7 @@ files_sdk.inbox_recipient.list({
 
 ## Create Inbox Recipient
 
-```
+```python
 files_sdk.inbox_recipient.create({
   "inbox_id": 1,
   "recipient": "johndoe@gmail.com",

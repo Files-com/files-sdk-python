@@ -2,7 +2,9 @@
 
 ## Example ChildSiteManagementPolicy Object
 
-```
+The API sends each `ChildSiteManagementPolicy` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "policy_type": "settings",
@@ -21,7 +23,7 @@
     1,
     2
   ],
-  "default_policy": True,
+  "default_policy": true,
   "created_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z"
 }
@@ -39,12 +41,17 @@
 * `created_at` (date-time): When this policy was created.
 * `updated_at` (date-time): When this policy was last updated.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.child_site_management_policy` resource, such as
+`client.child_site_management_policy.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Child Site Management Policies. On a Child Site, returns only the policy covering that site. Its value contains managed setting names with null values
 
-```
+```python
 files_sdk.child_site_management_policy.list()
 ```
 
@@ -58,7 +65,7 @@ files_sdk.child_site_management_policy.list()
 
 ## Show Child Site Management Policy
 
-```
+```python
 files_sdk.child_site_management_policy.find(id)
 ```
 
@@ -71,11 +78,11 @@ files_sdk.child_site_management_policy.find(id)
 
 ## Create Child Site Management Policy
 
-```
+```python
 files_sdk.child_site_management_policy.create({
-  "value": {"color2_left":"#000000"},
-  "skip_child_site_ids": [1,2],
-  "child_site_ids": [1,2],
+  "value": {"color2_left": "#000000"},
+  "skip_child_site_ids": [1, 2],
+  "child_site_ids": [1, 2],
   "default_policy": True,
   "policy_type": "settings",
   "name": "example",
@@ -98,11 +105,11 @@ files_sdk.child_site_management_policy.create({
 
 ## Update Child Site Management Policy
 
-```
+```python
 files_sdk.child_site_management_policy.update(id, {
-  "value": {"color2_left":"#000000"},
-  "skip_child_site_ids": [1,2],
-  "child_site_ids": [1,2],
+  "value": {"color2_left": "#000000"},
+  "skip_child_site_ids": [1, 2],
+  "child_site_ids": [1, 2],
   "default_policy": True,
   "policy_type": "settings",
   "name": "example",
@@ -126,7 +133,7 @@ files_sdk.child_site_management_policy.update(id, {
 
 ## Delete Child Site Management Policy
 
-```
+```python
 files_sdk.child_site_management_policy.delete(id)
 ```
 
@@ -139,12 +146,12 @@ files_sdk.child_site_management_policy.delete(id)
 
 ## Update Child Site Management Policy
 
-```
+```python
 child_site_management_policy = files_sdk.child_site_management_policy.find(id)
 child_site_management_policy.update({
-  "value": {"color2_left":"#000000"},
-  "skip_child_site_ids": [1,2],
-  "child_site_ids": [1,2],
+  "value": {"color2_left": "#000000"},
+  "skip_child_site_ids": [1, 2],
+  "child_site_ids": [1, 2],
   "default_policy": True,
   "policy_type": "settings",
   "name": "example",
@@ -168,7 +175,7 @@ child_site_management_policy.update({
 
 ## Delete Child Site Management Policy
 
-```
+```python
 child_site_management_policy = files_sdk.child_site_management_policy.find(id)
 child_site_management_policy.delete()
 ```

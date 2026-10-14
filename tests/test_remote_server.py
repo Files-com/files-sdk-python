@@ -1,105 +1,111 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import RemoteServer
 from files_sdk import remote_server
 
+
 class RemoteServerTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers/{id}/agent_nodes"), "Mock path does not exist")
-    def test_agent_nodes(self):
+    def test_instance_agent_nodes(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         remote_server = RemoteServer(params)
-        remote_server.agent_nodes(params)
+        result = remote_server.agent_nodes(params)
+        self.assert_returns(RemoteServer.agent_nodes, result)
+        self.assert_typed(remote_server)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers/{id}/agent_push_update"), "Mock path does not exist")
-    def test_agent_push_update(self):
+    def test_instance_agent_push_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         remote_server = RemoteServer(params)
-        remote_server.agent_push_update(params)
+        result = remote_server.agent_push_update(params)
+        self.assert_returns(RemoteServer.agent_push_update, result)
+        self.assert_typed(remote_server)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/remote_servers/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         remote_server = RemoteServer(params)
-        remote_server.update(params)
+        result = remote_server.update(params)
+        self.assert_returns(RemoteServer.update, result)
+        self.assert_typed(remote_server)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/remote_servers/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         remote_server = RemoteServer(params)
         remote_server.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(remote_server)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers"), "Mock path does not exist")
     def test_list(self):
-        resp = remote_server.list()
+        result = remote_server.list()
+        self.assert_returns(remote_server.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        remote_server.find(id, params)
+        result = remote_server.find(id, params)
+        self.assert_returns(remote_server.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers/{id}/agent_nodes"), "Mock path does not exist")
     def test_agent_nodes(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        remote_server.agent_nodes(id, params)
+        result = remote_server.agent_nodes(id, params)
+        self.assert_returns(remote_server.agent_nodes, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/remote_servers/{id}/configuration_file"), "Mock path does not exist")
     def test_find_configuration_file(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        remote_server.find_configuration_file(id, params)
+        result = remote_server.find_configuration_file(id, params)
+        self.assert_returns(remote_server.find_configuration_file, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers"), "Mock path does not exist")
     def test_create(self):
-        resp = remote_server.create()
+        result = remote_server.create()
+        self.assert_returns(remote_server.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/remote_servers/{id}/agent_push_update"), "Mock path does not exist")
     def test_agent_push_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        remote_server.agent_push_update(id, params)
+        result = remote_server.agent_push_update(id, params)
+        self.assert_returns(remote_server.agent_push_update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/remote_servers/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        remote_server.update(id, params)
+        result = remote_server.update(id, params)
+        self.assert_returns(remote_server.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/remote_servers/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        remote_server.delete(id, params)
+        result = remote_server.delete(id, params)
+        self.assert_returns(remote_server.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

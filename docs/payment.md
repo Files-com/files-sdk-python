@@ -2,7 +2,9 @@
 
 ## Example Payment Object
 
-```
+The API sends each `Payment` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "amount": "1.0",
@@ -57,12 +59,17 @@
 * `site_name` (string): Site name this line item is for
 * `type` (string): Type of line item, either payment or invoice
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.payment` resource, such as
+`client.payment.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Payments
 
-```
+```python
 files_sdk.payment.list()
 ```
 
@@ -76,7 +83,7 @@ files_sdk.payment.list()
 
 ## Show Payment
 
-```
+```python
 files_sdk.payment.find(id)
 ```
 

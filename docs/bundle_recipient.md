@@ -2,7 +2,9 @@
 
 ## Example BundleRecipient Object
 
-```
+The API sends each `BundleRecipient` record as JSON, such as:
+
+```json
 {
   "company": "Acme Inc.",
   "name": "John Doe",
@@ -23,12 +25,17 @@
 * `bundle_id` (int64): Bundle to share.
 * `share_after_create` (boolean): Set to true to share the link with the recipient upon creation.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.bundle_recipient` resource, such as
+`client.bundle_recipient.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Share Link Recipients
 
-```
+```python
 files_sdk.bundle_recipient.list({
   "user_id": 1,
   "bundle_id": 1
@@ -49,7 +56,7 @@ files_sdk.bundle_recipient.list({
 
 ## Create Share Link Recipient
 
-```
+```python
 files_sdk.bundle_recipient.create({
   "user_id": 1,
   "bundle_id": 1,

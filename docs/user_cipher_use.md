@@ -2,14 +2,16 @@
 
 ## Example UserCipherUse Object
 
-```
+The API sends each `UserCipherUse` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "user_id": 1,
   "username": "example",
   "protocol_cipher": "TLSv1.2; ECDHE-RSA-AES256-GCM-SHA384",
   "created_at": "2000-01-01T01:00:00Z",
-  "insecure": True,
+  "insecure": true,
   "interface": "restapi",
   "updated_at": "2000-01-01T01:00:00Z"
 }
@@ -24,12 +26,17 @@
 * `interface` (string): The interface accessed
 * `updated_at` (date-time): The most recent use of this combination of interface and protocol and cipher (for this user)
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.user_cipher_use` resource, such as
+`client.user_cipher_use.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List User Cipher Uses
 
-```
+```python
 files_sdk.user_cipher_use.list({
   "user_id": 1
 })

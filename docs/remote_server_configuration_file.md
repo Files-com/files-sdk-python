@@ -2,7 +2,9 @@
 
 ## Example RemoteServerConfigurationFile Object
 
-```
+The API sends each `RemoteServerConfigurationFile` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "permission_set": "example",
@@ -10,10 +12,10 @@
   "subdomain": "example",
   "root": "C:\\Users\\",
   "node_name": "example",
-  "follow_links": True,
+  "follow_links": true,
   "prefer_protocol": "example",
   "dns": "example",
-  "proxy_all_outbound": True,
+  "proxy_all_outbound": true,
   "endpoint_override": "example",
   "log_file": "example",
   "log_level": "example",

@@ -2,7 +2,9 @@
 
 ## Example HolidayCalendar Object
 
-```
+The API sends each `HolidayCalendar` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "Company Holidays",
@@ -58,12 +60,17 @@
 * `created_at` (date-time): Creation time.
 * `updated_at` (date-time): Last update time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.holiday_calendar` resource, such as
+`client.holiday_calendar.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Holiday Calendars
 
-```
+```python
 files_sdk.holiday_calendar.list()
 ```
 
@@ -78,7 +85,7 @@ files_sdk.holiday_calendar.list()
 
 ## Show Holiday Calendar
 
-```
+```python
 files_sdk.holiday_calendar.find(id)
 ```
 
@@ -91,9 +98,9 @@ files_sdk.holiday_calendar.find(id)
 
 ## Create Holiday Calendar
 
-```
+```python
 files_sdk.holiday_calendar.create({
-  "definition": {"months":{"0":[{"name":"Good Friday","function":"easter(year)","function_modifier":-2}],"1":[{"name":"New Year's Day","mday":1,"observed":"to_weekday_if_weekend(date)"},{"name":"Third Monday","week":3,"wday":1}],"11":[{"name":"Thanksgiving","week":4,"wday":4}],"12":[{"name":"Christmas Eve Early Close","mday":24,"start_time":"13:00","end_time":"17:00","year_ranges":{"from":2026}}]}},
+  "definition": {"months": {"0": [{"name": "Good Friday", "function": "easter(year)", "function_modifier": -2}], "1": [{"name": "New Year's Day", "mday": 1, "observed": "to_weekday_if_weekend(date)"}, {"name": "Third Monday", "week": 3, "wday": 1}], "11": [{"name": "Thanksgiving", "week": 4, "wday": 4}], "12": [{"name": "Christmas Eve Early Close", "mday": 24, "start_time": "13:00", "end_time": "17:00", "year_ranges": {"from": 2026}}]}},
   "name": "Company Holidays"
 })
 ```
@@ -108,9 +115,9 @@ files_sdk.holiday_calendar.create({
 
 ## Update Holiday Calendar
 
-```
+```python
 files_sdk.holiday_calendar.update(id, {
-  "definition": {"months":{"0":[{"name":"Good Friday","function":"easter(year)","function_modifier":-2}],"1":[{"name":"New Year's Day","mday":1,"observed":"to_weekday_if_weekend(date)"},{"name":"Third Monday","week":3,"wday":1}],"11":[{"name":"Thanksgiving","week":4,"wday":4}],"12":[{"name":"Christmas Eve Early Close","mday":24,"start_time":"13:00","end_time":"17:00","year_ranges":{"from":2026}}]}},
+  "definition": {"months": {"0": [{"name": "Good Friday", "function": "easter(year)", "function_modifier": -2}], "1": [{"name": "New Year's Day", "mday": 1, "observed": "to_weekday_if_weekend(date)"}, {"name": "Third Monday", "week": 3, "wday": 1}], "11": [{"name": "Thanksgiving", "week": 4, "wday": 4}], "12": [{"name": "Christmas Eve Early Close", "mday": 24, "start_time": "13:00", "end_time": "17:00", "year_ranges": {"from": 2026}}]}},
   "name": "Company Holidays"
 })
 ```
@@ -126,7 +133,7 @@ files_sdk.holiday_calendar.update(id, {
 
 ## Delete Holiday Calendar
 
-```
+```python
 files_sdk.holiday_calendar.delete(id)
 ```
 
@@ -139,10 +146,10 @@ files_sdk.holiday_calendar.delete(id)
 
 ## Update Holiday Calendar
 
-```
+```python
 holiday_calendar = files_sdk.holiday_calendar.find(id)
 holiday_calendar.update({
-  "definition": {"months":{"0":[{"name":"Good Friday","function":"easter(year)","function_modifier":-2}],"1":[{"name":"New Year's Day","mday":1,"observed":"to_weekday_if_weekend(date)"},{"name":"Third Monday","week":3,"wday":1}],"11":[{"name":"Thanksgiving","week":4,"wday":4}],"12":[{"name":"Christmas Eve Early Close","mday":24,"start_time":"13:00","end_time":"17:00","year_ranges":{"from":2026}}]}},
+  "definition": {"months": {"0": [{"name": "Good Friday", "function": "easter(year)", "function_modifier": -2}], "1": [{"name": "New Year's Day", "mday": 1, "observed": "to_weekday_if_weekend(date)"}, {"name": "Third Monday", "week": 3, "wday": 1}], "11": [{"name": "Thanksgiving", "week": 4, "wday": 4}], "12": [{"name": "Christmas Eve Early Close", "mday": 24, "start_time": "13:00", "end_time": "17:00", "year_ranges": {"from": 2026}}]}},
   "name": "Company Holidays"
 })
 ```
@@ -158,7 +165,7 @@ holiday_calendar.update({
 
 ## Delete Holiday Calendar
 
-```
+```python
 holiday_calendar = files_sdk.holiday_calendar.find(id)
 holiday_calendar.delete()
 ```

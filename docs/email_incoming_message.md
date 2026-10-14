@@ -2,7 +2,9 @@
 
 ## Example EmailIncomingMessage Object
 
-```
+The API sends each `EmailIncomingMessage` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "inbox_id": 1,
@@ -26,12 +28,17 @@
 * `created_at` (date-time): Message creation date/time
 * `inbox_title` (string): Title of the Inbox associated with this message
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.email_incoming_message` resource, such as
+`client.email_incoming_message.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Email Incoming Messages
 
-```
+```python
 files_sdk.email_incoming_message.list()
 ```
 

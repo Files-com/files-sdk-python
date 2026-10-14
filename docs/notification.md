@@ -2,7 +2,9 @@
 
 ## Example Notification Object
 
-```
+The API sends each `Notification` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "path": "",
@@ -20,14 +22,14 @@
   "triggering_user_ids": [
     1
   ],
-  "trigger_by_share_recipients": True,
-  "notify_user_actions": True,
-  "notify_on_copy": True,
-  "notify_on_delete": True,
-  "notify_on_download": True,
-  "notify_on_move": True,
-  "notify_on_upload": True,
-  "recursive": True,
+  "trigger_by_share_recipients": true,
+  "notify_user_actions": true,
+  "notify_on_copy": true,
+  "notify_on_delete": true,
+  "notify_on_download": true,
+  "notify_on_move": true,
+  "notify_on_upload": true,
+  "recursive": true,
   "send_interval": "fifteen_minutes",
   "subject": "Vendor A CSV Activity",
   "message": "custom notification email message",
@@ -36,11 +38,11 @@
     "notify_file.txt"
   ],
   "workspace_id": 1,
-  "unsubscribed": True,
+  "unsubscribed": true,
   "unsubscribed_reason": "example",
   "user_id": 1,
   "username": "User",
-  "suppressed_email": True
+  "suppressed_email": true
 }
 ```
 
@@ -71,15 +73,20 @@
 * `username` (string): Notification username
 * `suppressed_email` (boolean): If true, it means that the recipient at this user's email address has manually unsubscribed from all emails, or had their email "hard bounce", which means that we are unable to send mail to this user's current email address. Notifications will resume if the user changes their email address.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.notification` resource, such as
+`client.notification.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Notifications
 
-```
+```python
 files_sdk.notification.list({
   "include_ancestors": False,
-  "group_id": 1
+  "group_id": "1"
 })
 ```
 
@@ -99,7 +106,7 @@ files_sdk.notification.list({
 
 ## Show Notification
 
-```
+```python
 files_sdk.notification.find(id)
 ```
 
@@ -112,7 +119,7 @@ files_sdk.notification.find(id)
 
 ## Create Notification
 
-```
+```python
 files_sdk.notification.create({
   "user_id": 1,
   "notify_on_copy": False,
@@ -125,13 +132,12 @@ files_sdk.notification.create({
   "send_interval": "daily",
   "subject": "Vendor A CSV Activity",
   "message": "custom notification email message",
-  "triggering_filenames": ["*.jpg","notify_file.txt"],
+  "triggering_filenames": ["*.jpg", "notify_file.txt"],
   "triggering_group_ids": [1],
   "triggering_user_ids": [1],
   "trigger_by_share_recipients": True,
   "workspace_id": 1,
   "group_id": 1,
-  "group_ids": [1],
   "username": "User"
 })
 ```
@@ -164,7 +170,7 @@ files_sdk.notification.create({
 
 ## Update Notification
 
-```
+```python
 files_sdk.notification.update(id, {
   "notify_on_copy": False,
   "notify_on_delete": True,
@@ -176,7 +182,7 @@ files_sdk.notification.update(id, {
   "send_interval": "daily",
   "subject": "Vendor A CSV Activity",
   "message": "custom notification email message",
-  "triggering_filenames": ["*.jpg","notify_file.txt"],
+  "triggering_filenames": ["*.jpg", "notify_file.txt"],
   "triggering_group_ids": [1],
   "triggering_user_ids": [1],
   "trigger_by_share_recipients": True,
@@ -208,7 +214,7 @@ files_sdk.notification.update(id, {
 
 ## Delete Notification
 
-```
+```python
 files_sdk.notification.delete(id)
 ```
 
@@ -221,7 +227,7 @@ files_sdk.notification.delete(id)
 
 ## Update Notification
 
-```
+```python
 notification = files_sdk.notification.find(id)
 notification.update({
   "notify_on_copy": False,
@@ -234,7 +240,7 @@ notification.update({
   "send_interval": "daily",
   "subject": "Vendor A CSV Activity",
   "message": "custom notification email message",
-  "triggering_filenames": ["*.jpg","notify_file.txt"],
+  "triggering_filenames": ["*.jpg", "notify_file.txt"],
   "triggering_group_ids": [1],
   "triggering_user_ids": [1],
   "trigger_by_share_recipients": True,
@@ -266,7 +272,7 @@ notification.update({
 
 ## Delete Notification
 
-```
+```python
 notification = files_sdk.notification.find(id)
 notification.delete()
 ```

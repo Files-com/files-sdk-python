@@ -2,7 +2,9 @@
 
 ## Example UserAdditionalEmailRecipient Object
 
-```
+The API sends each `UserAdditionalEmailRecipient` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "user_id": 1,
@@ -18,12 +20,17 @@
 * `email` (string): Additional email recipient address
 * `created_at` (date-time): Created at date/time
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.user_additional_email_recipient` resource, such as
+`client.user_additional_email_recipient.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List User Additional Email Recipients
 
-```
+```python
 files_sdk.user_additional_email_recipient.list({
   "user_id": 1
 })
@@ -43,7 +50,7 @@ files_sdk.user_additional_email_recipient.list({
 
 ## Show User Additional Email Recipient
 
-```
+```python
 files_sdk.user_additional_email_recipient.find(id)
 ```
 
@@ -56,7 +63,7 @@ files_sdk.user_additional_email_recipient.find(id)
 
 ## Create User Additional Email Recipient
 
-```
+```python
 files_sdk.user_additional_email_recipient.create({
   "user_id": 1,
   "email": "user-copy@example.com"
@@ -73,7 +80,7 @@ files_sdk.user_additional_email_recipient.create({
 
 ## Update User Additional Email Recipient
 
-```
+```python
 files_sdk.user_additional_email_recipient.update(id, {
   "email": "user-copy@example.com"
 })
@@ -89,7 +96,7 @@ files_sdk.user_additional_email_recipient.update(id, {
 
 ## Delete User Additional Email Recipient
 
-```
+```python
 files_sdk.user_additional_email_recipient.delete(id)
 ```
 
@@ -102,7 +109,7 @@ files_sdk.user_additional_email_recipient.delete(id)
 
 ## Update User Additional Email Recipient
 
-```
+```python
 user_additional_email_recipient = files_sdk.user_additional_email_recipient.find(id)
 user_additional_email_recipient.update({
   "email": "user-copy@example.com"
@@ -119,7 +126,7 @@ user_additional_email_recipient.update({
 
 ## Delete User Additional Email Recipient
 
-```
+```python
 user_additional_email_recipient = files_sdk.user_additional_email_recipient.find(id)
 user_additional_email_recipient.delete()
 ```

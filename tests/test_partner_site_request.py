@@ -1,66 +1,67 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import PartnerSiteRequest
 from files_sdk import partner_site_request
 
+
 class PartnerSiteRequestTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/partner_site_requests/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         partner_site_request = PartnerSiteRequest(params)
         partner_site_request.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(partner_site_request)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/partner_site_requests"), "Mock path does not exist")
     def test_list(self):
-        resp = partner_site_request.list()
+        result = partner_site_request.list()
+        self.assert_returns(partner_site_request.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/partner_site_requests/find_by_pairing_key"), "Mock path does not exist")
     def test_find_by_pairing_key(self):
         params = {
-            "pairing_key" : "foo",
+            "pairing_key": "foo",
         }
-        partner_site_request.find_by_pairing_key(params)
+        result = partner_site_request.find_by_pairing_key(params)
+        self.assert_returns(partner_site_request.find_by_pairing_key, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_site_requests"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "host_partner_id" : 12345,
-            "guest_site_url" : "foo",
+            "host_partner_id": 12345,
+            "guest_site_url": "foo",
         }
-        partner_site_request.create(params)
+        result = partner_site_request.create(params)
+        self.assert_returns(partner_site_request.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_site_requests/reject"), "Mock path does not exist")
     def test_reject(self):
         params = {
-            "pairing_key" : "foo",
+            "pairing_key": "foo",
         }
-        partner_site_request.reject(params)
+        result = partner_site_request.reject(params)
+        self.assert_returns(partner_site_request.reject, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/partner_site_requests/approve"), "Mock path does not exist")
     def test_approve(self):
         params = {
-            "pairing_key" : "foo",
+            "pairing_key": "foo",
         }
-        partner_site_request.approve(params)
+        result = partner_site_request.approve(params)
+        self.assert_returns(partner_site_request.approve, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/partner_site_requests/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        partner_site_request.delete(id, params)
+        result = partner_site_request.delete(id, params)
+        self.assert_returns(partner_site_request.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -2,7 +2,9 @@
 
 ## Example InboxRegistration Object
 
-```
+The API sends each `InboxRegistration` record as JSON, such as:
+
+```json
 {
   "code": "abc123",
   "name": "account",
@@ -34,12 +36,17 @@
 * `inbox_title` (string): Title of associated inbox
 * `created_at` (date-time): Registration creation date/time
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.inbox_registration` resource, such as
+`client.inbox_registration.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Inbox Registrations
 
-```
+```python
 files_sdk.inbox_registration.list({
   "folder_behavior_id": 1
 })

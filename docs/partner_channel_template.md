@@ -2,12 +2,14 @@
 
 ## Example PartnerChannelTemplate Object
 
-```
+The API sends each `PartnerChannelTemplate` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
   "direction": "two_way",
-  "use_channel_root": False,
+  "use_channel_root": false,
   "name": "Claims Template",
   "path": "claims/medical",
   "to_partner_folder_name": "outgoing",
@@ -40,12 +42,17 @@
 * `effective_to_partner_folder_name` (string): Resolved to-Partner subfolder name. Null when the direction is disabled or uses the Channel folder directly.
 * `effective_from_partner_folder_name` (string): Resolved from-Partner subfolder name. Null when the direction is disabled or uses the Channel folder directly.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.partner_channel_template` resource, such as
+`client.partner_channel_template.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Partner Channel Templates
 
-```
+```python
 files_sdk.partner_channel_template.list()
 ```
 
@@ -61,7 +68,7 @@ files_sdk.partner_channel_template.list()
 
 ## Show Partner Channel Template
 
-```
+```python
 files_sdk.partner_channel_template.find(id)
 ```
 
@@ -74,7 +81,7 @@ files_sdk.partner_channel_template.find(id)
 
 ## Create Partner Channel Template
 
-```
+```python
 files_sdk.partner_channel_template.create({
   "direction": "two_way",
   "use_channel_root": False,
@@ -109,7 +116,7 @@ files_sdk.partner_channel_template.create({
 
 ## Update Partner Channel Template
 
-```
+```python
 files_sdk.partner_channel_template.update(id, {
   "direction": "two_way",
   "use_channel_root": False,
@@ -143,7 +150,7 @@ files_sdk.partner_channel_template.update(id, {
 
 ## Delete Partner Channel Template
 
-```
+```python
 files_sdk.partner_channel_template.delete(id)
 ```
 
@@ -156,7 +163,7 @@ files_sdk.partner_channel_template.delete(id)
 
 ## Update Partner Channel Template
 
-```
+```python
 partner_channel_template = files_sdk.partner_channel_template.find(id)
 partner_channel_template.update({
   "direction": "two_way",
@@ -191,7 +198,7 @@ partner_channel_template.update({
 
 ## Delete Partner Channel Template
 
-```
+```python
 partner_channel_template = files_sdk.partner_channel_template.find(id)
 partner_channel_template.delete()
 ```

@@ -2,14 +2,16 @@
 
 ## Example EventChannel Object
 
-```
+The API sends each `EventChannel` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "example",
   "workspace_id": 1,
   "description": "example",
-  "enabled": True,
-  "default_channel": True,
+  "enabled": true,
+  "default_channel": true,
   "created_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z"
 }
@@ -24,12 +26,17 @@
 * `created_at` (date-time): Event Channel create date/time.
 * `updated_at` (date-time): Event Channel update date/time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.event_channel` resource, such as
+`client.event_channel.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Event Channels
 
-```
+```python
 files_sdk.event_channel.list()
 ```
 
@@ -45,7 +52,7 @@ files_sdk.event_channel.list()
 
 ## Show Event Channel
 
-```
+```python
 files_sdk.event_channel.find(id)
 ```
 
@@ -58,7 +65,7 @@ files_sdk.event_channel.find(id)
 
 ## Create Event Channel
 
-```
+```python
 files_sdk.event_channel.create({
   "name": "example",
   "workspace_id": 1,
@@ -81,7 +88,7 @@ files_sdk.event_channel.create({
 
 ## Update Event Channel
 
-```
+```python
 files_sdk.event_channel.update(id, {
   "name": "example",
   "workspace_id": 1,
@@ -105,7 +112,7 @@ files_sdk.event_channel.update(id, {
 
 ## Delete Event Channel
 
-```
+```python
 files_sdk.event_channel.delete(id)
 ```
 
@@ -118,7 +125,7 @@ files_sdk.event_channel.delete(id)
 
 ## Update Event Channel
 
-```
+```python
 event_channel = files_sdk.event_channel.find(id)
 event_channel.update({
   "name": "example",
@@ -143,7 +150,7 @@ event_channel.update({
 
 ## Delete Event Channel
 
-```
+```python
 event_channel = files_sdk.event_channel.find(id)
 event_channel.delete()
 ```

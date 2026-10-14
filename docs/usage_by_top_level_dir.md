@@ -2,7 +2,9 @@
 
 ## Example UsageByTopLevelDir Object
 
-```
+The API sends each `UsageByTopLevelDir` record as JSON, such as:
+
+```json
 {
   "dir": "",
   "size": 1,

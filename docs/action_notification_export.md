@@ -2,7 +2,9 @@
 
 ## Example ActionNotificationExport Object
 
-```
+The API sends each `ActionNotificationExport` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -16,7 +18,7 @@
   "query_request_method": "GET",
   "query_request_url": "http://example.com/webhook",
   "query_status": "200",
-  "query_success": True,
+  "query_success": true,
   "results_url": "https://files.com/action_notification_results.csv"
 }
 ```
@@ -37,12 +39,17 @@
 * `results_url` (string): If `status` is `ready`, this will be a URL where all the results can be downloaded at once as a CSV.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.action_notification_export` resource, such as
+`client.action_notification_export.find(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## Show Action Notification Export
 
-```
+```python
 files_sdk.action_notification_export.find(id)
 ```
 
@@ -55,7 +62,7 @@ files_sdk.action_notification_export.find(id)
 
 ## Create Action Notification Export
 
-```
+```python
 files_sdk.action_notification_export.create({
   "user_id": 1,
   "workspace_id": 1,

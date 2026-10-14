@@ -2,7 +2,9 @@
 
 ## Example GpgKey Object
 
-```
+The API sends each `GpgKey` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -39,12 +41,17 @@
 * `generate_full_name` (string): Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 * `generate_email` (string): Email address of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.gpg_key` resource, such as
+`client.gpg_key.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List GPG Keys
 
-```
+```python
 files_sdk.gpg_key.list({
   "user_id": 1
 })
@@ -67,7 +74,7 @@ files_sdk.gpg_key.list({
 
 ## Show GPG Key
 
-```
+```python
 files_sdk.gpg_key.find(id)
 ```
 
@@ -80,7 +87,7 @@ files_sdk.gpg_key.find(id)
 
 ## Create GPG Key
 
-```
+```python
 files_sdk.gpg_key.create({
   "user_id": 1,
   "partner_id": 1,
@@ -112,7 +119,7 @@ files_sdk.gpg_key.create({
 
 ## Update GPG Key
 
-```
+```python
 files_sdk.gpg_key.update(id, {
   "partner_id": 1,
   "name": "key name"
@@ -133,7 +140,7 @@ files_sdk.gpg_key.update(id, {
 
 ## Delete GPG Key
 
-```
+```python
 files_sdk.gpg_key.delete(id)
 ```
 
@@ -146,7 +153,7 @@ files_sdk.gpg_key.delete(id)
 
 ## Update GPG Key
 
-```
+```python
 gpg_key = files_sdk.gpg_key.find(id)
 gpg_key.update({
   "partner_id": 1,
@@ -168,7 +175,7 @@ gpg_key.update({
 
 ## Delete GPG Key
 
-```
+```python
 gpg_key = files_sdk.gpg_key.find(id)
 gpg_key.delete()
 ```

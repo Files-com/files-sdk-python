@@ -2,7 +2,9 @@
 
 ## Example Errors Object
 
-```
+The API sends each `Errors` record as JSON, such as:
+
+```json
 {
   "fields": [
 

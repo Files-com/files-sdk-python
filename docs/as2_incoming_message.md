@@ -2,7 +2,9 @@
 
 ## Example As2IncomingMessage Object
 
-```
+The API sends each `As2IncomingMessage` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -33,11 +35,11 @@
   "recipient_serial": "example",
   "hex_recipient_serial": "A5:EB:C1:95:DC:D8:2B:E7",
   "recipient_issuer": "example",
-  "message_received": True,
-  "message_decrypted": True,
-  "message_signature_verified": True,
-  "message_processing_success": True,
-  "message_mdn_returned": True,
+  "message_received": true,
+  "message_decrypted": true,
+  "message_signature_verified": true,
+  "message_processing_success": true,
+  "message_mdn_returned": true,
   "encrypted_uri": "example",
   "smime_signed_uri": "example",
   "smime_uri": "example",
@@ -82,12 +84,17 @@
 * `raw_uri` (string): URL to download the original file contents
 * `mdn_response_uri` (string): URL to download the http response body
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.as2_incoming_message` resource, such as
+`client.as2_incoming_message.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List AS2 Incoming Messages
 
-```
+```python
 files_sdk.as2_incoming_message.list()
 ```
 

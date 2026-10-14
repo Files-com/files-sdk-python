@@ -2,7 +2,9 @@
 
 ## Example Schedule Object
 
-```
+The API sends each `Schedule` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "Weekday overnight",
@@ -34,12 +36,17 @@
 * `created_at` (date-time): Creation time.
 * `updated_at` (date-time): Last update time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.schedule` resource, such as
+`client.schedule.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Schedules
 
-```
+```python
 files_sdk.schedule.list()
 ```
 
@@ -54,7 +61,7 @@ files_sdk.schedule.list()
 
 ## Show Schedule
 
-```
+```python
 files_sdk.schedule.find(id)
 ```
 
@@ -67,10 +74,10 @@ files_sdk.schedule.find(id)
 
 ## Create Schedule
 
-```
+```python
 files_sdk.schedule.create({
   "name": "Weekday overnight",
-  "schedule_days_of_week": [1,2,3,4,5],
+  "schedule_days_of_week": [1, 2, 3, 4, 5],
   "schedule_times_of_day": ["01:00"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "holiday_region": "us"
@@ -90,10 +97,10 @@ files_sdk.schedule.create({
 
 ## Update Schedule
 
-```
+```python
 files_sdk.schedule.update(id, {
   "name": "Weekday overnight",
-  "schedule_days_of_week": [1,2,3,4,5],
+  "schedule_days_of_week": [1, 2, 3, 4, 5],
   "schedule_times_of_day": ["01:00"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "holiday_region": "us"
@@ -114,7 +121,7 @@ files_sdk.schedule.update(id, {
 
 ## Delete Schedule
 
-```
+```python
 files_sdk.schedule.delete(id)
 ```
 
@@ -127,11 +134,11 @@ files_sdk.schedule.delete(id)
 
 ## Update Schedule
 
-```
+```python
 schedule = files_sdk.schedule.find(id)
 schedule.update({
   "name": "Weekday overnight",
-  "schedule_days_of_week": [1,2,3,4,5],
+  "schedule_days_of_week": [1, 2, 3, 4, 5],
   "schedule_times_of_day": ["01:00"],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "holiday_region": "us"
@@ -152,7 +159,7 @@ schedule.update({
 
 ## Delete Schedule
 
-```
+```python
 schedule = files_sdk.schedule.find(id)
 schedule.delete()
 ```

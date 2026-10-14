@@ -2,7 +2,9 @@
 
 ## Example SyncLog Object
 
-```
+The API sends each `SyncLog` record as JSON, such as:
+
+```json
 {
   "timestamp": "2000-01-01T01:00:00Z",
   "sync_id": 1,
@@ -32,12 +34,17 @@
 * `status` (string): Status
 * `created_at` (date-time): Start Time of Action
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.sync_log` resource, such as
+`client.sync_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Sync Logs
 
-```
+```python
 files_sdk.sync_log.list()
 ```
 

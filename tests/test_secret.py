@@ -1,69 +1,70 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import Secret
 from files_sdk import secret
 
+
 class SecretTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/secrets/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         secret = Secret(params)
-        secret.update(params)
+        result = secret.update(params)
+        self.assert_returns(Secret.update, result)
+        self.assert_typed(secret)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/secrets/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         secret = Secret(params)
         secret.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(secret)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/secrets"), "Mock path does not exist")
     def test_list(self):
-        resp = secret.list()
+        result = secret.list()
+        self.assert_returns(secret.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/secrets/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        secret.find(id, params)
+        result = secret.find(id, params)
+        self.assert_returns(secret.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/secrets"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "name" : "foo",
-            "secret_type" : "foo",
+            "name": "foo",
+            "secret_type": "foo",
         }
-        secret.create(params)
+        result = secret.create(params)
+        self.assert_returns(secret.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/secrets/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        secret.update(id, params)
+        result = secret.update(id, params)
+        self.assert_returns(secret.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/secrets/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        secret.delete(id, params)
+        result = secret.delete(id, params)
+        self.assert_returns(secret.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

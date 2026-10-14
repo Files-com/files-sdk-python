@@ -2,7 +2,9 @@
 
 ## Example User Object
 
-```
+The API sends each `User` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "username": "user",
@@ -10,26 +12,26 @@
     1
   ],
   "allowed_ips": "10.0.0.0/8\n127.0.0.1",
-  "attachments_permission": True,
+  "attachments_permission": true,
   "api_keys_count": 1,
   "authenticate_until": "2000-01-01T01:00:00Z",
   "authentication_method": "password",
   "avatar_url": "example",
-  "billable": True,
-  "billing_permission": False,
-  "bypass_site_allowed_ips": False,
-  "bypass_user_lifecycle_rules": False,
+  "billable": true,
+  "billing_permission": false,
+  "bypass_site_allowed_ips": false,
+  "bypass_user_lifecycle_rules": false,
   "created_at": "2000-01-01T01:00:00Z",
-  "dav_permission": True,
-  "disabled": True,
-  "disabled_expired_or_inactive": True,
+  "dav_permission": true,
+  "disabled": true,
+  "disabled_expired_or_inactive": true,
   "ai_assistant_personality_id": 1,
   "desktop_configuration_profile_id": 1,
   "integration_centric_profile_id": 1,
   "email": "john.doe@files.com",
   "filesystem_layout": "site_root",
   "first_login_at": "2000-01-01T01:00:00Z",
-  "ftp_permission": True,
+  "ftp_permission": true,
   "group_ids": "example",
   "header_text": "User-specific message.",
   "language": "en",
@@ -48,45 +50,45 @@
   "company": "ACME Corp.",
   "notes": "Internal notes on this user.",
   "notification_daily_send_time": 18,
-  "office_integration_enabled": True,
-  "partner_admin": True,
+  "office_integration_enabled": true,
+  "partner_admin": true,
   "partner_id": 1,
   "partner_name": "example",
   "password_set_at": "2000-01-01T01:00:00Z",
   "password_validity_days": 1,
   "primary_group_id": 1,
   "public_keys_count": 1,
-  "receive_admin_alerts": True,
-  "notify_on_all_site_warnings": True,
-  "notify_on_all_sso_failures": True,
-  "notify_on_all_user_security_events": True,
-  "notify_on_all_pending_work_failures": True,
-  "notify_on_all_siem_http_destination_failures": True,
-  "notify_on_all_sync_failures": True,
-  "notify_on_all_automation_failures": True,
-  "notify_on_all_expectation_failures": True,
+  "receive_admin_alerts": true,
+  "notify_on_all_site_warnings": true,
+  "notify_on_all_sso_failures": true,
+  "notify_on_all_user_security_events": true,
+  "notify_on_all_pending_work_failures": true,
+  "notify_on_all_siem_http_destination_failures": true,
+  "notify_on_all_sync_failures": true,
+  "notify_on_all_automation_failures": true,
+  "notify_on_all_expectation_failures": true,
   "require_2fa": "always_require",
   "require_login_by": "2000-01-01T01:00:00Z",
-  "active_2fa": True,
-  "require_password_change": True,
-  "password_expired": True,
+  "active_2fa": true,
+  "require_password_change": true,
+  "password_expired": true,
   "responsible_group_id": 1,
   "responsible_user_id": 1,
-  "readonly_site_admin": True,
-  "restapi_permission": True,
-  "s3_compatible_endpoint_permission": True,
-  "self_managed": True,
-  "sftp_permission": True,
-  "site_admin": True,
-  "workspace_admin": True,
+  "readonly_site_admin": true,
+  "restapi_permission": true,
+  "s3_compatible_endpoint_permission": true,
+  "self_managed": true,
+  "sftp_permission": true,
+  "site_admin": true,
+  "workspace_admin": true,
   "site_id": 1,
   "workspace_id": 1,
   "default_workspace_id": 1,
-  "skip_welcome_screen": True,
+  "skip_welcome_screen": true,
   "ssl_required": "always_require",
   "sso_strategy_id": 1,
-  "subscribe_to_newsletter": True,
-  "externally_managed": True,
+  "subscribe_to_newsletter": true,
+  "externally_managed": true,
   "tags": "example",
   "time_zone": "Pacific Time (US & Canada)",
   "type_of_2fa": "yubi",
@@ -200,12 +202,17 @@
 * `clear_2fa` (boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 * `convert_to_partner_user` (boolean): Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.user` resource, such as
+`client.user.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Users
 
-```
+```python
 files_sdk.user.list({
   "include_parent_site_users": False
 })
@@ -231,7 +238,7 @@ files_sdk.user.list({
 
 ## Show User
 
-```
+```python
 files_sdk.user.find(id)
 ```
 
@@ -244,7 +251,7 @@ files_sdk.user.find(id)
 
 ## Create User
 
-```
+```python
 files_sdk.user.create({
   "avatar_delete": False,
   "email": "john.doe@files.com",
@@ -313,7 +320,7 @@ files_sdk.user.create({
 
 ### Parameters
 
-* `avatar_file` (file): An image file for your user avatar.
+* `avatar_file` (file): An image file for your user avatar. Pass bytes, a binary stream, a `files_sdk.Attachment` or a JSON file object. See [File Attachments](../README.md#file-attachments).
 * `avatar_delete` (boolean): If true, the avatar will be deleted.
 * `change_password` (string): Used for changing a password on an existing user.
 * `change_password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
@@ -388,7 +395,7 @@ files_sdk.user.create({
 
 ## Unlock user who has been locked out due to failed logins
 
-```
+```python
 files_sdk.user.unlock(id)
 ```
 
@@ -401,7 +408,7 @@ files_sdk.user.unlock(id)
 
 ## Resend user welcome email
 
-```
+```python
 files_sdk.user.resend_welcome_email(id)
 ```
 
@@ -414,7 +421,7 @@ files_sdk.user.resend_welcome_email(id)
 
 ## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
 
-```
+```python
 files_sdk.user.user_2fa_reset(id)
 ```
 
@@ -427,7 +434,7 @@ files_sdk.user.user_2fa_reset(id)
 
 ## Update User
 
-```
+```python
 files_sdk.user.update(id, {
   "avatar_delete": False,
   "email": "john.doe@files.com",
@@ -499,7 +506,7 @@ files_sdk.user.update(id, {
 ### Parameters
 
 * `id` (int64): Required - User ID.
-* `avatar_file` (file): An image file for your user avatar.
+* `avatar_file` (file): An image file for your user avatar. Pass bytes, a binary stream, a `files_sdk.Attachment` or a JSON file object. See [File Attachments](../README.md#file-attachments).
 * `avatar_delete` (boolean): If true, the avatar will be deleted.
 * `change_password` (string): Used for changing a password on an existing user.
 * `change_password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
@@ -576,7 +583,7 @@ files_sdk.user.update(id, {
 
 ## Delete User
 
-```
+```python
 files_sdk.user.delete(id, {
   "new_owner_id": 1
 })
@@ -592,7 +599,7 @@ files_sdk.user.delete(id, {
 
 ## Unlock user who has been locked out due to failed logins
 
-```
+```python
 user = files_sdk.user.find(id)
 user.unlock()
 ```
@@ -606,7 +613,7 @@ user.unlock()
 
 ## Resend user welcome email
 
-```
+```python
 user = files_sdk.user.find(id)
 user.resend_welcome_email()
 ```
@@ -620,7 +627,7 @@ user.resend_welcome_email()
 
 ## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
 
-```
+```python
 user = files_sdk.user.find(id)
 user.user_2fa_reset()
 ```
@@ -634,7 +641,7 @@ user.user_2fa_reset()
 
 ## Update User
 
-```
+```python
 user = files_sdk.user.find(id)
 user.update({
   "avatar_delete": False,
@@ -707,7 +714,7 @@ user.update({
 ### Parameters
 
 * `id` (int64): Required - User ID.
-* `avatar_file` (file): An image file for your user avatar.
+* `avatar_file` (file): An image file for your user avatar. Pass bytes, a binary stream, a `files_sdk.Attachment` or a JSON file object. See [File Attachments](../README.md#file-attachments).
 * `avatar_delete` (boolean): If true, the avatar will be deleted.
 * `change_password` (string): Used for changing a password on an existing user.
 * `change_password_confirmation` (string): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
@@ -784,7 +791,7 @@ user.update({
 
 ## Delete User
 
-```
+```python
 user = files_sdk.user.find(id)
 user.delete({
   "new_owner_id": 1

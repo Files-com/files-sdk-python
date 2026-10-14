@@ -2,7 +2,9 @@
 
 ## Example Folder Object
 
-```
+The API sends each `Folder` record as JSON, such as:
+
+```json
 {
   "path": "path/file.txt",
   "created_by_id": 1,
@@ -35,8 +37,8 @@
   "mime_type": "application/octet-stream",
   "region": "us-east-1",
   "permissions": "rwd",
-  "subfolders_locked?": True,
-  "is_locked": True,
+  "subfolders_locked?": true,
+  "is_locked": true,
   "download_uri": "https://mysite.files.com/...",
   "direct_connection_info": {
     "version": 1,
@@ -97,12 +99,17 @@
 * `preview` (Preview): File preview
 * `mkdir_parents` (boolean): Create parent directories if they do not exist?
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.folder` resource, such as
+`client.folder.list_for(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Folders by Path
 
-```
+```python
 files_sdk.folder.list_for(path, {
   "search": "some-partial-filename",
   "search_custom_metadata_key": "some-metadata-key",
@@ -133,7 +140,7 @@ files_sdk.folder.list_for(path, {
 
 ## Create Folder
 
-```
+```python
 files_sdk.folder.create(path, {
   "mkdir_parents": False,
   "provided_mtime": "2000-01-01T01:00:00Z"

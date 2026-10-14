@@ -2,14 +2,16 @@
 
 ## Example SsoStrategy Object
 
-```
+The API sends each `SsoStrategy` record as JSON, such as:
+
+```json
 {
   "protocol": "oauth2",
   "provider": "okta",
   "label": "My Corporate SSO Provider",
   "logo_url": "https://mysite.files.com/.../logo.png",
   "id": 1,
-  "enabled": True,
+  "enabled": true,
   "user_count": 1,
   "saml_provider_cert_fingerprint": "example",
   "saml_provider_issuer_url": "example",
@@ -22,10 +24,10 @@
   "scim_oauth_access_token": "example",
   "scim_oauth_access_token_expires_at": "example",
   "subdomain": "",
-  "provision_users": False,
-  "provision_groups": False,
-  "deprovision_users": False,
-  "deprovision_groups": False,
+  "provision_users": false,
+  "provision_groups": false,
+  "deprovision_users": false,
+  "deprovision_groups": false,
   "deprovision_behavior": "disable",
   "provision_group_default": "Employees",
   "provision_group_exclusion": "Employees",
@@ -35,10 +37,10 @@
   "provision_readonly_site_admin_groups": "Employees",
   "provision_site_admin_groups": "Employees",
   "provision_group_admin_groups": "Employees",
-  "provision_attachments_permission": True,
-  "provision_dav_permission": True,
-  "provision_ftp_permission": True,
-  "provision_sftp_permission": True,
+  "provision_attachments_permission": true,
+  "provision_dav_permission": true,
+  "provision_ftp_permission": true,
+  "provision_sftp_permission": true,
   "provision_time_zone": "Eastern Time (US & Canada)",
   "provision_company": "ACME Corp.",
   "provision_require_2fa": "always_require",
@@ -46,13 +48,13 @@
   "provider_identifier": "",
   "ldap_base_dn": "example",
   "ldap_domain": "mysite.com",
-  "display_on_login_page": True,
+  "display_on_login_page": true,
   "ldap_host": "ldap.site.com",
   "ldap_host_2": "ldap2.site.com",
   "ldap_host_3": "ldap3.site.com",
   "ldap_port": 1,
-  "ldap_provisioning_enabled": True,
-  "ldap_secure": True,
+  "ldap_provisioning_enabled": true,
+  "ldap_secure": true,
   "ldap_server_certificate": "require_match",
   "ldap_type": "active_directory",
   "ldap_username": "[ldap username]",
@@ -114,12 +116,17 @@
 * `ldap_username` (string): Username for signing in to LDAP server.
 * `ldap_username_field` (string): LDAP username field
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.sso_strategy` resource, such as
+`client.sso_strategy.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List SSO Strategies
 
-```
+```python
 files_sdk.sso_strategy.list()
 ```
 
@@ -134,7 +141,7 @@ files_sdk.sso_strategy.list()
 
 ## Show SSO Strategy
 
-```
+```python
 files_sdk.sso_strategy.find(id)
 ```
 
@@ -147,7 +154,7 @@ files_sdk.sso_strategy.find(id)
 
 ## Synchronize provisioning data with the SSO remote server
 
-```
+```python
 files_sdk.sso_strategy.sync(id)
 ```
 
@@ -160,7 +167,7 @@ files_sdk.sso_strategy.sync(id)
 
 ## Synchronize provisioning data with the SSO remote server
 
-```
+```python
 sso_strategy = files_sdk.sso_strategy.find(id)
 sso_strategy.sync()
 ```

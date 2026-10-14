@@ -1,7 +1,18 @@
 import builtins  # noqa: F401
+from typing import Any, Mapping  # noqa: F401
 from decimal import Decimal
+from files_sdk.attachment import with_attachments
 from files_sdk.models.usage_snapshot import UsageSnapshot
-from files_sdk.api import Api  # noqa: F401
+from files_sdk.api import (  # noqa: F401
+    LEGACY,
+    LegacyScope,
+    Operation,
+    copy_params,
+    decode_record,
+    path_value,
+)
+from files_sdk.api_client import unexpected_response_error  # noqa: F401
+from files_sdk.context import RequestOptions  # noqa: F401
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
     MissingParameterError,
@@ -10,6 +21,214 @@ from files_sdk.error import (  # noqa: F401
 
 
 class Site:
+    """A site record from the Files.com API.
+
+    An attribute the API did not send is None.
+
+    Attributes:
+        id: int64 - Site Id
+        name: string - Site name
+        additional_text_file_types: array(string) - Additional extensions that are considered text files
+        ai_feature_availability: object - Availability settings for AI features. Each feature requires the site_admins, workspace_admins, folder_admins, and all_users keys. Optional selected_group_members defaults to false; when true, members of at least one group in group_ids get access regardless of the other options. All availability options are additive: any enabled option matching the user grants access. Optional group_ids is an array of integer IDs of active groups on this site, from any workspace. Omitted or empty group_ids grants no access through selected_group_members and does not affect other options. Disabling all AI features overrides these settings.
+        allowed_2fa_method_sms: boolean - Is SMS two factor authentication allowed?
+        allowed_2fa_method_totp: boolean - Is TOTP two factor authentication allowed?
+        allowed_2fa_method_webauthn: boolean - Is WebAuthn two factor authentication allowed?
+        allowed_2fa_method_yubi: boolean - Is yubikey two factor authentication allowed?
+        allowed_2fa_method_email: boolean - Is OTP via email two factor authentication allowed?
+        allowed_2fa_method_static: boolean - Is OTP via static codes for two factor authentication allowed?
+        allowed_2fa_method_bypass_for_ftp_sftp_dav: boolean - Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
+        admin_user_id: int64 - User ID for the main site administrator
+        admins_bypass_locked_subfolders: boolean - Allow admins to bypass the locked subfolders setting.
+        allow_bundle_names: boolean - Are manual Bundle names allowed?
+        allow_user_level_2fa_override: boolean - Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
+        allow_user_level_allowed_ip_override: boolean - Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
+        allow_user_level_ssl_override: boolean - Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
+        allowed_countries: string - Comma separated list of allowed Country codes
+        allowed_ips: string - List of allowed IP addresses
+        always_mkdir_parents: boolean - Create parent directories if they do not exist during uploads? This is primarily used to work around broken upload clients that assume servers will perform this step.
+        as2_message_retention_days: int64 - Number of days to retain AS2 messages (incoming and outgoing).
+        ask_about_overwrites: boolean - If false, rename conflicting files instead of asking for overwrite confirmation. Only applies to web interface.
+        bundle_activity_notifications: string - Do Bundle owners receive activity notifications?
+        bundle_expiration: int64 - Site-wide Bundle expiration in days
+        bundle_not_found_message: string - Custom error message to show when bundle is not found.
+        bundle_password_required: boolean - Do Bundles require password protection?
+        bundles_default_owned_by_primary_group: boolean - If true, new Share Links created by a user with a primary group will default to that group as owner.
+        bundle_recipient_blacklist_domains: array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
+        bundle_recipient_blacklist_free_email_domains: boolean - Disallow free email domains for Bundle/Inbox recipients?
+        bundle_registration_notifications: string - Do Bundle owners receive registration notification?
+        bundle_require_registration: boolean - Do Bundles require registration?
+        bundle_require_share_recipient: boolean - Do Bundles require recipients for sharing?
+        bundle_send_one_time_password_to_recipient_at_registration: boolean - If true, new Share Links must send a one-time password to the recipient when they register. Requires bundle_require_share_recipient and cannot be enabled with bundle_password_required.
+        bundle_require_note: boolean - Do Bundles require internal notes?
+        bundle_send_shared_receipts: boolean - Do Bundle creators receive receipts of invitations?
+        bundle_upload_receipt_notifications: string - Do Bundle uploaders receive upload confirmation notifications?
+        bundle_watermark_attachment: Image - Preview watermark image applied to all bundle items.
+        bundle_watermark_value: object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+        calculate_file_checksums_crc32: boolean - Calculate CRC32 checksums for files?
+        calculate_file_checksums_md5: boolean - Calculate MD5 checksums for files?
+        calculate_file_checksums_sha1: boolean - Calculate SHA1 checksums for files?
+        calculate_file_checksums_sha256: boolean - Calculate SHA256 checksums for files?
+        child_site_folder_admins_can_see_parent_site_directory: boolean - If true, administrators on this site's Child Sites, including Folder Admins, can list this site's Default Workspace users and groups and grant them folder permissions and notifications on Child Site paths.
+        uploads_via_email_authentication: boolean - Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
+        color2_left: string - Page link and button color
+        color2_link: string - Top bar link color
+        color2_text: string - Page link and button color
+        color2_top: string - Top bar background color
+        color2_top_text: string - Top bar text color
+        contact_name: string - Site main contact name
+        created_at: date-time - Time this site was created
+        currency: string - Preferred currency
+        custom_namespace: boolean - Is this site using a custom namespace for users?
+        dav_enabled: boolean - Is WebDAV enabled?
+        dav_user_root_enabled: boolean - Use user FTP roots also for WebDAV?
+        days_to_retain_backups: int64 - Number of days to keep deleted files
+        document_edits_in_bundle_allowed: boolean - If true, allow public viewers of Bundles with full permissions to use document editing integrations.
+        default_time_zone: string - Site default time zone
+        desktop_app: boolean - Is the desktop app enabled?
+        desktop_app_session_ip_pinning: boolean - Is desktop app session IP pinning enabled?
+        desktop_app_session_lifetime: int64 - Desktop app session lifetime (in hours)
+        legacy_checksums_mode: boolean - Use legacy checksums mode?
+        migrate_remote_server_sync_to_sync: boolean - If true, we will migrate all remote server syncs to the new Sync model.
+        mcp_dcr_enabled: boolean - Is OAuth DCR (dynamic client registration) for MCP enabled?
+        mobile_app: boolean - Is the mobile app enabled?
+        mobile_app_session_ip_pinning: boolean - Is mobile app session IP pinning enabled?
+        mobile_app_session_lifetime: int64 - Mobile app session lifetime (in hours)
+        disallowed_countries: string - Comma separated list of disallowed Country codes
+        disable_all_ai_features: boolean - If true, all AI features are disabled for this site.
+        disable_files_certificate_generation: boolean - If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
+        disable_notifications: boolean - Are notifications disabled?
+        file_activity_events_enabled: boolean - If true, file operations produce file_action.activity.v1 EventChannel events in all workspaces. Defaults to false; subscription filters and workspace access still control delivery.
+        disable_password_reset: boolean - Is password reset disabled?
+        domain: string - Custom domain
+        domain_hsts_header: boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
+        domain_letsencrypt_chain: string - Letsencrypt chain to use when registering SSL Certificate for domain. No longer used as of 2026.
+        email: email - Main email for this site
+        fedramp: boolean - Are FedRAMP security restrictions enabled for this site?
+        files_com_remote_server_enabled: boolean - Allow other Files.com sites to use this site's API keys for native Files.com Remote Server connections? Defaults to true and applies to all keys and workspaces on this site. When false, new pairings and access through existing connections are rejected without revoking keys or deleting connections. Re-enabling permits access again with usable keys. Does not disable this site's connections to other sites, ordinary API access, or Connected Sites.
+        ftp_enabled: boolean - Is FTP enabled?
+        reply_to_email: email - Reply-to email for this site
+        non_sso_groups_allowed: boolean - If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
+        non_sso_users_allowed: boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
+        folder_permissions_groups_only: boolean - If true, permissions for this site must be bound to a group (not a user).
+        group_admins_can_add_users: boolean - Allow group admins to create users in their groups
+        group_admins_can_manage_group_memberships: boolean - Allow group admins to add or remove existing users in their groups
+        group_admins_can_delete_users: boolean - Allow group admins to delete users in their groups
+        group_admins_can_enable_disable_users: boolean - Allow group admins to enable or disable users in their groups
+        group_admins_can_modify_users: boolean - Allow group admins to modify users in their groups
+        group_admins_can_bypass_user_lifecycle_rules: boolean - Allow group admins to exempt users in their groups from lifecycle rules
+        group_admins_can_reset_passwords: boolean - Allow group admins to reset passwords for users in their groups
+        group_admins_can_set_user_password: boolean - Allow group admins to set password authentication method
+        hipaa: boolean - Is there a signed HIPAA BAA between Files.com and this site?
+        icon128: Image - Branded icon 128x128
+        icon16: Image - Branded icon 16x16
+        icon32: Image - Branded icon 32x32
+        icon48: Image - Branded icon 48x48
+        immutable_files_set_at: date-time - Can files be modified?
+        include_password_in_welcome_email: boolean - Include password in emails to new users?
+        language: string - Site default language
+        ldap_base_dn: string - Base DN for looking up users in LDAP server
+        ldap_domain: string - Domain name that will be appended to usernames
+        ldap_enabled: boolean - Main LDAP setting: is LDAP enabled?
+        ldap_group_action: string - Should we sync groups from LDAP server?
+        ldap_group_exclusion: string - Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
+        ldap_group_inclusion: string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
+        ldap_host: string - LDAP host
+        ldap_host_2: string - LDAP backup host
+        ldap_host_3: string - LDAP backup host
+        ldap_port: int64 - LDAP port
+        ldap_secure: boolean - Use secure LDAP?
+        ldap_server_certificate: string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
+        ldap_type: string - LDAP type
+        ldap_user_action: string - Should we sync users from LDAP server?
+        ldap_user_include_groups: string - Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
+        ldap_username: string - Username for signing in to LDAP server.
+        ldap_username_field: string - LDAP username field
+        login_help_text: string - Login help text
+        logo: Image - Branded logo
+        login_page_background_image: Image - Branded login page background
+        max_prior_passwords: int64 - Number of prior passwords to disallow
+        managed_site_settings: object - Site settings managed by the parent site. Each key identifies a managed setting, with a null value. Non-secret effective values are returned in their own Site settings fields.
+        motd_text: string - A message to show users when they connect via FTP or SFTP.
+        motd_use_for_ftp: boolean - Show message to users connecting via FTP
+        motd_use_for_sftp: boolean - Show message to users connecting via SFTP
+        next_billing_amount: decimal - Next billing amount
+        next_billing_date: string - Next billing date
+        office_integration_available: boolean - If true, allows users to use a document editing integration.
+        office_integration_type: string - Which document editing integration to support. Files.com Editor or Microsoft Office for the Web.
+        oncehub_link: string - Link to scheduling a meeting with our Sales team
+        opt_out_global: boolean - Use servers in the USA only?
+        overdue: boolean - Is this site's billing overdue?
+        password_min_length: int64 - Shortest password length for users
+        password_require_letter: boolean - Require a letter in passwords?
+        password_require_mixed: boolean - Require lower and upper case letters in passwords?
+        password_require_number: boolean - Require a number in passwords?
+        password_require_special: boolean - Require special characters in password?
+        password_require_unbreached: boolean - Require passwords that have not been previously breached? (see https://haveibeenpwned.com/)
+        password_requirements_apply_to_bundles: boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
+        password_validity_days: int64 - Number of days password is valid
+        phone: string - Site phone number
+        pin_all_remote_servers_to_site_region: boolean - If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
+        prevent_root_permissions_for_non_site_admins: boolean - If true, we will prevent non-administrators from receiving any permissions directly on the root folder. This is commonly used to prevent the accidental application of permissions.
+        protocol_access_groups_only: boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored. Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
+        require_2fa: boolean - Require two-factor authentication for all users?
+        restrict_root_folder_behaviors_to_site_admins: boolean - If true, only site admins may create, modify, or delete any behavior at the site root, or a skip that would disable one.
+        root_folder_behaviors_apply_to_workspaces: boolean - If true, supported protective behaviors at the site root also apply within named workspaces. Requires restrict_root_folder_behaviors_to_site_admins to be enabled.
+        require_2fa_exempt_all_sso_users: boolean - If true, SSO users using the default user-level two-factor authentication setting are exempt from the site-wide two-factor authentication requirement.
+        require_2fa_stop_time: date-time - If set, requirement for two-factor authentication has been scheduled to end on this date-time.
+        revoke_bundle_access_on_disable_or_delete: boolean - Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
+        require_2fa_user_type: string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
+        require_logout_from_bundles_and_inboxes: boolean - If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
+        session: Session - Current session
+        s3_compatible_endpoint_enabled: boolean - Is the S3-compatible endpoint enabled for all users and workspaces on this site? Defaults to true. When false, user and group S3 permissions do not allow access.
+        sftp_enabled: boolean - Is SFTP enabled?
+        sftp_finalize_partial_uploads: boolean - Finalize partial SFTP uploads from interrupted connections? Default: true.
+        sftp_host_key_type: string - Sftp Host Key Type
+        active_sftp_host_key_id: int64 - Id of the currently selected custom SFTP Host Key
+        active_sftp_host_key_ids: array(int64) - Ids of the selected custom SFTP Host Keys
+        sftp_insecure_ciphers: boolean - If true, we will allow weak and known insecure ciphers to be used for SFTP connections. Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
+        sftp_insecure_diffie_hellman: boolean - If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list. This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients. Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
+        sftp_user_root_enabled: boolean - Use user FTP roots also for SFTP?
+        sharing_enabled: boolean - Allow bundle creation
+        show_user_notifications_log_in_link: boolean - Show log in link in user notifications?
+        show_request_access_link: boolean - Show request access link for users without access? Currently unused.
+        site_footer: string - Custom site footer text for authenticated pages
+        site_header: string - Custom site header text for authenticated pages
+        site_public_footer: string - Custom site footer text for public pages
+        site_public_header: string - Custom site header text for public pages
+        smtp_address: string - SMTP server hostname or IP
+        smtp_authentication: string - SMTP server authentication type
+        smtp_from: string - From address to use when mailing through custom SMTP
+        smtp_port: int64 - SMTP server port
+        smtp_ssl: string - Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted. A certificate-verified STARTTLS connection automatically changes if_available to require unless smtp_ssl is managed by a parent policy. require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address. Encryption is never automatically downgraded.
+        smtp_username: string - SMTP server username
+        session_expiry_minutes: int64 - Session expiry in minutes
+        snapshot_sharing_enabled: boolean - Allow snapshot share links creation
+        ssl_required: boolean - Is SSL required? Disabling this is insecure.
+        subdomain: string - Site subdomain
+        switch_to_plan_date: date-time - If switching plans, when does the new plan take effect?
+        trial_days_left: int64 - Number of days left in trial
+        trial_until: date-time - When does this Site trial expire?
+        use_dedicated_ips_for_smtp: boolean - If using custom SMTP, should we use dedicated IPs to deliver emails?
+        use_provided_modified_at: boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
+        user: User - User of current session
+        user_lockout: boolean - Will users be locked out after incorrect login attempts?
+        user_lockout_lock_period: int64 - How many hours to lock user out for failed password?
+        user_lockout_tries: int64 - Number of login tries within `user_lockout_within` hours before users are locked out
+        user_lockout_within: int64 - Number of hours for user lockout window
+        user_requests_enabled: boolean - Enable User Requests feature
+        user_requests_notify_admins: boolean - Send email to site admins when a user request is received?
+        users_can_create_api_keys: boolean - Allow users to create their own API keys?
+        users_can_create_ssh_keys: boolean - Allow users to create their own SSH keys?
+        username_display: string - How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
+        welcome_custom_text: string - Custom text send in user welcome email
+        email_footer_custom_text: string - Custom footer text for system-generated emails (as Markdown). Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
+        welcome_email_cc: email - Include this email in welcome emails if enabled
+        welcome_email_subject: string - Include this email subject in welcome emails if enabled
+        welcome_email_enabled: boolean - Will the welcome email be sent to new users?
+        welcome_screen: string - Does the welcome screen appear?
+        windows_mode_ftp: boolean - Does FTP user Windows emulation mode?
+    """
+
     __decimal_fields = {
         "next_billing_amount",
     }
@@ -218,21 +437,239 @@ class Site:
         "windows_mode_ftp": None,  # boolean - Does FTP user Windows emulation mode?
     }
 
+    # Declared for type checkers and editors: the type the API sends each
+    # attribute as, or None. set_attributes stores each value as given,
+    # converting only decimals, so a value a caller sets can differ.
+    id: int | None
+    name: str | None
+    additional_text_file_types: builtins.list[str] | None
+    ai_feature_availability: dict[str, Any] | None
+    allowed_2fa_method_sms: bool | None
+    allowed_2fa_method_totp: bool | None
+    allowed_2fa_method_webauthn: bool | None
+    allowed_2fa_method_yubi: bool | None
+    allowed_2fa_method_email: bool | None
+    allowed_2fa_method_static: bool | None
+    allowed_2fa_method_bypass_for_ftp_sftp_dav: bool | None
+    admin_user_id: int | None
+    admins_bypass_locked_subfolders: bool | None
+    allow_bundle_names: bool | None
+    allow_user_level_2fa_override: bool | None
+    allow_user_level_allowed_ip_override: bool | None
+    allow_user_level_ssl_override: bool | None
+    allowed_countries: str | None
+    allowed_ips: str | None
+    always_mkdir_parents: bool | None
+    as2_message_retention_days: int | None
+    ask_about_overwrites: bool | None
+    bundle_activity_notifications: str | None
+    bundle_expiration: int | None
+    bundle_not_found_message: str | None
+    bundle_password_required: bool | None
+    bundles_default_owned_by_primary_group: bool | None
+    bundle_recipient_blacklist_domains: builtins.list[str] | None
+    bundle_recipient_blacklist_free_email_domains: bool | None
+    bundle_registration_notifications: str | None
+    bundle_require_registration: bool | None
+    bundle_require_share_recipient: bool | None
+    bundle_send_one_time_password_to_recipient_at_registration: bool | None
+    bundle_require_note: bool | None
+    bundle_send_shared_receipts: bool | None
+    bundle_upload_receipt_notifications: str | None
+    bundle_watermark_attachment: dict[str, Any] | None
+    bundle_watermark_value: dict[str, Any] | None
+    calculate_file_checksums_crc32: bool | None
+    calculate_file_checksums_md5: bool | None
+    calculate_file_checksums_sha1: bool | None
+    calculate_file_checksums_sha256: bool | None
+    child_site_folder_admins_can_see_parent_site_directory: bool | None
+    uploads_via_email_authentication: bool | None
+    color2_left: str | None
+    color2_link: str | None
+    color2_text: str | None
+    color2_top: str | None
+    color2_top_text: str | None
+    contact_name: str | None
+    created_at: str | None
+    currency: str | None
+    custom_namespace: bool | None
+    dav_enabled: bool | None
+    dav_user_root_enabled: bool | None
+    days_to_retain_backups: int | None
+    document_edits_in_bundle_allowed: bool | None
+    default_time_zone: str | None
+    desktop_app: bool | None
+    desktop_app_session_ip_pinning: bool | None
+    desktop_app_session_lifetime: int | None
+    legacy_checksums_mode: bool | None
+    migrate_remote_server_sync_to_sync: bool | None
+    mcp_dcr_enabled: bool | None
+    mobile_app: bool | None
+    mobile_app_session_ip_pinning: bool | None
+    mobile_app_session_lifetime: int | None
+    disallowed_countries: str | None
+    disable_all_ai_features: bool | None
+    disable_files_certificate_generation: bool | None
+    disable_notifications: bool | None
+    file_activity_events_enabled: bool | None
+    disable_password_reset: bool | None
+    domain: str | None
+    domain_hsts_header: bool | None
+    domain_letsencrypt_chain: str | None
+    email: str | None
+    fedramp: bool | None
+    files_com_remote_server_enabled: bool | None
+    ftp_enabled: bool | None
+    reply_to_email: str | None
+    non_sso_groups_allowed: bool | None
+    non_sso_users_allowed: bool | None
+    folder_permissions_groups_only: bool | None
+    group_admins_can_add_users: bool | None
+    group_admins_can_manage_group_memberships: bool | None
+    group_admins_can_delete_users: bool | None
+    group_admins_can_enable_disable_users: bool | None
+    group_admins_can_modify_users: bool | None
+    group_admins_can_bypass_user_lifecycle_rules: bool | None
+    group_admins_can_reset_passwords: bool | None
+    group_admins_can_set_user_password: bool | None
+    hipaa: bool | None
+    icon128: dict[str, Any] | None
+    icon16: dict[str, Any] | None
+    icon32: dict[str, Any] | None
+    icon48: dict[str, Any] | None
+    immutable_files_set_at: str | None
+    include_password_in_welcome_email: bool | None
+    language: str | None
+    ldap_base_dn: str | None
+    ldap_domain: str | None
+    ldap_enabled: bool | None
+    ldap_group_action: str | None
+    ldap_group_exclusion: str | None
+    ldap_group_inclusion: str | None
+    ldap_host: str | None
+    ldap_host_2: str | None
+    ldap_host_3: str | None
+    ldap_port: int | None
+    ldap_secure: bool | None
+    ldap_server_certificate: str | None
+    ldap_type: str | None
+    ldap_user_action: str | None
+    ldap_user_include_groups: str | None
+    ldap_username: str | None
+    ldap_username_field: str | None
+    login_help_text: str | None
+    logo: dict[str, Any] | None
+    login_page_background_image: dict[str, Any] | None
+    max_prior_passwords: int | None
+    managed_site_settings: dict[str, Any] | None
+    motd_text: str | None
+    motd_use_for_ftp: bool | None
+    motd_use_for_sftp: bool | None
+    next_billing_amount: Decimal | None
+    next_billing_date: str | None
+    office_integration_available: bool | None
+    office_integration_type: str | None
+    oncehub_link: str | None
+    opt_out_global: bool | None
+    overdue: bool | None
+    password_min_length: int | None
+    password_require_letter: bool | None
+    password_require_mixed: bool | None
+    password_require_number: bool | None
+    password_require_special: bool | None
+    password_require_unbreached: bool | None
+    password_requirements_apply_to_bundles: bool | None
+    password_validity_days: int | None
+    phone: str | None
+    pin_all_remote_servers_to_site_region: bool | None
+    prevent_root_permissions_for_non_site_admins: bool | None
+    protocol_access_groups_only: bool | None
+    require_2fa: bool | None
+    restrict_root_folder_behaviors_to_site_admins: bool | None
+    root_folder_behaviors_apply_to_workspaces: bool | None
+    require_2fa_exempt_all_sso_users: bool | None
+    require_2fa_stop_time: str | None
+    revoke_bundle_access_on_disable_or_delete: bool | None
+    require_2fa_user_type: str | None
+    require_logout_from_bundles_and_inboxes: bool | None
+    session: dict[str, Any] | None
+    s3_compatible_endpoint_enabled: bool | None
+    sftp_enabled: bool | None
+    sftp_finalize_partial_uploads: bool | None
+    sftp_host_key_type: str | None
+    active_sftp_host_key_id: int | None
+    active_sftp_host_key_ids: builtins.list[int] | None
+    sftp_insecure_ciphers: bool | None
+    sftp_insecure_diffie_hellman: bool | None
+    sftp_user_root_enabled: bool | None
+    sharing_enabled: bool | None
+    show_user_notifications_log_in_link: bool | None
+    show_request_access_link: bool | None
+    site_footer: str | None
+    site_header: str | None
+    site_public_footer: str | None
+    site_public_header: str | None
+    smtp_address: str | None
+    smtp_authentication: str | None
+    smtp_from: str | None
+    smtp_port: int | None
+    smtp_ssl: str | None
+    smtp_username: str | None
+    session_expiry_minutes: int | None
+    snapshot_sharing_enabled: bool | None
+    ssl_required: bool | None
+    subdomain: str | None
+    switch_to_plan_date: str | None
+    trial_days_left: int | None
+    trial_until: str | None
+    use_dedicated_ips_for_smtp: bool | None
+    use_provided_modified_at: bool | None
+    user: dict[str, Any] | None
+    user_lockout: bool | None
+    user_lockout_lock_period: int | None
+    user_lockout_tries: int | None
+    user_lockout_within: int | None
+    user_requests_enabled: bool | None
+    user_requests_notify_admins: bool | None
+    users_can_create_api_keys: bool | None
+    users_can_create_ssh_keys: bool | None
+    username_display: str | None
+    welcome_custom_text: str | None
+    email_footer_custom_text: str | None
+    welcome_email_cc: str | None
+    welcome_email_subject: str | None
+    welcome_email_enabled: bool | None
+    welcome_screen: str | None
+    windows_mode_ftp: bool | None
+
+    # The client and settings this object's operations use: those of the
+    # operation or client that made it, or the module's when it starts an
+    # operation if neither did.
+    _context: Any = None
+
     def __init__(self, attributes=None, options=None):
         if not isinstance(attributes, dict):
             attributes = {}
         if not isinstance(options, dict):
             options = {}
         self.set_attributes(attributes)
-        self.options = options
+        self.options = dict(options)
 
     def set_attributes(self, attributes):
+        # Convert every value before assigning any, so a malformed decimal
+        # cannot leave the object partly updated.
+        values = {}
         for attribute, default_value in Site.default_attributes.items():
             value = attributes.get(attribute, default_value)
-            if attribute in Site.__decimal_fields and value is not None:
-                value = Decimal(str(value))
-            if attribute in Site.__decimal_array_fields and value is not None:
-                value = [Decimal(str(v)) for v in (value or [])]
+            if value is None:
+                values[attribute] = None
+            elif attribute in Site.__decimal_fields:
+                values[attribute] = Decimal(str(value))
+            elif attribute in Site.__decimal_array_fields:
+                values[attribute] = [Decimal(str(v)) for v in (value or [])]
+            else:
+                values[attribute] = value
+        for attribute, value in values.items():
             setattr(self, attribute, value)
 
     def get_attributes(self):
@@ -241,1310 +678,1673 @@ class Site:
             for k in Site.default_attributes
             if getattr(self, k, None) is not None
         }
-        for k in list(attrs.keys()):
-            if k in Site.__decimal_fields and attrs[k] is not None:
+        for k in Site.__decimal_fields:
+            if k in attrs:
                 attrs[k] = str(attrs[k])
-            if k in Site.__decimal_array_fields and attrs[k] is not None:
+        for k in Site.__decimal_array_fields:
+            if k in attrs:
                 attrs[k] = [str(v) for v in (attrs[k] or [])]
         return attrs
 
-
-def get(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    response, options = Api.send_request("GET", "/site", params, options)
-    return Site(response.data, options)
+    def _scope(self):
+        if self._context is not None:
+            return self._context
+        return LegacyScope(self.options)
 
 
-def get_usage(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    response, options = Api.send_request("GET", "/site/usage", params, options)
-    return UsageSnapshot(response.data, options)
+class SiteResource:
+    """Site operations that use one client's configuration.
+
+    Get one from a client, such as ``client.site``. Each operation
+    takes the same arguments as the module-level function of the same name,
+    and its options apply on top of the client's.
+    """
+
+    def __init__(self, scope):
+        self._scope = scope
+
+    def get(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> Site:
+        params = copy_params(params)
+        operation = Operation.start(self._scope, options)
+        response = operation.request("GET", "/site", params)
+        return operation.decode_model(response, Site)
+
+    def get_usage(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> UsageSnapshot:
+        params = copy_params(params)
+        operation = Operation.start(self._scope, options)
+        response = operation.request("GET", "/site/usage", params)
+        return operation.decode_model(response, UsageSnapshot)
+
+    def update(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> Site:
+        """Parameters:
+        name - string - Site name
+        subdomain - string - Site subdomain
+        domain - string - Custom domain
+        domain_hsts_header - boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
+        domain_letsencrypt_chain - string - Letsencrypt chain to use when registering SSL Certificate for domain. No longer used as of 2026.
+        email - string - Main email for this site
+        reply_to_email - string - Reply-to email for this site
+        allow_bundle_names - boolean - Are manual Bundle names allowed?
+        bundle_expiration - int64 - Site-wide Bundle expiration in days
+        welcome_email_enabled - boolean - Will the welcome email be sent to new users?
+        ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
+        show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
+        always_mkdir_parents - boolean - Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
+        welcome_email_cc - string - Include this email in welcome emails if enabled
+        welcome_email_subject - string - Include this email subject in welcome emails if enabled
+        welcome_custom_text - string - Custom text send in user welcome email
+        language - string - Site default language
+        windows_mode_ftp - boolean - Does FTP user Windows emulation mode?
+        default_time_zone - string - Site default time zone
+        desktop_app - boolean - Is the desktop app enabled?
+        desktop_app_session_ip_pinning - boolean - Is desktop app session IP pinning enabled?
+        desktop_app_session_lifetime - int64 - Desktop app session lifetime (in hours)
+        mobile_app - boolean - Is the mobile app enabled?
+        mobile_app_session_ip_pinning - boolean - Is mobile app session IP pinning enabled?
+        mobile_app_session_lifetime - int64 - Mobile app session lifetime (in hours)
+        folder_permissions_groups_only - boolean - If true, permissions for this site must be bound to a group (not a user).
+        welcome_screen - string - Does the welcome screen appear?
+        office_integration_available - boolean - If true, allows users to use a document editing integration.
+        office_integration_type - string - Which document editing integration to support. Files.com Editor or Microsoft Office for the Web.
+        pin_all_remote_servers_to_site_region - boolean - If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
+        motd_text - string - A message to show users when they connect via FTP or SFTP.
+        motd_use_for_ftp - boolean - Show message to users connecting via FTP
+        motd_use_for_sftp - boolean - Show message to users connecting via SFTP
+        left_navigation_visibility - object - Visibility settings for account navigation
+        disable_all_ai_features - boolean - If true, all AI features are disabled for this site.
+        ai_feature_availability - object - Availability settings for AI features. Each feature requires the site_admins, workspace_admins, folder_admins, and all_users keys. Optional selected_group_members defaults to false; when true, members of at least one group in group_ids get access regardless of the other options. All availability options are additive: any enabled option matching the user grants access. Optional group_ids is an array of integer IDs of active groups on this site, from any workspace. Omitted or empty group_ids grants no access through selected_group_members and does not affect other options. Disabling all AI features overrides these settings.
+        mcp_dcr_enabled - boolean - Is OAuth DCR (dynamic client registration) for MCP enabled?
+        additional_text_file_types - array(string) - Additional extensions that are considered text files
+        bundle_require_note - boolean - Do Bundles require internal notes?
+        bundle_send_shared_receipts - boolean - Do Bundle creators receive receipts of invitations?
+        bundles_default_owned_by_primary_group - boolean - If true, new Share Links created by a user with a primary group will default to that group as owner.
+        calculate_file_checksums_crc32 - boolean - Calculate CRC32 checksums for files?
+        calculate_file_checksums_md5 - boolean - Calculate MD5 checksums for files?
+        calculate_file_checksums_sha1 - boolean - Calculate SHA1 checksums for files?
+        calculate_file_checksums_sha256 - boolean - Calculate SHA256 checksums for files?
+        legacy_checksums_mode - boolean - Use legacy checksums mode?
+        migrate_remote_server_sync_to_sync - boolean - If true, we will migrate all remote server syncs to the new Sync model.
+        as2_message_retention_days - int64 - Number of days to retain AS2 messages (incoming and outgoing).
+        file_activity_events_enabled - boolean - If true, file operations produce file_action.activity.v1 EventChannel events in all workspaces. Defaults to false; subscription filters and workspace access still control delivery.
+        username_display - string - How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
+        session_expiry_minutes - int64 - Session expiry in minutes
+        ssl_required - boolean - Is SSL required?  Disabling this is insecure.
+        sftp_insecure_ciphers - boolean - If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
+        sftp_insecure_diffie_hellman - boolean - If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
+        disable_files_certificate_generation - boolean - If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
+        fedramp - boolean - Are FedRAMP security restrictions enabled for this site?
+        user_lockout - boolean - Will users be locked out after incorrect login attempts?
+        user_lockout_tries - int64 - Number of login tries within `user_lockout_within` hours before users are locked out
+        user_lockout_within - int64 - Number of hours for user lockout window
+        user_lockout_lock_period - int64 - How many hours to lock user out for failed password?
+        include_password_in_welcome_email - boolean - Include password in emails to new users?
+        allowed_countries - string - Comma separated list of allowed Country codes
+        allowed_ips - string - List of allowed IP addresses
+        allow_user_level_2fa_override - boolean - Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
+        allow_user_level_allowed_ip_override - boolean - Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
+        allow_user_level_ssl_override - boolean - Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
+        disallowed_countries - string - Comma separated list of disallowed Country codes
+        days_to_retain_backups - int64 - Number of days to keep deleted files
+        max_prior_passwords - int64 - Number of prior passwords to disallow
+        password_validity_days - int64 - Number of days password is valid
+        password_min_length - int64 - Shortest password length for users
+        password_require_letter - boolean - Require a letter in passwords?
+        password_require_mixed - boolean - Require lower and upper case letters in passwords?
+        password_require_special - boolean - Require special characters in password?
+        password_require_number - boolean - Require a number in passwords?
+        password_require_unbreached - boolean - Require passwords that have not been previously breached? (see https://haveibeenpwned.com/)
+        require_logout_from_bundles_and_inboxes - boolean - If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
+        dav_user_root_enabled - boolean - Use user FTP roots also for WebDAV?
+        sftp_user_root_enabled - boolean - Use user FTP roots also for SFTP?
+        disable_password_reset - boolean - Is password reset disabled?
+        immutable_files - boolean - Are files protected from modification?
+        bundle_not_found_message - string - Custom error message to show when bundle is not found.
+        bundle_password_required - boolean - Do Bundles require password protection?
+        bundle_require_registration - boolean - Do Bundles require registration?
+        bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
+        bundle_send_one_time_password_to_recipient_at_registration - boolean - If true, new Share Links must send a one-time password to the recipient when they register. Requires bundle_require_share_recipient and cannot be enabled with bundle_password_required.
+        bundle_registration_notifications - string - Do Bundle owners receive registration notification?
+        bundle_activity_notifications - string - Do Bundle owners receive activity notifications?
+        bundle_upload_receipt_notifications - string - Do Bundle uploaders receive upload confirmation notifications?
+        document_edits_in_bundle_allowed - boolean - If true, allow public viewers of Bundles with full permissions to use document editing integrations.
+        password_requirements_apply_to_bundles - boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
+        prevent_root_permissions_for_non_site_admins - boolean - If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
+        restrict_root_folder_behaviors_to_site_admins - boolean - If true, only site admins may create, modify, or delete any behavior at the site root, or a skip that would disable one.
+        root_folder_behaviors_apply_to_workspaces - boolean - If true, supported protective behaviors at the site root also apply within named workspaces. Requires restrict_root_folder_behaviors_to_site_admins to be enabled.
+        opt_out_global - boolean - Use servers in the USA only?
+        use_provided_modified_at - boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
+        custom_namespace - boolean - Is this site using a custom namespace for users?
+        non_sso_groups_allowed - boolean - If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
+        non_sso_users_allowed - boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
+        sharing_enabled - boolean - Allow bundle creation
+        snapshot_sharing_enabled - boolean - Allow snapshot share links creation
+        user_requests_enabled - boolean - Enable User Requests feature
+        user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
+        dav_enabled - boolean - Is WebDAV enabled?
+        files_com_remote_server_enabled - boolean - Allow other Files.com sites to use this site's API keys for native Files.com Remote Server connections? Defaults to true and applies to all keys and workspaces on this site. When false, new pairings and access through existing connections are rejected without revoking keys or deleting connections. Re-enabling permits access again with usable keys. Does not disable this site's connections to other sites, ordinary API access, or Connected Sites.
+        ftp_enabled - boolean - Is FTP enabled?
+        s3_compatible_endpoint_enabled - boolean - Is the S3-compatible endpoint enabled for all users and workspaces on this site? Defaults to true. When false, user and group S3 permissions do not allow access.
+        sftp_enabled - boolean - Is SFTP enabled?
+        sftp_finalize_partial_uploads - boolean - Finalize partial SFTP uploads from interrupted connections? Default: true.
+        users_can_create_api_keys - boolean - Allow users to create their own API keys?
+        users_can_create_ssh_keys - boolean - Allow users to create their own SSH keys?
+        show_user_notifications_log_in_link - boolean - Show log in link in user notifications?
+        sftp_host_key_type - string - Sftp Host Key Type
+        active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
+        active_sftp_host_key_ids - array(int64) - Ids of the selected custom SFTP Host Keys
+        protocol_access_groups_only - boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
+        revoke_bundle_access_on_disable_or_delete - boolean - Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
+        group_admins_can_add_users - boolean - Allow group admins to create users in their groups
+        group_admins_can_manage_group_memberships - boolean - Allow group admins to add or remove existing users in their groups
+        group_admins_can_delete_users - boolean - Allow group admins to delete users in their groups
+        group_admins_can_enable_disable_users - boolean - Allow group admins to enable or disable users in their groups
+        group_admins_can_modify_users - boolean - Allow group admins to modify users in their groups
+        group_admins_can_bypass_user_lifecycle_rules - boolean - Allow group admins to exempt users in their groups from lifecycle rules
+        group_admins_can_reset_passwords - boolean - Allow group admins to reset passwords for users in their groups
+        group_admins_can_set_user_password - boolean - Allow group admins to set password authentication method
+        child_site_folder_admins_can_see_parent_site_directory - boolean - If true, administrators on this site's Child Sites, including Folder Admins, can list this site's Default Workspace users and groups and grant them folder permissions and notifications on Child Site paths.
+        bundle_recipient_blacklist_free_email_domains - boolean - Disallow free email domains for Bundle/Inbox recipients?
+        bundle_recipient_blacklist_domains - array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
+        admins_bypass_locked_subfolders - boolean - Allow admins to bypass the locked subfolders setting.
+        allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
+        allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
+        allowed_2fa_method_webauthn - boolean - Is WebAuthn two factor authentication allowed?
+        allowed_2fa_method_yubi - boolean - Is yubikey two factor authentication allowed?
+        allowed_2fa_method_email - boolean - Is OTP via email two factor authentication allowed?
+        allowed_2fa_method_static - boolean - Is OTP via static codes for two factor authentication allowed?
+        allowed_2fa_method_bypass_for_ftp_sftp_dav - boolean - Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
+        require_2fa - boolean - Require two-factor authentication for all users?
+        require_2fa_exempt_all_sso_users - boolean - If true, SSO users using the default user-level two-factor authentication setting are exempt from the site-wide two-factor authentication requirement.
+        require_2fa_user_type - string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
+        color2_top - string - Top bar background color
+        color2_left - string - Page link and button color
+        color2_link - string - Top bar link color
+        color2_text - string - Page link and button color
+        color2_top_text - string - Top bar text color
+        site_header - string - Custom site header text for authenticated pages
+        site_footer - string - Custom site footer text for authenticated pages
+        site_public_header - string - Custom site header text for public pages
+        site_public_footer - string - Custom site footer text for public pages
+        login_help_text - string - Login help text
+        use_dedicated_ips_for_smtp - boolean - If using custom SMTP, should we use dedicated IPs to deliver emails?
+        email_footer_custom_text - string - Custom footer text for system-generated emails (as Markdown). Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
+        smtp_address - string - SMTP server hostname or IP
+        smtp_authentication - string - SMTP server authentication type
+        smtp_from - string - From address to use when mailing through custom SMTP
+        smtp_username - string - SMTP server username
+        smtp_port - int64 - SMTP server port
+        smtp_ssl - string - Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted. A certificate-verified STARTTLS connection automatically changes if_available to require unless smtp_ssl is managed by a parent policy. require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address. Encryption is never automatically downgraded.
+        ldap_enabled - boolean - Main LDAP setting: is LDAP enabled?
+        ldap_type - string - LDAP type
+        ldap_host - string - LDAP host
+        ldap_host_2 - string - LDAP backup host
+        ldap_host_3 - string - LDAP backup host
+        ldap_port - int64 - LDAP port
+        ldap_secure - boolean - Use secure LDAP?
+        ldap_server_certificate - string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
+        ldap_username - string - Username for signing in to LDAP server.
+        ldap_username_field - string - LDAP username field
+        ldap_domain - string - Domain name that will be appended to usernames
+        ldap_user_action - string - Should we sync users from LDAP server?
+        ldap_group_action - string - Should we sync groups from LDAP server?
+        ldap_user_include_groups - string - Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
+        ldap_group_exclusion - string - Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
+        ldap_group_inclusion - string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
+        ldap_base_dn - string - Base DN for looking up users in LDAP server
+        uploads_via_email_authentication - boolean - Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
+        bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+        icon16_file - file
+        icon16_delete - boolean - If true, will delete the file stored in icon16
+        icon32_file - file
+        icon32_delete - boolean - If true, will delete the file stored in icon32
+        icon48_file - file
+        icon48_delete - boolean - If true, will delete the file stored in icon48
+        icon128_file - file
+        icon128_delete - boolean - If true, will delete the file stored in icon128
+        logo_file - file
+        logo_delete - boolean - If true, will delete the file stored in logo
+        bundle_watermark_attachment_file - file
+        bundle_watermark_attachment_delete - boolean - If true, will delete the file stored in bundle_watermark_attachment
+        login_page_background_image_file - file
+        login_page_background_image_delete - boolean - If true, will delete the file stored in login_page_background_image
+        disable_2fa_with_delay - boolean - If set to true, we will begin the process of disabling 2FA on this site.
+        ldap_password_change - string - New LDAP password.
+        ldap_password_change_confirmation - string - Confirm new LDAP password.
+        redirect_old_subdomain - boolean - If true, and if changing the site subdomain, then create a redirect from the previous Files.com subdomain to the new Files.com subdomain.
+        smtp_password - string - Password for SMTP server.
+        """
+        params = copy_params(params)
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
+        if "subdomain" in params and not isinstance(params["subdomain"], str):
+            raise InvalidParameterError(
+                "Bad parameter: subdomain must be an str"
+            )
+        if "domain" in params and not isinstance(params["domain"], str):
+            raise InvalidParameterError("Bad parameter: domain must be an str")
+        if "domain_hsts_header" in params and not isinstance(
+            params["domain_hsts_header"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: domain_hsts_header must be an bool"
+            )
+        if "domain_letsencrypt_chain" in params and not isinstance(
+            params["domain_letsencrypt_chain"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: domain_letsencrypt_chain must be an str"
+            )
+        if "email" in params and not isinstance(params["email"], str):
+            raise InvalidParameterError("Bad parameter: email must be an str")
+        if "reply_to_email" in params and not isinstance(
+            params["reply_to_email"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: reply_to_email must be an str"
+            )
+        if "allow_bundle_names" in params and not isinstance(
+            params["allow_bundle_names"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allow_bundle_names must be an bool"
+            )
+        if "bundle_expiration" in params and (
+            not isinstance(params["bundle_expiration"], int)
+            or isinstance(params["bundle_expiration"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_expiration must be an int"
+            )
+        if "welcome_email_enabled" in params and not isinstance(
+            params["welcome_email_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: welcome_email_enabled must be an bool"
+            )
+        if "ask_about_overwrites" in params and not isinstance(
+            params["ask_about_overwrites"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ask_about_overwrites must be an bool"
+            )
+        if "show_request_access_link" in params and not isinstance(
+            params["show_request_access_link"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: show_request_access_link must be an bool"
+            )
+        if "always_mkdir_parents" in params and not isinstance(
+            params["always_mkdir_parents"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: always_mkdir_parents must be an bool"
+            )
+        if "welcome_email_cc" in params and not isinstance(
+            params["welcome_email_cc"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: welcome_email_cc must be an str"
+            )
+        if "welcome_email_subject" in params and not isinstance(
+            params["welcome_email_subject"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: welcome_email_subject must be an str"
+            )
+        if "welcome_custom_text" in params and not isinstance(
+            params["welcome_custom_text"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: welcome_custom_text must be an str"
+            )
+        if "language" in params and not isinstance(params["language"], str):
+            raise InvalidParameterError(
+                "Bad parameter: language must be an str"
+            )
+        if "windows_mode_ftp" in params and not isinstance(
+            params["windows_mode_ftp"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: windows_mode_ftp must be an bool"
+            )
+        if "default_time_zone" in params and not isinstance(
+            params["default_time_zone"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: default_time_zone must be an str"
+            )
+        if "desktop_app" in params and not isinstance(
+            params["desktop_app"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: desktop_app must be an bool"
+            )
+        if "desktop_app_session_ip_pinning" in params and not isinstance(
+            params["desktop_app_session_ip_pinning"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: desktop_app_session_ip_pinning must be an bool"
+            )
+        if "desktop_app_session_lifetime" in params and (
+            not isinstance(params["desktop_app_session_lifetime"], int)
+            or isinstance(params["desktop_app_session_lifetime"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: desktop_app_session_lifetime must be an int"
+            )
+        if "mobile_app" in params and not isinstance(
+            params["mobile_app"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: mobile_app must be an bool"
+            )
+        if "mobile_app_session_ip_pinning" in params and not isinstance(
+            params["mobile_app_session_ip_pinning"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: mobile_app_session_ip_pinning must be an bool"
+            )
+        if "mobile_app_session_lifetime" in params and (
+            not isinstance(params["mobile_app_session_lifetime"], int)
+            or isinstance(params["mobile_app_session_lifetime"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: mobile_app_session_lifetime must be an int"
+            )
+        if "folder_permissions_groups_only" in params and not isinstance(
+            params["folder_permissions_groups_only"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: folder_permissions_groups_only must be an bool"
+            )
+        if "welcome_screen" in params and not isinstance(
+            params["welcome_screen"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: welcome_screen must be an str"
+            )
+        if "office_integration_available" in params and not isinstance(
+            params["office_integration_available"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: office_integration_available must be an bool"
+            )
+        if "office_integration_type" in params and not isinstance(
+            params["office_integration_type"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: office_integration_type must be an str"
+            )
+        if (
+            "pin_all_remote_servers_to_site_region" in params
+            and not isinstance(
+                params["pin_all_remote_servers_to_site_region"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: pin_all_remote_servers_to_site_region must be an bool"
+            )
+        if "motd_text" in params and not isinstance(params["motd_text"], str):
+            raise InvalidParameterError(
+                "Bad parameter: motd_text must be an str"
+            )
+        if "motd_use_for_ftp" in params and not isinstance(
+            params["motd_use_for_ftp"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: motd_use_for_ftp must be an bool"
+            )
+        if "motd_use_for_sftp" in params and not isinstance(
+            params["motd_use_for_sftp"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: motd_use_for_sftp must be an bool"
+            )
+        if "left_navigation_visibility" in params and not isinstance(
+            params["left_navigation_visibility"], dict
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: left_navigation_visibility must be an dict"
+            )
+        if "disable_all_ai_features" in params and not isinstance(
+            params["disable_all_ai_features"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: disable_all_ai_features must be an bool"
+            )
+        if "ai_feature_availability" in params and not isinstance(
+            params["ai_feature_availability"], dict
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ai_feature_availability must be an dict"
+            )
+        if "mcp_dcr_enabled" in params and not isinstance(
+            params["mcp_dcr_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: mcp_dcr_enabled must be an bool"
+            )
+        if "additional_text_file_types" in params and not isinstance(
+            params["additional_text_file_types"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: additional_text_file_types must be an list"
+            )
+        if "bundle_require_note" in params and not isinstance(
+            params["bundle_require_note"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_require_note must be an bool"
+            )
+        if "bundle_send_shared_receipts" in params and not isinstance(
+            params["bundle_send_shared_receipts"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_send_shared_receipts must be an bool"
+            )
+        if (
+            "bundles_default_owned_by_primary_group" in params
+            and not isinstance(
+                params["bundles_default_owned_by_primary_group"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundles_default_owned_by_primary_group must be an bool"
+            )
+        if "calculate_file_checksums_crc32" in params and not isinstance(
+            params["calculate_file_checksums_crc32"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: calculate_file_checksums_crc32 must be an bool"
+            )
+        if "calculate_file_checksums_md5" in params and not isinstance(
+            params["calculate_file_checksums_md5"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: calculate_file_checksums_md5 must be an bool"
+            )
+        if "calculate_file_checksums_sha1" in params and not isinstance(
+            params["calculate_file_checksums_sha1"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: calculate_file_checksums_sha1 must be an bool"
+            )
+        if "calculate_file_checksums_sha256" in params and not isinstance(
+            params["calculate_file_checksums_sha256"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: calculate_file_checksums_sha256 must be an bool"
+            )
+        if "legacy_checksums_mode" in params and not isinstance(
+            params["legacy_checksums_mode"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: legacy_checksums_mode must be an bool"
+            )
+        if "migrate_remote_server_sync_to_sync" in params and not isinstance(
+            params["migrate_remote_server_sync_to_sync"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: migrate_remote_server_sync_to_sync must be an bool"
+            )
+        if "as2_message_retention_days" in params and (
+            not isinstance(params["as2_message_retention_days"], int)
+            or isinstance(params["as2_message_retention_days"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: as2_message_retention_days must be an int"
+            )
+        if "file_activity_events_enabled" in params and not isinstance(
+            params["file_activity_events_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: file_activity_events_enabled must be an bool"
+            )
+        if "username_display" in params and not isinstance(
+            params["username_display"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: username_display must be an str"
+            )
+        if "session_expiry_minutes" in params and (
+            not isinstance(params["session_expiry_minutes"], int)
+            or isinstance(params["session_expiry_minutes"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: session_expiry_minutes must be an int"
+            )
+        if "ssl_required" in params and not isinstance(
+            params["ssl_required"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ssl_required must be an bool"
+            )
+        if "sftp_insecure_ciphers" in params and not isinstance(
+            params["sftp_insecure_ciphers"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sftp_insecure_ciphers must be an bool"
+            )
+        if "sftp_insecure_diffie_hellman" in params and not isinstance(
+            params["sftp_insecure_diffie_hellman"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sftp_insecure_diffie_hellman must be an bool"
+            )
+        if (
+            "disable_files_certificate_generation" in params
+            and not isinstance(
+                params["disable_files_certificate_generation"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: disable_files_certificate_generation must be an bool"
+            )
+        if "fedramp" in params and not isinstance(params["fedramp"], bool):
+            raise InvalidParameterError(
+                "Bad parameter: fedramp must be an bool"
+            )
+        if "user_lockout" in params and not isinstance(
+            params["user_lockout"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: user_lockout must be an bool"
+            )
+        if "user_lockout_tries" in params and (
+            not isinstance(params["user_lockout_tries"], int)
+            or isinstance(params["user_lockout_tries"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: user_lockout_tries must be an int"
+            )
+        if "user_lockout_within" in params and (
+            not isinstance(params["user_lockout_within"], int)
+            or isinstance(params["user_lockout_within"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: user_lockout_within must be an int"
+            )
+        if "user_lockout_lock_period" in params and (
+            not isinstance(params["user_lockout_lock_period"], int)
+            or isinstance(params["user_lockout_lock_period"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: user_lockout_lock_period must be an int"
+            )
+        if "include_password_in_welcome_email" in params and not isinstance(
+            params["include_password_in_welcome_email"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: include_password_in_welcome_email must be an bool"
+            )
+        if "allowed_countries" in params and not isinstance(
+            params["allowed_countries"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allowed_countries must be an str"
+            )
+        if "allowed_ips" in params and not isinstance(
+            params["allowed_ips"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allowed_ips must be an str"
+            )
+        if "allow_user_level_2fa_override" in params and not isinstance(
+            params["allow_user_level_2fa_override"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allow_user_level_2fa_override must be an bool"
+            )
+        if (
+            "allow_user_level_allowed_ip_override" in params
+            and not isinstance(
+                params["allow_user_level_allowed_ip_override"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allow_user_level_allowed_ip_override must be an bool"
+            )
+        if "allow_user_level_ssl_override" in params and not isinstance(
+            params["allow_user_level_ssl_override"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allow_user_level_ssl_override must be an bool"
+            )
+        if "disallowed_countries" in params and not isinstance(
+            params["disallowed_countries"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: disallowed_countries must be an str"
+            )
+        if "days_to_retain_backups" in params and (
+            not isinstance(params["days_to_retain_backups"], int)
+            or isinstance(params["days_to_retain_backups"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: days_to_retain_backups must be an int"
+            )
+        if "max_prior_passwords" in params and (
+            not isinstance(params["max_prior_passwords"], int)
+            or isinstance(params["max_prior_passwords"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: max_prior_passwords must be an int"
+            )
+        if "password_validity_days" in params and (
+            not isinstance(params["password_validity_days"], int)
+            or isinstance(params["password_validity_days"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: password_validity_days must be an int"
+            )
+        if "password_min_length" in params and (
+            not isinstance(params["password_min_length"], int)
+            or isinstance(params["password_min_length"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: password_min_length must be an int"
+            )
+        if "password_require_letter" in params and not isinstance(
+            params["password_require_letter"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: password_require_letter must be an bool"
+            )
+        if "password_require_mixed" in params and not isinstance(
+            params["password_require_mixed"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: password_require_mixed must be an bool"
+            )
+        if "password_require_special" in params and not isinstance(
+            params["password_require_special"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: password_require_special must be an bool"
+            )
+        if "password_require_number" in params and not isinstance(
+            params["password_require_number"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: password_require_number must be an bool"
+            )
+        if "password_require_unbreached" in params and not isinstance(
+            params["password_require_unbreached"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: password_require_unbreached must be an bool"
+            )
+        if (
+            "require_logout_from_bundles_and_inboxes" in params
+            and not isinstance(
+                params["require_logout_from_bundles_and_inboxes"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: require_logout_from_bundles_and_inboxes must be an bool"
+            )
+        if "dav_user_root_enabled" in params and not isinstance(
+            params["dav_user_root_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: dav_user_root_enabled must be an bool"
+            )
+        if "sftp_user_root_enabled" in params and not isinstance(
+            params["sftp_user_root_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sftp_user_root_enabled must be an bool"
+            )
+        if "disable_password_reset" in params and not isinstance(
+            params["disable_password_reset"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: disable_password_reset must be an bool"
+            )
+        if "immutable_files" in params and not isinstance(
+            params["immutable_files"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: immutable_files must be an bool"
+            )
+        if "bundle_not_found_message" in params and not isinstance(
+            params["bundle_not_found_message"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_not_found_message must be an str"
+            )
+        if "bundle_password_required" in params and not isinstance(
+            params["bundle_password_required"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_password_required must be an bool"
+            )
+        if "bundle_require_registration" in params and not isinstance(
+            params["bundle_require_registration"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_require_registration must be an bool"
+            )
+        if "bundle_require_share_recipient" in params and not isinstance(
+            params["bundle_require_share_recipient"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_require_share_recipient must be an bool"
+            )
+        if (
+            "bundle_send_one_time_password_to_recipient_at_registration"
+            in params
+            and not isinstance(
+                params[
+                    "bundle_send_one_time_password_to_recipient_at_registration"
+                ],
+                bool,
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_send_one_time_password_to_recipient_at_registration must be an bool"
+            )
+        if "bundle_registration_notifications" in params and not isinstance(
+            params["bundle_registration_notifications"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_registration_notifications must be an str"
+            )
+        if "bundle_activity_notifications" in params and not isinstance(
+            params["bundle_activity_notifications"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_activity_notifications must be an str"
+            )
+        if "bundle_upload_receipt_notifications" in params and not isinstance(
+            params["bundle_upload_receipt_notifications"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_upload_receipt_notifications must be an str"
+            )
+        if "document_edits_in_bundle_allowed" in params and not isinstance(
+            params["document_edits_in_bundle_allowed"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: document_edits_in_bundle_allowed must be an bool"
+            )
+        if (
+            "password_requirements_apply_to_bundles" in params
+            and not isinstance(
+                params["password_requirements_apply_to_bundles"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: password_requirements_apply_to_bundles must be an bool"
+            )
+        if (
+            "prevent_root_permissions_for_non_site_admins" in params
+            and not isinstance(
+                params["prevent_root_permissions_for_non_site_admins"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: prevent_root_permissions_for_non_site_admins must be an bool"
+            )
+        if (
+            "restrict_root_folder_behaviors_to_site_admins" in params
+            and not isinstance(
+                params["restrict_root_folder_behaviors_to_site_admins"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: restrict_root_folder_behaviors_to_site_admins must be an bool"
+            )
+        if (
+            "root_folder_behaviors_apply_to_workspaces" in params
+            and not isinstance(
+                params["root_folder_behaviors_apply_to_workspaces"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: root_folder_behaviors_apply_to_workspaces must be an bool"
+            )
+        if "opt_out_global" in params and not isinstance(
+            params["opt_out_global"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: opt_out_global must be an bool"
+            )
+        if "use_provided_modified_at" in params and not isinstance(
+            params["use_provided_modified_at"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: use_provided_modified_at must be an bool"
+            )
+        if "custom_namespace" in params and not isinstance(
+            params["custom_namespace"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: custom_namespace must be an bool"
+            )
+        if "non_sso_groups_allowed" in params and not isinstance(
+            params["non_sso_groups_allowed"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: non_sso_groups_allowed must be an bool"
+            )
+        if "non_sso_users_allowed" in params and not isinstance(
+            params["non_sso_users_allowed"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: non_sso_users_allowed must be an bool"
+            )
+        if "sharing_enabled" in params and not isinstance(
+            params["sharing_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharing_enabled must be an bool"
+            )
+        if "snapshot_sharing_enabled" in params and not isinstance(
+            params["snapshot_sharing_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: snapshot_sharing_enabled must be an bool"
+            )
+        if "user_requests_enabled" in params and not isinstance(
+            params["user_requests_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: user_requests_enabled must be an bool"
+            )
+        if "user_requests_notify_admins" in params and not isinstance(
+            params["user_requests_notify_admins"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: user_requests_notify_admins must be an bool"
+            )
+        if "dav_enabled" in params and not isinstance(
+            params["dav_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: dav_enabled must be an bool"
+            )
+        if "files_com_remote_server_enabled" in params and not isinstance(
+            params["files_com_remote_server_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: files_com_remote_server_enabled must be an bool"
+            )
+        if "ftp_enabled" in params and not isinstance(
+            params["ftp_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ftp_enabled must be an bool"
+            )
+        if "s3_compatible_endpoint_enabled" in params and not isinstance(
+            params["s3_compatible_endpoint_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_endpoint_enabled must be an bool"
+            )
+        if "sftp_enabled" in params and not isinstance(
+            params["sftp_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sftp_enabled must be an bool"
+            )
+        if "sftp_finalize_partial_uploads" in params and not isinstance(
+            params["sftp_finalize_partial_uploads"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sftp_finalize_partial_uploads must be an bool"
+            )
+        if "users_can_create_api_keys" in params and not isinstance(
+            params["users_can_create_api_keys"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: users_can_create_api_keys must be an bool"
+            )
+        if "users_can_create_ssh_keys" in params and not isinstance(
+            params["users_can_create_ssh_keys"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: users_can_create_ssh_keys must be an bool"
+            )
+        if "show_user_notifications_log_in_link" in params and not isinstance(
+            params["show_user_notifications_log_in_link"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: show_user_notifications_log_in_link must be an bool"
+            )
+        if "sftp_host_key_type" in params and not isinstance(
+            params["sftp_host_key_type"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sftp_host_key_type must be an str"
+            )
+        if "active_sftp_host_key_id" in params and (
+            not isinstance(params["active_sftp_host_key_id"], int)
+            or isinstance(params["active_sftp_host_key_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: active_sftp_host_key_id must be an int"
+            )
+        if "active_sftp_host_key_ids" in params and not isinstance(
+            params["active_sftp_host_key_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: active_sftp_host_key_ids must be an list"
+            )
+        if "protocol_access_groups_only" in params and not isinstance(
+            params["protocol_access_groups_only"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: protocol_access_groups_only must be an bool"
+            )
+        if (
+            "revoke_bundle_access_on_disable_or_delete" in params
+            and not isinstance(
+                params["revoke_bundle_access_on_disable_or_delete"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: revoke_bundle_access_on_disable_or_delete must be an bool"
+            )
+        if "group_admins_can_add_users" in params and not isinstance(
+            params["group_admins_can_add_users"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: group_admins_can_add_users must be an bool"
+            )
+        if (
+            "group_admins_can_manage_group_memberships" in params
+            and not isinstance(
+                params["group_admins_can_manage_group_memberships"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: group_admins_can_manage_group_memberships must be an bool"
+            )
+        if "group_admins_can_delete_users" in params and not isinstance(
+            params["group_admins_can_delete_users"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: group_admins_can_delete_users must be an bool"
+            )
+        if (
+            "group_admins_can_enable_disable_users" in params
+            and not isinstance(
+                params["group_admins_can_enable_disable_users"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: group_admins_can_enable_disable_users must be an bool"
+            )
+        if "group_admins_can_modify_users" in params and not isinstance(
+            params["group_admins_can_modify_users"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: group_admins_can_modify_users must be an bool"
+            )
+        if (
+            "group_admins_can_bypass_user_lifecycle_rules" in params
+            and not isinstance(
+                params["group_admins_can_bypass_user_lifecycle_rules"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: group_admins_can_bypass_user_lifecycle_rules must be an bool"
+            )
+        if "group_admins_can_reset_passwords" in params and not isinstance(
+            params["group_admins_can_reset_passwords"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: group_admins_can_reset_passwords must be an bool"
+            )
+        if "group_admins_can_set_user_password" in params and not isinstance(
+            params["group_admins_can_set_user_password"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: group_admins_can_set_user_password must be an bool"
+            )
+        if (
+            "child_site_folder_admins_can_see_parent_site_directory" in params
+            and not isinstance(
+                params[
+                    "child_site_folder_admins_can_see_parent_site_directory"
+                ],
+                bool,
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: child_site_folder_admins_can_see_parent_site_directory must be an bool"
+            )
+        if (
+            "bundle_recipient_blacklist_free_email_domains" in params
+            and not isinstance(
+                params["bundle_recipient_blacklist_free_email_domains"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_recipient_blacklist_free_email_domains must be an bool"
+            )
+        if "bundle_recipient_blacklist_domains" in params and not isinstance(
+            params["bundle_recipient_blacklist_domains"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_recipient_blacklist_domains must be an list"
+            )
+        if "admins_bypass_locked_subfolders" in params and not isinstance(
+            params["admins_bypass_locked_subfolders"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: admins_bypass_locked_subfolders must be an bool"
+            )
+        if "allowed_2fa_method_sms" in params and not isinstance(
+            params["allowed_2fa_method_sms"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allowed_2fa_method_sms must be an bool"
+            )
+        if "allowed_2fa_method_totp" in params and not isinstance(
+            params["allowed_2fa_method_totp"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allowed_2fa_method_totp must be an bool"
+            )
+        if "allowed_2fa_method_webauthn" in params and not isinstance(
+            params["allowed_2fa_method_webauthn"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allowed_2fa_method_webauthn must be an bool"
+            )
+        if "allowed_2fa_method_yubi" in params and not isinstance(
+            params["allowed_2fa_method_yubi"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allowed_2fa_method_yubi must be an bool"
+            )
+        if "allowed_2fa_method_email" in params and not isinstance(
+            params["allowed_2fa_method_email"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allowed_2fa_method_email must be an bool"
+            )
+        if "allowed_2fa_method_static" in params and not isinstance(
+            params["allowed_2fa_method_static"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allowed_2fa_method_static must be an bool"
+            )
+        if (
+            "allowed_2fa_method_bypass_for_ftp_sftp_dav" in params
+            and not isinstance(
+                params["allowed_2fa_method_bypass_for_ftp_sftp_dav"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allowed_2fa_method_bypass_for_ftp_sftp_dav must be an bool"
+            )
+        if "require_2fa" in params and not isinstance(
+            params["require_2fa"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: require_2fa must be an bool"
+            )
+        if "require_2fa_exempt_all_sso_users" in params and not isinstance(
+            params["require_2fa_exempt_all_sso_users"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: require_2fa_exempt_all_sso_users must be an bool"
+            )
+        if "require_2fa_user_type" in params and not isinstance(
+            params["require_2fa_user_type"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: require_2fa_user_type must be an str"
+            )
+        if "color2_top" in params and not isinstance(
+            params["color2_top"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: color2_top must be an str"
+            )
+        if "color2_left" in params and not isinstance(
+            params["color2_left"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: color2_left must be an str"
+            )
+        if "color2_link" in params and not isinstance(
+            params["color2_link"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: color2_link must be an str"
+            )
+        if "color2_text" in params and not isinstance(
+            params["color2_text"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: color2_text must be an str"
+            )
+        if "color2_top_text" in params and not isinstance(
+            params["color2_top_text"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: color2_top_text must be an str"
+            )
+        if "site_header" in params and not isinstance(
+            params["site_header"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: site_header must be an str"
+            )
+        if "site_footer" in params and not isinstance(
+            params["site_footer"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: site_footer must be an str"
+            )
+        if "site_public_header" in params and not isinstance(
+            params["site_public_header"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: site_public_header must be an str"
+            )
+        if "site_public_footer" in params and not isinstance(
+            params["site_public_footer"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: site_public_footer must be an str"
+            )
+        if "login_help_text" in params and not isinstance(
+            params["login_help_text"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: login_help_text must be an str"
+            )
+        if "use_dedicated_ips_for_smtp" in params and not isinstance(
+            params["use_dedicated_ips_for_smtp"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: use_dedicated_ips_for_smtp must be an bool"
+            )
+        if "email_footer_custom_text" in params and not isinstance(
+            params["email_footer_custom_text"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: email_footer_custom_text must be an str"
+            )
+        if "smtp_address" in params and not isinstance(
+            params["smtp_address"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: smtp_address must be an str"
+            )
+        if "smtp_authentication" in params and not isinstance(
+            params["smtp_authentication"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: smtp_authentication must be an str"
+            )
+        if "smtp_from" in params and not isinstance(params["smtp_from"], str):
+            raise InvalidParameterError(
+                "Bad parameter: smtp_from must be an str"
+            )
+        if "smtp_username" in params and not isinstance(
+            params["smtp_username"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: smtp_username must be an str"
+            )
+        if "smtp_port" in params and (
+            not isinstance(params["smtp_port"], int)
+            or isinstance(params["smtp_port"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: smtp_port must be an int"
+            )
+        if "smtp_ssl" in params and not isinstance(params["smtp_ssl"], str):
+            raise InvalidParameterError(
+                "Bad parameter: smtp_ssl must be an str"
+            )
+        if "ldap_enabled" in params and not isinstance(
+            params["ldap_enabled"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_enabled must be an bool"
+            )
+        if "ldap_type" in params and not isinstance(params["ldap_type"], str):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_type must be an str"
+            )
+        if "ldap_host" in params and not isinstance(params["ldap_host"], str):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_host must be an str"
+            )
+        if "ldap_host_2" in params and not isinstance(
+            params["ldap_host_2"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_host_2 must be an str"
+            )
+        if "ldap_host_3" in params and not isinstance(
+            params["ldap_host_3"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_host_3 must be an str"
+            )
+        if "ldap_port" in params and (
+            not isinstance(params["ldap_port"], int)
+            or isinstance(params["ldap_port"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_port must be an int"
+            )
+        if "ldap_secure" in params and not isinstance(
+            params["ldap_secure"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_secure must be an bool"
+            )
+        if "ldap_server_certificate" in params and not isinstance(
+            params["ldap_server_certificate"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_server_certificate must be an str"
+            )
+        if "ldap_username" in params and not isinstance(
+            params["ldap_username"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_username must be an str"
+            )
+        if "ldap_username_field" in params and not isinstance(
+            params["ldap_username_field"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_username_field must be an str"
+            )
+        if "ldap_domain" in params and not isinstance(
+            params["ldap_domain"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_domain must be an str"
+            )
+        if "ldap_user_action" in params and not isinstance(
+            params["ldap_user_action"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_user_action must be an str"
+            )
+        if "ldap_group_action" in params and not isinstance(
+            params["ldap_group_action"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_group_action must be an str"
+            )
+        if "ldap_user_include_groups" in params and not isinstance(
+            params["ldap_user_include_groups"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_user_include_groups must be an str"
+            )
+        if "ldap_group_exclusion" in params and not isinstance(
+            params["ldap_group_exclusion"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_group_exclusion must be an str"
+            )
+        if "ldap_group_inclusion" in params and not isinstance(
+            params["ldap_group_inclusion"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_group_inclusion must be an str"
+            )
+        if "ldap_base_dn" in params and not isinstance(
+            params["ldap_base_dn"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_base_dn must be an str"
+            )
+        if "uploads_via_email_authentication" in params and not isinstance(
+            params["uploads_via_email_authentication"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: uploads_via_email_authentication must be an bool"
+            )
+        if "bundle_watermark_value" in params and not isinstance(
+            params["bundle_watermark_value"], dict
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_watermark_value must be an dict"
+            )
+        if "icon16_delete" in params and not isinstance(
+            params["icon16_delete"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: icon16_delete must be an bool"
+            )
+        if "icon32_delete" in params and not isinstance(
+            params["icon32_delete"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: icon32_delete must be an bool"
+            )
+        if "icon48_delete" in params and not isinstance(
+            params["icon48_delete"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: icon48_delete must be an bool"
+            )
+        if "icon128_delete" in params and not isinstance(
+            params["icon128_delete"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: icon128_delete must be an bool"
+            )
+        if "logo_delete" in params and not isinstance(
+            params["logo_delete"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: logo_delete must be an bool"
+            )
+        if "bundle_watermark_attachment_delete" in params and not isinstance(
+            params["bundle_watermark_attachment_delete"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_watermark_attachment_delete must be an bool"
+            )
+        if "login_page_background_image_delete" in params and not isinstance(
+            params["login_page_background_image_delete"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: login_page_background_image_delete must be an bool"
+            )
+        if "disable_2fa_with_delay" in params and not isinstance(
+            params["disable_2fa_with_delay"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: disable_2fa_with_delay must be an bool"
+            )
+        if "ldap_password_change" in params and not isinstance(
+            params["ldap_password_change"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_password_change must be an str"
+            )
+        if "ldap_password_change_confirmation" in params and not isinstance(
+            params["ldap_password_change_confirmation"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ldap_password_change_confirmation must be an str"
+            )
+        if "redirect_old_subdomain" in params and not isinstance(
+            params["redirect_old_subdomain"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: redirect_old_subdomain must be an bool"
+            )
+        if "smtp_password" in params and not isinstance(
+            params["smtp_password"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: smtp_password must be an str"
+            )
+        params = with_attachments(
+            params,
+            "icon16_file",
+            "icon32_file",
+            "icon48_file",
+            "icon128_file",
+            "logo_file",
+            "bundle_watermark_attachment_file",
+            "login_page_background_image_file",
+        )
+        operation = Operation.start(self._scope, options)
+        response = operation.request("PATCH", "/site", params)
+        return operation.decode_model(response, Site)
+
+    def new(
+        self,
+        attributes: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> Site:
+        """A new Site with attributes, not yet saved, whose
+        operations use this resource's client."""
+        obj = Site(attributes, options)
+        obj._context = self._scope._context_for(options)
+        return obj
 
 
-# Parameters:
-#   name - string - Site name
-#   subdomain - string - Site subdomain
-#   domain - string - Custom domain
-#   domain_hsts_header - boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
-#   domain_letsencrypt_chain - string - Letsencrypt chain to use when registering SSL Certificate for domain. No longer used as of 2026.
-#   email - string - Main email for this site
-#   reply_to_email - string - Reply-to email for this site
-#   allow_bundle_names - boolean - Are manual Bundle names allowed?
-#   bundle_expiration - int64 - Site-wide Bundle expiration in days
-#   welcome_email_enabled - boolean - Will the welcome email be sent to new users?
-#   ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
-#   show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
-#   always_mkdir_parents - boolean - Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
-#   welcome_email_cc - string - Include this email in welcome emails if enabled
-#   welcome_email_subject - string - Include this email subject in welcome emails if enabled
-#   welcome_custom_text - string - Custom text send in user welcome email
-#   language - string - Site default language
-#   windows_mode_ftp - boolean - Does FTP user Windows emulation mode?
-#   default_time_zone - string - Site default time zone
-#   desktop_app - boolean - Is the desktop app enabled?
-#   desktop_app_session_ip_pinning - boolean - Is desktop app session IP pinning enabled?
-#   desktop_app_session_lifetime - int64 - Desktop app session lifetime (in hours)
-#   mobile_app - boolean - Is the mobile app enabled?
-#   mobile_app_session_ip_pinning - boolean - Is mobile app session IP pinning enabled?
-#   mobile_app_session_lifetime - int64 - Mobile app session lifetime (in hours)
-#   folder_permissions_groups_only - boolean - If true, permissions for this site must be bound to a group (not a user).
-#   welcome_screen - string - Does the welcome screen appear?
-#   office_integration_available - boolean - If true, allows users to use a document editing integration.
-#   office_integration_type - string - Which document editing integration to support. Files.com Editor or Microsoft Office for the Web.
-#   pin_all_remote_servers_to_site_region - boolean - If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
-#   motd_text - string - A message to show users when they connect via FTP or SFTP.
-#   motd_use_for_ftp - boolean - Show message to users connecting via FTP
-#   motd_use_for_sftp - boolean - Show message to users connecting via SFTP
-#   left_navigation_visibility - object - Visibility settings for account navigation
-#   disable_all_ai_features - boolean - If true, all AI features are disabled for this site.
-#   ai_feature_availability - object - Availability settings for AI features. Each feature requires the site_admins, workspace_admins, folder_admins, and all_users keys. Optional selected_group_members defaults to false; when true, members of at least one group in group_ids get access regardless of the other options. All availability options are additive: any enabled option matching the user grants access. Optional group_ids is an array of integer IDs of active groups on this site, from any workspace. Omitted or empty group_ids grants no access through selected_group_members and does not affect other options. Disabling all AI features overrides these settings.
-#   mcp_dcr_enabled - boolean - Is OAuth DCR (dynamic client registration) for MCP enabled?
-#   additional_text_file_types - array(string) - Additional extensions that are considered text files
-#   bundle_require_note - boolean - Do Bundles require internal notes?
-#   bundle_send_shared_receipts - boolean - Do Bundle creators receive receipts of invitations?
-#   bundles_default_owned_by_primary_group - boolean - If true, new Share Links created by a user with a primary group will default to that group as owner.
-#   calculate_file_checksums_crc32 - boolean - Calculate CRC32 checksums for files?
-#   calculate_file_checksums_md5 - boolean - Calculate MD5 checksums for files?
-#   calculate_file_checksums_sha1 - boolean - Calculate SHA1 checksums for files?
-#   calculate_file_checksums_sha256 - boolean - Calculate SHA256 checksums for files?
-#   legacy_checksums_mode - boolean - Use legacy checksums mode?
-#   migrate_remote_server_sync_to_sync - boolean - If true, we will migrate all remote server syncs to the new Sync model.
-#   as2_message_retention_days - int64 - Number of days to retain AS2 messages (incoming and outgoing).
-#   file_activity_events_enabled - boolean - If true, file operations produce file_action.activity.v1 EventChannel events in all workspaces. Defaults to false; subscription filters and workspace access still control delivery.
-#   username_display - string - How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
-#   session_expiry_minutes - int64 - Session expiry in minutes
-#   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
-#   sftp_insecure_ciphers - boolean - If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
-#   sftp_insecure_diffie_hellman - boolean - If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
-#   disable_files_certificate_generation - boolean - If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
-#   fedramp - boolean - Are FedRAMP security restrictions enabled for this site?
-#   user_lockout - boolean - Will users be locked out after incorrect login attempts?
-#   user_lockout_tries - int64 - Number of login tries within `user_lockout_within` hours before users are locked out
-#   user_lockout_within - int64 - Number of hours for user lockout window
-#   user_lockout_lock_period - int64 - How many hours to lock user out for failed password?
-#   include_password_in_welcome_email - boolean - Include password in emails to new users?
-#   allowed_countries - string - Comma separated list of allowed Country codes
-#   allowed_ips - string - List of allowed IP addresses
-#   allow_user_level_2fa_override - boolean - Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
-#   allow_user_level_allowed_ip_override - boolean - Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
-#   allow_user_level_ssl_override - boolean - Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
-#   disallowed_countries - string - Comma separated list of disallowed Country codes
-#   days_to_retain_backups - int64 - Number of days to keep deleted files
-#   max_prior_passwords - int64 - Number of prior passwords to disallow
-#   password_validity_days - int64 - Number of days password is valid
-#   password_min_length - int64 - Shortest password length for users
-#   password_require_letter - boolean - Require a letter in passwords?
-#   password_require_mixed - boolean - Require lower and upper case letters in passwords?
-#   password_require_special - boolean - Require special characters in password?
-#   password_require_number - boolean - Require a number in passwords?
-#   password_require_unbreached - boolean - Require passwords that have not been previously breached? (see https://haveibeenpwned.com/)
-#   require_logout_from_bundles_and_inboxes - boolean - If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
-#   dav_user_root_enabled - boolean - Use user FTP roots also for WebDAV?
-#   sftp_user_root_enabled - boolean - Use user FTP roots also for SFTP?
-#   disable_password_reset - boolean - Is password reset disabled?
-#   immutable_files - boolean - Are files protected from modification?
-#   bundle_not_found_message - string - Custom error message to show when bundle is not found.
-#   bundle_password_required - boolean - Do Bundles require password protection?
-#   bundle_require_registration - boolean - Do Bundles require registration?
-#   bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
-#   bundle_send_one_time_password_to_recipient_at_registration - boolean - If true, new Share Links must send a one-time password to the recipient when they register. Requires bundle_require_share_recipient and cannot be enabled with bundle_password_required.
-#   bundle_registration_notifications - string - Do Bundle owners receive registration notification?
-#   bundle_activity_notifications - string - Do Bundle owners receive activity notifications?
-#   bundle_upload_receipt_notifications - string - Do Bundle uploaders receive upload confirmation notifications?
-#   document_edits_in_bundle_allowed - boolean - If true, allow public viewers of Bundles with full permissions to use document editing integrations.
-#   password_requirements_apply_to_bundles - boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
-#   prevent_root_permissions_for_non_site_admins - boolean - If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
-#   restrict_root_folder_behaviors_to_site_admins - boolean - If true, only site admins may create, modify, or delete any behavior at the site root, or a skip that would disable one.
-#   root_folder_behaviors_apply_to_workspaces - boolean - If true, supported protective behaviors at the site root also apply within named workspaces. Requires restrict_root_folder_behaviors_to_site_admins to be enabled.
-#   opt_out_global - boolean - Use servers in the USA only?
-#   use_provided_modified_at - boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
-#   custom_namespace - boolean - Is this site using a custom namespace for users?
-#   non_sso_groups_allowed - boolean - If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
-#   non_sso_users_allowed - boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
-#   sharing_enabled - boolean - Allow bundle creation
-#   snapshot_sharing_enabled - boolean - Allow snapshot share links creation
-#   user_requests_enabled - boolean - Enable User Requests feature
-#   user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
-#   dav_enabled - boolean - Is WebDAV enabled?
-#   files_com_remote_server_enabled - boolean - Allow other Files.com sites to use this site's API keys for native Files.com Remote Server connections? Defaults to true and applies to all keys and workspaces on this site. When false, new pairings and access through existing connections are rejected without revoking keys or deleting connections. Re-enabling permits access again with usable keys. Does not disable this site's connections to other sites, ordinary API access, or Connected Sites.
-#   ftp_enabled - boolean - Is FTP enabled?
-#   s3_compatible_endpoint_enabled - boolean - Is the S3-compatible endpoint enabled for all users and workspaces on this site? Defaults to true. When false, user and group S3 permissions do not allow access.
-#   sftp_enabled - boolean - Is SFTP enabled?
-#   sftp_finalize_partial_uploads - boolean - Finalize partial SFTP uploads from interrupted connections? Default: true.
-#   users_can_create_api_keys - boolean - Allow users to create their own API keys?
-#   users_can_create_ssh_keys - boolean - Allow users to create their own SSH keys?
-#   show_user_notifications_log_in_link - boolean - Show log in link in user notifications?
-#   sftp_host_key_type - string - Sftp Host Key Type
-#   active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
-#   active_sftp_host_key_ids - array(int64) - Ids of the selected custom SFTP Host Keys
-#   protocol_access_groups_only - boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
-#   revoke_bundle_access_on_disable_or_delete - boolean - Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
-#   group_admins_can_add_users - boolean - Allow group admins to create users in their groups
-#   group_admins_can_manage_group_memberships - boolean - Allow group admins to add or remove existing users in their groups
-#   group_admins_can_delete_users - boolean - Allow group admins to delete users in their groups
-#   group_admins_can_enable_disable_users - boolean - Allow group admins to enable or disable users in their groups
-#   group_admins_can_modify_users - boolean - Allow group admins to modify users in their groups
-#   group_admins_can_bypass_user_lifecycle_rules - boolean - Allow group admins to exempt users in their groups from lifecycle rules
-#   group_admins_can_reset_passwords - boolean - Allow group admins to reset passwords for users in their groups
-#   group_admins_can_set_user_password - boolean - Allow group admins to set password authentication method
-#   child_site_folder_admins_can_see_parent_site_directory - boolean - If true, administrators on this site's Child Sites, including Folder Admins, can list this site's Default Workspace users and groups and grant them folder permissions and notifications on Child Site paths.
-#   bundle_recipient_blacklist_free_email_domains - boolean - Disallow free email domains for Bundle/Inbox recipients?
-#   bundle_recipient_blacklist_domains - array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
-#   admins_bypass_locked_subfolders - boolean - Allow admins to bypass the locked subfolders setting.
-#   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
-#   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
-#   allowed_2fa_method_webauthn - boolean - Is WebAuthn two factor authentication allowed?
-#   allowed_2fa_method_yubi - boolean - Is yubikey two factor authentication allowed?
-#   allowed_2fa_method_email - boolean - Is OTP via email two factor authentication allowed?
-#   allowed_2fa_method_static - boolean - Is OTP via static codes for two factor authentication allowed?
-#   allowed_2fa_method_bypass_for_ftp_sftp_dav - boolean - Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
-#   require_2fa - boolean - Require two-factor authentication for all users?
-#   require_2fa_exempt_all_sso_users - boolean - If true, SSO users using the default user-level two-factor authentication setting are exempt from the site-wide two-factor authentication requirement.
-#   require_2fa_user_type - string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
-#   color2_top - string - Top bar background color
-#   color2_left - string - Page link and button color
-#   color2_link - string - Top bar link color
-#   color2_text - string - Page link and button color
-#   color2_top_text - string - Top bar text color
-#   site_header - string - Custom site header text for authenticated pages
-#   site_footer - string - Custom site footer text for authenticated pages
-#   site_public_header - string - Custom site header text for public pages
-#   site_public_footer - string - Custom site footer text for public pages
-#   login_help_text - string - Login help text
-#   use_dedicated_ips_for_smtp - boolean - If using custom SMTP, should we use dedicated IPs to deliver emails?
-#   email_footer_custom_text - string - Custom footer text for system-generated emails (as Markdown). Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
-#   smtp_address - string - SMTP server hostname or IP
-#   smtp_authentication - string - SMTP server authentication type
-#   smtp_from - string - From address to use when mailing through custom SMTP
-#   smtp_username - string - SMTP server username
-#   smtp_port - int64 - SMTP server port
-#   smtp_ssl - string - Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted. A certificate-verified STARTTLS connection automatically changes if_available to require unless smtp_ssl is managed by a parent policy. require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address. Encryption is never automatically downgraded.
-#   ldap_enabled - boolean - Main LDAP setting: is LDAP enabled?
-#   ldap_type - string - LDAP type
-#   ldap_host - string - LDAP host
-#   ldap_host_2 - string - LDAP backup host
-#   ldap_host_3 - string - LDAP backup host
-#   ldap_port - int64 - LDAP port
-#   ldap_secure - boolean - Use secure LDAP?
-#   ldap_server_certificate - string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
-#   ldap_username - string - Username for signing in to LDAP server.
-#   ldap_username_field - string - LDAP username field
-#   ldap_domain - string - Domain name that will be appended to usernames
-#   ldap_user_action - string - Should we sync users from LDAP server?
-#   ldap_group_action - string - Should we sync groups from LDAP server?
-#   ldap_user_include_groups - string - Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
-#   ldap_group_exclusion - string - Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
-#   ldap_group_inclusion - string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
-#   ldap_base_dn - string - Base DN for looking up users in LDAP server
-#   uploads_via_email_authentication - boolean - Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
-#   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
-#   icon16_file - file
-#   icon16_delete - boolean - If true, will delete the file stored in icon16
-#   icon32_file - file
-#   icon32_delete - boolean - If true, will delete the file stored in icon32
-#   icon48_file - file
-#   icon48_delete - boolean - If true, will delete the file stored in icon48
-#   icon128_file - file
-#   icon128_delete - boolean - If true, will delete the file stored in icon128
-#   logo_file - file
-#   logo_delete - boolean - If true, will delete the file stored in logo
-#   bundle_watermark_attachment_file - file
-#   bundle_watermark_attachment_delete - boolean - If true, will delete the file stored in bundle_watermark_attachment
-#   login_page_background_image_file - file
-#   login_page_background_image_delete - boolean - If true, will delete the file stored in login_page_background_image
-#   disable_2fa_with_delay - boolean - If set to true, we will begin the process of disabling 2FA on this site.
-#   ldap_password_change - string - New LDAP password.
-#   ldap_password_change_confirmation - string - Confirm new LDAP password.
-#   redirect_old_subdomain - boolean - If true, and if changing the site subdomain, then create a redirect from the previous Files.com subdomain to the new Files.com subdomain.
-#   smtp_password - string - Password for SMTP server.
-def update(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
-    if "subdomain" in params and not isinstance(params["subdomain"], str):
-        raise InvalidParameterError("Bad parameter: subdomain must be an str")
-    if "domain" in params and not isinstance(params["domain"], str):
-        raise InvalidParameterError("Bad parameter: domain must be an str")
-    if "domain_hsts_header" in params and not isinstance(
-        params["domain_hsts_header"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: domain_hsts_header must be an bool"
-        )
-    if "domain_letsencrypt_chain" in params and not isinstance(
-        params["domain_letsencrypt_chain"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: domain_letsencrypt_chain must be an str"
-        )
-    if "email" in params and not isinstance(params["email"], str):
-        raise InvalidParameterError("Bad parameter: email must be an str")
-    if "reply_to_email" in params and not isinstance(
-        params["reply_to_email"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: reply_to_email must be an str"
-        )
-    if "allow_bundle_names" in params and not isinstance(
-        params["allow_bundle_names"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allow_bundle_names must be an bool"
-        )
-    if "bundle_expiration" in params and not isinstance(
-        params["bundle_expiration"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_expiration must be an int"
-        )
-    if "welcome_email_enabled" in params and not isinstance(
-        params["welcome_email_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: welcome_email_enabled must be an bool"
-        )
-    if "ask_about_overwrites" in params and not isinstance(
-        params["ask_about_overwrites"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ask_about_overwrites must be an bool"
-        )
-    if "show_request_access_link" in params and not isinstance(
-        params["show_request_access_link"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: show_request_access_link must be an bool"
-        )
-    if "always_mkdir_parents" in params and not isinstance(
-        params["always_mkdir_parents"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: always_mkdir_parents must be an bool"
-        )
-    if "welcome_email_cc" in params and not isinstance(
-        params["welcome_email_cc"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: welcome_email_cc must be an str"
-        )
-    if "welcome_email_subject" in params and not isinstance(
-        params["welcome_email_subject"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: welcome_email_subject must be an str"
-        )
-    if "welcome_custom_text" in params and not isinstance(
-        params["welcome_custom_text"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: welcome_custom_text must be an str"
-        )
-    if "language" in params and not isinstance(params["language"], str):
-        raise InvalidParameterError("Bad parameter: language must be an str")
-    if "windows_mode_ftp" in params and not isinstance(
-        params["windows_mode_ftp"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: windows_mode_ftp must be an bool"
-        )
-    if "default_time_zone" in params and not isinstance(
-        params["default_time_zone"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: default_time_zone must be an str"
-        )
-    if "desktop_app" in params and not isinstance(params["desktop_app"], bool):
-        raise InvalidParameterError(
-            "Bad parameter: desktop_app must be an bool"
-        )
-    if "desktop_app_session_ip_pinning" in params and not isinstance(
-        params["desktop_app_session_ip_pinning"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: desktop_app_session_ip_pinning must be an bool"
-        )
-    if "desktop_app_session_lifetime" in params and not isinstance(
-        params["desktop_app_session_lifetime"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: desktop_app_session_lifetime must be an int"
-        )
-    if "mobile_app" in params and not isinstance(params["mobile_app"], bool):
-        raise InvalidParameterError(
-            "Bad parameter: mobile_app must be an bool"
-        )
-    if "mobile_app_session_ip_pinning" in params and not isinstance(
-        params["mobile_app_session_ip_pinning"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: mobile_app_session_ip_pinning must be an bool"
-        )
-    if "mobile_app_session_lifetime" in params and not isinstance(
-        params["mobile_app_session_lifetime"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: mobile_app_session_lifetime must be an int"
-        )
-    if "folder_permissions_groups_only" in params and not isinstance(
-        params["folder_permissions_groups_only"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: folder_permissions_groups_only must be an bool"
-        )
-    if "welcome_screen" in params and not isinstance(
-        params["welcome_screen"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: welcome_screen must be an str"
-        )
-    if "office_integration_available" in params and not isinstance(
-        params["office_integration_available"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: office_integration_available must be an bool"
-        )
-    if "office_integration_type" in params and not isinstance(
-        params["office_integration_type"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: office_integration_type must be an str"
-        )
-    if "pin_all_remote_servers_to_site_region" in params and not isinstance(
-        params["pin_all_remote_servers_to_site_region"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: pin_all_remote_servers_to_site_region must be an bool"
-        )
-    if "motd_text" in params and not isinstance(params["motd_text"], str):
-        raise InvalidParameterError("Bad parameter: motd_text must be an str")
-    if "motd_use_for_ftp" in params and not isinstance(
-        params["motd_use_for_ftp"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: motd_use_for_ftp must be an bool"
-        )
-    if "motd_use_for_sftp" in params and not isinstance(
-        params["motd_use_for_sftp"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: motd_use_for_sftp must be an bool"
-        )
-    if "left_navigation_visibility" in params and not isinstance(
-        params["left_navigation_visibility"], dict
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: left_navigation_visibility must be an dict"
-        )
-    if "disable_all_ai_features" in params and not isinstance(
-        params["disable_all_ai_features"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: disable_all_ai_features must be an bool"
-        )
-    if "ai_feature_availability" in params and not isinstance(
-        params["ai_feature_availability"], dict
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ai_feature_availability must be an dict"
-        )
-    if "mcp_dcr_enabled" in params and not isinstance(
-        params["mcp_dcr_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: mcp_dcr_enabled must be an bool"
-        )
-    if "additional_text_file_types" in params and not isinstance(
-        params["additional_text_file_types"], builtins.list
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: additional_text_file_types must be an list"
-        )
-    if "bundle_require_note" in params and not isinstance(
-        params["bundle_require_note"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_require_note must be an bool"
-        )
-    if "bundle_send_shared_receipts" in params and not isinstance(
-        params["bundle_send_shared_receipts"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_send_shared_receipts must be an bool"
-        )
-    if "bundles_default_owned_by_primary_group" in params and not isinstance(
-        params["bundles_default_owned_by_primary_group"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundles_default_owned_by_primary_group must be an bool"
-        )
-    if "calculate_file_checksums_crc32" in params and not isinstance(
-        params["calculate_file_checksums_crc32"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: calculate_file_checksums_crc32 must be an bool"
-        )
-    if "calculate_file_checksums_md5" in params and not isinstance(
-        params["calculate_file_checksums_md5"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: calculate_file_checksums_md5 must be an bool"
-        )
-    if "calculate_file_checksums_sha1" in params and not isinstance(
-        params["calculate_file_checksums_sha1"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: calculate_file_checksums_sha1 must be an bool"
-        )
-    if "calculate_file_checksums_sha256" in params and not isinstance(
-        params["calculate_file_checksums_sha256"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: calculate_file_checksums_sha256 must be an bool"
-        )
-    if "legacy_checksums_mode" in params and not isinstance(
-        params["legacy_checksums_mode"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: legacy_checksums_mode must be an bool"
-        )
-    if "migrate_remote_server_sync_to_sync" in params and not isinstance(
-        params["migrate_remote_server_sync_to_sync"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: migrate_remote_server_sync_to_sync must be an bool"
-        )
-    if "as2_message_retention_days" in params and not isinstance(
-        params["as2_message_retention_days"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: as2_message_retention_days must be an int"
-        )
-    if "file_activity_events_enabled" in params and not isinstance(
-        params["file_activity_events_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: file_activity_events_enabled must be an bool"
-        )
-    if "username_display" in params and not isinstance(
-        params["username_display"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: username_display must be an str"
-        )
-    if "session_expiry_minutes" in params and not isinstance(
-        params["session_expiry_minutes"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: session_expiry_minutes must be an int"
-        )
-    if "ssl_required" in params and not isinstance(
-        params["ssl_required"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ssl_required must be an bool"
-        )
-    if "sftp_insecure_ciphers" in params and not isinstance(
-        params["sftp_insecure_ciphers"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sftp_insecure_ciphers must be an bool"
-        )
-    if "sftp_insecure_diffie_hellman" in params and not isinstance(
-        params["sftp_insecure_diffie_hellman"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sftp_insecure_diffie_hellman must be an bool"
-        )
-    if "disable_files_certificate_generation" in params and not isinstance(
-        params["disable_files_certificate_generation"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: disable_files_certificate_generation must be an bool"
-        )
-    if "fedramp" in params and not isinstance(params["fedramp"], bool):
-        raise InvalidParameterError("Bad parameter: fedramp must be an bool")
-    if "user_lockout" in params and not isinstance(
-        params["user_lockout"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: user_lockout must be an bool"
-        )
-    if "user_lockout_tries" in params and not isinstance(
-        params["user_lockout_tries"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: user_lockout_tries must be an int"
-        )
-    if "user_lockout_within" in params and not isinstance(
-        params["user_lockout_within"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: user_lockout_within must be an int"
-        )
-    if "user_lockout_lock_period" in params and not isinstance(
-        params["user_lockout_lock_period"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: user_lockout_lock_period must be an int"
-        )
-    if "include_password_in_welcome_email" in params and not isinstance(
-        params["include_password_in_welcome_email"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: include_password_in_welcome_email must be an bool"
-        )
-    if "allowed_countries" in params and not isinstance(
-        params["allowed_countries"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allowed_countries must be an str"
-        )
-    if "allowed_ips" in params and not isinstance(params["allowed_ips"], str):
-        raise InvalidParameterError(
-            "Bad parameter: allowed_ips must be an str"
-        )
-    if "allow_user_level_2fa_override" in params and not isinstance(
-        params["allow_user_level_2fa_override"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allow_user_level_2fa_override must be an bool"
-        )
-    if "allow_user_level_allowed_ip_override" in params and not isinstance(
-        params["allow_user_level_allowed_ip_override"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allow_user_level_allowed_ip_override must be an bool"
-        )
-    if "allow_user_level_ssl_override" in params and not isinstance(
-        params["allow_user_level_ssl_override"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allow_user_level_ssl_override must be an bool"
-        )
-    if "disallowed_countries" in params and not isinstance(
-        params["disallowed_countries"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: disallowed_countries must be an str"
-        )
-    if "days_to_retain_backups" in params and not isinstance(
-        params["days_to_retain_backups"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: days_to_retain_backups must be an int"
-        )
-    if "max_prior_passwords" in params and not isinstance(
-        params["max_prior_passwords"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: max_prior_passwords must be an int"
-        )
-    if "password_validity_days" in params and not isinstance(
-        params["password_validity_days"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: password_validity_days must be an int"
-        )
-    if "password_min_length" in params and not isinstance(
-        params["password_min_length"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: password_min_length must be an int"
-        )
-    if "password_require_letter" in params and not isinstance(
-        params["password_require_letter"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: password_require_letter must be an bool"
-        )
-    if "password_require_mixed" in params and not isinstance(
-        params["password_require_mixed"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: password_require_mixed must be an bool"
-        )
-    if "password_require_special" in params and not isinstance(
-        params["password_require_special"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: password_require_special must be an bool"
-        )
-    if "password_require_number" in params and not isinstance(
-        params["password_require_number"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: password_require_number must be an bool"
-        )
-    if "password_require_unbreached" in params and not isinstance(
-        params["password_require_unbreached"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: password_require_unbreached must be an bool"
-        )
-    if "require_logout_from_bundles_and_inboxes" in params and not isinstance(
-        params["require_logout_from_bundles_and_inboxes"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: require_logout_from_bundles_and_inboxes must be an bool"
-        )
-    if "dav_user_root_enabled" in params and not isinstance(
-        params["dav_user_root_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: dav_user_root_enabled must be an bool"
-        )
-    if "sftp_user_root_enabled" in params and not isinstance(
-        params["sftp_user_root_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sftp_user_root_enabled must be an bool"
-        )
-    if "disable_password_reset" in params and not isinstance(
-        params["disable_password_reset"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: disable_password_reset must be an bool"
-        )
-    if "immutable_files" in params and not isinstance(
-        params["immutable_files"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: immutable_files must be an bool"
-        )
-    if "bundle_not_found_message" in params and not isinstance(
-        params["bundle_not_found_message"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_not_found_message must be an str"
-        )
-    if "bundle_password_required" in params and not isinstance(
-        params["bundle_password_required"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_password_required must be an bool"
-        )
-    if "bundle_require_registration" in params and not isinstance(
-        params["bundle_require_registration"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_require_registration must be an bool"
-        )
-    if "bundle_require_share_recipient" in params and not isinstance(
-        params["bundle_require_share_recipient"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_require_share_recipient must be an bool"
-        )
-    if (
-        "bundle_send_one_time_password_to_recipient_at_registration" in params
-        and not isinstance(
-            params[
-                "bundle_send_one_time_password_to_recipient_at_registration"
-            ],
-            bool,
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_send_one_time_password_to_recipient_at_registration must be an bool"
-        )
-    if "bundle_registration_notifications" in params and not isinstance(
-        params["bundle_registration_notifications"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_registration_notifications must be an str"
-        )
-    if "bundle_activity_notifications" in params and not isinstance(
-        params["bundle_activity_notifications"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_activity_notifications must be an str"
-        )
-    if "bundle_upload_receipt_notifications" in params and not isinstance(
-        params["bundle_upload_receipt_notifications"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_upload_receipt_notifications must be an str"
-        )
-    if "document_edits_in_bundle_allowed" in params and not isinstance(
-        params["document_edits_in_bundle_allowed"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: document_edits_in_bundle_allowed must be an bool"
-        )
-    if "password_requirements_apply_to_bundles" in params and not isinstance(
-        params["password_requirements_apply_to_bundles"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: password_requirements_apply_to_bundles must be an bool"
-        )
-    if (
-        "prevent_root_permissions_for_non_site_admins" in params
-        and not isinstance(
-            params["prevent_root_permissions_for_non_site_admins"], bool
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: prevent_root_permissions_for_non_site_admins must be an bool"
-        )
-    if (
-        "restrict_root_folder_behaviors_to_site_admins" in params
-        and not isinstance(
-            params["restrict_root_folder_behaviors_to_site_admins"], bool
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: restrict_root_folder_behaviors_to_site_admins must be an bool"
-        )
-    if (
-        "root_folder_behaviors_apply_to_workspaces" in params
-        and not isinstance(
-            params["root_folder_behaviors_apply_to_workspaces"], bool
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: root_folder_behaviors_apply_to_workspaces must be an bool"
-        )
-    if "opt_out_global" in params and not isinstance(
-        params["opt_out_global"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: opt_out_global must be an bool"
-        )
-    if "use_provided_modified_at" in params and not isinstance(
-        params["use_provided_modified_at"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: use_provided_modified_at must be an bool"
-        )
-    if "custom_namespace" in params and not isinstance(
-        params["custom_namespace"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: custom_namespace must be an bool"
-        )
-    if "non_sso_groups_allowed" in params and not isinstance(
-        params["non_sso_groups_allowed"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: non_sso_groups_allowed must be an bool"
-        )
-    if "non_sso_users_allowed" in params and not isinstance(
-        params["non_sso_users_allowed"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: non_sso_users_allowed must be an bool"
-        )
-    if "sharing_enabled" in params and not isinstance(
-        params["sharing_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sharing_enabled must be an bool"
-        )
-    if "snapshot_sharing_enabled" in params and not isinstance(
-        params["snapshot_sharing_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: snapshot_sharing_enabled must be an bool"
-        )
-    if "user_requests_enabled" in params and not isinstance(
-        params["user_requests_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: user_requests_enabled must be an bool"
-        )
-    if "user_requests_notify_admins" in params and not isinstance(
-        params["user_requests_notify_admins"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: user_requests_notify_admins must be an bool"
-        )
-    if "dav_enabled" in params and not isinstance(params["dav_enabled"], bool):
-        raise InvalidParameterError(
-            "Bad parameter: dav_enabled must be an bool"
-        )
-    if "files_com_remote_server_enabled" in params and not isinstance(
-        params["files_com_remote_server_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: files_com_remote_server_enabled must be an bool"
-        )
-    if "ftp_enabled" in params and not isinstance(params["ftp_enabled"], bool):
-        raise InvalidParameterError(
-            "Bad parameter: ftp_enabled must be an bool"
-        )
-    if "s3_compatible_endpoint_enabled" in params and not isinstance(
-        params["s3_compatible_endpoint_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_endpoint_enabled must be an bool"
-        )
-    if "sftp_enabled" in params and not isinstance(
-        params["sftp_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sftp_enabled must be an bool"
-        )
-    if "sftp_finalize_partial_uploads" in params and not isinstance(
-        params["sftp_finalize_partial_uploads"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sftp_finalize_partial_uploads must be an bool"
-        )
-    if "users_can_create_api_keys" in params and not isinstance(
-        params["users_can_create_api_keys"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: users_can_create_api_keys must be an bool"
-        )
-    if "users_can_create_ssh_keys" in params and not isinstance(
-        params["users_can_create_ssh_keys"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: users_can_create_ssh_keys must be an bool"
-        )
-    if "show_user_notifications_log_in_link" in params and not isinstance(
-        params["show_user_notifications_log_in_link"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: show_user_notifications_log_in_link must be an bool"
-        )
-    if "sftp_host_key_type" in params and not isinstance(
-        params["sftp_host_key_type"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sftp_host_key_type must be an str"
-        )
-    if "active_sftp_host_key_id" in params and not isinstance(
-        params["active_sftp_host_key_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: active_sftp_host_key_id must be an int"
-        )
-    if "active_sftp_host_key_ids" in params and not isinstance(
-        params["active_sftp_host_key_ids"], builtins.list
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: active_sftp_host_key_ids must be an list"
-        )
-    if "protocol_access_groups_only" in params and not isinstance(
-        params["protocol_access_groups_only"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: protocol_access_groups_only must be an bool"
-        )
-    if (
-        "revoke_bundle_access_on_disable_or_delete" in params
-        and not isinstance(
-            params["revoke_bundle_access_on_disable_or_delete"], bool
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: revoke_bundle_access_on_disable_or_delete must be an bool"
-        )
-    if "group_admins_can_add_users" in params and not isinstance(
-        params["group_admins_can_add_users"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: group_admins_can_add_users must be an bool"
-        )
-    if (
-        "group_admins_can_manage_group_memberships" in params
-        and not isinstance(
-            params["group_admins_can_manage_group_memberships"], bool
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: group_admins_can_manage_group_memberships must be an bool"
-        )
-    if "group_admins_can_delete_users" in params and not isinstance(
-        params["group_admins_can_delete_users"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: group_admins_can_delete_users must be an bool"
-        )
-    if "group_admins_can_enable_disable_users" in params and not isinstance(
-        params["group_admins_can_enable_disable_users"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: group_admins_can_enable_disable_users must be an bool"
-        )
-    if "group_admins_can_modify_users" in params and not isinstance(
-        params["group_admins_can_modify_users"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: group_admins_can_modify_users must be an bool"
-        )
-    if (
-        "group_admins_can_bypass_user_lifecycle_rules" in params
-        and not isinstance(
-            params["group_admins_can_bypass_user_lifecycle_rules"], bool
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: group_admins_can_bypass_user_lifecycle_rules must be an bool"
-        )
-    if "group_admins_can_reset_passwords" in params and not isinstance(
-        params["group_admins_can_reset_passwords"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: group_admins_can_reset_passwords must be an bool"
-        )
-    if "group_admins_can_set_user_password" in params and not isinstance(
-        params["group_admins_can_set_user_password"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: group_admins_can_set_user_password must be an bool"
-        )
-    if (
-        "child_site_folder_admins_can_see_parent_site_directory" in params
-        and not isinstance(
-            params["child_site_folder_admins_can_see_parent_site_directory"],
-            bool,
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: child_site_folder_admins_can_see_parent_site_directory must be an bool"
-        )
-    if (
-        "bundle_recipient_blacklist_free_email_domains" in params
-        and not isinstance(
-            params["bundle_recipient_blacklist_free_email_domains"], bool
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_recipient_blacklist_free_email_domains must be an bool"
-        )
-    if "bundle_recipient_blacklist_domains" in params and not isinstance(
-        params["bundle_recipient_blacklist_domains"], builtins.list
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_recipient_blacklist_domains must be an list"
-        )
-    if "admins_bypass_locked_subfolders" in params and not isinstance(
-        params["admins_bypass_locked_subfolders"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: admins_bypass_locked_subfolders must be an bool"
-        )
-    if "allowed_2fa_method_sms" in params and not isinstance(
-        params["allowed_2fa_method_sms"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allowed_2fa_method_sms must be an bool"
-        )
-    if "allowed_2fa_method_totp" in params and not isinstance(
-        params["allowed_2fa_method_totp"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allowed_2fa_method_totp must be an bool"
-        )
-    if "allowed_2fa_method_webauthn" in params and not isinstance(
-        params["allowed_2fa_method_webauthn"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allowed_2fa_method_webauthn must be an bool"
-        )
-    if "allowed_2fa_method_yubi" in params and not isinstance(
-        params["allowed_2fa_method_yubi"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allowed_2fa_method_yubi must be an bool"
-        )
-    if "allowed_2fa_method_email" in params and not isinstance(
-        params["allowed_2fa_method_email"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allowed_2fa_method_email must be an bool"
-        )
-    if "allowed_2fa_method_static" in params and not isinstance(
-        params["allowed_2fa_method_static"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allowed_2fa_method_static must be an bool"
-        )
-    if (
-        "allowed_2fa_method_bypass_for_ftp_sftp_dav" in params
-        and not isinstance(
-            params["allowed_2fa_method_bypass_for_ftp_sftp_dav"], bool
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allowed_2fa_method_bypass_for_ftp_sftp_dav must be an bool"
-        )
-    if "require_2fa" in params and not isinstance(params["require_2fa"], bool):
-        raise InvalidParameterError(
-            "Bad parameter: require_2fa must be an bool"
-        )
-    if "require_2fa_exempt_all_sso_users" in params and not isinstance(
-        params["require_2fa_exempt_all_sso_users"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: require_2fa_exempt_all_sso_users must be an bool"
-        )
-    if "require_2fa_user_type" in params and not isinstance(
-        params["require_2fa_user_type"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: require_2fa_user_type must be an str"
-        )
-    if "color2_top" in params and not isinstance(params["color2_top"], str):
-        raise InvalidParameterError("Bad parameter: color2_top must be an str")
-    if "color2_left" in params and not isinstance(params["color2_left"], str):
-        raise InvalidParameterError(
-            "Bad parameter: color2_left must be an str"
-        )
-    if "color2_link" in params and not isinstance(params["color2_link"], str):
-        raise InvalidParameterError(
-            "Bad parameter: color2_link must be an str"
-        )
-    if "color2_text" in params and not isinstance(params["color2_text"], str):
-        raise InvalidParameterError(
-            "Bad parameter: color2_text must be an str"
-        )
-    if "color2_top_text" in params and not isinstance(
-        params["color2_top_text"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: color2_top_text must be an str"
-        )
-    if "site_header" in params and not isinstance(params["site_header"], str):
-        raise InvalidParameterError(
-            "Bad parameter: site_header must be an str"
-        )
-    if "site_footer" in params and not isinstance(params["site_footer"], str):
-        raise InvalidParameterError(
-            "Bad parameter: site_footer must be an str"
-        )
-    if "site_public_header" in params and not isinstance(
-        params["site_public_header"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: site_public_header must be an str"
-        )
-    if "site_public_footer" in params and not isinstance(
-        params["site_public_footer"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: site_public_footer must be an str"
-        )
-    if "login_help_text" in params and not isinstance(
-        params["login_help_text"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: login_help_text must be an str"
-        )
-    if "use_dedicated_ips_for_smtp" in params and not isinstance(
-        params["use_dedicated_ips_for_smtp"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: use_dedicated_ips_for_smtp must be an bool"
-        )
-    if "email_footer_custom_text" in params and not isinstance(
-        params["email_footer_custom_text"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: email_footer_custom_text must be an str"
-        )
-    if "smtp_address" in params and not isinstance(
-        params["smtp_address"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: smtp_address must be an str"
-        )
-    if "smtp_authentication" in params and not isinstance(
-        params["smtp_authentication"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: smtp_authentication must be an str"
-        )
-    if "smtp_from" in params and not isinstance(params["smtp_from"], str):
-        raise InvalidParameterError("Bad parameter: smtp_from must be an str")
-    if "smtp_username" in params and not isinstance(
-        params["smtp_username"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: smtp_username must be an str"
-        )
-    if "smtp_port" in params and not isinstance(params["smtp_port"], int):
-        raise InvalidParameterError("Bad parameter: smtp_port must be an int")
-    if "smtp_ssl" in params and not isinstance(params["smtp_ssl"], str):
-        raise InvalidParameterError("Bad parameter: smtp_ssl must be an str")
-    if "ldap_enabled" in params and not isinstance(
-        params["ldap_enabled"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_enabled must be an bool"
-        )
-    if "ldap_type" in params and not isinstance(params["ldap_type"], str):
-        raise InvalidParameterError("Bad parameter: ldap_type must be an str")
-    if "ldap_host" in params and not isinstance(params["ldap_host"], str):
-        raise InvalidParameterError("Bad parameter: ldap_host must be an str")
-    if "ldap_host_2" in params and not isinstance(params["ldap_host_2"], str):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_host_2 must be an str"
-        )
-    if "ldap_host_3" in params and not isinstance(params["ldap_host_3"], str):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_host_3 must be an str"
-        )
-    if "ldap_port" in params and not isinstance(params["ldap_port"], int):
-        raise InvalidParameterError("Bad parameter: ldap_port must be an int")
-    if "ldap_secure" in params and not isinstance(params["ldap_secure"], bool):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_secure must be an bool"
-        )
-    if "ldap_server_certificate" in params and not isinstance(
-        params["ldap_server_certificate"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_server_certificate must be an str"
-        )
-    if "ldap_username" in params and not isinstance(
-        params["ldap_username"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_username must be an str"
-        )
-    if "ldap_username_field" in params and not isinstance(
-        params["ldap_username_field"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_username_field must be an str"
-        )
-    if "ldap_domain" in params and not isinstance(params["ldap_domain"], str):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_domain must be an str"
-        )
-    if "ldap_user_action" in params and not isinstance(
-        params["ldap_user_action"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_user_action must be an str"
-        )
-    if "ldap_group_action" in params and not isinstance(
-        params["ldap_group_action"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_group_action must be an str"
-        )
-    if "ldap_user_include_groups" in params and not isinstance(
-        params["ldap_user_include_groups"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_user_include_groups must be an str"
-        )
-    if "ldap_group_exclusion" in params and not isinstance(
-        params["ldap_group_exclusion"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_group_exclusion must be an str"
-        )
-    if "ldap_group_inclusion" in params and not isinstance(
-        params["ldap_group_inclusion"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_group_inclusion must be an str"
-        )
-    if "ldap_base_dn" in params and not isinstance(
-        params["ldap_base_dn"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_base_dn must be an str"
-        )
-    if "uploads_via_email_authentication" in params and not isinstance(
-        params["uploads_via_email_authentication"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: uploads_via_email_authentication must be an bool"
-        )
-    if "bundle_watermark_value" in params and not isinstance(
-        params["bundle_watermark_value"], dict
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_watermark_value must be an dict"
-        )
-    if "icon16_delete" in params and not isinstance(
-        params["icon16_delete"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: icon16_delete must be an bool"
-        )
-    if "icon32_delete" in params and not isinstance(
-        params["icon32_delete"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: icon32_delete must be an bool"
-        )
-    if "icon48_delete" in params and not isinstance(
-        params["icon48_delete"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: icon48_delete must be an bool"
-        )
-    if "icon128_delete" in params and not isinstance(
-        params["icon128_delete"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: icon128_delete must be an bool"
-        )
-    if "logo_delete" in params and not isinstance(params["logo_delete"], bool):
-        raise InvalidParameterError(
-            "Bad parameter: logo_delete must be an bool"
-        )
-    if "bundle_watermark_attachment_delete" in params and not isinstance(
-        params["bundle_watermark_attachment_delete"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: bundle_watermark_attachment_delete must be an bool"
-        )
-    if "login_page_background_image_delete" in params and not isinstance(
-        params["login_page_background_image_delete"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: login_page_background_image_delete must be an bool"
-        )
-    if "disable_2fa_with_delay" in params and not isinstance(
-        params["disable_2fa_with_delay"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: disable_2fa_with_delay must be an bool"
-        )
-    if "ldap_password_change" in params and not isinstance(
-        params["ldap_password_change"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_password_change must be an str"
-        )
-    if "ldap_password_change_confirmation" in params and not isinstance(
-        params["ldap_password_change_confirmation"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ldap_password_change_confirmation must be an str"
-        )
-    if "redirect_old_subdomain" in params and not isinstance(
-        params["redirect_old_subdomain"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: redirect_old_subdomain must be an bool"
-        )
-    if "smtp_password" in params and not isinstance(
-        params["smtp_password"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: smtp_password must be an str"
-        )
-    response, options = Api.send_request("PATCH", "/site", params, options)
-    return Site(response.data, options)
+_legacy_resource = SiteResource(LEGACY)
 
 
-def new(*args, **kwargs):
+def get(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> Site:
+    return _legacy_resource.get(params, options)
+
+
+def get_usage(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> UsageSnapshot:
+    return _legacy_resource.get_usage(params, options)
+
+
+def update(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> Site:
+    """Parameters:
+    name - string - Site name
+    subdomain - string - Site subdomain
+    domain - string - Custom domain
+    domain_hsts_header - boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
+    domain_letsencrypt_chain - string - Letsencrypt chain to use when registering SSL Certificate for domain. No longer used as of 2026.
+    email - string - Main email for this site
+    reply_to_email - string - Reply-to email for this site
+    allow_bundle_names - boolean - Are manual Bundle names allowed?
+    bundle_expiration - int64 - Site-wide Bundle expiration in days
+    welcome_email_enabled - boolean - Will the welcome email be sent to new users?
+    ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
+    show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
+    always_mkdir_parents - boolean - Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
+    welcome_email_cc - string - Include this email in welcome emails if enabled
+    welcome_email_subject - string - Include this email subject in welcome emails if enabled
+    welcome_custom_text - string - Custom text send in user welcome email
+    language - string - Site default language
+    windows_mode_ftp - boolean - Does FTP user Windows emulation mode?
+    default_time_zone - string - Site default time zone
+    desktop_app - boolean - Is the desktop app enabled?
+    desktop_app_session_ip_pinning - boolean - Is desktop app session IP pinning enabled?
+    desktop_app_session_lifetime - int64 - Desktop app session lifetime (in hours)
+    mobile_app - boolean - Is the mobile app enabled?
+    mobile_app_session_ip_pinning - boolean - Is mobile app session IP pinning enabled?
+    mobile_app_session_lifetime - int64 - Mobile app session lifetime (in hours)
+    folder_permissions_groups_only - boolean - If true, permissions for this site must be bound to a group (not a user).
+    welcome_screen - string - Does the welcome screen appear?
+    office_integration_available - boolean - If true, allows users to use a document editing integration.
+    office_integration_type - string - Which document editing integration to support. Files.com Editor or Microsoft Office for the Web.
+    pin_all_remote_servers_to_site_region - boolean - If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
+    motd_text - string - A message to show users when they connect via FTP or SFTP.
+    motd_use_for_ftp - boolean - Show message to users connecting via FTP
+    motd_use_for_sftp - boolean - Show message to users connecting via SFTP
+    left_navigation_visibility - object - Visibility settings for account navigation
+    disable_all_ai_features - boolean - If true, all AI features are disabled for this site.
+    ai_feature_availability - object - Availability settings for AI features. Each feature requires the site_admins, workspace_admins, folder_admins, and all_users keys. Optional selected_group_members defaults to false; when true, members of at least one group in group_ids get access regardless of the other options. All availability options are additive: any enabled option matching the user grants access. Optional group_ids is an array of integer IDs of active groups on this site, from any workspace. Omitted or empty group_ids grants no access through selected_group_members and does not affect other options. Disabling all AI features overrides these settings.
+    mcp_dcr_enabled - boolean - Is OAuth DCR (dynamic client registration) for MCP enabled?
+    additional_text_file_types - array(string) - Additional extensions that are considered text files
+    bundle_require_note - boolean - Do Bundles require internal notes?
+    bundle_send_shared_receipts - boolean - Do Bundle creators receive receipts of invitations?
+    bundles_default_owned_by_primary_group - boolean - If true, new Share Links created by a user with a primary group will default to that group as owner.
+    calculate_file_checksums_crc32 - boolean - Calculate CRC32 checksums for files?
+    calculate_file_checksums_md5 - boolean - Calculate MD5 checksums for files?
+    calculate_file_checksums_sha1 - boolean - Calculate SHA1 checksums for files?
+    calculate_file_checksums_sha256 - boolean - Calculate SHA256 checksums for files?
+    legacy_checksums_mode - boolean - Use legacy checksums mode?
+    migrate_remote_server_sync_to_sync - boolean - If true, we will migrate all remote server syncs to the new Sync model.
+    as2_message_retention_days - int64 - Number of days to retain AS2 messages (incoming and outgoing).
+    file_activity_events_enabled - boolean - If true, file operations produce file_action.activity.v1 EventChannel events in all workspaces. Defaults to false; subscription filters and workspace access still control delivery.
+    username_display - string - How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
+    session_expiry_minutes - int64 - Session expiry in minutes
+    ssl_required - boolean - Is SSL required?  Disabling this is insecure.
+    sftp_insecure_ciphers - boolean - If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
+    sftp_insecure_diffie_hellman - boolean - If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
+    disable_files_certificate_generation - boolean - If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
+    fedramp - boolean - Are FedRAMP security restrictions enabled for this site?
+    user_lockout - boolean - Will users be locked out after incorrect login attempts?
+    user_lockout_tries - int64 - Number of login tries within `user_lockout_within` hours before users are locked out
+    user_lockout_within - int64 - Number of hours for user lockout window
+    user_lockout_lock_period - int64 - How many hours to lock user out for failed password?
+    include_password_in_welcome_email - boolean - Include password in emails to new users?
+    allowed_countries - string - Comma separated list of allowed Country codes
+    allowed_ips - string - List of allowed IP addresses
+    allow_user_level_2fa_override - boolean - Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
+    allow_user_level_allowed_ip_override - boolean - Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
+    allow_user_level_ssl_override - boolean - Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
+    disallowed_countries - string - Comma separated list of disallowed Country codes
+    days_to_retain_backups - int64 - Number of days to keep deleted files
+    max_prior_passwords - int64 - Number of prior passwords to disallow
+    password_validity_days - int64 - Number of days password is valid
+    password_min_length - int64 - Shortest password length for users
+    password_require_letter - boolean - Require a letter in passwords?
+    password_require_mixed - boolean - Require lower and upper case letters in passwords?
+    password_require_special - boolean - Require special characters in password?
+    password_require_number - boolean - Require a number in passwords?
+    password_require_unbreached - boolean - Require passwords that have not been previously breached? (see https://haveibeenpwned.com/)
+    require_logout_from_bundles_and_inboxes - boolean - If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
+    dav_user_root_enabled - boolean - Use user FTP roots also for WebDAV?
+    sftp_user_root_enabled - boolean - Use user FTP roots also for SFTP?
+    disable_password_reset - boolean - Is password reset disabled?
+    immutable_files - boolean - Are files protected from modification?
+    bundle_not_found_message - string - Custom error message to show when bundle is not found.
+    bundle_password_required - boolean - Do Bundles require password protection?
+    bundle_require_registration - boolean - Do Bundles require registration?
+    bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
+    bundle_send_one_time_password_to_recipient_at_registration - boolean - If true, new Share Links must send a one-time password to the recipient when they register. Requires bundle_require_share_recipient and cannot be enabled with bundle_password_required.
+    bundle_registration_notifications - string - Do Bundle owners receive registration notification?
+    bundle_activity_notifications - string - Do Bundle owners receive activity notifications?
+    bundle_upload_receipt_notifications - string - Do Bundle uploaders receive upload confirmation notifications?
+    document_edits_in_bundle_allowed - boolean - If true, allow public viewers of Bundles with full permissions to use document editing integrations.
+    password_requirements_apply_to_bundles - boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
+    prevent_root_permissions_for_non_site_admins - boolean - If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
+    restrict_root_folder_behaviors_to_site_admins - boolean - If true, only site admins may create, modify, or delete any behavior at the site root, or a skip that would disable one.
+    root_folder_behaviors_apply_to_workspaces - boolean - If true, supported protective behaviors at the site root also apply within named workspaces. Requires restrict_root_folder_behaviors_to_site_admins to be enabled.
+    opt_out_global - boolean - Use servers in the USA only?
+    use_provided_modified_at - boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
+    custom_namespace - boolean - Is this site using a custom namespace for users?
+    non_sso_groups_allowed - boolean - If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
+    non_sso_users_allowed - boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
+    sharing_enabled - boolean - Allow bundle creation
+    snapshot_sharing_enabled - boolean - Allow snapshot share links creation
+    user_requests_enabled - boolean - Enable User Requests feature
+    user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
+    dav_enabled - boolean - Is WebDAV enabled?
+    files_com_remote_server_enabled - boolean - Allow other Files.com sites to use this site's API keys for native Files.com Remote Server connections? Defaults to true and applies to all keys and workspaces on this site. When false, new pairings and access through existing connections are rejected without revoking keys or deleting connections. Re-enabling permits access again with usable keys. Does not disable this site's connections to other sites, ordinary API access, or Connected Sites.
+    ftp_enabled - boolean - Is FTP enabled?
+    s3_compatible_endpoint_enabled - boolean - Is the S3-compatible endpoint enabled for all users and workspaces on this site? Defaults to true. When false, user and group S3 permissions do not allow access.
+    sftp_enabled - boolean - Is SFTP enabled?
+    sftp_finalize_partial_uploads - boolean - Finalize partial SFTP uploads from interrupted connections? Default: true.
+    users_can_create_api_keys - boolean - Allow users to create their own API keys?
+    users_can_create_ssh_keys - boolean - Allow users to create their own SSH keys?
+    show_user_notifications_log_in_link - boolean - Show log in link in user notifications?
+    sftp_host_key_type - string - Sftp Host Key Type
+    active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
+    active_sftp_host_key_ids - array(int64) - Ids of the selected custom SFTP Host Keys
+    protocol_access_groups_only - boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
+    revoke_bundle_access_on_disable_or_delete - boolean - Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
+    group_admins_can_add_users - boolean - Allow group admins to create users in their groups
+    group_admins_can_manage_group_memberships - boolean - Allow group admins to add or remove existing users in their groups
+    group_admins_can_delete_users - boolean - Allow group admins to delete users in their groups
+    group_admins_can_enable_disable_users - boolean - Allow group admins to enable or disable users in their groups
+    group_admins_can_modify_users - boolean - Allow group admins to modify users in their groups
+    group_admins_can_bypass_user_lifecycle_rules - boolean - Allow group admins to exempt users in their groups from lifecycle rules
+    group_admins_can_reset_passwords - boolean - Allow group admins to reset passwords for users in their groups
+    group_admins_can_set_user_password - boolean - Allow group admins to set password authentication method
+    child_site_folder_admins_can_see_parent_site_directory - boolean - If true, administrators on this site's Child Sites, including Folder Admins, can list this site's Default Workspace users and groups and grant them folder permissions and notifications on Child Site paths.
+    bundle_recipient_blacklist_free_email_domains - boolean - Disallow free email domains for Bundle/Inbox recipients?
+    bundle_recipient_blacklist_domains - array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
+    admins_bypass_locked_subfolders - boolean - Allow admins to bypass the locked subfolders setting.
+    allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
+    allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
+    allowed_2fa_method_webauthn - boolean - Is WebAuthn two factor authentication allowed?
+    allowed_2fa_method_yubi - boolean - Is yubikey two factor authentication allowed?
+    allowed_2fa_method_email - boolean - Is OTP via email two factor authentication allowed?
+    allowed_2fa_method_static - boolean - Is OTP via static codes for two factor authentication allowed?
+    allowed_2fa_method_bypass_for_ftp_sftp_dav - boolean - Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
+    require_2fa - boolean - Require two-factor authentication for all users?
+    require_2fa_exempt_all_sso_users - boolean - If true, SSO users using the default user-level two-factor authentication setting are exempt from the site-wide two-factor authentication requirement.
+    require_2fa_user_type - string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
+    color2_top - string - Top bar background color
+    color2_left - string - Page link and button color
+    color2_link - string - Top bar link color
+    color2_text - string - Page link and button color
+    color2_top_text - string - Top bar text color
+    site_header - string - Custom site header text for authenticated pages
+    site_footer - string - Custom site footer text for authenticated pages
+    site_public_header - string - Custom site header text for public pages
+    site_public_footer - string - Custom site footer text for public pages
+    login_help_text - string - Login help text
+    use_dedicated_ips_for_smtp - boolean - If using custom SMTP, should we use dedicated IPs to deliver emails?
+    email_footer_custom_text - string - Custom footer text for system-generated emails (as Markdown). Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
+    smtp_address - string - SMTP server hostname or IP
+    smtp_authentication - string - SMTP server authentication type
+    smtp_from - string - From address to use when mailing through custom SMTP
+    smtp_username - string - SMTP server username
+    smtp_port - int64 - SMTP server port
+    smtp_ssl - string - Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted. A certificate-verified STARTTLS connection automatically changes if_available to require unless smtp_ssl is managed by a parent policy. require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address. Encryption is never automatically downgraded.
+    ldap_enabled - boolean - Main LDAP setting: is LDAP enabled?
+    ldap_type - string - LDAP type
+    ldap_host - string - LDAP host
+    ldap_host_2 - string - LDAP backup host
+    ldap_host_3 - string - LDAP backup host
+    ldap_port - int64 - LDAP port
+    ldap_secure - boolean - Use secure LDAP?
+    ldap_server_certificate - string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
+    ldap_username - string - Username for signing in to LDAP server.
+    ldap_username_field - string - LDAP username field
+    ldap_domain - string - Domain name that will be appended to usernames
+    ldap_user_action - string - Should we sync users from LDAP server?
+    ldap_group_action - string - Should we sync groups from LDAP server?
+    ldap_user_include_groups - string - Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
+    ldap_group_exclusion - string - Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
+    ldap_group_inclusion - string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
+    ldap_base_dn - string - Base DN for looking up users in LDAP server
+    uploads_via_email_authentication - boolean - Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
+    bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+    icon16_file - file
+    icon16_delete - boolean - If true, will delete the file stored in icon16
+    icon32_file - file
+    icon32_delete - boolean - If true, will delete the file stored in icon32
+    icon48_file - file
+    icon48_delete - boolean - If true, will delete the file stored in icon48
+    icon128_file - file
+    icon128_delete - boolean - If true, will delete the file stored in icon128
+    logo_file - file
+    logo_delete - boolean - If true, will delete the file stored in logo
+    bundle_watermark_attachment_file - file
+    bundle_watermark_attachment_delete - boolean - If true, will delete the file stored in bundle_watermark_attachment
+    login_page_background_image_file - file
+    login_page_background_image_delete - boolean - If true, will delete the file stored in login_page_background_image
+    disable_2fa_with_delay - boolean - If set to true, we will begin the process of disabling 2FA on this site.
+    ldap_password_change - string - New LDAP password.
+    ldap_password_change_confirmation - string - Confirm new LDAP password.
+    redirect_old_subdomain - boolean - If true, and if changing the site subdomain, then create a redirect from the previous Files.com subdomain to the new Files.com subdomain.
+    smtp_password - string - Password for SMTP server.
+    """
+    return _legacy_resource.update(params, options)
+
+
+def new(*args, **kwargs) -> Site:
     return Site(*args, **kwargs)

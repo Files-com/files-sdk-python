@@ -1,37 +1,56 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=84.0.0,<85"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "files_com"
-version = "1.6.532"
+version = "2.0.0"
 description = "Python bindings for the Files.com API"
 readme = "README.md"
-license = { text = "MIT" }
-requires-python = ">=3.5"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+# The requests, urllib3 and idna lower bounds carry security fixes the SDK
+# relies on, certifi's is a current trust store, and the others are the
+# maintained releases it is tested with. requirements/runtime-minimum.in
+# tests exactly these versions.
 dependencies = [
-    "requests >= 2.20",
-    "requests-toolbelt >= 1.0.0",
+    "requests>=2.34.2,<3",
+    "requests-toolbelt>=1.0.0,<2",
+    "urllib3>=2.8.0,<3",
+    "idna>=3.15,<4",
+    "certifi>=2026.7.22",
+    "charset-normalizer>=3.5.1,<4",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 
-[tool.setuptools]
-include-package-data = true
+[project.urls]
+Documentation = "https://developers.files.com/python/"
+Source = "https://github.com/Files-com/files-sdk-python"
 
 [tool.setuptools.packages.find]
-exclude = ["tests", "tests.*", "doc"]
+include = ["files_sdk", "files_sdk.*"]
 
 [tool.setuptools.package-data]
-files_sdk = ["../_VERSION", "../README.md", "path_comparison.json"]
+files_sdk = ["path_comparison.json", "py.typed"]
 
 [tool.black]
-line-length=79
-include='files_sdk/.*\.pyi?$'
+line-length = 79
+target-version = ["py311"]
+
 [tool.pyright]
-include=["files_sdk"]
-reportMissingTypeArgument=true
-reportUnnecessaryCast=true
-reportUnnecessaryComparison=true
-reportUnnecessaryContains=true
-reportUnnecessaryIsInstance=true
-# The project currently uses dynamic types
-reportGeneralTypeIssues=false
+include = ["files_sdk", "examples", "tests/test_upload_sources.py"]
+pythonVersion = "3.11"
+typeCheckingMode = "basic"
+reportMissingTypeArgument = true
+reportUnnecessaryCast = true
+reportUnnecessaryComparison = true
+reportUnnecessaryContains = true
+reportUnnecessaryIsInstance = true

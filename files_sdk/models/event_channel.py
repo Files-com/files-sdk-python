@@ -1,6 +1,15 @@
 import builtins  # noqa: F401
-from urllib.parse import quote
-from files_sdk.api import Api  # noqa: F401
+from typing import Any, Mapping  # noqa: F401
+from files_sdk.api import (  # noqa: F401
+    LEGACY,
+    LegacyScope,
+    Operation,
+    copy_params,
+    decode_record,
+    path_value,
+)
+from files_sdk.api_client import unexpected_response_error  # noqa: F401
+from files_sdk.context import RequestOptions  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
@@ -10,6 +19,21 @@ from files_sdk.error import (  # noqa: F401
 
 
 class EventChannel:
+    """A event channel record from the Files.com API.
+
+    An attribute the API did not send is None.
+
+    Attributes:
+        id: int64 - Event Channel ID
+        name: string - Event Channel name.
+        workspace_id: int64 - Workspace ID. 0 means the default workspace.
+        description: string - Event Channel description.
+        enabled: boolean - Whether this Event Channel can dispatch events.
+        default_channel: boolean - Whether this Event Channel is the default destination for newly published events.
+        created_at: date-time - Event Channel create date/time.
+        updated_at: date-time - Event Channel update date/time.
+    """
+
     default_attributes = {
         "id": None,  # int64 - Event Channel ID
         "name": None,  # string - Event Channel name.
@@ -21,13 +45,30 @@ class EventChannel:
         "updated_at": None,  # date-time - Event Channel update date/time.
     }
 
+    # Declared for type checkers and editors: the type the API sends each
+    # attribute as, or None. set_attributes stores each value as given,
+    # converting only decimals, so a value a caller sets can differ.
+    id: int | None
+    name: str | None
+    workspace_id: int | None
+    description: str | None
+    enabled: bool | None
+    default_channel: bool | None
+    created_at: str | None
+    updated_at: str | None
+
+    # The client and settings this object's operations use: those of the
+    # operation or client that made it, or the module's when it starts an
+    # operation if neither did.
+    _context: Any = None
+
     def __init__(self, attributes=None, options=None):
         if not isinstance(attributes, dict):
             attributes = {}
         if not isinstance(options, dict):
             options = {}
         self.set_attributes(attributes)
-        self.options = options
+        self.options = dict(options)
 
     def set_attributes(self, attributes):
         for (
@@ -45,28 +86,35 @@ class EventChannel:
         }
         return attrs
 
-    # Parameters:
-    #   name - string - Event Channel name.
-    #   workspace_id - int64 - Workspace ID. 0 means the default workspace.
-    #   description - string - Event Channel description.
-    #   enabled - boolean - Whether this Event Channel can dispatch events.
-    #   default_channel - boolean - Whether this Event Channel is the default destination for newly published events.
-    def update(self, params=None):
-        if not isinstance(params, dict):
-            params = {}
+    def _scope(self):
+        if self._context is not None:
+            return self._context
+        return LegacyScope(self.options)
 
-        if hasattr(self, "id") and self.id:
-            params["id"] = self.id
-        else:
+    def update(self, params: dict[str, Any] | None = None) -> None:
+        """Updates this object in place with the record the server returns, and returns None.
+
+        Parameters:
+          name - string - Event Channel name.
+          workspace_id - int64 - Workspace ID. 0 means the default workspace.
+          description - string - Event Channel description.
+          enabled - boolean - Whether this Event Channel can dispatch events.
+          default_channel - boolean - Whether this Event Channel is the default destination for newly published events.
+        """
+        if not (hasattr(self, "id") and self.id):
             raise MissingParameterError("Current object doesn't have a id")
+        params = copy_params(params, {"id": self.id})
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "id" in params and not isinstance(params["id"], int):
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
-        if "workspace_id" in params and not isinstance(
-            params["workspace_id"], int
+        if "workspace_id" in params and (
+            not isinstance(params["workspace_id"], int)
+            or isinstance(params["workspace_id"], bool)
         ):
             raise InvalidParameterError(
                 "Bad parameter: workspace_id must be an int"
@@ -77,206 +125,388 @@ class EventChannel:
             raise InvalidParameterError(
                 "Bad parameter: description must be an str"
             )
-        response, _options = Api.send_request(
-            "PATCH",
-            "/event_channels/{id}".format(
-                id=quote(str(params["id"]), safe="")
-            ),
-            params,
-            self.options,
+        if "enabled" in params and isinstance(
+            params["enabled"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: enabled must be an bool"
+            )
+        if "default_channel" in params and isinstance(
+            params["default_channel"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: default_channel must be an bool"
+            )
+        operation = Operation.start(self._scope())
+        response = operation.request(
+            "PATCH", "/event_channels/" + path_value(params["id"]), params
         )
-        return response.data
+        decode_record(response, response.data, self.set_attributes)
+        operation.adopt(self)
 
-    def delete(self, params=None):
-        if not isinstance(params, dict):
-            params = {}
-
-        if hasattr(self, "id") and self.id:
-            params["id"] = self.id
-        else:
+    def delete(self, params: dict[str, Any] | None = None) -> None:
+        if not (hasattr(self, "id") and self.id):
             raise MissingParameterError("Current object doesn't have a id")
+        params = copy_params(params, {"id": self.id})
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "id" in params and not isinstance(params["id"], int):
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        Api.send_request(
-            "DELETE",
-            "/event_channels/{id}".format(
-                id=quote(str(params["id"]), safe="")
-            ),
-            params,
-            self.options,
+        operation = Operation.start(self._scope())
+        operation.request(
+            "DELETE", "/event_channels/" + path_value(params["id"]), params
         )
 
-    def destroy(self, params=None):
-        self.delete(params)
+    def destroy(self, params: dict[str, Any] | None = None) -> None:
+        """The same as delete()."""
+        return self.delete(params)
 
-    def save(self):
+    def save(self) -> None:
+        """Update this object on the server if it has an id, or else create
+        it, taking in place the record the server returns."""
         if hasattr(self, "id") and self.id:
-            new_obj = self.update(self.get_attributes())
-            self.set_attributes(new_obj.get_attributes())
-            return True
+            self.update(self.get_attributes())
         else:
-            new_obj = create(self.get_attributes(), self.options)
+            new_obj = EventChannelResource(self._scope()).create(
+                self.get_attributes()
+            )
             self.set_attributes(new_obj.get_attributes())
-            return True
+            self._context = new_obj._context
 
 
-# Parameters:
-#   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `enabled`, `default_channel` or `workspace_id`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `enabled`, `default_channel` or `workspace_id`. Valid field combinations are `[ workspace_id, enabled ]` and `[ workspace_id, default_channel ]`.
-def list(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "cursor" in params and not isinstance(params["cursor"], str):
-        raise InvalidParameterError("Bad parameter: cursor must be an str")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "sort_by" in params and not isinstance(params["sort_by"], dict):
-        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
-    if "filter" in params and not isinstance(params["filter"], dict):
-        raise InvalidParameterError("Bad parameter: filter must be an dict")
-    return ListObj(EventChannel, "GET", "/event_channels", params, options)
+class EventChannelResource:
+    """EventChannel operations that use one client's configuration.
 
+    Get one from a client, such as ``client.event_channel``. Each operation
+    takes the same arguments as the module-level function of the same name,
+    and its options apply on top of the client's.
+    """
 
-def all(params=None, options=None):
-    list(params, options)
+    def __init__(self, scope):
+        self._scope = scope
 
-
-# Parameters:
-#   id (required) - int64 - Event Channel ID.
-def find(id, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    response, options = Api.send_request(
-        "GET",
-        "/event_channels/{id}".format(id=quote(str(params["id"]), safe="")),
-        params,
-        options,
-    )
-    return EventChannel(response.data, options)
-
-
-def get(id, params=None, options=None):
-    find(id, params, options)
-
-
-# Parameters:
-#   name (required) - string - Event Channel name.
-#   workspace_id - int64 - Workspace ID. 0 means the default workspace.
-#   description - string - Event Channel description.
-#   enabled - boolean - Whether this Event Channel can dispatch events.
-#   default_channel - boolean - Whether this Event Channel is the default destination for newly published events.
-def create(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
+    def list(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[EventChannel]:
+        """Parameters:
+        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+        sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `enabled`, `default_channel` or `workspace_id`.
+        filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `enabled`, `default_channel` or `workspace_id`. Valid field combinations are `[ workspace_id, enabled ]` and `[ workspace_id, default_channel ]`.
+        """
+        params = copy_params(params)
+        if "cursor" in params and not isinstance(params["cursor"], str):
+            raise InvalidParameterError("Bad parameter: cursor must be an str")
+        if "per_page" in params and (
+            not isinstance(params["per_page"], int)
+            or isinstance(params["per_page"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: per_page must be an int"
+            )
+        if "sort_by" in params and not isinstance(params["sort_by"], dict):
+            raise InvalidParameterError(
+                "Bad parameter: sort_by must be an dict"
+            )
+        if "filter" in params and not isinstance(params["filter"], dict):
+            raise InvalidParameterError(
+                "Bad parameter: filter must be an dict"
+            )
+        operation = Operation.start(self._scope, options)
+        return ListObj(
+            EventChannel, "GET", "/event_channels", params, operation
         )
-    if "description" in params and not isinstance(params["description"], str):
-        raise InvalidParameterError(
-            "Bad parameter: description must be an str"
+
+    def all(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[EventChannel]:
+        """The same as list()."""
+        return self.list(params, options)
+
+    def find(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> EventChannel:
+        """Parameters:
+        id (required) - int64 - Event Channel ID.
+        """
+        return self.__find({"id": id}, params, options)
+
+    def __find(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> EventChannel:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "GET", "/event_channels/" + path_value(params["id"]), params
         )
-    if "enabled" in params and not isinstance(params["enabled"], bool):
-        raise InvalidParameterError("Bad parameter: enabled must be an bool")
-    if "default_channel" in params and not isinstance(
-        params["default_channel"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: default_channel must be an bool"
+        return operation.decode_model(response, EventChannel)
+
+    def get(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> EventChannel:
+        """The same as find()."""
+        return self.find(id, params, options)
+
+    def create(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> EventChannel:
+        """Parameters:
+        name (required) - string - Event Channel name.
+        workspace_id - int64 - Workspace ID. 0 means the default workspace.
+        description - string - Event Channel description.
+        enabled - boolean - Whether this Event Channel can dispatch events.
+        default_channel - boolean - Whether this Event Channel is the default destination for newly published events.
+        """
+        params = copy_params(params)
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
+        if "workspace_id" in params and (
+            not isinstance(params["workspace_id"], int)
+            or isinstance(params["workspace_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
+            )
+        if "description" in params and not isinstance(
+            params["description"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: description must be an str"
+            )
+        if "enabled" in params and not isinstance(params["enabled"], bool):
+            raise InvalidParameterError(
+                "Bad parameter: enabled must be an bool"
+            )
+        if "default_channel" in params and not isinstance(
+            params["default_channel"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: default_channel must be an bool"
+            )
+        if "name" not in params:
+            raise MissingParameterError("Parameter missing: name")
+        operation = Operation.start(self._scope, options)
+        response = operation.request("POST", "/event_channels", params)
+        return operation.decode_model(response, EventChannel)
+
+    def update(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> EventChannel:
+        """Parameters:
+        name - string - Event Channel name.
+        workspace_id - int64 - Workspace ID. 0 means the default workspace.
+        description - string - Event Channel description.
+        enabled - boolean - Whether this Event Channel can dispatch events.
+        default_channel - boolean - Whether this Event Channel is the default destination for newly published events.
+        """
+        return self.__update({"id": id}, params, options)
+
+    def __update(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> EventChannel:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
+        if "workspace_id" in params and (
+            not isinstance(params["workspace_id"], int)
+            or isinstance(params["workspace_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
+            )
+        if "description" in params and not isinstance(
+            params["description"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: description must be an str"
+            )
+        if "enabled" in params and not isinstance(params["enabled"], bool):
+            raise InvalidParameterError(
+                "Bad parameter: enabled must be an bool"
+            )
+        if "default_channel" in params and not isinstance(
+            params["default_channel"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: default_channel must be an bool"
+            )
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "PATCH", "/event_channels/" + path_value(params["id"]), params
         )
-    if "name" not in params:
-        raise MissingParameterError("Parameter missing: name")
-    response, options = Api.send_request(
-        "POST", "/event_channels", params, options
-    )
-    return EventChannel(response.data, options)
+        return operation.decode_model(response, EventChannel)
 
+    def delete(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> None:
+        return self.__delete({"id": id}, params, options)
 
-# Parameters:
-#   name - string - Event Channel name.
-#   workspace_id - int64 - Workspace ID. 0 means the default workspace.
-#   description - string - Event Channel description.
-#   enabled - boolean - Whether this Event Channel can dispatch events.
-#   default_channel - boolean - Whether this Event Channel is the default destination for newly published events.
-def update(id, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
+    def __delete(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> None:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        operation.request(
+            "DELETE", "/event_channels/" + path_value(params["id"]), params
         )
-    if "description" in params and not isinstance(params["description"], str):
-        raise InvalidParameterError(
-            "Bad parameter: description must be an str"
-        )
-    if "enabled" in params and not isinstance(params["enabled"], bool):
-        raise InvalidParameterError("Bad parameter: enabled must be an bool")
-    if "default_channel" in params and not isinstance(
-        params["default_channel"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: default_channel must be an bool"
-        )
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    response, options = Api.send_request(
-        "PATCH",
-        "/event_channels/{id}".format(id=quote(str(params["id"]), safe="")),
-        params,
-        options,
-    )
-    return EventChannel(response.data, options)
+
+    def destroy(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> None:
+        """The same as delete()."""
+        return self.delete(id, params, options)
+
+    def new(
+        self,
+        attributes: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> EventChannel:
+        """A new EventChannel with attributes, not yet saved, whose
+        operations use this resource's client."""
+        obj = EventChannel(attributes, options)
+        obj._context = self._scope._context_for(options)
+        return obj
 
 
-def delete(id, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    Api.send_request(
-        "DELETE",
-        "/event_channels/{id}".format(id=quote(str(params["id"]), safe="")),
-        params,
-        options,
-    )
+_legacy_resource = EventChannelResource(LEGACY)
 
 
-def destroy(id, params=None, options=None):
-    delete(id, params, options)
+def list(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[EventChannel]:
+    """Parameters:
+    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `enabled`, `default_channel` or `workspace_id`.
+    filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `enabled`, `default_channel` or `workspace_id`. Valid field combinations are `[ workspace_id, enabled ]` and `[ workspace_id, default_channel ]`.
+    """
+    return _legacy_resource.list(params, options)
 
 
-def new(*args, **kwargs):
+def all(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[EventChannel]:
+    """The same as list()."""
+    return _legacy_resource.list(params, options)
+
+
+def find(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> EventChannel:
+    """Parameters:
+    id (required) - int64 - Event Channel ID.
+    """
+    return _legacy_resource.find(id, params, options)
+
+
+def get(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> EventChannel:
+    """The same as find()."""
+    return _legacy_resource.find(id, params, options)
+
+
+def create(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> EventChannel:
+    """Parameters:
+    name (required) - string - Event Channel name.
+    workspace_id - int64 - Workspace ID. 0 means the default workspace.
+    description - string - Event Channel description.
+    enabled - boolean - Whether this Event Channel can dispatch events.
+    default_channel - boolean - Whether this Event Channel is the default destination for newly published events.
+    """
+    return _legacy_resource.create(params, options)
+
+
+def update(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> EventChannel:
+    """Parameters:
+    name - string - Event Channel name.
+    workspace_id - int64 - Workspace ID. 0 means the default workspace.
+    description - string - Event Channel description.
+    enabled - boolean - Whether this Event Channel can dispatch events.
+    default_channel - boolean - Whether this Event Channel is the default destination for newly published events.
+    """
+    return _legacy_resource.update(id, params, options)
+
+
+def delete(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> None:
+    _legacy_resource.delete(id, params, options)
+
+
+def destroy(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> None:
+    """The same as delete()."""
+    return _legacy_resource.delete(id, params, options)
+
+
+def new(*args, **kwargs) -> EventChannel:
     return EventChannel(*args, **kwargs)

@@ -2,14 +2,16 @@
 
 ## Example EventTarget Object
 
-```
+The API sends each `EventTarget` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "example",
   "target_type": "example",
   "workspace_id": 1,
-  "apply_to_all_workspaces": True,
-  "enabled": True,
+  "apply_to_all_workspaces": true,
+  "enabled": true,
   "config": "example",
   "delivery_policy": "example",
   "created_at": "2000-01-01T01:00:00Z",
@@ -28,12 +30,17 @@
 * `created_at` (date-time): Event Target create date/time.
 * `updated_at` (date-time): Event Target update date/time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.event_target` resource, such as
+`client.event_target.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Event Targets
 
-```
+```python
 files_sdk.event_target.list()
 ```
 
@@ -49,7 +56,7 @@ files_sdk.event_target.list()
 
 ## Show Event Target
 
-```
+```python
 files_sdk.event_target.find(id)
 ```
 
@@ -62,14 +69,13 @@ files_sdk.event_target.find(id)
 
 ## Create Event Target
 
-```
+```python
 files_sdk.event_target.create({
   "name": "example",
   "workspace_id": 1,
   "apply_to_all_workspaces": True,
   "enabled": True,
-  "config": "example",
-  "delivery_policy": "example",
+  "config": {},
   "target_type": "example"
 })
 ```
@@ -89,14 +95,12 @@ files_sdk.event_target.create({
 
 ## Update Event Target
 
-```
+```python
 files_sdk.event_target.update(id, {
   "name": "example",
   "workspace_id": 1,
   "apply_to_all_workspaces": True,
-  "enabled": True,
-  "config": "example",
-  "delivery_policy": "example"
+  "enabled": True
 })
 ```
 
@@ -115,7 +119,7 @@ files_sdk.event_target.update(id, {
 
 ## Delete Event Target
 
-```
+```python
 files_sdk.event_target.delete(id)
 ```
 
@@ -128,15 +132,13 @@ files_sdk.event_target.delete(id)
 
 ## Update Event Target
 
-```
+```python
 event_target = files_sdk.event_target.find(id)
 event_target.update({
   "name": "example",
   "workspace_id": 1,
   "apply_to_all_workspaces": True,
-  "enabled": True,
-  "config": "example",
-  "delivery_policy": "example"
+  "enabled": True
 })
 ```
 
@@ -155,7 +157,7 @@ event_target.update({
 
 ## Delete Event Target
 
-```
+```python
 event_target = files_sdk.event_target.find(id)
 event_target.delete()
 ```

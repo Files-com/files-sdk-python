@@ -2,7 +2,9 @@
 
 ## Example ExternalEvent Object
 
-```
+The API sends each `ExternalEvent` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "event_type": "example",
@@ -20,12 +22,17 @@
 * `created_at` (date-time): External event create date/time
 * `body_url` (string): Link to log file.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.external_event` resource, such as
+`client.external_event.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List External Events
 
-```
+```python
 files_sdk.external_event.list()
 ```
 
@@ -45,7 +52,7 @@ files_sdk.external_event.list()
 
 ## Show External Event
 
-```
+```python
 files_sdk.external_event.find(id)
 ```
 
@@ -58,7 +65,7 @@ files_sdk.external_event.find(id)
 
 ## Create External Event
 
-```
+```python
 files_sdk.external_event.create({
   "status": "example",
   "body": "example"

@@ -1,5 +1,15 @@
 import builtins  # noqa: F401
-from files_sdk.api import Api  # noqa: F401
+from typing import Any, Mapping  # noqa: F401
+from files_sdk.api import (  # noqa: F401
+    LEGACY,
+    LegacyScope,
+    Operation,
+    copy_params,
+    decode_record,
+    path_value,
+)
+from files_sdk.api_client import unexpected_response_error  # noqa: F401
+from files_sdk.context import RequestOptions  # noqa: F401
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
     MissingParameterError,
@@ -8,6 +18,17 @@ from files_sdk.error import (  # noqa: F401
 
 
 class AutomationAuthoringSchema:
+    """A automation authoring schema record from the Files.com API.
+
+    An attribute the API did not send is None.
+
+    Attributes:
+        definition_schema: object - JSON Schema for active Automation v2 graph definitions.
+        error_families: array(object) - Typed error families accepted by Automation v2 on_error rules.
+        nodes: array(object) - Active Automation v2 node authoring metadata.
+        schema_url: string - Stable public URL for the Automation v2 graph definition JSON Schema.
+    """
+
     default_attributes = {
         "definition_schema": None,  # object - JSON Schema for active Automation v2 graph definitions.
         "error_families": None,  # array(object) - Typed error families accepted by Automation v2 on_error rules.
@@ -15,13 +36,26 @@ class AutomationAuthoringSchema:
         "schema_url": None,  # string - Stable public URL for the Automation v2 graph definition JSON Schema.
     }
 
+    # Declared for type checkers and editors: the type the API sends each
+    # attribute as, or None. set_attributes stores each value as given,
+    # converting only decimals, so a value a caller sets can differ.
+    definition_schema: dict[str, Any] | None
+    error_families: builtins.list[dict[str, Any]] | None
+    nodes: builtins.list[dict[str, Any]] | None
+    schema_url: str | None
+
+    # The client and settings this object's operations use: those of the
+    # operation or client that made it, or the module's when it starts an
+    # operation if neither did.
+    _context: Any = None
+
     def __init__(self, attributes=None, options=None):
         if not isinstance(attributes, dict):
             attributes = {}
         if not isinstance(options, dict):
             options = {}
         self.set_attributes(attributes)
-        self.options = options
+        self.options = dict(options)
 
     def set_attributes(self, attributes):
         for (
@@ -39,6 +73,11 @@ class AutomationAuthoringSchema:
         }
         return attrs
 
+    def _scope(self):
+        if self._context is not None:
+            return self._context
+        return LegacyScope(self.options)
 
-def new(*args, **kwargs):
+
+def new(*args, **kwargs) -> AutomationAuthoringSchema:
     return AutomationAuthoringSchema(*args, **kwargs)

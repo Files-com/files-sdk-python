@@ -2,7 +2,9 @@
 
 ## Example PublicHostingRequestLog Object
 
-```
+The API sends each `PublicHostingRequestLog` record as JSON, such as:
+
+```json
 {
   "timestamp": "2000-01-01T01:00:00Z",
   "remote_ip": "example",
@@ -10,7 +12,7 @@
   "hostname": "example",
   "path": "example",
   "responseCode": 1,
-  "success": True,
+  "success": true,
   "duration_ms": 1,
   "created_at": "2000-01-01T01:00:00Z",
   "bytes_transferred": 1,
@@ -30,12 +32,17 @@
 * `bytes_transferred` (int64): The number of bytes transferred for file downloads.
 * `http_method` (string): Method of the HTTP call.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.public_hosting_request_log` resource, such as
+`client.public_hosting_request_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Public Hosting Request Logs
 
-```
+```python
 files_sdk.public_hosting_request_log.list()
 ```
 

@@ -1,116 +1,120 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import User
 from files_sdk import user
 
+
 class UserTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/unlock"), "Mock path does not exist")
-    def test_unlock(self):
+    def test_instance_unlock(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         user = User(params)
         user.unlock(params)
+        self.assert_typed(user)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/resend_welcome_email"), "Mock path does not exist")
-    def test_resend_welcome_email(self):
+    def test_instance_resend_welcome_email(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         user = User(params)
         user.resend_welcome_email(params)
+        self.assert_typed(user)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/2fa/reset"), "Mock path does not exist")
-    def test_user_2fa_reset(self):
+    def test_instance_user_2fa_reset(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         user = User(params)
         user.user_2fa_reset(params)
+        self.assert_typed(user)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/users/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         user = User(params)
-        user.update(params)
+        result = user.update(params)
+        self.assert_returns(User.update, result)
+        self.assert_typed(user)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/users/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         user = User(params)
         user.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(user)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/users"), "Mock path does not exist")
     def test_list(self):
-        resp = user.list()
+        result = user.list()
+        self.assert_returns(user.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/users/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        user.find(id, params)
+        result = user.find(id, params)
+        self.assert_returns(user.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "username" : "foo",
+            "username": "foo",
         }
-        user.create(params)
+        result = user.create(params)
+        self.assert_returns(user.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/unlock"), "Mock path does not exist")
     def test_unlock(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        user.unlock(id, params)
+        result = user.unlock(id, params)
+        self.assert_returns(user.unlock, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/resend_welcome_email"), "Mock path does not exist")
     def test_resend_welcome_email(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        user.resend_welcome_email(id, params)
+        result = user.resend_welcome_email(id, params)
+        self.assert_returns(user.resend_welcome_email, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/users/{id}/2fa/reset"), "Mock path does not exist")
     def test_user_2fa_reset(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        user.user_2fa_reset(id, params)
+        result = user.user_2fa_reset(id, params)
+        self.assert_returns(user.user_2fa_reset, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/users/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        user.update(id, params)
+        result = user.update(id, params)
+        self.assert_returns(user.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/users/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        user.delete(id, params)
+        result = user.delete(id, params)
+        self.assert_returns(user.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

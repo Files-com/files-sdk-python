@@ -2,7 +2,9 @@
 
 ## Example AiTask Object
 
-```
+The API sends each `AiTask` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
@@ -12,7 +14,7 @@
   "permission_set": "files_only",
   "path": "incoming/reports",
   "source": "*.pdf",
-  "disabled": True,
+  "disabled": true,
   "trigger": "daily",
   "trigger_actions": [
     "create"
@@ -67,12 +69,17 @@
 * `created_at` (date-time): Creation time.
 * `updated_at` (date-time): Last update time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.ai_task` resource, such as
+`client.ai_task.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Ai Tasks
 
-```
+```python
 files_sdk.ai_task.list()
 ```
 
@@ -88,7 +95,7 @@ files_sdk.ai_task.list()
 
 ## Show Ai Task
 
-```
+```python
 files_sdk.ai_task.find(id)
 ```
 
@@ -101,7 +108,7 @@ files_sdk.ai_task.find(id)
 
 ## Create Ai Task
 
-```
+```python
 files_sdk.ai_task.create({
   "description": "Summarizes files uploaded by the accounting team.",
   "disabled": True,
@@ -112,9 +119,9 @@ files_sdk.ai_task.create({
   "permission_set": "files_only",
   "prompt": "Summarize the uploaded file and identify follow-up actions.",
   "recurring_day": 1,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [1,3,5],
+  "schedule_days_of_week": [1, 3, 5],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_times_of_day": ["06:30"],
   "source": "*.pdf",
@@ -150,7 +157,7 @@ files_sdk.ai_task.create({
 
 ## Manually Run AI Task
 
-```
+```python
 files_sdk.ai_task.manual_run(id)
 ```
 
@@ -163,7 +170,7 @@ files_sdk.ai_task.manual_run(id)
 
 ## Update Ai Task
 
-```
+```python
 files_sdk.ai_task.update(id, {
   "description": "Summarizes files uploaded by the accounting team.",
   "disabled": True,
@@ -174,9 +181,9 @@ files_sdk.ai_task.update(id, {
   "permission_set": "files_only",
   "prompt": "Summarize the uploaded file and identify follow-up actions.",
   "recurring_day": 1,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [1,3,5],
+  "schedule_days_of_week": [1, 3, 5],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_times_of_day": ["06:30"],
   "source": "*.pdf",
@@ -213,7 +220,7 @@ files_sdk.ai_task.update(id, {
 
 ## Delete Ai Task
 
-```
+```python
 files_sdk.ai_task.delete(id)
 ```
 
@@ -226,7 +233,7 @@ files_sdk.ai_task.delete(id)
 
 ## Manually Run AI Task
 
-```
+```python
 ai_task = files_sdk.ai_task.find(id)
 ai_task.manual_run()
 ```
@@ -240,7 +247,7 @@ ai_task.manual_run()
 
 ## Update Ai Task
 
-```
+```python
 ai_task = files_sdk.ai_task.find(id)
 ai_task.update({
   "description": "Summarizes files uploaded by the accounting team.",
@@ -252,9 +259,9 @@ ai_task.update({
   "permission_set": "files_only",
   "prompt": "Summarize the uploaded file and identify follow-up actions.",
   "recurring_day": 1,
-  "recurring_days": [1,15],
+  "recurring_days": [1, 15],
   "schedule_id": 1,
-  "schedule_days_of_week": [1,3,5],
+  "schedule_days_of_week": [1, 3, 5],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "schedule_times_of_day": ["06:30"],
   "source": "*.pdf",
@@ -291,7 +298,7 @@ ai_task.update({
 
 ## Delete Ai Task
 
-```
+```python
 ai_task = files_sdk.ai_task.find(id)
 ai_task.delete()
 ```

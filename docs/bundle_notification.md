@@ -2,13 +2,15 @@
 
 ## Example BundleNotification Object
 
-```
+The API sends each `BundleNotification` record as JSON, such as:
+
+```json
 {
   "bundle_id": 1,
   "id": 1,
-  "notify_on_registration": True,
-  "notify_on_upload": True,
-  "notify_current_user": True,
+  "notify_on_registration": true,
+  "notify_on_upload": true,
+  "notify_current_user": true,
   "notify_user_id": 1,
   "workspace_id": 1
 }
@@ -23,12 +25,17 @@
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.bundle_notification` resource, such as
+`client.bundle_notification.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Share Link Notifications
 
-```
+```python
 files_sdk.bundle_notification.list({
   "user_id": 1,
   "bundle_id": 1
@@ -49,7 +56,7 @@ files_sdk.bundle_notification.list({
 
 ## Show Share Link Notification
 
-```
+```python
 files_sdk.bundle_notification.find(id)
 ```
 
@@ -62,7 +69,7 @@ files_sdk.bundle_notification.find(id)
 
 ## Create Share Link Notification
 
-```
+```python
 files_sdk.bundle_notification.create({
   "user_id": 1,
   "bundle_id": 1,
@@ -85,7 +92,7 @@ files_sdk.bundle_notification.create({
 
 ## Update Share Link Notification
 
-```
+```python
 files_sdk.bundle_notification.update(id, {
   "notify_on_registration": True,
   "notify_on_upload": True
@@ -103,7 +110,7 @@ files_sdk.bundle_notification.update(id, {
 
 ## Delete Share Link Notification
 
-```
+```python
 files_sdk.bundle_notification.delete(id)
 ```
 
@@ -116,7 +123,7 @@ files_sdk.bundle_notification.delete(id)
 
 ## Update Share Link Notification
 
-```
+```python
 bundle_notification = files_sdk.bundle_notification.find(id)
 bundle_notification.update({
   "notify_on_registration": True,
@@ -135,7 +142,7 @@ bundle_notification.update({
 
 ## Delete Share Link Notification
 
-```
+```python
 bundle_notification = files_sdk.bundle_notification.find(id)
 bundle_notification.delete()
 ```

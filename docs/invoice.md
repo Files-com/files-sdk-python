@@ -2,7 +2,9 @@
 
 ## Example Invoice Object
 
-```
+The API sends each `Invoice` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "amount": "1.0",
@@ -57,12 +59,17 @@
 * `site_name` (string): Site name this line item is for
 * `type` (string): Type of line item, either payment or invoice
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.invoice` resource, such as
+`client.invoice.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Invoices
 
-```
+```python
 files_sdk.invoice.list()
 ```
 
@@ -76,7 +83,7 @@ files_sdk.invoice.list()
 
 ## Show Invoice
 
-```
+```python
 files_sdk.invoice.find(id)
 ```
 

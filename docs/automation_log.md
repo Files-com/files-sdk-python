@@ -2,7 +2,9 @@
 
 ## Example AutomationLog Object
 
-```
+The API sends each `AutomationLog` record as JSON, such as:
+
+```json
 {
   "timestamp": "2000-01-01T01:00:00Z",
   "automation_id": 1,
@@ -40,12 +42,17 @@
 * `status` (string): Status
 * `created_at` (date-time): Start Time of Action
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.automation_log` resource, such as
+`client.automation_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Automation Logs
 
-```
+```python
 files_sdk.automation_log.list()
 ```
 

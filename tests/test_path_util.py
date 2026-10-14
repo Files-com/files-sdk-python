@@ -14,7 +14,8 @@ class TestPathUtil(unittest.TestCase):
 
     def test_normalization_for_comparison(self):
         with open(
-            "shared/normalization_for_comparison_test_data.json"
+            "shared/normalization_for_comparison_test_data.json",
+            encoding="utf-8",
         ) as json_file:
             for entry in json.load(json_file):
                 self.assertEqual(

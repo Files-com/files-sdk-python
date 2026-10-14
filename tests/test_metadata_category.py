@@ -1,76 +1,78 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import MetadataCategory
 from files_sdk import metadata_category
 
+
 class MetadataCategoryTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/metadata_categories/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         metadata_category = MetadataCategory(params)
-        metadata_category.update(params)
+        result = metadata_category.update(params)
+        self.assert_returns(MetadataCategory.update, result)
+        self.assert_typed(metadata_category)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/metadata_categories/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         metadata_category = MetadataCategory(params)
         metadata_category.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(metadata_category)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/metadata_categories"), "Mock path does not exist")
     def test_list(self):
-        resp = metadata_category.list()
+        result = metadata_category.list()
+        self.assert_returns(metadata_category.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/metadata_categories/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        metadata_category.find(id, params)
+        result = metadata_category.find(id, params)
+        self.assert_returns(metadata_category.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/metadata_categories/list_by_path/{path}"), "Mock path does not exist")
     def test_list_for(self):
         path = "foo"
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        metadata_category.list_for(path, params)
+        result = metadata_category.list_for(path, params)
+        self.assert_returns(metadata_category.list_for, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/metadata_categories"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "name" : "foo",
+            "name": "foo",
         }
-        metadata_category.create(params)
+        result = metadata_category.create(params)
+        self.assert_returns(metadata_category.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/metadata_categories/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        metadata_category.update(id, params)
+        result = metadata_category.update(id, params)
+        self.assert_returns(metadata_category.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/metadata_categories/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        metadata_category.delete(id, params)
+        result = metadata_category.delete(id, params)
+        self.assert_returns(metadata_category.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

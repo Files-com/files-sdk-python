@@ -2,13 +2,15 @@
 
 ## Example DesktopConfigurationProfile Object
 
-```
+The API sends each `DesktopConfigurationProfile` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "North America Desktop Profile",
   "workspace_id": 1,
-  "use_for_all_users": False,
-  "disable_drive_mounting": False,
+  "use_for_all_users": false,
+  "disable_drive_mounting": false,
   "mount_mappings": {
     "W": "Americas"
   }
@@ -22,12 +24,17 @@
 * `disable_drive_mounting` (boolean): Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
 * `mount_mappings` (object): Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.desktop_configuration_profile` resource, such as
+`client.desktop_configuration_profile.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Desktop Configuration Profiles
 
-```
+```python
 files_sdk.desktop_configuration_profile.list()
 ```
 
@@ -43,7 +50,7 @@ files_sdk.desktop_configuration_profile.list()
 
 ## Show Desktop Configuration Profile
 
-```
+```python
 files_sdk.desktop_configuration_profile.find(id)
 ```
 
@@ -56,10 +63,10 @@ files_sdk.desktop_configuration_profile.find(id)
 
 ## Create Desktop Configuration Profile
 
-```
+```python
 files_sdk.desktop_configuration_profile.create({
   "name": "North America Desktop Profile",
-  "mount_mappings": {"W":"Americas"},
+  "mount_mappings": {"W": "Americas"},
   "workspace_id": 1,
   "use_for_all_users": False,
   "disable_drive_mounting": False
@@ -79,11 +86,11 @@ files_sdk.desktop_configuration_profile.create({
 
 ## Update Desktop Configuration Profile
 
-```
+```python
 files_sdk.desktop_configuration_profile.update(id, {
   "name": "North America Desktop Profile",
   "workspace_id": 1,
-  "mount_mappings": {"W":"Americas"},
+  "mount_mappings": {"W": "Americas"},
   "use_for_all_users": False,
   "disable_drive_mounting": False
 })
@@ -103,7 +110,7 @@ files_sdk.desktop_configuration_profile.update(id, {
 
 ## Delete Desktop Configuration Profile
 
-```
+```python
 files_sdk.desktop_configuration_profile.delete(id)
 ```
 
@@ -116,12 +123,12 @@ files_sdk.desktop_configuration_profile.delete(id)
 
 ## Update Desktop Configuration Profile
 
-```
+```python
 desktop_configuration_profile = files_sdk.desktop_configuration_profile.find(id)
 desktop_configuration_profile.update({
   "name": "North America Desktop Profile",
   "workspace_id": 1,
-  "mount_mappings": {"W":"Americas"},
+  "mount_mappings": {"W": "Americas"},
   "use_for_all_users": False,
   "disable_drive_mounting": False
 })
@@ -141,7 +148,7 @@ desktop_configuration_profile.update({
 
 ## Delete Desktop Configuration Profile
 
-```
+```python
 desktop_configuration_profile = files_sdk.desktop_configuration_profile.find(id)
 desktop_configuration_profile.delete()
 ```

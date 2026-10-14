@@ -1,0 +1,2 @@
+# The installer every environment below is upgraded to before anything else.
+pip==26.2.1

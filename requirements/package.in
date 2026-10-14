@@ -1,0 +1,4 @@
+# Builds the sdist and wheel and checks their metadata (twine check only;
+# never upload from this environment).
+build==1.6.1
+twine==7.0.0

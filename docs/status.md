@@ -2,7 +2,9 @@
 
 ## Example Status Object
 
-```
+The API sends each `Status` record as JSON, such as:
+
+```json
 {
   "code": 200,
   "message": "example",

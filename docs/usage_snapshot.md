@@ -2,7 +2,9 @@
 
 ## Example UsageSnapshot Object
 
-```
+The API sends each `UsageSnapshot` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "start_at": "2000-01-01T01:00:00Z",
@@ -46,12 +48,17 @@
 * `sync_bytes_sent` (int64): Transfer Usage for period - Outbound GB from Remote Servers (Sync/Mount)
 * `usage_by_top_level_dir` (array(object)): Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.usage_snapshot` resource, such as
+`client.usage_snapshot.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Usage Snapshots
 
-```
+```python
 files_sdk.usage_snapshot.list()
 ```
 

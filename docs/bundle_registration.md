@@ -2,7 +2,9 @@
 
 ## Example BundleRegistration Object
 
-```
+The API sends each `BundleRegistration` record as JSON, such as:
+
+```json
 {
   "code": "abc123",
   "name": "account",
@@ -38,12 +40,17 @@
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 * `created_at` (date-time): Registration creation date/time
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.bundle_registration` resource, such as
+`client.bundle_registration.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Share Link Registrations
 
-```
+```python
 files_sdk.bundle_registration.list({
   "user_id": 1,
   "bundle_id": 1

@@ -12,27 +12,49 @@ PAYLOAD = b"\x00\xff\r\n" * 2048
 
 class UploadHandler(BaseHTTPRequestHandler):
     def do_PUT(self):
-        self.server.uploads.append(self.rfile.read(int(self.headers["Content-Length"])))
+        self.server.uploads.append(
+            self.rfile.read(int(self.headers["Content-Length"]))
+        )
         self.send_response(200)
         self.send_header("ETag", '"part-etag"')
         self.send_header("Content-Length", "0")
         self.end_headers()
 
     def do_POST(self):
-        body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+        payload = self.rfile.read(int(self.headers["Content-Length"]))
+        body = json.loads(payload) if payload else {}
         if "/file_actions/begin_upload/" in self.path:
-            self.respond(200, [{
-                "upload_uri": "http://127.0.0.1:{}/upload".format(self.server.server_port),
-                "http_method": "PUT",
-                "partsize": 1024 * 1024,
-                "ref": "upload-ref",
-                "part_number": 1,
-            }])
+            self.respond(
+                200,
+                [
+                    {
+                        "upload_uri": "http://127.0.0.1:{}/upload".format(
+                            self.server.server_port
+                        ),
+                        "http_method": "PUT",
+                        "partsize": 1024 * 1024,
+                        "ref": "upload-ref",
+                        "part_number": 1,
+                    }
+                ],
+            )
         elif self.server.fail_finalization:
-            self.respond(503, {"error": "Finalization failed", "type": "service-unavailable"})
+            self.server.failed_finalizations.append(body)
+            self.respond(
+                503,
+                {
+                    "error": "Finalization failed",
+                    "type": "service-unavailable",
+                },
+            )
         else:
-            self.server.finalizations.append((body, self.headers["X-FilesAPI-Key"]))
-            self.respond(200, {"path": body["path"], "size": body["size"], "type": "file"})
+            self.server.finalizations.append(
+                (body, self.headers["X-FilesAPI-Key"])
+            )
+            self.respond(
+                200,
+                {"path": body["path"], "size": body["size"], "type": "file"},
+            )
 
     def respond(self, status, data):
         encoded = json.dumps(data).encode()
@@ -51,6 +73,7 @@ class TestFileUpload(unittest.TestCase):
         self.server = ThreadingHTTPServer(("127.0.0.1", 0), UploadHandler)
         self.server.uploads = []
         self.server.finalizations = []
+        self.server.failed_finalizations = []
         self.server.fail_finalization = False
         self.thread = threading.Thread(target=self.server.serve_forever)
         self.thread.start()
@@ -58,7 +81,10 @@ class TestFileUpload(unittest.TestCase):
         self.addCleanup(self.server.server_close)
         self.addCleanup(self.server.shutdown)
         base_url = "http://127.0.0.1:{}".format(self.server.server_port)
-        for name, value in {"base_url": base_url, "max_network_retries": 1}.items():
+        for name, value in {
+            "base_url": base_url,
+            "max_network_retries": 1,
+        }.items():
             patcher = patch.object(files_sdk, name, value)
             patcher.start()
             self.addCleanup(patcher.stop)
@@ -80,7 +106,9 @@ class TestFileUpload(unittest.TestCase):
         finalization, api_key = self.server.finalizations[0]
         self.assertEqual(finalization["action"], "end")
         self.assertEqual(finalization["ref"], "upload-ref")
-        self.assertEqual(finalization["etags"], [{"etag": "part-etag", "part": 1}])
+        self.assertEqual(
+            finalization["etags"], [{"etag": "part-etag", "part": 1}]
+        )
         self.assertEqual(finalization["size"], len(PAYLOAD))
         self.assertEqual(api_key, "optionsKey")
         self.assertEqual(f.size, len(PAYLOAD))
@@ -88,15 +116,35 @@ class TestFileUpload(unittest.TestCase):
         self.assertTrue(write_buffer.closed)
         self.assertTrue(f.io_obj.closed)
 
-    def test_failed_finalization_leaves_the_file_open_with_its_data(self):
+    def test_failed_finalization_ends_the_upload_without_completing_it_again(
+        self,
+    ):
+        # Version 2 holds at most one part of what was written, and never
+        # sends again a completion that may have taken effect, so a failed
+        # close() raises its error, releases the buffer and ends the upload.
+        # Version 1 kept the whole buffer open, and closing again could
+        # complete the upload twice. See UPGRADING.md.
         self.server.fail_finalization = True
         f = self.open_with_payload()
+        write_buffer = f.io_obj
 
-        with self.assertRaises(APIError):
+        with self.assertRaises(APIError) as caught:
             f.close()
 
-        self.assertFalse(f.closed)
-        self.assertEqual(f.io_obj.getvalue(), PAYLOAD)
+        self.assertEqual(caught.exception.http_status, 503)
+        self.assertTrue(caught.exception.remote_outcome_unknown)
+        self.assertTrue(f.closed)
+        self.assertTrue(write_buffer.closed)
+        f.close()
+        with self.assertRaises(ValueError):
+            f.write(b"more")
+        self.assertEqual(self.server.uploads, [PAYLOAD])
+        [attempt] = self.server.failed_finalizations
+        self.assertEqual(
+            (attempt["action"], attempt["ref"], attempt["size"]),
+            ("end", "upload-ref", len(PAYLOAD)),
+        )
+        self.assertEqual(self.server.finalizations, [])
 
 
 if __name__ == "__main__":

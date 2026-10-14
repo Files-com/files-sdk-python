@@ -1,249 +1,270 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import File
 from files_sdk import file
 
+
 class FileTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/files/{path}"), "Mock path does not exist")
-    def test_download(self):
+    def test_instance_download(self):
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
         file = File(params)
-        file.download(params)
+        result = file.download(params)
+        self.assert_returns(File.download, result)
+        self.assert_typed(file)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/files/{path}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
         file = File(params)
-        file.update(params)
+        result = file.update(params)
+        self.assert_returns(File.update, result)
+        self.assert_typed(file)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/files/{path}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
         file = File(params)
         file.delete(params)
+        self.assert_typed(file)
 
-    # Alias of delete
-    def test_destroy(self):
-        pass
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_actions/zip_list/{path}"), "Mock path does not exist")
-    def test_zip_list_contents(self):
+    def test_instance_zip_list_contents(self):
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
         file = File(params)
-        file.zip_list_contents(params)
+        result = file.zip_list_contents(params)
+        self.assert_returns(File.zip_list_contents, result)
+        self.assert_typed(file)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/delete/{path}"), "Mock path does not exist")
-    def test_begin_delete(self):
+    def test_instance_begin_delete(self):
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
         file = File(params)
-        file.begin_delete(params)
+        result = file.begin_delete(params)
+        self.assert_returns(File.begin_delete, result)
+        self.assert_typed(file)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/copy/{path}"), "Mock path does not exist")
-    def test_copy(self):
+    def test_instance_copy(self):
         params = {
-            "path" : "foo",
-            "destination" : "foo",
+            "path": "foo",
+            "destination": "foo",
         }
         file = File(params)
-        file.copy(params)
+        result = file.copy(params)
+        self.assert_returns(File.copy, result)
+        self.assert_typed(file)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/move/{path}"), "Mock path does not exist")
-    def test_move(self):
+    def test_instance_move(self):
         params = {
-            "path" : "foo",
-            "destination" : "foo",
+            "path": "foo",
+            "destination": "foo",
         }
         file = File(params)
-        file.move(params)
+        result = file.move(params)
+        self.assert_returns(File.move, result)
+        self.assert_typed(file)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/transform/{path}"), "Mock path does not exist")
-    def test_transform(self):
+    def test_instance_transform(self):
         params = {
-            "path" : "foo",
-            "destination" : "foo",
-            "transform_type" : "foo",
-            "target_format" : "foo",
+            "path": "foo",
+            "destination": "foo",
+            "transform_type": "foo",
+            "target_format": "foo",
         }
         file = File(params)
-        file.transform(params)
+        result = file.transform(params)
+        self.assert_returns(File.transform, result)
+        self.assert_typed(file)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/gpg_decrypt/{path}"), "Mock path does not exist")
-    def test_gpg_decrypt(self):
+    def test_instance_gpg_decrypt(self):
         params = {
-            "path" : "foo",
-            "destination" : "foo",
+            "path": "foo",
+            "destination": "foo",
         }
         file = File(params)
-        file.gpg_decrypt(params)
+        result = file.gpg_decrypt(params)
+        self.assert_returns(File.gpg_decrypt, result)
+        self.assert_typed(file)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/gpg_encrypt/{path}"), "Mock path does not exist")
-    def test_gpg_encrypt(self):
+    def test_instance_gpg_encrypt(self):
         params = {
-            "path" : "foo",
-            "destination" : "foo",
+            "path": "foo",
+            "destination": "foo",
         }
         file = File(params)
-        file.gpg_encrypt(params)
+        result = file.gpg_encrypt(params)
+        self.assert_returns(File.gpg_encrypt, result)
+        self.assert_typed(file)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/unzip"), "Mock path does not exist")
-    def test_unzip(self):
+    def test_instance_unzip(self):
         params = {
-            "path" : "foo",
-            "destination" : "foo",
+            "path": "foo",
+            "destination": "foo",
         }
         file = File(params)
-        file.unzip(params)
+        result = file.unzip(params)
+        self.assert_returns(File.unzip, result)
+        self.assert_typed(file)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/begin_upload/{path}"), "Mock path does not exist")
-    def test_begin_upload(self):
+    def test_instance_begin_upload(self):
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
         file = File(params)
-        file.begin_upload(params)
-
+        result = file.begin_upload(params)
+        self.assert_returns(File.begin_upload, result)
+        self.assert_typed(file)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/files/{path}"), "Mock path does not exist")
     def test_download(self):
         path = "foo"
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        file.download(path, params)
+        result = file.download(path, params)
+        self.assert_returns(file.download, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/files/{path}"), "Mock path does not exist")
     def test_create(self):
         path = "foo"
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        file.create(path, params)
+        result = file.create(path, params)
+        self.assert_returns(file.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/files/{path}"), "Mock path does not exist")
     def test_update(self):
         path = "foo"
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        file.update(path, params)
+        result = file.update(path, params)
+        self.assert_returns(file.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/files/{path}"), "Mock path does not exist")
     def test_delete(self):
         path = "foo"
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        file.delete(path, params)
+        result = file.delete(path, params)
+        self.assert_returns(file.delete, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_actions/metadata/{path}"), "Mock path does not exist")
     def test_find(self):
         path = "foo"
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        file.find(path, params)
+        result = file.find(path, params)
+        self.assert_returns(file.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/file_actions/zip_list/{path}"), "Mock path does not exist")
     def test_zip_list_contents(self):
         path = "foo"
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        file.zip_list_contents(path, params)
+        result = file.zip_list_contents(path, params)
+        self.assert_returns(file.zip_list_contents, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/delete/{path}"), "Mock path does not exist")
     def test_begin_delete(self):
         path = "foo"
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        file.begin_delete(path, params)
+        result = file.begin_delete(path, params)
+        self.assert_returns(file.begin_delete, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/copy/{path}"), "Mock path does not exist")
     def test_copy(self):
         path = "foo"
         params = {
-            "path" : "foo",
-            "destination" : "foo",
+            "path": "foo",
+            "destination": "foo",
         }
-        file.copy(path, params)
+        result = file.copy(path, params)
+        self.assert_returns(file.copy, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/move/{path}"), "Mock path does not exist")
     def test_move(self):
         path = "foo"
         params = {
-            "path" : "foo",
-            "destination" : "foo",
+            "path": "foo",
+            "destination": "foo",
         }
-        file.move(path, params)
+        result = file.move(path, params)
+        self.assert_returns(file.move, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/transform/{path}"), "Mock path does not exist")
     def test_transform(self):
         path = "foo"
         params = {
-            "path" : "foo",
-            "destination" : "foo",
-            "transform_type" : "foo",
-            "target_format" : "foo",
+            "path": "foo",
+            "destination": "foo",
+            "transform_type": "foo",
+            "target_format": "foo",
         }
-        file.transform(path, params)
+        result = file.transform(path, params)
+        self.assert_returns(file.transform, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/gpg_decrypt/{path}"), "Mock path does not exist")
     def test_gpg_decrypt(self):
         path = "foo"
         params = {
-            "path" : "foo",
-            "destination" : "foo",
+            "path": "foo",
+            "destination": "foo",
         }
-        file.gpg_decrypt(path, params)
+        result = file.gpg_decrypt(path, params)
+        self.assert_returns(file.gpg_decrypt, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/gpg_encrypt/{path}"), "Mock path does not exist")
     def test_gpg_encrypt(self):
         path = "foo"
         params = {
-            "path" : "foo",
-            "destination" : "foo",
+            "path": "foo",
+            "destination": "foo",
         }
-        file.gpg_encrypt(path, params)
+        result = file.gpg_encrypt(path, params)
+        self.assert_returns(file.gpg_encrypt, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/unzip"), "Mock path does not exist")
     def test_unzip(self):
         path = "foo"
         params = {
-            "path" : "foo",
-            "destination" : "foo",
+            "path": "foo",
+            "destination": "foo",
         }
-        file.unzip(path, params)
+        result = file.unzip(path, params)
+        self.assert_returns(file.unzip, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/zip"), "Mock path does not exist")
     def test_zip(self):
         params = {
-            "paths" : ["foo1"],
-            "destination" : "foo",
+            "paths": ["foo1"],
+            "destination": "foo",
         }
-        file.zip(params)
+        result = file.zip(params)
+        self.assert_returns(file.zip, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/file_actions/begin_upload/{path}"), "Mock path does not exist")
     def test_begin_upload(self):
         path = "foo"
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        file.begin_upload(path, params)
+        result = file.begin_upload(path, params)
+        self.assert_returns(file.begin_upload, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

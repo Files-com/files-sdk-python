@@ -2,7 +2,9 @@
 
 ## Example AgentNodeConnection Object
 
-```
+The API sends each `AgentNodeConnection` record as JSON, such as:
+
+```json
 {
   "mode": "example",
   "status": "example",

@@ -2,7 +2,9 @@
 
 ## Example Snapshot Object
 
-```
+The API sends each `Snapshot` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "expires_at": "2000-01-01T01:00:00Z",
@@ -23,12 +25,17 @@
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 * `paths` (array(string)): An array of paths to add to the snapshot.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.snapshot` resource, such as
+`client.snapshot.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Snapshots
 
-```
+```python
 files_sdk.snapshot.list()
 ```
 
@@ -42,7 +49,7 @@ files_sdk.snapshot.list()
 
 ## Show Snapshot
 
-```
+```python
 files_sdk.snapshot.find(id)
 ```
 
@@ -55,7 +62,7 @@ files_sdk.snapshot.find(id)
 
 ## Create Snapshot
 
-```
+```python
 files_sdk.snapshot.create({
   "expires_at": "2000-01-01T01:00:00Z",
   "name": "My Snapshot",
@@ -75,7 +82,7 @@ files_sdk.snapshot.create({
 
 ## Finalize Snapshot
 
-```
+```python
 files_sdk.snapshot.finalize(id)
 ```
 
@@ -88,7 +95,7 @@ files_sdk.snapshot.finalize(id)
 
 ## Update Snapshot
 
-```
+```python
 files_sdk.snapshot.update(id, {
   "expires_at": "2000-01-01T01:00:00Z",
   "name": "My Snapshot"
@@ -107,7 +114,7 @@ files_sdk.snapshot.update(id, {
 
 ## Delete Snapshot
 
-```
+```python
 files_sdk.snapshot.delete(id)
 ```
 
@@ -120,7 +127,7 @@ files_sdk.snapshot.delete(id)
 
 ## Finalize Snapshot
 
-```
+```python
 snapshot = files_sdk.snapshot.find(id)
 snapshot.finalize()
 ```
@@ -134,7 +141,7 @@ snapshot.finalize()
 
 ## Update Snapshot
 
-```
+```python
 snapshot = files_sdk.snapshot.find(id)
 snapshot.update({
   "expires_at": "2000-01-01T01:00:00Z",
@@ -154,7 +161,7 @@ snapshot.update({
 
 ## Delete Snapshot
 
-```
+```python
 snapshot = files_sdk.snapshot.find(id)
 snapshot.delete()
 ```

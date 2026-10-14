@@ -1,11 +1,20 @@
 import builtins  # noqa: F401
-from urllib.parse import quote
+from typing import Any, Mapping  # noqa: F401
 from files_sdk.models.agent_node import AgentNode
 from files_sdk.models.agent_push_update import AgentPushUpdate
 from files_sdk.models.remote_server_configuration_file import (
     RemoteServerConfigurationFile,
 )
-from files_sdk.api import Api  # noqa: F401
+from files_sdk.api import (  # noqa: F401
+    LEGACY,
+    LegacyScope,
+    Operation,
+    copy_params,
+    decode_record,
+    path_value,
+)
+from files_sdk.api_client import unexpected_response_error  # noqa: F401
+from files_sdk.context import RequestOptions  # noqa: F401
 from files_sdk.list_obj import ListObj
 from files_sdk.error import (  # noqa: F401
     InvalidParameterError,
@@ -15,6 +24,116 @@ from files_sdk.error import (  # noqa: F401
 
 
 class RemoteServer:
+    """A remote server record from the Files.com API.
+
+    An attribute the API did not send is None.
+
+    Attributes:
+        id: int64 - Remote Server ID
+        disabled: boolean - If true, this Remote Server is disabled. Updating it clears this flag, except for retired Agent v1 records, which remain disabled.
+        authentication_method: string - Type of authentication method to use
+        hostname: string - Hostname or IP address. For Agent Remote Servers, the Agent reports the hostname it connects from at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+        remote_home_path: string - Initial home folder on remote server
+        upload_staging_path: string - Upload staging path. Applies to SFTP only. If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command. This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
+        allow_relative_paths: boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
+        name: string - Internal name for your reference
+        description: string - Internal description for your reference
+        port: int64 - Port for remote server. For Agent Remote Servers, the Agent reports its downstream proxy port at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+        buffer_uploads: string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections. It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
+        max_connections: int64 - Max number of parallel connections. Ignored for S3 connections (we will parallelize these as much as possible).
+        pin_to_site_region: boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site. This setting can also be overridden by a site-wide setting which will force it to true.
+        pinned_region: string - If set, all communications with this remote server are made through the provided region.
+        remote_server_credential_id: int64 - ID of Remote Server Credential, if applicable.
+        s3_bucket: string - S3 bucket name
+        s3_region: string - S3 region
+        s3_kms_key_id: string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
+        aws_access_key: string - AWS Access Key.
+        s3_assume_role_arn: string - AWS IAM Role ARN for AssumeRole authentication.
+        s3_assume_role_duration_seconds: int64 - Session duration in seconds for AssumeRole authentication (900-43200).
+        s3_assume_role_external_id: string - External ID for AssumeRole authentication.
+        server_certificate: string - Remote server certificate
+        server_host_key: string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
+        server_type: string - Remote server type.
+        workspace_id: int64 - Workspace ID (0 for default workspace)
+        ssl: string - Should we require SSL?
+        username: string - Remote server username.
+        google_cloud_storage_bucket: string - Google Cloud Storage: Bucket Name
+        google_cloud_storage_authentication_method: string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
+        google_cloud_storage_oauth_scope: string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
+        google_cloud_storage_project_id: string - Google Cloud Storage: Project ID
+        google_cloud_storage_s3_compatible_access_key: string - Google Cloud Storage: S3-compatible Access Key.
+        backblaze_b2_s3_endpoint: string - Backblaze B2 Cloud Storage: S3 Endpoint
+        backblaze_b2_bucket: string - Backblaze B2 Cloud Storage: Bucket name
+        wasabi_bucket: string - Wasabi: Bucket name
+        wasabi_region: string - Wasabi: Region
+        wasabi_access_key: string - Wasabi: Access Key.
+        auth_status: string - Either `in_setup` or `complete`
+        auth_account_name: string - Describes the authorized account
+        one_drive_account_type: string - OneDrive: Either personal or business_other account types
+        sharepoint_tenant_id: string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
+        sharepoint_client_id: string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+        sharepoint_app_authentication: boolean - SharePoint: If true, this remote server uses Microsoft Entra app-only authentication.
+        sharepoint_app_credential_type: string - SharePoint: App-only credential type. Either secret or certificate.
+        sharepoint_site_url: string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+        azure_blob_storage_account: string - Azure Blob Storage: Account name
+        azure_blob_storage_container: string - Azure Blob Storage: Container name
+        azure_blob_storage_hierarchical_namespace: boolean - Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
+        azure_blob_storage_dns_suffix: string - Azure Blob Storage: Custom DNS suffix
+        azure_files_storage_account: string - Azure Files: Storage Account name
+        azure_files_storage_share_name: string - Azure Files: Storage Share name
+        azure_files_storage_dns_suffix: string - Azure Files: Custom DNS suffix
+        s3_compatible_bucket: string - S3-compatible: Bucket name
+        s3_compatible_endpoint: string - S3-compatible: endpoint
+        s3_compatible_region: string - S3-compatible: region
+        s3_compatible_virtual_hosted_style: boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+        s3_compatible_access_key: string - S3-compatible: Access Key
+        enable_dedicated_ips: boolean - `true` if remote server only accepts connections from dedicated IPs
+        custom_domain_id: int64 - Custom Domain ID whose dedicated IP addresses are selected when this Remote Server uses dedicated IPs. Must be available to this Remote Server's workspace. Requires enable_dedicated_ips and cannot be combined with an outbound Agent. Set to null to use the site's default dedicated IPs.
+        outbound_ip_addresses: array(string) - Current eligible public IP addresses for the selected Custom Domain. Any address in this list may originate a connection. Empty when no domain is selected or its configuration is unavailable. Only included in responses for a single Remote Server.
+        files_agent_permission_set: string - Agent file permissions: `read_only`, `write_only`, or `read_write`. Files.com writes this value as `permission_set` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the permissions in its local configuration file, controlled by the host's system administrator, and reports them at registration, replacing the stored value.
+        files_agent_root: string - Agent local root path. Files.com writes this value as `root` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the root in its local configuration file, controlled by the host's system administrator, and reports it at registration, replacing the stored value.
+        files_agent_version: string - Files.com Agent version reported by the Agent at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not update the running Agent.
+        files_agent_up_to_date: boolean - If true, the Files Agent is up to date.
+        files_agent_latest_version: string - Latest available Files Agent version
+        files_agent_supports_push_updates: boolean - Files Agent supports receiving push updates
+        direct_transfer_available: boolean - Whether the Files Agent Proxy recently validated a direct transfer connection. `true` means a direct connection was recently validated (actual availability can vary by client network), `false` means direct transfers are enabled but not currently available, and `null` means direct transfers are disabled or unsupported. Only provided for a connected Files Agent when showing a single Remote Server.
+        outbound_agent_id: int64 - Route traffic to outbound on a files-agent
+        filebase_bucket: string - Filebase: Bucket name
+        filebase_access_key: string - Filebase: Access Key.
+        files_api_key_prefix: string - Files.com direct link: paired API key prefix.
+        cloudflare_bucket: string - Cloudflare: Bucket name
+        cloudflare_access_key: string - Cloudflare: Access Key.
+        cloudflare_endpoint: string - Cloudflare: endpoint
+        dropbox_teams: boolean - Dropbox: If true, list Team folders in root?
+        linode_bucket: string - Linode: Bucket name
+        linode_access_key: string - Linode: Access Key
+        linode_region: string - Linode: region
+        supports_versioning: boolean - If true, this remote server supports file versioning. This value is determined automatically by Files.com.
+        user_id: int64 - User ID. Provide a value of `0` to operate the current session's user.
+        password: string - Password, if needed.
+        private_key: string - Private key, if needed.
+        private_key_passphrase: string - Passphrase for private key if needed.
+        reset_authentication: boolean - Reset authenticated account?
+        sharepoint_client_certificate: string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+        sharepoint_client_secret: string - SharePoint: Microsoft Entra application client secret for app-only authentication.
+        ssl_certificate: string - SSL client certificate.
+        aws_secret_key: string - AWS: secret key.
+        azure_blob_storage_access_key: string - Azure Blob Storage: Access Key
+        azure_blob_storage_sas_token: string - Azure Blob Storage: Shared Access Signature (SAS) token
+        azure_files_storage_access_key: string - Azure File Storage: Access Key
+        azure_files_storage_sas_token: string - Azure File Storage: Shared Access Signature (SAS) token
+        backblaze_b2_application_key: string - Backblaze B2 Cloud Storage: applicationKey
+        backblaze_b2_key_id: string - Backblaze B2 Cloud Storage: keyID
+        cloudflare_secret_key: string - Cloudflare: Secret Key
+        filebase_secret_key: string - Filebase: Secret Key
+        google_cloud_storage_credentials_json: string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+        google_cloud_storage_s3_compatible_secret_key: string - Google Cloud Storage: S3-compatible secret key
+        linode_secret_key: string - Linode: Secret Key
+        s3_compatible_secret_key: string - S3-compatible: Secret Key
+        wasabi_secret_key: string - Wasabi: Secret Key
+        files_api_key: string - Files.com direct link: API key used once to pair the remote server.
+    """
+
     default_attributes = {
         "id": None,  # int64 - Remote Server ID
         "disabled": None,  # boolean - If true, this Remote Server is disabled. Updating it clears this flag, except for retired Agent v1 records, which remain disabled.
@@ -121,13 +240,125 @@ class RemoteServer:
         "files_api_key": None,  # string - Files.com direct link: API key used once to pair the remote server.
     }
 
+    # Declared for type checkers and editors: the type the API sends each
+    # attribute as, or None. set_attributes stores each value as given,
+    # converting only decimals, so a value a caller sets can differ.
+    id: int | None
+    disabled: bool | None
+    authentication_method: str | None
+    hostname: str | None
+    remote_home_path: str | None
+    upload_staging_path: str | None
+    allow_relative_paths: bool | None
+    name: str | None
+    description: str | None
+    port: int | None
+    buffer_uploads: str | None
+    max_connections: int | None
+    pin_to_site_region: bool | None
+    pinned_region: str | None
+    remote_server_credential_id: int | None
+    s3_bucket: str | None
+    s3_region: str | None
+    s3_kms_key_id: str | None
+    aws_access_key: str | None
+    s3_assume_role_arn: str | None
+    s3_assume_role_duration_seconds: int | None
+    s3_assume_role_external_id: str | None
+    server_certificate: str | None
+    server_host_key: str | None
+    server_type: str | None
+    workspace_id: int | None
+    ssl: str | None
+    username: str | None
+    google_cloud_storage_bucket: str | None
+    google_cloud_storage_authentication_method: str | None
+    google_cloud_storage_oauth_scope: str | None
+    google_cloud_storage_project_id: str | None
+    google_cloud_storage_s3_compatible_access_key: str | None
+    backblaze_b2_s3_endpoint: str | None
+    backblaze_b2_bucket: str | None
+    wasabi_bucket: str | None
+    wasabi_region: str | None
+    wasabi_access_key: str | None
+    auth_status: str | None
+    auth_account_name: str | None
+    one_drive_account_type: str | None
+    sharepoint_tenant_id: str | None
+    sharepoint_client_id: str | None
+    sharepoint_app_authentication: bool | None
+    sharepoint_app_credential_type: str | None
+    sharepoint_site_url: str | None
+    azure_blob_storage_account: str | None
+    azure_blob_storage_container: str | None
+    azure_blob_storage_hierarchical_namespace: bool | None
+    azure_blob_storage_dns_suffix: str | None
+    azure_files_storage_account: str | None
+    azure_files_storage_share_name: str | None
+    azure_files_storage_dns_suffix: str | None
+    s3_compatible_bucket: str | None
+    s3_compatible_endpoint: str | None
+    s3_compatible_region: str | None
+    s3_compatible_virtual_hosted_style: bool | None
+    s3_compatible_access_key: str | None
+    enable_dedicated_ips: bool | None
+    custom_domain_id: int | None
+    outbound_ip_addresses: builtins.list[str] | None
+    files_agent_permission_set: str | None
+    files_agent_root: str | None
+    files_agent_version: str | None
+    files_agent_up_to_date: bool | None
+    files_agent_latest_version: str | None
+    files_agent_supports_push_updates: bool | None
+    direct_transfer_available: bool | None
+    outbound_agent_id: int | None
+    filebase_bucket: str | None
+    filebase_access_key: str | None
+    files_api_key_prefix: str | None
+    cloudflare_bucket: str | None
+    cloudflare_access_key: str | None
+    cloudflare_endpoint: str | None
+    dropbox_teams: bool | None
+    linode_bucket: str | None
+    linode_access_key: str | None
+    linode_region: str | None
+    supports_versioning: bool | None
+    user_id: int | None
+    password: str | None
+    private_key: str | None
+    private_key_passphrase: str | None
+    reset_authentication: bool | None
+    sharepoint_client_certificate: str | None
+    sharepoint_client_secret: str | None
+    ssl_certificate: str | None
+    aws_secret_key: str | None
+    azure_blob_storage_access_key: str | None
+    azure_blob_storage_sas_token: str | None
+    azure_files_storage_access_key: str | None
+    azure_files_storage_sas_token: str | None
+    backblaze_b2_application_key: str | None
+    backblaze_b2_key_id: str | None
+    cloudflare_secret_key: str | None
+    filebase_secret_key: str | None
+    google_cloud_storage_credentials_json: str | None
+    google_cloud_storage_s3_compatible_secret_key: str | None
+    linode_secret_key: str | None
+    s3_compatible_secret_key: str | None
+    wasabi_secret_key: str | None
+    files_api_key: str | None
+
+    # The client and settings this object's operations use: those of the
+    # operation or client that made it, or the module's when it starts an
+    # operation if neither did.
+    _context: Any = None
+
     def __init__(self, attributes=None, options=None):
         if not isinstance(attributes, dict):
             attributes = {}
         if not isinstance(options, dict):
             options = {}
         self.set_attributes(attributes)
-        self.options = options
+        self.options = dict(options)
 
     def set_attributes(self, attributes):
         for (
@@ -145,148 +376,160 @@ class RemoteServer:
         }
         return attrs
 
-    # List Files.com Agent nodes
-    def agent_nodes(self, params=None):
-        if not isinstance(params, dict):
-            params = {}
+    def _scope(self):
+        if self._context is not None:
+            return self._context
+        return LegacyScope(self.options)
 
-        if hasattr(self, "id") and self.id:
-            params["id"] = self.id
-        else:
+    def agent_nodes(
+        self, params: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
+        """List Files.com Agent nodes"""
+        if not (hasattr(self, "id") and self.id):
             raise MissingParameterError("Current object doesn't have a id")
+        params = copy_params(params, {"id": self.id})
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "id" in params and not isinstance(params["id"], int):
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request(
+        operation = Operation.start(self._scope())
+        response = operation.request(
             "GET",
-            "/remote_servers/{id}/agent_nodes".format(
-                id=quote(str(params["id"]), safe="")
-            ),
+            "/remote_servers/" + path_value(params["id"]) + "/agent_nodes",
             params,
-            self.options,
         )
+        if not isinstance(response.data, dict):
+            raise unexpected_response_error(
+                response, "a record was not a JSON object"
+            )
         return response.data
 
-    # Push update to Files Agent
-    def agent_push_update(self, params=None):
-        if not isinstance(params, dict):
-            params = {}
-
-        if hasattr(self, "id") and self.id:
-            params["id"] = self.id
-        else:
+    def agent_push_update(
+        self, params: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
+        """Push update to Files Agent"""
+        if not (hasattr(self, "id") and self.id):
             raise MissingParameterError("Current object doesn't have a id")
+        params = copy_params(params, {"id": self.id})
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "id" in params and not isinstance(params["id"], int):
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        response, _options = Api.send_request(
+        operation = Operation.start(self._scope())
+        response = operation.request(
             "POST",
-            "/remote_servers/{id}/agent_push_update".format(
-                id=quote(str(params["id"]), safe="")
-            ),
+            "/remote_servers/"
+            + path_value(params["id"])
+            + "/agent_push_update",
             params,
-            self.options,
         )
+        if not isinstance(response.data, dict):
+            raise unexpected_response_error(
+                response, "a record was not a JSON object"
+            )
         return response.data
 
-    # Parameters:
-    #   password - string - Password, if needed.
-    #   private_key - string - Private key, if needed.
-    #   private_key_passphrase - string - Passphrase for private key if needed.
-    #   reset_authentication - boolean - Reset authenticated account?
-    #   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
-    #   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
-    #   ssl_certificate - string - SSL client certificate.
-    #   aws_secret_key - string - AWS: secret key.
-    #   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
-    #   azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
-    #   azure_files_storage_access_key - string - Azure File Storage: Access Key
-    #   azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
-    #   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
-    #   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
-    #   cloudflare_secret_key - string - Cloudflare: Secret Key
-    #   filebase_secret_key - string - Filebase: Secret Key
-    #   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
-    #   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
-    #   linode_secret_key - string - Linode: Secret Key
-    #   s3_compatible_secret_key - string - S3-compatible: Secret Key
-    #   wasabi_secret_key - string - Wasabi: Secret Key
-    #   allow_relative_paths - boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
-    #   aws_access_key - string - AWS Access Key.
-    #   azure_blob_storage_account - string - Azure Blob Storage: Account name
-    #   azure_blob_storage_container - string - Azure Blob Storage: Container name
-    #   azure_blob_storage_dns_suffix - string - Azure Blob Storage: Custom DNS suffix
-    #   azure_blob_storage_hierarchical_namespace - boolean - Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
-    #   azure_files_storage_account - string - Azure Files: Storage Account name
-    #   azure_files_storage_dns_suffix - string - Azure Files: Custom DNS suffix
-    #   azure_files_storage_share_name - string - Azure Files:  Storage Share name
-    #   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
-    #   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
-    #   buffer_uploads - string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
-    #   cloudflare_access_key - string - Cloudflare: Access Key.
-    #   cloudflare_bucket - string - Cloudflare: Bucket name
-    #   cloudflare_endpoint - string - Cloudflare: endpoint
-    #   description - string - Internal description for your reference
-    #   dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
-    #   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
-    #   filebase_access_key - string - Filebase: Access Key.
-    #   filebase_bucket - string - Filebase: Bucket name
-    #   files_api_key - string - Files.com direct link: API key used once to pair the remote server.
-    #   files_agent_permission_set - string - Agent file permissions: `read_only`, `write_only`, or `read_write`. Files.com writes this value as `permission_set` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the permissions in its local configuration file, controlled by the host's system administrator, and reports them at registration, replacing the stored value.
-    #   files_agent_root - string - Agent local root path. Files.com writes this value as `root` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the root in its local configuration file, controlled by the host's system administrator, and reports it at registration, replacing the stored value.
-    #   files_agent_version - string - Files.com Agent version reported by the Agent at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not update the running Agent.
-    #   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
-    #   custom_domain_id - int64 - Custom Domain ID whose dedicated IP addresses are selected when this Remote Server uses dedicated IPs. Must be available to this Remote Server's workspace. Requires enable_dedicated_ips and cannot be combined with an outbound Agent. Set to null to use the site's default dedicated IPs.
-    #   google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
-    #   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
-    #   google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
-    #   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
-    #   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
-    #   hostname - string - Hostname or IP address. For Agent Remote Servers, the Agent reports the hostname it connects from at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
-    #   linode_access_key - string - Linode: Access Key
-    #   linode_bucket - string - Linode: Bucket name
-    #   linode_region - string - Linode: region
-    #   max_connections - int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
-    #   name - string - Internal name for your reference
-    #   one_drive_account_type - string - OneDrive: Either personal or business_other account types
-    #   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-    #   port - int64 - Port for remote server. For Agent Remote Servers, the Agent reports its downstream proxy port at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
-    #   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
-    #   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
-    #   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
-    #   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
-    #   s3_bucket - string - S3 bucket name
-    #   s3_compatible_access_key - string - S3-compatible: Access Key
-    #   s3_compatible_bucket - string - S3-compatible: Bucket name
-    #   s3_compatible_endpoint - string - S3-compatible: endpoint
-    #   s3_compatible_region - string - S3-compatible: region
-    #   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
-    #   s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
-    #   s3_region - string - S3 region
-    #   server_certificate - string - Remote server certificate
-    #   server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
-    #   server_type - string - Remote server type.
-    #   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
-    #   sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
-    #   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
-    #   ssl - string - Should we require SSL?
-    #   username - string - Remote server username.
-    #   wasabi_access_key - string - Wasabi: Access Key.
-    #   wasabi_bucket - string - Wasabi: Bucket name
-    #   wasabi_region - string - Wasabi: Region
-    def update(self, params=None):
-        if not isinstance(params, dict):
-            params = {}
+    def update(self, params: dict[str, Any] | None = None) -> None:
+        """Updates this object in place with the record the server returns, and returns None.
 
-        if hasattr(self, "id") and self.id:
-            params["id"] = self.id
-        else:
+        Parameters:
+          password - string - Password, if needed.
+          private_key - string - Private key, if needed.
+          private_key_passphrase - string - Passphrase for private key if needed.
+          reset_authentication - boolean - Reset authenticated account?
+          sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+          sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
+          ssl_certificate - string - SSL client certificate.
+          aws_secret_key - string - AWS: secret key.
+          azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
+          azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
+          azure_files_storage_access_key - string - Azure File Storage: Access Key
+          azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
+          backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
+          backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
+          cloudflare_secret_key - string - Cloudflare: Secret Key
+          filebase_secret_key - string - Filebase: Secret Key
+          google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+          google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
+          linode_secret_key - string - Linode: Secret Key
+          s3_compatible_secret_key - string - S3-compatible: Secret Key
+          wasabi_secret_key - string - Wasabi: Secret Key
+          allow_relative_paths - boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
+          aws_access_key - string - AWS Access Key.
+          azure_blob_storage_account - string - Azure Blob Storage: Account name
+          azure_blob_storage_container - string - Azure Blob Storage: Container name
+          azure_blob_storage_dns_suffix - string - Azure Blob Storage: Custom DNS suffix
+          azure_blob_storage_hierarchical_namespace - boolean - Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
+          azure_files_storage_account - string - Azure Files: Storage Account name
+          azure_files_storage_dns_suffix - string - Azure Files: Custom DNS suffix
+          azure_files_storage_share_name - string - Azure Files:  Storage Share name
+          backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
+          backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
+          buffer_uploads - string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
+          cloudflare_access_key - string - Cloudflare: Access Key.
+          cloudflare_bucket - string - Cloudflare: Bucket name
+          cloudflare_endpoint - string - Cloudflare: endpoint
+          description - string - Internal description for your reference
+          dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
+          enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
+          filebase_access_key - string - Filebase: Access Key.
+          filebase_bucket - string - Filebase: Bucket name
+          files_api_key - string - Files.com direct link: API key used once to pair the remote server.
+          files_agent_permission_set - string - Agent file permissions: `read_only`, `write_only`, or `read_write`. Files.com writes this value as `permission_set` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the permissions in its local configuration file, controlled by the host's system administrator, and reports them at registration, replacing the stored value.
+          files_agent_root - string - Agent local root path. Files.com writes this value as `root` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the root in its local configuration file, controlled by the host's system administrator, and reports it at registration, replacing the stored value.
+          files_agent_version - string - Files.com Agent version reported by the Agent at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not update the running Agent.
+          outbound_agent_id - int64 - Route traffic to outbound on a files-agent
+          custom_domain_id - int64 - Custom Domain ID whose dedicated IP addresses are selected when this Remote Server uses dedicated IPs. Must be available to this Remote Server's workspace. Requires enable_dedicated_ips and cannot be combined with an outbound Agent. Set to null to use the site's default dedicated IPs.
+          google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
+          google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
+          google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
+          google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
+          google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
+          hostname - string - Hostname or IP address. For Agent Remote Servers, the Agent reports the hostname it connects from at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+          linode_access_key - string - Linode: Access Key
+          linode_bucket - string - Linode: Bucket name
+          linode_region - string - Linode: region
+          max_connections - int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+          name - string - Internal name for your reference
+          one_drive_account_type - string - OneDrive: Either personal or business_other account types
+          pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
+          port - int64 - Port for remote server. For Agent Remote Servers, the Agent reports its downstream proxy port at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+          upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
+          remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
+          s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+          s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
+          s3_bucket - string - S3 bucket name
+          s3_compatible_access_key - string - S3-compatible: Access Key
+          s3_compatible_bucket - string - S3-compatible: Bucket name
+          s3_compatible_endpoint - string - S3-compatible: endpoint
+          s3_compatible_region - string - S3-compatible: region
+          s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+          s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
+          s3_region - string - S3 region
+          server_certificate - string - Remote server certificate
+          server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
+          server_type - string - Remote server type.
+          sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+          sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+          sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
+          ssl - string - Should we require SSL?
+          username - string - Remote server username.
+          wasabi_access_key - string - Wasabi: Access Key.
+          wasabi_bucket - string - Wasabi: Bucket name
+          wasabi_region - string - Wasabi: Region
+        """
+        if not (hasattr(self, "id") and self.id):
             raise MissingParameterError("Current object doesn't have a id")
+        params = copy_params(params, {"id": self.id})
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "id" in params and not isinstance(params["id"], int):
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
             raise InvalidParameterError("Bad parameter: id must be an int")
         if "password" in params and not isinstance(params["password"], str):
             raise InvalidParameterError(
@@ -303,6 +546,12 @@ class RemoteServer:
         ):
             raise InvalidParameterError(
                 "Bad parameter: private_key_passphrase must be an str"
+            )
+        if "reset_authentication" in params and isinstance(
+            params["reset_authentication"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: reset_authentication must be an bool"
             )
         if "sharepoint_client_certificate" in params and not isinstance(
             params["sharepoint_client_certificate"], str
@@ -412,6 +661,12 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: wasabi_secret_key must be an str"
             )
+        if "allow_relative_paths" in params and isinstance(
+            params["allow_relative_paths"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allow_relative_paths must be an bool"
+            )
         if "aws_access_key" in params and not isinstance(
             params["aws_access_key"], str
         ):
@@ -435,6 +690,16 @@ class RemoteServer:
         ):
             raise InvalidParameterError(
                 "Bad parameter: azure_blob_storage_dns_suffix must be an str"
+            )
+        if (
+            "azure_blob_storage_hierarchical_namespace" in params
+            and isinstance(
+                params["azure_blob_storage_hierarchical_namespace"],
+                (builtins.list, tuple, dict),
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_hierarchical_namespace must be an bool"
             )
         if "azure_files_storage_account" in params and not isinstance(
             params["azure_files_storage_account"], str
@@ -496,6 +761,18 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: description must be an str"
             )
+        if "dropbox_teams" in params and isinstance(
+            params["dropbox_teams"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: dropbox_teams must be an bool"
+            )
+        if "enable_dedicated_ips" in params and isinstance(
+            params["enable_dedicated_ips"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: enable_dedicated_ips must be an bool"
+            )
         if "filebase_access_key" in params and not isinstance(
             params["filebase_access_key"], str
         ):
@@ -532,14 +809,16 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: files_agent_version must be an str"
             )
-        if "outbound_agent_id" in params and not isinstance(
-            params["outbound_agent_id"], int
+        if "outbound_agent_id" in params and (
+            not isinstance(params["outbound_agent_id"], int)
+            or isinstance(params["outbound_agent_id"], bool)
         ):
             raise InvalidParameterError(
                 "Bad parameter: outbound_agent_id must be an int"
             )
-        if "custom_domain_id" in params and not isinstance(
-            params["custom_domain_id"], int
+        if "custom_domain_id" in params and (
+            not isinstance(params["custom_domain_id"], int)
+            or isinstance(params["custom_domain_id"], bool)
         ):
             raise InvalidParameterError(
                 "Bad parameter: custom_domain_id must be an int"
@@ -602,8 +881,9 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: linode_region must be an str"
             )
-        if "max_connections" in params and not isinstance(
-            params["max_connections"], int
+        if "max_connections" in params and (
+            not isinstance(params["max_connections"], int)
+            or isinstance(params["max_connections"], bool)
         ):
             raise InvalidParameterError(
                 "Bad parameter: max_connections must be an int"
@@ -616,7 +896,16 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: one_drive_account_type must be an str"
             )
-        if "port" in params and not isinstance(params["port"], int):
+        if "pin_to_site_region" in params and isinstance(
+            params["pin_to_site_region"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: pin_to_site_region must be an bool"
+            )
+        if "port" in params and (
+            not isinstance(params["port"], int)
+            or isinstance(params["port"], bool)
+        ):
             raise InvalidParameterError("Bad parameter: port must be an int")
         if "upload_staging_path" in params and not isinstance(
             params["upload_staging_path"], str
@@ -624,8 +913,9 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: upload_staging_path must be an str"
             )
-        if "remote_server_credential_id" in params and not isinstance(
-            params["remote_server_credential_id"], int
+        if "remote_server_credential_id" in params and (
+            not isinstance(params["remote_server_credential_id"], int)
+            or isinstance(params["remote_server_credential_id"], bool)
         ):
             raise InvalidParameterError(
                 "Bad parameter: remote_server_credential_id must be an int"
@@ -636,8 +926,9 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: s3_assume_role_arn must be an str"
             )
-        if "s3_assume_role_duration_seconds" in params and not isinstance(
-            params["s3_assume_role_duration_seconds"], int
+        if "s3_assume_role_duration_seconds" in params and (
+            not isinstance(params["s3_assume_role_duration_seconds"], int)
+            or isinstance(params["s3_assume_role_duration_seconds"], bool)
         ):
             raise InvalidParameterError(
                 "Bad parameter: s3_assume_role_duration_seconds must be an int"
@@ -669,6 +960,13 @@ class RemoteServer:
         ):
             raise InvalidParameterError(
                 "Bad parameter: s3_compatible_region must be an str"
+            )
+        if "s3_compatible_virtual_hosted_style" in params and isinstance(
+            params["s3_compatible_virtual_hosted_style"],
+            (builtins.list, tuple, dict),
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_virtual_hosted_style must be an bool"
             )
         if "s3_kms_key_id" in params and not isinstance(
             params["s3_kms_key_id"], str
@@ -740,1365 +1038,1810 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: wasabi_region must be an str"
             )
-        response, _options = Api.send_request(
-            "PATCH",
-            "/remote_servers/{id}".format(
-                id=quote(str(params["id"]), safe="")
-            ),
-            params,
-            self.options,
+        operation = Operation.start(self._scope())
+        response = operation.request(
+            "PATCH", "/remote_servers/" + path_value(params["id"]), params
         )
-        return response.data
+        decode_record(response, response.data, self.set_attributes)
+        operation.adopt(self)
 
-    def delete(self, params=None):
-        if not isinstance(params, dict):
-            params = {}
-
-        if hasattr(self, "id") and self.id:
-            params["id"] = self.id
-        else:
+    def delete(self, params: dict[str, Any] | None = None) -> None:
+        if not (hasattr(self, "id") and self.id):
             raise MissingParameterError("Current object doesn't have a id")
+        params = copy_params(params, {"id": self.id})
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
-        if "id" in params and not isinstance(params["id"], int):
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
             raise InvalidParameterError("Bad parameter: id must be an int")
-        Api.send_request(
-            "DELETE",
-            "/remote_servers/{id}".format(
-                id=quote(str(params["id"]), safe="")
-            ),
-            params,
-            self.options,
+        operation = Operation.start(self._scope())
+        operation.request(
+            "DELETE", "/remote_servers/" + path_value(params["id"]), params
         )
 
-    def destroy(self, params=None):
-        self.delete(params)
+    def destroy(self, params: dict[str, Any] | None = None) -> None:
+        """The same as delete()."""
+        return self.delete(params)
 
-    def save(self):
+    def save(self) -> None:
+        """Update this object on the server if it has an id, or else create
+        it, taking in place the record the server returns."""
         if hasattr(self, "id") and self.id:
-            new_obj = self.update(self.get_attributes())
-            self.set_attributes(new_obj.get_attributes())
-            return True
+            self.update(self.get_attributes())
         else:
-            new_obj = create(self.get_attributes(), self.options)
+            new_obj = RemoteServerResource(self._scope()).create(
+                self.get_attributes()
+            )
             self.set_attributes(new_obj.get_attributes())
-            return True
+            self._context = new_obj._context
 
 
-# Parameters:
-#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-#   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-#   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-#   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
-#   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`, `server_type`, `workspace_id`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ server_type, name ]`, `[ workspace_id, name ]`, `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]`, `[ linode_bucket, name ]`, `[ workspace_id, server_type ]` or `[ workspace_id, server_type, name ]`.
-#   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]` or `[ linode_bucket, name ]`.
-def list(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "user_id" in params and not isinstance(params["user_id"], int):
-        raise InvalidParameterError("Bad parameter: user_id must be an int")
-    if "cursor" in params and not isinstance(params["cursor"], str):
-        raise InvalidParameterError("Bad parameter: cursor must be an str")
-    if "per_page" in params and not isinstance(params["per_page"], int):
-        raise InvalidParameterError("Bad parameter: per_page must be an int")
-    if "sort_by" in params and not isinstance(params["sort_by"], dict):
-        raise InvalidParameterError("Bad parameter: sort_by must be an dict")
-    if "filter" in params and not isinstance(params["filter"], dict):
-        raise InvalidParameterError("Bad parameter: filter must be an dict")
-    if "filter_prefix" in params and not isinstance(
-        params["filter_prefix"], dict
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filter_prefix must be an dict"
+class RemoteServerResource:
+    """RemoteServer operations that use one client's configuration.
+
+    Get one from a client, such as ``client.remote_server``. Each operation
+    takes the same arguments as the module-level function of the same name,
+    and its options apply on top of the client's.
+    """
+
+    def __init__(self, scope):
+        self._scope = scope
+
+    def list(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[RemoteServer]:
+        """Parameters:
+        user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+        sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
+        filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`, `server_type`, `workspace_id`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ server_type, name ]`, `[ workspace_id, name ]`, `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]`, `[ linode_bucket, name ]`, `[ workspace_id, server_type ]` or `[ workspace_id, server_type, name ]`.
+        filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]` or `[ linode_bucket, name ]`.
+        """
+        params = copy_params(params)
+        if "user_id" in params and (
+            not isinstance(params["user_id"], int)
+            or isinstance(params["user_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: user_id must be an int"
+            )
+        if "cursor" in params and not isinstance(params["cursor"], str):
+            raise InvalidParameterError("Bad parameter: cursor must be an str")
+        if "per_page" in params and (
+            not isinstance(params["per_page"], int)
+            or isinstance(params["per_page"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: per_page must be an int"
+            )
+        if "sort_by" in params and not isinstance(params["sort_by"], dict):
+            raise InvalidParameterError(
+                "Bad parameter: sort_by must be an dict"
+            )
+        if "filter" in params and not isinstance(params["filter"], dict):
+            raise InvalidParameterError(
+                "Bad parameter: filter must be an dict"
+            )
+        if "filter_prefix" in params and not isinstance(
+            params["filter_prefix"], dict
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: filter_prefix must be an dict"
+            )
+        operation = Operation.start(self._scope, options)
+        return ListObj(
+            RemoteServer, "GET", "/remote_servers", params, operation
         )
-    return ListObj(RemoteServer, "GET", "/remote_servers", params, options)
+
+    def all(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[RemoteServer]:
+        """The same as list()."""
+        return self.list(params, options)
+
+    def find(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> RemoteServer:
+        """Parameters:
+        id (required) - int64 - Remote Server ID.
+        """
+        return self.__find({"id": id}, params, options)
+
+    def __find(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> RemoteServer:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "GET", "/remote_servers/" + path_value(params["id"]), params
+        )
+        return operation.decode_model(response, RemoteServer)
+
+    def get(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> RemoteServer:
+        """The same as find()."""
+        return self.find(id, params, options)
+
+    def agent_nodes(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> AgentNode:
+        """List Files.com Agent nodes"""
+        return self.__agent_nodes({"id": id}, params, options)
+
+    def __agent_nodes(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> AgentNode:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "GET",
+            "/remote_servers/" + path_value(params["id"]) + "/agent_nodes",
+            params,
+        )
+        return operation.decode_model(response, AgentNode)
+
+    def find_configuration_file(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> RemoteServerConfigurationFile:
+        """Parameters:
+        id (required) - int64 - Remote Server ID.
+        """
+        return self.__find_configuration_file({"id": id}, params, options)
+
+    def __find_configuration_file(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> RemoteServerConfigurationFile:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "GET",
+            "/remote_servers/"
+            + path_value(params["id"])
+            + "/configuration_file",
+            params,
+        )
+        return operation.decode_model(response, RemoteServerConfigurationFile)
+
+    def create(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> RemoteServer:
+        """Parameters:
+        user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+        password - string - Password, if needed.
+        private_key - string - Private key, if needed.
+        private_key_passphrase - string - Passphrase for private key if needed.
+        reset_authentication - boolean - Reset authenticated account?
+        sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+        sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
+        ssl_certificate - string - SSL client certificate.
+        aws_secret_key - string - AWS: secret key.
+        azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
+        azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
+        azure_files_storage_access_key - string - Azure File Storage: Access Key
+        azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
+        backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
+        backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
+        cloudflare_secret_key - string - Cloudflare: Secret Key
+        filebase_secret_key - string - Filebase: Secret Key
+        google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+        google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
+        linode_secret_key - string - Linode: Secret Key
+        s3_compatible_secret_key - string - S3-compatible: Secret Key
+        wasabi_secret_key - string - Wasabi: Secret Key
+        allow_relative_paths - boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
+        aws_access_key - string - AWS Access Key.
+        azure_blob_storage_account - string - Azure Blob Storage: Account name
+        azure_blob_storage_container - string - Azure Blob Storage: Container name
+        azure_blob_storage_dns_suffix - string - Azure Blob Storage: Custom DNS suffix
+        azure_blob_storage_hierarchical_namespace - boolean - Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
+        azure_files_storage_account - string - Azure Files: Storage Account name
+        azure_files_storage_dns_suffix - string - Azure Files: Custom DNS suffix
+        azure_files_storage_share_name - string - Azure Files:  Storage Share name
+        backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
+        backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
+        buffer_uploads - string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
+        cloudflare_access_key - string - Cloudflare: Access Key.
+        cloudflare_bucket - string - Cloudflare: Bucket name
+        cloudflare_endpoint - string - Cloudflare: endpoint
+        description - string - Internal description for your reference
+        dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
+        enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
+        filebase_access_key - string - Filebase: Access Key.
+        filebase_bucket - string - Filebase: Bucket name
+        files_api_key - string - Files.com direct link: API key used once to pair the remote server.
+        files_agent_permission_set - string - Agent file permissions: `read_only`, `write_only`, or `read_write`. Files.com writes this value as `permission_set` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the permissions in its local configuration file, controlled by the host's system administrator, and reports them at registration, replacing the stored value.
+        files_agent_root - string - Agent local root path. Files.com writes this value as `root` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the root in its local configuration file, controlled by the host's system administrator, and reports it at registration, replacing the stored value.
+        files_agent_version - string - Files.com Agent version reported by the Agent at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not update the running Agent.
+        outbound_agent_id - int64 - Route traffic to outbound on a files-agent
+        custom_domain_id - int64 - Custom Domain ID whose dedicated IP addresses are selected when this Remote Server uses dedicated IPs. Must be available to this Remote Server's workspace. Requires enable_dedicated_ips and cannot be combined with an outbound Agent. Set to null to use the site's default dedicated IPs.
+        google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
+        google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
+        google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
+        google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
+        google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
+        hostname - string - Hostname or IP address. For Agent Remote Servers, the Agent reports the hostname it connects from at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+        linode_access_key - string - Linode: Access Key
+        linode_bucket - string - Linode: Bucket name
+        linode_region - string - Linode: region
+        max_connections - int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+        name - string - Internal name for your reference
+        one_drive_account_type - string - OneDrive: Either personal or business_other account types
+        pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
+        port - int64 - Port for remote server. For Agent Remote Servers, the Agent reports its downstream proxy port at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+        upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
+        remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
+        s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+        s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
+        s3_bucket - string - S3 bucket name
+        s3_compatible_access_key - string - S3-compatible: Access Key
+        s3_compatible_bucket - string - S3-compatible: Bucket name
+        s3_compatible_endpoint - string - S3-compatible: endpoint
+        s3_compatible_region - string - S3-compatible: region
+        s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+        s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
+        s3_region - string - S3 region
+        server_certificate - string - Remote server certificate
+        server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
+        server_type - string - Remote server type.
+        sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+        sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+        sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
+        ssl - string - Should we require SSL?
+        username - string - Remote server username.
+        wasabi_access_key - string - Wasabi: Access Key.
+        wasabi_bucket - string - Wasabi: Bucket name
+        wasabi_region - string - Wasabi: Region
+        workspace_id - int64 - Workspace ID (0 for default workspace)
+        """
+        params = copy_params(params)
+        if "user_id" in params and (
+            not isinstance(params["user_id"], int)
+            or isinstance(params["user_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: user_id must be an int"
+            )
+        if "password" in params and not isinstance(params["password"], str):
+            raise InvalidParameterError(
+                "Bad parameter: password must be an str"
+            )
+        if "private_key" in params and not isinstance(
+            params["private_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: private_key must be an str"
+            )
+        if "private_key_passphrase" in params and not isinstance(
+            params["private_key_passphrase"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: private_key_passphrase must be an str"
+            )
+        if "reset_authentication" in params and not isinstance(
+            params["reset_authentication"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: reset_authentication must be an bool"
+            )
+        if "sharepoint_client_certificate" in params and not isinstance(
+            params["sharepoint_client_certificate"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_certificate must be an str"
+            )
+        if "sharepoint_client_secret" in params and not isinstance(
+            params["sharepoint_client_secret"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_secret must be an str"
+            )
+        if "ssl_certificate" in params and not isinstance(
+            params["ssl_certificate"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ssl_certificate must be an str"
+            )
+        if "aws_secret_key" in params and not isinstance(
+            params["aws_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: aws_secret_key must be an str"
+            )
+        if "azure_blob_storage_access_key" in params and not isinstance(
+            params["azure_blob_storage_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_access_key must be an str"
+            )
+        if "azure_blob_storage_sas_token" in params and not isinstance(
+            params["azure_blob_storage_sas_token"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_sas_token must be an str"
+            )
+        if "azure_files_storage_access_key" in params and not isinstance(
+            params["azure_files_storage_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_files_storage_access_key must be an str"
+            )
+        if "azure_files_storage_sas_token" in params and not isinstance(
+            params["azure_files_storage_sas_token"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_files_storage_sas_token must be an str"
+            )
+        if "backblaze_b2_application_key" in params and not isinstance(
+            params["backblaze_b2_application_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: backblaze_b2_application_key must be an str"
+            )
+        if "backblaze_b2_key_id" in params and not isinstance(
+            params["backblaze_b2_key_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: backblaze_b2_key_id must be an str"
+            )
+        if "cloudflare_secret_key" in params and not isinstance(
+            params["cloudflare_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: cloudflare_secret_key must be an str"
+            )
+        if "filebase_secret_key" in params and not isinstance(
+            params["filebase_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: filebase_secret_key must be an str"
+            )
+        if (
+            "google_cloud_storage_credentials_json" in params
+            and not isinstance(
+                params["google_cloud_storage_credentials_json"], str
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_credentials_json must be an str"
+            )
+        if (
+            "google_cloud_storage_s3_compatible_secret_key" in params
+            and not isinstance(
+                params["google_cloud_storage_s3_compatible_secret_key"], str
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_s3_compatible_secret_key must be an str"
+            )
+        if "linode_secret_key" in params and not isinstance(
+            params["linode_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: linode_secret_key must be an str"
+            )
+        if "s3_compatible_secret_key" in params and not isinstance(
+            params["s3_compatible_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_secret_key must be an str"
+            )
+        if "wasabi_secret_key" in params and not isinstance(
+            params["wasabi_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: wasabi_secret_key must be an str"
+            )
+        if "allow_relative_paths" in params and not isinstance(
+            params["allow_relative_paths"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allow_relative_paths must be an bool"
+            )
+        if "aws_access_key" in params and not isinstance(
+            params["aws_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: aws_access_key must be an str"
+            )
+        if "azure_blob_storage_account" in params and not isinstance(
+            params["azure_blob_storage_account"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_account must be an str"
+            )
+        if "azure_blob_storage_container" in params and not isinstance(
+            params["azure_blob_storage_container"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_container must be an str"
+            )
+        if "azure_blob_storage_dns_suffix" in params and not isinstance(
+            params["azure_blob_storage_dns_suffix"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_dns_suffix must be an str"
+            )
+        if (
+            "azure_blob_storage_hierarchical_namespace" in params
+            and not isinstance(
+                params["azure_blob_storage_hierarchical_namespace"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_hierarchical_namespace must be an bool"
+            )
+        if "azure_files_storage_account" in params and not isinstance(
+            params["azure_files_storage_account"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_files_storage_account must be an str"
+            )
+        if "azure_files_storage_dns_suffix" in params and not isinstance(
+            params["azure_files_storage_dns_suffix"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_files_storage_dns_suffix must be an str"
+            )
+        if "azure_files_storage_share_name" in params and not isinstance(
+            params["azure_files_storage_share_name"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_files_storage_share_name must be an str"
+            )
+        if "backblaze_b2_bucket" in params and not isinstance(
+            params["backblaze_b2_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: backblaze_b2_bucket must be an str"
+            )
+        if "backblaze_b2_s3_endpoint" in params and not isinstance(
+            params["backblaze_b2_s3_endpoint"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: backblaze_b2_s3_endpoint must be an str"
+            )
+        if "buffer_uploads" in params and not isinstance(
+            params["buffer_uploads"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: buffer_uploads must be an str"
+            )
+        if "cloudflare_access_key" in params and not isinstance(
+            params["cloudflare_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: cloudflare_access_key must be an str"
+            )
+        if "cloudflare_bucket" in params and not isinstance(
+            params["cloudflare_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: cloudflare_bucket must be an str"
+            )
+        if "cloudflare_endpoint" in params and not isinstance(
+            params["cloudflare_endpoint"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: cloudflare_endpoint must be an str"
+            )
+        if "description" in params and not isinstance(
+            params["description"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: description must be an str"
+            )
+        if "dropbox_teams" in params and not isinstance(
+            params["dropbox_teams"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: dropbox_teams must be an bool"
+            )
+        if "enable_dedicated_ips" in params and not isinstance(
+            params["enable_dedicated_ips"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: enable_dedicated_ips must be an bool"
+            )
+        if "filebase_access_key" in params and not isinstance(
+            params["filebase_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: filebase_access_key must be an str"
+            )
+        if "filebase_bucket" in params and not isinstance(
+            params["filebase_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: filebase_bucket must be an str"
+            )
+        if "files_api_key" in params and not isinstance(
+            params["files_api_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: files_api_key must be an str"
+            )
+        if "files_agent_permission_set" in params and not isinstance(
+            params["files_agent_permission_set"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: files_agent_permission_set must be an str"
+            )
+        if "files_agent_root" in params and not isinstance(
+            params["files_agent_root"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: files_agent_root must be an str"
+            )
+        if "files_agent_version" in params and not isinstance(
+            params["files_agent_version"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: files_agent_version must be an str"
+            )
+        if "outbound_agent_id" in params and (
+            not isinstance(params["outbound_agent_id"], int)
+            or isinstance(params["outbound_agent_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: outbound_agent_id must be an int"
+            )
+        if "custom_domain_id" in params and (
+            not isinstance(params["custom_domain_id"], int)
+            or isinstance(params["custom_domain_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: custom_domain_id must be an int"
+            )
+        if (
+            "google_cloud_storage_authentication_method" in params
+            and not isinstance(
+                params["google_cloud_storage_authentication_method"], str
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_authentication_method must be an str"
+            )
+        if "google_cloud_storage_bucket" in params and not isinstance(
+            params["google_cloud_storage_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_bucket must be an str"
+            )
+        if "google_cloud_storage_oauth_scope" in params and not isinstance(
+            params["google_cloud_storage_oauth_scope"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_oauth_scope must be an str"
+            )
+        if "google_cloud_storage_project_id" in params and not isinstance(
+            params["google_cloud_storage_project_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_project_id must be an str"
+            )
+        if (
+            "google_cloud_storage_s3_compatible_access_key" in params
+            and not isinstance(
+                params["google_cloud_storage_s3_compatible_access_key"], str
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_s3_compatible_access_key must be an str"
+            )
+        if "hostname" in params and not isinstance(params["hostname"], str):
+            raise InvalidParameterError(
+                "Bad parameter: hostname must be an str"
+            )
+        if "linode_access_key" in params and not isinstance(
+            params["linode_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: linode_access_key must be an str"
+            )
+        if "linode_bucket" in params and not isinstance(
+            params["linode_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: linode_bucket must be an str"
+            )
+        if "linode_region" in params and not isinstance(
+            params["linode_region"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: linode_region must be an str"
+            )
+        if "max_connections" in params and (
+            not isinstance(params["max_connections"], int)
+            or isinstance(params["max_connections"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: max_connections must be an int"
+            )
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
+        if "one_drive_account_type" in params and not isinstance(
+            params["one_drive_account_type"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: one_drive_account_type must be an str"
+            )
+        if "pin_to_site_region" in params and not isinstance(
+            params["pin_to_site_region"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: pin_to_site_region must be an bool"
+            )
+        if "port" in params and (
+            not isinstance(params["port"], int)
+            or isinstance(params["port"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: port must be an int")
+        if "upload_staging_path" in params and not isinstance(
+            params["upload_staging_path"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: upload_staging_path must be an str"
+            )
+        if "remote_server_credential_id" in params and (
+            not isinstance(params["remote_server_credential_id"], int)
+            or isinstance(params["remote_server_credential_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: remote_server_credential_id must be an int"
+            )
+        if "s3_assume_role_arn" in params and not isinstance(
+            params["s3_assume_role_arn"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_assume_role_arn must be an str"
+            )
+        if "s3_assume_role_duration_seconds" in params and (
+            not isinstance(params["s3_assume_role_duration_seconds"], int)
+            or isinstance(params["s3_assume_role_duration_seconds"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_assume_role_duration_seconds must be an int"
+            )
+        if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
+            raise InvalidParameterError(
+                "Bad parameter: s3_bucket must be an str"
+            )
+        if "s3_compatible_access_key" in params and not isinstance(
+            params["s3_compatible_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_access_key must be an str"
+            )
+        if "s3_compatible_bucket" in params and not isinstance(
+            params["s3_compatible_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_bucket must be an str"
+            )
+        if "s3_compatible_endpoint" in params and not isinstance(
+            params["s3_compatible_endpoint"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_endpoint must be an str"
+            )
+        if "s3_compatible_region" in params and not isinstance(
+            params["s3_compatible_region"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_region must be an str"
+            )
+        if "s3_compatible_virtual_hosted_style" in params and not isinstance(
+            params["s3_compatible_virtual_hosted_style"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_virtual_hosted_style must be an bool"
+            )
+        if "s3_kms_key_id" in params and not isinstance(
+            params["s3_kms_key_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_kms_key_id must be an str"
+            )
+        if "s3_region" in params and not isinstance(params["s3_region"], str):
+            raise InvalidParameterError(
+                "Bad parameter: s3_region must be an str"
+            )
+        if "server_certificate" in params and not isinstance(
+            params["server_certificate"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: server_certificate must be an str"
+            )
+        if "server_host_key" in params and not isinstance(
+            params["server_host_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: server_host_key must be an str"
+            )
+        if "server_type" in params and not isinstance(
+            params["server_type"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: server_type must be an str"
+            )
+        if "sharepoint_client_id" in params and not isinstance(
+            params["sharepoint_client_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_id must be an str"
+            )
+        if "sharepoint_site_url" in params and not isinstance(
+            params["sharepoint_site_url"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_site_url must be an str"
+            )
+        if "sharepoint_tenant_id" in params and not isinstance(
+            params["sharepoint_tenant_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_tenant_id must be an str"
+            )
+        if "ssl" in params and not isinstance(params["ssl"], str):
+            raise InvalidParameterError("Bad parameter: ssl must be an str")
+        if "username" in params and not isinstance(params["username"], str):
+            raise InvalidParameterError(
+                "Bad parameter: username must be an str"
+            )
+        if "wasabi_access_key" in params and not isinstance(
+            params["wasabi_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: wasabi_access_key must be an str"
+            )
+        if "wasabi_bucket" in params and not isinstance(
+            params["wasabi_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: wasabi_bucket must be an str"
+            )
+        if "wasabi_region" in params and not isinstance(
+            params["wasabi_region"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: wasabi_region must be an str"
+            )
+        if "workspace_id" in params and (
+            not isinstance(params["workspace_id"], int)
+            or isinstance(params["workspace_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: workspace_id must be an int"
+            )
+        operation = Operation.start(self._scope, options)
+        response = operation.request("POST", "/remote_servers", params)
+        return operation.decode_model(response, RemoteServer)
+
+    def agent_push_update(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> AgentPushUpdate:
+        """Push update to Files Agent"""
+        return self.__agent_push_update({"id": id}, params, options)
+
+    def __agent_push_update(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> AgentPushUpdate:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "POST",
+            "/remote_servers/"
+            + path_value(params["id"])
+            + "/agent_push_update",
+            params,
+        )
+        return operation.decode_model(response, AgentPushUpdate)
+
+    def update(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> RemoteServer:
+        """Parameters:
+        password - string - Password, if needed.
+        private_key - string - Private key, if needed.
+        private_key_passphrase - string - Passphrase for private key if needed.
+        reset_authentication - boolean - Reset authenticated account?
+        sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+        sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
+        ssl_certificate - string - SSL client certificate.
+        aws_secret_key - string - AWS: secret key.
+        azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
+        azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
+        azure_files_storage_access_key - string - Azure File Storage: Access Key
+        azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
+        backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
+        backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
+        cloudflare_secret_key - string - Cloudflare: Secret Key
+        filebase_secret_key - string - Filebase: Secret Key
+        google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+        google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
+        linode_secret_key - string - Linode: Secret Key
+        s3_compatible_secret_key - string - S3-compatible: Secret Key
+        wasabi_secret_key - string - Wasabi: Secret Key
+        allow_relative_paths - boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
+        aws_access_key - string - AWS Access Key.
+        azure_blob_storage_account - string - Azure Blob Storage: Account name
+        azure_blob_storage_container - string - Azure Blob Storage: Container name
+        azure_blob_storage_dns_suffix - string - Azure Blob Storage: Custom DNS suffix
+        azure_blob_storage_hierarchical_namespace - boolean - Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
+        azure_files_storage_account - string - Azure Files: Storage Account name
+        azure_files_storage_dns_suffix - string - Azure Files: Custom DNS suffix
+        azure_files_storage_share_name - string - Azure Files:  Storage Share name
+        backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
+        backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
+        buffer_uploads - string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
+        cloudflare_access_key - string - Cloudflare: Access Key.
+        cloudflare_bucket - string - Cloudflare: Bucket name
+        cloudflare_endpoint - string - Cloudflare: endpoint
+        description - string - Internal description for your reference
+        dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
+        enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
+        filebase_access_key - string - Filebase: Access Key.
+        filebase_bucket - string - Filebase: Bucket name
+        files_api_key - string - Files.com direct link: API key used once to pair the remote server.
+        files_agent_permission_set - string - Agent file permissions: `read_only`, `write_only`, or `read_write`. Files.com writes this value as `permission_set` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the permissions in its local configuration file, controlled by the host's system administrator, and reports them at registration, replacing the stored value.
+        files_agent_root - string - Agent local root path. Files.com writes this value as `root` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the root in its local configuration file, controlled by the host's system administrator, and reports it at registration, replacing the stored value.
+        files_agent_version - string - Files.com Agent version reported by the Agent at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not update the running Agent.
+        outbound_agent_id - int64 - Route traffic to outbound on a files-agent
+        custom_domain_id - int64 - Custom Domain ID whose dedicated IP addresses are selected when this Remote Server uses dedicated IPs. Must be available to this Remote Server's workspace. Requires enable_dedicated_ips and cannot be combined with an outbound Agent. Set to null to use the site's default dedicated IPs.
+        google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
+        google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
+        google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
+        google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
+        google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
+        hostname - string - Hostname or IP address. For Agent Remote Servers, the Agent reports the hostname it connects from at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+        linode_access_key - string - Linode: Access Key
+        linode_bucket - string - Linode: Bucket name
+        linode_region - string - Linode: region
+        max_connections - int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+        name - string - Internal name for your reference
+        one_drive_account_type - string - OneDrive: Either personal or business_other account types
+        pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
+        port - int64 - Port for remote server. For Agent Remote Servers, the Agent reports its downstream proxy port at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+        upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
+        remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
+        s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+        s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
+        s3_bucket - string - S3 bucket name
+        s3_compatible_access_key - string - S3-compatible: Access Key
+        s3_compatible_bucket - string - S3-compatible: Bucket name
+        s3_compatible_endpoint - string - S3-compatible: endpoint
+        s3_compatible_region - string - S3-compatible: region
+        s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+        s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
+        s3_region - string - S3 region
+        server_certificate - string - Remote server certificate
+        server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
+        server_type - string - Remote server type.
+        sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+        sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+        sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
+        ssl - string - Should we require SSL?
+        username - string - Remote server username.
+        wasabi_access_key - string - Wasabi: Access Key.
+        wasabi_bucket - string - Wasabi: Bucket name
+        wasabi_region - string - Wasabi: Region
+        """
+        return self.__update({"id": id}, params, options)
+
+    def __update(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> RemoteServer:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "password" in params and not isinstance(params["password"], str):
+            raise InvalidParameterError(
+                "Bad parameter: password must be an str"
+            )
+        if "private_key" in params and not isinstance(
+            params["private_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: private_key must be an str"
+            )
+        if "private_key_passphrase" in params and not isinstance(
+            params["private_key_passphrase"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: private_key_passphrase must be an str"
+            )
+        if "reset_authentication" in params and not isinstance(
+            params["reset_authentication"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: reset_authentication must be an bool"
+            )
+        if "sharepoint_client_certificate" in params and not isinstance(
+            params["sharepoint_client_certificate"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_certificate must be an str"
+            )
+        if "sharepoint_client_secret" in params and not isinstance(
+            params["sharepoint_client_secret"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_secret must be an str"
+            )
+        if "ssl_certificate" in params and not isinstance(
+            params["ssl_certificate"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ssl_certificate must be an str"
+            )
+        if "aws_secret_key" in params and not isinstance(
+            params["aws_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: aws_secret_key must be an str"
+            )
+        if "azure_blob_storage_access_key" in params and not isinstance(
+            params["azure_blob_storage_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_access_key must be an str"
+            )
+        if "azure_blob_storage_sas_token" in params and not isinstance(
+            params["azure_blob_storage_sas_token"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_sas_token must be an str"
+            )
+        if "azure_files_storage_access_key" in params and not isinstance(
+            params["azure_files_storage_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_files_storage_access_key must be an str"
+            )
+        if "azure_files_storage_sas_token" in params and not isinstance(
+            params["azure_files_storage_sas_token"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_files_storage_sas_token must be an str"
+            )
+        if "backblaze_b2_application_key" in params and not isinstance(
+            params["backblaze_b2_application_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: backblaze_b2_application_key must be an str"
+            )
+        if "backblaze_b2_key_id" in params and not isinstance(
+            params["backblaze_b2_key_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: backblaze_b2_key_id must be an str"
+            )
+        if "cloudflare_secret_key" in params and not isinstance(
+            params["cloudflare_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: cloudflare_secret_key must be an str"
+            )
+        if "filebase_secret_key" in params and not isinstance(
+            params["filebase_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: filebase_secret_key must be an str"
+            )
+        if (
+            "google_cloud_storage_credentials_json" in params
+            and not isinstance(
+                params["google_cloud_storage_credentials_json"], str
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_credentials_json must be an str"
+            )
+        if (
+            "google_cloud_storage_s3_compatible_secret_key" in params
+            and not isinstance(
+                params["google_cloud_storage_s3_compatible_secret_key"], str
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_s3_compatible_secret_key must be an str"
+            )
+        if "linode_secret_key" in params and not isinstance(
+            params["linode_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: linode_secret_key must be an str"
+            )
+        if "s3_compatible_secret_key" in params and not isinstance(
+            params["s3_compatible_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_secret_key must be an str"
+            )
+        if "wasabi_secret_key" in params and not isinstance(
+            params["wasabi_secret_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: wasabi_secret_key must be an str"
+            )
+        if "allow_relative_paths" in params and not isinstance(
+            params["allow_relative_paths"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: allow_relative_paths must be an bool"
+            )
+        if "aws_access_key" in params and not isinstance(
+            params["aws_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: aws_access_key must be an str"
+            )
+        if "azure_blob_storage_account" in params and not isinstance(
+            params["azure_blob_storage_account"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_account must be an str"
+            )
+        if "azure_blob_storage_container" in params and not isinstance(
+            params["azure_blob_storage_container"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_container must be an str"
+            )
+        if "azure_blob_storage_dns_suffix" in params and not isinstance(
+            params["azure_blob_storage_dns_suffix"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_dns_suffix must be an str"
+            )
+        if (
+            "azure_blob_storage_hierarchical_namespace" in params
+            and not isinstance(
+                params["azure_blob_storage_hierarchical_namespace"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_blob_storage_hierarchical_namespace must be an bool"
+            )
+        if "azure_files_storage_account" in params and not isinstance(
+            params["azure_files_storage_account"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_files_storage_account must be an str"
+            )
+        if "azure_files_storage_dns_suffix" in params and not isinstance(
+            params["azure_files_storage_dns_suffix"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_files_storage_dns_suffix must be an str"
+            )
+        if "azure_files_storage_share_name" in params and not isinstance(
+            params["azure_files_storage_share_name"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: azure_files_storage_share_name must be an str"
+            )
+        if "backblaze_b2_bucket" in params and not isinstance(
+            params["backblaze_b2_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: backblaze_b2_bucket must be an str"
+            )
+        if "backblaze_b2_s3_endpoint" in params and not isinstance(
+            params["backblaze_b2_s3_endpoint"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: backblaze_b2_s3_endpoint must be an str"
+            )
+        if "buffer_uploads" in params and not isinstance(
+            params["buffer_uploads"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: buffer_uploads must be an str"
+            )
+        if "cloudflare_access_key" in params and not isinstance(
+            params["cloudflare_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: cloudflare_access_key must be an str"
+            )
+        if "cloudflare_bucket" in params and not isinstance(
+            params["cloudflare_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: cloudflare_bucket must be an str"
+            )
+        if "cloudflare_endpoint" in params and not isinstance(
+            params["cloudflare_endpoint"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: cloudflare_endpoint must be an str"
+            )
+        if "description" in params and not isinstance(
+            params["description"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: description must be an str"
+            )
+        if "dropbox_teams" in params and not isinstance(
+            params["dropbox_teams"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: dropbox_teams must be an bool"
+            )
+        if "enable_dedicated_ips" in params and not isinstance(
+            params["enable_dedicated_ips"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: enable_dedicated_ips must be an bool"
+            )
+        if "filebase_access_key" in params and not isinstance(
+            params["filebase_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: filebase_access_key must be an str"
+            )
+        if "filebase_bucket" in params and not isinstance(
+            params["filebase_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: filebase_bucket must be an str"
+            )
+        if "files_api_key" in params and not isinstance(
+            params["files_api_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: files_api_key must be an str"
+            )
+        if "files_agent_permission_set" in params and not isinstance(
+            params["files_agent_permission_set"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: files_agent_permission_set must be an str"
+            )
+        if "files_agent_root" in params and not isinstance(
+            params["files_agent_root"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: files_agent_root must be an str"
+            )
+        if "files_agent_version" in params and not isinstance(
+            params["files_agent_version"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: files_agent_version must be an str"
+            )
+        if "outbound_agent_id" in params and (
+            not isinstance(params["outbound_agent_id"], int)
+            or isinstance(params["outbound_agent_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: outbound_agent_id must be an int"
+            )
+        if "custom_domain_id" in params and (
+            not isinstance(params["custom_domain_id"], int)
+            or isinstance(params["custom_domain_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: custom_domain_id must be an int"
+            )
+        if (
+            "google_cloud_storage_authentication_method" in params
+            and not isinstance(
+                params["google_cloud_storage_authentication_method"], str
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_authentication_method must be an str"
+            )
+        if "google_cloud_storage_bucket" in params and not isinstance(
+            params["google_cloud_storage_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_bucket must be an str"
+            )
+        if "google_cloud_storage_oauth_scope" in params and not isinstance(
+            params["google_cloud_storage_oauth_scope"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_oauth_scope must be an str"
+            )
+        if "google_cloud_storage_project_id" in params and not isinstance(
+            params["google_cloud_storage_project_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_project_id must be an str"
+            )
+        if (
+            "google_cloud_storage_s3_compatible_access_key" in params
+            and not isinstance(
+                params["google_cloud_storage_s3_compatible_access_key"], str
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: google_cloud_storage_s3_compatible_access_key must be an str"
+            )
+        if "hostname" in params and not isinstance(params["hostname"], str):
+            raise InvalidParameterError(
+                "Bad parameter: hostname must be an str"
+            )
+        if "linode_access_key" in params and not isinstance(
+            params["linode_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: linode_access_key must be an str"
+            )
+        if "linode_bucket" in params and not isinstance(
+            params["linode_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: linode_bucket must be an str"
+            )
+        if "linode_region" in params and not isinstance(
+            params["linode_region"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: linode_region must be an str"
+            )
+        if "max_connections" in params and (
+            not isinstance(params["max_connections"], int)
+            or isinstance(params["max_connections"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: max_connections must be an int"
+            )
+        if "name" in params and not isinstance(params["name"], str):
+            raise InvalidParameterError("Bad parameter: name must be an str")
+        if "one_drive_account_type" in params and not isinstance(
+            params["one_drive_account_type"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: one_drive_account_type must be an str"
+            )
+        if "pin_to_site_region" in params and not isinstance(
+            params["pin_to_site_region"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: pin_to_site_region must be an bool"
+            )
+        if "port" in params and (
+            not isinstance(params["port"], int)
+            or isinstance(params["port"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: port must be an int")
+        if "upload_staging_path" in params and not isinstance(
+            params["upload_staging_path"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: upload_staging_path must be an str"
+            )
+        if "remote_server_credential_id" in params and (
+            not isinstance(params["remote_server_credential_id"], int)
+            or isinstance(params["remote_server_credential_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: remote_server_credential_id must be an int"
+            )
+        if "s3_assume_role_arn" in params and not isinstance(
+            params["s3_assume_role_arn"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_assume_role_arn must be an str"
+            )
+        if "s3_assume_role_duration_seconds" in params and (
+            not isinstance(params["s3_assume_role_duration_seconds"], int)
+            or isinstance(params["s3_assume_role_duration_seconds"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_assume_role_duration_seconds must be an int"
+            )
+        if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
+            raise InvalidParameterError(
+                "Bad parameter: s3_bucket must be an str"
+            )
+        if "s3_compatible_access_key" in params and not isinstance(
+            params["s3_compatible_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_access_key must be an str"
+            )
+        if "s3_compatible_bucket" in params and not isinstance(
+            params["s3_compatible_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_bucket must be an str"
+            )
+        if "s3_compatible_endpoint" in params and not isinstance(
+            params["s3_compatible_endpoint"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_endpoint must be an str"
+            )
+        if "s3_compatible_region" in params and not isinstance(
+            params["s3_compatible_region"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_region must be an str"
+            )
+        if "s3_compatible_virtual_hosted_style" in params and not isinstance(
+            params["s3_compatible_virtual_hosted_style"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_compatible_virtual_hosted_style must be an bool"
+            )
+        if "s3_kms_key_id" in params and not isinstance(
+            params["s3_kms_key_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: s3_kms_key_id must be an str"
+            )
+        if "s3_region" in params and not isinstance(params["s3_region"], str):
+            raise InvalidParameterError(
+                "Bad parameter: s3_region must be an str"
+            )
+        if "server_certificate" in params and not isinstance(
+            params["server_certificate"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: server_certificate must be an str"
+            )
+        if "server_host_key" in params and not isinstance(
+            params["server_host_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: server_host_key must be an str"
+            )
+        if "server_type" in params and not isinstance(
+            params["server_type"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: server_type must be an str"
+            )
+        if "sharepoint_client_id" in params and not isinstance(
+            params["sharepoint_client_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_client_id must be an str"
+            )
+        if "sharepoint_site_url" in params and not isinstance(
+            params["sharepoint_site_url"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_site_url must be an str"
+            )
+        if "sharepoint_tenant_id" in params and not isinstance(
+            params["sharepoint_tenant_id"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: sharepoint_tenant_id must be an str"
+            )
+        if "ssl" in params and not isinstance(params["ssl"], str):
+            raise InvalidParameterError("Bad parameter: ssl must be an str")
+        if "username" in params and not isinstance(params["username"], str):
+            raise InvalidParameterError(
+                "Bad parameter: username must be an str"
+            )
+        if "wasabi_access_key" in params and not isinstance(
+            params["wasabi_access_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: wasabi_access_key must be an str"
+            )
+        if "wasabi_bucket" in params and not isinstance(
+            params["wasabi_bucket"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: wasabi_bucket must be an str"
+            )
+        if "wasabi_region" in params and not isinstance(
+            params["wasabi_region"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: wasabi_region must be an str"
+            )
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "PATCH", "/remote_servers/" + path_value(params["id"]), params
+        )
+        return operation.decode_model(response, RemoteServer)
+
+    def delete(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> None:
+        return self.__delete({"id": id}, params, options)
+
+    def __delete(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> None:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        operation.request(
+            "DELETE", "/remote_servers/" + path_value(params["id"]), params
+        )
+
+    def destroy(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> None:
+        """The same as delete()."""
+        return self.delete(id, params, options)
+
+    def new(
+        self,
+        attributes: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> RemoteServer:
+        """A new RemoteServer with attributes, not yet saved, whose
+        operations use this resource's client."""
+        obj = RemoteServer(attributes, options)
+        obj._context = self._scope._context_for(options)
+        return obj
 
 
-def all(params=None, options=None):
-    list(params, options)
+_legacy_resource = RemoteServerResource(LEGACY)
 
 
-# Parameters:
-#   id (required) - int64 - Remote Server ID.
-def find(id, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    response, options = Api.send_request(
-        "GET",
-        "/remote_servers/{id}".format(id=quote(str(params["id"]), safe="")),
-        params,
-        options,
-    )
-    return RemoteServer(response.data, options)
+def list(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[RemoteServer]:
+    """Parameters:
+    user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
+    filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`, `server_type`, `workspace_id`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ server_type, name ]`, `[ workspace_id, name ]`, `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]`, `[ linode_bucket, name ]`, `[ workspace_id, server_type ]` or `[ workspace_id, server_type, name ]`.
+    filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]` or `[ linode_bucket, name ]`.
+    """
+    return _legacy_resource.list(params, options)
 
 
-def get(id, params=None, options=None):
-    find(id, params, options)
+def all(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[RemoteServer]:
+    """The same as list()."""
+    return _legacy_resource.list(params, options)
 
 
-# List Files.com Agent nodes
-def agent_nodes(id, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    response, options = Api.send_request(
-        "GET",
-        "/remote_servers/{id}/agent_nodes".format(
-            id=quote(str(params["id"]), safe="")
-        ),
-        params,
-        options,
-    )
-    return AgentNode(response.data, options)
+def find(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> RemoteServer:
+    """Parameters:
+    id (required) - int64 - Remote Server ID.
+    """
+    return _legacy_resource.find(id, params, options)
 
 
-# Parameters:
-#   id (required) - int64 - Remote Server ID.
-def find_configuration_file(id, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    response, options = Api.send_request(
-        "GET",
-        "/remote_servers/{id}/configuration_file".format(
-            id=quote(str(params["id"]), safe="")
-        ),
-        params,
-        options,
-    )
-    return RemoteServerConfigurationFile(response.data, options)
+def get(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> RemoteServer:
+    """The same as find()."""
+    return _legacy_resource.find(id, params, options)
 
 
-# Parameters:
-#   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-#   password - string - Password, if needed.
-#   private_key - string - Private key, if needed.
-#   private_key_passphrase - string - Passphrase for private key if needed.
-#   reset_authentication - boolean - Reset authenticated account?
-#   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
-#   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
-#   ssl_certificate - string - SSL client certificate.
-#   aws_secret_key - string - AWS: secret key.
-#   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
-#   azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
-#   azure_files_storage_access_key - string - Azure File Storage: Access Key
-#   azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
-#   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
-#   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
-#   cloudflare_secret_key - string - Cloudflare: Secret Key
-#   filebase_secret_key - string - Filebase: Secret Key
-#   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
-#   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
-#   linode_secret_key - string - Linode: Secret Key
-#   s3_compatible_secret_key - string - S3-compatible: Secret Key
-#   wasabi_secret_key - string - Wasabi: Secret Key
-#   allow_relative_paths - boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
-#   aws_access_key - string - AWS Access Key.
-#   azure_blob_storage_account - string - Azure Blob Storage: Account name
-#   azure_blob_storage_container - string - Azure Blob Storage: Container name
-#   azure_blob_storage_dns_suffix - string - Azure Blob Storage: Custom DNS suffix
-#   azure_blob_storage_hierarchical_namespace - boolean - Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
-#   azure_files_storage_account - string - Azure Files: Storage Account name
-#   azure_files_storage_dns_suffix - string - Azure Files: Custom DNS suffix
-#   azure_files_storage_share_name - string - Azure Files:  Storage Share name
-#   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
-#   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
-#   buffer_uploads - string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
-#   cloudflare_access_key - string - Cloudflare: Access Key.
-#   cloudflare_bucket - string - Cloudflare: Bucket name
-#   cloudflare_endpoint - string - Cloudflare: endpoint
-#   description - string - Internal description for your reference
-#   dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
-#   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
-#   filebase_access_key - string - Filebase: Access Key.
-#   filebase_bucket - string - Filebase: Bucket name
-#   files_api_key - string - Files.com direct link: API key used once to pair the remote server.
-#   files_agent_permission_set - string - Agent file permissions: `read_only`, `write_only`, or `read_write`. Files.com writes this value as `permission_set` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the permissions in its local configuration file, controlled by the host's system administrator, and reports them at registration, replacing the stored value.
-#   files_agent_root - string - Agent local root path. Files.com writes this value as `root` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the root in its local configuration file, controlled by the host's system administrator, and reports it at registration, replacing the stored value.
-#   files_agent_version - string - Files.com Agent version reported by the Agent at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not update the running Agent.
-#   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
-#   custom_domain_id - int64 - Custom Domain ID whose dedicated IP addresses are selected when this Remote Server uses dedicated IPs. Must be available to this Remote Server's workspace. Requires enable_dedicated_ips and cannot be combined with an outbound Agent. Set to null to use the site's default dedicated IPs.
-#   google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
-#   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
-#   google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
-#   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
-#   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
-#   hostname - string - Hostname or IP address. For Agent Remote Servers, the Agent reports the hostname it connects from at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
-#   linode_access_key - string - Linode: Access Key
-#   linode_bucket - string - Linode: Bucket name
-#   linode_region - string - Linode: region
-#   max_connections - int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
-#   name - string - Internal name for your reference
-#   one_drive_account_type - string - OneDrive: Either personal or business_other account types
-#   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-#   port - int64 - Port for remote server. For Agent Remote Servers, the Agent reports its downstream proxy port at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
-#   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
-#   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
-#   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
-#   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
-#   s3_bucket - string - S3 bucket name
-#   s3_compatible_access_key - string - S3-compatible: Access Key
-#   s3_compatible_bucket - string - S3-compatible: Bucket name
-#   s3_compatible_endpoint - string - S3-compatible: endpoint
-#   s3_compatible_region - string - S3-compatible: region
-#   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
-#   s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
-#   s3_region - string - S3 region
-#   server_certificate - string - Remote server certificate
-#   server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
-#   server_type - string - Remote server type.
-#   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
-#   sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
-#   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
-#   ssl - string - Should we require SSL?
-#   username - string - Remote server username.
-#   wasabi_access_key - string - Wasabi: Access Key.
-#   wasabi_bucket - string - Wasabi: Bucket name
-#   wasabi_region - string - Wasabi: Region
-#   workspace_id - int64 - Workspace ID (0 for default workspace)
-def create(params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    if "user_id" in params and not isinstance(params["user_id"], int):
-        raise InvalidParameterError("Bad parameter: user_id must be an int")
-    if "password" in params and not isinstance(params["password"], str):
-        raise InvalidParameterError("Bad parameter: password must be an str")
-    if "private_key" in params and not isinstance(params["private_key"], str):
-        raise InvalidParameterError(
-            "Bad parameter: private_key must be an str"
-        )
-    if "private_key_passphrase" in params and not isinstance(
-        params["private_key_passphrase"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: private_key_passphrase must be an str"
-        )
-    if "reset_authentication" in params and not isinstance(
-        params["reset_authentication"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: reset_authentication must be an bool"
-        )
-    if "sharepoint_client_certificate" in params and not isinstance(
-        params["sharepoint_client_certificate"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sharepoint_client_certificate must be an str"
-        )
-    if "sharepoint_client_secret" in params and not isinstance(
-        params["sharepoint_client_secret"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sharepoint_client_secret must be an str"
-        )
-    if "ssl_certificate" in params and not isinstance(
-        params["ssl_certificate"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ssl_certificate must be an str"
-        )
-    if "aws_secret_key" in params and not isinstance(
-        params["aws_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: aws_secret_key must be an str"
-        )
-    if "azure_blob_storage_access_key" in params and not isinstance(
-        params["azure_blob_storage_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_access_key must be an str"
-        )
-    if "azure_blob_storage_sas_token" in params and not isinstance(
-        params["azure_blob_storage_sas_token"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_sas_token must be an str"
-        )
-    if "azure_files_storage_access_key" in params and not isinstance(
-        params["azure_files_storage_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_access_key must be an str"
-        )
-    if "azure_files_storage_sas_token" in params and not isinstance(
-        params["azure_files_storage_sas_token"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_sas_token must be an str"
-        )
-    if "backblaze_b2_application_key" in params and not isinstance(
-        params["backblaze_b2_application_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: backblaze_b2_application_key must be an str"
-        )
-    if "backblaze_b2_key_id" in params and not isinstance(
-        params["backblaze_b2_key_id"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: backblaze_b2_key_id must be an str"
-        )
-    if "cloudflare_secret_key" in params and not isinstance(
-        params["cloudflare_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: cloudflare_secret_key must be an str"
-        )
-    if "filebase_secret_key" in params and not isinstance(
-        params["filebase_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filebase_secret_key must be an str"
-        )
-    if "google_cloud_storage_credentials_json" in params and not isinstance(
-        params["google_cloud_storage_credentials_json"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_credentials_json must be an str"
-        )
-    if (
-        "google_cloud_storage_s3_compatible_secret_key" in params
-        and not isinstance(
-            params["google_cloud_storage_s3_compatible_secret_key"], str
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_s3_compatible_secret_key must be an str"
-        )
-    if "linode_secret_key" in params and not isinstance(
-        params["linode_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: linode_secret_key must be an str"
-        )
-    if "s3_compatible_secret_key" in params and not isinstance(
-        params["s3_compatible_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_secret_key must be an str"
-        )
-    if "wasabi_secret_key" in params and not isinstance(
-        params["wasabi_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: wasabi_secret_key must be an str"
-        )
-    if "allow_relative_paths" in params and not isinstance(
-        params["allow_relative_paths"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allow_relative_paths must be an bool"
-        )
-    if "aws_access_key" in params and not isinstance(
-        params["aws_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: aws_access_key must be an str"
-        )
-    if "azure_blob_storage_account" in params and not isinstance(
-        params["azure_blob_storage_account"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_account must be an str"
-        )
-    if "azure_blob_storage_container" in params and not isinstance(
-        params["azure_blob_storage_container"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_container must be an str"
-        )
-    if "azure_blob_storage_dns_suffix" in params and not isinstance(
-        params["azure_blob_storage_dns_suffix"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_dns_suffix must be an str"
-        )
-    if (
-        "azure_blob_storage_hierarchical_namespace" in params
-        and not isinstance(
-            params["azure_blob_storage_hierarchical_namespace"], bool
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_hierarchical_namespace must be an bool"
-        )
-    if "azure_files_storage_account" in params and not isinstance(
-        params["azure_files_storage_account"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_account must be an str"
-        )
-    if "azure_files_storage_dns_suffix" in params and not isinstance(
-        params["azure_files_storage_dns_suffix"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_dns_suffix must be an str"
-        )
-    if "azure_files_storage_share_name" in params and not isinstance(
-        params["azure_files_storage_share_name"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_share_name must be an str"
-        )
-    if "backblaze_b2_bucket" in params and not isinstance(
-        params["backblaze_b2_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: backblaze_b2_bucket must be an str"
-        )
-    if "backblaze_b2_s3_endpoint" in params and not isinstance(
-        params["backblaze_b2_s3_endpoint"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: backblaze_b2_s3_endpoint must be an str"
-        )
-    if "buffer_uploads" in params and not isinstance(
-        params["buffer_uploads"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: buffer_uploads must be an str"
-        )
-    if "cloudflare_access_key" in params and not isinstance(
-        params["cloudflare_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: cloudflare_access_key must be an str"
-        )
-    if "cloudflare_bucket" in params and not isinstance(
-        params["cloudflare_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: cloudflare_bucket must be an str"
-        )
-    if "cloudflare_endpoint" in params and not isinstance(
-        params["cloudflare_endpoint"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: cloudflare_endpoint must be an str"
-        )
-    if "description" in params and not isinstance(params["description"], str):
-        raise InvalidParameterError(
-            "Bad parameter: description must be an str"
-        )
-    if "dropbox_teams" in params and not isinstance(
-        params["dropbox_teams"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: dropbox_teams must be an bool"
-        )
-    if "enable_dedicated_ips" in params and not isinstance(
-        params["enable_dedicated_ips"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: enable_dedicated_ips must be an bool"
-        )
-    if "filebase_access_key" in params and not isinstance(
-        params["filebase_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filebase_access_key must be an str"
-        )
-    if "filebase_bucket" in params and not isinstance(
-        params["filebase_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filebase_bucket must be an str"
-        )
-    if "files_api_key" in params and not isinstance(
-        params["files_api_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: files_api_key must be an str"
-        )
-    if "files_agent_permission_set" in params and not isinstance(
-        params["files_agent_permission_set"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: files_agent_permission_set must be an str"
-        )
-    if "files_agent_root" in params and not isinstance(
-        params["files_agent_root"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: files_agent_root must be an str"
-        )
-    if "files_agent_version" in params and not isinstance(
-        params["files_agent_version"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: files_agent_version must be an str"
-        )
-    if "outbound_agent_id" in params and not isinstance(
-        params["outbound_agent_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: outbound_agent_id must be an int"
-        )
-    if "custom_domain_id" in params and not isinstance(
-        params["custom_domain_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: custom_domain_id must be an int"
-        )
-    if (
-        "google_cloud_storage_authentication_method" in params
-        and not isinstance(
-            params["google_cloud_storage_authentication_method"], str
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_authentication_method must be an str"
-        )
-    if "google_cloud_storage_bucket" in params and not isinstance(
-        params["google_cloud_storage_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_bucket must be an str"
-        )
-    if "google_cloud_storage_oauth_scope" in params and not isinstance(
-        params["google_cloud_storage_oauth_scope"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_oauth_scope must be an str"
-        )
-    if "google_cloud_storage_project_id" in params and not isinstance(
-        params["google_cloud_storage_project_id"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_project_id must be an str"
-        )
-    if (
-        "google_cloud_storage_s3_compatible_access_key" in params
-        and not isinstance(
-            params["google_cloud_storage_s3_compatible_access_key"], str
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_s3_compatible_access_key must be an str"
-        )
-    if "hostname" in params and not isinstance(params["hostname"], str):
-        raise InvalidParameterError("Bad parameter: hostname must be an str")
-    if "linode_access_key" in params and not isinstance(
-        params["linode_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: linode_access_key must be an str"
-        )
-    if "linode_bucket" in params and not isinstance(
-        params["linode_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: linode_bucket must be an str"
-        )
-    if "linode_region" in params and not isinstance(
-        params["linode_region"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: linode_region must be an str"
-        )
-    if "max_connections" in params and not isinstance(
-        params["max_connections"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: max_connections must be an int"
-        )
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
-    if "one_drive_account_type" in params and not isinstance(
-        params["one_drive_account_type"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: one_drive_account_type must be an str"
-        )
-    if "pin_to_site_region" in params and not isinstance(
-        params["pin_to_site_region"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: pin_to_site_region must be an bool"
-        )
-    if "port" in params and not isinstance(params["port"], int):
-        raise InvalidParameterError("Bad parameter: port must be an int")
-    if "upload_staging_path" in params and not isinstance(
-        params["upload_staging_path"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: upload_staging_path must be an str"
-        )
-    if "remote_server_credential_id" in params and not isinstance(
-        params["remote_server_credential_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: remote_server_credential_id must be an int"
-        )
-    if "s3_assume_role_arn" in params and not isinstance(
-        params["s3_assume_role_arn"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_assume_role_arn must be an str"
-        )
-    if "s3_assume_role_duration_seconds" in params and not isinstance(
-        params["s3_assume_role_duration_seconds"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_assume_role_duration_seconds must be an int"
-        )
-    if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
-        raise InvalidParameterError("Bad parameter: s3_bucket must be an str")
-    if "s3_compatible_access_key" in params and not isinstance(
-        params["s3_compatible_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_access_key must be an str"
-        )
-    if "s3_compatible_bucket" in params and not isinstance(
-        params["s3_compatible_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_bucket must be an str"
-        )
-    if "s3_compatible_endpoint" in params and not isinstance(
-        params["s3_compatible_endpoint"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_endpoint must be an str"
-        )
-    if "s3_compatible_region" in params and not isinstance(
-        params["s3_compatible_region"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_region must be an str"
-        )
-    if "s3_compatible_virtual_hosted_style" in params and not isinstance(
-        params["s3_compatible_virtual_hosted_style"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_virtual_hosted_style must be an bool"
-        )
-    if "s3_kms_key_id" in params and not isinstance(
-        params["s3_kms_key_id"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_kms_key_id must be an str"
-        )
-    if "s3_region" in params and not isinstance(params["s3_region"], str):
-        raise InvalidParameterError("Bad parameter: s3_region must be an str")
-    if "server_certificate" in params and not isinstance(
-        params["server_certificate"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: server_certificate must be an str"
-        )
-    if "server_host_key" in params and not isinstance(
-        params["server_host_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: server_host_key must be an str"
-        )
-    if "server_type" in params and not isinstance(params["server_type"], str):
-        raise InvalidParameterError(
-            "Bad parameter: server_type must be an str"
-        )
-    if "sharepoint_client_id" in params and not isinstance(
-        params["sharepoint_client_id"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sharepoint_client_id must be an str"
-        )
-    if "sharepoint_site_url" in params and not isinstance(
-        params["sharepoint_site_url"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sharepoint_site_url must be an str"
-        )
-    if "sharepoint_tenant_id" in params and not isinstance(
-        params["sharepoint_tenant_id"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sharepoint_tenant_id must be an str"
-        )
-    if "ssl" in params and not isinstance(params["ssl"], str):
-        raise InvalidParameterError("Bad parameter: ssl must be an str")
-    if "username" in params and not isinstance(params["username"], str):
-        raise InvalidParameterError("Bad parameter: username must be an str")
-    if "wasabi_access_key" in params and not isinstance(
-        params["wasabi_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: wasabi_access_key must be an str"
-        )
-    if "wasabi_bucket" in params and not isinstance(
-        params["wasabi_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: wasabi_bucket must be an str"
-        )
-    if "wasabi_region" in params and not isinstance(
-        params["wasabi_region"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: wasabi_region must be an str"
-        )
-    if "workspace_id" in params and not isinstance(
-        params["workspace_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: workspace_id must be an int"
-        )
-    response, options = Api.send_request(
-        "POST", "/remote_servers", params, options
-    )
-    return RemoteServer(response.data, options)
+def agent_nodes(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> AgentNode:
+    """List Files.com Agent nodes"""
+    return _legacy_resource.agent_nodes(id, params, options)
 
 
-# Push update to Files Agent
-def agent_push_update(id, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    response, options = Api.send_request(
-        "POST",
-        "/remote_servers/{id}/agent_push_update".format(
-            id=quote(str(params["id"]), safe="")
-        ),
-        params,
-        options,
-    )
-    return AgentPushUpdate(response.data, options)
+def find_configuration_file(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> RemoteServerConfigurationFile:
+    """Parameters:
+    id (required) - int64 - Remote Server ID.
+    """
+    return _legacy_resource.find_configuration_file(id, params, options)
 
 
-# Parameters:
-#   password - string - Password, if needed.
-#   private_key - string - Private key, if needed.
-#   private_key_passphrase - string - Passphrase for private key if needed.
-#   reset_authentication - boolean - Reset authenticated account?
-#   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
-#   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
-#   ssl_certificate - string - SSL client certificate.
-#   aws_secret_key - string - AWS: secret key.
-#   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
-#   azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
-#   azure_files_storage_access_key - string - Azure File Storage: Access Key
-#   azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
-#   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
-#   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
-#   cloudflare_secret_key - string - Cloudflare: Secret Key
-#   filebase_secret_key - string - Filebase: Secret Key
-#   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
-#   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
-#   linode_secret_key - string - Linode: Secret Key
-#   s3_compatible_secret_key - string - S3-compatible: Secret Key
-#   wasabi_secret_key - string - Wasabi: Secret Key
-#   allow_relative_paths - boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
-#   aws_access_key - string - AWS Access Key.
-#   azure_blob_storage_account - string - Azure Blob Storage: Account name
-#   azure_blob_storage_container - string - Azure Blob Storage: Container name
-#   azure_blob_storage_dns_suffix - string - Azure Blob Storage: Custom DNS suffix
-#   azure_blob_storage_hierarchical_namespace - boolean - Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
-#   azure_files_storage_account - string - Azure Files: Storage Account name
-#   azure_files_storage_dns_suffix - string - Azure Files: Custom DNS suffix
-#   azure_files_storage_share_name - string - Azure Files:  Storage Share name
-#   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
-#   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
-#   buffer_uploads - string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
-#   cloudflare_access_key - string - Cloudflare: Access Key.
-#   cloudflare_bucket - string - Cloudflare: Bucket name
-#   cloudflare_endpoint - string - Cloudflare: endpoint
-#   description - string - Internal description for your reference
-#   dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
-#   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
-#   filebase_access_key - string - Filebase: Access Key.
-#   filebase_bucket - string - Filebase: Bucket name
-#   files_api_key - string - Files.com direct link: API key used once to pair the remote server.
-#   files_agent_permission_set - string - Agent file permissions: `read_only`, `write_only`, or `read_write`. Files.com writes this value as `permission_set` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the permissions in its local configuration file, controlled by the host's system administrator, and reports them at registration, replacing the stored value.
-#   files_agent_root - string - Agent local root path. Files.com writes this value as `root` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the root in its local configuration file, controlled by the host's system administrator, and reports it at registration, replacing the stored value.
-#   files_agent_version - string - Files.com Agent version reported by the Agent at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not update the running Agent.
-#   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
-#   custom_domain_id - int64 - Custom Domain ID whose dedicated IP addresses are selected when this Remote Server uses dedicated IPs. Must be available to this Remote Server's workspace. Requires enable_dedicated_ips and cannot be combined with an outbound Agent. Set to null to use the site's default dedicated IPs.
-#   google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
-#   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
-#   google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
-#   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
-#   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
-#   hostname - string - Hostname or IP address. For Agent Remote Servers, the Agent reports the hostname it connects from at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
-#   linode_access_key - string - Linode: Access Key
-#   linode_bucket - string - Linode: Bucket name
-#   linode_region - string - Linode: region
-#   max_connections - int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
-#   name - string - Internal name for your reference
-#   one_drive_account_type - string - OneDrive: Either personal or business_other account types
-#   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-#   port - int64 - Port for remote server. For Agent Remote Servers, the Agent reports its downstream proxy port at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
-#   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
-#   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
-#   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
-#   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
-#   s3_bucket - string - S3 bucket name
-#   s3_compatible_access_key - string - S3-compatible: Access Key
-#   s3_compatible_bucket - string - S3-compatible: Bucket name
-#   s3_compatible_endpoint - string - S3-compatible: endpoint
-#   s3_compatible_region - string - S3-compatible: region
-#   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
-#   s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
-#   s3_region - string - S3 region
-#   server_certificate - string - Remote server certificate
-#   server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
-#   server_type - string - Remote server type.
-#   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
-#   sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
-#   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
-#   ssl - string - Should we require SSL?
-#   username - string - Remote server username.
-#   wasabi_access_key - string - Wasabi: Access Key.
-#   wasabi_bucket - string - Wasabi: Bucket name
-#   wasabi_region - string - Wasabi: Region
-def update(id, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "password" in params and not isinstance(params["password"], str):
-        raise InvalidParameterError("Bad parameter: password must be an str")
-    if "private_key" in params and not isinstance(params["private_key"], str):
-        raise InvalidParameterError(
-            "Bad parameter: private_key must be an str"
-        )
-    if "private_key_passphrase" in params and not isinstance(
-        params["private_key_passphrase"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: private_key_passphrase must be an str"
-        )
-    if "reset_authentication" in params and not isinstance(
-        params["reset_authentication"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: reset_authentication must be an bool"
-        )
-    if "sharepoint_client_certificate" in params and not isinstance(
-        params["sharepoint_client_certificate"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sharepoint_client_certificate must be an str"
-        )
-    if "sharepoint_client_secret" in params and not isinstance(
-        params["sharepoint_client_secret"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sharepoint_client_secret must be an str"
-        )
-    if "ssl_certificate" in params and not isinstance(
-        params["ssl_certificate"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: ssl_certificate must be an str"
-        )
-    if "aws_secret_key" in params and not isinstance(
-        params["aws_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: aws_secret_key must be an str"
-        )
-    if "azure_blob_storage_access_key" in params and not isinstance(
-        params["azure_blob_storage_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_access_key must be an str"
-        )
-    if "azure_blob_storage_sas_token" in params and not isinstance(
-        params["azure_blob_storage_sas_token"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_sas_token must be an str"
-        )
-    if "azure_files_storage_access_key" in params and not isinstance(
-        params["azure_files_storage_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_access_key must be an str"
-        )
-    if "azure_files_storage_sas_token" in params and not isinstance(
-        params["azure_files_storage_sas_token"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_sas_token must be an str"
-        )
-    if "backblaze_b2_application_key" in params and not isinstance(
-        params["backblaze_b2_application_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: backblaze_b2_application_key must be an str"
-        )
-    if "backblaze_b2_key_id" in params and not isinstance(
-        params["backblaze_b2_key_id"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: backblaze_b2_key_id must be an str"
-        )
-    if "cloudflare_secret_key" in params and not isinstance(
-        params["cloudflare_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: cloudflare_secret_key must be an str"
-        )
-    if "filebase_secret_key" in params and not isinstance(
-        params["filebase_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filebase_secret_key must be an str"
-        )
-    if "google_cloud_storage_credentials_json" in params and not isinstance(
-        params["google_cloud_storage_credentials_json"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_credentials_json must be an str"
-        )
-    if (
-        "google_cloud_storage_s3_compatible_secret_key" in params
-        and not isinstance(
-            params["google_cloud_storage_s3_compatible_secret_key"], str
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_s3_compatible_secret_key must be an str"
-        )
-    if "linode_secret_key" in params and not isinstance(
-        params["linode_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: linode_secret_key must be an str"
-        )
-    if "s3_compatible_secret_key" in params and not isinstance(
-        params["s3_compatible_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_secret_key must be an str"
-        )
-    if "wasabi_secret_key" in params and not isinstance(
-        params["wasabi_secret_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: wasabi_secret_key must be an str"
-        )
-    if "allow_relative_paths" in params and not isinstance(
-        params["allow_relative_paths"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: allow_relative_paths must be an bool"
-        )
-    if "aws_access_key" in params and not isinstance(
-        params["aws_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: aws_access_key must be an str"
-        )
-    if "azure_blob_storage_account" in params and not isinstance(
-        params["azure_blob_storage_account"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_account must be an str"
-        )
-    if "azure_blob_storage_container" in params and not isinstance(
-        params["azure_blob_storage_container"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_container must be an str"
-        )
-    if "azure_blob_storage_dns_suffix" in params and not isinstance(
-        params["azure_blob_storage_dns_suffix"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_dns_suffix must be an str"
-        )
-    if (
-        "azure_blob_storage_hierarchical_namespace" in params
-        and not isinstance(
-            params["azure_blob_storage_hierarchical_namespace"], bool
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_blob_storage_hierarchical_namespace must be an bool"
-        )
-    if "azure_files_storage_account" in params and not isinstance(
-        params["azure_files_storage_account"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_account must be an str"
-        )
-    if "azure_files_storage_dns_suffix" in params and not isinstance(
-        params["azure_files_storage_dns_suffix"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_dns_suffix must be an str"
-        )
-    if "azure_files_storage_share_name" in params and not isinstance(
-        params["azure_files_storage_share_name"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: azure_files_storage_share_name must be an str"
-        )
-    if "backblaze_b2_bucket" in params and not isinstance(
-        params["backblaze_b2_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: backblaze_b2_bucket must be an str"
-        )
-    if "backblaze_b2_s3_endpoint" in params and not isinstance(
-        params["backblaze_b2_s3_endpoint"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: backblaze_b2_s3_endpoint must be an str"
-        )
-    if "buffer_uploads" in params and not isinstance(
-        params["buffer_uploads"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: buffer_uploads must be an str"
-        )
-    if "cloudflare_access_key" in params and not isinstance(
-        params["cloudflare_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: cloudflare_access_key must be an str"
-        )
-    if "cloudflare_bucket" in params and not isinstance(
-        params["cloudflare_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: cloudflare_bucket must be an str"
-        )
-    if "cloudflare_endpoint" in params and not isinstance(
-        params["cloudflare_endpoint"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: cloudflare_endpoint must be an str"
-        )
-    if "description" in params and not isinstance(params["description"], str):
-        raise InvalidParameterError(
-            "Bad parameter: description must be an str"
-        )
-    if "dropbox_teams" in params and not isinstance(
-        params["dropbox_teams"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: dropbox_teams must be an bool"
-        )
-    if "enable_dedicated_ips" in params and not isinstance(
-        params["enable_dedicated_ips"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: enable_dedicated_ips must be an bool"
-        )
-    if "filebase_access_key" in params and not isinstance(
-        params["filebase_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filebase_access_key must be an str"
-        )
-    if "filebase_bucket" in params and not isinstance(
-        params["filebase_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: filebase_bucket must be an str"
-        )
-    if "files_api_key" in params and not isinstance(
-        params["files_api_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: files_api_key must be an str"
-        )
-    if "files_agent_permission_set" in params and not isinstance(
-        params["files_agent_permission_set"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: files_agent_permission_set must be an str"
-        )
-    if "files_agent_root" in params and not isinstance(
-        params["files_agent_root"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: files_agent_root must be an str"
-        )
-    if "files_agent_version" in params and not isinstance(
-        params["files_agent_version"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: files_agent_version must be an str"
-        )
-    if "outbound_agent_id" in params and not isinstance(
-        params["outbound_agent_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: outbound_agent_id must be an int"
-        )
-    if "custom_domain_id" in params and not isinstance(
-        params["custom_domain_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: custom_domain_id must be an int"
-        )
-    if (
-        "google_cloud_storage_authentication_method" in params
-        and not isinstance(
-            params["google_cloud_storage_authentication_method"], str
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_authentication_method must be an str"
-        )
-    if "google_cloud_storage_bucket" in params and not isinstance(
-        params["google_cloud_storage_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_bucket must be an str"
-        )
-    if "google_cloud_storage_oauth_scope" in params and not isinstance(
-        params["google_cloud_storage_oauth_scope"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_oauth_scope must be an str"
-        )
-    if "google_cloud_storage_project_id" in params and not isinstance(
-        params["google_cloud_storage_project_id"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_project_id must be an str"
-        )
-    if (
-        "google_cloud_storage_s3_compatible_access_key" in params
-        and not isinstance(
-            params["google_cloud_storage_s3_compatible_access_key"], str
-        )
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: google_cloud_storage_s3_compatible_access_key must be an str"
-        )
-    if "hostname" in params and not isinstance(params["hostname"], str):
-        raise InvalidParameterError("Bad parameter: hostname must be an str")
-    if "linode_access_key" in params and not isinstance(
-        params["linode_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: linode_access_key must be an str"
-        )
-    if "linode_bucket" in params and not isinstance(
-        params["linode_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: linode_bucket must be an str"
-        )
-    if "linode_region" in params and not isinstance(
-        params["linode_region"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: linode_region must be an str"
-        )
-    if "max_connections" in params and not isinstance(
-        params["max_connections"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: max_connections must be an int"
-        )
-    if "name" in params and not isinstance(params["name"], str):
-        raise InvalidParameterError("Bad parameter: name must be an str")
-    if "one_drive_account_type" in params and not isinstance(
-        params["one_drive_account_type"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: one_drive_account_type must be an str"
-        )
-    if "pin_to_site_region" in params and not isinstance(
-        params["pin_to_site_region"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: pin_to_site_region must be an bool"
-        )
-    if "port" in params and not isinstance(params["port"], int):
-        raise InvalidParameterError("Bad parameter: port must be an int")
-    if "upload_staging_path" in params and not isinstance(
-        params["upload_staging_path"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: upload_staging_path must be an str"
-        )
-    if "remote_server_credential_id" in params and not isinstance(
-        params["remote_server_credential_id"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: remote_server_credential_id must be an int"
-        )
-    if "s3_assume_role_arn" in params and not isinstance(
-        params["s3_assume_role_arn"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_assume_role_arn must be an str"
-        )
-    if "s3_assume_role_duration_seconds" in params and not isinstance(
-        params["s3_assume_role_duration_seconds"], int
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_assume_role_duration_seconds must be an int"
-        )
-    if "s3_bucket" in params and not isinstance(params["s3_bucket"], str):
-        raise InvalidParameterError("Bad parameter: s3_bucket must be an str")
-    if "s3_compatible_access_key" in params and not isinstance(
-        params["s3_compatible_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_access_key must be an str"
-        )
-    if "s3_compatible_bucket" in params and not isinstance(
-        params["s3_compatible_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_bucket must be an str"
-        )
-    if "s3_compatible_endpoint" in params and not isinstance(
-        params["s3_compatible_endpoint"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_endpoint must be an str"
-        )
-    if "s3_compatible_region" in params and not isinstance(
-        params["s3_compatible_region"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_region must be an str"
-        )
-    if "s3_compatible_virtual_hosted_style" in params and not isinstance(
-        params["s3_compatible_virtual_hosted_style"], bool
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_compatible_virtual_hosted_style must be an bool"
-        )
-    if "s3_kms_key_id" in params and not isinstance(
-        params["s3_kms_key_id"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: s3_kms_key_id must be an str"
-        )
-    if "s3_region" in params and not isinstance(params["s3_region"], str):
-        raise InvalidParameterError("Bad parameter: s3_region must be an str")
-    if "server_certificate" in params and not isinstance(
-        params["server_certificate"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: server_certificate must be an str"
-        )
-    if "server_host_key" in params and not isinstance(
-        params["server_host_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: server_host_key must be an str"
-        )
-    if "server_type" in params and not isinstance(params["server_type"], str):
-        raise InvalidParameterError(
-            "Bad parameter: server_type must be an str"
-        )
-    if "sharepoint_client_id" in params and not isinstance(
-        params["sharepoint_client_id"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sharepoint_client_id must be an str"
-        )
-    if "sharepoint_site_url" in params and not isinstance(
-        params["sharepoint_site_url"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sharepoint_site_url must be an str"
-        )
-    if "sharepoint_tenant_id" in params and not isinstance(
-        params["sharepoint_tenant_id"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: sharepoint_tenant_id must be an str"
-        )
-    if "ssl" in params and not isinstance(params["ssl"], str):
-        raise InvalidParameterError("Bad parameter: ssl must be an str")
-    if "username" in params and not isinstance(params["username"], str):
-        raise InvalidParameterError("Bad parameter: username must be an str")
-    if "wasabi_access_key" in params and not isinstance(
-        params["wasabi_access_key"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: wasabi_access_key must be an str"
-        )
-    if "wasabi_bucket" in params and not isinstance(
-        params["wasabi_bucket"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: wasabi_bucket must be an str"
-        )
-    if "wasabi_region" in params and not isinstance(
-        params["wasabi_region"], str
-    ):
-        raise InvalidParameterError(
-            "Bad parameter: wasabi_region must be an str"
-        )
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    response, options = Api.send_request(
-        "PATCH",
-        "/remote_servers/{id}".format(id=quote(str(params["id"]), safe="")),
-        params,
-        options,
-    )
-    return RemoteServer(response.data, options)
+def create(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> RemoteServer:
+    """Parameters:
+    user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+    password - string - Password, if needed.
+    private_key - string - Private key, if needed.
+    private_key_passphrase - string - Passphrase for private key if needed.
+    reset_authentication - boolean - Reset authenticated account?
+    sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+    sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
+    ssl_certificate - string - SSL client certificate.
+    aws_secret_key - string - AWS: secret key.
+    azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
+    azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
+    azure_files_storage_access_key - string - Azure File Storage: Access Key
+    azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
+    backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
+    backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
+    cloudflare_secret_key - string - Cloudflare: Secret Key
+    filebase_secret_key - string - Filebase: Secret Key
+    google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+    google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
+    linode_secret_key - string - Linode: Secret Key
+    s3_compatible_secret_key - string - S3-compatible: Secret Key
+    wasabi_secret_key - string - Wasabi: Secret Key
+    allow_relative_paths - boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
+    aws_access_key - string - AWS Access Key.
+    azure_blob_storage_account - string - Azure Blob Storage: Account name
+    azure_blob_storage_container - string - Azure Blob Storage: Container name
+    azure_blob_storage_dns_suffix - string - Azure Blob Storage: Custom DNS suffix
+    azure_blob_storage_hierarchical_namespace - boolean - Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
+    azure_files_storage_account - string - Azure Files: Storage Account name
+    azure_files_storage_dns_suffix - string - Azure Files: Custom DNS suffix
+    azure_files_storage_share_name - string - Azure Files:  Storage Share name
+    backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
+    backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
+    buffer_uploads - string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
+    cloudflare_access_key - string - Cloudflare: Access Key.
+    cloudflare_bucket - string - Cloudflare: Bucket name
+    cloudflare_endpoint - string - Cloudflare: endpoint
+    description - string - Internal description for your reference
+    dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
+    enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
+    filebase_access_key - string - Filebase: Access Key.
+    filebase_bucket - string - Filebase: Bucket name
+    files_api_key - string - Files.com direct link: API key used once to pair the remote server.
+    files_agent_permission_set - string - Agent file permissions: `read_only`, `write_only`, or `read_write`. Files.com writes this value as `permission_set` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the permissions in its local configuration file, controlled by the host's system administrator, and reports them at registration, replacing the stored value.
+    files_agent_root - string - Agent local root path. Files.com writes this value as `root` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the root in its local configuration file, controlled by the host's system administrator, and reports it at registration, replacing the stored value.
+    files_agent_version - string - Files.com Agent version reported by the Agent at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not update the running Agent.
+    outbound_agent_id - int64 - Route traffic to outbound on a files-agent
+    custom_domain_id - int64 - Custom Domain ID whose dedicated IP addresses are selected when this Remote Server uses dedicated IPs. Must be available to this Remote Server's workspace. Requires enable_dedicated_ips and cannot be combined with an outbound Agent. Set to null to use the site's default dedicated IPs.
+    google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
+    google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
+    google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
+    google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
+    google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
+    hostname - string - Hostname or IP address. For Agent Remote Servers, the Agent reports the hostname it connects from at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+    linode_access_key - string - Linode: Access Key
+    linode_bucket - string - Linode: Bucket name
+    linode_region - string - Linode: region
+    max_connections - int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+    name - string - Internal name for your reference
+    one_drive_account_type - string - OneDrive: Either personal or business_other account types
+    pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
+    port - int64 - Port for remote server. For Agent Remote Servers, the Agent reports its downstream proxy port at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+    upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
+    remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
+    s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+    s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
+    s3_bucket - string - S3 bucket name
+    s3_compatible_access_key - string - S3-compatible: Access Key
+    s3_compatible_bucket - string - S3-compatible: Bucket name
+    s3_compatible_endpoint - string - S3-compatible: endpoint
+    s3_compatible_region - string - S3-compatible: region
+    s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+    s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
+    s3_region - string - S3 region
+    server_certificate - string - Remote server certificate
+    server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
+    server_type - string - Remote server type.
+    sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+    sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+    sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
+    ssl - string - Should we require SSL?
+    username - string - Remote server username.
+    wasabi_access_key - string - Wasabi: Access Key.
+    wasabi_bucket - string - Wasabi: Bucket name
+    wasabi_region - string - Wasabi: Region
+    workspace_id - int64 - Workspace ID (0 for default workspace)
+    """
+    return _legacy_resource.create(params, options)
 
 
-def delete(id, params=None, options=None):
-    if not isinstance(params, dict):
-        params = {}
-    if not isinstance(options, dict):
-        options = {}
-    params["id"] = id
-    if "id" in params and not isinstance(params["id"], int):
-        raise InvalidParameterError("Bad parameter: id must be an int")
-    if "id" not in params:
-        raise MissingParameterError("Parameter missing: id")
-    Api.send_request(
-        "DELETE",
-        "/remote_servers/{id}".format(id=quote(str(params["id"]), safe="")),
-        params,
-        options,
-    )
+def agent_push_update(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> AgentPushUpdate:
+    """Push update to Files Agent"""
+    return _legacy_resource.agent_push_update(id, params, options)
 
 
-def destroy(id, params=None, options=None):
-    delete(id, params, options)
+def update(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> RemoteServer:
+    """Parameters:
+    password - string - Password, if needed.
+    private_key - string - Private key, if needed.
+    private_key_passphrase - string - Passphrase for private key if needed.
+    reset_authentication - boolean - Reset authenticated account?
+    sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+    sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
+    ssl_certificate - string - SSL client certificate.
+    aws_secret_key - string - AWS: secret key.
+    azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
+    azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
+    azure_files_storage_access_key - string - Azure File Storage: Access Key
+    azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
+    backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
+    backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
+    cloudflare_secret_key - string - Cloudflare: Secret Key
+    filebase_secret_key - string - Filebase: Secret Key
+    google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+    google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
+    linode_secret_key - string - Linode: Secret Key
+    s3_compatible_secret_key - string - S3-compatible: Secret Key
+    wasabi_secret_key - string - Wasabi: Secret Key
+    allow_relative_paths - boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
+    aws_access_key - string - AWS Access Key.
+    azure_blob_storage_account - string - Azure Blob Storage: Account name
+    azure_blob_storage_container - string - Azure Blob Storage: Container name
+    azure_blob_storage_dns_suffix - string - Azure Blob Storage: Custom DNS suffix
+    azure_blob_storage_hierarchical_namespace - boolean - Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
+    azure_files_storage_account - string - Azure Files: Storage Account name
+    azure_files_storage_dns_suffix - string - Azure Files: Custom DNS suffix
+    azure_files_storage_share_name - string - Azure Files:  Storage Share name
+    backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
+    backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
+    buffer_uploads - string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
+    cloudflare_access_key - string - Cloudflare: Access Key.
+    cloudflare_bucket - string - Cloudflare: Bucket name
+    cloudflare_endpoint - string - Cloudflare: endpoint
+    description - string - Internal description for your reference
+    dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
+    enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
+    filebase_access_key - string - Filebase: Access Key.
+    filebase_bucket - string - Filebase: Bucket name
+    files_api_key - string - Files.com direct link: API key used once to pair the remote server.
+    files_agent_permission_set - string - Agent file permissions: `read_only`, `write_only`, or `read_write`. Files.com writes this value as `permission_set` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the permissions in its local configuration file, controlled by the host's system administrator, and reports them at registration, replacing the stored value.
+    files_agent_root - string - Agent local root path. Files.com writes this value as `root` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the root in its local configuration file, controlled by the host's system administrator, and reports it at registration, replacing the stored value.
+    files_agent_version - string - Files.com Agent version reported by the Agent at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not update the running Agent.
+    outbound_agent_id - int64 - Route traffic to outbound on a files-agent
+    custom_domain_id - int64 - Custom Domain ID whose dedicated IP addresses are selected when this Remote Server uses dedicated IPs. Must be available to this Remote Server's workspace. Requires enable_dedicated_ips and cannot be combined with an outbound Agent. Set to null to use the site's default dedicated IPs.
+    google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
+    google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
+    google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
+    google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
+    google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
+    hostname - string - Hostname or IP address. For Agent Remote Servers, the Agent reports the hostname it connects from at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+    linode_access_key - string - Linode: Access Key
+    linode_bucket - string - Linode: Bucket name
+    linode_region - string - Linode: region
+    max_connections - int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+    name - string - Internal name for your reference
+    one_drive_account_type - string - OneDrive: Either personal or business_other account types
+    pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
+    port - int64 - Port for remote server. For Agent Remote Servers, the Agent reports its downstream proxy port at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+    upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
+    remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
+    s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+    s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
+    s3_bucket - string - S3 bucket name
+    s3_compatible_access_key - string - S3-compatible: Access Key
+    s3_compatible_bucket - string - S3-compatible: Bucket name
+    s3_compatible_endpoint - string - S3-compatible: endpoint
+    s3_compatible_region - string - S3-compatible: region
+    s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+    s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
+    s3_region - string - S3 region
+    server_certificate - string - Remote server certificate
+    server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
+    server_type - string - Remote server type.
+    sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+    sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+    sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
+    ssl - string - Should we require SSL?
+    username - string - Remote server username.
+    wasabi_access_key - string - Wasabi: Access Key.
+    wasabi_bucket - string - Wasabi: Bucket name
+    wasabi_region - string - Wasabi: Region
+    """
+    return _legacy_resource.update(id, params, options)
 
 
-def new(*args, **kwargs):
+def delete(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> None:
+    _legacy_resource.delete(id, params, options)
+
+
+def destroy(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> None:
+    """The same as delete()."""
+    return _legacy_resource.delete(id, params, options)
+
+
+def new(*args, **kwargs) -> RemoteServer:
     return RemoteServer(*args, **kwargs)

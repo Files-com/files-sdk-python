@@ -1,4 +1,16 @@
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from files_sdk.api_client import ApiResponse
+    from files_sdk.download_status import DownloadRequestStatus
+
+
 class Error(Exception):
+    # File storage's status of the download request this error came from,
+    # when a download read one that explains it (see
+    # files_sdk.download_status); otherwise None.
+    download_request_status: "DownloadRequestStatus | None" = None
+
     def __init__(
         self,
         message=None,
@@ -17,12 +29,13 @@ class Error(Exception):
                 http_body = "<Could not decode body as utf-8. "
 
         self._message = message
-        self.http_body = http_body
-        self.http_status = http_status
-        self.json_body = json_body
-        self.headers = headers or {}
-        self.code = code
-        self.response = None
+        self.http_body: Any = http_body
+        self.http_status: Any = http_status
+        self.json_body: Any = json_body
+        self.headers: Any = headers or {}
+        self.code: Any = code
+        # The API response that reported this error, when there was one.
+        self.response: ApiResponse | None = None
 
     def __str__(self):
         msg = ""
@@ -34,10 +47,101 @@ class Error(Exception):
 
 
 class APIConnectionError(Error):
-    pass
+    """No usable response arrived: the connection failed, timed out or
+    broke, or the response could not be used.
+
+    phase names the step that failed, such as "response" while waiting for
+    or reading a response. remote_outcome_unknown is True when the request
+    may have reached the server first, so what it asked for may have
+    happened.
+    """
+
+    def __init__(
+        self,
+        message=None,
+        http_body=None,
+        http_status=None,
+        json_body=None,
+        headers=None,
+        code=None,
+        *,
+        phase=None,
+        remote_outcome_unknown=False,
+    ):
+        super().__init__(
+            message, http_body, http_status, json_body, headers, code
+        )
+        self.phase: str | None = phase
+        self.remote_outcome_unknown: bool = remote_outcome_unknown
+
+
+class DeadlineExceededError(APIConnectionError):
+    """The operation ran out of the time its request_timeout or deadline
+    option allowed."""
+
+
+class OperationCancelledError(Error):
+    """The operation stopped because its cancel_token was cancelled.
+
+    phase and remote_outcome_unknown mean what they do on
+    APIConnectionError.
+    """
+
+    def __init__(
+        self, message=None, *, phase=None, remote_outcome_unknown=False
+    ):
+        super().__init__(message)
+        self.phase: str | None = phase
+        self.remote_outcome_unknown: bool = remote_outcome_unknown
+
+
+class ClientClosedError(OperationCancelledError):
+    """The client the operation uses was closed, before or while it ran."""
+
+
+class FileMigrationError(Error):
+    """A copy, move or other file migration that was waited for failed or
+    was cancelled. migration is the FileMigration, with its status and
+    failure_message, or None when Files.com reported the failure at once."""
+
+    def __init__(self, message=None, *, migration: Any = None):
+        super().__init__(message)
+        self.migration: Any = migration
+
+
+class TransferPausedError(Error):
+    """A transfer stopped because its pause_token was paused.
+
+    checkpoint is the path of the checkpoint it saved; calling the same
+    transfer again with it resumes where it stopped. result, for a job of
+    many files, is the TransferResult so far.
+    """
+
+    def __init__(
+        self,
+        message=None,
+        *,
+        checkpoint: str | None = None,
+        result: Any = None,
+    ):
+        super().__init__(message)
+        self.checkpoint: str | None = checkpoint
+        self.result: Any = result
 
 
 class APIError(Error):
+    """Files.com, or storage, answered with an error.
+
+    remote_outcome_unknown is True when the request may have changed
+    something and the answer does not show that it did not. Files.com can
+    answer such a request, a create for example, with an error after
+    carrying out all or part of it, whatever the error's status or type, so
+    the SDK does not send it again: check whether it took effect before
+    repeating it. It is False for a request that only asks for something,
+    and for Files.com's answer while its site is disabled, which comes
+    before anything is carried out.
+    """
+
     def __init__(
         self,
         message=None,
@@ -51,18 +155,19 @@ class APIError(Error):
             message, http_body, http_status, json_body, headers, code
         )
 
-        if json_body is None:
-            return
-
-        self.detail = json_body.get("detail")
-        self.error = json_body.get("error")
-        self.errors = json_body.get("errors")
-        self.http_code = json_body.get("http-code")
-        self.instance = json_body.get("instance")
-        self.model_errors = json_body.get("model-errors")
-        self.title = json_body.get("title")
-        self.error_type = json_body.get("type")
-        self.data = json_body.get("data")
+        # Errors raised without a structured body, such as transfer failures,
+        # still carry every field, set to None.
+        body = json_body if isinstance(json_body, dict) else {}
+        self.detail = body.get("detail")
+        self.error = body.get("error")
+        self.errors = body.get("errors")
+        self.http_code = body.get("http-code")
+        self.instance = body.get("instance")
+        self.model_errors = body.get("model-errors")
+        self.title = body.get("title")
+        self.error_type = body.get("type")
+        self.data = body.get("data")
+        self.remote_outcome_unknown: bool = False
 
 
 class AuthenticationError(Error):

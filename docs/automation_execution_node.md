@@ -2,13 +2,15 @@
 
 ## Example AutomationExecutionNode Object
 
-```
+The API sends each `AutomationExecutionNode` record as JSON, such as:
+
+```json
 {
   "node_id": "example",
   "node_type": "example",
   "status": "example",
   "run_stage": "example",
-  "reused": True,
+  "reused": true,
   "successful_operations": 1,
   "failed_operations": 1,
   "started_at": "2000-01-01T01:00:00Z",

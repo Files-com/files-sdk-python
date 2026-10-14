@@ -2,12 +2,14 @@
 
 ## Example AgentNodeInstance Object
 
-```
+The API sends each `AgentNodeInstance` record as JSON, such as:
+
+```json
 {
   "instance_id": "example",
   "process_state": "example",
   "status": "example",
-  "is_default": True,
+  "is_default": true,
   "agent_version": "example",
   "last_seen_at": "2000-01-01T01:00:00Z",
   "connections": [

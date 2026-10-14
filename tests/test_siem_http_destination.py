@@ -1,72 +1,74 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import SiemHttpDestination
 from files_sdk import siem_http_destination
 
+
 class SiemHttpDestinationTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/siem_http_destinations/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         siem_http_destination = SiemHttpDestination(params)
-        siem_http_destination.update(params)
+        result = siem_http_destination.update(params)
+        self.assert_returns(SiemHttpDestination.update, result)
+        self.assert_typed(siem_http_destination)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/siem_http_destinations/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         siem_http_destination = SiemHttpDestination(params)
         siem_http_destination.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(siem_http_destination)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/siem_http_destinations"), "Mock path does not exist")
     def test_list(self):
-        resp = siem_http_destination.list()
+        result = siem_http_destination.list()
+        self.assert_returns(siem_http_destination.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/siem_http_destinations/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        siem_http_destination.find(id, params)
+        result = siem_http_destination.find(id, params)
+        self.assert_returns(siem_http_destination.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/siem_http_destinations"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "destination_type" : "foo",
+            "destination_type": "foo",
         }
-        siem_http_destination.create(params)
+        result = siem_http_destination.create(params)
+        self.assert_returns(siem_http_destination.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/siem_http_destinations/send_test_entry"), "Mock path does not exist")
     def test_send_test_entry(self):
-        resp = siem_http_destination.send_test_entry()
+        result = siem_http_destination.send_test_entry()
+        self.assert_returns(siem_http_destination.send_test_entry, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/siem_http_destinations/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        siem_http_destination.update(id, params)
+        result = siem_http_destination.update(id, params)
+        self.assert_returns(siem_http_destination.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/siem_http_destinations/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        siem_http_destination.delete(id, params)
+        result = siem_http_destination.delete(id, params)
+        self.assert_returns(siem_http_destination.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

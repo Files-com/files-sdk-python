@@ -2,7 +2,9 @@
 
 ## Example Bundle Object
 
-```
+The API sends each `Bundle` record as JSON, such as:
+
+```json
 {
   "code": "abc123",
   "color_left": "#0066a7",
@@ -13,17 +15,17 @@
   "url": "https://subdomain.files.com/f/12345678",
   "description": "The public description of the bundle.",
   "expires_at": "2000-01-01T01:00:00Z",
-  "password_protected": False,
+  "password_protected": false,
   "permissions": "read",
-  "preview_only": False,
-  "require_registration": False,
-  "require_share_recipient": False,
-  "require_logout": True,
+  "preview_only": false,
+  "require_registration": false,
+  "require_share_recipient": false,
+  "require_logout": true,
   "clickwrap_body": "[Legal text]",
   "form_field_set": {
     "id": 1,
     "title": "Sample Form Title",
-    "require_complete_metadata_capture": False,
+    "require_complete_metadata_capture": false,
     "form_layout": [
       1,
       2,
@@ -34,7 +36,7 @@
       {
         "id": 1,
         "label": "Sample Label",
-        "required": True,
+        "required": true,
         "help_text": "Help Text",
         "field_type": "text",
         "options_for_select": [
@@ -46,28 +48,28 @@
         "form_field_set_id": 1
       }
     ],
-    "skip_name": True,
-    "skip_email": True,
-    "skip_company": True,
-    "in_use": True
+    "skip_name": true,
+    "skip_email": true,
+    "skip_company": true,
+    "in_use": true
   },
-  "skip_name": True,
-  "skip_email": True,
+  "skip_name": true,
+  "skip_email": true,
   "start_access_on_date": "2000-01-01T01:00:00Z",
-  "skip_company": True,
+  "skip_company": true,
   "id": 1,
-  "bypasses_site_expiration_rules": True,
+  "bypasses_site_expiration_rules": true,
   "created_at": "2000-01-01T01:00:00Z",
-  "deleted": True,
+  "deleted": true,
   "deleted_at": "2000-01-01T01:00:00Z",
-  "dont_separate_submissions_by_folder": True,
+  "dont_separate_submissions_by_folder": true,
   "effective_expires_at": "2000-01-01T01:00:00Z",
   "max_uses": 1,
   "internal_name": "Quarterly reports",
   "note": "The internal note on the bundle.",
   "path_template": "{{name}}_{{ip}}",
   "path_template_time_zone": "Eastern Time (US & Canada)",
-  "send_email_receipt_to_uploader": True,
+  "send_email_receipt_to_uploader": true,
   "snapshot_id": 1,
   "user_id": 1,
   "username": "user",
@@ -83,10 +85,10 @@
     "max_height_or_width": 20,
     "transparency": 25
   },
-  "send_one_time_password_to_recipient_at_registration": True,
+  "send_one_time_password_to_recipient_at_registration": true,
   "workspace_id": 1,
-  "has_inbox": True,
-  "dont_allow_folders_in_uploads": True,
+  "has_inbox": true,
+  "dont_allow_folders_in_uploads": true,
   "requested_upload_slots": [
     {
       "name": "Photo ID"
@@ -97,7 +99,7 @@
   ],
   "bundlepaths": [
     {
-      "recursive": True,
+      "recursive": true,
       "path": "example"
     }
   ]
@@ -160,12 +162,17 @@
 * `watermark_attachment_file` (file): Preview watermark image applied to all bundle items.
 * `watermark_attachment_delete` (boolean): If true, will delete the file stored in watermark_attachment
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.bundle` resource, such as
+`client.bundle.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Share Links
 
-```
+```python
 files_sdk.bundle.list({
   "user_id": 1,
   "deleted": False
@@ -191,7 +198,7 @@ files_sdk.bundle.list({
 
 ## Show Share Link
 
-```
+```python
 files_sdk.bundle.find(id, {
   "deleted": False
 })
@@ -207,7 +214,7 @@ files_sdk.bundle.find(id, {
 
 ## Create Share Link
 
-```
+```python
 files_sdk.bundle.create({
   "user_id": 1,
   "paths": ["file.txt"],
@@ -239,7 +246,7 @@ files_sdk.bundle.create({
   "start_access_on_date": "2000-01-01T01:00:00Z",
   "snapshot_id": 1,
   "workspace_id": 1,
-  "watermark_value": {"gravity":"SouthWest","max_height_or_width":20,"transparency":25}
+  "watermark_value": {"gravity": "SouthWest", "max_height_or_width": 20, "transparency": 25}
 })
 ```
 
@@ -275,7 +282,7 @@ files_sdk.bundle.create({
 * `start_access_on_date` (string): Date when share will start to be accessible. If `nil` access granted right after create.
 * `snapshot_id` (int64): ID of the snapshot containing this bundle's contents.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
-* `watermark_attachment_file` (file): Preview watermark image applied to all bundle items.
+* `watermark_attachment_file` (file): Preview watermark image applied to all bundle items. Pass bytes, a binary stream, a `files_sdk.Attachment` or a JSON file object. See [File Attachments](../README.md#file-attachments).
 * `watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 
 
@@ -283,11 +290,11 @@ files_sdk.bundle.create({
 
 ## Send email(s) with a link to bundle
 
-```
+```python
 files_sdk.bundle.share(id, {
   "to": ["johndoe@gmail.com"],
   "note": "Just a note.",
-  "recipients": [{"name":"John Doe","company":"Acme Ltd","recipient":"johndoe@gmail.com"}]
+  "recipients": [{"name": "John Doe", "company": "Acme Ltd", "recipient": "johndoe@gmail.com"}]
 })
 ```
 
@@ -303,7 +310,7 @@ files_sdk.bundle.share(id, {
 
 ## Update Share Link
 
-```
+```python
 files_sdk.bundle.update(id, {
   "paths": ["file.txt"],
   "password": "Password",
@@ -334,7 +341,7 @@ files_sdk.bundle.update(id, {
   "skip_name": True,
   "user_id": 1,
   "watermark_attachment_delete": False,
-  "watermark_value": {"gravity":"SouthWest","max_height_or_width":20,"transparency":25},
+  "watermark_value": {"gravity": "SouthWest", "max_height_or_width": 20, "transparency": 25},
   "workspace_id": 1
 })
 ```
@@ -371,7 +378,7 @@ files_sdk.bundle.update(id, {
 * `skip_name` (boolean): BundleRegistrations can be saved without providing name?
 * `user_id` (int64): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (boolean): If true, will delete the file stored in watermark_attachment
-* `watermark_attachment_file` (file): Preview watermark image applied to all bundle items.
+* `watermark_attachment_file` (file): Preview watermark image applied to all bundle items. Pass bytes, a binary stream, a `files_sdk.Attachment` or a JSON file object. See [File Attachments](../README.md#file-attachments).
 * `watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 
@@ -380,7 +387,7 @@ files_sdk.bundle.update(id, {
 
 ## Delete Share Link
 
-```
+```python
 files_sdk.bundle.delete(id)
 ```
 
@@ -393,12 +400,12 @@ files_sdk.bundle.delete(id)
 
 ## Send email(s) with a link to bundle
 
-```
+```python
 bundle = files_sdk.bundle.find(id)
 bundle.share({
   "to": ["johndoe@gmail.com"],
   "note": "Just a note.",
-  "recipients": [{"name":"John Doe","company":"Acme Ltd","recipient":"johndoe@gmail.com"}]
+  "recipients": [{"name": "John Doe", "company": "Acme Ltd", "recipient": "johndoe@gmail.com"}]
 })
 ```
 
@@ -414,7 +421,7 @@ bundle.share({
 
 ## Update Share Link
 
-```
+```python
 bundle = files_sdk.bundle.find(id)
 bundle.update({
   "paths": ["file.txt"],
@@ -446,7 +453,7 @@ bundle.update({
   "skip_name": True,
   "user_id": 1,
   "watermark_attachment_delete": False,
-  "watermark_value": {"gravity":"SouthWest","max_height_or_width":20,"transparency":25},
+  "watermark_value": {"gravity": "SouthWest", "max_height_or_width": 20, "transparency": 25},
   "workspace_id": 1
 })
 ```
@@ -483,7 +490,7 @@ bundle.update({
 * `skip_name` (boolean): BundleRegistrations can be saved without providing name?
 * `user_id` (int64): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (boolean): If true, will delete the file stored in watermark_attachment
-* `watermark_attachment_file` (file): Preview watermark image applied to all bundle items.
+* `watermark_attachment_file` (file): Preview watermark image applied to all bundle items. Pass bytes, a binary stream, a `files_sdk.Attachment` or a JSON file object. See [File Attachments](../README.md#file-attachments).
 * `watermark_value` (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
 
@@ -492,7 +499,7 @@ bundle.update({
 
 ## Delete Share Link
 
-```
+```python
 bundle = files_sdk.bundle.find(id)
 bundle.delete()
 ```

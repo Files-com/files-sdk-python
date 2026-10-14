@@ -1,44 +1,42 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import Permission
 from files_sdk import permission
 
+
 class PermissionTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/permissions/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         permission = Permission(params)
         permission.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(permission)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/permissions"), "Mock path does not exist")
     def test_list(self):
-        resp = permission.list()
+        result = permission.list()
+        self.assert_returns(permission.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/permissions"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "path" : "foo",
+            "path": "foo",
         }
-        permission.create(params)
+        result = permission.create(params)
+        self.assert_returns(permission.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/permissions/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        permission.delete(id, params)
+        result = permission.delete(id, params)
+        self.assert_returns(permission.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

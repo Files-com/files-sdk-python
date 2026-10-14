@@ -2,7 +2,9 @@
 
 ## Example Workspace Object
 
-```
+The API sends each `Workspace` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "Project Alpha"
@@ -12,12 +14,17 @@
 * `id` (int64): Workspace ID
 * `name` (string): Workspace name
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.workspace` resource, such as
+`client.workspace.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Workspaces
 
-```
+```python
 files_sdk.workspace.list()
 ```
 
@@ -34,7 +41,7 @@ files_sdk.workspace.list()
 
 ## Show Workspace
 
-```
+```python
 files_sdk.workspace.find(id)
 ```
 
@@ -47,7 +54,7 @@ files_sdk.workspace.find(id)
 
 ## Create Workspace
 
-```
+```python
 files_sdk.workspace.create({
   "name": "Project Alpha"
 })
@@ -62,7 +69,7 @@ files_sdk.workspace.create({
 
 ## Update Workspace
 
-```
+```python
 files_sdk.workspace.update(id, {
   "name": "Project Alpha"
 })
@@ -78,7 +85,7 @@ files_sdk.workspace.update(id, {
 
 ## Delete Workspace
 
-```
+```python
 files_sdk.workspace.delete(id)
 ```
 
@@ -91,7 +98,7 @@ files_sdk.workspace.delete(id)
 
 ## Update Workspace
 
-```
+```python
 workspace = files_sdk.workspace.find(id)
 workspace.update({
   "name": "Project Alpha"
@@ -108,7 +115,7 @@ workspace.update({
 
 ## Delete Workspace
 
-```
+```python
 workspace = files_sdk.workspace.find(id)
 workspace.delete()
 ```

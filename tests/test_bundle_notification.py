@@ -1,68 +1,69 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import BundleNotification
 from files_sdk import bundle_notification
 
+
 class BundleNotificationTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/bundle_notifications/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         bundle_notification = BundleNotification(params)
-        bundle_notification.update(params)
+        result = bundle_notification.update(params)
+        self.assert_returns(BundleNotification.update, result)
+        self.assert_typed(bundle_notification)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/bundle_notifications/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
         bundle_notification = BundleNotification(params)
         bundle_notification.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(bundle_notification)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/bundle_notifications"), "Mock path does not exist")
     def test_list(self):
-        resp = bundle_notification.list()
+        result = bundle_notification.list()
+        self.assert_returns(bundle_notification.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/bundle_notifications/{id}"), "Mock path does not exist")
     def test_find(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        bundle_notification.find(id, params)
+        result = bundle_notification.find(id, params)
+        self.assert_returns(bundle_notification.find, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/bundle_notifications"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "bundle_id" : 12345,
+            "bundle_id": 12345,
         }
-        bundle_notification.create(params)
+        result = bundle_notification.create(params)
+        self.assert_returns(bundle_notification.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/bundle_notifications/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        bundle_notification.update(id, params)
+        result = bundle_notification.update(id, params)
+        self.assert_returns(bundle_notification.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/bundle_notifications/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
+            "id": 12345,
         }
-        bundle_notification.delete(id, params)
+        result = bundle_notification.delete(id, params)
+        self.assert_returns(bundle_notification.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -2,7 +2,9 @@
 
 ## Example InboundS3Log Object
 
-```
+The API sends each `InboundS3Log` record as JSON, such as:
+
+```json
 {
   "path": "example",
   "client_ip": "example",
@@ -30,12 +32,17 @@
 * `user_agent` (string): User Agent
 * `created_at` (date-time): Start Time of Request
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.inbound_s3_log` resource, such as
+`client.inbound_s3_log.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Inbound S3 Logs
 
-```
+```python
 files_sdk.inbound_s3_log.list()
 ```
 

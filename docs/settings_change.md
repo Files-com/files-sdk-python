@@ -2,7 +2,9 @@
 
 ## Example SettingsChange Object
 
-```
+The API sends each `SettingsChange` record as JSON, such as:
+
+```json
 {
   "api_key_id": 1,
   "changes": [
@@ -10,8 +12,8 @@
   ],
   "created_at": "2000-01-01T01:00:00Z",
   "user_id": 1,
-  "user_is_files_support": False,
-  "user_is_from_parent_site": False,
+  "user_is_files_support": false,
+  "user_is_from_parent_site": false,
   "username": "some_user"
 }
 ```
@@ -24,12 +26,17 @@
 * `user_is_from_parent_site` (boolean): true if this change was performed by a user on a parent site.
 * `username` (string): The username of the user responsible for this change.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.settings_change` resource, such as
+`client.settings_change.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Settings Changes
 
-```
+```python
 files_sdk.settings_change.list()
 ```
 

@@ -1,10 +1,15 @@
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.partner_site` resource, such as
+`client.partner_site.delete(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## Delete Partner Site
 
-```
+```python
 files_sdk.partner_site.delete(id)
 ```
 
@@ -17,8 +22,12 @@ files_sdk.partner_site.delete(id)
 
 ## Delete Partner Site
 
-```
-partner_site = partner_site()
+A `PartnerSite` record from the API does not include its `id`,
+so set the `id` you already know before calling `delete()`.
+
+```python
+partner_site = files_sdk.partner_site.new()
+partner_site.id = id
 partner_site.delete()
 ```
 

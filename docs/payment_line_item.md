@@ -2,7 +2,9 @@
 
 ## Example PaymentLineItem Object
 
-```
+The API sends each `PaymentLineItem` record as JSON, such as:
+
+```json
 {
   "amount": "1.0",
   "created_at": "2000-01-01T01:00:00Z",

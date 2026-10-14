@@ -2,7 +2,9 @@
 
 ## Example SiemHttpDestination Object
 
-```
+The API sends each `SiemHttpDestination` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "example",
@@ -14,7 +16,7 @@
   "additional_headers": {
     "Authorization": "Bearer YOUR_TOKEN"
   },
-  "sending_active": True,
+  "sending_active": true,
   "generic_payload_type": "example",
   "splunk_token_masked": "example",
   "crowdstrike_token_masked": "example",
@@ -28,32 +30,32 @@
   "solar_winds_token_masked": "example",
   "new_relic_api_key_masked": "example",
   "datadog_api_key_masked": "example",
-  "action_send_enabled": True,
+  "action_send_enabled": true,
   "action_entries_sent": 1,
-  "sftp_action_send_enabled": True,
+  "sftp_action_send_enabled": true,
   "sftp_action_entries_sent": 1,
-  "ftp_action_send_enabled": True,
+  "ftp_action_send_enabled": true,
   "ftp_action_entries_sent": 1,
-  "web_dav_action_send_enabled": True,
+  "web_dav_action_send_enabled": true,
   "web_dav_action_entries_sent": 1,
-  "sync_send_enabled": True,
+  "sync_send_enabled": true,
   "sync_entries_sent": 1,
-  "outbound_connection_send_enabled": True,
+  "outbound_connection_send_enabled": true,
   "outbound_connection_entries_sent": 1,
-  "automation_send_enabled": True,
+  "automation_send_enabled": true,
   "automation_entries_sent": 1,
-  "api_request_send_enabled": True,
+  "api_request_send_enabled": true,
   "api_request_entries_sent": 1,
-  "public_hosting_request_send_enabled": True,
+  "public_hosting_request_send_enabled": true,
   "public_hosting_request_entries_sent": 1,
-  "email_send_enabled": True,
+  "email_send_enabled": true,
   "email_entries_sent": 1,
-  "exavault_api_request_send_enabled": True,
+  "exavault_api_request_send_enabled": true,
   "exavault_api_request_entries_sent": 1,
-  "settings_change_send_enabled": True,
+  "settings_change_send_enabled": true,
   "settings_change_entries_sent": 1,
   "last_http_call_target_type": "destination_url",
-  "last_http_call_success": True,
+  "last_http_call_success": true,
   "last_http_call_response_code": 1,
   "last_http_call_response_body": "example",
   "last_http_call_error_message": "example",
@@ -127,12 +129,17 @@
 * `new_relic_api_key` (string): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key` (string): Applicable only for destination type: datadog. API key provided by Datadog.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.siem_http_destination` resource, such as
+`client.siem_http_destination.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List SIEM HTTP Destinations
 
-```
+```python
 files_sdk.siem_http_destination.list()
 ```
 
@@ -146,7 +153,7 @@ files_sdk.siem_http_destination.list()
 
 ## Show SIEM HTTP Destination
 
-```
+```python
 files_sdk.siem_http_destination.find(id)
 ```
 
@@ -159,10 +166,10 @@ files_sdk.siem_http_destination.find(id)
 
 ## Create SIEM HTTP Destination
 
-```
+```python
 files_sdk.siem_http_destination.create({
   "name": "example",
-  "additional_headers": {"Authorization":"Bearer YOUR_TOKEN"},
+  "additional_headers": {"Authorization": "Bearer YOUR_TOKEN"},
   "sending_active": True,
   "generic_payload_type": "example",
   "file_destination_path": "example",
@@ -231,13 +238,13 @@ files_sdk.siem_http_destination.create({
 
 ## send_test_entry SIEM HTTP Destination
 
-```
+```python
 files_sdk.siem_http_destination.send_test_entry({
   "siem_http_destination_id": 1,
   "destination_type": "example",
   "destination_url": "example",
   "name": "example",
-  "additional_headers": {"Authorization":"Bearer YOUR_TOKEN"},
+  "additional_headers": {"Authorization": "Bearer YOUR_TOKEN"},
   "sending_active": True,
   "generic_payload_type": "example",
   "file_destination_path": "example",
@@ -305,10 +312,10 @@ files_sdk.siem_http_destination.send_test_entry({
 
 ## Update SIEM HTTP Destination
 
-```
+```python
 files_sdk.siem_http_destination.update(id, {
   "name": "example",
-  "additional_headers": {"Authorization":"Bearer YOUR_TOKEN"},
+  "additional_headers": {"Authorization": "Bearer YOUR_TOKEN"},
   "sending_active": True,
   "generic_payload_type": "example",
   "file_destination_path": "example",
@@ -378,7 +385,7 @@ files_sdk.siem_http_destination.update(id, {
 
 ## Delete SIEM HTTP Destination
 
-```
+```python
 files_sdk.siem_http_destination.delete(id)
 ```
 
@@ -391,11 +398,11 @@ files_sdk.siem_http_destination.delete(id)
 
 ## Update SIEM HTTP Destination
 
-```
+```python
 siem_http_destination = files_sdk.siem_http_destination.find(id)
 siem_http_destination.update({
   "name": "example",
-  "additional_headers": {"Authorization":"Bearer YOUR_TOKEN"},
+  "additional_headers": {"Authorization": "Bearer YOUR_TOKEN"},
   "sending_active": True,
   "generic_payload_type": "example",
   "file_destination_path": "example",
@@ -465,7 +472,7 @@ siem_http_destination.update({
 
 ## Delete SIEM HTTP Destination
 
-```
+```python
 siem_http_destination = files_sdk.siem_http_destination.find(id)
 siem_http_destination.delete()
 ```

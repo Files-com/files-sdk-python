@@ -2,12 +2,14 @@
 
 ## Example Session Object
 
-```
+The API sends each `Session` record as JSON, such as:
+
+```json
 {
   "id": "60525f92e859c4c3d74cb02fd176b1525901b525",
   "language": "en",
-  "read_only": True,
-  "sftp_insecure_ciphers": False
+  "read_only": true,
+  "sftp_insecure_ciphers": false
 }
 ```
 
@@ -20,12 +22,17 @@
 * `otp` (string): If this user has a 2FA device, provide its OTP or code here.
 * `partial_session_id` (string): Identifier for a partially-completed login
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.session` resource, such as
+`client.session.create(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## Create user session (log in)
 
-```
+```python
 files_sdk.session.create({
   "username": "username",
   "password": "password",
@@ -45,6 +52,6 @@ files_sdk.session.create({
 
 ## Delete user session (log out)
 
-```
+```python
 files_sdk.session.delete()
 ```

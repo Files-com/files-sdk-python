@@ -2,7 +2,9 @@
 
 ## Example UserRequest Object
 
-```
+The API sends each `UserRequest` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "John Doe",
@@ -18,12 +20,17 @@
 * `details` (string): Details of the user's request
 * `company` (string): User's company name
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.user_request` resource, such as
+`client.user_request.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List User Requests
 
-```
+```python
 files_sdk.user_request.list()
 ```
 
@@ -37,7 +44,7 @@ files_sdk.user_request.list()
 
 ## Show User Request
 
-```
+```python
 files_sdk.user_request.find(id)
 ```
 
@@ -50,7 +57,7 @@ files_sdk.user_request.find(id)
 
 ## Create User Request
 
-```
+```python
 files_sdk.user_request.create({
   "name": "name",
   "email": "email",
@@ -71,7 +78,7 @@ files_sdk.user_request.create({
 
 ## Delete User Request
 
-```
+```python
 files_sdk.user_request.delete(id)
 ```
 
@@ -84,7 +91,7 @@ files_sdk.user_request.delete(id)
 
 ## Delete User Request
 
-```
+```python
 user_request = files_sdk.user_request.find(id)
 user_request.delete()
 ```

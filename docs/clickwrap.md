@@ -2,7 +2,9 @@
 
 ## Example Clickwrap Object
 
-```
+The API sends each `Clickwrap` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "Example Site NDA for Files.com Use",
@@ -20,12 +22,17 @@
 * `use_with_bundles` (string): Use this Clickwrap for Bundles?
 * `use_with_inboxes` (string): Use this Clickwrap for Inboxes?
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.clickwrap` resource, such as
+`client.clickwrap.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Clickwraps
 
-```
+```python
 files_sdk.clickwrap.list()
 ```
 
@@ -40,7 +47,7 @@ files_sdk.clickwrap.list()
 
 ## Show Clickwrap
 
-```
+```python
 files_sdk.clickwrap.find(id)
 ```
 
@@ -53,7 +60,7 @@ files_sdk.clickwrap.find(id)
 
 ## Create Clickwrap
 
-```
+```python
 files_sdk.clickwrap.create({
   "name": "Example Site NDA for Files.com Use",
   "body": "[Legal body text]",
@@ -76,7 +83,7 @@ files_sdk.clickwrap.create({
 
 ## Update Clickwrap
 
-```
+```python
 files_sdk.clickwrap.update(id, {
   "name": "Example Site NDA for Files.com Use",
   "body": "[Legal body text]",
@@ -100,7 +107,7 @@ files_sdk.clickwrap.update(id, {
 
 ## Delete Clickwrap
 
-```
+```python
 files_sdk.clickwrap.delete(id)
 ```
 
@@ -113,7 +120,7 @@ files_sdk.clickwrap.delete(id)
 
 ## Update Clickwrap
 
-```
+```python
 clickwrap = files_sdk.clickwrap.find(id)
 clickwrap.update({
   "name": "Example Site NDA for Files.com Use",
@@ -138,7 +145,7 @@ clickwrap.update({
 
 ## Delete Clickwrap
 
-```
+```python
 clickwrap = files_sdk.clickwrap.find(id)
 clickwrap.delete()
 ```

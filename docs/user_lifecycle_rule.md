@@ -2,7 +2,9 @@
 
 ## Example UserLifecycleRule Object
 
-```
+The API sends each `UserLifecycleRule` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "authentication_method": "all_non_sso",
@@ -13,11 +15,11 @@
   ],
   "action": "disable",
   "inactivity_days": 12,
-  "include_folder_admins": True,
-  "include_site_admins": True,
-  "apply_to_all_workspaces": True,
+  "include_folder_admins": true,
+  "include_site_admins": true,
+  "apply_to_all_workspaces": true,
   "name": "password specific rules",
-  "notify_users": True,
+  "notify_users": true,
   "partner_tag": "guest",
   "site_id": 1,
   "workspace_id": 1,
@@ -42,12 +44,17 @@
 * `user_state` (string): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` (string): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.user_lifecycle_rule` resource, such as
+`client.user_lifecycle_rule.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List User Lifecycle Rules
 
-```
+```python
 files_sdk.user_lifecycle_rule.list()
 ```
 
@@ -63,7 +70,7 @@ files_sdk.user_lifecycle_rule.list()
 
 ## Show User Lifecycle Rule
 
-```
+```python
 files_sdk.user_lifecycle_rule.find(id)
 ```
 
@@ -76,11 +83,11 @@ files_sdk.user_lifecycle_rule.find(id)
 
 ## Create User Lifecycle Rule
 
-```
+```python
 files_sdk.user_lifecycle_rule.create({
   "apply_to_all_workspaces": True,
   "authentication_method": "all_non_sso",
-  "group_ids": [1,2,3],
+  "group_ids": [1, 2, 3],
   "inactivity_days": 12,
   "include_site_admins": True,
   "include_folder_admins": True,
@@ -114,11 +121,11 @@ files_sdk.user_lifecycle_rule.create({
 
 ## Update User Lifecycle Rule
 
-```
+```python
 files_sdk.user_lifecycle_rule.update(id, {
   "apply_to_all_workspaces": True,
   "authentication_method": "all_non_sso",
-  "group_ids": [1,2,3],
+  "group_ids": [1, 2, 3],
   "inactivity_days": 12,
   "include_site_admins": True,
   "include_folder_admins": True,
@@ -153,7 +160,7 @@ files_sdk.user_lifecycle_rule.update(id, {
 
 ## Delete User Lifecycle Rule
 
-```
+```python
 files_sdk.user_lifecycle_rule.delete(id)
 ```
 
@@ -166,12 +173,12 @@ files_sdk.user_lifecycle_rule.delete(id)
 
 ## Update User Lifecycle Rule
 
-```
+```python
 user_lifecycle_rule = files_sdk.user_lifecycle_rule.find(id)
 user_lifecycle_rule.update({
   "apply_to_all_workspaces": True,
   "authentication_method": "all_non_sso",
-  "group_ids": [1,2,3],
+  "group_ids": [1, 2, 3],
   "inactivity_days": 12,
   "include_site_admins": True,
   "include_folder_admins": True,
@@ -206,7 +213,7 @@ user_lifecycle_rule.update({
 
 ## Delete User Lifecycle Rule
 
-```
+```python
 user_lifecycle_rule = files_sdk.user_lifecycle_rule.find(id)
 user_lifecycle_rule.delete()
 ```

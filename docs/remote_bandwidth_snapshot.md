@@ -2,7 +2,9 @@
 
 ## Example RemoteBandwidthSnapshot Object
 
-```
+The API sends each `RemoteBandwidthSnapshot` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "sync_bytes_received": 1,
@@ -18,12 +20,17 @@
 * `logged_at` (date-time): Time the site bandwidth report was logged
 * `remote_server_id` (int64): ID of related Remote Server
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.remote_bandwidth_snapshot` resource, such as
+`client.remote_bandwidth_snapshot.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Remote Bandwidth Snapshots
 
-```
+```python
 files_sdk.remote_bandwidth_snapshot.list()
 ```
 

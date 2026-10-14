@@ -2,7 +2,9 @@
 
 ## Example ApiKey Object
 
-```
+The API sends each `ApiKey` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "descriptive_label": "Site-wide API key for https://site.files.com/ (key ID #1)",
@@ -10,7 +12,7 @@
   "created_at": "2000-01-01T01:00:00Z",
   "expires_at": "2000-01-01T01:00:00Z",
   "key": "[key]",
-  "aws_style_credentials": True,
+  "aws_style_credentials": true,
   "aws_access_key_id": "[aws_access_key_id]",
   "aws_secret_key": "[aws_secret_key]",
   "last_use_at": "2000-01-01T01:00:00Z",
@@ -45,12 +47,17 @@
 * `workspace_id` (int64): Workspace ID for this API Key. `0` means the default workspace.
 * `path` (string): Restricts the file and folder operations made with this key, meaning the files, folders, and file_actions endpoints, to the specified folder and its descendants, including copy and move destinations. For `GET /file_migrations/{id}`, a key with a path can read only migrations it started. Other endpoints do not apply the path restriction; use the `files_only` permission set to confine a key to file operations and their supporting lookups. Does not grant access beyond the owning user's permissions. Optional except for `office_integration` keys, which require a path the owning user can read.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.api_key` resource, such as
+`client.api_key.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List API Keys
 
-```
+```python
 files_sdk.api_key.list({
   "user_id": 1
 })
@@ -73,7 +80,7 @@ files_sdk.api_key.list({
 
 ## Show information about current API key.  (Requires current API connection to be using an API key.)
 
-```
+```python
 files_sdk.api_key.find_current()
 ```
 
@@ -82,7 +89,7 @@ files_sdk.api_key.find_current()
 
 ## Show API Key
 
-```
+```python
 files_sdk.api_key.find(id)
 ```
 
@@ -95,7 +102,7 @@ files_sdk.api_key.find(id)
 
 ## Create API Key
 
-```
+```python
 files_sdk.api_key.create({
   "user_id": 1,
   "description": "example",
@@ -124,7 +131,7 @@ files_sdk.api_key.create({
 
 ## Update current API key.  (Requires current API connection to be using an API key.)
 
-```
+```python
 files_sdk.api_key.update_current({
   "expires_at": "2000-01-01T01:00:00Z",
   "name": "My Main API Key",
@@ -143,7 +150,7 @@ files_sdk.api_key.update_current({
 
 ## Update API Key
 
-```
+```python
 files_sdk.api_key.update(id, {
   "description": "example",
   "expires_at": "2000-01-01T01:00:00Z",
@@ -163,7 +170,7 @@ files_sdk.api_key.update(id, {
 
 ## Delete current API key.  (Requires current API connection to be using an API key.)
 
-```
+```python
 files_sdk.api_key.delete_current()
 ```
 
@@ -172,7 +179,7 @@ files_sdk.api_key.delete_current()
 
 ## Delete API Key
 
-```
+```python
 files_sdk.api_key.delete(id)
 ```
 
@@ -185,7 +192,7 @@ files_sdk.api_key.delete(id)
 
 ## Update API Key
 
-```
+```python
 api_key = files_sdk.api_key.find(id)
 api_key.update({
   "description": "example",
@@ -206,7 +213,7 @@ api_key.update({
 
 ## Delete API Key
 
-```
+```python
 api_key = files_sdk.api_key.find(id)
 api_key.delete()
 ```

@@ -2,12 +2,14 @@
 
 ## Example PartnerChannel Object
 
-```
+The API sends each `PartnerChannel` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "workspace_id": 1,
   "direction": "two_way",
-  "use_channel_root": False,
+  "use_channel_root": false,
   "partner_id": 1,
   "partner_channel_template_id": 1,
   "path": "claims/medical",
@@ -48,12 +50,17 @@
 * `to_partner_folder_path` (string): Resolved to-Partner folder path.
 * `from_partner_folder_path` (string): Resolved from-Partner folder path.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.partner_channel` resource, such as
+`client.partner_channel.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Partner Channels
 
-```
+```python
 files_sdk.partner_channel.list()
 ```
 
@@ -69,7 +76,7 @@ files_sdk.partner_channel.list()
 
 ## Show Partner Channel
 
-```
+```python
 files_sdk.partner_channel.find(id)
 ```
 
@@ -82,7 +89,7 @@ files_sdk.partner_channel.find(id)
 
 ## Create Partner Channel
 
-```
+```python
 files_sdk.partner_channel.create({
   "direction": "two_way",
   "use_channel_root": False,
@@ -117,7 +124,7 @@ files_sdk.partner_channel.create({
 
 ## Update Partner Channel
 
-```
+```python
 files_sdk.partner_channel.update(id, {
   "direction": "two_way",
   "use_channel_root": False,
@@ -149,7 +156,7 @@ files_sdk.partner_channel.update(id, {
 
 ## Delete Partner Channel
 
-```
+```python
 files_sdk.partner_channel.delete(id)
 ```
 
@@ -162,7 +169,7 @@ files_sdk.partner_channel.delete(id)
 
 ## Update Partner Channel
 
-```
+```python
 partner_channel = files_sdk.partner_channel.find(id)
 partner_channel.update({
   "direction": "two_way",
@@ -195,7 +202,7 @@ partner_channel.update({
 
 ## Delete Partner Channel
 
-```
+```python
 partner_channel = files_sdk.partner_channel.find(id)
 partner_channel.delete()
 ```

@@ -1,0 +1,2 @@
+# Audits the locked requirement files for known vulnerabilities.
+pip-audit==2.10.1

@@ -2,17 +2,19 @@
 
 ## Example EventSubscription Object
 
-```
+The API sends each `EventSubscription` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "event_channel_id": 1,
   "workspace_id": 1,
-  "apply_to_all_workspaces": True,
+  "apply_to_all_workspaces": true,
   "name": "example",
   "subject": "example",
   "message": "example",
-  "message_only": True,
-  "enabled": True,
+  "message_only": true,
+  "enabled": true,
   "event_types": [
     "sync_run.failure.v1"
   ],
@@ -21,7 +23,7 @@
       "prefix": "Nightly"
     },
     "payload.event_errors": {
-      "exists": True
+      "exists": true
     }
   },
   "delivery_policy": "example",
@@ -49,12 +51,17 @@
 * `created_at` (date-time): Event Subscription create date/time.
 * `updated_at` (date-time): Event Subscription update date/time.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.event_subscription` resource, such as
+`client.event_subscription.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Event Subscriptions
 
-```
+```python
 files_sdk.event_subscription.list()
 ```
 
@@ -70,7 +77,7 @@ files_sdk.event_subscription.list()
 
 ## Show Event Subscription
 
-```
+```python
 files_sdk.event_subscription.find(id)
 ```
 
@@ -83,7 +90,7 @@ files_sdk.event_subscription.find(id)
 
 ## Create Event Subscription
 
-```
+```python
 files_sdk.event_subscription.create({
   "event_channel_id": 1,
   "workspace_id": 1,
@@ -94,8 +101,7 @@ files_sdk.event_subscription.create({
   "message_only": True,
   "enabled": True,
   "event_types": ["sync_run.failure.v1"],
-  "filter": {"payload.sync_name":{"prefix":"Nightly"},"payload.event_errors":{"exists":True}},
-  "delivery_policy": "example",
+  "filter": {"payload.sync_name": {"prefix": "Nightly"}, "payload.event_errors": {"exists": True}},
   "event_target_ids": [1]
 })
 ```
@@ -120,7 +126,7 @@ files_sdk.event_subscription.create({
 
 ## Update Event Subscription
 
-```
+```python
 files_sdk.event_subscription.update(id, {
   "event_channel_id": 1,
   "workspace_id": 1,
@@ -131,8 +137,7 @@ files_sdk.event_subscription.update(id, {
   "message_only": True,
   "enabled": True,
   "event_types": ["sync_run.failure.v1"],
-  "filter": {"payload.sync_name":{"prefix":"Nightly"},"payload.event_errors":{"exists":True}},
-  "delivery_policy": "example",
+  "filter": {"payload.sync_name": {"prefix": "Nightly"}, "payload.event_errors": {"exists": True}},
   "event_target_ids": [1]
 })
 ```
@@ -158,7 +163,7 @@ files_sdk.event_subscription.update(id, {
 
 ## Delete Event Subscription
 
-```
+```python
 files_sdk.event_subscription.delete(id)
 ```
 
@@ -171,7 +176,7 @@ files_sdk.event_subscription.delete(id)
 
 ## Update Event Subscription
 
-```
+```python
 event_subscription = files_sdk.event_subscription.find(id)
 event_subscription.update({
   "event_channel_id": 1,
@@ -183,8 +188,7 @@ event_subscription.update({
   "message_only": True,
   "enabled": True,
   "event_types": ["sync_run.failure.v1"],
-  "filter": {"payload.sync_name":{"prefix":"Nightly"},"payload.event_errors":{"exists":True}},
-  "delivery_policy": "example",
+  "filter": {"payload.sync_name": {"prefix": "Nightly"}, "payload.event_errors": {"exists": True}},
   "event_target_ids": [1]
 })
 ```
@@ -210,7 +214,7 @@ event_subscription.update({
 
 ## Delete Event Subscription
 
-```
+```python
 event_subscription = files_sdk.event_subscription.find(id)
 event_subscription.delete()
 ```

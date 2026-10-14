@@ -2,7 +2,9 @@
 
 ## Example Style Object
 
-```
+The API sends each `Style` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "path": "example",
@@ -22,12 +24,17 @@
 * `thumbnail` (Image): Logo thumbnail
 * `file` (file): Logo for custom branding. Required when creating a new style.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.style` resource, such as
+`client.style.find(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## Show Style
 
-```
+```python
 files_sdk.style.find(path)
 ```
 
@@ -40,7 +47,7 @@ files_sdk.style.find(path)
 
 ## Update Style
 
-```
+```python
 files_sdk.style.update(path, {
   "logo_click_href": "https://www.example.com"
 })
@@ -49,7 +56,7 @@ files_sdk.style.update(path, {
 ### Parameters
 
 * `path` (string): Required - Style path.
-* `file` (file): Logo for custom branding. Required when creating a new style.
+* `file` (file): Logo for custom branding. Required when creating a new style. Pass bytes, a binary stream, a `files_sdk.Attachment` or a JSON file object. See [File Attachments](../README.md#file-attachments).
 * `logo_click_href` (string): URL to open when a public visitor clicks the logo.
 
 
@@ -57,7 +64,7 @@ files_sdk.style.update(path, {
 
 ## Delete Style
 
-```
+```python
 files_sdk.style.delete(path)
 ```
 
@@ -70,7 +77,7 @@ files_sdk.style.delete(path)
 
 ## Update Style
 
-```
+```python
 style = files_sdk.style.find(path)
 style.update({
   "logo_click_href": "https://www.example.com"
@@ -80,7 +87,7 @@ style.update({
 ### Parameters
 
 * `path` (string): Required - Style path.
-* `file` (file): Logo for custom branding. Required when creating a new style.
+* `file` (file): Logo for custom branding. Required when creating a new style. Pass bytes, a binary stream, a `files_sdk.Attachment` or a JSON file object. See [File Attachments](../README.md#file-attachments).
 * `logo_click_href` (string): URL to open when a public visitor clicks the logo.
 
 
@@ -88,7 +95,7 @@ style.update({
 
 ## Delete Style
 
-```
+```python
 style = files_sdk.style.find(path)
 style.delete()
 ```

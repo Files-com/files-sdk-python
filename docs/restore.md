@@ -2,7 +2,9 @@
 
 ## Example Restore Object
 
-```
+The API sends each `Restore` record as JSON, such as:
+
+```json
 {
   "earliest_date": "2000-01-01T01:00:00Z",
   "id": 1,
@@ -14,8 +16,8 @@
   "files_total": 1,
   "prefix": "foo/bar/baz.txt",
   "restoration_type": "files",
-  "restore_in_place": True,
-  "restore_deleted_permissions": True,
+  "restore_in_place": true,
+  "restore_deleted_permissions": true,
   "users_restored": 1,
   "users_errored": 1,
   "users_total": 1,
@@ -23,7 +25,7 @@
   "public_keys_restored": 1,
   "two_factor_authentication_methods_restored": 1,
   "status": "pending",
-  "update_timestamps": True,
+  "update_timestamps": true,
   "workspace_id": 12,
   "error_messages": [
     "example"
@@ -54,12 +56,17 @@
 * `workspace_id` (int64): Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
 * `error_messages` (array(string)): Error messages received while restoring files and/or directories. Only present if there were errors.
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.restore` resource, such as
+`client.restore.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Restores
 
-```
+```python
 files_sdk.restore.list()
 ```
 
@@ -75,7 +82,7 @@ files_sdk.restore.list()
 
 ## Create Restore
 
-```
+```python
 files_sdk.restore.create({
   "earliest_date": "2000-01-01T01:00:00Z",
   "prefix": "foo/bar/baz.txt",

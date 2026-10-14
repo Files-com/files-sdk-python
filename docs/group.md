@@ -2,7 +2,9 @@
 
 ## Example Group Object
 
-```
+The API sends each `Group` record as JSON, such as:
+
+```json
 {
   "id": 1,
   "name": "owners",
@@ -12,11 +14,11 @@
   "user_ids": "1",
   "usernames": "user",
   "ai_assistant_personality_id": 1,
-  "ftp_permission": True,
-  "sftp_permission": True,
-  "dav_permission": True,
-  "restapi_permission": True,
-  "s3_compatible_endpoint_permission": True,
+  "ftp_permission": true,
+  "sftp_permission": true,
+  "dav_permission": true,
+  "restapi_permission": true,
+  "s3_compatible_endpoint_permission": true,
   "desktop_configuration_profile_id": 1,
   "integration_centric_profile_id": 1,
   "site_id": 1,
@@ -42,12 +44,17 @@
 * `site_id` (int64): Site ID
 * `workspace_id` (int64): Workspace ID
 
+The functions below use the module's settings. Each is also a method of a client's
+`client.group` resource, such as
+`client.group.list(...)`,
+which uses that client's configuration instead.
+
 
 ---
 
 ## List Groups
 
-```
+```python
 files_sdk.group.list({
   "include_parent_site_groups": False
 })
@@ -68,7 +75,7 @@ files_sdk.group.list({
 
 ## Show Group
 
-```
+```python
 files_sdk.group.find(id)
 ```
 
@@ -81,7 +88,7 @@ files_sdk.group.find(id)
 
 ## Create Group
 
-```
+```python
 files_sdk.group.create({
   "notes": "example",
   "user_ids": "1",
@@ -122,7 +129,7 @@ files_sdk.group.create({
 
 ## Update Group
 
-```
+```python
 files_sdk.group.update(id, {
   "notes": "example",
   "user_ids": "1",
@@ -162,7 +169,7 @@ files_sdk.group.update(id, {
 
 ## Delete Group
 
-```
+```python
 files_sdk.group.delete(id)
 ```
 
@@ -175,7 +182,7 @@ files_sdk.group.delete(id)
 
 ## Update Group
 
-```
+```python
 group = files_sdk.group.find(id)
 group.update({
   "notes": "example",
@@ -216,7 +223,7 @@ group.update({
 
 ## Delete Group
 
-```
+```python
 group = files_sdk.group.find(id)
 group.delete()
 ```

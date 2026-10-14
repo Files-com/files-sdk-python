@@ -1,69 +1,69 @@
 import unittest
-import inspect
-import files_sdk
 from tests.base import TestBase
 from files_sdk.models import GroupUser
 from files_sdk import group_user
 
+
 class GroupUserTest(TestBase):
-    pass 
     # Instance Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/group_users/{id}"), "Mock path does not exist")
-    def test_update(self):
+    def test_instance_update(self):
         params = {
-            "id" : 12345,
-            "group_id" : 12345,
-            "user_id" : 12345,
+            "id": 12345,
+            "group_id": 12345,
+            "user_id": 12345,
         }
         group_user = GroupUser(params)
-        group_user.update(params)
+        result = group_user.update(params)
+        self.assert_returns(GroupUser.update, result)
+        self.assert_typed(group_user)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/group_users/{id}"), "Mock path does not exist")
-    def test_delete(self):
+    def test_instance_delete(self):
         params = {
-            "id" : 12345,
-            "group_id" : 12345,
-            "user_id" : 12345,
+            "id": 12345,
+            "group_id": 12345,
+            "user_id": 12345,
         }
         group_user = GroupUser(params)
         group_user.delete(params)
-
-    # Alias of delete
-    def test_destroy(self):
-        pass
+        self.assert_typed(group_user)
 
     # Static Methods
-    @unittest.skipUnless(TestBase.mock_server_path_exists("GET", "/group_users"), "Mock path does not exist")
     def test_list(self):
-        resp = group_user.list()
+        result = group_user.list()
+        self.assert_returns(group_user.list, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("POST", "/group_users"), "Mock path does not exist")
     def test_create(self):
         params = {
-            "group_id" : 12345,
-            "user_id" : 12345,
+            "group_id": 12345,
+            "user_id": 12345,
         }
-        group_user.create(params)
+        result = group_user.create(params)
+        self.assert_returns(group_user.create, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("PATCH", "/group_users/{id}"), "Mock path does not exist")
     def test_update(self):
         id = 12345
         params = {
-            "id" : 12345,
-            "group_id" : 12345,
-            "user_id" : 12345,
+            "id": 12345,
+            "group_id": 12345,
+            "user_id": 12345,
         }
-        group_user.update(id, params)
+        result = group_user.update(id, params)
+        self.assert_returns(group_user.update, result)
+        self.assert_typed(result)
 
-    @unittest.skipUnless(TestBase.mock_server_path_exists("DELETE", "/group_users/{id}"), "Mock path does not exist")
     def test_delete(self):
         id = 12345
         params = {
-            "id" : 12345,
-            "group_id" : 12345,
-            "user_id" : 12345,
+            "id": 12345,
+            "group_id": 12345,
+            "user_id": 12345,
         }
-        group_user.delete(id, params)
+        result = group_user.delete(id, params)
+        self.assert_returns(group_user.delete, result)
+        self.assert_typed(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
