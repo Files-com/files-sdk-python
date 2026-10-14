@@ -224,7 +224,7 @@ class DownloadService:
         self.server.daemon_threads = True
         self.url = "http://127.0.0.1:{}".format(self.server.server_port)
         thread = threading.Thread(
-            target=self.server.serve_forever, kwargs={"poll_interval": 0.05}
+            target=self.server.serve_forever, kwargs={"poll_interval": 0.005}
         )
         thread.start()
         test_case.addCleanup(thread.join)
@@ -303,6 +303,10 @@ class DownloadService:
 
         class Handler(BaseHTTPRequestHandler):
             protocol_version = "HTTP/1.1"
+            # Each answer's headers and body are separate writes: without
+            # TCP_NODELAY, the body can wait for the client's delayed ACK of
+            # the headers (40 ms on Linux), which no test asks for.
+            disable_nagle_algorithm = True
 
             def do_GET(self):
                 target = urlsplit(self.path)
@@ -415,6 +419,7 @@ class DownloadService:
                     service.max_active = max(
                         service.max_active, service.active
                     )
+                    self.counted = True
                     served = service.served
                     service.served += 1
                     if (
@@ -700,6 +705,16 @@ class DownloadService:
                         206, body, tagged(sent_etag, {"Content-Range": label})
                     )
                 finally:
+                    self.retire()
+
+            def retire(self):
+                """Stop counting this content request as active, once. answer()
+                does it just before the client can have the whole answer, its
+                last byte (or, without a body, its headers): the body counts
+                while it is sent, and a request the client makes once it has
+                the answer is never counted beside it."""
+                if getattr(self, "counted", False):
+                    self.counted = False
                     with service.lock:
                         service.active -= 1
 
@@ -739,8 +754,13 @@ class DownloadService:
                     for name, value in (headers or {}).items():
                         self.send_header(name, value)
                     self.send_header("Content-Length", str(len(body)))
+                    if not body:
+                        self.retire()
                     self.end_headers()
-                    self.wfile.write(body)
+                    if body:
+                        self.wfile.write(body[:-1])
+                        self.retire()
+                        self.wfile.write(body[-1:])
                 except ConnectionError:
                     self.close_connection = True
 
@@ -808,7 +828,7 @@ class TreeService:
         self.server.daemon_threads = True
         self.url = "http://127.0.0.1:{}".format(self.server.server_port)
         thread = threading.Thread(
-            target=self.server.serve_forever, kwargs={"poll_interval": 0.05}
+            target=self.server.serve_forever, kwargs={"poll_interval": 0.005}
         )
         thread.start()
         test_case.addCleanup(thread.join)
@@ -841,6 +861,10 @@ class TreeService:
 
         class Handler(BaseHTTPRequestHandler):
             protocol_version = "HTTP/1.1"
+            # Each answer's headers and body are separate writes: without
+            # TCP_NODELAY, the body can wait for the client's delayed ACK of
+            # the headers (40 ms on Linux), which no test asks for.
+            disable_nagle_algorithm = True
 
             def do_GET(self):
                 target = urlsplit(self.path)
@@ -942,11 +966,11 @@ class TreeService:
                         service.max_active = max(
                             service.max_active, service.active
                         )
+                        self.counted = True
                     try:
                         return self.serve(path)
                     finally:
-                        with service.lock:
-                            service.active -= 1
+                        self.retire()
                 self.json(404, {"type": "not-found", "error": "no route"})
 
             def serve(self, path):
@@ -1004,14 +1028,30 @@ class TreeService:
                     {"Content-Type": "application/json", **(headers or {})},
                 )
 
+            def retire(self):
+                """Stop counting this content request as active, once. body()
+                does it just before the client can have the whole answer, its
+                last byte (or, without a body, its headers): the body counts
+                while it is sent, and a request the client makes once it has
+                the answer is never counted beside it."""
+                if getattr(self, "counted", False):
+                    self.counted = False
+                    with service.lock:
+                        service.active -= 1
+
             def body(self, status, data, headers=None):
                 try:
                     self.send_response(status)
                     for name, value in (headers or {}).items():
                         self.send_header(name, value)
                     self.send_header("Content-Length", str(len(data)))
+                    if not data:
+                        self.retire()
                     self.end_headers()
-                    self.wfile.write(data)
+                    if data:
+                        self.wfile.write(data[:-1])
+                        self.retire()
+                        self.wfile.write(data[-1:])
                 except ConnectionError:
                     self.close_connection = True
 

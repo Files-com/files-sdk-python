@@ -175,7 +175,7 @@ class UploadService:
         self.server.daemon_threads = True
         self.url = "http://127.0.0.1:{}".format(self.server.server_port)
         thread = threading.Thread(
-            target=self.server.serve_forever, kwargs={"poll_interval": 0.05}
+            target=self.server.serve_forever, kwargs={"poll_interval": 0.005}
         )
         thread.start()
         test_case.addCleanup(thread.join)
@@ -360,6 +360,10 @@ class UploadService:
 
         class Handler(BaseHTTPRequestHandler):
             protocol_version = "HTTP/1.1"
+            # Each answer's headers and body are separate writes: without
+            # TCP_NODELAY, the body can wait for the client's delayed ACK of
+            # the headers (40 ms on Linux), which no test asks for.
+            disable_nagle_algorithm = True
 
             def do_POST(self):
                 body = self.rfile.read(

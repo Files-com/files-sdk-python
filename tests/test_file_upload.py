@@ -75,7 +75,9 @@ class TestFileUpload(unittest.TestCase):
         self.server.finalizations = []
         self.server.failed_finalizations = []
         self.server.fail_finalization = False
-        self.thread = threading.Thread(target=self.server.serve_forever)
+        self.thread = threading.Thread(
+            target=self.server.serve_forever, kwargs={"poll_interval": 0.005}
+        )
         self.thread.start()
         self.addCleanup(self.thread.join)
         self.addCleanup(self.server.server_close)

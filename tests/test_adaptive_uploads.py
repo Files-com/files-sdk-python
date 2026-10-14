@@ -1953,8 +1953,8 @@ class TestUploadObservation(AdaptiveTestCase):
         self.assertEqual("completed", observed[-1].details["outcome"])
 
     def test_an_attempt_lasts_from_its_send_to_its_response_headers(self):
-        # Each request is logged slowly (0.3 s) before it is sent, and
-        # storage keeps each part's answer body 0.4 s after its headers:
+        # Each request is logged slowly (0.15 s) before it is sent, and
+        # storage keeps each part's answer body 0.15 s after its headers:
         # neither is network time, so neither is in the attempts' seconds or
         # in the attempts in flight. Part 2's first answer loses its body
         # after its headers: it fails, is sent again, and its bytes and ETag
@@ -1969,7 +1969,7 @@ class TestUploadObservation(AdaptiveTestCase):
         class SlowRequestLog(logging.Handler):
             def emit(self, record):
                 if record.getMessage().startswith("message=Request "):
-                    time.sleep(0.3)
+                    time.sleep(0.15)
 
         handler = SlowRequestLog(logging.INFO)
         logger = logging.getLogger("files_sdk")
@@ -2015,7 +2015,7 @@ class TestUploadObservation(AdaptiveTestCase):
         ):
             with self.subTest(name):
                 service = UploadService(self, part_size=100)
-                service.slow_body = 0.4
+                service.slow_body = 0.15
                 service.drop_body(lost, **answer)
                 throttles.clear()
                 taken_in.append(threading.Event())
@@ -2123,7 +2123,8 @@ class TestUploadObservation(AdaptiveTestCase):
                         attempts["abandoned"],
                     ),
                 )
-                # Five attempts each spent 0.7 s logging or reading a body.
+                # The logging time and successful body reads each exceed
+                # 0.5 s in total; neither counts as network time.
                 self.assertLess(attempts["seconds"], 0.5)
                 self.assertLess(attempts["network_seconds"], 0.5)
                 self.assertEqual(

@@ -73,7 +73,9 @@ class TestStreamDownload(unittest.TestCase):
     def setUp(self):
         self.server = ThreadingHTTPServer(("127.0.0.1", 0), DownloadHandler)
         self.server.release_response = threading.Event()
-        self.thread = threading.Thread(target=self.server.serve_forever)
+        self.thread = threading.Thread(
+            target=self.server.serve_forever, kwargs={"poll_interval": 0.005}
+        )
         self.thread.start()
         self.url = "http://127.0.0.1:{}".format(self.server.server_port)
         # The module facade's transfers: a plain-HTTP API, like the stand-in.

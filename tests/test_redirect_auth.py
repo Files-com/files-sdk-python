@@ -119,8 +119,14 @@ class TestRedirectAuth(unittest.TestCase):
         self.api_server.cross_origin_url = self.storage_url
         self.storage_server.cross_origin_url = self.api_url
         self.threads = [
-            threading.Thread(target=self.api_server.serve_forever),
-            threading.Thread(target=self.storage_server.serve_forever),
+            threading.Thread(
+                target=self.api_server.serve_forever,
+                kwargs={"poll_interval": 0.005},
+            ),
+            threading.Thread(
+                target=self.storage_server.serve_forever,
+                kwargs={"poll_interval": 0.005},
+            ),
         ]
         for thread in self.threads:
             thread.start()

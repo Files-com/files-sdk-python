@@ -5,6 +5,10 @@
     python scripts/tasks.py types     # type check as every supported platform
                                       # and Python version would
     python scripts/tasks.py test [--dependencies minimum] [--artifact WHEEL]
+    python scripts/tasks.py install-check --artifact WHEEL [--dependencies minimum]
+                                      # install and check an artifact as
+                                      # test --artifact does, then run only
+                                      # its install tests, not the suite
     python scripts/tasks.py scenarios --out DIR [--launcher WITH_SCENARIO]
                                       # the tests of the shared mock server's
                                       # scenarios, under its launcher
@@ -24,8 +28,19 @@ once for each platform (Linux, macOS, Windows) at each Python version that
 pyproject.toml's classifiers list, because os and other modules differ between
 them, and fails naming each that reported an error. This is static analysis,
 not a run on those platforms. check, test and package need the Files.com mock
-server that tests/base.py names; build does not, so a release can build and
-check its artifacts without it.
+server that tests/base.py names; build and install-check do not, so a release
+can build and check its artifacts without it.
+
+test --artifact and install-check install a wheel or sdist, hash-checked,
+into a new environment holding exactly the locked runtime graph, run pip
+check, and confirm the installed files_sdk is byte for byte the artifact's,
+imported from that environment, and that its installed metadata requires
+what pyproject.toml does. test --artifact then runs every test against the
+installed package from outside the source tree; install-check runs only
+INSTALL_CHECK_TESTS there. The artifact's code is the source tree's, so a
+full suite of the source tree and one of an installed artifact cover its
+behavior; install-check is the check for the other artifacts, not a run of
+the suite.
 
 Tests that need a scenario of the shared mock server, such as
 tests/test_shared_folder_list.py, are skipped by check, test and package.
@@ -294,6 +309,22 @@ def test(dependencies, artifact=None):
         run(python, "-X", "dev", RUN_TESTS, cwd=PACKAGE)
 
 
+# What install-check runs against the installed package: the documented
+# example's whole tour and the resource examples a caller copies, through
+# the installed code against a local API, and path handling, which reads the
+# package's own data file.
+INSTALL_CHECK_TESTS = ("tests.test_examples", "tests.test_path_util")
+
+
+def install_check(dependencies, artifact):
+    supported_python()
+    test_installed(
+        Path(artifact).resolve(),
+        runtime_lock(dependencies),
+        INSTALL_CHECK_TESTS,
+    )
+
+
 # The shared mock server's scenarios, each with the tests that need it, and
 # its launcher, which the generator writes beside this package.
 SCENARIOS = {"folder-list": "tests.test_shared_folder_list"}
@@ -535,10 +566,40 @@ def verify_installed(environment, artifact):
         )
 
 
-def test_installed(artifact, lock):
+def verify_installed_metadata(environment):
+    """Fail unless the files_com distribution installed in environment, read
+    there in isolated mode, is this package's name and version and requires
+    what pyproject.toml does (verify_metadata)."""
+    read = subprocess.run(
+        [
+            python_in(environment),
+            "-I",
+            "-c",
+            "import importlib.metadata, sys; sys.stdout.write("
+            "importlib.metadata.distribution('files_com').read_text('METADATA'))",
+        ],
+        cwd=environment,
+        capture_output=True,
+        text=True,
+    )
+    if read.returncode != 0:
+        raise TaskFailed(
+            f"Cannot read the installed metadata: {read.stderr.strip()}"
+        )
+    project = tomllib.loads((PACKAGE / "pyproject.toml").read_text())[
+        "project"
+    ]
+    headers = email.parser.HeaderParser().parsestr(read.stdout)
+    installed = (headers.get("Name"), headers.get("Version"))
+    if installed != (project["name"], project["version"]):
+        raise TaskFailed(f"The installed distribution is {installed}")
+    verify_metadata(read.stdout)
+
+
+def test_installed(artifact, lock, names=()):
     """Install artifact with a locked runtime graph into a new environment,
-    confirm what was installed, and run the tests against it from outside
-    the source tree."""
+    confirm what was installed, and run the tests (names, or every one)
+    against it from outside the source tree."""
     TOOLS.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(dir=TOOLS) as scratch:
         scratch = Path(scratch)
@@ -561,13 +622,14 @@ def test_installed(artifact, lock):
         )
         run(python, *PIP_INSTALL, "check")
         verify_installed(environment, artifact)
+        verify_installed_metadata(environment)
 
         tests = scratch / "tests"
         copy_tree_files(PACKAGE / "tests", tests / "tests", "*.py")
         copy_tree_files(PACKAGE / "shared", tests / "shared", "*")
         # The documented example runs against the installed package too.
         copy_tree_files(PACKAGE / "examples", tests / "examples", "*.py")
-        run(python, "-X", "dev", RUN_TESTS, "--installed", cwd=tests)
+        run(python, "-X", "dev", RUN_TESTS, "--installed", *names, cwd=tests)
 
 
 def build_and_check(tools, outdir):
@@ -951,6 +1013,14 @@ def main():
         "--artifact",
         help="test this installed wheel or sdist instead of the source",
     )
+    install_check_parser = tasks.add_parser(
+        "install-check",
+        help="install a wheel or sdist, check it and run its install tests",
+    )
+    install_check_parser.add_argument(
+        "--dependencies", choices=("current", "minimum"), default="current"
+    )
+    install_check_parser.add_argument("--artifact", required=True)
     scenarios_parser = tasks.add_parser(
         "scenarios", help="run the shared mock server's scenario tests"
     )
@@ -992,6 +1062,8 @@ def main():
             type_check()
         elif args.task == "test":
             test(args.dependencies, args.artifact)
+        elif args.task == "install-check":
+            install_check(args.dependencies, args.artifact)
         elif args.task == "scenarios":
             scenarios(args.launcher, args.out)
         elif args.task == "build":

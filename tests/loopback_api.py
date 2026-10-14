@@ -186,7 +186,7 @@ def start_loopback_api(test_case, tls=None):
     """A new LoopbackApi that serves until the test ends."""
     api = LoopbackApi(tls)
     thread = threading.Thread(
-        target=api.server.serve_forever, kwargs={"poll_interval": 0.05}
+        target=api.server.serve_forever, kwargs={"poll_interval": 0.005}
     )
     thread.start()
     test_case.addCleanup(thread.join)
