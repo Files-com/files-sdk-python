@@ -275,6 +275,7 @@ class GroupResource:
         filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
         ids - string - Comma-separated list of group ids to include in results.
         include_parent_site_groups - boolean - Include groups from the parent site.
+        include_default_workspace_groups - boolean - When scoped to a Custom Workspace, include Default Workspace groups that have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
         """
         params = copy_params(params)
         if "cursor" in params and not isinstance(params["cursor"], str):
@@ -307,6 +308,12 @@ class GroupResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: include_parent_site_groups must be an bool"
+            )
+        if "include_default_workspace_groups" in params and not isinstance(
+            params["include_default_workspace_groups"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: include_default_workspace_groups must be an bool"
             )
         operation = Operation.start(self._scope, options)
         return ListObj(Group, "GET", "/groups", params, operation)
@@ -635,6 +642,7 @@ def list(
     filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
     ids - string - Comma-separated list of group ids to include in results.
     include_parent_site_groups - boolean - Include groups from the parent site.
+    include_default_workspace_groups - boolean - When scoped to a Custom Workspace, include Default Workspace groups that have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
     """
     return _legacy_resource.list(params, options)
 

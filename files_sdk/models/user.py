@@ -991,6 +991,7 @@ class UserResource:
         filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
         ids - string - comma-separated list of User IDs
         include_parent_site_users - boolean - Include users from the parent site.
+        include_default_workspace_users - boolean - When scoped to a Custom Workspace, include Default Workspace users who have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
         search - string - Searches for partial matches of name, username, or email.
         """
         params = copy_params(params)
@@ -1044,6 +1045,12 @@ class UserResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: include_parent_site_users must be an bool"
+            )
+        if "include_default_workspace_users" in params and not isinstance(
+            params["include_default_workspace_users"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: include_default_workspace_users must be an bool"
             )
         if "search" in params and not isinstance(params["search"], str):
             raise InvalidParameterError("Bad parameter: search must be an str")
@@ -2231,6 +2238,7 @@ def list(
     filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
     ids - string - comma-separated list of User IDs
     include_parent_site_users - boolean - Include users from the parent site.
+    include_default_workspace_users - boolean - When scoped to a Custom Workspace, include Default Workspace users who have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
     search - string - Searches for partial matches of name, username, or email.
     """
     return _legacy_resource.list(params, options)

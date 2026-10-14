@@ -56,7 +56,8 @@ which uses that client's configuration instead.
 
 ```python
 files_sdk.group.list({
-  "include_parent_site_groups": False
+  "include_parent_site_groups": False,
+  "include_default_workspace_groups": False
 })
 ```
 
@@ -69,6 +70,7 @@ files_sdk.group.list({
 * `filter_prefix` (object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
 * `ids` (string): Comma-separated list of group ids to include in results.
 * `include_parent_site_groups` (boolean): Include groups from the parent site.
+* `include_default_workspace_groups` (boolean): When scoped to a Custom Workspace, include Default Workspace groups that have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
 
 
 ---
