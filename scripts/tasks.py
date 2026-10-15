@@ -57,14 +57,17 @@ replaces; audit refuses any other directory and deletes nothing in it.
 """
 
 import argparse
+import base64
 import email.parser
 import hashlib
+import importlib.metadata
 import json
 import os
 import re
 import shutil
 import subprocess
 import sys
+import sysconfig
 import tarfile
 import tempfile
 import venv
@@ -116,11 +119,92 @@ def python_in(environment):
     return environment / "bin" / "python"
 
 
+def tool_environment(name, *locks):
+    """The path of the locked tool environment called name, and the stamp
+    it holds once this interpreter has built it from today's locks."""
+    path = TOOLS / f"{name}-{PYTHON_TAG}"
+    stamp = {
+        "python": sys.version,
+        "executable": sys.executable,
+        "locks": {
+            lock: sha256(REQUIREMENTS / lock) for lock in ("pip.txt", *locks)
+        },
+    }
+    return path, stamp
+
+
+def record_unchanged(distribution):
+    """Whether every file distribution's RECORD hashes still has that
+    SHA-256."""
+    hashed = [
+        (file, digest)
+        for file in distribution.files or ()
+        if (digest := file.hash)
+    ]
+    return bool(hashed) and all(
+        digest.mode == "sha256"
+        and digest.value
+        == base64.urlsafe_b64encode(
+            hashlib.sha256(file.read_binary()).digest()
+        )
+        .rstrip(b"=")
+        .decode()
+        for file, digest in hashed
+    )
+
+
+def pip_seed(path):
+    """The python of the check tool environment, whose pip can install
+    pip.txt into path, a new environment made without pip, so that path
+    needs no pip of its own first; or None, and path bootstraps pip as venv
+    does.
+
+    format and check build the check environment first, so every
+    environment built after it can use it. It is used only as environment()
+    would reuse it, with this interpreter's stamp of today's pip.txt and
+    check.txt, while its python exists, and when it is not path, in it or
+    around it, which venv clears. Its site-packages must hold one pip, at
+    the version pip.txt pins, whose files still match its RECORD: a check
+    that the tool environment is consistent, not proof of where its pip
+    came from. One that cannot be read is not used. Windows has not been
+    qualified, and pip ignores --python when it runs inside pip, so neither
+    uses it."""
+    if os.name != "posix" or "_PIP_RUNNING_IN_SUBPROCESS" in os.environ:
+        return None
+    try:
+        seed, stamp = tool_environment("check", "check.txt")
+        seed, path = seed.resolve(), Path(path).resolve()
+        if seed.is_relative_to(path) or path.is_relative_to(seed):
+            return None
+        site = sysconfig.get_path(
+            "purelib", "venv", {"base": seed, "platbase": seed}
+        )
+        pin = pinned_versions((REQUIREMENTS / "pip.txt").read_text())
+        pips = list(importlib.metadata.distributions(name="pip", path=[site]))
+        usable = (
+            json.loads((seed / "files-sdk-locks.json").read_text()) == stamp
+            and python_in(seed).is_file()
+            and len(pips) == 1
+            and pips[0].version == pin.get("pip")
+            and record_unchanged(pips[0])
+        )
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    return python_in(seed) if usable else None
+
+
 def fresh_environment(path, *locks):
     """A new virtual environment holding exactly the locked packages."""
-    venv.EnvBuilder(clear=True, with_pip=True).create(path)
+    seed = pip_seed(path)
+    venv.EnvBuilder(clear=True, with_pip=seed is None).create(path)
     python = python_in(path)
-    run(python, *PIP_INSTALL, *LOCKED, "-r", REQUIREMENTS / "pip.txt")
+    if seed:
+        # The seed's pip installs the locked pip into the new environment
+        # (pip --python), in place of the pip venv would install first.
+        seed_pip = (seed, "-m", "pip", "--python", python, *PIP_INSTALL[2:])
+        run(*seed_pip, *LOCKED, "-r", REQUIREMENTS / "pip.txt")
+    else:
+        run(python, *PIP_INSTALL, *LOCKED, "-r", REQUIREMENTS / "pip.txt")
     if sys.version_info < (3, 12):
         # Python 3.11's venv also installs setuptools, which nothing here uses.
         run(
@@ -139,14 +223,7 @@ def fresh_environment(path, *locks):
 def environment(name, *locks):
     """The locked tool environment called name, rebuilt when its locks or
     this interpreter change."""
-    path = TOOLS / f"{name}-{PYTHON_TAG}"
-    stamp = {
-        "python": sys.version,
-        "executable": sys.executable,
-        "locks": {
-            lock: sha256(REQUIREMENTS / lock) for lock in ("pip.txt", *locks)
-        },
-    }
+    path, stamp = tool_environment(name, *locks)
     stamp_file = path / "files-sdk-locks.json"
     if stamp_file.exists() and json.loads(stamp_file.read_text()) == stamp:
         return python_in(path)
