@@ -1282,18 +1282,32 @@ class TestDownloadResume(ResumeTestCase):
         )
         self.assertEqual(path.read_bytes(), b"\0" * 9500)
 
-    @unittest.skipIf(sys.platform == "win32", "POSIX permissions")
     def test_a_temporary_file_others_could_have_opened_is_not_resumed(self):
         # Whoever opened it meanwhile could keep reading or writing it, so
-        # the download starts again with a new one and the old is removed.
-        # One still private resumes, also (on macOS) in a folder whose access
-        # control list lets everyone use every file and folder made in it.
+        # the download starts again with a new one and the old is removed,
+        # or on Windows left as it is. One still private resumes, also (on
+        # macOS) in a folder whose access control list lets everyone use
+        # every file and folder made in it. Windows permissions show only
+        # whether a file is read-only, so there access control lists decide.
         # Each is downloaded into a folder of its own.
-        cases = [
-            ("private", None),
-            ("readable", lambda stage: os.chmod(stage, 0o644)),
-            ("directory mode", lambda stage: os.chmod(stage.parent, 0o755)),
-        ]
+        if sys.platform == "win32":
+            cases = [
+                ("private", None),
+                ("file list", lambda stage: icacls(stage, "*S-1-1-0:(R)")),
+                (
+                    "directory list",
+                    lambda stage: icacls(stage.parent, "*S-1-1-0:(M)"),
+                ),
+            ]
+        else:
+            cases = [
+                ("private", None),
+                ("readable", lambda stage: os.chmod(stage, 0o644)),
+                (
+                    "directory mode",
+                    lambda stage: os.chmod(stage.parent, 0o755),
+                ),
+            ]
         if sys.platform == "darwin":
             cases += [
                 (
@@ -1336,6 +1350,11 @@ class TestDownloadResume(ResumeTestCase):
                     )
                 if expose is not None:
                     expose(stage)
+                left = (
+                    sdk_entries(folder)
+                    if expose is not None and sys.platform == "win32"
+                    else []
+                )
                 before = len(service.ranges())
 
                 self.client(service).file.download_file(
@@ -1347,7 +1366,7 @@ class TestDownloadResume(ResumeTestCase):
                 self.assertEqual(
                     len(service.ranges()) - before, 5 if expose is None else 10
                 )
-                self.assertEqual(sdk_entries(folder), [])
+                self.assertEqual(sdk_entries(folder), left)
                 self.assertFalse(self.checkpoint.exists())
 
     def test_progress_is_saved_while_a_range_takes_longer(self):
@@ -1690,6 +1709,16 @@ def has_acl(path):
             ).stdout.splitlines()
         )
         > 1
+    )
+
+
+def icacls(path, grant):
+    """Grant a Windows access control entry with its own tool."""
+    subprocess.run(
+        ["icacls", str(path), "/grant", grant],
+        check=True,
+        capture_output=True,
+        timeout=10,
     )
 
 

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "files_com"
-version = "2.0.4"
+version = "2.0.5"
 description = "Python bindings for the Files.com API"
 readme = "README.md"
 license = "MIT"
@@ -19,7 +19,7 @@ dependencies = [
     "requests-toolbelt>=1.0.0,<2",
     "urllib3>=2.8.0,<3",
     "idna>=3.15,<4",
-    "certifi>=2026.7.22",
+    "certifi>=2026.10.19",
     "charset-normalizer>=3.5.1,<4",
 ]
 classifiers = [

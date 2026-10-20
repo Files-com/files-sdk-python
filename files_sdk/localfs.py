@@ -178,10 +178,15 @@ class Directory:
         path, dir_fd = self._at(name)
         os.rmdir(path, dir_fd=dir_fd)
 
+    def renames_by_path(self, target):
+        """Whether rename_into goes by path names, where directories are not
+        held open (Windows)."""
+        return self.fd is None or target.fd is None
+
     def rename_into(self, name, target, target_name):
         """Rename name here to target_name in the directory target,
         replacing what is there."""
-        if self.fd is None or target.fd is None:
+        if self.renames_by_path(target):
             os.replace(self.join(name), target.join(target_name))
             return
         os.rename(name, target_name, src_dir_fd=self.fd, dst_dir_fd=target.fd)
@@ -452,9 +457,53 @@ class Stage:
             os.chmod(self.private.join(self.file_name), mode)
         if not self._is_ours():
             raise ReplacedStage(self.private.join(self.file_name))
-        self.private.rename_into(self.file_name, self.parent, target_name)
-        self.close()
+        if self.private.renames_by_path(self.parent):
+            # Windows does not rename a file this process holds open: os.open
+            # does not share deletion. The file is closed first, and opened
+            # again if it is not renamed, so that a checkpoint can still sync
+            # and keep it.
+            self.close()
+            try:
+                self.private.rename_into(
+                    self.file_name, self.parent, target_name
+                )
+            except BaseException as error:
+                self._reopen(error)
+                raise
+        else:
+            self.private.rename_into(self.file_name, self.parent, target_name)
+            self.close()
         self._remove_private()
+
+    def _reopen(self, error):
+        """Open the file again after it was closed to be renamed and was not
+        (error is why), if it is still the SDK's own; otherwise it stays
+        closed, with a note on error saying why. Nothing here is raised in
+        place of error."""
+        path = self.private.join(self.file_name)
+        try:
+            fd = self.private.open_file(self.file_name, os.O_RDWR)
+        except OSError as problem:
+            error.add_note(
+                "The temporary file {} could not be opened again: {}".format(
+                    path, problem
+                )
+            )
+            return
+        try:
+            mine = identity_of(os.fstat(fd)) == self.file_identity
+        except OSError:
+            mine = False
+        if mine:
+            self.fd = fd
+            return
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+        error.add_note(
+            "The temporary file {} is no longer the SDK's own".format(path)
+        )
 
     def close(self):
         fd, self.fd = self.fd, -1
@@ -502,12 +551,24 @@ def _exposed(private, directory, fd, found):
     its status) or its private directory (directory is its status) has
     since become usable by others: by the directory's or the file's
     permissions, the file's owner, or on macOS an access control list on
-    either. Whoever opened it meanwhile keeps what they opened, however the
+    either. Windows permissions show only whether an item is read-only, so
+    there it is by owners and access control lists (see files_sdk.access):
+    the file's must let no one but this user, the system or administrators
+    use it, and the private directory and every folder above it must let no
+    one else delete, replace or re-permission them or what is in them, nor
+    be a link or junction; what cannot be read counts as usable by others.
+    Whoever opened it meanwhile keeps what they opened, however the
     permissions are changed back, so such a file is never resumed."""
+    if sys.platform == "win32":
+        try:
+            return (
+                access.namespace_problem(private.path) is not None
+                or access.new_file_problem(fd, "temporary file") is not None
+            )
+        except OSError:
+            return True
     if stat.S_IMODE(directory.st_mode) & 0o077:
         return True
-    if sys.platform == "win32":
-        return False
     if stat.S_IMODE(found.st_mode) & 0o077 or found.st_uid != os.geteuid():
         return True
     return private.fd is not None and (

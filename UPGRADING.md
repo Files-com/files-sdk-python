@@ -22,7 +22,7 @@ These are the lowest versions version 2 installs with:
 | requests | 2.34.2 | Security fixes, such as keeping `.netrc` credentials with their host |
 | urllib3 | 2.8.0 | Security fixes for streamed and compressed downloads |
 | idna | 3.15 | Security fix for very long host names |
-| certifi | 2026.7.22 | Current trusted certificate authorities |
+| certifi | 2026.10.19 | Current trusted certificate authorities |
 | charset-normalizer | 3.5.1 | The maintained release version 2 is tested with |
 | requests-toolbelt | 1.0.0 | The current release, which binds `files_sdk.source_ip` |
 

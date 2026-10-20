@@ -1489,8 +1489,10 @@ class TestDownloadedFiles(DownloadTestCase):
 class TestStageCapabilities(DownloadTestCase):
     """A stage does its work with or without the os functions some platforms
     lack: exact writes without os.pwrite (as on Windows), from several
-    threads at once as a download's ranges write, and a replaced file's
-    permissions without os.fchmod (as on Windows before 3.13)."""
+    threads at once as a download's ranges write, a replaced file's
+    permissions without os.fchmod (as on Windows before 3.13), and
+    publishing by path names, without directories held open (as on
+    Windows)."""
 
     def written(self, together=False, **patches):
         with localfs.Directory.open(str(self.scratch)) as parent:
@@ -1597,6 +1599,79 @@ class TestStageCapabilities(DownloadTestCase):
         self.assertEqual(0o640, stat.S_IMODE(os.stat(target).st_mode))
         self.assertEqual(b"new content", target.read_bytes())
         self.assertEqual([], self.stages())
+
+    def test_publishing_by_path_renames_the_closed_file_or_keeps_it_for_a_checkpoint(
+        self,
+    ):
+        # Windows does not rename a file this process holds open, as os.open
+        # opens it, nor replace one another program holds open; elsewhere
+        # os.replace refuses them as Windows would.
+        real_replace = os.replace
+        held = []
+        stage = None
+
+        def windows_replace(source, destination):
+            if sys.platform != "win32" and (
+                stage.fd >= 0 or os.fspath(destination) in held
+            ):
+                raise PermissionError(
+                    errno.EACCES,
+                    "The process cannot access the file because it is being used by another process",
+                )
+            real_replace(source, destination)
+
+        with (
+            mock.patch.object(localfs, "ANCHORED", False),
+            mock.patch("os.replace", windows_replace),
+        ):
+            for case, name, old, new in (
+                ("a new file", "new.bin", None, b"new content"),
+                ("an empty new file", "empty.bin", None, b""),
+                ("a replaced file", "out.bin", b"old content", b"new content"),
+            ):
+                with self.subTest(case):
+                    target = self.scratch / name
+                    if old is not None:
+                        self.existing(old, name)
+                    with localfs.Directory.open(str(self.scratch)) as parent:
+                        stage = localfs.Stage.create(parent, name)
+                        stage.truncate(len(new))
+                        stage.write_at(0, new)
+                        stage.publish(name, confined=False)
+                    self.assertEqual(new, target.read_bytes())
+                    self.assertEqual([], self.stages())
+            with self.subTest("a replaced file another program holds open"):
+                target = self.existing(name="held.bin")
+                # Owner-only: the temporary file takes these permissions,
+                # and elsewhere than Windows only a private one is resumed.
+                os.chmod(target, 0o600)
+                with localfs.Directory.open(str(self.scratch)) as parent:
+                    stage = localfs.Stage.create(parent, target.name)
+                    recorded = stage.state()
+                    stage.truncate(11)
+                    stage.write_at(0, b"new content")
+                    with open(target, "rb"):
+                        held.append(os.fspath(target))
+                        with self.assertRaises(PermissionError):
+                            stage.publish(target.name, confined=False)
+                    held.clear()
+                    self.assertEqual(b"old content", target.read_bytes())
+                    # Kept for a checkpoint, as a failed download keeps it.
+                    stage.sync()
+                    stage.keep()
+                self.assertEqual(
+                    [os.path.join(recorded["directory"], recorded["name"])],
+                    self.stage_files(),
+                )
+                self.assertEqual(b"old content", target.read_bytes())
+                # A later attempt resumes the same file, still private, and
+                # publishes it, leaving nothing behind.
+                with localfs.Directory.open(str(self.scratch)) as parent:
+                    stage = localfs.Stage.adopt(parent, recorded, 11)
+                    self.assertIsNotNone(stage)
+                    stage.publish(target.name, confined=False)
+                self.assertEqual(b"new content", target.read_bytes())
+                self.assertEqual([], self.stages())
 
 
 class TestDownloadLimits(DownloadTestCase):
