@@ -86,7 +86,7 @@ REQUIREMENTS = PACKAGE / "requirements"
 TOOLS = Path(
     os.environ.get("FILES_SDK_TOOLS_DIR", PACKAGE / ".tools")
 ).absolute()
-SOURCES = ("files_sdk", "tests", "examples", "scripts")
+SOURCES = ("files_sdk", "tests", "examples", "scripts", "scenarios")
 # The files the sdist holds besides files_sdk/.
 BUILD_INPUTS = ("pyproject.toml", "MANIFEST.in", "README.md", "LICENSE")
 PYTHON_TAG = f"py{sys.version_info.major}{sys.version_info.minor}"
@@ -403,8 +403,35 @@ def install_check(dependencies, artifact):
 
 
 # The shared mock server's scenarios, each with the tests that need it, and
-# its launcher, which the generator writes beside this package.
-SCENARIOS = {"folder-list": "tests.test_shared_folder_list"}
+# its launcher, which the generator writes beside this package. Under the
+# api-scenarios-canonical preset, scenarios/api_scenarios.py runs the shared
+# API scenarios (verification/scenarios/api.json) as four cases against one
+# server, each in a folder of its own, and writes each case's evidence to
+# the launcher's DIR/api-scenarios.
+SCENARIOS = {
+    "folder-list": "tests.test_shared_folder_list",
+    "api-scenarios-canonical": "scenarios.api_scenarios",
+}
+# The launcher options a scenario's run adds before its "--", if any. The
+# canonical cases' own time limits are cooperative (see
+# scenarios/api_scenarios.py), so their run has the launcher's hard ones: 30
+# seconds for the server to start, and 180 for the consumer, after which the
+# launcher ends the consumer's process group (status 124) and the case in
+# progress runs no cleanup of its own. The settle timeout, 5 seconds, bounds
+# each wait for a process group to stop, after TERM and after KILL, not the
+# launcher's whole cleanup; saving the journal has best-effort bounds of its
+# own, 2 seconds to connect and 30 to answer. How long this adds to the
+# Python job is measured only by running it.
+SCENARIO_OPTIONS = {
+    "api-scenarios-canonical": (
+        "--startup-timeout",
+        30,
+        "--consumer-timeout",
+        180,
+        "--settle-timeout",
+        5,
+    ),
+}
 LAUNCHER = PACKAGE.parent / "mock-server" / "with-scenario.rb"
 
 
@@ -425,7 +452,9 @@ def scenarios(launcher, outdir):
             report = Path(scratch) / "report.json"
             run(
                 *("ruby", launcher, "--scenario", scenario),
-                *("--out", outdir / scenario, "--"),
+                *("--out", outdir / scenario),
+                *SCENARIO_OPTIONS.get(scenario, ()),
+                "--",
                 *(python, "-X", "dev", RUN_TESTS, "--report", report, tests),
                 cwd=PACKAGE,
             )
