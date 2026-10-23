@@ -2129,7 +2129,10 @@ class UploadObservation:
     with the process's resources) or "finish" (details: the record of the
     whole upload, whatever its outcome, with the settings it used and the
     SDK and Python that ran it). elapsed counts seconds from the upload's
-    start; the counts are those at the moment observed. parts_in_progress
+    start; target_concurrency and the counts are those when the observation
+    is delivered, which for a decision can be after later decisions:
+    decision_target_concurrency is the controller's target immediately after
+    that decision, and None for every other kind. parts_in_progress
     counts the upload's parts handed to workers and not yet finished, which
     includes parts waiting to be sent again; attempts_in_progress counts the
     attempts its controller has on the network (for a job, all of its
@@ -2161,6 +2164,7 @@ class UploadObservation:
     shortfall: str | None = None
     queue_estimate: float | None = None
     attempts_in_progress: int | None = None
+    decision_target_concurrency: int | None = None
 
 
 def process_resources() -> dict[str, float] | None:
@@ -2258,12 +2262,12 @@ class Observer:
 
     def poll(self):
         """Note the upload's state, as it goes and whenever a part starts or
-        ends, and deliver the decisions made since and a sample when one is
-        due."""
+        ends, and deliver the decisions made since, each with the target it
+        left, and a sample when one is due."""
         self._now()
         heard = self._heard
         while heard:
-            decision, _target, cooldown, epoch, shortfall, queue = (
+            decision, target, cooldown, epoch, shortfall, queue = (
                 heard.popleft()
             )
             self.decisions[decision] += 1
@@ -2274,6 +2278,7 @@ class Observer:
                 epoch=epoch,
                 shortfall=shortfall,
                 queue_estimate=queue,
+                decision_target_concurrency=target,
             )
         now = time.monotonic()
         if now - self.sampled_at >= _SAMPLE_INTERVAL:

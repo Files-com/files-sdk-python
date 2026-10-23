@@ -16,6 +16,7 @@ import files_sdk
 import requests
 from files_sdk.adaptive import (
     Controller,
+    Observer,
     UploadStartup,
     UploadTuning,
     _SizeFeedback,
@@ -181,6 +182,60 @@ class TestController(unittest.TestCase):
         self.assertEqual(4, controller.target)
         controller.record(success=False, seconds=0.1, size=0)
         self.assertEqual(3, controller.target)
+
+    def test_a_decision_delivered_after_a_recovery_keeps_the_target_it_left(
+        self,
+    ):
+        # A failure shrinks the target and a success grows it again before the
+        # observer delivers either: each decision reports the target right
+        # after it, while target_concurrency is the target at delivery.
+        controller = self.controller(
+            max_concurrency=6,
+            initial_concurrency=4,
+            min_concurrency=1,
+            grow_every=1,
+            grow_step=1,
+            failure_shrink_percent=50,
+            throughput_window=0,
+        )
+        observed = []
+        observer = Observer(
+            observed.append, lambda: (controller.target, 5, 2, 4096, 1)
+        )
+        observer.watch(controller)
+        controller.record(success=False, seconds=0.1, size=0)
+        self.assertEqual(2, controller.target)
+        self.succeed(controller, 1)
+        self.assertEqual(3, controller.target)
+        observer.poll()
+        self.assertEqual(
+            [
+                ("decision", "failure", 2, 3),
+                ("decision", "grow", 3, 3),
+                ("sample", None, None, 3),
+            ],
+            [
+                (
+                    o.kind,
+                    o.decision,
+                    o.decision_target_concurrency,
+                    o.target_concurrency,
+                )
+                for o in observed
+            ],
+        )
+        self.assertEqual(
+            {(5, 2, 4096, 1)},
+            {
+                (
+                    o.parts_in_progress,
+                    o.runway_parts,
+                    o.runway_bytes,
+                    o.attempts_in_progress,
+                )
+                for o in observed
+            },
+        )
 
     def test_backpressure_shrinks_it_pauses_new_parts_and_later_successes_recover(
         self,
