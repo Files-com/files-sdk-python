@@ -13,6 +13,7 @@ import json
 import sys
 import threading
 import time
+from collections.abc import Callable
 from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qsl, unquote, urlsplit
@@ -143,7 +144,9 @@ class UploadService:
         )  # part -> [(status, retry_after) or "hang up"]
         self._holds = {}  # part -> (arrived, release) events
         self._expire_first = None
-        self.on_put = None  # called with the part number as each part arrives
+        self.on_put: Callable[[int], object] | None = (
+            None  # called with the part number as each part arrives; what it returns is ignored
+        )
         self.slow_body = (
             0.0  # seconds a part's answer keeps its body after its headers
         )

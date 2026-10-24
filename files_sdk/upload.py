@@ -16,8 +16,11 @@ so a retry sends exactly the bytes the first attempt sent, whatever happens
 to the stream meanwhile. A local file's part is read from the file as it is
 sent, through a small copy buffer, and each retry reads the same range
 again (a part no larger than that buffer, or any part while DEBUG logging
-is on, is read whole before it starts); the file must not change, and is
-checked around every read. A
+is on, is read whole before it starts). The file must not change while it
+uploads: it is checked around every read and before the upload completes,
+by its metadata and, on Windows, by Windows' notice of a write where
+Windows gives one (see _PathSource), and a change found fails the upload,
+though no check can find every change. A
 TransferLimiter bounds the parts in progress and the bytes their buffers
 hold, across every upload that shares it. Each attempt to send a part holds
 a permit from the upload's controller (see files_sdk.adaptive) for that
@@ -37,7 +40,14 @@ Pausing stops placing parts, lets those in progress finish and saves the
 checkpoint. The checkpoint's completion says whether the request that
 completes the upload is still to send ("pending"), was about to be sent
 ("completing", saved to disk before it is), or may have been received
-("uncertain"); a later call completes only a pending upload.
+("uncertain"); a later call completes only a pending upload. A pending
+upload whose file was seen to change, even while pausing, keeps nothing to
+resume: what arrived may hold the file's earlier bytes, which its recorded
+metadata cannot tell apart. So one that fails for another reason looks at
+its file once more before its checkpoint is kept, and a call that sees the
+file change before it takes up the pending upload its checkpoint records,
+as when it was paused before it began, forgets that one too. One that may
+already have completed is kept as it was, whatever the file did.
 """
 
 import collections
@@ -50,6 +60,7 @@ import io
 import logging
 import math
 import os
+import sys
 import tempfile
 import threading
 import time
@@ -1014,39 +1025,139 @@ def _floor_mib_power(size):
     return (1 << (mib.bit_length() - 1)) * MiB
 
 
+if sys.platform == "win32":
+    import ctypes
+    import msvcrt
+    from ctypes import wintypes
+
+    from files_sdk import windows_file
+
+    class _FileBasicInfo(ctypes.Structure):
+        """FILE_BASIC_INFO. Its times are FILETIME ticks (LARGE_INTEGER
+        counts of 100 ns)."""
+
+        _fields_ = [
+            ("CreationTime", ctypes.c_int64),
+            ("LastAccessTime", ctypes.c_int64),
+            ("LastWriteTime", ctypes.c_int64),
+            ("ChangeTime", ctypes.c_int64),
+            ("FileAttributes", wintypes.DWORD),
+        ]
+
+    # GetFileInformationByHandleEx, from a kernel32 of the SDK's own so that
+    # its argument types are set for it alone, and its FileBasicInfo class.
+    _get_file_information = ctypes.WinDLL(
+        "kernel32", use_last_error=True
+    ).GetFileInformationByHandleEx
+    _get_file_information.argtypes = (
+        wintypes.HANDLE,
+        ctypes.c_int,
+        ctypes.c_void_p,
+        wintypes.DWORD,
+    )
+    _get_file_information.restype = wintypes.BOOL
+    _FILE_BASIC_INFO_CLASS = 0
+
+    def _change_time(file):
+        """When Windows last changed the open file's data or attributes, in
+        FILETIME ticks. Python cannot say: its ctime is the creation time
+        from os.stat, and from os.fstat too before Python 3.12. The handle
+        belongs to the file's descriptor; it is borrowed, not closed."""
+        info = _FileBasicInfo()
+        handle = msvcrt.get_osfhandle(file.fileno())
+        if not _get_file_information(
+            handle,
+            _FILE_BASIC_INFO_CLASS,
+            ctypes.byref(info),
+            ctypes.sizeof(info),
+        ):
+            raise ctypes.WinError(ctypes.get_last_error())
+        return info.ChangeTime
+
+
 class _PathSource:
     """A local file, read by part with a handle of its own for each read.
 
-    It must not change while it uploads. Its size, modification time and
-    (except on Windows, where Python reports the creation time instead)
-    status change time are checked around every read and before the
-    upload completes, so a change fails the upload instead of completing
-    it with mixed contents.
+    It must not change while it uploads. The SDK looks for changes, and a
+    change it finds fails the upload instead of completing it with mixed
+    contents, but no check finds every change. Its device, inode, size,
+    modification time and status change time are checked around every read
+    and before the upload completes. On Windows, where Python's ctime is not
+    the status change time (see _change_time), the change time is read from
+    Windows for each open handle instead, and the file at the path is opened
+    again before the upload completes. Since Windows can leave all of that
+    as it was after a write, the upload of a file on a local disk also asks
+    Windows for notice of any write (files_sdk.windows_file), before anything
+    of the file is looked at and until the upload is over; where Windows
+    gives none, the metadata alone is checked. Once a change is seen, every
+    later check fails too. A checkpoint records the identity os.stat gives,
+    as it always has, which a later call compares: equal metadata does not
+    prove equal bytes. close() releases what the source holds.
     """
 
     ordered = False
 
     def __init__(self, path, *, send_mtime=True, owned=False, expected=None):
         self.path = os.fspath(path)
-        stat = os.stat(self.path)
-        if expected is not None and [
-            stat.st_dev,
-            stat.st_ino,
-            stat.st_size,
-            stat.st_mtime_ns,
-        ] != list(expected):
-            # Not the file a job found at this path, or it changed since.
-            raise InvalidRequestError(
-                "The file {} changed or was replaced after it was found, so it was "
-                "not uploaded.".format(self.path)
-            )
-        self.size = stat.st_size
-        self.mtime = stat.st_mtime if send_mtime else None
-        self._identity = self._identity_of(stat)
+        # Whether a change was seen: every check after it fails too.
+        self.changed_seen = False
+        # Windows' notice of a write, asked for before anything of the file
+        # is looked at, so that a write from then on is noticed whatever it
+        # leaves of the metadata; None elsewhere, and where Windows gives
+        # none.
+        self._guard = (
+            windows_file.acquire(self.path)
+            if sys.platform == "win32"
+            else None
+        )
+        try:
+            stat = os.stat(self.path)
+            if expected is not None and [
+                stat.st_dev,
+                stat.st_ino,
+                stat.st_size,
+                stat.st_mtime_ns,
+            ] != list(expected):
+                # Not the file a job found at this path, or it changed since.
+                raise InvalidRequestError(
+                    "The file {} changed or was replaced after it was found, so it was "
+                    "not uploaded.".format(self.path)
+                )
+            self.size = stat.st_size
+            self.mtime = stat.st_mtime if send_mtime else None
+            self._identity = self._identity_of(stat)
+            # What every read is checked against (see _live_identity): the
+            # identity above, or on Windows the opened file's, which must be the
+            # file just found at the path.
+            self._live = self._identity
+            if sys.platform == "win32":
+                with open(self.path, "rb") as file:
+                    self._live = self._live_identity(file)
+                if self._live[:4] != self._identity[:4]:
+                    raise self._changed()
+                if self._guard is not None:
+                    # The notice must be of the very file just found at the
+                    # path, and of no write since it was granted.
+                    if (
+                        self._identity_of(self._guard.stat())[:4]
+                        != self._identity[:4]
+                    ):
+                        raise self._changed()
+                    self._check_guard()
+        except BaseException:
+            self.close()
+            raise
         # The SDK's own copy of a stream, made again for each call: its
         # parts are checked by their bytes when an upload resumes.
         self.owned = owned
         self.record_digests = False
+
+    def close(self):
+        """Release what the source holds (Windows' notice of writes), once
+        the upload is over: its parts' workers and bodies have finished.
+        Safe to repeat."""
+        if self._guard is not None:
+            self._guard.close()
 
     @property
     def check_on_resume(self):
@@ -1069,13 +1180,52 @@ class _PathSource:
             stat.st_ctime_ns,
         )
 
+    def _live_identity(self, file):
+        """The identity of file, opened from the path, to check against the
+        one the upload began with: as _identity_of gives it from os.fstat,
+        except that on Windows the change time is Windows' own. A file whose
+        change time cannot be read is not uploaded unchecked."""
+        stat = os.fstat(file.fileno())
+        if sys.platform != "win32":
+            return self._identity_of(stat)
+        try:
+            changed = _change_time(file)
+        except OSError as error:
+            raise InvalidRequestError(
+                "The file {} could not be checked for changes ({}), so the "
+                "upload was not completed.".format(self.path, error)
+            ) from error
+        return (
+            stat.st_dev,
+            stat.st_ino,
+            stat.st_size,
+            stat.st_mtime_ns,
+            changed,
+        )
+
     def _changed(self):
+        self.changed_seen = True
         return InvalidRequestError(
             "The file {} changed while it was being uploaded, so the upload was "
             "not completed. Upload it again once it has stopped changing.".format(
                 self.path
             )
         )
+
+    def _check_guard(self):
+        """Raise if a change was seen, or Windows has told of a write since
+        the upload began, or can no longer tell (its notice ended)."""
+        if self.changed_seen or (
+            self._guard is not None and not self._guard.intact()
+        ):
+            raise self._changed()
+
+    def _check_live(self, file):
+        """Raise unless file, opened from the path, is still the file the
+        upload began with, unchanged as far as can be seen."""
+        self._check_guard()
+        if self._live_identity(file) != self._live:
+            raise self._changed()
 
     def body(self, part, lifetime):
         """What sends a part not read whole: a _PartBody that reads its
@@ -1087,15 +1237,12 @@ class _PathSource:
         """The part's bytes, read with a handle of its own."""
         lifetime.check("reading the file")
         with open(self.path, "rb") as file:
-            if self._identity_of(os.fstat(file.fileno())) != self._identity:
-                raise self._changed()
+            self._check_live(file)
             file.seek(part.offset)
             data = file.read(part.length)
-            if (
-                len(data) != part.length
-                or self._identity_of(os.fstat(file.fileno())) != self._identity
-            ):
+            if len(data) != part.length:
                 raise self._changed()
+            self._check_live(file)
         if self.record_digests:
             part.digest = hashlib.sha256(data).hexdigest()
         return data
@@ -1117,6 +1264,14 @@ class _PathSource:
             raise _different_stream(part)
 
     def check_unchanged(self):
+        """Raise unless the file at the path is still the one the upload
+        began with, unchanged as far as can be seen: no change seen, and no
+        write Windows told of. On Windows it is opened first, for the change
+        time a rewrite since its last part was read leaves."""
+        self._check_guard()
+        if sys.platform == "win32":
+            with open(self.path, "rb") as file:
+                self._check_live(file)
         if self._identity_of(os.stat(self.path)) != self._identity:
             raise self._changed()
 
@@ -1171,11 +1326,7 @@ class _PartBody:
         source, part = self._source, self._part
         if self._file is None:
             self._file = open(source.path, "rb")
-            if (
-                source._identity_of(os.fstat(self._file.fileno()))
-                != source._identity
-            ):
-                raise source._changed()
+            source._check_live(self._file)
             self._file.seek(part.offset)
             self._hash = hashlib.sha256() if source.record_digests else None
         left = part.length - self._read
@@ -1191,11 +1342,7 @@ class _PartBody:
         if self._hash is not None:
             self._hash.update(data)
         if self._read == part.length:
-            if (
-                source._identity_of(os.fstat(self._file.fileno()))
-                != source._identity
-            ):
-                raise source._changed()
+            source._check_live(self._file)
             if self._hash is not None:
                 part.digest = self._hash.hexdigest()
         return data
@@ -1818,6 +1965,9 @@ class _Upload:
         self.completion = "pending"
         # Whether parts arrived since the checkpoint was last saved.
         self.dirty = False
+        # Whether the checkpoint's state was forgotten because the source was
+        # seen to change (_invalidate): nothing is saved after that.
+        self.invalidated = False
         # Delivers observations, when tuning has an observer.
         self.observer: Observer | None = None
 
@@ -1839,6 +1989,10 @@ class _Upload:
                     self._send_parts(executor)
                 except _Paused:
                     self._drain()
+                    # What arrived is kept for resuming only while it is of
+                    # the file as it is: a change seen while draining, or
+                    # found now, fails the upload instead, which forgets it.
+                    self._check_source()
                     paused = True
             except BaseException as error:
                 # Stop the other parts and wait for them before raising.
@@ -1930,10 +2084,15 @@ class _Upload:
         )
 
     def _complete(self):
-        self.progress.report(force=True)
-        self.operation.lifetime.check("completing the upload")
-        if isinstance(self.source, _PathSource):
-            self.source.check_unchanged()
+        try:
+            self.progress.report(force=True)
+            self.operation.lifetime.check("completing the upload")
+            self._check_source()
+        except BaseException as error:
+            # Still pending: the checkpoint keeps what it last saved, unless
+            # the file is seen to have changed (_forget_if_changed).
+            self._forget_if_changed(error)
+            raise
         # Saved, to disk, before the request that completes the upload is
         # sent: if the process dies or the answer is lost from here on, a
         # later call finds the upload may be complete, and does not
@@ -2648,8 +2807,15 @@ class _Upload:
         """Save the checkpoint: when final, or when parts arrived since the
         last save and a save is due, so progress is saved within about a
         second even while the parts in progress take longer. durable
-        writes it to disk now, even as a job's slot."""
-        if self.store is None or self.session.ref is None:
+        writes it to disk now, even as a job's slot. Nothing is saved once
+        the source was seen to change, nor once the state was forgotten
+        (_invalidate)."""
+        if (
+            self.store is None
+            or self.session.ref is None
+            or self.invalidated
+            or self._source_changed()
+        ):
             return
         if not final and not (self.dirty and self.store.due()):
             return
@@ -2658,12 +2824,90 @@ class _Upload:
 
     def _save_quietly(self, error):
         """Save the checkpoint as the upload stops with error, noting on
-        error if that fails rather than hiding it."""
+        error if that fails rather than hiding it; or, for an upload whose
+        source was seen to change, then or before, forget its state instead
+        (_forget_if_changed)."""
+        if self._forget_if_changed(error):
+            return
         try:
             self._save_state(final=True)
         except OSError as problem:
             error.add_note(
                 "The checkpoint {} could not be saved: {}".format(
+                    self.store.path, problem
+                )
+            )
+
+    def _forget_if_changed(self, error):
+        """As the upload stops with error, its workers finished and its file
+        still held, forget the checkpoint's state (_invalidate) if the file
+        was seen to change, now or before, while a later call could still
+        complete what the checkpoint records; and return whether it did. An
+        upload this call began or resumed looks at a local file once more
+        first, since a change after it was last checked, such as while a
+        part read before was being sent, is seen no other way. Before the
+        call takes up the upload its checkpoint records (_start), as when it
+        was paused before it began, that upload is forgotten only if the
+        checkpoint has it pending and the call has already seen the file
+        change. One that may already have completed is left as it was,
+        whatever the file did. error stands either way: a change found now
+        is recorded, never raised."""
+        source = self.source
+        if self.session.ref is None:
+            # Nothing of this call's own was begun or resumed: what the
+            # checkpoint holds, if anything, an earlier call recorded.
+            recorded = self.store.load() if self.store is not None else None
+            if not (
+                isinstance(recorded, dict)
+                and recorded.get("completion") == "pending"
+            ):
+                return False
+        elif (
+            self.store is not None
+            and self.completion == "pending"
+            and isinstance(source, _PathSource)
+            and not source.changed_seen
+        ):
+            with contextlib.suppress(InvalidRequestError, OSError):
+                # Raises for a change, having recorded it; a file that
+                # cannot be looked at now is not taken to have changed.
+                source.check_unchanged()
+        if not self._source_changed():
+            return False
+        self._invalidate(error)
+        return True
+
+    def _check_source(self):
+        """Raise unless a local file is unchanged as far as can be seen
+        (_PathSource.check_unchanged)."""
+        if isinstance(self.source, _PathSource):
+            self.source.check_unchanged()
+
+    def _source_changed(self):
+        """Whether the source was seen to change while a later call could
+        still complete the upload (its completion pending): the parts that
+        arrived may then hold bytes of the file as it was, which no
+        checkpoint identity can tell apart from what it is now. An upload
+        that may have completed keeps its state, so it is never completed
+        again."""
+        return self.completion == "pending" and getattr(
+            self.source, "changed_seen", False
+        )
+
+    def _invalidate(self, error):
+        """Forget, durably, the checkpoint's state of a pending upload whose
+        source was seen to change (see _forget_if_changed), so that no later
+        call resumes it, and save nothing more. If that fails, the checkpoint
+        may still hold the state: error says so, and to remove it."""
+        self.invalidated = True
+        if self.store is None:
+            return  # No checkpoint.
+        try:
+            self.store.invalidate()
+        except OSError as problem:
+            error.add_note(
+                "The checkpoint {} could not be updated to forget this upload of a file that "
+                "changed: {}. Remove it before uploading the file again.".format(
                     self.store.path, problem
                 )
             )
@@ -3037,27 +3281,34 @@ def upload_path(
     return the File created. With checkpoint (a local path), or store (a
     job's slot), the upload can be paused and resumed. expected, for a
     job's file, is the device, inode, size and modification time the file
-    was found with, which it must still have; scope, the job's UploadScope."""
+    was found with, which it must still have; scope, the job's UploadScope.
+    What the source holds is released once the upload is over, or fails
+    before it begins."""
     source = _PathSource(path, expected=expected)
-    upload = _Upload(
-        operation,
-        destination,
-        source,
-        params,
-        max_concurrency,
-        progress,
-        tuning,
-        pause_token,
-        scope,
-    )
-    return _run(
-        upload,
-        checkpoint,
-        store,
-        os.path.realpath(source.path),
-        params,
-        [source.path],
-    )
+    try:
+        upload = _Upload(
+            operation,
+            destination,
+            source,
+            params,
+            max_concurrency,
+            progress,
+            tuning,
+            pause_token,
+            scope,
+        )
+        return _run(
+            upload,
+            checkpoint,
+            store,
+            os.path.realpath(source.path),
+            params,
+            [source.path],
+        )
+    finally:
+        # _Upload.run returns only once its workers, and the part bodies
+        # they read, have finished.
+        source.close()
 
 
 def upload_stream(
@@ -3401,27 +3652,33 @@ def _upload_spooled(
                     )
                 spool.write(data)
         source = _PathSource(path, send_mtime=False, owned=True)
-        upload = _Upload(
-            operation,
-            destination,
-            source,
-            params,
-            options["max_concurrency"],
-            options["progress"],
-            options["tuning"],
-            options["pause_token"],
-        )
-        source.record_digests = (
-            options["checkpoint"] is not None or options["store"] is not None
-        )
-        return _run(
-            upload,
-            options["checkpoint"],
-            options["store"],
-            "stream",
-            params,
-            [path],
-        )
+        try:
+            upload = _Upload(
+                operation,
+                destination,
+                source,
+                params,
+                options["max_concurrency"],
+                options["progress"],
+                options["tuning"],
+                options["pause_token"],
+            )
+            source.record_digests = (
+                options["checkpoint"] is not None
+                or options["store"] is not None
+            )
+            return _run(
+                upload,
+                options["checkpoint"],
+                options["store"],
+                "stream",
+                params,
+                [path],
+            )
+        finally:
+            # Once the upload is over, as for upload_path, and before the
+            # spool is removed.
+            source.close()
     finally:
         try:
             os.unlink(path)

@@ -2105,8 +2105,12 @@ class FileResource:
         adapts to how the upload is going, up to max_concurrency; tuning
         (an UploadTuning) changes how, or turns adapting off. progress, if
         given, is called on this thread with an UploadProgress as parts
-        arrive. The file must not change while it uploads: a change is
-        detected and fails the upload instead of completing it. One
+        arrive. The file must not change while it uploads. The SDK checks
+        it as it reads it and before completing the upload, by its size,
+        times and identity and, on Windows, by Windows' notice of a write
+        to a file on a local disk where Windows gives one, and a change it
+        finds fails the upload instead of completing it; but no check finds
+        every change. One
         operation covers every request of the upload, and the client's
         transfer_limiter bounds its parts in progress. params can set
         mkdir_parents, with_rename, buffered_upload, custom_metadata and
@@ -2114,8 +2118,11 @@ class FileResource:
 
         checkpoint, a local path, keeps what the upload has done so far, so
         that calling upload_file again with it resumes the upload if it
-        stopped; pause_token (a PauseToken) pauses it, raising
-        TransferPausedError once its parts in progress have finished."""
+        stopped, while the file's size, times and identity are as they were,
+        which cannot prove its bytes are; an upload that found the file
+        changed keeps nothing to resume. pause_token (a PauseToken) pauses
+        it, raising TransferPausedError once its parts in progress have
+        finished."""
         operation = Operation.start(self._scope, options)
         operation.require_single_completion()
         if destination is None:

@@ -215,6 +215,194 @@ class TestUploadResume(ResumeTestCase):
             self.assertEqual(len(service.attempts(number)), 1)
         self.assertFalse(self.checkpoint.exists())
 
+    def change_once_pausing(self, service, source, replacement, pause):
+        """Once part 3 arrives, held there, pause; then write replacement
+        over source in place, keeping its size and modification time, and
+        let part 3 finish. Returns the thread that does so."""
+        arrived = service.hold(3)
+        before = source.stat()
+
+        def change():
+            arrived.wait(5)
+            pause.pause()
+            with open(source, "r+b") as file:
+                file.write(replacement)
+            os.utime(source, ns=(before.st_atime_ns, before.st_mtime_ns))
+            service.release(3)
+
+        changer = threading.Thread(target=change)
+        changer.start()
+        self.addCleanup(changer.join, 10)
+        return changer
+
+    def test_a_file_that_changes_while_pausing_keeps_nothing_to_resume(self):
+        # The parts that arrived hold bytes of the file as it was, which its
+        # recorded size, times and identity cannot tell apart from what it
+        # is now: the upload fails, its checkpoint keeps nothing to resume,
+        # and the next call uploads the file as it is, in full.
+        data, replacement = content(9500), content(9500, seed=2)
+        service = UploadService(self, part_size=1000)
+        source = self.local(data)
+        pause = files_sdk.PauseToken()
+        changer = self.change_once_pausing(service, source, replacement, pause)
+        static = files_sdk.UploadTuning(adaptive=False)
+        with self.assertRaisesRegex(
+            InvalidRequestError, "changed while it was being uploaded"
+        ):
+            self.client(service).file.upload_file(
+                source,
+                "big.bin",
+                max_concurrency=3,
+                tuning=static,
+                checkpoint=self.checkpoint,
+                pause_token=pause,
+            )
+        changer.join(10)
+        self.assertEqual(service.finishes, [])
+        self.assertIsNone(self.saved()["state"])
+
+        self.client(service).file.upload_file(
+            source, "big.bin", checkpoint=self.checkpoint, tuning=static
+        )
+        self.assertEqual(service.assembled(), replacement)
+        self.assertEqual(service.finishes[-1]["ref"], "upload-2")
+        self.assertFalse(self.checkpoint.exists())
+
+    def test_a_job_file_that_changes_while_pausing_keeps_nothing_to_resume(
+        self,
+    ):
+        # The same in a job: that file fails, the job's checkpoint keeps no
+        # state for it, and resuming the job uploads it as it is, in full.
+        data, replacement = content(9500), content(9500, seed=2)
+        service = UploadService(self, part_size=1000)
+        source = self.local(data)
+        pause = files_sdk.PauseToken()
+        changer = self.change_once_pausing(service, source, replacement, pause)
+        static = files_sdk.UploadTuning(adaptive=False)
+        with self.assertRaises(TransferPausedError) as caught:
+            self.client(service).file.upload_files(
+                [(source, "big.bin")],
+                max_concurrency=3,
+                tuning=static,
+                checkpoint=self.checkpoint,
+                pause_token=pause,
+            )
+        changer.join(10)
+        [failed] = caught.exception.result.failed
+        self.assertIsInstance(failed.error, InvalidRequestError)
+        self.assertIn("changed while it was being uploaded", str(failed.error))
+        self.assertEqual(service.finishes, [])
+        self.assertEqual(self.saved()["state"]["pending"], {})
+
+        result = self.client(service).file.upload_files(
+            [(source, "big.bin")], checkpoint=self.checkpoint, tuning=static
+        )
+        self.assertTrue(result.ok)
+        self.assertEqual(service.completed("big.bin"), replacement)
+        self.assertEqual(service.finishes[-1]["ref"], "upload-2")
+        self.assertFalse(self.checkpoint.exists())
+
+    def test_a_file_that_changes_as_a_part_fails_keeps_nothing_to_resume(self):
+        # Part 1 has arrived and part 2 has been read and sent when the file
+        # is written over in place, keeping its size and modification time,
+        # and storage then refuses part 2 for good. The upload fails with
+        # storage's error, and its checkpoint keeps nothing to resume: part
+        # 1 holds the file's earlier bytes. The next call uploads the file
+        # as it is, in full.
+        data, replacement = content(3000), content(3000, seed=2)
+        service = UploadService(self, part_size=1000)
+        source = self.local(data)
+        before = source.stat()
+
+        def change(number):
+            if number == 2:
+                with open(source, "r+b") as file:
+                    file.write(replacement)
+                os.utime(source, ns=(before.st_atime_ns, before.st_mtime_ns))
+
+        service.on_put = change
+        service.fail(2, status=500, times=99)
+        with self.assertRaises(APIError) as caught:
+            self.client(service, max_network_retries=0).file.upload_file(
+                source,
+                "big.bin",
+                max_concurrency=1,
+                checkpoint=self.checkpoint,
+            )
+        self.assertEqual(caught.exception.http_status, 500)
+        # Part 1 arrived, and part 2 was read before the change.
+        self.assertEqual(service.attempts(1), [data[:1000]])
+        self.assertEqual(set(service.attempts(2)), {data[1000:2000]})
+        self.assertEqual(service.finishes, [])
+        self.assertIsNone(self.saved()["state"])
+
+        service.on_put = None
+        service._failures[2].clear()
+        self.client(service).file.upload_file(
+            source, "big.bin", checkpoint=self.checkpoint
+        )
+        self.assertEqual(service.assembled(), replacement)
+        self.assertEqual(
+            [finish["ref"] for finish in service.finishes], ["upload-2"]
+        )
+        self.assertFalse(self.checkpoint.exists())
+
+    def test_a_file_seen_to_change_by_a_call_paused_before_it_begins_keeps_nothing_to_resume(
+        self,
+    ):
+        # Parts 1 to 6 arrived before part 7 failed for good. A call paused
+        # before it begins sends nothing, but finds the file written over in
+        # place, keeping its size and modification time, once it has looked
+        # at it and opened its checkpoint: it fails, and the checkpoint keeps
+        # nothing to resume, since parts 1 to 6 hold the file's earlier
+        # bytes. The next call uploads the file as it is, in full.
+        data, replacement = content(9500), content(9500, seed=2)
+        service = UploadService(self, part_size=1000)
+        source = self.local(data)
+        self.failed_first(service, source)
+        recorded = self.saved()["state"]
+        self.assertEqual(
+            (recorded["completion"], [row[4] for row in recorded["parts"]]),
+            ("pending", [True] * 6 + [False]),
+        )
+        sent = (len(service.begins), len(service.puts), len(service.finishes))
+        before = source.stat()
+        open_checkpoint = CheckpointFile.open
+
+        def open_then_write(checkpoint):
+            state = open_checkpoint(checkpoint)
+            with open(source, "r+b") as file:
+                file.write(replacement)
+            os.utime(source, ns=(before.st_atime_ns, before.st_mtime_ns))
+            return state
+
+        pause = files_sdk.PauseToken()
+        pause.pause()
+        with mock.patch.object(CheckpointFile, "open", open_then_write):
+            with self.assertRaisesRegex(
+                InvalidRequestError, "changed while it was being uploaded"
+            ):
+                self.client(service).file.upload_file(
+                    source,
+                    "big.bin",
+                    checkpoint=self.checkpoint,
+                    pause_token=pause,
+                )
+        self.assertEqual(
+            (len(service.begins), len(service.puts), len(service.finishes)),
+            sent,
+        )
+        self.assertIsNone(self.saved()["state"])
+
+        self.client(service).file.upload_file(
+            source, "big.bin", checkpoint=self.checkpoint
+        )
+        self.assertEqual(service.assembled(), replacement)
+        self.assertEqual(
+            [finish["ref"] for finish in service.finishes], ["upload-2"]
+        )
+        self.assertFalse(self.checkpoint.exists())
+
     def test_cancelling_keeps_the_checkpoint_for_a_later_resume(self):
         data = content(9500)
         service = UploadService(self, part_size=1000)
@@ -433,6 +621,56 @@ class TestUploadResume(ResumeTestCase):
         self.assertEqual(
             (len(service.finishes), len(service.begins)), (1, requests_before)
         )
+
+        # The file is written over in place, keeping its size and
+        # modification time, once a call has looked at it and opened its
+        # checkpoint: that call still refuses, and the record of a completion
+        # that may have happened is kept as it was.
+        recorded = self.saved()
+        self.assertEqual(recorded["state"]["completion"], "uncertain")
+        before = source.stat()
+        open_checkpoint = CheckpointFile.open
+
+        def open_then_write(checkpoint):
+            state = open_checkpoint(checkpoint)
+            with open(source, "r+b") as file:
+                file.write(content(3000, seed=2))
+            os.utime(source, ns=(before.st_atime_ns, before.st_mtime_ns))
+            return state
+
+        with mock.patch.object(CheckpointFile, "open", open_then_write):
+            with self.assertRaises(APIConnectionError) as written:
+                self.client(service).file.upload_file(
+                    source, "f.bin", checkpoint=self.checkpoint
+                )
+        self.assertTrue(written.exception.remote_outcome_unknown)
+        self.assertIn("may have succeeded", str(written.exception))
+        self.assertEqual(self.saved(), recorded)
+        self.assertEqual(
+            (len(service.finishes), len(service.begins)), (1, requests_before)
+        )
+        # Where the write left the identity the record holds as it was, as
+        # it can on Windows, the record still applies: a later call refuses
+        # too, sending nothing. Elsewhere the write changed the file's status
+        # change time, so a later call takes it for another file.
+        found = source.stat()
+        if [
+            found.st_dev,
+            found.st_ino,
+            found.st_size,
+            found.st_mtime_ns,
+            found.st_ctime_ns,
+        ] == recorded["state"]["source"]["identity"]:
+            with self.assertRaises(APIConnectionError) as later:
+                self.client(service).file.upload_file(
+                    source, "f.bin", checkpoint=self.checkpoint
+                )
+            self.assertTrue(later.exception.remote_outcome_unknown)
+            self.assertIn("may have succeeded", str(later.exception))
+            self.assertEqual(
+                (len(service.finishes), len(service.begins)),
+                (1, requests_before),
+            )
 
     def test_the_completion_is_marked_on_disk_before_it_is_sent(self):
         service = UploadService(self, part_size=1000)

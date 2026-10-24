@@ -623,6 +623,15 @@ class _Slot:
             self.job.pending.pop(self.name, None)
             self.job.dirty = True
 
+    def invalidate(self):
+        """Forget the file's state, on disk now: its transfer saw its source
+        change, so nothing of it may be resumed. The job's checkpoint is
+        saved without it, keeping every other file's."""
+        with self.job._state_lock:
+            self.job.pending.pop(self.name, None)
+            self.job.dirty = True
+        self.job.save_job(final=True)
+
 
 class _FileStore:
     """A CheckpointFile as a transfer's checkpoint: the state it held when
@@ -644,6 +653,15 @@ class _FileStore:
 
     def clear(self):
         self.checkpoint.clear()
+
+    def invalidate(self):
+        """Record, on disk now, that there is nothing to resume: the
+        transfer saw its source change, so what it recorded must not be
+        resumed. Saved in place rather than removed, since a removal can
+        leave the file there (_remove, on Windows); a later call finds no
+        state and starts again."""
+        self._state = None
+        self.checkpoint.save(None, True)
 
 
 def file_store(path, kind, key) -> tuple[CheckpointFile, _FileStore]:

@@ -651,12 +651,24 @@ def _remote_join(root, relative):
     )
 
 
+def _entry_status(directory, name):
+    """The entry name in directory itself, never through a link, with the
+    device and inode its upload checks (a DirEntry's are zero on Windows);
+    or the error looking at it raised, as when it is gone since it was
+    listed, for it alone."""
+    try:
+        return directory.lstat(name)
+    except OSError as error:
+        return error
+
+
 def _local_items(tree, remote_root) -> Iterator[_Item]:
     """The files and empty folders under tree's directory, a directory at a
     time, in name order. Each directory is opened from the job's directory
     one folder at a time, never through a link; links and special files are
     skipped, not followed. Each file is uploaded only if it is still the
-    file found here."""
+    file found here. An entry that cannot be looked at fails alone; a
+    folder that cannot be opened or listed fails as a whole."""
     stack: list[tuple[str, ...]] = [()]
     while stack:
         parts = stack.pop()
@@ -671,7 +683,7 @@ def _local_items(tree, remote_root) -> Iterator[_Item]:
                 ) as scanner:
                     entries = sorted(
                         (
-                            (entry.name, entry.stat(follow_symlinks=False))
+                            (entry.name, _entry_status(directory, entry.name))
                             for entry in scanner
                         ),
                         key=lambda pair: pair[0],
@@ -699,7 +711,9 @@ def _local_items(tree, remote_root) -> Iterator[_Item]:
             )
             local = os.path.join(path, entry_name)
             remote = _remote_join(remote_root, name)
-            if stat.S_ISLNK(found.st_mode):
+            if isinstance(found, OSError):
+                yield _Item("skip", name, local, remote, error=found)
+            elif stat.S_ISLNK(found.st_mode):
                 yield _Item(
                     "skip", name, local, remote, reason="symbolic link"
                 )

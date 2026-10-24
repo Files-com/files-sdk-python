@@ -115,6 +115,50 @@ class TestUploadDirectory(JobTestCase):
             sorted(service.completed_paths()), ["up/good1.txt", "up/good2.txt"]
         )
 
+    def test_a_file_removed_after_it_is_listed_fails_without_stopping_the_others(
+        self,
+    ):
+        # gone.txt is listed with its folder, then removed just before the job
+        # looks at it: it fails alone, and the files beside it and in the
+        # folder below still upload.
+        from files_sdk import localfs
+
+        files = {
+            "a.txt": b"alpha",
+            "gone.txt": b"gone",
+            "z.txt": b"zulu",
+            "sub/b.txt": b"bravo",
+        }
+        root = self.tree(files)
+        service = UploadService(self, part_size=1000)
+        lstat = localfs.Directory.lstat
+
+        def removed_once_listed(directory, name):
+            if name == "gone.txt":
+                (root / name).unlink()
+            return lstat(directory, name)
+
+        with mock.patch.object(
+            localfs.Directory, "lstat", removed_once_listed
+        ):
+            result = self.client(service).file.upload_directory(root, "up")
+
+        [failed] = result.failed
+        self.assertEqual(
+            (failed.kind, failed.remote_path), ("file", "up/gone.txt")
+        )
+        self.assertIsInstance(failed.error, FileNotFoundError)
+        self.assertEqual(
+            sorted(o.remote_path for o in result.completed),
+            ["up/a.txt", "up/sub/b.txt", "up/z.txt"],
+        )
+        for name in ("a.txt", "z.txt", "sub/b.txt"):
+            self.assertEqual(service.completed("up/" + name), files[name])
+        self.assertNotIn(
+            "up/gone.txt",
+            [destination for destination, _ref in service.begun_paths],
+        )
+
     def test_files_at_once_stay_within_max_files_and_the_shared_limiter(self):
         root = self.tree(
             {"f{}.bin".format(i): content(3000, seed=i) for i in range(8)}
