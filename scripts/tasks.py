@@ -638,17 +638,21 @@ def installed_payload(environment):
     """The files_sdk files installed in environment. The import runs in
     isolated mode (-I) from the environment's own directory, so neither
     PYTHONPATH, the user site-packages nor a source tree in the working
-    directory can stand in for the installed package."""
+    directory can stand in for the installed package. It runs in UTF-8 mode
+    (-X utf8, since -I ignores PYTHONUTF8) and its output is read as UTF-8,
+    so the location comes back whole whatever the locale's encoding."""
     imported = subprocess.run(
         [
             python_in(environment),
             "-I",
+            "-X",
+            "utf8",
             "-c",
             "import files_sdk; print(files_sdk.__path__[0])",
         ],
         cwd=environment,
         capture_output=True,
-        text=True,
+        encoding="utf-8",
     )
     if imported.returncode != 0:
         raise TaskFailed(f"Cannot import files_sdk: {imported.stderr.strip()}")
@@ -675,18 +679,23 @@ def verify_installed(environment, artifact):
 def verify_installed_metadata(environment):
     """Fail unless the files_com distribution installed in environment, read
     there in isolated mode, is this package's name and version and requires
-    what pyproject.toml does (verify_metadata)."""
+    what pyproject.toml does (verify_metadata). Core metadata is UTF-8, which
+    a locale's encoding such as Windows' cp1252 cannot always write, so the
+    reader runs in UTF-8 mode (-X utf8, since -I ignores PYTHONUTF8) and its
+    output is read as UTF-8."""
     read = subprocess.run(
         [
             python_in(environment),
             "-I",
+            "-X",
+            "utf8",
             "-c",
             "import importlib.metadata, sys; sys.stdout.write("
             "importlib.metadata.distribution('files_com').read_text('METADATA'))",
         ],
         cwd=environment,
         capture_output=True,
-        text=True,
+        encoding="utf-8",
     )
     if read.returncode != 0:
         raise TaskFailed(

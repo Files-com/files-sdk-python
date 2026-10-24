@@ -998,7 +998,16 @@ class TestUploadResume(ResumeTestCase):
                 source = self.local(content(3000), name="{}.bin".format(route))
                 checkpoint = self.scratch / "{}.checkpoint".format(route)
                 child = {}
-                service.on_finish = lambda _path: child["process"].kill()
+
+                def kill_before_answering(_path):
+                    # On Windows kill() only starts the end of a process, so
+                    # wait for this one to have ended before the answer is
+                    # sent; a wait that runs out raises, and nothing answers.
+                    process = child["process"]
+                    process.kill()
+                    process.wait(timeout=10)
+
+                service.on_finish = kill_before_answering
                 script = (
                     "import sys, files_sdk\n"
                     "client = files_sdk.Client(api_key='key', base_url=sys.argv[1], initial_network_retry_delay=0)\n"
