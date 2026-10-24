@@ -12,16 +12,23 @@ operation using it stops only between the steps it can see.
 
 The hooks rely on urllib3's connection pools calling _get_conn and _put_conn
 to lease and return a connection, and a connection calling _new_conn to open
-its socket, as every urllib3 release the SDK supports does.
+its socket, http.client's send to send each piece of a request, and its
+getresponse to read the response with its response_class, as every urllib3
+release the SDK supports does.
 """
 
 import contextvars
+import http.client
 import http.cookiejar
+import io
+import select
 import socket
 import ssl
+import sys
 import threading
+import time
 import weakref
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from typing import Any
 from urllib.parse import urlsplit
 
@@ -156,8 +163,12 @@ class Exchange:
     already has, the exchange keeps a duplicate handle. abort() shuts those
     sockets down, which makes a blocked send or receive on them fail at
     once, and marks the exchange so that its connections are closed rather
-    than reused. Once a connection is returned, nothing this exchange does
-    can reach it, so a late abort cannot touch another request's connection.
+    than reused. Windows fails neither a send nor a receive on the socket
+    itself that way, so there a connection sends, and reads its response,
+    without blocking for long and looks at aborted between its waits (see
+    _CancellableHTTPConnection.send and getresponse). Once a connection is
+    returned, nothing this exchange does can reach it, so a late abort
+    cannot touch another request's connection.
     """
 
     def __init__(self, source_address=None):
@@ -186,6 +197,12 @@ class Exchange:
         outcome is then unknown: even a response that seemed to end
         normally may have been cut short."""
         return self._interrupted
+
+    @property
+    def aborted(self):
+        """Whether abort() has stopped the request. A connection sending or
+        reading for it reads this without the lock, between its waits."""
+        return self._aborted
 
     @property
     def connected(self):
@@ -288,8 +305,236 @@ def _shut_down(handle):
         pass  # The peer or the connection closed it already.
 
 
+# Whether shutting down a socket's duplicate leaves a send blocked on the
+# socket itself, until the peer reads or the socket's timeout ends, as it
+# does on Windows.
+_SHUTDOWN_LEAVES_SENDS_BLOCKED = sys.platform == "win32"
+
+# How long _send_stoppably waits at a time for its socket to be ready before
+# it looks again at whether the request was stopped: how promptly it
+# notices, not a deadline.
+_SEND_WAIT = 0.1
+
+
+def _one_buffer(data):
+    """Whether http.client's send would send data with one sendall: it is
+    not a readable, and is a contiguous buffer."""
+    if hasattr(data, "read"):
+        return False
+    try:
+        with memoryview(data) as view:
+            return view.c_contiguous
+    except TypeError:
+        return False
+
+
+def _send_stoppably(connection, sock, data, exchange):
+    """sock.sendall(data), but failing within _SEND_WAIT once exchange is
+    aborted.
+
+    The socket sends without blocking, each time from where the bytes it
+    has accepted end, and when it cannot, waits no more than _SEND_WAIT at
+    a time to be ready: to write, or to read when TLS must read first.
+    Before each send it checks the exchange, and the deadline its timeout
+    sets once for all of data, as sendall's does. A nonblocking socket
+    (timeout 0) never waits, so it uses sendall. However the send ends, the
+    socket gets its timeout back, and with it its mode; if it cannot, the
+    connection is closed so that its pool never reuses a socket in an
+    unknown mode, and an error the send raised is kept rather than
+    replaced.
+    """
+    timeout = sock.gettimeout()
+    if timeout == 0:
+        sock.sendall(data)
+        return
+    deadline = None if timeout is None else time.monotonic() + timeout
+    try:
+        sock.setblocking(False)
+        _send_nonblocking(sock, data, exchange, deadline)
+    except BaseException:
+        with suppress(Exception):
+            _restore_timeout(connection, sock, timeout)
+        raise
+    _restore_timeout(connection, sock, timeout)
+
+
+def _send_nonblocking(sock, data, exchange, deadline):
+    with memoryview(data) as view, view.cast("B") as byte_view:
+        sent = 0
+        while sent < len(byte_view):
+            if exchange.aborted:
+                raise ConnectionAbortedError(
+                    "The request was stopped while it was being sent."
+                )
+            if deadline is not None and time.monotonic() >= deadline:
+                raise TimeoutError("timed out")
+            try:
+                count = sock.send(byte_view[sent:])
+            except ssl.SSLWantReadError:
+                _wait_until_ready(sock, deadline, readable=True)
+                continue
+            except (BlockingIOError, ssl.SSLWantWriteError):
+                _wait_until_ready(sock, deadline, readable=False)
+                continue
+            if count <= 0:
+                raise ConnectionError(
+                    "The connection accepted none of the request's bytes."
+                )
+            sent += count
+
+
+def _wait_until_ready(sock, deadline, readable):
+    """Wait for sock to be ready to read or to write, but no more than
+    _SEND_WAIT, and not past deadline."""
+    wait = _SEND_WAIT
+    if deadline is not None:
+        wait = max(0.0, min(wait, deadline - time.monotonic()))
+    if readable:
+        select.select([sock], [], [], wait)
+    else:
+        select.select([], [sock], [], wait)
+
+
+def _restore_timeout(connection, sock, timeout):
+    try:
+        sock.settimeout(timeout)
+    except BaseException:
+        connection.close()  # Its socket's mode is unknown: never reuse it.
+        raise
+
+
+# Whether shutting down a socket's duplicate leaves a receive on the socket
+# itself waiting for the peer, as it does on Windows: a response read that
+# began as its request was stopped waited for the server's answer.
+_SHUTDOWN_LEAVES_RECEIVES_BLOCKED = sys.platform == "win32"
+
+# The owned connection whose getresponse is running on this thread, and the
+# exchange it reads the response for.
+_reading: contextvars.ContextVar[
+    "tuple[_CancellableHTTPConnection, Exchange] | None"
+] = contextvars.ContextVar("files_sdk_reading", default=None)
+
+
+def _receive_stoppably(connection, sock, buffer, exchange, timeout):
+    """sock.recv_into(buffer), but failing within _SEND_WAIT once exchange
+    is aborted, as _send_stoppably does for a send.
+
+    The socket receives without blocking, and while nothing has arrived
+    waits no more than _SEND_WAIT at a time to be ready: to read, or to
+    write when TLS must write first. Before each attempt it checks the
+    exchange, and the deadline its timeout sets for this one read, as
+    recv_into's does. It returns what recv_into returned: the number of
+    bytes received, or 0 at the end of the stream, which TLS data already
+    decrypted never waits for. A stop raises instead. However the read
+    ends, the socket gets its timeout back, and with it its mode. If it
+    cannot, that error is raised, unless the receive raised one first,
+    which is kept. Unlike a send, it leaves connection open: it runs
+    inside the response's buffered read, which closing connection would
+    re-enter. http.client's getresponse, or urllib3's response, discards
+    connection once that read has returned with the error.
+    """
+    deadline = None if timeout is None else time.monotonic() + timeout
+    try:
+        sock.setblocking(False)
+        received = _receive_nonblocking(sock, buffer, exchange, deadline)
+    except BaseException:
+        with suppress(Exception):
+            sock.settimeout(timeout)
+        raise
+    sock.settimeout(timeout)
+    return received
+
+
+def _receive_nonblocking(sock, buffer, exchange, deadline):
+    while True:
+        if exchange.aborted:
+            raise ConnectionAbortedError(
+                "The request was stopped while its response was being read."
+            )
+        if deadline is not None and time.monotonic() >= deadline:
+            raise TimeoutError("timed out")
+        try:
+            return sock.recv_into(buffer)
+        except ssl.SSLWantWriteError:
+            _wait_until_ready(sock, deadline, readable=False)
+        except (BlockingIOError, ssl.SSLWantReadError):
+            _wait_until_ready(sock, deadline, readable=True)
+
+
+class _StoppableReader(io.RawIOBase):
+    """What a response reads from instead of its socket file's own reader,
+    on a plain or TLS socket of Python's own: each read goes through
+    _receive_stoppably for the exchange the response is read for, so the
+    stop of an earlier exchange never reaches a later one on the same
+    connection. The socket file it replaces keeps its hold on the socket
+    until this reader closes it."""
+
+    def __init__(self, file, sock, connection, exchange):
+        super().__init__()
+        self._file = file
+        self._sock = sock
+        self._connection = connection
+        self._exchange = exchange
+        self._timeout_occurred = False
+
+    def readable(self):
+        return True
+
+    def readinto(self, b):
+        # As the socket file's own reader (socket.SocketIO) does.
+        if self.closed:
+            raise ValueError("I/O operation on closed file.")
+        if self._timeout_occurred:
+            raise OSError("cannot read from timed out object")
+        timeout = self._sock.gettimeout()
+        if timeout == 0:
+            return self._file.raw.readinto(
+                b
+            )  # A nonblocking read never waits.
+        try:
+            return _receive_stoppably(
+                self._connection, self._sock, b, self._exchange, timeout
+            )
+        except TimeoutError:
+            self._timeout_occurred = True
+            raise
+
+    def fileno(self):
+        return self._file.fileno()
+
+    def close(self):
+        if not self.closed:
+            try:
+                self._file.close()
+            finally:
+                super().close()
+
+
+class _StoppableHTTPResponse(http.client.HTTPResponse):
+    """http.client's response, read through _StoppableReader where
+    shutting down a socket's duplicate leaves a receive blocked, when an
+    owned connection's getresponse reads it for an exchange on a plain or
+    TLS socket of Python's own. http.client parses and buffers it as ever.
+    Any other response, such as one through urllib3's TLS within TLS to an
+    HTTPS proxy, or a CONNECT proxy's answer, reads as before."""
+
+    def __init__(self, sock, debuglevel=0, method=None, url=None):
+        super().__init__(sock, debuglevel, method, url)
+        reading = _reading.get()
+        if (
+            _SHUTDOWN_LEAVES_RECEIVES_BLOCKED
+            and reading is not None
+            and type(sock) in (socket.socket, ssl.SSLSocket)
+        ):
+            connection, exchange = reading
+            self.fp = io.BufferedReader(
+                _StoppableReader(self.fp, sock, connection, exchange)
+            )
+
+
 class _CancellableHTTPConnection(HTTPConnection):
     _files_exchange: Exchange | None = None
+    response_class = _StoppableHTTPResponse
 
     def _new_conn(self):
         sock = super()._new_conn()
@@ -297,6 +542,48 @@ class _CancellableHTTPConnection(HTTPConnection):
         if exchange is not None:
             exchange.attach(self, sock)
         return sock
+
+    def send(self, data):
+        """Send data as http.client does. Where shutting down a socket's
+        duplicate leaves a send blocked, a buffer sent for an exchange on a
+        plain or TLS socket of Python's own goes through _send_stoppably
+        instead of sendall. Any other socket, such as urllib3's TLS within
+        TLS to an HTTPS proxy, sends as before."""
+        if self.sock is None and self.auto_open:
+            self.connect()  # As http.client's send does first.
+        exchange = self._files_exchange
+        sock = self.sock
+        if (
+            _SHUTDOWN_LEAVES_SENDS_BLOCKED
+            and exchange is not None
+            and type(sock) in (socket.socket, ssl.SSLSocket)
+            and _one_buffer(data)
+        ):
+            if self.debuglevel > 0:
+                print("send:", repr(data))
+            sys.audit("http.client.send", self, data)
+            _send_stoppably(self, sock, data, exchange)
+        else:
+            super().send(data)
+
+    def getresponse(self):
+        """Read the response as urllib3 and http.client do. A request whose
+        exchange was stopped before this raises at once, without waiting
+        for an answer it no longer wants. One stopped while its response is
+        read raises within _SEND_WAIT, where _StoppableHTTPResponse reads
+        it, or as the shutdown of its socket's duplicate ends the read."""
+        exchange = self._files_exchange
+        if exchange is None:
+            return super().getresponse()
+        if exchange.aborted:
+            raise ConnectionAbortedError(
+                "The request was stopped before its response was read."
+            )
+        reading = _reading.set((self, exchange))
+        try:
+            return super().getresponse()
+        finally:
+            _reading.reset(reading)
 
 
 class _CancellableHTTPSConnection(_CancellableHTTPConnection, HTTPSConnection):

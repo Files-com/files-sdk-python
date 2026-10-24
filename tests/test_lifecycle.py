@@ -20,7 +20,7 @@ from files_sdk.error import (
     OperationCancelledError,
 )
 from tests.loopback_api import serve_loopback_api, start_loopback_api
-from tests.network_fixtures import WAIT, ScriptedServer
+from tests.network_fixtures import WAIT, ScriptedServer, TestAuthority
 
 # Requests blocked on the network settle within this many seconds of being
 # stopped. The owned transport measured well under 10 ms; this leaves room
@@ -96,6 +96,140 @@ def wait_until(condition):
     while not condition() and time.monotonic() < deadline:
         time.sleep(0.005)
     return condition()
+
+
+class TestRequestsOverTls(unittest.TestCase):
+    """Requests to a TLS server: stopped as promptly as plain ones, and
+    otherwise sent whole."""
+
+    def setUp(self):
+        self.authority = TestAuthority.create(self)
+
+    def test_large_requests_arrive_whole_and_share_one_connection(self):
+        bodies = []
+
+        def save(peer):
+            bodies.append(peer.record.body)
+            peer.respond(
+                200,
+                json.dumps({"id": 1}).encode(),
+                {"Content-Type": "application/json"},
+            )
+
+        server = ScriptedServer(
+            self,
+            api_script({"/api/rest/v1/users/1": save}),
+            tls=self.authority,
+        )
+        client = files_sdk.Client(
+            api_key="key", base_url=server.url(""), verify=self.authority.ca
+        )
+        self.addCleanup(client.close)
+        # More than socket buffers usually take at once, so each is sent in pieces.
+        names = [
+            random.Random(seed).randbytes(2 * 1024 * 1024).hex()
+            for seed in (1, 2)
+        ]
+
+        user = client.user.find(1)
+        for name in names:
+            user.update({"name": name})
+
+        lookup, *updates = bodies
+        self.assertEqual(b"", lookup)
+        self.assertEqual(names, [json.loads(body)["name"] for body in updates])
+        self.assertEqual(1, len(server.connections))
+
+    def test_a_cancelled_upload_stops_sending_and_never_completes(self):
+        release = threading.Event()
+
+        def stall(peer):
+            peer.record.received.set()
+            release.wait(WAIT * 3)
+            peer.wait_for_close()
+
+        storage = ScriptedServer(self, stall, tls=self.authority)
+        api = start_loopback_api(self)
+        partsize = 32 * 1024 * 1024
+        api.reply_json(
+            [
+                {
+                    "ref": "ref1",
+                    "part_number": 1,
+                    "partsize": partsize,
+                    "http_method": "PUT",
+                    "upload_uri": storage.url("/part1"),
+                }
+            ]
+        )
+        client = files_sdk.Client(
+            api_key="key", base_url=api.url, verify=self.authority.ca
+        )
+        self.addCleanup(client.close)
+        token = files_sdk.CancellationToken()
+        with tempfile.TemporaryDirectory() as directory:
+            local = Path(directory) / "big.bin"
+            local.write_bytes(b"u" * partsize)
+            worker = Worker(
+                lambda: client.file.upload_file(
+                    local, "big.bin", {"cancel_token": token}
+                )
+            )
+            # Storage has finished the TLS handshake and reads nothing more.
+            self.assertTrue(
+                wait_until(
+                    lambda: storage.connections
+                    and storage.connections[0].received.is_set()
+                )
+            )
+            time.sleep(0.2)  # Let the part fill the socket buffers.
+
+            cancelled_at = time.monotonic()
+            token.cancel()
+            worker.join()
+            release.set()
+
+        self.assertIsInstance(worker.error, OperationCancelledError)
+        self.assertLess(worker.finished_at - cancelled_at, PROMPT)
+        self.assertTrue(storage.connections[0].closed.wait(WAIT))
+        self.assertEqual(
+            ["/file_actions/begin_upload/big.bin"],
+            [request.path for request in api.requests],
+        )
+
+    def test_a_cancelled_request_stops_waiting_for_its_response(self):
+        server = ScriptedServer(
+            self,
+            api_script(
+                {
+                    "/api/rest/v1/users/1": (200, {"id": 1}),
+                    "/api/rest/v1/users/2": block,
+                }
+            ),
+            tls=self.authority,
+        )
+        client = files_sdk.Client(
+            api_key="key", base_url=server.url(""), verify=self.authority.ca
+        )
+        self.addCleanup(client.close)
+        client.user.find(1)
+        token = files_sdk.CancellationToken()
+        worker = Worker(
+            lambda: client.user.find(2, {}, {"cancel_token": token})
+        )
+        # The server has read the whole request and holds back its answer.
+        self.assertTrue(server.connections[0].received.wait(WAIT))
+
+        cancelled_at = time.monotonic()
+        token.cancel()
+        worker.join()
+
+        self.assertIsInstance(worker.error, OperationCancelledError)
+        self.assertTrue(worker.error.remote_outcome_unknown)
+        self.assertLess(worker.finished_at - cancelled_at, PROMPT)
+        self.assertTrue(server.connections[0].closed.wait(WAIT))
+        client.user.find(1)
+        self.assertEqual(2, len(server.connections))
 
 
 class TestConnectionsAndClose(unittest.TestCase):
