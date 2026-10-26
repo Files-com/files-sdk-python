@@ -1027,7 +1027,10 @@ def _remote_items(operation, remote_root, tree) -> Iterator[_Item]:
     fetching each listing's pages as they are needed."""
     from files_sdk.models.folder import FolderResource
 
-    compare_root = path_util.normalize_for_comparison(remote_root)
+    root_parts = remote_root.split("/") if remote_root else []
+    compare_root = [
+        path_util.normalize_for_comparison(part) for part in root_parts
+    ]
     stack: list[tuple[str, str, str, tuple[str, ...]]] = [
         (remote_root, tree.path, "", ())
     ]
@@ -1055,9 +1058,14 @@ def _remote_items(operation, remote_root, tree) -> Iterator[_Item]:
             for entry in listing.auto_paging_iter():
                 empty = False
                 remote = path_util.normalize(entry.path or "")
-                compared = path_util.normalize_for_comparison(remote)
-                if compare_root and not compared.startswith(
-                    compare_root + "/"
+                remote_parts = remote.split("/")
+                compared = [
+                    path_util.normalize_for_comparison(part)
+                    for part in remote_parts[: len(root_parts)]
+                ]
+                if root_parts and (
+                    len(remote_parts) <= len(root_parts)
+                    or compared != compare_root
                 ):
                     yield _Item(
                         "skip",
@@ -1067,9 +1075,7 @@ def _remote_items(operation, remote_root, tree) -> Iterator[_Item]:
                         reason="outside the folder listed",
                     )
                     continue
-                relative = (
-                    remote[len(remote_root) + 1 :] if remote_root else remote
-                )
+                relative = "/".join(remote_parts[len(root_parts) :])
                 try:
                     parts = tree.parts_for(relative)
                 except InvalidParameterError as error:

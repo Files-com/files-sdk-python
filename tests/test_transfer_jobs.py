@@ -629,6 +629,120 @@ class TestDownloadDirectory(JobTestCase):
             [],
         )
 
+    def test_equivalent_remote_roots_preserve_local_names(self):
+        for index, (requested, stored) in enumerate(
+            (
+                ("q\u0301", "q"),
+                ("q", "q\u0301"),
+                ("a\u0301/q\u0301", "a/q"),
+                ("", ""),
+            )
+        ):
+            with self.subTest(requested=requested, stored=stored):
+                prefix = stored + "/" if stored else ""
+                files = {"trusted.txt": b"alpha", "Sub/Original.txt": b"beta"}
+                service = TreeService(
+                    self,
+                    {prefix + name: data for name, data in files.items()},
+                    folders=[prefix + "Empty"],
+                )
+                service.folder_aliases[requested] = stored
+                target = self.scratch / str(index)
+                target.mkdir()
+                (target / "rusted.txt").write_bytes(b"keep")
+
+                result = self.client(service).file.download_directory(
+                    requested, target
+                )
+
+                self.assertTrue(result.ok)
+                self.assertEqual((target / "rusted.txt").read_bytes(), b"keep")
+                for name, data in files.items():
+                    self.assertEqual((target / name).read_bytes(), data)
+                self.assertTrue((target / "Empty").is_dir())
+                self.assertEqual(
+                    {
+                        (outcome.remote_path, outcome.local_path)
+                        for outcome in result.completed
+                    },
+                    {
+                        (prefix + name, str(target / name))
+                        for name in (*files, "Empty")
+                    },
+                )
+                self.assertEqual(
+                    sorted(
+                        path.relative_to(target).as_posix()
+                        for path in target.rglob("*")
+                        if path.is_file()
+                    ),
+                    sorted([*files, "rusted.txt"]),
+                )
+
+    def test_remote_root_comparison_preserves_folder_boundaries(self):
+        for index, (requested, stored) in enumerate(
+            (("a/b", "a\uff0fb"), ("a\uff0fb", "a/b"), ("q", "other"))
+        ):
+            with self.subTest(requested=requested, stored=stored):
+                remote = stored + "/trusted.txt"
+                service = TreeService(self, {remote: b"alpha"})
+                service.folder_aliases[requested] = stored
+                target = self.scratch / str(index)
+
+                result = self.client(service).file.download_directory(
+                    requested, target
+                )
+
+                [skipped] = result.skipped
+                self.assertEqual(
+                    (skipped.remote_path, skipped.reason),
+                    (remote, "outside the folder listed"),
+                )
+                self.assertEqual(result.completed, [])
+                self.assertEqual(service.downloads, [])
+                self.assertEqual(list(target.iterdir()), [])
+
+    def test_a_checkpoint_does_not_reuse_a_shifted_name_for_another_file(self):
+        requested = "q\u0301"
+        service = TreeService(
+            self,
+            {
+                requested + "/rusted.txt": b"alpha",
+                requested + "/z.txt": b"last",
+            },
+        )
+        service.fail_paths = {requested + "/z.txt"}
+        target = self.scratch / "mirror"
+        client = self.client(service, max_network_retries=0)
+        # Seed the completed local file and version an older SDK could record under a shifted name.
+        first = client.file.download_directory(
+            requested, target, checkpoint=self.checkpoint
+        )
+        self.assertFalse(first.ok)
+        self.assertEqual(
+            [outcome.local_path for outcome in first.completed],
+            [str(target / "rusted.txt")],
+        )
+
+        service.files = {
+            "q/rusted.txt": b"bravo",
+            "q/trusted.txt": b"alpha",
+            "q/z.txt": b"last",
+        }
+        service.folder_aliases[requested] = "q"
+        service.fail_paths = set()
+        result = client.file.download_directory(
+            requested, target, checkpoint=self.checkpoint
+        )
+
+        self.assertTrue(result.ok)
+        self.assertEqual((target / "rusted.txt").read_bytes(), b"bravo")
+        self.assertEqual((target / "trusted.txt").read_bytes(), b"alpha")
+        self.assertTrue(
+            all(outcome.reason is None for outcome in result.completed)
+        )
+        self.assertFalse(self.checkpoint.exists())
+
     def test_a_file_that_fails_does_not_stop_the_others(self):
         service = TreeService(self, self.FILES)
         service.fail_paths = {"docs/d.txt"}
@@ -774,6 +888,7 @@ class TestDownloadDirectory(JobTestCase):
             "p/f{}.bin".format(i): content(3000, seed=i) for i in range(6)
         }
         service = TreeService(self, files, page_size=10)
+        service.folder_aliases["p\u0301"] = "p"
         service.delay = 0.02
         pause = files_sdk.PauseToken()
         target = self.scratch / "mirror"
@@ -782,7 +897,7 @@ class TestDownloadDirectory(JobTestCase):
         )
         with self.assertRaises(TransferPausedError) as caught:
             self.client(service).file.download_directory(
-                "p",
+                "p\u0301",
                 target,
                 max_files=2,
                 checkpoint=self.checkpoint,
@@ -794,7 +909,7 @@ class TestDownloadDirectory(JobTestCase):
         service.on_download = None
         before = len(service.downloads)
         result = self.client(service).file.download_directory(
-            "p", target, max_files=2, checkpoint=self.checkpoint
+            "p\u0301", target, max_files=2, checkpoint=self.checkpoint
         )
         self.assertTrue(result.ok)
         for name, data in files.items():

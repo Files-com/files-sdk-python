@@ -816,6 +816,9 @@ class TreeService:
         )  # paths whose content was fetched, in arrival order
         self.fail_paths = set()  # files whose content storage refuses
         self.refuse_listing = set()  # folders whose listing fails
+        self.folder_aliases = (
+            {}
+        )  # requested folder spelling to stored spelling
         self.delay = 0.0
         self.on_download = None  # called with the path of each content request
         self.legacy = (
@@ -875,6 +878,7 @@ class TreeService:
                     )
                     with service.lock:
                         service.listed.append((folder, query.get("cursor")))
+                    folder = service.folder_aliases.get(folder, folder)
                     if folder in service.refuse_listing:
                         return self.json(
                             403,
