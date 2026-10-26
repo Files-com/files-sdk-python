@@ -45,6 +45,7 @@ class Site:
         allow_user_level_ssl_override: boolean - Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
         allowed_countries: string - Comma separated list of allowed Country codes
         allowed_ips: string - List of allowed IP addresses
+        enforce_parent_site_user_ip_restrictions: boolean - Require Parent Site users entering this Child Site to match its allowed IP addresses in addition to their existing IP restrictions. Applies to all Workspaces. Defaults to false.
         always_mkdir_parents: boolean - Create parent directories if they do not exist during uploads? This is primarily used to work around broken upload clients that assume servers will perform this step.
         as2_message_retention_days: int64 - Number of days to retain AS2 messages (incoming and outgoing).
         ask_about_overwrites: boolean - If false, rename conflicting files instead of asking for overwrite confirmation. Only applies to web interface.
@@ -254,6 +255,7 @@ class Site:
         "allow_user_level_ssl_override": None,  # boolean - Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
         "allowed_countries": None,  # string - Comma separated list of allowed Country codes
         "allowed_ips": None,  # string - List of allowed IP addresses
+        "enforce_parent_site_user_ip_restrictions": None,  # boolean - Require Parent Site users entering this Child Site to match its allowed IP addresses in addition to their existing IP restrictions. Applies to all Workspaces. Defaults to false.
         "always_mkdir_parents": None,  # boolean - Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
         "as2_message_retention_days": None,  # int64 - Number of days to retain AS2 messages (incoming and outgoing).
         "ask_about_overwrites": None,  # boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
@@ -461,6 +463,7 @@ class Site:
     allow_user_level_ssl_override: bool | None
     allowed_countries: str | None
     allowed_ips: str | None
+    enforce_parent_site_user_ip_restrictions: bool | None
     always_mkdir_parents: bool | None
     as2_message_retention_days: int | None
     ask_about_overwrites: bool | None
@@ -798,6 +801,7 @@ class SiteResource:
         allow_user_level_2fa_override - boolean - Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
         allow_user_level_allowed_ip_override - boolean - Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
         allow_user_level_ssl_override - boolean - Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
+        enforce_parent_site_user_ip_restrictions - boolean - Require Parent Site users entering this Child Site to match its allowed IP addresses in addition to their existing IP restrictions. Applies to all Workspaces. Defaults to false.
         disallowed_countries - string - Comma separated list of disallowed Country codes
         days_to_retain_backups - int64 - Number of days to keep deleted files
         max_prior_passwords - int64 - Number of prior passwords to disallow
@@ -1325,6 +1329,15 @@ class SiteResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: allow_user_level_ssl_override must be an bool"
+            )
+        if (
+            "enforce_parent_site_user_ip_restrictions" in params
+            and not isinstance(
+                params["enforce_parent_site_user_ip_restrictions"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: enforce_parent_site_user_ip_restrictions must be an bool"
             )
         if "disallowed_countries" in params and not isinstance(
             params["disallowed_countries"], str
@@ -2230,6 +2243,7 @@ def update(
     allow_user_level_2fa_override - boolean - Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
     allow_user_level_allowed_ip_override - boolean - Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
     allow_user_level_ssl_override - boolean - Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
+    enforce_parent_site_user_ip_restrictions - boolean - Require Parent Site users entering this Child Site to match its allowed IP addresses in addition to their existing IP restrictions. Applies to all Workspaces. Defaults to false.
     disallowed_countries - string - Comma separated list of disallowed Country codes
     days_to_retain_backups - int64 - Number of days to keep deleted files
     max_prior_passwords - int64 - Number of prior passwords to disallow
