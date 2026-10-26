@@ -87,7 +87,6 @@ The API sends each `User` record as JSON, such as:
   "skip_welcome_screen": true,
   "ssl_required": "always_require",
   "sso_strategy_id": 1,
-  "subscribe_to_newsletter": true,
   "externally_managed": true,
   "tags": "example",
   "time_zone": "Pacific Time (US & Canada)",
@@ -179,7 +178,6 @@ The API sends each `User` record as JSON, such as:
 * `skip_welcome_screen` (boolean): Skip Welcome page in the UI?
 * `ssl_required` (string): SSL required setting
 * `sso_strategy_id` (int64): SSO (Single Sign On) strategy ID for the user, if applicable.
-* `subscribe_to_newsletter` (boolean): Is the user subscribed to the newsletter?
 * `externally_managed` (boolean): Is this user managed by a SsoStrategy?
 * `tags` (string): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `time_zone` (string): User time zone
@@ -308,7 +306,6 @@ files_sdk.user.create({
   "skip_welcome_screen": True,
   "ssl_required": "always_require",
   "sso_strategy_id": 1,
-  "subscribe_to_newsletter": True,
   "require_2fa": "always_require",
   "tags": "example",
   "time_zone": "Pacific Time (US & Canada)",
@@ -382,7 +379,6 @@ files_sdk.user.create({
 * `skip_welcome_screen` (boolean): Skip Welcome page in the UI?
 * `ssl_required` (string): SSL required setting
 * `sso_strategy_id` (int64): SSO (Single Sign On) strategy ID for the user, if applicable.
-* `subscribe_to_newsletter` (boolean): Is the user subscribed to the newsletter?
 * `require_2fa` (string): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (string): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `time_zone` (string): User time zone
@@ -491,7 +487,6 @@ files_sdk.user.update(id, {
   "skip_welcome_screen": True,
   "ssl_required": "always_require",
   "sso_strategy_id": 1,
-  "subscribe_to_newsletter": True,
   "require_2fa": "always_require",
   "tags": "example",
   "time_zone": "Pacific Time (US & Canada)",
@@ -568,7 +563,6 @@ files_sdk.user.update(id, {
 * `skip_welcome_screen` (boolean): Skip Welcome page in the UI?
 * `ssl_required` (string): SSL required setting
 * `sso_strategy_id` (int64): SSO (Single Sign On) strategy ID for the user, if applicable.
-* `subscribe_to_newsletter` (boolean): Is the user subscribed to the newsletter?
 * `require_2fa` (string): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (string): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `time_zone` (string): User time zone
@@ -699,7 +693,6 @@ user.update({
   "skip_welcome_screen": True,
   "ssl_required": "always_require",
   "sso_strategy_id": 1,
-  "subscribe_to_newsletter": True,
   "require_2fa": "always_require",
   "tags": "example",
   "time_zone": "Pacific Time (US & Canada)",
@@ -776,7 +769,6 @@ user.update({
 * `skip_welcome_screen` (boolean): Skip Welcome page in the UI?
 * `ssl_required` (string): SSL required setting
 * `sso_strategy_id` (int64): SSO (Single Sign On) strategy ID for the user, if applicable.
-* `subscribe_to_newsletter` (boolean): Is the user subscribed to the newsletter?
 * `require_2fa` (string): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (string): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `time_zone` (string): User time zone

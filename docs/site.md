@@ -350,7 +350,6 @@ The API sends each `Site` record as JSON, such as:
     "skip_welcome_screen": true,
     "ssl_required": "always_require",
     "sso_strategy_id": 1,
-    "subscribe_to_newsletter": true,
     "externally_managed": true,
     "tags": "example",
     "time_zone": "Pacific Time (US & Canada)",
