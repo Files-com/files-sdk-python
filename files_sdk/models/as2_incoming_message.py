@@ -24,7 +24,8 @@ class As2IncomingMessage:
     An attribute the API did not send is None.
 
     Attributes:
-        id: int64 - Id of the AS2 Partner.
+        id: int64 - ID of this AS2 incoming message record.
+        replayed_from_message_id: int64 - ID of the incoming message record this message was replayed from. Empty for messages received directly from a trading partner.
         workspace_id: int64 - ID of the Workspace associated with this AS2 Incoming Message.
         as2_partner_id: int64 - Id of the AS2 Partner associated with this message.
         as2_station_id: int64 - Id of the AS2 Station associated with this message.
@@ -62,7 +63,8 @@ class As2IncomingMessage:
     """
 
     default_attributes = {
-        "id": None,  # int64 - Id of the AS2 Partner.
+        "id": None,  # int64 - ID of this AS2 incoming message record.
+        "replayed_from_message_id": None,  # int64 - ID of the incoming message record this message was replayed from. Empty for messages received directly from a trading partner.
         "workspace_id": None,  # int64 - ID of the Workspace associated with this AS2 Incoming Message.
         "as2_partner_id": None,  # int64 - Id of the AS2 Partner associated with this message.
         "as2_station_id": None,  # int64 - Id of the AS2 Station associated with this message.
@@ -103,6 +105,7 @@ class As2IncomingMessage:
     # attribute as, or None. set_attributes stores each value as given,
     # converting only decimals, so a value a caller sets can differ.
     id: int | None
+    replayed_from_message_id: int | None
     workspace_id: int | None
     as2_partner_id: int | None
     as2_station_id: int | None
@@ -171,6 +174,29 @@ class As2IncomingMessage:
         if self._context is not None:
             return self._context
         return LegacyScope(self.options)
+
+    def replay(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
+        """Replay AS2 Incoming Message"""
+        if not (hasattr(self, "id") and self.id):
+            raise MissingParameterError("Current object doesn't have a id")
+        params = copy_params(params, {"id": self.id})
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        operation = Operation.start(self._scope())
+        response = operation.request(
+            "POST",
+            "/as2_incoming_messages/" + path_value(params["id"]) + "/replay",
+            params,
+        )
+        if not isinstance(response.data, dict):
+            raise unexpected_response_error(
+                response, "a record was not a JSON object"
+            )
+        return response.data
 
 
 class As2IncomingMessageResource:
@@ -254,6 +280,36 @@ class As2IncomingMessageResource:
         """The same as list()."""
         return self.list(params, options)
 
+    def replay(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> As2IncomingMessage:
+        """Replay AS2 Incoming Message"""
+        return self.__replay({"id": id}, params, options)
+
+    def __replay(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> As2IncomingMessage:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "POST",
+            "/as2_incoming_messages/" + path_value(params["id"]) + "/replay",
+            params,
+        )
+        return operation.decode_model(response, As2IncomingMessage)
+
     def new(
         self,
         attributes: dict[str, Any] | None = None,
@@ -292,6 +348,15 @@ def all(
 ) -> ListObj[As2IncomingMessage]:
     """The same as list()."""
     return _legacy_resource.list(params, options)
+
+
+def replay(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> As2IncomingMessage:
+    """Replay AS2 Incoming Message"""
+    return _legacy_resource.replay(id, params, options)
 
 
 def new(*args, **kwargs) -> As2IncomingMessage:

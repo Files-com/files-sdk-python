@@ -7,6 +7,7 @@ The API sends each `As2IncomingMessage` record as JSON, such as:
 ```json
 {
   "id": 1,
+  "replayed_from_message_id": 1,
   "workspace_id": 1,
   "as2_partner_id": 1,
   "as2_station_id": 1,
@@ -48,7 +49,8 @@ The API sends each `As2IncomingMessage` record as JSON, such as:
 }
 ```
 
-* `id` (int64): Id of the AS2 Partner.
+* `id` (int64): ID of this AS2 incoming message record.
+* `replayed_from_message_id` (int64): ID of the incoming message record this message was replayed from. Empty for messages received directly from a trading partner.
 * `workspace_id` (int64): ID of the Workspace associated with this AS2 Incoming Message.
 * `as2_partner_id` (int64): Id of the AS2 Partner associated with this message.
 * `as2_station_id` (int64): Id of the AS2 Station associated with this message.
@@ -108,3 +110,31 @@ files_sdk.as2_incoming_message.list()
 * `filter_gteq` (object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
 * `filter_lt` (object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
 * `filter_lteq` (object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+
+
+---
+
+## Replay AS2 Incoming Message
+
+```python
+files_sdk.as2_incoming_message.replay(id)
+```
+
+### Parameters
+
+* `id` (int64): Required - As2 Incoming Message ID.
+
+
+---
+
+## Replay AS2 Incoming Message
+
+```python
+as2_incoming_message = next(files_sdk.as2_incoming_message.list().auto_paging_iter(), None)
+if as2_incoming_message is not None:
+    as2_incoming_message.replay()
+```
+
+### Parameters
+
+* `id` (int64): Required - As2 Incoming Message ID.
