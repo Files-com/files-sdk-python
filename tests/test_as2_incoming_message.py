@@ -21,6 +21,15 @@ class As2IncomingMessageTest(TestBase):
         self.assert_returns(as2_incoming_message.list, result)
         self.assert_typed(result)
 
+    def test_find(self):
+        id = 12345
+        params = {
+            "id": 12345,
+        }
+        result = as2_incoming_message.find(id, params)
+        self.assert_returns(as2_incoming_message.find, result)
+        self.assert_typed(result)
+
     def test_replay(self):
         id = 12345
         params = {

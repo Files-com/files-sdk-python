@@ -219,7 +219,7 @@ class As2IncomingMessageResource:
         cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
         per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
         sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `as2_partner_id`.
-        filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `as2_station_id`, `workspace_id` or `as2_partner_id`. Valid field combinations are `[ as2_station_id, created_at ]`, `[ workspace_id, created_at ]`, `[ as2_partner_id, created_at ]`, `[ workspace_id, as2_station_id ]`, `[ workspace_id, as2_partner_id ]`, `[ workspace_id, as2_station_id, created_at ]` or `[ workspace_id, as2_partner_id, created_at ]`.
+        filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `as2_station_id`, `workspace_id`, `replayed_from_message_id` or `as2_partner_id`. Valid field combinations are `[ as2_station_id, created_at ]`, `[ workspace_id, created_at ]`, `[ replayed_from_message_id, created_at ]`, `[ as2_partner_id, created_at ]`, `[ workspace_id, as2_station_id ]`, `[ workspace_id, replayed_from_message_id ]`, `[ workspace_id, as2_partner_id ]`, `[ workspace_id, as2_station_id, created_at ]`, `[ workspace_id, replayed_from_message_id, created_at ]` or `[ workspace_id, as2_partner_id, created_at ]`.
         filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
         filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
         filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
@@ -280,6 +280,45 @@ class As2IncomingMessageResource:
         """The same as list()."""
         return self.list(params, options)
 
+    def find(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> As2IncomingMessage:
+        """Parameters:
+        id (required) - int64 - As2 Incoming Message ID.
+        """
+        return self.__find({"id": id}, params, options)
+
+    def __find(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> As2IncomingMessage:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "GET", "/as2_incoming_messages/" + path_value(params["id"]), params
+        )
+        return operation.decode_model(response, As2IncomingMessage)
+
+    def get(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> As2IncomingMessage:
+        """The same as find()."""
+        return self.find(id, params, options)
+
     def replay(
         self,
         id: int,
@@ -333,7 +372,7 @@ def list(
     cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
     per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
     sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `as2_partner_id`.
-    filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `as2_station_id`, `workspace_id` or `as2_partner_id`. Valid field combinations are `[ as2_station_id, created_at ]`, `[ workspace_id, created_at ]`, `[ as2_partner_id, created_at ]`, `[ workspace_id, as2_station_id ]`, `[ workspace_id, as2_partner_id ]`, `[ workspace_id, as2_station_id, created_at ]` or `[ workspace_id, as2_partner_id, created_at ]`.
+    filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `as2_station_id`, `workspace_id`, `replayed_from_message_id` or `as2_partner_id`. Valid field combinations are `[ as2_station_id, created_at ]`, `[ workspace_id, created_at ]`, `[ replayed_from_message_id, created_at ]`, `[ as2_partner_id, created_at ]`, `[ workspace_id, as2_station_id ]`, `[ workspace_id, replayed_from_message_id ]`, `[ workspace_id, as2_partner_id ]`, `[ workspace_id, as2_station_id, created_at ]`, `[ workspace_id, replayed_from_message_id, created_at ]` or `[ workspace_id, as2_partner_id, created_at ]`.
     filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
     filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
     filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
@@ -348,6 +387,26 @@ def all(
 ) -> ListObj[As2IncomingMessage]:
     """The same as list()."""
     return _legacy_resource.list(params, options)
+
+
+def find(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> As2IncomingMessage:
+    """Parameters:
+    id (required) - int64 - As2 Incoming Message ID.
+    """
+    return _legacy_resource.find(id, params, options)
+
+
+def get(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> As2IncomingMessage:
+    """The same as find()."""
+    return _legacy_resource.find(id, params, options)
 
 
 def replay(
