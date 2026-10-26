@@ -1,5 +1,7 @@
 import logging
+import platform
 import re
+import sys
 import time
 from decimal import Decimal
 from typing import Any, cast
@@ -30,6 +32,75 @@ _TRANSFER_HEADERS = {
     for name, value in requests.utils.default_headers().items()
     if name != "User-Agent"
 }
+
+# The comment the SDK's own User-Agent ends with: what the process runs on,
+# coarsely, and nothing about its host.
+_METADATA_COMMENT = " (files-sdk-meta/1; os={os}; runtime={runtime})"
+_MAX_METADATA_BYTES = 128  # The comment, with the space before it.
+_MAX_USER_AGENT_BYTES = 190  # The whole value, with the comment.
+# The operating systems sys.platform names exactly. FreeBSD's names also
+# carry its major version.
+_OPERATING_SYSTEMS = {
+    "win32": "windows",
+    "darwin": "macos",
+    "linux": "linux",
+    "android": "android",
+    "ios": "ios",
+}
+# A Python version the comment can carry as it is.
+_PYTHON_VERSION = re.compile(r"[0-9][A-Za-z0-9._+-]{0,47}")
+
+
+def _operating_system():
+    """The coarse operating system of this process, from sys.platform
+    alone: nothing of the host's name, version or architecture."""
+    name = sys.platform
+    if not name:
+        return "unknown"
+    if name == "linux" and hasattr(sys, "getandroidapilevel"):
+        return "android"  # Before Python 3.13, Android's platform is linux.
+    if name.startswith("freebsd"):
+        return "freebsd"
+    return _OPERATING_SYSTEMS.get(name, "other")
+
+
+def _python_version():
+    """platform.python_version() as it is, or None if it cannot be had or
+    is not a version the comment can carry."""
+    try:
+        version = platform.python_version()
+        return version if _PYTHON_VERSION.fullmatch(version) else None
+    except Exception:  # Optional metadata never stops a request.
+        return None
+
+
+def _default_user_agent():
+    """The SDK's own User-Agent: "Files.com Python SDK v" and
+    files_sdk.version as it is now, then a comment with the operating system
+    and Python version. The Python version is left out when it cannot be
+    had, or would make the value too long, and then the whole comment if
+    the value would still be too long; the SDK's name and version are never
+    cut. A name and version that are not ASCII are sent alone, as before."""
+    identity = "Files.com Python SDK v{version}".format(
+        version=files_sdk.version
+    )
+    if not identity.isascii():
+        return identity
+    os_name = _operating_system()
+    version = _python_version()
+    runtimes = ["python"]
+    if version is not None:
+        runtimes.insert(0, "python/" + version)
+    for runtime in runtimes:
+        # All ASCII, so its length is its size in bytes.
+        comment = _METADATA_COMMENT.format(os=os_name, runtime=runtime)
+        if (
+            len(comment) <= _MAX_METADATA_BYTES
+            and len(identity) + len(comment) <= _MAX_USER_AGENT_BYTES
+        ):
+            return identity + comment
+    return identity
+
 
 # The storage service's 429, 503 and 504 answers may say, in whole or
 # decimal seconds, how long to wait.
@@ -538,9 +609,7 @@ class ApiClient:
             raise failure.error from None
 
     def _transfer_headers(self, headers=None):
-        user_agent = "Files.com Python SDK v{version}".format(
-            version=files_sdk.version
-        )
+        user_agent = _default_user_agent()
         return {
             **_TRANSFER_HEADERS,
             "User-Agent": user_agent,
@@ -905,9 +974,7 @@ class ApiClient:
         )
 
     def request_headers(self, api_key, session_id, language, workspace_id):
-        user_agent = "Files.com Python SDK v{version}".format(
-            version=files_sdk.version
-        )
+        user_agent = _default_user_agent()
 
         headers = {
             "User-Agent": user_agent,

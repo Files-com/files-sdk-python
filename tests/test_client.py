@@ -1,9 +1,272 @@
+import contextlib
+import io
+import platform
+import re
+import sys
 import unittest
+from unittest import mock
 
 import files_sdk
+import requests
+from files_sdk.api_client import ApiClient
 from files_sdk.error import AuthenticationError, InvalidParameterError
 from files_sdk.models import Session
 from tests.loopback_api import serve_loopback_api, start_loopback_api
+
+# The User-Agent the SDK sends by default: its name and version, then one
+# comment with the coarse operating system and, when it can say it, the
+# Python version of the process.
+SDK_USER_AGENT = re.compile(
+    r"Files\.com Python SDK v(?P<version>\S+) \(files-sdk-meta/1; "
+    r"os=(?P<os>[a-z][a-z0-9-]{0,15}); "
+    r"runtime=python(?:/(?P<runtime>[0-9][A-Za-z0-9._+-]{0,47}))?\)"
+)
+COARSE_OPERATING_SYSTEMS = {
+    "windows",
+    "macos",
+    "linux",
+    "android",
+    "ios",
+    "freebsd",
+    "other",
+    "unknown",
+}
+
+
+class TestUserAgent(unittest.TestCase):
+    """The User-Agent of the SDK's requests: its own, with a comment about
+    the process, wherever the SDK chooses it, and exactly the one given
+    wherever a caller chooses it."""
+
+    def setUp(self):
+        self.module_api = serve_loopback_api(self)
+        self.api = start_loopback_api(self)
+
+    def test_api_and_storage_requests_carry_the_sdk_and_its_process(self):
+        client = files_sdk.Client(
+            api_key="clientkey",
+            base_url=self.api.url,
+            headers={"User-Agent": "client-agent/1"},
+        )
+        self.addCleanup(client.close)
+        self.api.reply_json([])
+        self.api.reply_json([])
+        self.api.reply_json(
+            {
+                "path": "doc.txt",
+                "download_uri": self.api.url + "/storage/doc.txt",
+            }
+        )
+        self.api.reply(200, b"content")
+        self.module_api.reply_json([])
+        downloaded = io.BytesIO()
+
+        client.user.list()
+        client.user.list({}, {"headers": {"User-Agent": "call-agent/1"}})
+        client.file.find("doc.txt").download_content(downloaded)
+        files_sdk.user.list()
+
+        self.assertEqual(b"content", downloaded.getvalue())
+        self.assertEqual("/storage/doc.txt", self.api.requests[3].url_path)
+        agents = [
+            request.headers["User-Agent"]
+            for request in self.api.requests + self.module_api.requests
+        ]
+        # A client's or a call's headers never replace it on an API request.
+        self.assertEqual([agents[0]] * 5, agents)
+        agent = agents[0]
+        match = SDK_USER_AGENT.fullmatch(agent)
+        self.assertIsNotNone(match, agent)
+        assert match is not None
+        self.assertEqual(files_sdk.version, match["version"])
+        self.assertIn(match["os"], COARSE_OPERATING_SYSTEMS)
+        self.assertEqual(platform.python_version(), match["runtime"])
+        self.assertTrue(agent.isascii())
+        self.assertLessEqual(
+            len(agent[agent.index(" (files-sdk-meta/1;") :]), 128
+        )
+        self.assertLessEqual(len(agent), 190)
+
+    def test_a_transfer_sends_the_user_agent_it_is_given_exactly(self):
+        given = [
+            # One that looks like the SDK's own, and one too long to be.
+            "Files.com Python SDK v{} (files-sdk-meta/1; os=other; runtime=python/0.1)".format(
+                files_sdk.version
+            ),
+            "Files.com Python SDK v{} ({})".format(
+                files_sdk.version, "x" * 300
+            ),
+            "Agent/2.0 (compatible; café) (+https://example.com/bot)",
+        ]
+        for agent in given:
+            self.module_api.reply(200)
+            ApiClient().send_remote_request(
+                "PUT",
+                self.module_api.url + "/storage/part",
+                headers={"User-Agent": agent},
+                body=b"part",
+            )
+
+        self.assertEqual(
+            given,
+            [
+                request.headers["User-Agent"]
+                for request in self.module_api.requests
+            ],
+        )
+
+    def test_a_request_headers_override_replaces_the_whole_user_agent(self):
+        # As the Files.com MCP server does: call the SDK's own and replace
+        # the User-Agent it returns.
+        class McpApiClient(ApiClient):
+            def request_headers(
+                self, api_key, session_id, language, workspace_id
+            ):
+                headers = super().request_headers(
+                    api_key, session_id, language, workspace_id
+                )
+                headers["User-Agent"] = "Files.com Python MCP SDK v9.9.9"
+                return headers
+
+        self.module_api.reply_json([])
+        McpApiClient().send_request("GET", "/users")
+
+        [request] = self.module_api.requests
+        self.assertEqual(("GET", "/users"), (request.method, request.path))
+        self.assertEqual(
+            "Files.com Python MCP SDK v9.9.9", request.headers["User-Agent"]
+        )
+        self.assertEqual("globalkey", request.headers["X-FilesAPI-Key"])
+
+    def test_a_borrowed_session_keeps_its_own_user_agent_and_settings(self):
+        session = requests.Session()
+        self.addCleanup(session.close)
+        session.headers["User-Agent"] = "caller-agent/1"
+        session.auth = ("user", "private-password")
+
+        def hook(response, **_):
+            pass
+
+        session.hooks["response"].append(hook)
+
+        def settings():
+            return (
+                dict(session.headers),
+                session.auth,
+                list(session.hooks["response"]),
+                dict(session.adapters),
+            )
+
+        before = settings()
+        client = files_sdk.Client(
+            api_key="clientkey", base_url=self.api.url, http_session=session
+        )
+        self.api.reply_json(
+            {
+                "path": "doc.txt",
+                "download_uri": self.api.url + "/storage/doc.txt",
+            }
+        )
+        self.api.reply(200, b"content")
+        self.api.reply(200, b"own")
+
+        client.file.find("doc.txt").download_content(io.BytesIO())
+        client.close()
+        session.get(self.api.url + "/own")
+
+        lookup, transfer, own = self.api.requests
+        self.assertIsNotNone(
+            SDK_USER_AGENT.fullmatch(lookup.headers["User-Agent"]),
+            lookup.headers["User-Agent"],
+        )
+        self.assertEqual(
+            lookup.headers["User-Agent"], transfer.headers["User-Agent"]
+        )
+        for header in ("Authorization", "X-FilesAPI-Key"):
+            self.assertNotIn(header, transfer.headers)
+        self.assertEqual("caller-agent/1", own.headers["User-Agent"])
+        self.assertEqual(before, settings())
+
+    def user_agent_of_process(
+        self, platform_id, python_version, android=False
+    ):
+        """The User-Agent of a module request made while sys.platform is
+        platform_id and platform.python_version() returns python_version,
+        or raises it if it is an exception. The process has the marker
+        Android builds of Python have, sys.getandroidapilevel, exactly when
+        android is true, whether or not it had one of its own; it has its
+        own back, as it was, afterwards."""
+
+        def process_python_version():
+            if isinstance(python_version, Exception):
+                raise python_version
+            return python_version
+
+        with contextlib.ExitStack() as process:
+            process.enter_context(
+                mock.patch.object(sys, "platform", platform_id)
+            )
+            process.enter_context(
+                mock.patch.object(
+                    platform, "python_version", process_python_version
+                )
+            )
+            if android:
+                process.enter_context(
+                    mock.patch.object(
+                        sys, "getandroidapilevel", lambda: 34, create=True
+                    )
+                )
+            elif hasattr(sys, "getandroidapilevel"):
+                marker = sys.getandroidapilevel
+                del sys.getandroidapilevel
+                process.callback(setattr, sys, "getandroidapilevel", marker)
+            self.module_api.reply_json([])
+            files_sdk.user.list()
+        return self.module_api.requests.pop().headers["User-Agent"]
+
+    def test_the_process_is_named_coarsely_and_an_unusable_python_version_left_out(
+        self,
+    ):
+        identity = "Files.com Python SDK v{}".format(files_sdk.version)
+        for platform_id, android, os_name in (
+            ("win32", False, "windows"),
+            ("darwin", False, "macos"),
+            ("linux", False, "linux"),
+            ("linux", True, "android"),
+            ("android", False, "android"),
+            ("ios", False, "ios"),
+            ("freebsd14", False, "freebsd"),
+            ("cygwin", False, "other"),
+            ("", False, "unknown"),
+        ):
+            with self.subTest(platform=platform_id, android=android):
+                self.assertEqual(
+                    identity
+                    + " (files-sdk-meta/1; os={}; runtime=python/3.14.7)".format(
+                        os_name
+                    ),
+                    self.user_agent_of_process(platform_id, "3.14.7", android),
+                )
+        longest = "3." + "1" * 46  # 48 bytes, the longest version carried
+        for version, runtime in (
+            ("3.15.0a1+", "python/3.15.0a1+"),
+            (longest, "python/" + longest),
+            (longest + "1", "python"),
+            ("", "python"),
+            ("v3.14.7", "python"),
+            ("3.14.7 (custom)", "python"),
+            ("3.14.7é", "python"),
+            (ValueError("failed to parse CPython sys.version"), "python"),
+        ):
+            with self.subTest(version=version):
+                self.assertEqual(
+                    identity
+                    + " (files-sdk-meta/1; os=linux; runtime={})".format(
+                        runtime
+                    ),
+                    self.user_agent_of_process("linux", version),
+                )
 
 
 class TestClientContext(unittest.TestCase):
