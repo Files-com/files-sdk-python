@@ -28,7 +28,7 @@ class ScheduledExport:
         name: string - Name for this scheduled export.
         export_type: string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
         report_name: string - Human-readable report name.
-        export_options: object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
+        export_options: object - Options for the report selected by export_type.
         user_id: int64 - Site Admin user who receives the completed export e-mail.
         disabled: boolean - If true, this scheduled export will not run.
         trigger: string - Schedule trigger type: `daily` or `custom_schedule`.
@@ -53,7 +53,7 @@ class ScheduledExport:
         "name": None,  # string - Name for this scheduled export.
         "export_type": None,  # string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
         "report_name": None,  # string - Human-readable report name.
-        "export_options": None,  # object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
+        "export_options": None,  # object - Options for the report selected by export_type.
         "user_id": None,  # int64 - Site Admin user who receives the completed export e-mail.
         "disabled": None,  # boolean - If true, this scheduled export will not run.
         "trigger": None,  # string - Schedule trigger type: `daily` or `custom_schedule`.
@@ -139,7 +139,7 @@ class ScheduledExport:
         Parameters:
           name - string - Name for this scheduled export.
           export_type - string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-          export_options - object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
+          export_options - object - Options for the report selected by export_type.
           user_id - int64 - Site Admin user who receives the completed export e-mail.
           disabled - boolean - If true, this scheduled export will not run.
           trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
@@ -380,7 +380,7 @@ class ScheduledExportResource:
         """Parameters:
         name (required) - string - Name for this scheduled export.
         export_type (required) - string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-        export_options - object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
+        export_options - object - Options for the report selected by export_type.
         user_id - int64 - Site Admin user who receives the completed export e-mail.
         disabled - boolean - If true, this scheduled export will not run.
         trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
@@ -488,7 +488,7 @@ class ScheduledExportResource:
         """Parameters:
         name - string - Name for this scheduled export.
         export_type - string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-        export_options - object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
+        export_options - object - Options for the report selected by export_type.
         user_id - int64 - Site Admin user who receives the completed export e-mail.
         disabled - boolean - If true, this scheduled export will not run.
         trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
@@ -698,7 +698,7 @@ def create(
     """Parameters:
     name (required) - string - Name for this scheduled export.
     export_type (required) - string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-    export_options - object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
+    export_options - object - Options for the report selected by export_type.
     user_id - int64 - Site Admin user who receives the completed export e-mail.
     disabled - boolean - If true, this scheduled export will not run.
     trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
@@ -722,7 +722,7 @@ def update(
     """Parameters:
     name - string - Name for this scheduled export.
     export_type - string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-    export_options - object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
+    export_options - object - Options for the report selected by export_type.
     user_id - int64 - Site Admin user who receives the completed export e-mail.
     disabled - boolean - If true, this scheduled export will not run.
     trigger - string - Schedule trigger type: `daily` or `custom_schedule`.

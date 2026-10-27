@@ -17,11 +17,7 @@ The API sends each `Site` record as JSON, such as:
       "workspace_admins": true,
       "folder_admins": true,
       "all_users": false,
-      "selected_group_members": true,
-      "group_ids": [
-        1,
-        2
-      ]
+      "selected_group_members": false
     }
   },
   "allowed_2fa_method_sms": true,
@@ -649,8 +645,9 @@ files_sdk.site.update({
   "motd_text": "example",
   "motd_use_for_ftp": False,
   "motd_use_for_sftp": False,
+  "left_navigation_visibility": {"sharing": {"admin": True, "all": True}, "automation_flow": {"admin": False, "all": False}, "integrations": {"admin": False, "all": False}, "clients_protocols": {"admin": False, "all": False}},
   "disable_all_ai_features": False,
-  "ai_feature_availability": {"in_app_ai_assistant": {"site_admins": True, "workspace_admins": True, "folder_admins": True, "all_users": False, "selected_group_members": True, "group_ids": [1, 2]}},
+  "ai_feature_availability": {"in_app_ai_assistant": {"site_admins": True, "workspace_admins": True, "folder_admins": True, "all_users": False, "selected_group_members": False}},
   "mcp_dcr_enabled": False,
   "additional_text_file_types": ["example"],
   "bundle_require_note": False,

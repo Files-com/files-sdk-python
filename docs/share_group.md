@@ -14,7 +14,7 @@ The API sends each `ShareGroup` record as JSON, such as:
     {
       "name": "John Doe",
       "company": "Acme Ltd",
-      "email": "johndoe@gmail.com"
+      "email": "johndoe@example.com"
     }
   ]
 }
@@ -71,7 +71,7 @@ files_sdk.share_group.create({
   "user_id": 1,
   "notes": "This group is defined for testing purposes",
   "name": "Test group 1",
-  "members": [{"name": "John Doe", "company": "Acme Ltd", "email": "johndoe@gmail.com"}]
+  "members": [{"name": "John Doe", "company": "Acme Ltd", "email": "johndoe@example.com"}]
 })
 ```
 
@@ -91,7 +91,7 @@ files_sdk.share_group.create({
 files_sdk.share_group.update(id, {
   "notes": "This group is defined for testing purposes",
   "name": "Test group 1",
-  "members": [{"name": "John Doe", "company": "Acme Ltd", "email": "johndoe@gmail.com"}]
+  "members": [{"name": "John Doe", "company": "Acme Ltd", "email": "johndoe@example.com"}]
 })
 ```
 
@@ -125,7 +125,7 @@ share_group = files_sdk.share_group.find(id)
 share_group.update({
   "notes": "This group is defined for testing purposes",
   "name": "Test group 1",
-  "members": [{"name": "John Doe", "company": "Acme Ltd", "email": "johndoe@gmail.com"}]
+  "members": [{"name": "John Doe", "company": "Acme Ltd", "email": "johndoe@example.com"}]
 })
 ```
 

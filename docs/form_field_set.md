@@ -17,18 +17,13 @@ The API sends each `FormFieldSet` record as JSON, such as:
   ],
   "form_fields": [
     {
-      "id": 1,
-      "label": "Sample Label",
+      "label": "Department",
+      "field_type": "dropdown",
       "required": true,
-      "help_text": "Help Text",
-      "field_type": "text",
       "options_for_select": [
-        "red",
-        "green",
-        "blue"
-      ],
-      "default_option": "red",
-      "form_field_set_id": 1
+        "Finance",
+        "Sales"
+      ]
     }
   ],
   "skip_name": true,
@@ -99,7 +94,7 @@ files_sdk.form_field_set.create({
   "skip_email": False,
   "skip_name": False,
   "skip_company": False,
-  "form_fields": [{"label": "Sample Label", "required": True, "help_text": "Help Text", "field_type": "text", "options_for_select": ["red", "green", "blue"], "default_option": "red", "form_field_set_id": 1}]
+  "form_fields": [{"label": "Department", "field_type": "dropdown", "required": True, "options_for_select": ["Finance", "Sales"]}]
 })
 ```
 
@@ -127,7 +122,7 @@ files_sdk.form_field_set.update(id, {
   "skip_email": False,
   "skip_name": False,
   "skip_company": False,
-  "form_fields": [{"id": 1, "label": "Sample Label", "required": True, "help_text": "Help Text", "field_type": "text", "options_for_select": ["red", "green", "blue"], "default_option": "red", "form_field_set_id": 1}]
+  "form_fields": [{"label": "Department", "field_type": "dropdown", "required": True, "options_for_select": ["Finance", "Sales"]}]
 })
 ```
 
@@ -169,7 +164,7 @@ form_field_set.update({
   "skip_email": False,
   "skip_name": False,
   "skip_company": False,
-  "form_fields": [{"id": 1, "label": "Sample Label", "required": True, "help_text": "Help Text", "field_type": "text", "options_for_select": ["red", "green", "blue"], "default_option": "red", "form_field_set_id": 1}]
+  "form_fields": [{"label": "Department", "field_type": "dropdown", "required": True, "options_for_select": ["Finance", "Sales"]}]
 })
 ```
 

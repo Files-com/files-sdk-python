@@ -47,8 +47,8 @@ The API sends each `Automation` record as JSON, such as:
   "import_urls": [
     {
       "name": "users.json",
-      "url": "http://example.com/users",
-      "method": "POST",
+      "url": "https://example.com/users",
+      "method": "post",
       "headers": {
         "Content-Type": "application/json"
       },
@@ -242,7 +242,7 @@ files_sdk.automation.create({
   "definition": {"schema_version": 1, "nodes": [{"id": "trigger", "type": "trigger_manual"}, {"id": "create_reports", "type": "create_folder", "config": {"destinations": ["reports/"]}}], "edges": [{"from": "trigger", "to": "create_reports"}]},
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
-  "import_urls": [{"name": "users.json", "url": "http://example.com/users", "method": "POST", "headers": {"Content-Type": "application/json"}, "content": {"group": "support"}}],
+  "import_urls": [{"name": "users.json", "url": "https://example.com/users", "method": "post", "headers": {"Content-Type": "application/json"}, "content": {"group": "support"}}],
   "flatten_destination_structure": True,
   "ignore_locked_folders": True,
   "legacy_folder_matching": False,
@@ -353,7 +353,7 @@ files_sdk.automation.update(id, {
   "definition": {"schema_version": 1, "nodes": [{"id": "trigger", "type": "trigger_manual"}, {"id": "create_reports", "type": "create_folder", "config": {"destinations": ["reports/"]}}], "edges": [{"from": "trigger", "to": "create_reports"}]},
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
-  "import_urls": [{"name": "users.json", "url": "http://example.com/users", "method": "POST", "headers": {"Content-Type": "application/json"}, "content": {"group": "support"}}],
+  "import_urls": [{"name": "users.json", "url": "https://example.com/users", "method": "post", "headers": {"Content-Type": "application/json"}, "content": {"group": "support"}}],
   "flatten_destination_structure": True,
   "ignore_locked_folders": True,
   "legacy_folder_matching": False,
@@ -479,7 +479,7 @@ automation.update({
   "definition": {"schema_version": 1, "nodes": [{"id": "trigger", "type": "trigger_manual"}, {"id": "create_reports", "type": "create_folder", "config": {"destinations": ["reports/"]}}], "edges": [{"from": "trigger", "to": "create_reports"}]},
   "disabled": True,
   "exclude_pattern": "path/to/exclude/*",
-  "import_urls": [{"name": "users.json", "url": "http://example.com/users", "method": "POST", "headers": {"Content-Type": "application/json"}, "content": {"group": "support"}}],
+  "import_urls": [{"name": "users.json", "url": "https://example.com/users", "method": "post", "headers": {"Content-Type": "application/json"}, "content": {"group": "support"}}],
   "flatten_destination_structure": True,
   "ignore_locked_folders": True,
   "legacy_folder_matching": False,

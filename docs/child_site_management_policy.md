@@ -10,7 +10,17 @@ The API sends each `ChildSiteManagementPolicy` record as JSON, such as:
   "policy_type": "settings",
   "name": "example",
   "description": "example",
-  "value": "{ \"color2_left\": \"#000000\", \"folder_behaviors\": [{ \"behavior\": \"file_expiration\", \"value\": { \"days_to_retain\": 30 } }] }",
+  "value": {
+    "color2_left": "#000000",
+    "folder_behaviors": [
+      {
+        "behavior": "file_expiration",
+        "value": {
+          "days_to_retain": 30
+        }
+      }
+    ]
+  },
   "applied_child_site_ids": [
     1,
     2
@@ -80,7 +90,7 @@ files_sdk.child_site_management_policy.find(id)
 
 ```python
 files_sdk.child_site_management_policy.create({
-  "value": {"color2_left": "#000000"},
+  "value": {"color2_left": "#000000", "folder_behaviors": [{"behavior": "file_expiration", "value": {"days_to_retain": 30}}]},
   "skip_child_site_ids": [1, 2],
   "child_site_ids": [1, 2],
   "default_policy": True,
@@ -107,7 +117,7 @@ files_sdk.child_site_management_policy.create({
 
 ```python
 files_sdk.child_site_management_policy.update(id, {
-  "value": {"color2_left": "#000000"},
+  "value": {"color2_left": "#000000", "folder_behaviors": [{"behavior": "file_expiration", "value": {"days_to_retain": 30}}]},
   "skip_child_site_ids": [1, 2],
   "child_site_ids": [1, 2],
   "default_policy": True,
@@ -149,7 +159,7 @@ files_sdk.child_site_management_policy.delete(id)
 ```python
 child_site_management_policy = files_sdk.child_site_management_policy.find(id)
 child_site_management_policy.update({
-  "value": {"color2_left": "#000000"},
+  "value": {"color2_left": "#000000", "folder_behaviors": [{"behavior": "file_expiration", "value": {"days_to_retain": 30}}]},
   "skip_child_site_ids": [1, 2],
   "child_site_ids": [1, 2],
   "default_policy": True,
