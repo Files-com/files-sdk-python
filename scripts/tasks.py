@@ -402,17 +402,26 @@ def install_check(dependencies, artifact):
     )
 
 
-# The shared mock server's scenarios, each with the tests that need it, and
-# its launcher, which the generator writes beside this package. Under the
-# api-scenarios-canonical preset, scenarios/api_scenarios.py runs the shared
-# API scenarios (verification/scenarios/api.json) as four cases against one
-# server, each in a folder of its own, and writes each case's evidence to
-# the launcher's DIR/api-scenarios.
+# The runs of the shared mock server's scenarios, by name: each run's
+# scenario and the tests that need it. Each run starts the launcher, which
+# the generator writes beside this package, with its scenario, so its tests
+# have a server of their own, and keeps the run's evidence in DIR/NAME.
+# Under the api-scenarios-canonical preset, scenarios/api_scenarios.py runs
+# the shared API scenarios (verification/scenarios/api.json) as four cases
+# against one server, each in a folder of its own, and writes each case's
+# evidence to the launcher's DIR/api-scenarios. The file-upload run starts
+# another server with the same preset for tests/test_file_upload.py, whose
+# tests reset that server, and only that one, to the preset's own reset.
 SCENARIOS = {
-    "folder-list": "tests.test_shared_folder_list",
-    "api-scenarios-canonical": "scenarios.api_scenarios",
+    "folder-list": ("folder-list", "tests.test_shared_folder_list"),
+    "api-scenarios-canonical": (
+        "api-scenarios-canonical",
+        "scenarios.api_scenarios",
+    ),
+    "file-upload": ("api-scenarios-canonical", "tests.test_file_upload"),
 }
-# The launcher options a scenario's run adds before its "--", if any. The
+# The launcher options a run adds before its "--", if any; a run without
+# any, such as file-upload, has the launcher's default time limits. The
 # canonical cases' own time limits are cooperative (see
 # scenarios/api_scenarios.py), so their run has the launcher's hard ones: 30
 # seconds for the server to start, and 180 for the consumer, after which the
@@ -436,9 +445,10 @@ LAUNCHER = PACKAGE.parent / "mock-server" / "with-scenario.rb"
 
 
 def scenarios(launcher, outdir):
-    """Run each scenario's tests under the shared mock server's launcher,
-    which starts the server, gives the tests its URL, API key and scenario
-    file, and keeps its evidence in outdir/SCENARIO."""
+    """Run each run's tests under the shared mock server's launcher, which
+    starts a server for the run with its scenario, gives the tests its URL,
+    API key and scenario file, and keeps its evidence in outdir/NAME, the
+    run's name."""
     supported_python()
     launcher, outdir = Path(launcher).resolve(), Path(outdir).resolve()
     if not launcher.is_file():
@@ -447,24 +457,22 @@ def scenarios(launcher, outdir):
         )
     python = environment("test-current", runtime_lock("current"))
     TOOLS.mkdir(parents=True, exist_ok=True)
-    for scenario, tests in SCENARIOS.items():
+    for name, (scenario, tests) in SCENARIOS.items():
         with tempfile.TemporaryDirectory(dir=TOOLS) as scratch:
             report = Path(scratch) / "report.json"
             run(
                 *("ruby", launcher, "--scenario", scenario),
-                *("--out", outdir / scenario),
-                *SCENARIO_OPTIONS.get(scenario, ()),
+                *("--out", outdir / name),
+                *SCENARIO_OPTIONS.get(name, ()),
                 "--",
                 *(python, "-X", "dev", RUN_TESTS, "--report", report, tests),
                 cwd=PACKAGE,
             )
             if not report.exists():
-                raise TaskFailed(
-                    f"the launcher did not run the {scenario} tests"
-                )
+                raise TaskFailed(f"the launcher did not run the {name} tests")
             # Without the launcher's server URL, the tests skip themselves.
             if json.loads(report.read_text())["skipped"]:
-                raise TaskFailed(f"the {scenario} tests were skipped")
+                raise TaskFailed(f"the {name} tests were skipped")
 
 
 # Packaging
