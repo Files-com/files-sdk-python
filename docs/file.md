@@ -196,7 +196,7 @@ files_sdk.file.update(path, {
 ### Parameters
 
 * `path` (string): Required - Path to operate on.
-* `custom_metadata` (object): Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
+* `custom_metadata` (object): Custom metadata map. Replaces existing metadata; an empty map clears it. Requires Full or Admin permission. Uploaders with Write permission can supply custom metadata when completing an upload instead.
 * `provided_mtime` (string): Modified time of file.
 * `priority_color` (string): Priority/Bookmark color of file.
 
@@ -491,7 +491,7 @@ file.update({
 ### Parameters
 
 * `path` (string): Required - Path to operate on.
-* `custom_metadata` (object): Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
+* `custom_metadata` (object): Custom metadata map. Replaces existing metadata; an empty map clears it. Requires Full or Admin permission. Uploaders with Write permission can supply custom metadata when completing an upload instead.
 * `provided_mtime` (string): Modified time of file.
 * `priority_color` (string): Priority/Bookmark color of file.
 
