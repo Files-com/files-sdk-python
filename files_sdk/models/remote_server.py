@@ -54,6 +54,9 @@ class RemoteServer:
         server_certificate: string - Remote server certificate
         server_host_key: string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
         server_type: string - Remote server type.
+        site_admin_access: boolean - Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.
+        effective_site_admin_access: boolean - Whether Site and Workspace Administrators can access this Remote Server under the current Site policy.
+        user_id: int64 - ID of the user who owns this Remote Server, if any.
         workspace_id: int64 - Workspace ID (0 for default workspace)
         ssl: string - Should we require SSL?
         username: string - Remote server username.
@@ -109,7 +112,6 @@ class RemoteServer:
         linode_access_key: string - Linode: Access Key
         linode_region: string - Linode: region
         supports_versioning: boolean - If true, this remote server supports file versioning. This value is determined automatically by Files.com.
-        user_id: int64 - User ID. Provide a value of `0` to operate the current session's user.
         password: string - Password, if needed.
         private_key: string - Private key, if needed.
         private_key_passphrase: string - Passphrase for private key if needed.
@@ -160,6 +162,9 @@ class RemoteServer:
         "server_certificate": None,  # string - Remote server certificate
         "server_host_key": None,  # string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
         "server_type": None,  # string - Remote server type.
+        "site_admin_access": None,  # boolean - Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.
+        "effective_site_admin_access": None,  # boolean - Whether Site and Workspace Administrators can access this Remote Server under the current Site policy.
+        "user_id": None,  # int64 - ID of the user who owns this Remote Server, if any.
         "workspace_id": None,  # int64 - Workspace ID (0 for default workspace)
         "ssl": None,  # string - Should we require SSL?
         "username": None,  # string - Remote server username.
@@ -215,7 +220,6 @@ class RemoteServer:
         "linode_access_key": None,  # string - Linode: Access Key
         "linode_region": None,  # string - Linode: region
         "supports_versioning": None,  # boolean - If true, this remote server supports file versioning. This value is determined automatically by Files.com.
-        "user_id": None,  # int64 - User ID.  Provide a value of `0` to operate the current session's user.
         "password": None,  # string - Password, if needed.
         "private_key": None,  # string - Private key, if needed.
         "private_key_passphrase": None,  # string - Passphrase for private key if needed.
@@ -268,6 +272,9 @@ class RemoteServer:
     server_certificate: str | None
     server_host_key: str | None
     server_type: str | None
+    site_admin_access: bool | None
+    effective_site_admin_access: bool | None
+    user_id: int | None
     workspace_id: int | None
     ssl: str | None
     username: str | None
@@ -323,7 +330,6 @@ class RemoteServer:
     linode_access_key: str | None
     linode_region: str | None
     supports_versioning: bool | None
-    user_id: int | None
     password: str | None
     private_key: str | None
     private_key_passphrase: str | None
@@ -513,6 +519,7 @@ class RemoteServer:
           server_certificate - string - Remote server certificate
           server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
           server_type - string - Remote server type.
+          site_admin_access - boolean - Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.
           sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
           sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
           sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
@@ -996,6 +1003,12 @@ class RemoteServer:
             raise InvalidParameterError(
                 "Bad parameter: server_type must be an str"
             )
+        if "site_admin_access" in params and isinstance(
+            params["site_admin_access"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: site_admin_access must be an bool"
+            )
         if "sharepoint_client_id" in params and not isinstance(
             params["sharepoint_client_id"], str
         ):
@@ -1331,6 +1344,7 @@ class RemoteServerResource:
         server_certificate - string - Remote server certificate
         server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
         server_type - string - Remote server type.
+        site_admin_access - boolean - Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.
         sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
         sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
         sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
@@ -1812,6 +1826,12 @@ class RemoteServerResource:
             raise InvalidParameterError(
                 "Bad parameter: server_type must be an str"
             )
+        if "site_admin_access" in params and not isinstance(
+            params["site_admin_access"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: site_admin_access must be an bool"
+            )
         if "sharepoint_client_id" in params and not isinstance(
             params["sharepoint_client_id"], str
         ):
@@ -1980,6 +2000,7 @@ class RemoteServerResource:
         server_certificate - string - Remote server certificate
         server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
         server_type - string - Remote server type.
+        site_admin_access - boolean - Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.
         sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
         sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
         sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
@@ -2465,6 +2486,12 @@ class RemoteServerResource:
             raise InvalidParameterError(
                 "Bad parameter: server_type must be an str"
             )
+        if "site_admin_access" in params and not isinstance(
+            params["site_admin_access"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: site_admin_access must be an bool"
+            )
         if "sharepoint_client_id" in params and not isinstance(
             params["sharepoint_client_id"], str
         ):
@@ -2710,6 +2737,7 @@ def create(
     server_certificate - string - Remote server certificate
     server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
     server_type - string - Remote server type.
+    site_admin_access - boolean - Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.
     sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
     sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
     sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
@@ -2814,6 +2842,7 @@ def update(
     server_certificate - string - Remote server certificate
     server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
     server_type - string - Remote server type.
+    site_admin_access - boolean - Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.
     sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
     sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
     sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
