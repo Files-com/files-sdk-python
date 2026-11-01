@@ -56,7 +56,7 @@ class RemoteServer:
         server_type: string - Remote server type.
         site_admin_access: boolean - Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.
         effective_site_admin_access: boolean - Whether Site and Workspace Administrators can access this Remote Server under the current Site policy.
-        user_id: int64 - ID of the user who owns this Remote Server, if any.
+        user_id: int64 - ID of the Integration-Centric user who owns this personal Remote Server, if any. Connections created by Site and Workspace Administrators have no owner.
         workspace_id: int64 - Workspace ID (0 for default workspace)
         ssl: string - Should we require SSL?
         username: string - Remote server username.
@@ -164,7 +164,7 @@ class RemoteServer:
         "server_type": None,  # string - Remote server type.
         "site_admin_access": None,  # boolean - Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.
         "effective_site_admin_access": None,  # boolean - Whether Site and Workspace Administrators can access this Remote Server under the current Site policy.
-        "user_id": None,  # int64 - ID of the user who owns this Remote Server, if any.
+        "user_id": None,  # int64 - ID of the Integration-Centric user who owns this personal Remote Server, if any. Connections created by Site and Workspace Administrators have no owner.
         "workspace_id": None,  # int64 - Workspace ID (0 for default workspace)
         "ssl": None,  # string - Should we require SSL?
         "username": None,  # string - Remote server username.
