@@ -131,23 +131,6 @@ class Site:
         integration_centric_remote_server_admin_access: string - Administrator access to user-owned Remote Servers in every Workspace: always_visible (default), never_visible, user_choice_default_visible, or user_choice_default_personal. Forced modes override owner preferences; choice modes use the preference or their default.
         include_password_in_welcome_email: boolean - Include password in emails to new users?
         language: string - Site default language
-        ldap_base_dn: string - Base DN for looking up users in LDAP server
-        ldap_domain: string - Domain name that will be appended to usernames
-        ldap_enabled: boolean - Main LDAP setting: is LDAP enabled?
-        ldap_group_action: string - Should we sync groups from LDAP server?
-        ldap_group_exclusion: string - Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
-        ldap_group_inclusion: string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
-        ldap_host: string - LDAP host
-        ldap_host_2: string - LDAP backup host
-        ldap_host_3: string - LDAP backup host
-        ldap_port: int64 - LDAP port
-        ldap_secure: boolean - Use secure LDAP?
-        ldap_server_certificate: string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
-        ldap_type: string - LDAP type
-        ldap_user_action: string - Should we sync users from LDAP server?
-        ldap_user_include_groups: string - Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
-        ldap_username: string - Username for signing in to LDAP server.
-        ldap_username_field: string - LDAP username field
         login_help_text: string - Login help text
         logo: Image - Branded logo
         login_page_background_image: Image - Branded login page background
@@ -344,23 +327,6 @@ class Site:
         "integration_centric_remote_server_admin_access": None,  # string - Administrator access to user-owned Remote Servers in every Workspace: always_visible (default), never_visible, user_choice_default_visible, or user_choice_default_personal. Forced modes override owner preferences; choice modes use the preference or their default.
         "include_password_in_welcome_email": None,  # boolean - Include password in emails to new users?
         "language": None,  # string - Site default language
-        "ldap_base_dn": None,  # string - Base DN for looking up users in LDAP server
-        "ldap_domain": None,  # string - Domain name that will be appended to usernames
-        "ldap_enabled": None,  # boolean - Main LDAP setting: is LDAP enabled?
-        "ldap_group_action": None,  # string - Should we sync groups from LDAP server?
-        "ldap_group_exclusion": None,  # string - Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
-        "ldap_group_inclusion": None,  # string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
-        "ldap_host": None,  # string - LDAP host
-        "ldap_host_2": None,  # string - LDAP backup host
-        "ldap_host_3": None,  # string - LDAP backup host
-        "ldap_port": None,  # int64 - LDAP port
-        "ldap_secure": None,  # boolean - Use secure LDAP?
-        "ldap_server_certificate": None,  # string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
-        "ldap_type": None,  # string - LDAP type
-        "ldap_user_action": None,  # string - Should we sync users from LDAP server?
-        "ldap_user_include_groups": None,  # string - Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
-        "ldap_username": None,  # string - Username for signing in to LDAP server.
-        "ldap_username_field": None,  # string - LDAP username field
         "login_help_text": None,  # string - Login help text
         "logo": None,  # Image - Branded logo
         "login_page_background_image": None,  # Image - Branded login page background
@@ -555,23 +521,6 @@ class Site:
     integration_centric_remote_server_admin_access: str | None
     include_password_in_welcome_email: bool | None
     language: str | None
-    ldap_base_dn: str | None
-    ldap_domain: str | None
-    ldap_enabled: bool | None
-    ldap_group_action: str | None
-    ldap_group_exclusion: str | None
-    ldap_group_inclusion: str | None
-    ldap_host: str | None
-    ldap_host_2: str | None
-    ldap_host_3: str | None
-    ldap_port: int | None
-    ldap_secure: bool | None
-    ldap_server_certificate: str | None
-    ldap_type: str | None
-    ldap_user_action: str | None
-    ldap_user_include_groups: str | None
-    ldap_username: str | None
-    ldap_username_field: str | None
     login_help_text: str | None
     logo: dict[str, Any] | None
     login_page_background_image: dict[str, Any] | None
@@ -905,23 +854,6 @@ class SiteResource:
         smtp_username - string - SMTP server username
         smtp_port - int64 - SMTP server port
         smtp_ssl - string - Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted. A certificate-verified STARTTLS connection automatically changes if_available to require unless smtp_ssl is managed by a parent policy. require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address. Encryption is never automatically downgraded.
-        ldap_enabled - boolean - Main LDAP setting: is LDAP enabled?
-        ldap_type - string - LDAP type
-        ldap_host - string - LDAP host
-        ldap_host_2 - string - LDAP backup host
-        ldap_host_3 - string - LDAP backup host
-        ldap_port - int64 - LDAP port
-        ldap_secure - boolean - Use secure LDAP?
-        ldap_server_certificate - string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
-        ldap_username - string - Username for signing in to LDAP server.
-        ldap_username_field - string - LDAP username field
-        ldap_domain - string - Domain name that will be appended to usernames
-        ldap_user_action - string - Should we sync users from LDAP server?
-        ldap_group_action - string - Should we sync groups from LDAP server?
-        ldap_user_include_groups - string - Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
-        ldap_group_exclusion - string - Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
-        ldap_group_inclusion - string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
-        ldap_base_dn - string - Base DN for looking up users in LDAP server
         uploads_via_email_authentication - boolean - Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
         bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
         icon16_file - file
@@ -939,8 +871,6 @@ class SiteResource:
         login_page_background_image_file - file
         login_page_background_image_delete - boolean - If true, will delete the file stored in login_page_background_image
         disable_2fa_with_delay - boolean - If set to true, we will begin the process of disabling 2FA on this site.
-        ldap_password_change - string - New LDAP password.
-        ldap_password_change_confirmation - string - Confirm new LDAP password.
         redirect_old_subdomain - boolean - If true, and if changing the site subdomain, then create a redirect from the previous Files.com subdomain to the new Files.com subdomain.
         smtp_password - string - Password for SMTP server.
         """
@@ -1972,105 +1902,6 @@ class SiteResource:
             raise InvalidParameterError(
                 "Bad parameter: smtp_ssl must be an str"
             )
-        if "ldap_enabled" in params and not isinstance(
-            params["ldap_enabled"], bool
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_enabled must be an bool"
-            )
-        if "ldap_type" in params and not isinstance(params["ldap_type"], str):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_type must be an str"
-            )
-        if "ldap_host" in params and not isinstance(params["ldap_host"], str):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_host must be an str"
-            )
-        if "ldap_host_2" in params and not isinstance(
-            params["ldap_host_2"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_host_2 must be an str"
-            )
-        if "ldap_host_3" in params and not isinstance(
-            params["ldap_host_3"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_host_3 must be an str"
-            )
-        if "ldap_port" in params and (
-            not isinstance(params["ldap_port"], int)
-            or isinstance(params["ldap_port"], bool)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_port must be an int"
-            )
-        if "ldap_secure" in params and not isinstance(
-            params["ldap_secure"], bool
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_secure must be an bool"
-            )
-        if "ldap_server_certificate" in params and not isinstance(
-            params["ldap_server_certificate"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_server_certificate must be an str"
-            )
-        if "ldap_username" in params and not isinstance(
-            params["ldap_username"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_username must be an str"
-            )
-        if "ldap_username_field" in params and not isinstance(
-            params["ldap_username_field"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_username_field must be an str"
-            )
-        if "ldap_domain" in params and not isinstance(
-            params["ldap_domain"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_domain must be an str"
-            )
-        if "ldap_user_action" in params and not isinstance(
-            params["ldap_user_action"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_user_action must be an str"
-            )
-        if "ldap_group_action" in params and not isinstance(
-            params["ldap_group_action"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_group_action must be an str"
-            )
-        if "ldap_user_include_groups" in params and not isinstance(
-            params["ldap_user_include_groups"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_user_include_groups must be an str"
-            )
-        if "ldap_group_exclusion" in params and not isinstance(
-            params["ldap_group_exclusion"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_group_exclusion must be an str"
-            )
-        if "ldap_group_inclusion" in params and not isinstance(
-            params["ldap_group_inclusion"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_group_inclusion must be an str"
-            )
-        if "ldap_base_dn" in params and not isinstance(
-            params["ldap_base_dn"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_base_dn must be an str"
-            )
         if "uploads_via_email_authentication" in params and not isinstance(
             params["uploads_via_email_authentication"], bool
         ):
@@ -2130,18 +1961,6 @@ class SiteResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: disable_2fa_with_delay must be an bool"
-            )
-        if "ldap_password_change" in params and not isinstance(
-            params["ldap_password_change"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_password_change must be an str"
-            )
-        if "ldap_password_change_confirmation" in params and not isinstance(
-            params["ldap_password_change_confirmation"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ldap_password_change_confirmation must be an str"
             )
         if "redirect_old_subdomain" in params and not isinstance(
             params["redirect_old_subdomain"], bool
@@ -2364,23 +2183,6 @@ def update(
     smtp_username - string - SMTP server username
     smtp_port - int64 - SMTP server port
     smtp_ssl - string - Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted. A certificate-verified STARTTLS connection automatically changes if_available to require unless smtp_ssl is managed by a parent policy. require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address. Encryption is never automatically downgraded.
-    ldap_enabled - boolean - Main LDAP setting: is LDAP enabled?
-    ldap_type - string - LDAP type
-    ldap_host - string - LDAP host
-    ldap_host_2 - string - LDAP backup host
-    ldap_host_3 - string - LDAP backup host
-    ldap_port - int64 - LDAP port
-    ldap_secure - boolean - Use secure LDAP?
-    ldap_server_certificate - string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
-    ldap_username - string - Username for signing in to LDAP server.
-    ldap_username_field - string - LDAP username field
-    ldap_domain - string - Domain name that will be appended to usernames
-    ldap_user_action - string - Should we sync users from LDAP server?
-    ldap_group_action - string - Should we sync groups from LDAP server?
-    ldap_user_include_groups - string - Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
-    ldap_group_exclusion - string - Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
-    ldap_group_inclusion - string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
-    ldap_base_dn - string - Base DN for looking up users in LDAP server
     uploads_via_email_authentication - boolean - Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
     bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
     icon16_file - file
@@ -2398,8 +2200,6 @@ def update(
     login_page_background_image_file - file
     login_page_background_image_delete - boolean - If true, will delete the file stored in login_page_background_image
     disable_2fa_with_delay - boolean - If set to true, we will begin the process of disabling 2FA on this site.
-    ldap_password_change - string - New LDAP password.
-    ldap_password_change_confirmation - string - Confirm new LDAP password.
     redirect_old_subdomain - boolean - If true, and if changing the site subdomain, then create a redirect from the previous Files.com subdomain to the new Files.com subdomain.
     smtp_password - string - Password for SMTP server.
     """
