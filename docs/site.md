@@ -89,6 +89,8 @@ The API sends each `Site` record as JSON, such as:
   "desktop_app_session_ip_pinning": true,
   "desktop_app_session_lifetime": 1,
   "legacy_checksums_mode": true,
+  "legacy_pairing_enabled": true,
+  "last_pairing_at": "2000-01-01T01:00:00Z",
   "migrate_remote_server_sync_to_sync": true,
   "mcp_dcr_enabled": true,
   "mobile_app": true,
@@ -443,6 +445,8 @@ The API sends each `Site` record as JSON, such as:
 * `desktop_app_session_ip_pinning` (boolean): Is desktop app session IP pinning enabled?
 * `desktop_app_session_lifetime` (int64): Desktop app session lifetime (in hours)
 * `legacy_checksums_mode` (boolean): Use legacy checksums mode?
+* `legacy_pairing_enabled` (boolean): Allow legacy app pairing in all workspaces? Disabled for new sites; existing sites remain enabled until changed. Disabling blocks new pairing exchanges without revoking existing app credentials or affecting OAuth sign-in. Site administrators can re-enable it.
+* `last_pairing_at` (date-time): Time of the last completed legacy app pairing across all workspaces. Failed or incomplete attempts do not count. Read-only; empty until a pairing completes after tracking begins.
 * `migrate_remote_server_sync_to_sync` (boolean): If true, we will migrate all remote server syncs to the new Sync model.
 * `mcp_dcr_enabled` (boolean): Is OAuth DCR (dynamic client registration) for MCP enabled?
 * `mobile_app` (boolean): Is the mobile app enabled?
@@ -666,6 +670,7 @@ files_sdk.site.update({
   "username_display": "username_only",
   "integration_centric_remote_server_admin_access": "example",
   "session_expiry_minutes": 1,
+  "legacy_pairing_enabled": False,
   "ssl_required": False,
   "sftp_insecure_ciphers": False,
   "sftp_insecure_diffie_hellman": False,
@@ -859,6 +864,7 @@ files_sdk.site.update({
 * `username_display` (string): How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
 * `integration_centric_remote_server_admin_access` (string): Administrator access to user-owned Remote Servers in every Workspace: always_visible (default), never_visible, user_choice_default_visible, or user_choice_default_personal. Forced modes override owner preferences; choice modes use the preference or their default.
 * `session_expiry_minutes` (int64): Session expiry in minutes
+* `legacy_pairing_enabled` (boolean): Allow legacy app pairing in all workspaces? Disabled for new sites; existing sites remain enabled until changed. Disabling blocks new pairing exchanges without revoking existing app credentials or affecting OAuth sign-in. Site administrators can re-enable it.
 * `ssl_required` (boolean): Is SSL required?  Disabling this is insecure.
 * `sftp_insecure_ciphers` (boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
 * `sftp_insecure_diffie_hellman` (boolean): If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
