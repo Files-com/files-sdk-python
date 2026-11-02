@@ -687,6 +687,26 @@ class SiteResource:
         response = operation.request("GET", "/site/usage", params)
         return operation.decode_model(response, UsageSnapshot)
 
+    def extend_automation_migration_window(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> None:
+        """Parameters:
+        end_date (required) - string - New conversion-window end date in YYYY-MM-DD format, in Eastern Time (EST/EDT). Must be a Tuesday, Wednesday, or Thursday. Can only extend the current end date, within six weeks of the originally announced end date.
+        """
+        params = copy_params(params)
+        if "end_date" in params and not isinstance(params["end_date"], str):
+            raise InvalidParameterError(
+                "Bad parameter: end_date must be an str"
+            )
+        if "end_date" not in params:
+            raise MissingParameterError("Parameter missing: end_date")
+        operation = Operation.start(self._scope, options)
+        operation.request(
+            "POST", "/site/extend_automation_migration_window", params
+        )
+
     def update(
         self,
         params: dict[str, Any] | None = None,
@@ -2015,6 +2035,16 @@ def get_usage(
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> UsageSnapshot:
     return _legacy_resource.get_usage(params, options)
+
+
+def extend_automation_migration_window(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> None:
+    """Parameters:
+    end_date (required) - string - New conversion-window end date in YYYY-MM-DD format, in Eastern Time (EST/EDT). Must be a Tuesday, Wednesday, or Thursday. Can only extend the current end date, within six weeks of the originally announced end date.
+    """
+    _legacy_resource.extend_automation_migration_window(params, options)
 
 
 def update(

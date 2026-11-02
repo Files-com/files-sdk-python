@@ -32,6 +32,7 @@ class Automation:
         always_serialize_jobs: boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
         always_overwrite_size_matching_files: boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer. If this flag is `true` we will overwrite the destination file always. Note that this may cause large amounts of wasted transfer usage. This setting has no effect unless `overwrite_files` is also set to `true`.
         automation: string - Automation type
+        converted_automation_id: int64 - ID of this v1 Automation's converted v2 copy, when present.
         deleted: boolean - Indicates if the automation has been deleted.
         description: string - Description for the this Automation.
         definition: object - Automation v2 graph definition.
@@ -49,6 +50,7 @@ class Automation:
         last_modified_at: date-time - Time when automation was last modified. Does not change for name or description updates.
         legacy_folder_matching: boolean - If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files. This behavior no longer works and should not be used.
         name: string - Name for this automation.
+        original_automation_id: int64 - ID of the retained v1 Automation for a converted Automation. Re-enable that v1 Automation to pause this copy and revert the conversion.
         overwrite_files: boolean - If true, existing files will be overwritten with new files on Move/Copy automations. Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file. Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
         path: string - Path on which this Automation runs. Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         path_time_zone: string - Timezone to use when rendering timestamps in paths.
@@ -80,6 +82,7 @@ class Automation:
         "always_serialize_jobs": None,  # boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
         "always_overwrite_size_matching_files": None,  # boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
         "automation": None,  # string - Automation type
+        "converted_automation_id": None,  # int64 - ID of this v1 Automation's converted v2 copy, when present.
         "deleted": None,  # boolean - Indicates if the automation has been deleted.
         "description": None,  # string - Description for the this Automation.
         "definition": None,  # object - Automation v2 graph definition.
@@ -97,6 +100,7 @@ class Automation:
         "last_modified_at": None,  # date-time - Time when automation was last modified. Does not change for name or description updates.
         "legacy_folder_matching": None,  # boolean - If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
         "name": None,  # string - Name for this automation.
+        "original_automation_id": None,  # int64 - ID of the retained v1 Automation for a converted Automation. Re-enable that v1 Automation to pause this copy and revert the conversion.
         "overwrite_files": None,  # boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
         "path": None,  # string - Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
         "path_time_zone": None,  # string - Timezone to use when rendering timestamps in paths.
@@ -130,6 +134,7 @@ class Automation:
     always_serialize_jobs: bool | None
     always_overwrite_size_matching_files: bool | None
     automation: str | None
+    converted_automation_id: int | None
     deleted: bool | None
     description: str | None
     definition: dict[str, Any] | None
@@ -147,6 +152,7 @@ class Automation:
     last_modified_at: str | None
     legacy_folder_matching: bool | None
     name: str | None
+    original_automation_id: int | None
     overwrite_files: bool | None
     path: str | None
     path_time_zone: str | None

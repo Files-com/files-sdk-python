@@ -17,6 +17,14 @@ class SiteTest(TestBase):
         self.assert_returns(site.get_usage, result)
         self.assert_typed(result)
 
+    def test_extend_automation_migration_window(self):
+        params = {
+            "end_date": "foo",
+        }
+        result = site.extend_automation_migration_window(params)
+        self.assert_returns(site.extend_automation_migration_window, result)
+        self.assert_typed(result)
+
     def test_update(self):
         result = site.update()
         self.assert_returns(site.update, result)
