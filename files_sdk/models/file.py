@@ -1920,6 +1920,7 @@ class FileResource:
         """Parameters:
         paths (required) - array(string) - Paths to include in the ZIP.
         destination (required) - string - Destination file path for the ZIP.
+        archive_format - string - Archive format to create.
         overwrite - boolean - Overwrite existing file in the destination?
         """
         params = copy_params(params)
@@ -1932,6 +1933,12 @@ class FileResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: destination must be an str"
+            )
+        if "archive_format" in params and not isinstance(
+            params["archive_format"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: archive_format must be an str"
             )
         if "overwrite" in params and not isinstance(params["overwrite"], bool):
             raise InvalidParameterError(
@@ -2905,6 +2912,7 @@ def zip(
     """Parameters:
     paths (required) - array(string) - Paths to include in the ZIP.
     destination (required) - string - Destination file path for the ZIP.
+    archive_format - string - Archive format to create.
     overwrite - boolean - Overwrite existing file in the destination?
     """
     return _legacy_resource.zip(params, options)
