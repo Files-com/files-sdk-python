@@ -479,7 +479,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "2.0.31"
+version = "2.0.32"
 
 __version__ = version
 

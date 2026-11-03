@@ -13,7 +13,7 @@ import time
 import unittest
 from pathlib import Path
 from unittest import mock
-from urllib.parse import urlsplit
+from urllib.parse import parse_qsl, urlsplit
 
 import requests
 
@@ -31,6 +31,7 @@ from files_sdk.adaptive import Controller
 from files_sdk.download import _CHUNK
 from files_sdk.lifetime import CancellationToken, Lifetime
 from files_sdk.localfs import AccessNotKept
+from files_sdk.transport import CancellableAdapter
 from files_sdk.upload import _admitted
 from tests.download_fixtures import (
     S3_ORIGIN,
@@ -765,22 +766,76 @@ class TestDownloadIdentity(DownloadTestCase):
 
 class TestDownloadFailures(DownloadTestCase):
     def test_the_web_app_answering_fails_before_anything_is_written(self):
-        service = DownloadService(self, content(5000))
-        service.frontend = True
+        # A service for each download, so that whatever a service takes in,
+        # however late, is that download's alone. What each client hands its
+        # adapter is recorded as well, before it is sent: a service can take
+        # in a request after the download has ended, but a closed client has
+        # handed its adapter every request it ever will.
+        services = {
+            "file": DownloadService(self, content(5000)),
+            "stream": DownloadService(self, content(5000)),
+        }
+        for service in services.values():
+            service.frontend = True
+        attempts = []
+        lock = threading.Lock()
+        real_send = CancellableAdapter.send
+
+        def send(adapter, request, *args, **kwargs):
+            with lock:
+                attempts.append((request.url, request.headers.get("Range")))
+            return real_send(adapter, request, *args, **kwargs)
+
+        patcher = mock.patch.object(CancellableAdapter, "send", new=send)
+        patcher.start()
+        self.addCleanup(patcher.stop)
         path = self.existing()
+        client = self.client(services["file"])
         with self.assertRaisesRegex(APIConnectionError, "web app"):
-            self.client(service).file.download_file("a.bin", path)
+            client.file.download_file("a.bin", path)
+        client.close()
         self.assertEqual(path.read_bytes(), b"old content")
         self.assertEqual(self.stages(), [])
-        first = service.ranges()
         output = io.BytesIO()
+        client = self.client(services["stream"])
         with self.assertRaisesRegex(APIConnectionError, "web app"):
-            self.client(service).file.download_stream("a.bin", output)
+            client.file.download_stream("a.bin", output)
+        client.close()
         self.assertEqual(output.getvalue(), b"")
-        # Not retried: another attempt reaches the same page.
-        for ranges in (first, service.ranges()[len(first) :]):
-            self.assertTrue(ranges)
-            self.assertEqual(len(ranges), len(set(ranges)))
+        with lock:
+            handed = list(attempts)
+        # Not retried: another attempt reaches the same page. Each download
+        # handed its adapter each range once, under any of the URLs it was
+        # given, and its service has so far taken in each range at most once.
+        # That every range taken in was handed to the adapter checks the
+        # record against the service; it does not show nothing else sends.
+        for label, service in services.items():
+            with self.subTest(label):
+                attempted = [
+                    (dict(parse_qsl(urlsplit(url).query)).get("issue"), header)
+                    for url, header in handed
+                    if url.startswith(service.url + "/storage/file?")
+                ]
+                received = [
+                    (request["issue"], request["range"])
+                    for request in service.storage_requests()
+                ]
+                records = {
+                    "download": label,
+                    "attempted": attempted,
+                    "received": received,
+                }
+                attempted_ranges = [header for _issue, header in attempted]
+                ranges = [header for _issue, header in received]
+                self.assertTrue(attempted_ranges, records)
+                self.assertEqual(
+                    len(attempted_ranges), len(set(attempted_ranges)), records
+                )
+                self.assertTrue(ranges, records)
+                self.assertEqual(len(ranges), len(set(ranges)), records)
+                self.assertLessEqual(
+                    set(ranges), set(attempted_ranges), records
+                )
 
     def test_a_range_cut_short_is_fetched_again(self):
         data = content(5000)

@@ -102,6 +102,7 @@ class User:
         workspace_id: int64 - ID of the Workspace the user belongs to. 0 is the Default Workspace.
         default_workspace_id: int64 - Workspace ID the user should land in by default when more than one Workspace is available.
         skip_welcome_screen: boolean - Skip Welcome page in the UI?
+        ftp_tls_session_reuse_required: string - FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
         ssl_required: string - SSL required setting
         sso_strategy_id: int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
         externally_managed: boolean - Is this user managed by a SsoStrategy?
@@ -205,6 +206,7 @@ class User:
         "workspace_id": None,  # int64 - ID of the Workspace the user belongs to. 0 is the Default Workspace.
         "default_workspace_id": None,  # int64 - Workspace ID the user should land in by default when more than one Workspace is available.
         "skip_welcome_screen": None,  # boolean - Skip Welcome page in the UI?
+        "ftp_tls_session_reuse_required": None,  # string - FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
         "ssl_required": None,  # string - SSL required setting
         "sso_strategy_id": None,  # int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
         "externally_managed": None,  # boolean - Is this user managed by a SsoStrategy?
@@ -310,6 +312,7 @@ class User:
     workspace_id: int | None
     default_workspace_id: int | None
     skip_welcome_screen: bool | None
+    ftp_tls_session_reuse_required: str | None
     ssl_required: str | None
     sso_strategy_id: int | None
     externally_managed: bool | None
@@ -480,6 +483,7 @@ class User:
           site_admin - boolean - Is the user an administrator for this site?
           skip_welcome_screen - boolean - Skip Welcome page in the UI?
           ssl_required - string - SSL required setting
+          ftp_tls_session_reuse_required - string - FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
           sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
           require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
           tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -849,6 +853,12 @@ class User:
             raise InvalidParameterError(
                 "Bad parameter: ssl_required must be an str"
             )
+        if "ftp_tls_session_reuse_required" in params and not isinstance(
+            params["ftp_tls_session_reuse_required"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ftp_tls_session_reuse_required must be an str"
+            )
         if "sso_strategy_id" in params and (
             not isinstance(params["sso_strategy_id"], int)
             or isinstance(params["sso_strategy_id"], bool)
@@ -1159,6 +1169,7 @@ class UserResource:
         site_admin - boolean - Is the user an administrator for this site?
         skip_welcome_screen - boolean - Skip Welcome page in the UI?
         ssl_required - string - SSL required setting
+        ftp_tls_session_reuse_required - string - FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
         sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
         require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
         tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -1510,6 +1521,12 @@ class UserResource:
             raise InvalidParameterError(
                 "Bad parameter: ssl_required must be an str"
             )
+        if "ftp_tls_session_reuse_required" in params and not isinstance(
+            params["ftp_tls_session_reuse_required"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ftp_tls_session_reuse_required must be an str"
+            )
         if "sso_strategy_id" in params and (
             not isinstance(params["sso_strategy_id"], int)
             or isinstance(params["sso_strategy_id"], bool)
@@ -1710,6 +1727,7 @@ class UserResource:
         site_admin - boolean - Is the user an administrator for this site?
         skip_welcome_screen - boolean - Skip Welcome page in the UI?
         ssl_required - string - SSL required setting
+        ftp_tls_session_reuse_required - string - FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
         sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
         require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
         tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -2075,6 +2093,12 @@ class UserResource:
             raise InvalidParameterError(
                 "Bad parameter: ssl_required must be an str"
             )
+        if "ftp_tls_session_reuse_required" in params and not isinstance(
+            params["ftp_tls_session_reuse_required"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ftp_tls_session_reuse_required must be an str"
+            )
         if "sso_strategy_id" in params and (
             not isinstance(params["sso_strategy_id"], int)
             or isinstance(params["sso_strategy_id"], bool)
@@ -2312,6 +2336,7 @@ def create(
     site_admin - boolean - Is the user an administrator for this site?
     skip_welcome_screen - boolean - Skip Welcome page in the UI?
     ssl_required - string - SSL required setting
+    ftp_tls_session_reuse_required - string - FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
     sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
     require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
     tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -2417,6 +2442,7 @@ def update(
     site_admin - boolean - Is the user an administrator for this site?
     skip_welcome_screen - boolean - Skip Welcome page in the UI?
     ssl_required - string - SSL required setting
+    ftp_tls_session_reuse_required - string - FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
     sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
     require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
     tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
