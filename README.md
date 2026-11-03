@@ -974,6 +974,7 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`TwoFactorAuthenticationUnsubscribedRecipientError`|  `ProcessingFailureError` |
 |`UpdatesNotAllowedForRemotesError`|  `ProcessingFailureError` |
 |`DuplicateShareRecipientError`|  `RateLimitedError` |
+|`FilesNativeStorageOverloadedError`|  `RateLimitedError` |
 |`ReauthenticationRateLimitedError`|  `RateLimitedError` |
 |`TooManyConcurrentLoginsError`|  `RateLimitedError` |
 |`TooManyConcurrentRequestsError`|  `RateLimitedError` |
