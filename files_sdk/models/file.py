@@ -667,31 +667,109 @@ class File:
             )
         return response.data
 
-    def begin_delete(
-        self, params: dict[str, Any] | None = None
-    ) -> dict[str, Any]:
-        """Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+    def unzip(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
+        """Extract a ZIP file to a destination folder
 
         Parameters:
-          recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+          destination (required) - string - Destination folder path for extracted files.
+          filename - string - Optional single entry filename to extract.
+          overwrite - boolean - Overwrite existing files in the destination?
         """
         if not (hasattr(self, "path") and self.path):
             raise MissingParameterError("Current object doesn't have a path")
         params = copy_params(params, {"path": self.path})
         if "path" not in params:
             raise MissingParameterError("Parameter missing: path")
+        if "destination" not in params:
+            raise MissingParameterError("Parameter missing: destination")
         if "path" in params and not isinstance(params["path"], str):
             raise InvalidParameterError("Bad parameter: path must be an str")
-        if "recursive" in params and isinstance(
-            params["recursive"], (builtins.list, tuple, dict)
+        if "destination" in params and not isinstance(
+            params["destination"], str
         ):
             raise InvalidParameterError(
-                "Bad parameter: recursive must be an bool"
+                "Bad parameter: destination must be an str"
+            )
+        if "filename" in params and not isinstance(params["filename"], str):
+            raise InvalidParameterError(
+                "Bad parameter: filename must be an str"
+            )
+        if "overwrite" in params and isinstance(
+            params["overwrite"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: overwrite must be an bool"
+            )
+        operation = Operation.start(self._scope())
+        response = operation.request("POST", "/file_actions/unzip", params)
+        if not isinstance(response.data, dict):
+            raise unexpected_response_error(
+                response, "a record was not a JSON object"
+            )
+        return response.data
+
+    def gpg_encrypt(
+        self, params: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
+        """Encrypt a file with GPG and save it to a destination path
+
+        Parameters:
+          destination (required) - string - Destination file path for the encrypted file.
+          gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
+          gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
+          signing_key_id - int64 - Optional GPG Key ID to sign with.
+          armor - boolean - Output ASCII-armored encrypted data.
+          overwrite - boolean - Overwrite existing file in the destination?
+        """
+        if not (hasattr(self, "path") and self.path):
+            raise MissingParameterError("Current object doesn't have a path")
+        params = copy_params(params, {"path": self.path})
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        if "destination" not in params:
+            raise MissingParameterError("Parameter missing: destination")
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        if "destination" in params and not isinstance(
+            params["destination"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: destination must be an str"
+            )
+        if "gpg_key_ids" in params and not isinstance(
+            params["gpg_key_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: gpg_key_ids must be an list"
+            )
+        if "gpg_key_partner_id" in params and (
+            not isinstance(params["gpg_key_partner_id"], int)
+            or isinstance(params["gpg_key_partner_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: gpg_key_partner_id must be an int"
+            )
+        if "signing_key_id" in params and (
+            not isinstance(params["signing_key_id"], int)
+            or isinstance(params["signing_key_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: signing_key_id must be an int"
+            )
+        if "armor" in params and isinstance(
+            params["armor"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError("Bad parameter: armor must be an bool")
+        if "overwrite" in params and isinstance(
+            params["overwrite"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: overwrite must be an bool"
             )
         operation = Operation.start(self._scope())
         response = operation.request(
             "POST",
-            "/file_actions/delete/" + path_value(params["path"]),
+            "/file_actions/gpg_encrypt/" + path_value(params["path"]),
             params,
         )
         if not isinstance(response.data, dict):
@@ -700,14 +778,18 @@ class File:
             )
         return response.data
 
-    def copy(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
-        """Copy File/Folder
+    def gpg_decrypt(
+        self, params: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
+        """Decrypt a GPG-encrypted file and save it to a destination path
 
         Parameters:
-          destination (required) - string - Copy destination path.
-          copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
-          structure - boolean - Copy structure only?
-          overwrite - boolean - Overwrite existing file(s) in the destination?
+          destination (required) - string - Destination file path for the decrypted file.
+          gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+          gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
+          use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
+          ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
+          overwrite - boolean - Overwrite existing file in the destination?
         """
         if not (hasattr(self, "path") and self.path):
             raise MissingParameterError("Current object doesn't have a path")
@@ -724,17 +806,30 @@ class File:
             raise InvalidParameterError(
                 "Bad parameter: destination must be an str"
             )
-        if "copy_behaviors" in params and isinstance(
-            params["copy_behaviors"], (builtins.list, tuple, dict)
+        if "gpg_key_ids" in params and not isinstance(
+            params["gpg_key_ids"], builtins.list
         ):
             raise InvalidParameterError(
-                "Bad parameter: copy_behaviors must be an bool"
+                "Bad parameter: gpg_key_ids must be an list"
             )
-        if "structure" in params and isinstance(
-            params["structure"], (builtins.list, tuple, dict)
+        if "gpg_key_partner_id" in params and (
+            not isinstance(params["gpg_key_partner_id"], int)
+            or isinstance(params["gpg_key_partner_id"], bool)
         ):
             raise InvalidParameterError(
-                "Bad parameter: structure must be an bool"
+                "Bad parameter: gpg_key_partner_id must be an int"
+            )
+        if "use_all_private_keys" in params and isinstance(
+            params["use_all_private_keys"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: use_all_private_keys must be an bool"
+            )
+        if "ignore_mdc_error" in params and isinstance(
+            params["ignore_mdc_error"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ignore_mdc_error must be an bool"
             )
         if "overwrite" in params and isinstance(
             params["overwrite"], (builtins.list, tuple, dict)
@@ -744,45 +839,9 @@ class File:
             )
         operation = Operation.start(self._scope())
         response = operation.request(
-            "POST", "/file_actions/copy/" + path_value(params["path"]), params
-        )
-        if not isinstance(response.data, dict):
-            raise unexpected_response_error(
-                response, "a record was not a JSON object"
-            )
-        return response.data
-
-    def move(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
-        """Move File/Folder
-
-        Parameters:
-          destination (required) - string - Move destination path.
-          overwrite - boolean - Overwrite existing file(s) in the destination?
-        """
-        if not (hasattr(self, "path") and self.path):
-            raise MissingParameterError("Current object doesn't have a path")
-        params = copy_params(params, {"path": self.path})
-        if "path" not in params:
-            raise MissingParameterError("Parameter missing: path")
-        if "destination" not in params:
-            raise MissingParameterError("Parameter missing: destination")
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
-        if "destination" in params and not isinstance(
-            params["destination"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: destination must be an str"
-            )
-        if "overwrite" in params and isinstance(
-            params["overwrite"], (builtins.list, tuple, dict)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: overwrite must be an bool"
-            )
-        operation = Operation.start(self._scope())
-        response = operation.request(
-            "POST", "/file_actions/move/" + path_value(params["path"]), params
+            "POST",
+            "/file_actions/gpg_decrypt/" + path_value(params["path"]),
+            params,
         )
         if not isinstance(response.data, dict):
             raise unexpected_response_error(
@@ -865,18 +924,12 @@ class File:
             )
         return response.data
 
-    def gpg_decrypt(
-        self, params: dict[str, Any] | None = None
-    ) -> dict[str, Any]:
-        """Decrypt a GPG-encrypted file and save it to a destination path
+    def move(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
+        """Move File/Folder
 
         Parameters:
-          destination (required) - string - Destination file path for the decrypted file.
-          gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
-          gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
-          use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
-          ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
-          overwrite - boolean - Overwrite existing file in the destination?
+          destination (required) - string - Move destination path.
+          overwrite - boolean - Overwrite existing file(s) in the destination?
         """
         if not (hasattr(self, "path") and self.path):
             raise MissingParameterError("Current object doesn't have a path")
@@ -892,31 +945,6 @@ class File:
         ):
             raise InvalidParameterError(
                 "Bad parameter: destination must be an str"
-            )
-        if "gpg_key_ids" in params and not isinstance(
-            params["gpg_key_ids"], builtins.list
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: gpg_key_ids must be an list"
-            )
-        if "gpg_key_partner_id" in params and (
-            not isinstance(params["gpg_key_partner_id"], int)
-            or isinstance(params["gpg_key_partner_id"], bool)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: gpg_key_partner_id must be an int"
-            )
-        if "use_all_private_keys" in params and isinstance(
-            params["use_all_private_keys"], (builtins.list, tuple, dict)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: use_all_private_keys must be an bool"
-            )
-        if "ignore_mdc_error" in params and isinstance(
-            params["ignore_mdc_error"], (builtins.list, tuple, dict)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ignore_mdc_error must be an bool"
             )
         if "overwrite" in params and isinstance(
             params["overwrite"], (builtins.list, tuple, dict)
@@ -926,9 +954,7 @@ class File:
             )
         operation = Operation.start(self._scope())
         response = operation.request(
-            "POST",
-            "/file_actions/gpg_decrypt/" + path_value(params["path"]),
-            params,
+            "POST", "/file_actions/move/" + path_value(params["path"]), params
         )
         if not isinstance(response.data, dict):
             raise unexpected_response_error(
@@ -936,18 +962,14 @@ class File:
             )
         return response.data
 
-    def gpg_encrypt(
-        self, params: dict[str, Any] | None = None
-    ) -> dict[str, Any]:
-        """Encrypt a file with GPG and save it to a destination path
+    def copy(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
+        """Copy File/Folder
 
         Parameters:
-          destination (required) - string - Destination file path for the encrypted file.
-          gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
-          gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
-          signing_key_id - int64 - Optional GPG Key ID to sign with.
-          armor - boolean - Output ASCII-armored encrypted data.
-          overwrite - boolean - Overwrite existing file in the destination?
+          destination (required) - string - Copy destination path.
+          copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
+          structure - boolean - Copy structure only?
+          overwrite - boolean - Overwrite existing file(s) in the destination?
         """
         if not (hasattr(self, "path") and self.path):
             raise MissingParameterError("Current object doesn't have a path")
@@ -964,30 +986,18 @@ class File:
             raise InvalidParameterError(
                 "Bad parameter: destination must be an str"
             )
-        if "gpg_key_ids" in params and not isinstance(
-            params["gpg_key_ids"], builtins.list
+        if "copy_behaviors" in params and isinstance(
+            params["copy_behaviors"], (builtins.list, tuple, dict)
         ):
             raise InvalidParameterError(
-                "Bad parameter: gpg_key_ids must be an list"
+                "Bad parameter: copy_behaviors must be an bool"
             )
-        if "gpg_key_partner_id" in params and (
-            not isinstance(params["gpg_key_partner_id"], int)
-            or isinstance(params["gpg_key_partner_id"], bool)
+        if "structure" in params and isinstance(
+            params["structure"], (builtins.list, tuple, dict)
         ):
             raise InvalidParameterError(
-                "Bad parameter: gpg_key_partner_id must be an int"
+                "Bad parameter: structure must be an bool"
             )
-        if "signing_key_id" in params and (
-            not isinstance(params["signing_key_id"], int)
-            or isinstance(params["signing_key_id"], bool)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: signing_key_id must be an int"
-            )
-        if "armor" in params and isinstance(
-            params["armor"], (builtins.list, tuple, dict)
-        ):
-            raise InvalidParameterError("Bad parameter: armor must be an bool")
         if "overwrite" in params and isinstance(
             params["overwrite"], (builtins.list, tuple, dict)
         ):
@@ -996,9 +1006,7 @@ class File:
             )
         operation = Operation.start(self._scope())
         response = operation.request(
-            "POST",
-            "/file_actions/gpg_encrypt/" + path_value(params["path"]),
-            params,
+            "POST", "/file_actions/copy/" + path_value(params["path"]), params
         )
         if not isinstance(response.data, dict):
             raise unexpected_response_error(
@@ -1006,41 +1014,33 @@ class File:
             )
         return response.data
 
-    def unzip(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
-        """Extract a ZIP file to a destination folder
+    def begin_delete(
+        self, params: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
+        """Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
 
         Parameters:
-          destination (required) - string - Destination folder path for extracted files.
-          filename - string - Optional single entry filename to extract.
-          overwrite - boolean - Overwrite existing files in the destination?
+          recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
         """
         if not (hasattr(self, "path") and self.path):
             raise MissingParameterError("Current object doesn't have a path")
         params = copy_params(params, {"path": self.path})
         if "path" not in params:
             raise MissingParameterError("Parameter missing: path")
-        if "destination" not in params:
-            raise MissingParameterError("Parameter missing: destination")
         if "path" in params and not isinstance(params["path"], str):
             raise InvalidParameterError("Bad parameter: path must be an str")
-        if "destination" in params and not isinstance(
-            params["destination"], str
+        if "recursive" in params and isinstance(
+            params["recursive"], (builtins.list, tuple, dict)
         ):
             raise InvalidParameterError(
-                "Bad parameter: destination must be an str"
-            )
-        if "filename" in params and not isinstance(params["filename"], str):
-            raise InvalidParameterError(
-                "Bad parameter: filename must be an str"
-            )
-        if "overwrite" in params and isinstance(
-            params["overwrite"], (builtins.list, tuple, dict)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: overwrite must be an bool"
+                "Bad parameter: recursive must be an bool"
             )
         operation = Operation.start(self._scope())
-        response = operation.request("POST", "/file_actions/unzip", params)
+        response = operation.request(
+            "POST",
+            "/file_actions/delete/" + path_value(params["path"]),
+            params,
+        )
         if not isinstance(response.data, dict):
             raise unexpected_response_error(
                 response, "a record was not a JSON object"
@@ -1421,6 +1421,34 @@ class FileResource:
         """The same as delete()."""
         return self.delete(path, params, options)
 
+    def zip_list_contents(
+        self,
+        path: str,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> builtins.list[ZipListEntry]:
+        """List the contents of a ZIP file"""
+        return self.__zip_list_contents({"path": path}, params, options)
+
+    def __zip_list_contents(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> builtins.list[ZipListEntry]:
+        params = copy_params(params, path_values)
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "GET",
+            "/file_actions/zip_list/" + path_value(params["path"]),
+            params,
+        )
+        return operation.decode_models(response, ZipListEntry)
+
     def find(
         self,
         path: str,
@@ -1481,48 +1509,62 @@ class FileResource:
         """The same as find()."""
         return self.find(path, params, options)
 
-    def zip_list_contents(
+    def zip(
         self,
-        path: str,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> builtins.list[ZipListEntry]:
-        """List the contents of a ZIP file"""
-        return self.__zip_list_contents({"path": path}, params, options)
-
-    def __zip_list_contents(
-        self,
-        path_values: dict[str, Any],
-        params: dict[str, Any] | None,
-        options: RequestOptions | Mapping[str, Any] | None,
-    ) -> builtins.list[ZipListEntry]:
-        params = copy_params(params, path_values)
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
-        if "path" not in params:
-            raise MissingParameterError("Parameter missing: path")
+    ) -> FileAction:
+        """Parameters:
+        paths (required) - array(string) - Paths to include in the ZIP.
+        destination (required) - string - Destination file path for the ZIP.
+        archive_format - string - Archive format to create.
+        overwrite - boolean - Overwrite existing file in the destination?
+        """
+        params = copy_params(params)
+        if "paths" in params and not isinstance(
+            params["paths"], builtins.list
+        ):
+            raise InvalidParameterError("Bad parameter: paths must be an list")
+        if "destination" in params and not isinstance(
+            params["destination"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: destination must be an str"
+            )
+        if "archive_format" in params and not isinstance(
+            params["archive_format"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: archive_format must be an str"
+            )
+        if "overwrite" in params and not isinstance(params["overwrite"], bool):
+            raise InvalidParameterError(
+                "Bad parameter: overwrite must be an bool"
+            )
+        if "paths" not in params:
+            raise MissingParameterError("Parameter missing: paths")
+        if "destination" not in params:
+            raise MissingParameterError("Parameter missing: destination")
         operation = Operation.start(self._scope, options)
-        response = operation.request(
-            "GET",
-            "/file_actions/zip_list/" + path_value(params["path"]),
-            params,
-        )
-        return operation.decode_models(response, ZipListEntry)
+        response = operation.request("POST", "/file_actions/zip", params)
+        return operation.decode_model(response, FileAction)
 
-    def begin_delete(
+    def unzip(
         self,
         path: str,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> FileAction:
-        """Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+        """Extract a ZIP file to a destination folder
 
         Parameters:
-          recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+          destination (required) - string - Destination folder path for extracted files.
+          filename - string - Optional single entry filename to extract.
+          overwrite - boolean - Overwrite existing files in the destination?
         """
-        return self.__begin_delete({"path": path}, params, options)
+        return self.__unzip({"path": path}, params, options)
 
-    def __begin_delete(
+    def __unzip(
         self,
         path_values: dict[str, Any],
         params: dict[str, Any] | None,
@@ -1531,37 +1573,118 @@ class FileResource:
         params = copy_params(params, path_values)
         if "path" in params and not isinstance(params["path"], str):
             raise InvalidParameterError("Bad parameter: path must be an str")
-        if "recursive" in params and not isinstance(params["recursive"], bool):
+        if "destination" in params and not isinstance(
+            params["destination"], str
+        ):
             raise InvalidParameterError(
-                "Bad parameter: recursive must be an bool"
+                "Bad parameter: destination must be an str"
+            )
+        if "filename" in params and not isinstance(params["filename"], str):
+            raise InvalidParameterError(
+                "Bad parameter: filename must be an str"
+            )
+        if "overwrite" in params and not isinstance(params["overwrite"], bool):
+            raise InvalidParameterError(
+                "Bad parameter: overwrite must be an bool"
             )
         if "path" not in params:
             raise MissingParameterError("Parameter missing: path")
+        if "destination" not in params:
+            raise MissingParameterError("Parameter missing: destination")
+        operation = Operation.start(self._scope, options)
+        response = operation.request("POST", "/file_actions/unzip", params)
+        return operation.decode_model(response, FileAction)
+
+    def gpg_encrypt(
+        self,
+        path: str,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> FileAction:
+        """Encrypt a file with GPG and save it to a destination path
+
+        Parameters:
+          destination (required) - string - Destination file path for the encrypted file.
+          gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
+          gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
+          signing_key_id - int64 - Optional GPG Key ID to sign with.
+          armor - boolean - Output ASCII-armored encrypted data.
+          overwrite - boolean - Overwrite existing file in the destination?
+        """
+        return self.__gpg_encrypt({"path": path}, params, options)
+
+    def __gpg_encrypt(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> FileAction:
+        params = copy_params(params, path_values)
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        if "destination" in params and not isinstance(
+            params["destination"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: destination must be an str"
+            )
+        if "gpg_key_ids" in params and not isinstance(
+            params["gpg_key_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: gpg_key_ids must be an list"
+            )
+        if "gpg_key_partner_id" in params and (
+            not isinstance(params["gpg_key_partner_id"], int)
+            or isinstance(params["gpg_key_partner_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: gpg_key_partner_id must be an int"
+            )
+        if "signing_key_id" in params and (
+            not isinstance(params["signing_key_id"], int)
+            or isinstance(params["signing_key_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: signing_key_id must be an int"
+            )
+        if "armor" in params and not isinstance(params["armor"], bool):
+            raise InvalidParameterError("Bad parameter: armor must be an bool")
+        if "overwrite" in params and not isinstance(params["overwrite"], bool):
+            raise InvalidParameterError(
+                "Bad parameter: overwrite must be an bool"
+            )
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        if "destination" not in params:
+            raise MissingParameterError("Parameter missing: destination")
         operation = Operation.start(self._scope, options)
         response = operation.request(
             "POST",
-            "/file_actions/delete/" + path_value(params["path"]),
+            "/file_actions/gpg_encrypt/" + path_value(params["path"]),
             params,
         )
         return operation.decode_model(response, FileAction)
 
-    def copy(
+    def gpg_decrypt(
         self,
         path: str,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> FileAction:
-        """Copy File/Folder
+        """Decrypt a GPG-encrypted file and save it to a destination path
 
         Parameters:
-          destination (required) - string - Copy destination path.
-          copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
-          structure - boolean - Copy structure only?
-          overwrite - boolean - Overwrite existing file(s) in the destination?
+          destination (required) - string - Destination file path for the decrypted file.
+          gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+          gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
+          use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
+          ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
+          overwrite - boolean - Overwrite existing file in the destination?
         """
-        return self.__copy({"path": path}, params, options)
+        return self.__gpg_decrypt({"path": path}, params, options)
 
-    def __copy(
+    def __gpg_decrypt(
         self,
         path_values: dict[str, Any],
         params: dict[str, Any] | None,
@@ -1576,15 +1699,30 @@ class FileResource:
             raise InvalidParameterError(
                 "Bad parameter: destination must be an str"
             )
-        if "copy_behaviors" in params and not isinstance(
-            params["copy_behaviors"], bool
+        if "gpg_key_ids" in params and not isinstance(
+            params["gpg_key_ids"], builtins.list
         ):
             raise InvalidParameterError(
-                "Bad parameter: copy_behaviors must be an bool"
+                "Bad parameter: gpg_key_ids must be an list"
             )
-        if "structure" in params and not isinstance(params["structure"], bool):
+        if "gpg_key_partner_id" in params and (
+            not isinstance(params["gpg_key_partner_id"], int)
+            or isinstance(params["gpg_key_partner_id"], bool)
+        ):
             raise InvalidParameterError(
-                "Bad parameter: structure must be an bool"
+                "Bad parameter: gpg_key_partner_id must be an int"
+            )
+        if "use_all_private_keys" in params and not isinstance(
+            params["use_all_private_keys"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: use_all_private_keys must be an bool"
+            )
+        if "ignore_mdc_error" in params and not isinstance(
+            params["ignore_mdc_error"], bool
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: ignore_mdc_error must be an bool"
             )
         if "overwrite" in params and not isinstance(params["overwrite"], bool):
             raise InvalidParameterError(
@@ -1596,50 +1734,9 @@ class FileResource:
             raise MissingParameterError("Parameter missing: destination")
         operation = Operation.start(self._scope, options)
         response = operation.request(
-            "POST", "/file_actions/copy/" + path_value(params["path"]), params
-        )
-        return operation.decode_model(response, FileAction)
-
-    def move(
-        self,
-        path: str,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> FileAction:
-        """Move File/Folder
-
-        Parameters:
-          destination (required) - string - Move destination path.
-          overwrite - boolean - Overwrite existing file(s) in the destination?
-        """
-        return self.__move({"path": path}, params, options)
-
-    def __move(
-        self,
-        path_values: dict[str, Any],
-        params: dict[str, Any] | None,
-        options: RequestOptions | Mapping[str, Any] | None,
-    ) -> FileAction:
-        params = copy_params(params, path_values)
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
-        if "destination" in params and not isinstance(
-            params["destination"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: destination must be an str"
-            )
-        if "overwrite" in params and not isinstance(params["overwrite"], bool):
-            raise InvalidParameterError(
-                "Bad parameter: overwrite must be an bool"
-            )
-        if "path" not in params:
-            raise MissingParameterError("Parameter missing: path")
-        if "destination" not in params:
-            raise MissingParameterError("Parameter missing: destination")
-        operation = Operation.start(self._scope, options)
-        response = operation.request(
-            "POST", "/file_actions/move/" + path_value(params["path"]), params
+            "POST",
+            "/file_actions/gpg_decrypt/" + path_value(params["path"]),
+            params,
         )
         return operation.decode_model(response, FileAction)
 
@@ -1721,25 +1818,21 @@ class FileResource:
         )
         return operation.decode_model(response, FileAction)
 
-    def gpg_decrypt(
+    def move(
         self,
         path: str,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> FileAction:
-        """Decrypt a GPG-encrypted file and save it to a destination path
+        """Move File/Folder
 
         Parameters:
-          destination (required) - string - Destination file path for the decrypted file.
-          gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
-          gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
-          use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
-          ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
-          overwrite - boolean - Overwrite existing file in the destination?
+          destination (required) - string - Move destination path.
+          overwrite - boolean - Overwrite existing file(s) in the destination?
         """
-        return self.__gpg_decrypt({"path": path}, params, options)
+        return self.__move({"path": path}, params, options)
 
-    def __gpg_decrypt(
+    def __move(
         self,
         path_values: dict[str, Any],
         params: dict[str, Any] | None,
@@ -1753,31 +1846,6 @@ class FileResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: destination must be an str"
-            )
-        if "gpg_key_ids" in params and not isinstance(
-            params["gpg_key_ids"], builtins.list
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: gpg_key_ids must be an list"
-            )
-        if "gpg_key_partner_id" in params and (
-            not isinstance(params["gpg_key_partner_id"], int)
-            or isinstance(params["gpg_key_partner_id"], bool)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: gpg_key_partner_id must be an int"
-            )
-        if "use_all_private_keys" in params and not isinstance(
-            params["use_all_private_keys"], bool
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: use_all_private_keys must be an bool"
-            )
-        if "ignore_mdc_error" in params and not isinstance(
-            params["ignore_mdc_error"], bool
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: ignore_mdc_error must be an bool"
             )
         if "overwrite" in params and not isinstance(params["overwrite"], bool):
             raise InvalidParameterError(
@@ -1789,31 +1857,27 @@ class FileResource:
             raise MissingParameterError("Parameter missing: destination")
         operation = Operation.start(self._scope, options)
         response = operation.request(
-            "POST",
-            "/file_actions/gpg_decrypt/" + path_value(params["path"]),
-            params,
+            "POST", "/file_actions/move/" + path_value(params["path"]), params
         )
         return operation.decode_model(response, FileAction)
 
-    def gpg_encrypt(
+    def copy(
         self,
         path: str,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> FileAction:
-        """Encrypt a file with GPG and save it to a destination path
+        """Copy File/Folder
 
         Parameters:
-          destination (required) - string - Destination file path for the encrypted file.
-          gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
-          gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
-          signing_key_id - int64 - Optional GPG Key ID to sign with.
-          armor - boolean - Output ASCII-armored encrypted data.
-          overwrite - boolean - Overwrite existing file in the destination?
+          destination (required) - string - Copy destination path.
+          copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
+          structure - boolean - Copy structure only?
+          overwrite - boolean - Overwrite existing file(s) in the destination?
         """
-        return self.__gpg_encrypt({"path": path}, params, options)
+        return self.__copy({"path": path}, params, options)
 
-    def __gpg_encrypt(
+    def __copy(
         self,
         path_values: dict[str, Any],
         params: dict[str, Any] | None,
@@ -1828,28 +1892,16 @@ class FileResource:
             raise InvalidParameterError(
                 "Bad parameter: destination must be an str"
             )
-        if "gpg_key_ids" in params and not isinstance(
-            params["gpg_key_ids"], builtins.list
+        if "copy_behaviors" in params and not isinstance(
+            params["copy_behaviors"], bool
         ):
             raise InvalidParameterError(
-                "Bad parameter: gpg_key_ids must be an list"
+                "Bad parameter: copy_behaviors must be an bool"
             )
-        if "gpg_key_partner_id" in params and (
-            not isinstance(params["gpg_key_partner_id"], int)
-            or isinstance(params["gpg_key_partner_id"], bool)
-        ):
+        if "structure" in params and not isinstance(params["structure"], bool):
             raise InvalidParameterError(
-                "Bad parameter: gpg_key_partner_id must be an int"
+                "Bad parameter: structure must be an bool"
             )
-        if "signing_key_id" in params and (
-            not isinstance(params["signing_key_id"], int)
-            or isinstance(params["signing_key_id"], bool)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: signing_key_id must be an int"
-            )
-        if "armor" in params and not isinstance(params["armor"], bool):
-            raise InvalidParameterError("Bad parameter: armor must be an bool")
         if "overwrite" in params and not isinstance(params["overwrite"], bool):
             raise InvalidParameterError(
                 "Bad parameter: overwrite must be an bool"
@@ -1860,28 +1912,24 @@ class FileResource:
             raise MissingParameterError("Parameter missing: destination")
         operation = Operation.start(self._scope, options)
         response = operation.request(
-            "POST",
-            "/file_actions/gpg_encrypt/" + path_value(params["path"]),
-            params,
+            "POST", "/file_actions/copy/" + path_value(params["path"]), params
         )
         return operation.decode_model(response, FileAction)
 
-    def unzip(
+    def begin_delete(
         self,
         path: str,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> FileAction:
-        """Extract a ZIP file to a destination folder
+        """Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
 
         Parameters:
-          destination (required) - string - Destination folder path for extracted files.
-          filename - string - Optional single entry filename to extract.
-          overwrite - boolean - Overwrite existing files in the destination?
+          recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
         """
-        return self.__unzip({"path": path}, params, options)
+        return self.__begin_delete({"path": path}, params, options)
 
-    def __unzip(
+    def __begin_delete(
         self,
         path_values: dict[str, Any],
         params: dict[str, Any] | None,
@@ -1890,66 +1938,18 @@ class FileResource:
         params = copy_params(params, path_values)
         if "path" in params and not isinstance(params["path"], str):
             raise InvalidParameterError("Bad parameter: path must be an str")
-        if "destination" in params and not isinstance(
-            params["destination"], str
-        ):
+        if "recursive" in params and not isinstance(params["recursive"], bool):
             raise InvalidParameterError(
-                "Bad parameter: destination must be an str"
-            )
-        if "filename" in params and not isinstance(params["filename"], str):
-            raise InvalidParameterError(
-                "Bad parameter: filename must be an str"
-            )
-        if "overwrite" in params and not isinstance(params["overwrite"], bool):
-            raise InvalidParameterError(
-                "Bad parameter: overwrite must be an bool"
+                "Bad parameter: recursive must be an bool"
             )
         if "path" not in params:
             raise MissingParameterError("Parameter missing: path")
-        if "destination" not in params:
-            raise MissingParameterError("Parameter missing: destination")
         operation = Operation.start(self._scope, options)
-        response = operation.request("POST", "/file_actions/unzip", params)
-        return operation.decode_model(response, FileAction)
-
-    def zip(
-        self,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> FileAction:
-        """Parameters:
-        paths (required) - array(string) - Paths to include in the ZIP.
-        destination (required) - string - Destination file path for the ZIP.
-        archive_format - string - Archive format to create.
-        overwrite - boolean - Overwrite existing file in the destination?
-        """
-        params = copy_params(params)
-        if "paths" in params and not isinstance(
-            params["paths"], builtins.list
-        ):
-            raise InvalidParameterError("Bad parameter: paths must be an list")
-        if "destination" in params and not isinstance(
-            params["destination"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: destination must be an str"
-            )
-        if "archive_format" in params and not isinstance(
-            params["archive_format"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: archive_format must be an str"
-            )
-        if "overwrite" in params and not isinstance(params["overwrite"], bool):
-            raise InvalidParameterError(
-                "Bad parameter: overwrite must be an bool"
-            )
-        if "paths" not in params:
-            raise MissingParameterError("Parameter missing: paths")
-        if "destination" not in params:
-            raise MissingParameterError("Parameter missing: destination")
-        operation = Operation.start(self._scope, options)
-        response = operation.request("POST", "/file_actions/zip", params)
+        response = operation.request(
+            "POST",
+            "/file_actions/delete/" + path_value(params["path"]),
+            params,
+        )
         return operation.decode_model(response, FileAction)
 
     def begin_upload(
@@ -2760,6 +2760,15 @@ def destroy(
     return _legacy_resource.delete(path, params, options)
 
 
+def zip_list_contents(
+    path: str,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> builtins.list[ZipListEntry]:
+    """List the contents of a ZIP file"""
+    return _legacy_resource.zip_list_contents(path, params, options)
+
+
 def find(
     path: str,
     params: dict[str, Any] | None = None,
@@ -2783,56 +2792,68 @@ def get(
     return _legacy_resource.find(path, params, options)
 
 
-def zip_list_contents(
-    path: str,
+def zip(
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
-) -> builtins.list[ZipListEntry]:
-    """List the contents of a ZIP file"""
-    return _legacy_resource.zip_list_contents(path, params, options)
+) -> FileAction:
+    """Parameters:
+    paths (required) - array(string) - Paths to include in the ZIP.
+    destination (required) - string - Destination file path for the ZIP.
+    archive_format - string - Archive format to create.
+    overwrite - boolean - Overwrite existing file in the destination?
+    """
+    return _legacy_resource.zip(params, options)
 
 
-def begin_delete(
+def unzip(
     path: str,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> FileAction:
-    """Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+    """Extract a ZIP file to a destination folder
 
     Parameters:
-      recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+      destination (required) - string - Destination folder path for extracted files.
+      filename - string - Optional single entry filename to extract.
+      overwrite - boolean - Overwrite existing files in the destination?
     """
-    return _legacy_resource.begin_delete(path, params, options)
+    return _legacy_resource.unzip(path, params, options)
 
 
-def copy(
+def gpg_encrypt(
     path: str,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> FileAction:
-    """Copy File/Folder
+    """Encrypt a file with GPG and save it to a destination path
 
     Parameters:
-      destination (required) - string - Copy destination path.
-      copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
-      structure - boolean - Copy structure only?
-      overwrite - boolean - Overwrite existing file(s) in the destination?
+      destination (required) - string - Destination file path for the encrypted file.
+      gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
+      gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
+      signing_key_id - int64 - Optional GPG Key ID to sign with.
+      armor - boolean - Output ASCII-armored encrypted data.
+      overwrite - boolean - Overwrite existing file in the destination?
     """
-    return _legacy_resource.copy(path, params, options)
+    return _legacy_resource.gpg_encrypt(path, params, options)
 
 
-def move(
+def gpg_decrypt(
     path: str,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> FileAction:
-    """Move File/Folder
+    """Decrypt a GPG-encrypted file and save it to a destination path
 
     Parameters:
-      destination (required) - string - Move destination path.
-      overwrite - boolean - Overwrite existing file(s) in the destination?
+      destination (required) - string - Destination file path for the decrypted file.
+      gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+      gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
+      use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
+      ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
+      overwrite - boolean - Overwrite existing file in the destination?
     """
-    return _legacy_resource.move(path, params, options)
+    return _legacy_resource.gpg_decrypt(path, params, options)
 
 
 def transform(
@@ -2854,68 +2875,47 @@ def transform(
     return _legacy_resource.transform(path, params, options)
 
 
-def gpg_decrypt(
+def move(
     path: str,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> FileAction:
-    """Decrypt a GPG-encrypted file and save it to a destination path
+    """Move File/Folder
 
     Parameters:
-      destination (required) - string - Destination file path for the decrypted file.
-      gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
-      gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
-      use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
-      ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
-      overwrite - boolean - Overwrite existing file in the destination?
+      destination (required) - string - Move destination path.
+      overwrite - boolean - Overwrite existing file(s) in the destination?
     """
-    return _legacy_resource.gpg_decrypt(path, params, options)
+    return _legacy_resource.move(path, params, options)
 
 
-def gpg_encrypt(
+def copy(
     path: str,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> FileAction:
-    """Encrypt a file with GPG and save it to a destination path
+    """Copy File/Folder
 
     Parameters:
-      destination (required) - string - Destination file path for the encrypted file.
-      gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
-      gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
-      signing_key_id - int64 - Optional GPG Key ID to sign with.
-      armor - boolean - Output ASCII-armored encrypted data.
-      overwrite - boolean - Overwrite existing file in the destination?
+      destination (required) - string - Copy destination path.
+      copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
+      structure - boolean - Copy structure only?
+      overwrite - boolean - Overwrite existing file(s) in the destination?
     """
-    return _legacy_resource.gpg_encrypt(path, params, options)
+    return _legacy_resource.copy(path, params, options)
 
 
-def unzip(
+def begin_delete(
     path: str,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> FileAction:
-    """Extract a ZIP file to a destination folder
+    """Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
 
     Parameters:
-      destination (required) - string - Destination folder path for extracted files.
-      filename - string - Optional single entry filename to extract.
-      overwrite - boolean - Overwrite existing files in the destination?
+      recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
     """
-    return _legacy_resource.unzip(path, params, options)
-
-
-def zip(
-    params: dict[str, Any] | None = None,
-    options: RequestOptions | Mapping[str, Any] | None = None,
-) -> FileAction:
-    """Parameters:
-    paths (required) - array(string) - Paths to include in the ZIP.
-    destination (required) - string - Destination file path for the ZIP.
-    archive_format - string - Archive format to create.
-    overwrite - boolean - Overwrite existing file in the destination?
-    """
-    return _legacy_resource.zip(params, options)
+    return _legacy_resource.begin_delete(path, params, options)
 
 
 def begin_upload(

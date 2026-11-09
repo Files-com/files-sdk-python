@@ -137,29 +137,6 @@ class AutomationRun:
             return self._context
         return LegacyScope(self.options)
 
-    def cancel(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
-        """Cancel Automation Run"""
-        if not (hasattr(self, "id") and self.id):
-            raise MissingParameterError("Current object doesn't have a id")
-        params = copy_params(params, {"id": self.id})
-        if "id" not in params:
-            raise MissingParameterError("Parameter missing: id")
-        if "id" in params and (
-            not isinstance(params["id"], int) or isinstance(params["id"], bool)
-        ):
-            raise InvalidParameterError("Bad parameter: id must be an int")
-        operation = Operation.start(self._scope())
-        response = operation.request(
-            "POST",
-            "/automation_runs/" + path_value(params["id"]) + "/cancel",
-            params,
-        )
-        if not isinstance(response.data, dict):
-            raise unexpected_response_error(
-                response, "a record was not a JSON object"
-            )
-        return response.data
-
     def rerun(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
         """Re-run Automation from Node
 
@@ -185,6 +162,29 @@ class AutomationRun:
         response = operation.request(
             "POST",
             "/automation_runs/" + path_value(params["id"]) + "/rerun",
+            params,
+        )
+        if not isinstance(response.data, dict):
+            raise unexpected_response_error(
+                response, "a record was not a JSON object"
+            )
+        return response.data
+
+    def cancel(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
+        """Cancel Automation Run"""
+        if not (hasattr(self, "id") and self.id):
+            raise MissingParameterError("Current object doesn't have a id")
+        params = copy_params(params, {"id": self.id})
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        operation = Operation.start(self._scope())
+        response = operation.request(
+            "POST",
+            "/automation_runs/" + path_value(params["id"]) + "/cancel",
             params,
         )
         if not isinstance(response.data, dict):
@@ -343,36 +343,6 @@ class AutomationRunResource:
         )
         return operation.decode_model(response, AutomationExecutionNode)
 
-    def cancel(
-        self,
-        id: int,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> AutomationRun:
-        """Cancel Automation Run"""
-        return self.__cancel({"id": id}, params, options)
-
-    def __cancel(
-        self,
-        path_values: dict[str, Any],
-        params: dict[str, Any] | None,
-        options: RequestOptions | Mapping[str, Any] | None,
-    ) -> AutomationRun:
-        params = copy_params(params, path_values)
-        if "id" in params and (
-            not isinstance(params["id"], int) or isinstance(params["id"], bool)
-        ):
-            raise InvalidParameterError("Bad parameter: id must be an int")
-        if "id" not in params:
-            raise MissingParameterError("Parameter missing: id")
-        operation = Operation.start(self._scope, options)
-        response = operation.request(
-            "POST",
-            "/automation_runs/" + path_value(params["id"]) + "/cancel",
-            params,
-        )
-        return operation.decode_model(response, AutomationRun)
-
     def rerun(
         self,
         id: int,
@@ -409,6 +379,36 @@ class AutomationRunResource:
         response = operation.request(
             "POST",
             "/automation_runs/" + path_value(params["id"]) + "/rerun",
+            params,
+        )
+        return operation.decode_model(response, AutomationRun)
+
+    def cancel(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> AutomationRun:
+        """Cancel Automation Run"""
+        return self.__cancel({"id": id}, params, options)
+
+    def __cancel(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> AutomationRun:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "POST",
+            "/automation_runs/" + path_value(params["id"]) + "/cancel",
             params,
         )
         return operation.decode_model(response, AutomationRun)
@@ -483,15 +483,6 @@ def find_node(
     return _legacy_resource.find_node(id, params, options)
 
 
-def cancel(
-    id: int,
-    params: dict[str, Any] | None = None,
-    options: RequestOptions | Mapping[str, Any] | None = None,
-) -> AutomationRun:
-    """Cancel Automation Run"""
-    return _legacy_resource.cancel(id, params, options)
-
-
 def rerun(
     id: int,
     params: dict[str, Any] | None = None,
@@ -503,6 +494,15 @@ def rerun(
       node_id (required) - string - Node ID at which execution should resume.
     """
     return _legacy_resource.rerun(id, params, options)
+
+
+def cancel(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> AutomationRun:
+    """Cancel Automation Run"""
+    return _legacy_resource.cancel(id, params, options)
 
 
 def new(*args, **kwargs) -> AutomationRun:

@@ -42,10 +42,10 @@ files_sdk.ip_address.list()
 
 ---
 
-## List all possible public SmartFile IP addresses
+## List all possible public IP addresses
 
 ```python
-files_sdk.ip_address.get_smartfile_reserved()
+files_sdk.ip_address.get_reserved()
 ```
 
 ### Parameters
@@ -70,10 +70,10 @@ files_sdk.ip_address.get_exavault_reserved()
 
 ---
 
-## List all possible public IP addresses
+## List all possible public SmartFile IP addresses
 
 ```python
-files_sdk.ip_address.get_reserved()
+files_sdk.ip_address.get_smartfile_reserved()
 ```
 
 ### Parameters

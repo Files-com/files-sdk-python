@@ -122,9 +122,9 @@ files_sdk.folder.list_for(path, {
 
 ### Parameters
 
+* `path` (string): Required - Path to operate on.
 * `cursor` (string): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (int64): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-* `path` (string): Required - Path to operate on.
 * `preview_size` (string): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 * `sort_by` (object): Search by field and direction. Valid fields are `path`, `size`, `modified_at_datetime`, `provided_modified_at`.  Valid directions are `asc` and `desc`.  Defaults to `{"path":"asc"}`.
 * `search` (string): If specified, will search the folders/files list by name. Ignores text before last `/`. This is the same API used by the search bar in the web UI when running 'Search This Folder'.  Search results are a best effort, not real time, and not guaranteed to perfectly match the latest folder listing.  Results may be truncated if more than 1,000 possible matches exist.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.

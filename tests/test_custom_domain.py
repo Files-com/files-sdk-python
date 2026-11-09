@@ -38,6 +38,14 @@ class CustomDomainTest(TestBase):
         self.assert_returns(custom_domain.find, result)
         self.assert_typed(result)
 
+    def test_create(self):
+        params = {
+            "domain": "foo",
+        }
+        result = custom_domain.create(params)
+        self.assert_returns(custom_domain.create, result)
+        self.assert_typed(result)
+
     def test_create_allocate_ip(self):
         id = 12345
         params = {
@@ -46,14 +54,6 @@ class CustomDomainTest(TestBase):
         }
         result = custom_domain.create_allocate_ip(id, params)
         self.assert_returns(custom_domain.create_allocate_ip, result)
-        self.assert_typed(result)
-
-    def test_create(self):
-        params = {
-            "domain": "foo",
-        }
-        result = custom_domain.create(params)
-        self.assert_returns(custom_domain.create, result)
         self.assert_typed(result)
 
     def test_update(self):

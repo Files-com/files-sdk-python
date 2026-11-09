@@ -238,26 +238,6 @@ class PartnerSiteRequestResource:
         response = operation.request("POST", "/partner_site_requests", params)
         return operation.decode_model(response, PartnerSiteRequest)
 
-    def reject(
-        self,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> None:
-        """Parameters:
-        pairing_key (required) - string - Pairing key for the partner site request
-        """
-        params = copy_params(params)
-        if "pairing_key" in params and not isinstance(
-            params["pairing_key"], str
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: pairing_key must be an str"
-            )
-        if "pairing_key" not in params:
-            raise MissingParameterError("Parameter missing: pairing_key")
-        operation = Operation.start(self._scope, options)
-        operation.request("POST", "/partner_site_requests/reject", params)
-
     def approve(
         self,
         params: dict[str, Any] | None = None,
@@ -285,6 +265,26 @@ class PartnerSiteRequestResource:
             raise MissingParameterError("Parameter missing: pairing_key")
         operation = Operation.start(self._scope, options)
         operation.request("POST", "/partner_site_requests/approve", params)
+
+    def reject(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> None:
+        """Parameters:
+        pairing_key (required) - string - Pairing key for the partner site request
+        """
+        params = copy_params(params)
+        if "pairing_key" in params and not isinstance(
+            params["pairing_key"], str
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: pairing_key must be an str"
+            )
+        if "pairing_key" not in params:
+            raise MissingParameterError("Parameter missing: pairing_key")
+        operation = Operation.start(self._scope, options)
+        operation.request("POST", "/partner_site_requests/reject", params)
 
     def delete(
         self,
@@ -380,16 +380,6 @@ def create(
     return _legacy_resource.create(params, options)
 
 
-def reject(
-    params: dict[str, Any] | None = None,
-    options: RequestOptions | Mapping[str, Any] | None = None,
-) -> None:
-    """Parameters:
-    pairing_key (required) - string - Pairing key for the partner site request
-    """
-    _legacy_resource.reject(params, options)
-
-
 def approve(
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
@@ -399,6 +389,16 @@ def approve(
     partner_id - int64 - ID of an existing Partner on this site, with the host role, that represents the requesting organization. The connection binds to that Partner and makes it host_and_guest. When omitted, a guest Partner named after the host site is created.
     """
     _legacy_resource.approve(params, options)
+
+
+def reject(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> None:
+    """Parameters:
+    pairing_key (required) - string - Pairing key for the partner site request
+    """
+    _legacy_resource.reject(params, options)
 
 
 def delete(

@@ -155,9 +155,9 @@ class LockResource:
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> ListObj[Lock]:
         """Parameters:
+        path (required) - string - Path to operate on.
         cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
         per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-        path (required) - string - Path to operate on.
         include_children - boolean - Include locks from children objects?
         """
         return self.__list_for({"path": path}, params, options)
@@ -169,6 +169,8 @@ class LockResource:
         options: RequestOptions | Mapping[str, Any] | None,
     ) -> ListObj[Lock]:
         params = copy_params(params, path_values)
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
         if "cursor" in params and not isinstance(params["cursor"], str):
             raise InvalidParameterError("Bad parameter: cursor must be an str")
         if "per_page" in params and (
@@ -178,8 +180,6 @@ class LockResource:
             raise InvalidParameterError(
                 "Bad parameter: per_page must be an int"
             )
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
         if "include_children" in params and not isinstance(
             params["include_children"], bool
         ):
@@ -324,9 +324,9 @@ def list_for(
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> ListObj[Lock]:
     """Parameters:
+    path (required) - string - Path to operate on.
     cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
     per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-    path (required) - string - Path to operate on.
     include_children - boolean - Include locks from children objects?
     """
     return _legacy_resource.list_for(path, params, options)

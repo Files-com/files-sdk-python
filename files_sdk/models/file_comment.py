@@ -152,9 +152,9 @@ class FileCommentResource:
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> ListObj[FileComment]:
         """Parameters:
+        path (required) - string - Path to operate on.
         cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
         per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-        path (required) - string - Path to operate on.
         """
         return self.__list_for({"path": path}, params, options)
 
@@ -165,6 +165,8 @@ class FileCommentResource:
         options: RequestOptions | Mapping[str, Any] | None,
     ) -> ListObj[FileComment]:
         params = copy_params(params, path_values)
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
         if "cursor" in params and not isinstance(params["cursor"], str):
             raise InvalidParameterError("Bad parameter: cursor must be an str")
         if "per_page" in params and (
@@ -174,8 +176,6 @@ class FileCommentResource:
             raise InvalidParameterError(
                 "Bad parameter: per_page must be an int"
             )
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
         if "path" not in params:
             raise MissingParameterError("Parameter missing: path")
         operation = Operation.start(self._scope, options)
@@ -299,9 +299,9 @@ def list_for(
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> ListObj[FileComment]:
     """Parameters:
+    path (required) - string - Path to operate on.
     cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
     per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-    path (required) - string - Path to operate on.
     """
     return _legacy_resource.list_for(path, params, options)
 

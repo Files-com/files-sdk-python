@@ -29,15 +29,6 @@ class BehaviorTest(TestBase):
         self.assert_returns(behavior.list, result)
         self.assert_typed(result)
 
-    def test_find(self):
-        id = 12345
-        params = {
-            "id": 12345,
-        }
-        result = behavior.find(id, params)
-        self.assert_returns(behavior.find, result)
-        self.assert_typed(result)
-
     def test_list_for(self):
         path = "foo"
         params = {
@@ -45,6 +36,15 @@ class BehaviorTest(TestBase):
         }
         result = behavior.list_for(path, params)
         self.assert_returns(behavior.list_for, result)
+        self.assert_typed(result)
+
+    def test_find(self):
+        id = 12345
+        params = {
+            "id": 12345,
+        }
+        result = behavior.find(id, params)
+        self.assert_returns(behavior.find, result)
         self.assert_typed(result)
 
     def test_create(self):

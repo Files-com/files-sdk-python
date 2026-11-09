@@ -6,12 +6,12 @@ from files_sdk import user
 
 class UserTest(TestBase):
     # Instance Methods
-    def test_instance_unlock(self):
+    def test_instance_user_2fa_reset(self):
         params = {
             "id": 12345,
         }
         user = User(params)
-        user.unlock(params)
+        user.user_2fa_reset(params)
         self.assert_typed(user)
 
     def test_instance_resend_welcome_email(self):
@@ -22,12 +22,12 @@ class UserTest(TestBase):
         user.resend_welcome_email(params)
         self.assert_typed(user)
 
-    def test_instance_user_2fa_reset(self):
+    def test_instance_unlock(self):
         params = {
             "id": 12345,
         }
         user = User(params)
-        user.user_2fa_reset(params)
+        user.unlock(params)
         self.assert_typed(user)
 
     def test_instance_update(self):
@@ -70,13 +70,13 @@ class UserTest(TestBase):
         self.assert_returns(user.create, result)
         self.assert_typed(result)
 
-    def test_unlock(self):
+    def test_user_2fa_reset(self):
         id = 12345
         params = {
             "id": 12345,
         }
-        result = user.unlock(id, params)
-        self.assert_returns(user.unlock, result)
+        result = user.user_2fa_reset(id, params)
+        self.assert_returns(user.user_2fa_reset, result)
         self.assert_typed(result)
 
     def test_resend_welcome_email(self):
@@ -88,13 +88,13 @@ class UserTest(TestBase):
         self.assert_returns(user.resend_welcome_email, result)
         self.assert_typed(result)
 
-    def test_user_2fa_reset(self):
+    def test_unlock(self):
         id = 12345
         params = {
             "id": 12345,
         }
-        result = user.user_2fa_reset(id, params)
-        self.assert_returns(user.user_2fa_reset, result)
+        result = user.unlock(id, params)
+        self.assert_returns(user.unlock, result)
         self.assert_typed(result)
 
     def test_update(self):

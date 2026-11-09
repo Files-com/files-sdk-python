@@ -152,6 +152,12 @@ class Behavior:
             raise InvalidParameterError(
                 "Bad parameter: description must be an str"
             )
+        if "attachment_delete" in params and isinstance(
+            params["attachment_delete"], (builtins.list, tuple, dict)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: attachment_delete must be an bool"
+            )
         params = with_attachments(params, "attachment_file")
         operation = Operation.start(self._scope())
         response = operation.request(
@@ -243,45 +249,6 @@ class BehaviorResource:
         """The same as list()."""
         return self.list(params, options)
 
-    def find(
-        self,
-        id: int,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> Behavior:
-        """Parameters:
-        id (required) - int64 - Behavior ID.
-        """
-        return self.__find({"id": id}, params, options)
-
-    def __find(
-        self,
-        path_values: dict[str, Any],
-        params: dict[str, Any] | None,
-        options: RequestOptions | Mapping[str, Any] | None,
-    ) -> Behavior:
-        params = copy_params(params, path_values)
-        if "id" in params and (
-            not isinstance(params["id"], int) or isinstance(params["id"], bool)
-        ):
-            raise InvalidParameterError("Bad parameter: id must be an int")
-        if "id" not in params:
-            raise MissingParameterError("Parameter missing: id")
-        operation = Operation.start(self._scope, options)
-        response = operation.request(
-            "GET", "/behaviors/" + path_value(params["id"]), params
-        )
-        return operation.decode_model(response, Behavior)
-
-    def get(
-        self,
-        id: int,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> Behavior:
-        """The same as find()."""
-        return self.find(id, params, options)
-
     def list_for(
         self,
         path: str,
@@ -289,11 +256,11 @@ class BehaviorResource:
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> ListObj[Behavior]:
         """Parameters:
+        path (required) - string - Path to operate on.
         cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
         per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
         sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
         filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.
-        path (required) - string - Path to operate on.
         ancestor_behaviors - boolean - If `true`, behaviors above this path are shown.
         """
         return self.__list_for({"path": path}, params, options)
@@ -305,6 +272,8 @@ class BehaviorResource:
         options: RequestOptions | Mapping[str, Any] | None,
     ) -> ListObj[Behavior]:
         params = copy_params(params, path_values)
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
         if "cursor" in params and not isinstance(params["cursor"], str):
             raise InvalidParameterError("Bad parameter: cursor must be an str")
         if "per_page" in params and (
@@ -322,8 +291,6 @@ class BehaviorResource:
             raise InvalidParameterError(
                 "Bad parameter: filter must be an dict"
             )
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
         if "ancestor_behaviors" in params and not isinstance(
             params["ancestor_behaviors"], bool
         ):
@@ -340,6 +307,48 @@ class BehaviorResource:
             params,
             operation,
         )
+
+    def find(
+        self,
+        id: dict[str, Any] | str | int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> Behavior:
+        """Parameters:
+        id (required) - int64 - Behavior ID.
+        """
+        return self.__find({"id": id}, params, options)
+
+    def __find(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> Behavior:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], (dict, str, int))
+            or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: id must be one of dict, str, int"
+            )
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "GET", "/behaviors/" + path_value(params["id"]), params
+        )
+        return operation.decode_model(response, Behavior)
+
+    def get(
+        self,
+        id: dict[str, Any] | str | int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> Behavior:
+        """The same as find()."""
+        return self.find(id, params, options)
 
     def create(
         self,
@@ -478,12 +487,11 @@ class BehaviorResource:
             raise InvalidParameterError(
                 "Bad parameter: description must be an str"
             )
-        if "attachment_delete" in params and (
-            not isinstance(params["attachment_delete"], (dict, str, int))
-            or isinstance(params["attachment_delete"], bool)
+        if "attachment_delete" in params and not isinstance(
+            params["attachment_delete"], bool
         ):
             raise InvalidParameterError(
-                "Bad parameter: attachment_delete must be one of dict, str, int"
+                "Bad parameter: attachment_delete must be an bool"
             )
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
@@ -565,8 +573,24 @@ def all(
     return _legacy_resource.list(params, options)
 
 
+def list_for(
+    path: str,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[Behavior]:
+    """Parameters:
+    path (required) - string - Path to operate on.
+    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
+    filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.
+    ancestor_behaviors - boolean - If `true`, behaviors above this path are shown.
+    """
+    return _legacy_resource.list_for(path, params, options)
+
+
 def find(
-    id: int,
+    id: dict[str, Any] | str | int,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> Behavior:
@@ -577,28 +601,12 @@ def find(
 
 
 def get(
-    id: int,
+    id: dict[str, Any] | str | int,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> Behavior:
     """The same as find()."""
     return _legacy_resource.find(id, params, options)
-
-
-def list_for(
-    path: str,
-    params: dict[str, Any] | None = None,
-    options: RequestOptions | Mapping[str, Any] | None = None,
-) -> ListObj[Behavior]:
-    """Parameters:
-    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
-    filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.
-    path (required) - string - Path to operate on.
-    ancestor_behaviors - boolean - If `true`, behaviors above this path are shown.
-    """
-    return _legacy_resource.list_for(path, params, options)
 
 
 def create(

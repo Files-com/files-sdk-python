@@ -292,46 +292,6 @@ class CustomDomainResource:
         """The same as find()."""
         return self.find(id, params, options)
 
-    def create_allocate_ip(
-        self,
-        id: int,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> CustomDomain:
-        """Parameters:
-        id (required) - int64 - Custom Domain ID.
-        count (required) - int64 - Number of dedicated IP addresses to allocate.
-        """
-        return self.__create_allocate_ip({"id": id}, params, options)
-
-    def __create_allocate_ip(
-        self,
-        path_values: dict[str, Any],
-        params: dict[str, Any] | None,
-        options: RequestOptions | Mapping[str, Any] | None,
-    ) -> CustomDomain:
-        params = copy_params(params, path_values)
-        if "id" in params and (
-            not isinstance(params["id"], int) or isinstance(params["id"], bool)
-        ):
-            raise InvalidParameterError("Bad parameter: id must be an int")
-        if "count" in params and (
-            not isinstance(params["count"], int)
-            or isinstance(params["count"], bool)
-        ):
-            raise InvalidParameterError("Bad parameter: count must be an int")
-        if "id" not in params:
-            raise MissingParameterError("Parameter missing: id")
-        if "count" not in params:
-            raise MissingParameterError("Parameter missing: count")
-        operation = Operation.start(self._scope, options)
-        response = operation.request(
-            "POST",
-            "/custom_domains/" + path_value(params["id"]) + "/allocate_ips",
-            params,
-        )
-        return operation.decode_model(response, CustomDomain)
-
     def create(
         self,
         params: dict[str, Any] | None = None,
@@ -385,6 +345,46 @@ class CustomDomainResource:
             raise MissingParameterError("Parameter missing: domain")
         operation = Operation.start(self._scope, options)
         response = operation.request("POST", "/custom_domains", params)
+        return operation.decode_model(response, CustomDomain)
+
+    def create_allocate_ip(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> CustomDomain:
+        """Parameters:
+        id (required) - int64 - Custom Domain ID.
+        count (required) - int64 - Number of dedicated IP addresses to allocate.
+        """
+        return self.__create_allocate_ip({"id": id}, params, options)
+
+    def __create_allocate_ip(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> CustomDomain:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "count" in params and (
+            not isinstance(params["count"], int)
+            or isinstance(params["count"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: count must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "count" not in params:
+            raise MissingParameterError("Parameter missing: count")
+        operation = Operation.start(self._scope, options)
+        response = operation.request(
+            "POST",
+            "/custom_domains/" + path_value(params["id"]) + "/allocate_ips",
+            params,
+        )
         return operation.decode_model(response, CustomDomain)
 
     def update(
@@ -548,18 +548,6 @@ def get(
     return _legacy_resource.find(id, params, options)
 
 
-def create_allocate_ip(
-    id: int,
-    params: dict[str, Any] | None = None,
-    options: RequestOptions | Mapping[str, Any] | None = None,
-) -> CustomDomain:
-    """Parameters:
-    id (required) - int64 - Custom Domain ID.
-    count (required) - int64 - Number of dedicated IP addresses to allocate.
-    """
-    return _legacy_resource.create_allocate_ip(id, params, options)
-
-
 def create(
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
@@ -573,6 +561,18 @@ def create(
     domain (required) - string - Customer-owned domain name.
     """
     return _legacy_resource.create(params, options)
+
+
+def create_allocate_ip(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> CustomDomain:
+    """Parameters:
+    id (required) - int64 - Custom Domain ID.
+    count (required) - int64 - Number of dedicated IP addresses to allocate.
+    """
+    return _legacy_resource.create_allocate_ip(id, params, options)
 
 
 def update(

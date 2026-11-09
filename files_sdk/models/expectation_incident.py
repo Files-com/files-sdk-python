@@ -112,8 +112,10 @@ class ExpectationIncident:
             return self._context
         return LegacyScope(self.options)
 
-    def resolve(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
-        """Resolve an expectation incident"""
+    def acknowledge(
+        self, params: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
+        """Acknowledge an expectation incident"""
         if not (hasattr(self, "id") and self.id):
             raise MissingParameterError("Current object doesn't have a id")
         params = copy_params(params, {"id": self.id})
@@ -126,7 +128,9 @@ class ExpectationIncident:
         operation = Operation.start(self._scope())
         response = operation.request(
             "POST",
-            "/expectation_incidents/" + path_value(params["id"]) + "/resolve",
+            "/expectation_incidents/"
+            + path_value(params["id"])
+            + "/acknowledge",
             params,
         )
         if not isinstance(response.data, dict):
@@ -170,10 +174,8 @@ class ExpectationIncident:
             )
         return response.data
 
-    def acknowledge(
-        self, params: dict[str, Any] | None = None
-    ) -> dict[str, Any]:
-        """Acknowledge an expectation incident"""
+    def resolve(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
+        """Resolve an expectation incident"""
         if not (hasattr(self, "id") and self.id):
             raise MissingParameterError("Current object doesn't have a id")
         params = copy_params(params, {"id": self.id})
@@ -186,9 +188,7 @@ class ExpectationIncident:
         operation = Operation.start(self._scope())
         response = operation.request(
             "POST",
-            "/expectation_incidents/"
-            + path_value(params["id"])
-            + "/acknowledge",
+            "/expectation_incidents/" + path_value(params["id"]) + "/resolve",
             params,
         )
         if not isinstance(response.data, dict):
@@ -294,16 +294,16 @@ class ExpectationIncidentResource:
         """The same as find()."""
         return self.find(id, params, options)
 
-    def resolve(
+    def acknowledge(
         self,
         id: int,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> ExpectationIncident:
-        """Resolve an expectation incident"""
-        return self.__resolve({"id": id}, params, options)
+        """Acknowledge an expectation incident"""
+        return self.__acknowledge({"id": id}, params, options)
 
-    def __resolve(
+    def __acknowledge(
         self,
         path_values: dict[str, Any],
         params: dict[str, Any] | None,
@@ -319,7 +319,9 @@ class ExpectationIncidentResource:
         operation = Operation.start(self._scope, options)
         response = operation.request(
             "POST",
-            "/expectation_incidents/" + path_value(params["id"]) + "/resolve",
+            "/expectation_incidents/"
+            + path_value(params["id"])
+            + "/acknowledge",
             params,
         )
         return operation.decode_model(response, ExpectationIncident)
@@ -366,16 +368,16 @@ class ExpectationIncidentResource:
         )
         return operation.decode_model(response, ExpectationIncident)
 
-    def acknowledge(
+    def resolve(
         self,
         id: int,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> ExpectationIncident:
-        """Acknowledge an expectation incident"""
-        return self.__acknowledge({"id": id}, params, options)
+        """Resolve an expectation incident"""
+        return self.__resolve({"id": id}, params, options)
 
-    def __acknowledge(
+    def __resolve(
         self,
         path_values: dict[str, Any],
         params: dict[str, Any] | None,
@@ -391,9 +393,7 @@ class ExpectationIncidentResource:
         operation = Operation.start(self._scope, options)
         response = operation.request(
             "POST",
-            "/expectation_incidents/"
-            + path_value(params["id"])
-            + "/acknowledge",
+            "/expectation_incidents/" + path_value(params["id"]) + "/resolve",
             params,
         )
         return operation.decode_model(response, ExpectationIncident)
@@ -454,13 +454,13 @@ def get(
     return _legacy_resource.find(id, params, options)
 
 
-def resolve(
+def acknowledge(
     id: int,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> ExpectationIncident:
-    """Resolve an expectation incident"""
-    return _legacy_resource.resolve(id, params, options)
+    """Acknowledge an expectation incident"""
+    return _legacy_resource.acknowledge(id, params, options)
 
 
 def snooze(
@@ -476,13 +476,13 @@ def snooze(
     return _legacy_resource.snooze(id, params, options)
 
 
-def acknowledge(
+def resolve(
     id: int,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> ExpectationIncident:
-    """Acknowledge an expectation incident"""
-    return _legacy_resource.acknowledge(id, params, options)
+    """Resolve an expectation incident"""
+    return _legacy_resource.resolve(id, params, options)
 
 
 def new(*args, **kwargs) -> ExpectationIncident:

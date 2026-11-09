@@ -29,15 +29,6 @@ class MetadataCategoryTest(TestBase):
         self.assert_returns(metadata_category.list, result)
         self.assert_typed(result)
 
-    def test_find(self):
-        id = 12345
-        params = {
-            "id": 12345,
-        }
-        result = metadata_category.find(id, params)
-        self.assert_returns(metadata_category.find, result)
-        self.assert_typed(result)
-
     def test_list_for(self):
         path = "foo"
         params = {
@@ -45,6 +36,15 @@ class MetadataCategoryTest(TestBase):
         }
         result = metadata_category.list_for(path, params)
         self.assert_returns(metadata_category.list_for, result)
+        self.assert_typed(result)
+
+    def test_find(self):
+        id = 12345
+        params = {
+            "id": 12345,
+        }
+        result = metadata_category.find(id, params)
+        self.assert_returns(metadata_category.find, result)
         self.assert_typed(result)
 
     def test_create(self):

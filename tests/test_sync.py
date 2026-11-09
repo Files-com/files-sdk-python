@@ -6,20 +6,20 @@ from files_sdk import sync
 
 class SyncTest(TestBase):
     # Instance Methods
-    def test_instance_dry_run(self):
-        params = {
-            "id": 12345,
-        }
-        sync = Sync(params)
-        sync.dry_run(params)
-        self.assert_typed(sync)
-
     def test_instance_manual_run(self):
         params = {
             "id": 12345,
         }
         sync = Sync(params)
         sync.manual_run(params)
+        self.assert_typed(sync)
+
+    def test_instance_dry_run(self):
+        params = {
+            "id": 12345,
+        }
+        sync = Sync(params)
+        sync.dry_run(params)
         self.assert_typed(sync)
 
     def test_instance_update(self):
@@ -59,15 +59,6 @@ class SyncTest(TestBase):
         self.assert_returns(sync.create, result)
         self.assert_typed(result)
 
-    def test_dry_run(self):
-        id = 12345
-        params = {
-            "id": 12345,
-        }
-        result = sync.dry_run(id, params)
-        self.assert_returns(sync.dry_run, result)
-        self.assert_typed(result)
-
     def test_manual_run(self):
         id = 12345
         params = {
@@ -75,6 +66,15 @@ class SyncTest(TestBase):
         }
         result = sync.manual_run(id, params)
         self.assert_returns(sync.manual_run, result)
+        self.assert_typed(result)
+
+    def test_dry_run(self):
+        id = 12345
+        params = {
+            "id": 12345,
+        }
+        result = sync.dry_run(id, params)
+        self.assert_returns(sync.dry_run, result)
         self.assert_typed(result)
 
     def test_update(self):

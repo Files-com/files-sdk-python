@@ -37,20 +37,20 @@ class PartnerSiteRequestTest(TestBase):
         self.assert_returns(partner_site_request.create, result)
         self.assert_typed(result)
 
-    def test_reject(self):
-        params = {
-            "pairing_key": "foo",
-        }
-        result = partner_site_request.reject(params)
-        self.assert_returns(partner_site_request.reject, result)
-        self.assert_typed(result)
-
     def test_approve(self):
         params = {
             "pairing_key": "foo",
         }
         result = partner_site_request.approve(params)
         self.assert_returns(partner_site_request.approve, result)
+        self.assert_typed(result)
+
+    def test_reject(self):
+        params = {
+            "pairing_key": "foo",
+        }
+        result = partner_site_request.reject(params)
+        self.assert_returns(partner_site_request.reject, result)
         self.assert_typed(result)
 
     def test_delete(self):

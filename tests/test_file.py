@@ -41,33 +41,34 @@ class FileTest(TestBase):
         self.assert_returns(File.zip_list_contents, result)
         self.assert_typed(file)
 
-    def test_instance_begin_delete(self):
-        params = {
-            "path": "foo",
-        }
-        file = File(params)
-        result = file.begin_delete(params)
-        self.assert_returns(File.begin_delete, result)
-        self.assert_typed(file)
-
-    def test_instance_copy(self):
+    def test_instance_unzip(self):
         params = {
             "path": "foo",
             "destination": "foo",
         }
         file = File(params)
-        result = file.copy(params)
-        self.assert_returns(File.copy, result)
+        result = file.unzip(params)
+        self.assert_returns(File.unzip, result)
         self.assert_typed(file)
 
-    def test_instance_move(self):
+    def test_instance_gpg_encrypt(self):
         params = {
             "path": "foo",
             "destination": "foo",
         }
         file = File(params)
-        result = file.move(params)
-        self.assert_returns(File.move, result)
+        result = file.gpg_encrypt(params)
+        self.assert_returns(File.gpg_encrypt, result)
+        self.assert_typed(file)
+
+    def test_instance_gpg_decrypt(self):
+        params = {
+            "path": "foo",
+            "destination": "foo",
+        }
+        file = File(params)
+        result = file.gpg_decrypt(params)
+        self.assert_returns(File.gpg_decrypt, result)
         self.assert_typed(file)
 
     def test_instance_transform(self):
@@ -82,34 +83,33 @@ class FileTest(TestBase):
         self.assert_returns(File.transform, result)
         self.assert_typed(file)
 
-    def test_instance_gpg_decrypt(self):
+    def test_instance_move(self):
         params = {
             "path": "foo",
             "destination": "foo",
         }
         file = File(params)
-        result = file.gpg_decrypt(params)
-        self.assert_returns(File.gpg_decrypt, result)
+        result = file.move(params)
+        self.assert_returns(File.move, result)
         self.assert_typed(file)
 
-    def test_instance_gpg_encrypt(self):
+    def test_instance_copy(self):
         params = {
             "path": "foo",
             "destination": "foo",
         }
         file = File(params)
-        result = file.gpg_encrypt(params)
-        self.assert_returns(File.gpg_encrypt, result)
+        result = file.copy(params)
+        self.assert_returns(File.copy, result)
         self.assert_typed(file)
 
-    def test_instance_unzip(self):
+    def test_instance_begin_delete(self):
         params = {
             "path": "foo",
-            "destination": "foo",
         }
         file = File(params)
-        result = file.unzip(params)
-        self.assert_returns(File.unzip, result)
+        result = file.begin_delete(params)
+        self.assert_returns(File.begin_delete, result)
         self.assert_typed(file)
 
     def test_instance_begin_upload(self):
@@ -158,15 +158,6 @@ class FileTest(TestBase):
         self.assert_returns(file.delete, result)
         self.assert_typed(result)
 
-    def test_find(self):
-        path = "foo"
-        params = {
-            "path": "foo",
-        }
-        result = file.find(path, params)
-        self.assert_returns(file.find, result)
-        self.assert_typed(result)
-
     def test_zip_list_contents(self):
         path = "foo"
         params = {
@@ -176,33 +167,52 @@ class FileTest(TestBase):
         self.assert_returns(file.zip_list_contents, result)
         self.assert_typed(result)
 
-    def test_begin_delete(self):
+    def test_find(self):
         path = "foo"
         params = {
             "path": "foo",
         }
-        result = file.begin_delete(path, params)
-        self.assert_returns(file.begin_delete, result)
+        result = file.find(path, params)
+        self.assert_returns(file.find, result)
         self.assert_typed(result)
 
-    def test_copy(self):
+    def test_zip(self):
+        params = {
+            "paths": ["foo1"],
+            "destination": "foo",
+        }
+        result = file.zip(params)
+        self.assert_returns(file.zip, result)
+        self.assert_typed(result)
+
+    def test_unzip(self):
         path = "foo"
         params = {
             "path": "foo",
             "destination": "foo",
         }
-        result = file.copy(path, params)
-        self.assert_returns(file.copy, result)
+        result = file.unzip(path, params)
+        self.assert_returns(file.unzip, result)
         self.assert_typed(result)
 
-    def test_move(self):
+    def test_gpg_encrypt(self):
         path = "foo"
         params = {
             "path": "foo",
             "destination": "foo",
         }
-        result = file.move(path, params)
-        self.assert_returns(file.move, result)
+        result = file.gpg_encrypt(path, params)
+        self.assert_returns(file.gpg_encrypt, result)
+        self.assert_typed(result)
+
+    def test_gpg_decrypt(self):
+        path = "foo"
+        params = {
+            "path": "foo",
+            "destination": "foo",
+        }
+        result = file.gpg_decrypt(path, params)
+        self.assert_returns(file.gpg_decrypt, result)
         self.assert_typed(result)
 
     def test_transform(self):
@@ -217,43 +227,33 @@ class FileTest(TestBase):
         self.assert_returns(file.transform, result)
         self.assert_typed(result)
 
-    def test_gpg_decrypt(self):
+    def test_move(self):
         path = "foo"
         params = {
             "path": "foo",
             "destination": "foo",
         }
-        result = file.gpg_decrypt(path, params)
-        self.assert_returns(file.gpg_decrypt, result)
+        result = file.move(path, params)
+        self.assert_returns(file.move, result)
         self.assert_typed(result)
 
-    def test_gpg_encrypt(self):
+    def test_copy(self):
         path = "foo"
         params = {
             "path": "foo",
             "destination": "foo",
         }
-        result = file.gpg_encrypt(path, params)
-        self.assert_returns(file.gpg_encrypt, result)
+        result = file.copy(path, params)
+        self.assert_returns(file.copy, result)
         self.assert_typed(result)
 
-    def test_unzip(self):
+    def test_begin_delete(self):
         path = "foo"
         params = {
             "path": "foo",
-            "destination": "foo",
         }
-        result = file.unzip(path, params)
-        self.assert_returns(file.unzip, result)
-        self.assert_typed(result)
-
-    def test_zip(self):
-        params = {
-            "paths": ["foo1"],
-            "destination": "foo",
-        }
-        result = file.zip(params)
-        self.assert_returns(file.zip, result)
+        result = file.begin_delete(path, params)
+        self.assert_returns(file.begin_delete, result)
         self.assert_typed(result)
 
     def test_begin_upload(self):

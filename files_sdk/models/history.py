@@ -119,231 +119,6 @@ class HistoryResource:
     def __init__(self, scope):
         self._scope = scope
 
-    def list_for_file(
-        self,
-        path: str,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> ListObj[Action]:
-        """Parameters:
-        start_at - string - Leave blank or set to a date/time to filter earlier entries.
-        end_at - string - Leave blank or set to a date/time to filter later entries.
-        display - string - Display format. Leave blank or set to `full` or `parent`.
-        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-        sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
-        path (required) - string - Path to operate on.
-        """
-        return self.__list_for_file({"path": path}, params, options)
-
-    def __list_for_file(
-        self,
-        path_values: dict[str, Any],
-        params: dict[str, Any] | None,
-        options: RequestOptions | Mapping[str, Any] | None,
-    ) -> ListObj[Action]:
-        params = copy_params(params, path_values)
-        if "start_at" in params and not isinstance(params["start_at"], str):
-            raise InvalidParameterError(
-                "Bad parameter: start_at must be an str"
-            )
-        if "end_at" in params and not isinstance(params["end_at"], str):
-            raise InvalidParameterError("Bad parameter: end_at must be an str")
-        if "display" in params and not isinstance(params["display"], str):
-            raise InvalidParameterError(
-                "Bad parameter: display must be an str"
-            )
-        if "cursor" in params and not isinstance(params["cursor"], str):
-            raise InvalidParameterError("Bad parameter: cursor must be an str")
-        if "per_page" in params and (
-            not isinstance(params["per_page"], int)
-            or isinstance(params["per_page"], bool)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: per_page must be an int"
-            )
-        if "sort_by" in params and not isinstance(params["sort_by"], dict):
-            raise InvalidParameterError(
-                "Bad parameter: sort_by must be an dict"
-            )
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
-        if "path" not in params:
-            raise MissingParameterError("Parameter missing: path")
-        operation = Operation.start(self._scope, options)
-        return ListObj(
-            Action,
-            "GET",
-            "/history/files/" + path_value(params["path"]),
-            params,
-            operation,
-        )
-
-    def list_for_folder(
-        self,
-        path: str,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> ListObj[Action]:
-        """Parameters:
-        start_at - string - Leave blank or set to a date/time to filter earlier entries.
-        end_at - string - Leave blank or set to a date/time to filter later entries.
-        display - string - Display format. Leave blank or set to `full` or `parent`.
-        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-        sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
-        path (required) - string - Path to operate on.
-        """
-        return self.__list_for_folder({"path": path}, params, options)
-
-    def __list_for_folder(
-        self,
-        path_values: dict[str, Any],
-        params: dict[str, Any] | None,
-        options: RequestOptions | Mapping[str, Any] | None,
-    ) -> ListObj[Action]:
-        params = copy_params(params, path_values)
-        if "start_at" in params and not isinstance(params["start_at"], str):
-            raise InvalidParameterError(
-                "Bad parameter: start_at must be an str"
-            )
-        if "end_at" in params and not isinstance(params["end_at"], str):
-            raise InvalidParameterError("Bad parameter: end_at must be an str")
-        if "display" in params and not isinstance(params["display"], str):
-            raise InvalidParameterError(
-                "Bad parameter: display must be an str"
-            )
-        if "cursor" in params and not isinstance(params["cursor"], str):
-            raise InvalidParameterError("Bad parameter: cursor must be an str")
-        if "per_page" in params and (
-            not isinstance(params["per_page"], int)
-            or isinstance(params["per_page"], bool)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: per_page must be an int"
-            )
-        if "sort_by" in params and not isinstance(params["sort_by"], dict):
-            raise InvalidParameterError(
-                "Bad parameter: sort_by must be an dict"
-            )
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
-        if "path" not in params:
-            raise MissingParameterError("Parameter missing: path")
-        operation = Operation.start(self._scope, options)
-        return ListObj(
-            Action,
-            "GET",
-            "/history/folders/" + path_value(params["path"]),
-            params,
-            operation,
-        )
-
-    def list_for_user(
-        self,
-        user_id: int,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> ListObj[Action]:
-        """Parameters:
-        start_at - string - Leave blank or set to a date/time to filter earlier entries.
-        end_at - string - Leave blank or set to a date/time to filter later entries.
-        display - string - Display format. Leave blank or set to `full` or `parent`.
-        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-        sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
-        user_id (required) - int64 - User ID.
-        """
-        return self.__list_for_user({"user_id": user_id}, params, options)
-
-    def __list_for_user(
-        self,
-        path_values: dict[str, Any],
-        params: dict[str, Any] | None,
-        options: RequestOptions | Mapping[str, Any] | None,
-    ) -> ListObj[Action]:
-        params = copy_params(params, path_values)
-        if "start_at" in params and not isinstance(params["start_at"], str):
-            raise InvalidParameterError(
-                "Bad parameter: start_at must be an str"
-            )
-        if "end_at" in params and not isinstance(params["end_at"], str):
-            raise InvalidParameterError("Bad parameter: end_at must be an str")
-        if "display" in params and not isinstance(params["display"], str):
-            raise InvalidParameterError(
-                "Bad parameter: display must be an str"
-            )
-        if "cursor" in params and not isinstance(params["cursor"], str):
-            raise InvalidParameterError("Bad parameter: cursor must be an str")
-        if "per_page" in params and (
-            not isinstance(params["per_page"], int)
-            or isinstance(params["per_page"], bool)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: per_page must be an int"
-            )
-        if "sort_by" in params and not isinstance(params["sort_by"], dict):
-            raise InvalidParameterError(
-                "Bad parameter: sort_by must be an dict"
-            )
-        if "user_id" in params and (
-            not isinstance(params["user_id"], int)
-            or isinstance(params["user_id"], bool)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: user_id must be an int"
-            )
-        if "user_id" not in params:
-            raise MissingParameterError("Parameter missing: user_id")
-        operation = Operation.start(self._scope, options)
-        return ListObj(
-            Action,
-            "GET",
-            "/history/users/" + path_value(params["user_id"]),
-            params,
-            operation,
-        )
-
-    def list_logins(
-        self,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> ListObj[Action]:
-        """Parameters:
-        start_at - string - Leave blank or set to a date/time to filter earlier entries.
-        end_at - string - Leave blank or set to a date/time to filter later entries.
-        display - string - Display format. Leave blank or set to `full` or `parent`.
-        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-        sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
-        """
-        params = copy_params(params)
-        if "start_at" in params and not isinstance(params["start_at"], str):
-            raise InvalidParameterError(
-                "Bad parameter: start_at must be an str"
-            )
-        if "end_at" in params and not isinstance(params["end_at"], str):
-            raise InvalidParameterError("Bad parameter: end_at must be an str")
-        if "display" in params and not isinstance(params["display"], str):
-            raise InvalidParameterError(
-                "Bad parameter: display must be an str"
-            )
-        if "cursor" in params and not isinstance(params["cursor"], str):
-            raise InvalidParameterError("Bad parameter: cursor must be an str")
-        if "per_page" in params and (
-            not isinstance(params["per_page"], int)
-            or isinstance(params["per_page"], bool)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: per_page must be an int"
-            )
-        if "sort_by" in params and not isinstance(params["sort_by"], dict):
-            raise InvalidParameterError(
-                "Bad parameter: sort_by must be an dict"
-            )
-        operation = Operation.start(self._scope, options)
-        return ListObj(Action, "GET", "/history/login", params, operation)
-
     def list(
         self,
         params: dict[str, Any] | None = None,
@@ -404,6 +179,231 @@ class HistoryResource:
         """The same as list()."""
         return self.list(params, options)
 
+    def list_logins(
+        self,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[Action]:
+        """Parameters:
+        start_at - string - Leave blank or set to a date/time to filter earlier entries.
+        end_at - string - Leave blank or set to a date/time to filter later entries.
+        display - string - Display format. Leave blank or set to `full` or `parent`.
+        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+        sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+        """
+        params = copy_params(params)
+        if "start_at" in params and not isinstance(params["start_at"], str):
+            raise InvalidParameterError(
+                "Bad parameter: start_at must be an str"
+            )
+        if "end_at" in params and not isinstance(params["end_at"], str):
+            raise InvalidParameterError("Bad parameter: end_at must be an str")
+        if "display" in params and not isinstance(params["display"], str):
+            raise InvalidParameterError(
+                "Bad parameter: display must be an str"
+            )
+        if "cursor" in params and not isinstance(params["cursor"], str):
+            raise InvalidParameterError("Bad parameter: cursor must be an str")
+        if "per_page" in params and (
+            not isinstance(params["per_page"], int)
+            or isinstance(params["per_page"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: per_page must be an int"
+            )
+        if "sort_by" in params and not isinstance(params["sort_by"], dict):
+            raise InvalidParameterError(
+                "Bad parameter: sort_by must be an dict"
+            )
+        operation = Operation.start(self._scope, options)
+        return ListObj(Action, "GET", "/history/login", params, operation)
+
+    def list_for_user(
+        self,
+        user_id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[Action]:
+        """Parameters:
+        user_id (required) - int64 - User ID.
+        start_at - string - Leave blank or set to a date/time to filter earlier entries.
+        end_at - string - Leave blank or set to a date/time to filter later entries.
+        display - string - Display format. Leave blank or set to `full` or `parent`.
+        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+        sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+        """
+        return self.__list_for_user({"user_id": user_id}, params, options)
+
+    def __list_for_user(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> ListObj[Action]:
+        params = copy_params(params, path_values)
+        if "user_id" in params and (
+            not isinstance(params["user_id"], int)
+            or isinstance(params["user_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: user_id must be an int"
+            )
+        if "start_at" in params and not isinstance(params["start_at"], str):
+            raise InvalidParameterError(
+                "Bad parameter: start_at must be an str"
+            )
+        if "end_at" in params and not isinstance(params["end_at"], str):
+            raise InvalidParameterError("Bad parameter: end_at must be an str")
+        if "display" in params and not isinstance(params["display"], str):
+            raise InvalidParameterError(
+                "Bad parameter: display must be an str"
+            )
+        if "cursor" in params and not isinstance(params["cursor"], str):
+            raise InvalidParameterError("Bad parameter: cursor must be an str")
+        if "per_page" in params and (
+            not isinstance(params["per_page"], int)
+            or isinstance(params["per_page"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: per_page must be an int"
+            )
+        if "sort_by" in params and not isinstance(params["sort_by"], dict):
+            raise InvalidParameterError(
+                "Bad parameter: sort_by must be an dict"
+            )
+        if "user_id" not in params:
+            raise MissingParameterError("Parameter missing: user_id")
+        operation = Operation.start(self._scope, options)
+        return ListObj(
+            Action,
+            "GET",
+            "/history/users/" + path_value(params["user_id"]),
+            params,
+            operation,
+        )
+
+    def list_for_folder(
+        self,
+        path: str,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[Action]:
+        """Parameters:
+        path (required) - string - Path to operate on.
+        start_at - string - Leave blank or set to a date/time to filter earlier entries.
+        end_at - string - Leave blank or set to a date/time to filter later entries.
+        display - string - Display format. Leave blank or set to `full` or `parent`.
+        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+        sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+        """
+        return self.__list_for_folder({"path": path}, params, options)
+
+    def __list_for_folder(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> ListObj[Action]:
+        params = copy_params(params, path_values)
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        if "start_at" in params and not isinstance(params["start_at"], str):
+            raise InvalidParameterError(
+                "Bad parameter: start_at must be an str"
+            )
+        if "end_at" in params and not isinstance(params["end_at"], str):
+            raise InvalidParameterError("Bad parameter: end_at must be an str")
+        if "display" in params and not isinstance(params["display"], str):
+            raise InvalidParameterError(
+                "Bad parameter: display must be an str"
+            )
+        if "cursor" in params and not isinstance(params["cursor"], str):
+            raise InvalidParameterError("Bad parameter: cursor must be an str")
+        if "per_page" in params and (
+            not isinstance(params["per_page"], int)
+            or isinstance(params["per_page"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: per_page must be an int"
+            )
+        if "sort_by" in params and not isinstance(params["sort_by"], dict):
+            raise InvalidParameterError(
+                "Bad parameter: sort_by must be an dict"
+            )
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        operation = Operation.start(self._scope, options)
+        return ListObj(
+            Action,
+            "GET",
+            "/history/folders/" + path_value(params["path"]),
+            params,
+            operation,
+        )
+
+    def list_for_file(
+        self,
+        path: str,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[Action]:
+        """Parameters:
+        path (required) - string - Path to operate on.
+        start_at - string - Leave blank or set to a date/time to filter earlier entries.
+        end_at - string - Leave blank or set to a date/time to filter later entries.
+        display - string - Display format. Leave blank or set to `full` or `parent`.
+        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+        sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+        """
+        return self.__list_for_file({"path": path}, params, options)
+
+    def __list_for_file(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> ListObj[Action]:
+        params = copy_params(params, path_values)
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        if "start_at" in params and not isinstance(params["start_at"], str):
+            raise InvalidParameterError(
+                "Bad parameter: start_at must be an str"
+            )
+        if "end_at" in params and not isinstance(params["end_at"], str):
+            raise InvalidParameterError("Bad parameter: end_at must be an str")
+        if "display" in params and not isinstance(params["display"], str):
+            raise InvalidParameterError(
+                "Bad parameter: display must be an str"
+            )
+        if "cursor" in params and not isinstance(params["cursor"], str):
+            raise InvalidParameterError("Bad parameter: cursor must be an str")
+        if "per_page" in params and (
+            not isinstance(params["per_page"], int)
+            or isinstance(params["per_page"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: per_page must be an int"
+            )
+        if "sort_by" in params and not isinstance(params["sort_by"], dict):
+            raise InvalidParameterError(
+                "Bad parameter: sort_by must be an dict"
+            )
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        operation = Operation.start(self._scope, options)
+        return ListObj(
+            Action,
+            "GET",
+            "/history/files/" + path_value(params["path"]),
+            params,
+            operation,
+        )
+
     def new(
         self,
         attributes: dict[str, Any] | None = None,
@@ -417,72 +417,6 @@ class HistoryResource:
 
 
 _legacy_resource = HistoryResource(LEGACY)
-
-
-def list_for_file(
-    path: str,
-    params: dict[str, Any] | None = None,
-    options: RequestOptions | Mapping[str, Any] | None = None,
-) -> ListObj[Action]:
-    """Parameters:
-    start_at - string - Leave blank or set to a date/time to filter earlier entries.
-    end_at - string - Leave blank or set to a date/time to filter later entries.
-    display - string - Display format. Leave blank or set to `full` or `parent`.
-    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
-    path (required) - string - Path to operate on.
-    """
-    return _legacy_resource.list_for_file(path, params, options)
-
-
-def list_for_folder(
-    path: str,
-    params: dict[str, Any] | None = None,
-    options: RequestOptions | Mapping[str, Any] | None = None,
-) -> ListObj[Action]:
-    """Parameters:
-    start_at - string - Leave blank or set to a date/time to filter earlier entries.
-    end_at - string - Leave blank or set to a date/time to filter later entries.
-    display - string - Display format. Leave blank or set to `full` or `parent`.
-    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
-    path (required) - string - Path to operate on.
-    """
-    return _legacy_resource.list_for_folder(path, params, options)
-
-
-def list_for_user(
-    user_id: int,
-    params: dict[str, Any] | None = None,
-    options: RequestOptions | Mapping[str, Any] | None = None,
-) -> ListObj[Action]:
-    """Parameters:
-    start_at - string - Leave blank or set to a date/time to filter earlier entries.
-    end_at - string - Leave blank or set to a date/time to filter later entries.
-    display - string - Display format. Leave blank or set to `full` or `parent`.
-    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
-    user_id (required) - int64 - User ID.
-    """
-    return _legacy_resource.list_for_user(user_id, params, options)
-
-
-def list_logins(
-    params: dict[str, Any] | None = None,
-    options: RequestOptions | Mapping[str, Any] | None = None,
-) -> ListObj[Action]:
-    """Parameters:
-    start_at - string - Leave blank or set to a date/time to filter earlier entries.
-    end_at - string - Leave blank or set to a date/time to filter later entries.
-    display - string - Display format. Leave blank or set to `full` or `parent`.
-    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
-    """
-    return _legacy_resource.list_logins(params, options)
 
 
 def list(
@@ -508,6 +442,72 @@ def all(
 ) -> ListObj[Action]:
     """The same as list()."""
     return _legacy_resource.list(params, options)
+
+
+def list_logins(
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[Action]:
+    """Parameters:
+    start_at - string - Leave blank or set to a date/time to filter earlier entries.
+    end_at - string - Leave blank or set to a date/time to filter later entries.
+    display - string - Display format. Leave blank or set to `full` or `parent`.
+    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+    """
+    return _legacy_resource.list_logins(params, options)
+
+
+def list_for_user(
+    user_id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[Action]:
+    """Parameters:
+    user_id (required) - int64 - User ID.
+    start_at - string - Leave blank or set to a date/time to filter earlier entries.
+    end_at - string - Leave blank or set to a date/time to filter later entries.
+    display - string - Display format. Leave blank or set to `full` or `parent`.
+    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+    """
+    return _legacy_resource.list_for_user(user_id, params, options)
+
+
+def list_for_folder(
+    path: str,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[Action]:
+    """Parameters:
+    path (required) - string - Path to operate on.
+    start_at - string - Leave blank or set to a date/time to filter earlier entries.
+    end_at - string - Leave blank or set to a date/time to filter later entries.
+    display - string - Display format. Leave blank or set to `full` or `parent`.
+    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+    """
+    return _legacy_resource.list_for_folder(path, params, options)
+
+
+def list_for_file(
+    path: str,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[Action]:
+    """Parameters:
+    path (required) - string - Path to operate on.
+    start_at - string - Leave blank or set to a date/time to filter earlier entries.
+    end_at - string - Leave blank or set to a date/time to filter later entries.
+    display - string - Display format. Leave blank or set to `full` or `parent`.
+    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+    sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+    """
+    return _legacy_resource.list_for_file(path, params, options)
 
 
 def new(*args, **kwargs) -> History:

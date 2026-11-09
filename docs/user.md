@@ -395,10 +395,10 @@ files_sdk.user.create({
 
 ---
 
-## Unlock user who has been locked out due to failed logins
+## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
 
 ```python
-files_sdk.user.unlock(id)
+files_sdk.user.user_2fa_reset(id)
 ```
 
 ### Parameters
@@ -421,10 +421,10 @@ files_sdk.user.resend_welcome_email(id)
 
 ---
 
-## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+## Unlock user who has been locked out due to failed logins
 
 ```python
-files_sdk.user.user_2fa_reset(id)
+files_sdk.user.unlock(id)
 ```
 
 ### Parameters
@@ -599,11 +599,11 @@ files_sdk.user.delete(id, {
 
 ---
 
-## Unlock user who has been locked out due to failed logins
+## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
 
 ```python
 user = files_sdk.user.find(id)
-user.unlock()
+user.user_2fa_reset()
 ```
 
 ### Parameters
@@ -627,11 +627,11 @@ user.resend_welcome_email()
 
 ---
 
-## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+## Unlock user who has been locked out due to failed logins
 
 ```python
 user = files_sdk.user.find(id)
-user.user_2fa_reset()
+user.unlock()
 ```
 
 ### Parameters

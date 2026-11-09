@@ -6,13 +6,13 @@ from files_sdk import expectation_incident
 
 class ExpectationIncidentTest(TestBase):
     # Instance Methods
-    def test_instance_resolve(self):
+    def test_instance_acknowledge(self):
         params = {
             "id": 12345,
         }
         expectation_incident = ExpectationIncident(params)
-        result = expectation_incident.resolve(params)
-        self.assert_returns(ExpectationIncident.resolve, result)
+        result = expectation_incident.acknowledge(params)
+        self.assert_returns(ExpectationIncident.acknowledge, result)
         self.assert_typed(expectation_incident)
 
     def test_instance_snooze(self):
@@ -25,13 +25,13 @@ class ExpectationIncidentTest(TestBase):
         self.assert_returns(ExpectationIncident.snooze, result)
         self.assert_typed(expectation_incident)
 
-    def test_instance_acknowledge(self):
+    def test_instance_resolve(self):
         params = {
             "id": 12345,
         }
         expectation_incident = ExpectationIncident(params)
-        result = expectation_incident.acknowledge(params)
-        self.assert_returns(ExpectationIncident.acknowledge, result)
+        result = expectation_incident.resolve(params)
+        self.assert_returns(ExpectationIncident.resolve, result)
         self.assert_typed(expectation_incident)
 
     # Static Methods
@@ -49,13 +49,13 @@ class ExpectationIncidentTest(TestBase):
         self.assert_returns(expectation_incident.find, result)
         self.assert_typed(result)
 
-    def test_resolve(self):
+    def test_acknowledge(self):
         id = 12345
         params = {
             "id": 12345,
         }
-        result = expectation_incident.resolve(id, params)
-        self.assert_returns(expectation_incident.resolve, result)
+        result = expectation_incident.acknowledge(id, params)
+        self.assert_returns(expectation_incident.acknowledge, result)
         self.assert_typed(result)
 
     def test_snooze(self):
@@ -68,13 +68,13 @@ class ExpectationIncidentTest(TestBase):
         self.assert_returns(expectation_incident.snooze, result)
         self.assert_typed(result)
 
-    def test_acknowledge(self):
+    def test_resolve(self):
         id = 12345
         params = {
             "id": 12345,
         }
-        result = expectation_incident.acknowledge(id, params)
-        self.assert_returns(expectation_incident.acknowledge, result)
+        result = expectation_incident.resolve(id, params)
+        self.assert_returns(expectation_incident.resolve, result)
         self.assert_typed(result)
 
 

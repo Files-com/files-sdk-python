@@ -224,10 +224,10 @@ files_sdk.sync.create({
 
 ---
 
-## Dry Run Sync
+## Manually Run Sync
 
 ```python
-files_sdk.sync.dry_run(id)
+files_sdk.sync.manual_run(id)
 ```
 
 ### Parameters
@@ -237,10 +237,10 @@ files_sdk.sync.dry_run(id)
 
 ---
 
-## Manually Run Sync
+## Dry Run Sync
 
 ```python
-files_sdk.sync.manual_run(id)
+files_sdk.sync.dry_run(id)
 ```
 
 ### Parameters
@@ -323,11 +323,11 @@ files_sdk.sync.delete(id)
 
 ---
 
-## Dry Run Sync
+## Manually Run Sync
 
 ```python
 sync = files_sdk.sync.find(id)
-sync.dry_run()
+sync.manual_run()
 ```
 
 ### Parameters
@@ -337,11 +337,11 @@ sync.dry_run()
 
 ---
 
-## Manually Run Sync
+## Dry Run Sync
 
 ```python
 sync = files_sdk.sync.find(id)
-sync.manual_run()
+sync.dry_run()
 ```
 
 ### Parameters

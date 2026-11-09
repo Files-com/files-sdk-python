@@ -12,9 +12,9 @@ class IpAddressTest(TestBase):
         self.assert_returns(ip_address.list, result)
         self.assert_typed(result)
 
-    def test_get_smartfile_reserved(self):
-        result = ip_address.get_smartfile_reserved()
-        self.assert_returns(ip_address.get_smartfile_reserved, result)
+    def test_get_reserved(self):
+        result = ip_address.get_reserved()
+        self.assert_returns(ip_address.get_reserved, result)
         self.assert_typed(result)
 
     def test_get_exavault_reserved(self):
@@ -22,9 +22,9 @@ class IpAddressTest(TestBase):
         self.assert_returns(ip_address.get_exavault_reserved, result)
         self.assert_typed(result)
 
-    def test_get_reserved(self):
-        result = ip_address.get_reserved()
-        self.assert_returns(ip_address.get_reserved, result)
+    def test_get_smartfile_reserved(self):
+        result = ip_address.get_smartfile_reserved()
+        self.assert_returns(ip_address.get_smartfile_reserved, result)
         self.assert_typed(result)
 
 

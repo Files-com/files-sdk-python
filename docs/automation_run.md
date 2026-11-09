@@ -133,19 +133,6 @@ files_sdk.automation_run.find_node(id, {
 
 ---
 
-## Cancel Automation Run
-
-```python
-files_sdk.automation_run.cancel(id)
-```
-
-### Parameters
-
-* `id` (int64): Required - Automation Run ID.
-
-
----
-
 ## Re-run Automation from Node
 
 ```python
@@ -165,8 +152,7 @@ files_sdk.automation_run.rerun(id, {
 ## Cancel Automation Run
 
 ```python
-automation_run = files_sdk.automation_run.find(id)
-automation_run.cancel()
+files_sdk.automation_run.cancel(id)
 ```
 
 ### Parameters
@@ -189,3 +175,17 @@ automation_run.rerun({
 
 * `id` (int64): Required - Automation Run ID.
 * `node_id` (string): Required - Node ID at which execution should resume.
+
+
+---
+
+## Cancel Automation Run
+
+```python
+automation_run = files_sdk.automation_run.find(id)
+automation_run.cancel()
+```
+
+### Parameters
+
+* `id` (int64): Required - Automation Run ID.

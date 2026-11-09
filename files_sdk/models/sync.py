@@ -163,22 +163,6 @@ class Sync:
             return self._context
         return LegacyScope(self.options)
 
-    def dry_run(self, params: dict[str, Any] | None = None) -> None:
-        """Dry Run Sync"""
-        if not (hasattr(self, "id") and self.id):
-            raise MissingParameterError("Current object doesn't have a id")
-        params = copy_params(params, {"id": self.id})
-        if "id" not in params:
-            raise MissingParameterError("Parameter missing: id")
-        if "id" in params and (
-            not isinstance(params["id"], int) or isinstance(params["id"], bool)
-        ):
-            raise InvalidParameterError("Bad parameter: id must be an int")
-        operation = Operation.start(self._scope())
-        operation.request(
-            "POST", "/syncs/" + path_value(params["id"]) + "/dry_run", params
-        )
-
     def manual_run(self, params: dict[str, Any] | None = None) -> None:
         """Manually Run Sync"""
         if not (hasattr(self, "id") and self.id):
@@ -195,6 +179,22 @@ class Sync:
             "POST",
             "/syncs/" + path_value(params["id"]) + "/manual_run",
             params,
+        )
+
+    def dry_run(self, params: dict[str, Any] | None = None) -> None:
+        """Dry Run Sync"""
+        if not (hasattr(self, "id") and self.id):
+            raise MissingParameterError("Current object doesn't have a id")
+        params = copy_params(params, {"id": self.id})
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        operation = Operation.start(self._scope())
+        operation.request(
+            "POST", "/syncs/" + path_value(params["id"]) + "/dry_run", params
         )
 
     def update(self, params: dict[str, Any] | None = None) -> None:
@@ -664,33 +664,6 @@ class SyncResource:
         response = operation.request("POST", "/syncs", params)
         return operation.decode_model(response, Sync)
 
-    def dry_run(
-        self,
-        id: int,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> None:
-        """Dry Run Sync"""
-        return self.__dry_run({"id": id}, params, options)
-
-    def __dry_run(
-        self,
-        path_values: dict[str, Any],
-        params: dict[str, Any] | None,
-        options: RequestOptions | Mapping[str, Any] | None,
-    ) -> None:
-        params = copy_params(params, path_values)
-        if "id" in params and (
-            not isinstance(params["id"], int) or isinstance(params["id"], bool)
-        ):
-            raise InvalidParameterError("Bad parameter: id must be an int")
-        if "id" not in params:
-            raise MissingParameterError("Parameter missing: id")
-        operation = Operation.start(self._scope, options)
-        operation.request(
-            "POST", "/syncs/" + path_value(params["id"]) + "/dry_run", params
-        )
-
     def manual_run(
         self,
         id: int,
@@ -718,6 +691,33 @@ class SyncResource:
             "POST",
             "/syncs/" + path_value(params["id"]) + "/manual_run",
             params,
+        )
+
+    def dry_run(
+        self,
+        id: int,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> None:
+        """Dry Run Sync"""
+        return self.__dry_run({"id": id}, params, options)
+
+    def __dry_run(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> None:
+        params = copy_params(params, path_values)
+        if "id" in params and (
+            not isinstance(params["id"], int) or isinstance(params["id"], bool)
+        ):
+            raise InvalidParameterError("Bad parameter: id must be an int")
+        if "id" not in params:
+            raise MissingParameterError("Parameter missing: id")
+        operation = Operation.start(self._scope, options)
+        operation.request(
+            "POST", "/syncs/" + path_value(params["id"]) + "/dry_run", params
         )
 
     def update(
@@ -1025,15 +1025,6 @@ def create(
     return _legacy_resource.create(params, options)
 
 
-def dry_run(
-    id: int,
-    params: dict[str, Any] | None = None,
-    options: RequestOptions | Mapping[str, Any] | None = None,
-) -> None:
-    """Dry Run Sync"""
-    _legacy_resource.dry_run(id, params, options)
-
-
 def manual_run(
     id: int,
     params: dict[str, Any] | None = None,
@@ -1041,6 +1032,15 @@ def manual_run(
 ) -> None:
     """Manually Run Sync"""
     _legacy_resource.manual_run(id, params, options)
+
+
+def dry_run(
+    id: int,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> None:
+    """Dry Run Sync"""
+    _legacy_resource.dry_run(id, params, options)
 
 
 def update(

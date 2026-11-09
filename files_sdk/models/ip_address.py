@@ -119,7 +119,7 @@ class IpAddressResource:
         """The same as list()."""
         return self.list(params, options)
 
-    def get_smartfile_reserved(
+    def get_reserved(
         self,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
@@ -140,11 +140,7 @@ class IpAddressResource:
             )
         operation = Operation.start(self._scope, options)
         return ListObj(
-            PublicIpAddress,
-            "GET",
-            "/ip_addresses/smartfile-reserved",
-            params,
-            operation,
+            PublicIpAddress, "GET", "/ip_addresses/reserved", params, operation
         )
 
     def get_exavault_reserved(
@@ -175,7 +171,7 @@ class IpAddressResource:
             operation,
         )
 
-    def get_reserved(
+    def get_smartfile_reserved(
         self,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
@@ -196,7 +192,11 @@ class IpAddressResource:
             )
         operation = Operation.start(self._scope, options)
         return ListObj(
-            PublicIpAddress, "GET", "/ip_addresses/reserved", params, operation
+            PublicIpAddress,
+            "GET",
+            "/ip_addresses/smartfile-reserved",
+            params,
+            operation,
         )
 
     def new(
@@ -233,7 +233,7 @@ def all(
     return _legacy_resource.list(params, options)
 
 
-def get_smartfile_reserved(
+def get_reserved(
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> ListObj[PublicIpAddress]:
@@ -241,7 +241,7 @@ def get_smartfile_reserved(
     cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
     per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
     """
-    return _legacy_resource.get_smartfile_reserved(params, options)
+    return _legacy_resource.get_reserved(params, options)
 
 
 def get_exavault_reserved(
@@ -255,7 +255,7 @@ def get_exavault_reserved(
     return _legacy_resource.get_exavault_reserved(params, options)
 
 
-def get_reserved(
+def get_smartfile_reserved(
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> ListObj[PublicIpAddress]:
@@ -263,7 +263,7 @@ def get_reserved(
     cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
     per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
     """
-    return _legacy_resource.get_reserved(params, options)
+    return _legacy_resource.get_smartfile_reserved(params, options)
 
 
 def new(*args, **kwargs) -> IpAddress:

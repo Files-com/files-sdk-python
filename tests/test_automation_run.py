@@ -6,15 +6,6 @@ from files_sdk import automation_run
 
 class AutomationRunTest(TestBase):
     # Instance Methods
-    def test_instance_cancel(self):
-        params = {
-            "id": 12345,
-        }
-        automation_run = AutomationRun(params)
-        result = automation_run.cancel(params)
-        self.assert_returns(AutomationRun.cancel, result)
-        self.assert_typed(automation_run)
-
     def test_instance_rerun(self):
         params = {
             "id": 12345,
@@ -23,6 +14,15 @@ class AutomationRunTest(TestBase):
         automation_run = AutomationRun(params)
         result = automation_run.rerun(params)
         self.assert_returns(AutomationRun.rerun, result)
+        self.assert_typed(automation_run)
+
+    def test_instance_cancel(self):
+        params = {
+            "id": 12345,
+        }
+        automation_run = AutomationRun(params)
+        result = automation_run.cancel(params)
+        self.assert_returns(AutomationRun.cancel, result)
         self.assert_typed(automation_run)
 
     # Static Methods
@@ -53,15 +53,6 @@ class AutomationRunTest(TestBase):
         self.assert_returns(automation_run.find_node, result)
         self.assert_typed(result)
 
-    def test_cancel(self):
-        id = 12345
-        params = {
-            "id": 12345,
-        }
-        result = automation_run.cancel(id, params)
-        self.assert_returns(automation_run.cancel, result)
-        self.assert_typed(result)
-
     def test_rerun(self):
         id = 12345
         params = {
@@ -70,6 +61,15 @@ class AutomationRunTest(TestBase):
         }
         result = automation_run.rerun(id, params)
         self.assert_returns(automation_run.rerun, result)
+        self.assert_typed(result)
+
+    def test_cancel(self):
+        id = 12345
+        params = {
+            "id": 12345,
+        }
+        result = automation_run.cancel(id, params)
+        self.assert_returns(automation_run.cancel, result)
         self.assert_typed(result)
 
 

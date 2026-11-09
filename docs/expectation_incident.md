@@ -78,10 +78,10 @@ files_sdk.expectation_incident.find(id)
 
 ---
 
-## Resolve an expectation incident
+## Acknowledge an expectation incident
 
 ```python
-files_sdk.expectation_incident.resolve(id)
+files_sdk.expectation_incident.acknowledge(id)
 ```
 
 ### Parameters
@@ -107,10 +107,10 @@ files_sdk.expectation_incident.snooze(id, {
 
 ---
 
-## Acknowledge an expectation incident
+## Resolve an expectation incident
 
 ```python
-files_sdk.expectation_incident.acknowledge(id)
+files_sdk.expectation_incident.resolve(id)
 ```
 
 ### Parameters
@@ -120,11 +120,11 @@ files_sdk.expectation_incident.acknowledge(id)
 
 ---
 
-## Resolve an expectation incident
+## Acknowledge an expectation incident
 
 ```python
 expectation_incident = files_sdk.expectation_incident.find(id)
-expectation_incident.resolve()
+expectation_incident.acknowledge()
 ```
 
 ### Parameters
@@ -151,11 +151,11 @@ expectation_incident.snooze({
 
 ---
 
-## Acknowledge an expectation incident
+## Resolve an expectation incident
 
 ```python
 expectation_incident = files_sdk.expectation_incident.find(id)
-expectation_incident.acknowledge()
+expectation_incident.resolve()
 ```
 
 ### Parameters

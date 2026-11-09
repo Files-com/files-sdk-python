@@ -368,8 +368,8 @@ class User:
             return self._context
         return LegacyScope(self.options)
 
-    def unlock(self, params: dict[str, Any] | None = None) -> None:
-        """Unlock user who has been locked out due to failed logins"""
+    def user_2fa_reset(self, params: dict[str, Any] | None = None) -> None:
+        """Trigger 2FA Reset process for user who has lost access to their existing 2FA methods"""
         if not (hasattr(self, "id") and self.id):
             raise MissingParameterError("Current object doesn't have a id")
         params = copy_params(params, {"id": self.id})
@@ -381,7 +381,7 @@ class User:
             raise InvalidParameterError("Bad parameter: id must be an int")
         operation = Operation.start(self._scope())
         operation.request(
-            "POST", "/users/" + path_value(params["id"]) + "/unlock", params
+            "POST", "/users/" + path_value(params["id"]) + "/2fa/reset", params
         )
 
     def resend_welcome_email(
@@ -404,8 +404,8 @@ class User:
             params,
         )
 
-    def user_2fa_reset(self, params: dict[str, Any] | None = None) -> None:
-        """Trigger 2FA Reset process for user who has lost access to their existing 2FA methods"""
+    def unlock(self, params: dict[str, Any] | None = None) -> None:
+        """Unlock user who has been locked out due to failed logins"""
         if not (hasattr(self, "id") and self.id):
             raise MissingParameterError("Current object doesn't have a id")
         params = copy_params(params, {"id": self.id})
@@ -417,7 +417,7 @@ class User:
             raise InvalidParameterError("Bad parameter: id must be an int")
         operation = Operation.start(self._scope())
         operation.request(
-            "POST", "/users/" + path_value(params["id"]) + "/2fa/reset", params
+            "POST", "/users/" + path_value(params["id"]) + "/unlock", params
         )
 
     def update(self, params: dict[str, Any] | None = None) -> None:
@@ -1578,16 +1578,16 @@ class UserResource:
         response = operation.request("POST", "/users", params)
         return operation.decode_model(response, User)
 
-    def unlock(
+    def user_2fa_reset(
         self,
         id: int,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> None:
-        """Unlock user who has been locked out due to failed logins"""
-        return self.__unlock({"id": id}, params, options)
+        """Trigger 2FA Reset process for user who has lost access to their existing 2FA methods"""
+        return self.__user_2fa_reset({"id": id}, params, options)
 
-    def __unlock(
+    def __user_2fa_reset(
         self,
         path_values: dict[str, Any],
         params: dict[str, Any] | None,
@@ -1602,7 +1602,7 @@ class UserResource:
             raise MissingParameterError("Parameter missing: id")
         operation = Operation.start(self._scope, options)
         operation.request(
-            "POST", "/users/" + path_value(params["id"]) + "/unlock", params
+            "POST", "/users/" + path_value(params["id"]) + "/2fa/reset", params
         )
 
     def resend_welcome_email(
@@ -1634,16 +1634,16 @@ class UserResource:
             params,
         )
 
-    def user_2fa_reset(
+    def unlock(
         self,
         id: int,
         params: dict[str, Any] | None = None,
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> None:
-        """Trigger 2FA Reset process for user who has lost access to their existing 2FA methods"""
-        return self.__user_2fa_reset({"id": id}, params, options)
+        """Unlock user who has been locked out due to failed logins"""
+        return self.__unlock({"id": id}, params, options)
 
-    def __user_2fa_reset(
+    def __unlock(
         self,
         path_values: dict[str, Any],
         params: dict[str, Any] | None,
@@ -1658,7 +1658,7 @@ class UserResource:
             raise MissingParameterError("Parameter missing: id")
         operation = Operation.start(self._scope, options)
         operation.request(
-            "POST", "/users/" + path_value(params["id"]) + "/2fa/reset", params
+            "POST", "/users/" + path_value(params["id"]) + "/unlock", params
         )
 
     def update(
@@ -2350,13 +2350,13 @@ def create(
     return _legacy_resource.create(params, options)
 
 
-def unlock(
+def user_2fa_reset(
     id: int,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> None:
-    """Unlock user who has been locked out due to failed logins"""
-    _legacy_resource.unlock(id, params, options)
+    """Trigger 2FA Reset process for user who has lost access to their existing 2FA methods"""
+    _legacy_resource.user_2fa_reset(id, params, options)
 
 
 def resend_welcome_email(
@@ -2368,13 +2368,13 @@ def resend_welcome_email(
     _legacy_resource.resend_welcome_email(id, params, options)
 
 
-def user_2fa_reset(
+def unlock(
     id: int,
     params: dict[str, Any] | None = None,
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> None:
-    """Trigger 2FA Reset process for user who has lost access to their existing 2FA methods"""
-    _legacy_resource.user_2fa_reset(id, params, options)
+    """Unlock user who has been locked out due to failed logins"""
+    _legacy_resource.unlock(id, params, options)
 
 
 def update(

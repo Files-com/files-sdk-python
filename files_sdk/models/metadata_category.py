@@ -192,6 +192,48 @@ class MetadataCategoryResource:
         """The same as list()."""
         return self.list(params, options)
 
+    def list_for(
+        self,
+        path: str,
+        params: dict[str, Any] | None = None,
+        options: RequestOptions | Mapping[str, Any] | None = None,
+    ) -> ListObj[MetadataCategory]:
+        """Parameters:
+        path (required) - string - Path to operate on.
+        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+        """
+        return self.__list_for({"path": path}, params, options)
+
+    def __list_for(
+        self,
+        path_values: dict[str, Any],
+        params: dict[str, Any] | None,
+        options: RequestOptions | Mapping[str, Any] | None,
+    ) -> ListObj[MetadataCategory]:
+        params = copy_params(params, path_values)
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        if "cursor" in params and not isinstance(params["cursor"], str):
+            raise InvalidParameterError("Bad parameter: cursor must be an str")
+        if "per_page" in params and (
+            not isinstance(params["per_page"], int)
+            or isinstance(params["per_page"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: per_page must be an int"
+            )
+        if "path" not in params:
+            raise MissingParameterError("Parameter missing: path")
+        operation = Operation.start(self._scope, options)
+        return ListObj(
+            MetadataCategory,
+            "GET",
+            "/metadata_categories/list_by_path/" + path_value(params["path"]),
+            params,
+            operation,
+        )
+
     def find(
         self,
         id: int,
@@ -230,48 +272,6 @@ class MetadataCategoryResource:
     ) -> MetadataCategory:
         """The same as find()."""
         return self.find(id, params, options)
-
-    def list_for(
-        self,
-        path: str,
-        params: dict[str, Any] | None = None,
-        options: RequestOptions | Mapping[str, Any] | None = None,
-    ) -> ListObj[MetadataCategory]:
-        """Parameters:
-        cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-        per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-        path (required) - string - Path to operate on.
-        """
-        return self.__list_for({"path": path}, params, options)
-
-    def __list_for(
-        self,
-        path_values: dict[str, Any],
-        params: dict[str, Any] | None,
-        options: RequestOptions | Mapping[str, Any] | None,
-    ) -> ListObj[MetadataCategory]:
-        params = copy_params(params, path_values)
-        if "cursor" in params and not isinstance(params["cursor"], str):
-            raise InvalidParameterError("Bad parameter: cursor must be an str")
-        if "per_page" in params and (
-            not isinstance(params["per_page"], int)
-            or isinstance(params["per_page"], bool)
-        ):
-            raise InvalidParameterError(
-                "Bad parameter: per_page must be an int"
-            )
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
-        if "path" not in params:
-            raise MissingParameterError("Parameter missing: path")
-        operation = Operation.start(self._scope, options)
-        return ListObj(
-            MetadataCategory,
-            "GET",
-            "/metadata_categories/list_by_path/" + path_value(params["path"]),
-            params,
-            operation,
-        )
 
     def create(
         self,
@@ -408,6 +408,19 @@ def all(
     return _legacy_resource.list(params, options)
 
 
+def list_for(
+    path: str,
+    params: dict[str, Any] | None = None,
+    options: RequestOptions | Mapping[str, Any] | None = None,
+) -> ListObj[MetadataCategory]:
+    """Parameters:
+    path (required) - string - Path to operate on.
+    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+    """
+    return _legacy_resource.list_for(path, params, options)
+
+
 def find(
     id: int,
     params: dict[str, Any] | None = None,
@@ -426,19 +439,6 @@ def get(
 ) -> MetadataCategory:
     """The same as find()."""
     return _legacy_resource.find(id, params, options)
-
-
-def list_for(
-    path: str,
-    params: dict[str, Any] | None = None,
-    options: RequestOptions | Mapping[str, Any] | None = None,
-) -> ListObj[MetadataCategory]:
-    """Parameters:
-    cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-    per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-    path (required) - string - Path to operate on.
-    """
-    return _legacy_resource.list_for(path, params, options)
 
 
 def create(

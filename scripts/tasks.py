@@ -411,7 +411,9 @@ def install_check(dependencies, artifact):
 # against one server, each in a folder of its own, and writes each case's
 # evidence to the launcher's DIR/api-scenarios. The file-upload run starts
 # another server with the same preset for tests/test_file_upload.py, whose
-# tests reset that server, and only that one, to the preset's own reset.
+# tests reset that server, and only that one, to the preset's own reset. The
+# failure-cases run is the shared failure-case matrix: its launcher adds the
+# scenario's fault rules and checks every case's attempts and decisions.
 SCENARIOS = {
     "folder-list": ("folder-list", "tests.test_shared_folder_list"),
     "api-scenarios-canonical": (
@@ -419,6 +421,7 @@ SCENARIOS = {
         "scenarios.api_scenarios",
     ),
     "file-upload": ("api-scenarios-canonical", "tests.test_file_upload"),
+    "failure-cases": ("failure-cases", "tests.test_shared_failure_cases"),
 }
 # The launcher options a run adds before its "--", if any; a run without
 # any, such as file-upload, has the launcher's default time limits. The
@@ -432,6 +435,8 @@ SCENARIOS = {
 # own, 2 seconds to connect and 30 to answer. How long this adds to the
 # Python job is measured only by running it.
 SCENARIO_OPTIONS = {
+    # The SDK's own retries resend a dropped request (see the scenario's variants).
+    "failure-cases": ("--failure-variant", "sdk-network-retries"),
     "api-scenarios-canonical": (
         "--startup-timeout",
         30,

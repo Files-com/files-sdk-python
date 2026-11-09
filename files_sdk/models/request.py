@@ -182,11 +182,11 @@ class RequestResource:
         options: RequestOptions | Mapping[str, Any] | None = None,
     ) -> ListObj[Request]:
         """Parameters:
+        path (required) - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
         cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
         per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
         sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
         mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
-        path (required) - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
         """
         return self.__get_folder({"path": path}, params, options)
 
@@ -197,6 +197,8 @@ class RequestResource:
         options: RequestOptions | Mapping[str, Any] | None,
     ) -> ListObj[Request]:
         params = copy_params(params, path_values)
+        if "path" in params and not isinstance(params["path"], str):
+            raise InvalidParameterError("Bad parameter: path must be an str")
         if "cursor" in params and not isinstance(params["cursor"], str):
             raise InvalidParameterError("Bad parameter: cursor must be an str")
         if "per_page" in params and (
@@ -212,8 +214,6 @@ class RequestResource:
             )
         if "mine" in params and not isinstance(params["mine"], bool):
             raise InvalidParameterError("Bad parameter: mine must be an bool")
-        if "path" in params and not isinstance(params["path"], str):
-            raise InvalidParameterError("Bad parameter: path must be an str")
         if "path" not in params:
             raise MissingParameterError("Parameter missing: path")
         operation = Operation.start(self._scope, options)
@@ -339,11 +339,11 @@ def get_folder(
     options: RequestOptions | Mapping[str, Any] | None = None,
 ) -> ListObj[Request]:
     """Parameters:
+    path (required) - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
     cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
     per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
     sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
     mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
-    path (required) - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
     """
     return _legacy_resource.get_folder(path, params, options)
 
