@@ -378,51 +378,93 @@ class TestParallelUploads(UploadTestCase):
         self.assertEqual([], service.finishes)
 
     def test_a_part_refused_for_another_reason_is_not_renewed(self):
-        service = UploadService(
-            self, part_size=4, grant={"parallel_parts": False}
-        )
-        service.fail(
-            2,
-            status=403,
-            body=b"<Error><Code>AccessDenied</Code><Message>Access Denied</Message></Error>",
-        )
+        for status, body in (
+            (
+                403,
+                b"<Error><Code>AccessDenied</Code><Message>Access Denied</Message></Error>",
+            ),
+            # An expired type counts only with HTTP 400 or 403.
+            (
+                401,
+                {
+                    "type": "upload_request_expired",
+                    "error": "Upload request expired",
+                },
+            ),
+            (
+                422,
+                {
+                    "type": "download_request_expired",
+                    "error": "Download request expired",
+                },
+            ),
+        ):
+            with self.subTest(status=status):
+                service = UploadService(
+                    self, part_size=4, grant={"parallel_parts": False}
+                )
+                service.fail(2, status=status, body=body)
 
-        with self.assertRaises(APIError) as caught:
-            self.client(service).file.upload_file(
-                self.local(b"abcdefghij"), "reports/a.txt"
-            )
+                with self.assertRaises(APIError) as caught:
+                    self.client(service).file.upload_file(
+                        self.local(b"abcdefghij"), "reports/a.txt"
+                    )
 
-        self.assertEqual(403, caught.exception.http_status)
-        self.assertEqual([1, 2], service.puts)
-        self.assertEqual(1, service.issued[2])  # No renewal of part 2.
-        self.assertEqual([], service.finishes)
-        # The error names the file it was uploading; the storage answer and
-        # URL stay out of it.
-        self.assertEqual(
-            "HTTP 403 Transfer request failed for the upload of reports/a.txt",
-            str(caught.exception),
-        )
-        for private in ("AccessDenied", "/storage/", "issue="):
-            self.assertNotIn(private, str(caught.exception))
+                self.assertEqual(status, caught.exception.http_status)
+                self.assertEqual([1, 2], service.puts)
+                self.assertEqual(1, service.issued[2])  # No renewal of part 2.
+                self.assertEqual([], service.finishes)
+                # The error names the file it was uploading; the storage answer and
+                # URL stay out of it.
+                self.assertEqual(
+                    "HTTP {} Transfer request failed for the upload of reports/a.txt".format(
+                        status
+                    ),
+                    str(caught.exception),
+                )
+                for private in ("AccessDenied", "/storage/", "issue="):
+                    self.assertNotIn(private, str(caught.exception))
 
-    def test_a_part_refused_as_expired_is_not_renewed_when_parts_may_not_be_sent_again(
+    def test_a_part_refused_as_expired_is_not_sent_again_when_parts_may_not_be_sent_again(
         self,
     ):
-        service = UploadService(
-            self, part_size=4, grant={"retry_parts": False}
-        )
-        status, body = EXPIRED["aws"]
-        service.fail(1, status=status, body=body)
+        # Files.com says so for the part it first gave, or only when renewing its URL.
+        for withdrawn_by_renewal, issued in ((False, 1), (True, 2)):
+            with self.subTest(withdrawn_by_renewal=withdrawn_by_renewal):
+                service = UploadService(
+                    self,
+                    part_size=4,
+                    grant={"retry_parts": withdrawn_by_renewal},
+                )
+                if withdrawn_by_renewal:
+                    original = service.describe
 
-        with self.assertRaises(APIError) as caught:
-            self.client(service).file.upload_file(self.local(b"abcd"), "a.txt")
+                    def describe(
+                        ref, number, service=service, original=original
+                    ):
+                        record = original(ref, number)
+                        if service.issued[number] > 1:
+                            record["retry_parts"] = False
+                        return record
 
-        self.assertEqual([1], service.puts)
-        self.assertEqual(1, service.issued[1])
-        self.assertIn(
-            "does not allow parts of this upload to be sent again",
-            "".join(caught.exception.__notes__),
-        )
+                    service.describe = describe
+                status, body = EXPIRED["aws"]
+                service.fail(1, status=status, body=body)
+
+                with self.assertRaises(APIError) as caught:
+                    self.client(service).file.upload_file(
+                        self.local(b"abcd"), "a.txt"
+                    )
+
+                # Storage's refusal, and the part was sent only once.
+                self.assertEqual(403, caught.exception.http_status)
+                self.assertEqual([1], service.puts)
+                self.assertEqual(issued, service.issued[1])
+                self.assertEqual([], service.finishes)
+                self.assertIn(
+                    "does not allow parts of this upload to be sent again",
+                    "".join(caught.exception.__notes__),
+                )
 
     def test_a_renewal_that_changes_a_parts_size_stops_before_sending_it(self):
         service = UploadService(

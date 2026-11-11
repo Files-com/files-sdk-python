@@ -152,6 +152,9 @@ _EXPIRY_MARGIN = 60
 # Renewals of one part's URL once it has expired, before or after sending it.
 _MAX_RENEWALS = 2
 
+# The Files.com error types that say a transfer URL has expired, matched exactly.
+_EXPIRED_TYPES = ("download_request_expired", "upload_request_expired")
+
 # The one way of sending a part that Files.com describes: the part's bytes
 # as the request body, with its length in Content-Length.
 _BODY_SEND = {"partsize": "required-header Content-Length", "partdata": "body"}
@@ -590,10 +593,17 @@ def expiring(expires):
 
 def refused_as_expired(error, expires):
     """Whether storage refused a signed URL that expires at expires because
-    it has expired: its answer says so (see api_client), or it is a 403 once
-    that time has come. Any other refusal, a 403 included, is not."""
-    return getattr(error, "files_storage_expired", False) or (
-        error.http_status == 403 and expiring(expires)
+    it has expired: its answer says so, in a storage service's error (see
+    api_client) or as a Files.com error of an expired type with HTTP 400 or
+    403, or it is a 403 once that time has come. Any other refusal, a 403
+    included, is not."""
+    return (
+        getattr(error, "files_storage_expired", False)
+        or (
+            error.http_status in (400, 403)
+            and error.error_type in _EXPIRED_TYPES
+        )
+        or (error.http_status == 403 and expiring(expires))
     )
 
 
@@ -1833,7 +1843,10 @@ class _Session:
                     ):
                         renewals += 1
                         part.grant = grant = self.renew(operation, part)
-                        continue
+                        if grant.retry:
+                            continue
+                        # The renewal withdrew permission to send the part
+                        # again: it fails with storage's refusal.
                     if not grant.retry:
                         error.add_note(
                             "Files.com does not allow parts of this upload to be "

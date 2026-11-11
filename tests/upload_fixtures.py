@@ -32,7 +32,8 @@ SITE_DISABLED = {
     "http-code": 422,
 }
 
-# How storage services refuse a signed URL that has expired: status and body.
+# How storage services, and Files.com for a URL it serves, refuse a signed
+# URL that has expired: status and body (a dict is sent as JSON).
 EXPIRED = {
     "aws": (
         403,
@@ -46,6 +47,10 @@ EXPIRED = {
         403,
         b"<Error><Code>AuthenticationFailed</Code><AuthenticationErrorDetail>Signature not valid in the "
         b"specified time frame</AuthenticationErrorDetail></Error>",
+    ),
+    "files": (
+        403,
+        {"type": "upload_request_expired", "error": "Upload request expired"},
     ),
 }
 

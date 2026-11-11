@@ -1077,34 +1077,96 @@ class TestDownloadFailures(DownloadTestCase):
         self,
     ):
         data = content(3000)
-        expired = b"<Error><Code>ExpiredToken</Code><Message>The provided token has expired.</Message></Error>"
-        denied = b"<Error><Code>AccessDenied</Code><Message>Access Denied</Message></Error>"
+        expired = {
+            "storage": (
+                400,
+                b"<Error><Code>ExpiredToken</Code><Message>The provided token has expired.</Message></Error>",
+            ),
+            "files": (
+                403,
+                json.dumps(
+                    {
+                        "type": "download_request_expired",
+                        "error": "Download request expired",
+                    }
+                ).encode(),
+            ),
+        }
+        denied = {
+            "storage": (
+                403,
+                b"<Error><Code>AccessDenied</Code><Message>Access Denied</Message></Error>",
+            ),
+            # Only an expired type says so in a structured refusal, never its words.
+            "files": (
+                403,
+                json.dumps(
+                    {
+                        "type": "not-authenticated/invalid-or-expired-code",
+                        "error": "Request has expired",
+                    }
+                ).encode(),
+            ),
+            # Nor do the words of JSON that is not an object, or does not parse.
+            "json other type": (
+                403,
+                b'{"type":"not_authorized","error":"Request has expired"}',
+            ),
+            "json other data": (
+                403,
+                b'{"type":"other","data":"<Code>ExpiredToken</Code>"}',
+            ),
+            "json array": (403, b'[{"Message":"Request has expired"}]'),
+            "json string": (403, b'"Request has expired"'),
+            "malformed json object": (403, b'{"error":"Request has expired"'),
+            "malformed json array": (
+                403,
+                b'[{"Message":"<Code>ExpiredToken</Code>"',
+            ),
+            # And an expired type counts only with HTTP 400 or 403.
+            "expired type with 401": (
+                401,
+                json.dumps(
+                    {"type": "download_request_expired", "error": "expired"}
+                ).encode(),
+            ),
+            "expired type with 422": (
+                422,
+                json.dumps(
+                    {"type": "upload_request_expired", "error": "expired"}
+                ).encode(),
+            ),
+        }
         for label, identity in self.expiry_cases():
-            with self.subTest(label, answer="expired"):
-                service = DownloadService(self, data)
-                service.identity = identity
-                service.first_answer = (400, expired)
-                output = io.BytesIO()
-                self.client(service).file.download_stream(
-                    "a.bin", output, max_concurrency=1
-                )
-                self.assertEqual(output.getvalue(), data)
-                self.assertEqual(service.issued, 2)
-            with self.subTest(label, answer="denied"):
-                service = DownloadService(self, data)
-                service.identity = identity
-                service.first_answer = (403, denied)
-                with self.assertRaises(APIError) as caught:
+            for source, answer in expired.items():
+                with self.subTest(label, expired=source):
+                    service = DownloadService(self, data)
+                    service.identity = identity
+                    service.first_answer = answer
+                    output = io.BytesIO()
                     self.client(service).file.download_stream(
-                        "a.bin", io.BytesIO(), max_concurrency=1
+                        "a.bin", output, max_concurrency=1
                     )
-                self.assertEqual(caught.exception.http_status, 403)
-                self.assertEqual(service.issued, 1)
-                self.assertEqual(
-                    str(caught.exception),
-                    "HTTP 403 Transfer request failed for the download of a.bin",
-                )
-                self.assertNotIn("AccessDenied", str(caught.exception))
+                    self.assertEqual(output.getvalue(), data)
+                    self.assertEqual(service.issued, 2)
+            for source, (status, body) in denied.items():
+                with self.subTest(label, denied=source):
+                    service = DownloadService(self, data)
+                    service.identity = identity
+                    service.first_answer = (status, body)
+                    with self.assertRaises(APIError) as caught:
+                        self.client(service).file.download_stream(
+                            "a.bin", io.BytesIO(), max_concurrency=1
+                        )
+                    self.assertEqual(caught.exception.http_status, status)
+                    self.assertEqual(service.issued, 1)
+                    self.assertEqual(
+                        str(caught.exception),
+                        "HTTP {} Transfer request failed for the download of a.bin".format(
+                            status
+                        ),
+                    )
+                    self.assertNotIn("AccessDenied", str(caught.exception))
             with self.subTest(label, answer="structured"):
                 # A JSON refusal keeps the SDK error class its type names,
                 # and what storage said stays in the error's body only.

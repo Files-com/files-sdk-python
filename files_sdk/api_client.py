@@ -283,11 +283,17 @@ _EXPIRED_MARKERS = (
 
 def _storage_says_expired(response):
     """Whether a storage refusal says the signed URL it was sent to has
-    expired. Only this answer is kept, never the body."""
+    expired. Only this answer is kept, never the body. It looks at the
+    first 4096 bytes of a body the transfer has already read whole: that
+    bounds the search, not what is read. A body that starts as JSON does
+    (an array or string, or JSON that does not parse) is not storage's XML
+    error, and only an expired type says so in JSON (see upload)."""
     if response.status_code not in (400, 403):
         return False
-    body = (response.content or b"")[:4096].lower()
-    return any(marker in body for marker in _EXPIRED_MARKERS)
+    body = (response.content or b"")[:4096]
+    if body.lstrip()[:1] in (b"{", b"[", b'"'):
+        return False
+    return any(marker in body.lower() for marker in _EXPIRED_MARKERS)
 
 
 def _for_transfer(error, subject):
