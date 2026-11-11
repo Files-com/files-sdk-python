@@ -44,6 +44,7 @@ class Expectation:
         schedule_time_zone: string - Time zone used by the Expectation schedule.
         holiday_region: string - Optional holiday region used by the Expectation schedule.
         lookback_interval: int64 - How many seconds before the due boundary the window starts.
+        schedule_time_exceptions: array(object) - Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
         late_acceptance_interval: int64 - How many seconds a schedule-driven window may remain eligible to close as late.
         inactivity_interval: int64 - How many quiet seconds are required before final closure.
         max_open_interval: int64 - Hard-stop duration in seconds for unscheduled expectations.
@@ -76,6 +77,7 @@ class Expectation:
         "schedule_time_zone": None,  # string - Time zone used by the Expectation schedule.
         "holiday_region": None,  # string - Optional holiday region used by the Expectation schedule.
         "lookback_interval": None,  # int64 - How many seconds before the due boundary the window starts.
+        "schedule_time_exceptions": None,  # array(object) - Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
         "late_acceptance_interval": None,  # int64 - How many seconds a schedule-driven window may remain eligible to close as late.
         "inactivity_interval": None,  # int64 - How many quiet seconds are required before final closure.
         "max_open_interval": None,  # int64 - Hard-stop duration in seconds for unscheduled expectations.
@@ -110,6 +112,7 @@ class Expectation:
     schedule_time_zone: str | None
     holiday_region: str | None
     lookback_interval: int | None
+    schedule_time_exceptions: builtins.list[dict[str, Any]] | None
     late_acceptance_interval: int | None
     inactivity_interval: int | None
     max_open_interval: int | None
@@ -198,6 +201,7 @@ class Expectation:
           schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
           schedule_time_zone - string - Time zone used by the Expectation schedule.
           holiday_region - string - Optional holiday region used by the Expectation schedule.
+          schedule_time_exceptions - array(object) - Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
           lookback_interval - int64 - How many seconds before the due boundary the window starts.
           late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
           inactivity_interval - int64 - How many quiet seconds are required before final closure.
@@ -289,6 +293,12 @@ class Expectation:
         ):
             raise InvalidParameterError(
                 "Bad parameter: holiday_region must be an str"
+            )
+        if "schedule_time_exceptions" in params and not isinstance(
+            params["schedule_time_exceptions"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_time_exceptions must be an list"
             )
         if "lookback_interval" in params and (
             not isinstance(params["lookback_interval"], int)
@@ -475,6 +485,7 @@ class ExpectationResource:
         schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
         schedule_time_zone - string - Time zone used by the Expectation schedule.
         holiday_region - string - Optional holiday region used by the Expectation schedule.
+        schedule_time_exceptions - array(object) - Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
         lookback_interval - int64 - How many seconds before the due boundary the window starts.
         late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
         inactivity_interval - int64 - How many quiet seconds are required before final closure.
@@ -556,6 +567,12 @@ class ExpectationResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: holiday_region must be an str"
+            )
+        if "schedule_time_exceptions" in params and not isinstance(
+            params["schedule_time_exceptions"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_time_exceptions must be an list"
             )
         if "lookback_interval" in params and (
             not isinstance(params["lookback_interval"], int)
@@ -654,6 +671,7 @@ class ExpectationResource:
         schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
         schedule_time_zone - string - Time zone used by the Expectation schedule.
         holiday_region - string - Optional holiday region used by the Expectation schedule.
+        schedule_time_exceptions - array(object) - Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
         lookback_interval - int64 - How many seconds before the due boundary the window starts.
         late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
         inactivity_interval - int64 - How many quiet seconds are required before final closure.
@@ -747,6 +765,12 @@ class ExpectationResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: holiday_region must be an str"
+            )
+        if "schedule_time_exceptions" in params and not isinstance(
+            params["schedule_time_exceptions"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_time_exceptions must be an list"
             )
         if "lookback_interval" in params and (
             not isinstance(params["lookback_interval"], int)
@@ -906,6 +930,7 @@ def create(
     schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
     schedule_time_zone - string - Time zone used by the Expectation schedule.
     holiday_region - string - Optional holiday region used by the Expectation schedule.
+    schedule_time_exceptions - array(object) - Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
     lookback_interval - int64 - How many seconds before the due boundary the window starts.
     late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
     inactivity_interval - int64 - How many quiet seconds are required before final closure.
@@ -946,6 +971,7 @@ def update(
     schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
     schedule_time_zone - string - Time zone used by the Expectation schedule.
     holiday_region - string - Optional holiday region used by the Expectation schedule.
+    schedule_time_exceptions - array(object) - Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
     lookback_interval - int64 - How many seconds before the due boundary the window starts.
     late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
     inactivity_interval - int64 - How many quiet seconds are required before final closure.
