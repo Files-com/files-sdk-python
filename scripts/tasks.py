@@ -254,7 +254,7 @@ def pyright():
         for name in ("package.json", "package-lock.json"):
             shutil.copy(lock_dir / name, path)
         # fsevents is optional and only watches files; skip it and its
-        # install script. Refuse packages published in the last 14 days.
+        # install script. Refuse packages published in the last 5 days.
         run(
             npm,
             "ci",
@@ -262,7 +262,7 @@ def pyright():
             "--ignore-scripts",
             "--no-audit",
             "--no-fund",
-            "--min-release-age=14",
+            "--min-release-age=5",
             cwd=path,
         )
         stamp_file.write_text(stamp)
