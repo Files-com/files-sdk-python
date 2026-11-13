@@ -16,7 +16,9 @@ run's own user and API key as created_by_id and created_by_api_key_id, each a
 raw JSON integer (api.json /backends/site).
 
 python scripts/tasks.py scenarios runs this module under the shared mock
-server's api-scenarios-canonical preset, with the launcher's
+server's api-scenarios-canonical preset, and its files.owned-binary-roundtrip
+case again under api-scenarios-remote-finalize, whose simulator completes
+each upload in the background, each with the launcher's
 --startup-timeout 30, --consumer-timeout 180 and --settle-timeout 5. The
 launcher starts the server and sets FILES_MOCK_SERVER_URL,
 FILES_MOCK_API_KEY, FILES_MOCK_RUN_ID, FILES_MOCK_SCENARIO_FILE and

@@ -273,6 +273,15 @@ These are additions; code that does not use them is not affected.
   value you set yourself is stored as you set it.
 - `UploadTuning(observer=...)` reports each upload's plan, decisions, waits,
   samples of the process's resources and a final record, for comparing runs.
+- Upload helpers let Files.com complete an upload in the background where
+  its destination needs that, such as a remote server mount or an Agent, and
+  still return the File. Until Files.com has it, the SDK asks again a second
+  after each answer that the upload is pending, and calls `progress` with an
+  `UploadProgress` whose `finalizing` is `True` and whose
+  `finalization_progress` is the percentage Files.com gave, or `None`. A stop
+  while it waits, or an answer it cannot use, raises with
+  `remote_outcome_unknown` set: Files.com may still complete the upload.
+  `files_sdk.file.create` is unchanged.
 - Uploads to Amazon S3 without concurrency tuning of their own use the scaled
   S3 policy, warming up from one part; `UploadTuning(startup=files_sdk.UploadStartup.AGGRESSIVE)`
   starts at that policy's start instead. An upload job's files share one

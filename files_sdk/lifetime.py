@@ -187,8 +187,10 @@ class Lifetime:
         if self.stopped:
             raise self.stopped_error(phase)
 
-    def stopped_error(self, phase, remote_outcome_unknown=False):
-        """The error for this operation having stopped during phase."""
+    def stopped_error(self, phase, remote_outcome_unknown=False, outcome=None):
+        """The error for this operation having stopped during phase.
+        outcome, if given, says what the stop leaves undecided, in place of
+        the remark that a request may already have reached the server."""
         reason = self.stop_reason() or "deadline"
         if reason == "closed":
             error_class, what = ClientClosedError, "its client was closed"
@@ -200,7 +202,9 @@ class Lifetime:
         if phase:
             message += " ({})".format(phase)
         message += "."
-        if remote_outcome_unknown:
+        if outcome is not None:
+            message += " " + outcome
+        elif remote_outcome_unknown:
             message += (
                 " The request may already have reached the server, so "
                 "check whether it took effect before repeating it."

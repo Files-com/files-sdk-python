@@ -96,7 +96,11 @@ class UploadService:
     initial_parts is how many parts the first begin_upload of an upload
     describes when it asks for no particular number.
     Hooks change how storage answers: fail(),
-    hang_up(), hold() and expire_first(). Each upload begun gets a new
+    hang_up(), hold() and expire_first(). finish_replies answers the next
+    completion requests that ask for async_finalize, as Files.com answers
+    one it completes in the background for a remote server mount or an
+    Agent: each entry is consumed by one such request, before
+    finish_status and the rest apply. Each upload begun gets a new
     reference (upload-1, upload-2, ...); forget() makes begin_upload answer
     404 for one, as Files.com does once an upload expires, and
     refuse_paths makes it refuse to begin uploads to those paths. A
@@ -139,6 +143,15 @@ class UploadService:
             []
         )  # (time.monotonic(), part number) as each part arrives
         self.finishes = []  # completion request bodies
+        self.finish_requests = (
+            []
+        )  # (headers, raw body) of each completion request, as sent
+        # Answers to the next completion requests that ask for async_finalize:
+        # ("pending", progress) is 202 pending for the request's ref, with
+        # progress unless it is None; (status, body) is that answer, a body
+        # of bytes sent as it is; "hang up" reads the request and closes the
+        # connection.
+        self.finish_replies = collections.deque()
         self.active = 0
         self.max_active = 0
         self.issued = (
@@ -438,9 +451,38 @@ class UploadService:
                     remote = unquote(path[len(API_PREFIX + "/files/") :])
                     with service.lock:
                         service.finishes.append({**params, "path": remote})
+                        service.finish_requests.append(
+                            (dict(self.headers), body)
+                        )
+                        background = (
+                            params.get("async_finalize") is True
+                            and service.finish_replies
+                        )
+                        reply = (
+                            service.finish_replies.popleft()
+                            if background
+                            else None
+                        )
                     if service.on_finish is not None:
                         service.on_finish(remote)
-                    if service.finish_hang_up:
+                    if reply == "hang up":
+                        self.close_connection = True
+                        self.connection.close()
+                    elif reply is not None and reply[0] == "pending":
+                        progress = (
+                            {} if reply[1] is None else {"progress": reply[1]}
+                        )
+                        self.answer(
+                            202,
+                            {
+                                "status": "pending",
+                                "ref": params.get("ref"),
+                                **progress,
+                            },
+                        )
+                    elif reply is not None:
+                        self.answer(*reply)
+                    elif service.finish_hang_up:
                         self.close_connection = True
                         self.connection.close()
                     elif service.finish_body is not None:

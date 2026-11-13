@@ -902,6 +902,72 @@ class TestUploadResume(ResumeTestCase):
         self.assertTrue(again.exception.remote_outcome_unknown)
         self.assertEqual(len(service.finishes), 1)
 
+    def test_a_stop_while_files_com_completes_the_upload_in_the_background_leaves_it_possibly_complete(
+        self,
+    ):
+        # Files.com accepted the upload and goes on completing it: stopping
+        # the wait, or a callback that raises, cannot undo that.
+        patch = mock.patch(
+            "files_sdk.upload._FINALIZE_INTERVALS", (0.01, 0.01, 0.01)
+        )
+        patch.start()
+        self.addCleanup(patch.stop)
+        failure = ValueError("the caller's own")
+        for case in ("cancelled", "deadline", "callback raised"):
+            with self.subTest(case):
+                service = UploadService(self, part_size=1000)
+                service.finish_replies.extend(
+                    [("pending", 10)] * (1000 if case == "deadline" else 1)
+                )
+                source = self.local(content(3000), name=case + ".bin")
+                checkpoint = self.scratch / (case + ".checkpoint")
+                token = files_sdk.CancellationToken()
+                options = (
+                    {"cancel_token": token}
+                    if case != "deadline"
+                    else {"request_timeout": 1.0}
+                )
+
+                def progress(report):
+                    if report.finalizing and case == "cancelled":
+                        token.cancel()
+                    elif report.finalizing and case == "callback raised":
+                        raise failure
+
+                with self.assertRaises(Exception) as caught:
+                    self.client(service).file.upload_file(
+                        source,
+                        "f.bin",
+                        options,
+                        progress=progress,
+                        checkpoint=checkpoint,
+                    )
+
+                if case == "callback raised":
+                    self.assertIs(failure, caught.exception)
+                else:
+                    stopped = caught.exception
+                    expected = (
+                        OperationCancelledError
+                        if case == "cancelled"
+                        else files_sdk.error.DeadlineExceededError
+                    )
+                    self.assertIsInstance(stopped, expected)
+                    self.assertTrue(stopped.remote_outcome_unknown)  # type: ignore[attr-defined]
+                    self.assertIn("may still complete it", str(stopped))
+                sent = len(service.finishes)
+                self.assertGreaterEqual(sent, 1)
+                self.assertEqual(
+                    json.loads(checkpoint.read_text())["state"]["completion"],
+                    "uncertain",
+                )
+                with self.assertRaises(APIConnectionError) as resumed:
+                    self.client(service).file.upload_file(
+                        source, "f.bin", checkpoint=checkpoint
+                    )
+                self.assertIn("may have succeeded", str(resumed.exception))
+                self.assertEqual(len(service.finishes), sent)
+
     def test_a_job_completes_a_file_again_only_when_it_is_known_not_completed(
         self,
     ):

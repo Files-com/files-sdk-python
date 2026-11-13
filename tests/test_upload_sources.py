@@ -65,6 +65,9 @@ class TestUploadSources(unittest.TestCase):
             finish.json,
             {
                 "action": "end",
+                # Completed in the background where Files.com needs to, as
+                # for a remote server mount; elsewhere, in the request.
+                "async_finalize": True,
                 "etags": [{"etag": "etag-1", "part": 1}],
                 "path": "reports/data.bin",
                 # The modification time in UTC, without an offset.

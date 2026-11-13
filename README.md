@@ -1313,8 +1313,11 @@ except files_sdk.error.Error as err:
 ### Progress
 
 Pass a `progress` function. It receives `files_sdk.UploadProgress` on the calling thread, at most four times a
-second and once more after all parts arrive. If it raises, the upload stops its active parts and propagates the
-exception. All bytes accepted does not establish upload completion; wait for the upload call to return.
+second and once more after all parts arrive. When Files.com completes the upload in the background, as it can for a
+remote server mount or an Agent, one more report follows each answer that the upload is still pending: `finalizing`
+is `True`, `finalization_progress` is Files.com's percentage or `None`, and the byte fields stay as they were. If it
+raises, the upload stops its active parts and propagates the exception. Neither all bytes accepted nor a
+`finalization_progress` of 100 establishes upload completion; wait for the upload call to return.
 
 | Field | Meaning |
 | --- | --- |
@@ -1322,6 +1325,8 @@ exception. All bytes accepted does not establish upload completion; wait for the
 | `bytes_sent` | Network bytes, including retries. |
 | `bytes_per_second` | Recent committed-byte rate. |
 | `total_bytes` | Upload size. |
+| `finalizing` | Files.com is completing the upload in the background. |
+| `finalization_progress` | Its percentage, when Files.com gives one. |
 
 ```python title="Following Upload Progress"
 def report(progress):
@@ -1344,6 +1349,12 @@ time off Windows. A changed file raises `InvalidRequestError` instead of complet
 The final completion request is not replayed once it may have reached Files.com. A lost or error response can leave
 `remote_outcome_unknown` set even though the file completed. Check the remote outcome before starting another
 upload; [Pausing and Resuming](/python/overview/resuming) covers checkpoint recovery.
+
+When Files.com answers that it is completing the upload in the background, the SDK sends the same request again one
+second after the first such answer, two after the second and three after each later one, until it gets the File or
+Files.com's error, retrying transport failures, 429 and 5xx
+as it does for reads. Cancelling, the deadline or closing the client during that wait raises with
+`remote_outcome_unknown` set: Files.com may still complete the upload.
 
 ### Adapting to the Connection
 

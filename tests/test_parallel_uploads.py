@@ -1,3 +1,4 @@
+import dataclasses
 import io
 import os
 import random
@@ -20,7 +21,8 @@ from files_sdk.error import (
     NotImplementedError,
     OperationCancelledError,
 )
-from files_sdk.upload import MAX_BUFFERED_PART, _Grant, _Planner
+from files_sdk.lifetime import Lifetime
+from files_sdk.upload import _FINALIZING, MAX_BUFFERED_PART, _Grant, _Planner
 from tests.upload_fixtures import EXPIRED, SIGNED, UploadService
 
 
@@ -615,10 +617,12 @@ class TestParallelUploads(UploadTestCase):
 
     def test_parameters_the_sdk_sets_are_refused_before_anything_is_sent(self):
         service = UploadService(self)
-        with self.assertRaises(InvalidParameterError):
-            self.client(service).file.upload_file(
-                self.local(b"abc"), "a.txt", params={"ref": "other"}
-            )
+        for params in ({"ref": "other"}, {"async_finalize": False}):
+            with self.subTest(params=params):
+                with self.assertRaises(InvalidParameterError):
+                    self.client(service).file.upload_file(
+                        self.local(b"abc"), "a.txt", params=params
+                    )
         self.assertEqual([], service.begins)
 
     def test_invalid_concurrency_and_progress_are_refused(self):
@@ -1252,6 +1256,348 @@ class TestRemoteFiles(UploadTestCase):
         self.assertEqual([1, 2, 3], [tag["part"] for tag in etags])
         self.assertEqual(3, part.part_number)
         self.assertEqual([], service.finishes)
+
+
+class TestBackgroundCompletion(UploadTestCase):
+    """Uploads Files.com completes in the background, as it does for a
+    remote server mount or an Agent: it answers the request that completes
+    the upload 202 pending until the same request gets the File."""
+
+    def quickly(self):
+        """Ask again hundredths of a second after each pending answer, not
+        seconds."""
+        patch = mock.patch(
+            "files_sdk.upload._FINALIZE_INTERVALS", (0.01, 0.02, 0.03)
+        )
+        patch.start()
+        self.addCleanup(patch.stop)
+
+    def completions(self, service, path):
+        return [
+            finish for finish in service.finishes if finish["path"] == path
+        ]
+
+    def test_each_upload_helper_waits_for_the_file_files_com_completes_in_the_background(
+        self,
+    ):
+        self.quickly()
+        service = UploadService(
+            self, part_size=4, grant={"parallel_parts": False}
+        )
+        client = self.client(service)
+        data = b"abcdefghij"
+        local = str(self.local(data))
+
+        def remote_file(path):
+            with client.file.open(path, "wb") as remote:
+                remote.write(data)
+            return remote
+
+        def listed(path):
+            [outcome] = client.file.upload_files([(local, path)]).completed
+            return client.file.find(outcome.remote_path)
+
+        def module_function(path):
+            with mock.patch.multiple(
+                files_sdk, base_url=service.url, the_api_key="key"
+            ):
+                return files_sdk.upload_file(local, path)
+
+        helpers = {
+            "file.txt": lambda path: client.file.upload_file(local, path),
+            "sized.txt": lambda path: client.file.upload_stream(
+                io.BytesIO(data), path, len(data)
+            ),
+            "unknown.txt": lambda path: client.file.upload_stream(
+                io.BytesIO(data), path
+            ),
+            "spooled.txt": lambda path: client.file.upload_stream(
+                io.BytesIO(data), path, spool_limit=100
+            ),
+            "_/RemoteServers/7/to.txt": lambda path: client.file.upload_to_remote_server(
+                local, 7, "to.txt"
+            ),
+            "written.txt": remote_file,
+            "listed.txt": listed,
+            "module.txt": module_function,
+        }
+        for path, upload in helpers.items():
+            with self.subTest(path):
+                service.finish_replies.append(("pending", None))
+
+                file = upload(path)
+
+                self.assertEqual((path, len(data)), (file.path, file.size))
+                self.assertEqual(data, service.completed(path))
+                sent = self.completions(service, path)
+                self.assertEqual(2, len(sent))
+                self.assertEqual(
+                    [True, True], [finish["async_finalize"] for finish in sent]
+                )
+                self.assertEqual(0, len(service.finish_replies))
+
+    def test_each_completion_waits_one_two_then_three_seconds_between_pending_answers(
+        self,
+    ):
+        # The waits the upload asks its operation's lifetime for, the clock
+        # every wait of an operation goes through, recorded without waiting.
+        waits = []
+        real_sleep = Lifetime.sleep
+
+        def recorded(lifetime, seconds, phase):
+            if phase == _FINALIZING:
+                waits.append(seconds)
+                seconds = 0
+            return real_sleep(lifetime, seconds, phase)
+
+        patch = mock.patch.object(Lifetime, "sleep", recorded)
+        patch.start()
+        self.addCleanup(patch.stop)
+        service = UploadService(
+            self, part_size=4, grant={"parallel_parts": False}
+        )
+        client = self.client(service)
+        service.finish_replies.extend(
+            [
+                ("pending", None),
+                ("pending", 42),
+                ("pending", 100),
+                ("pending", 100),
+            ]
+        )
+
+        client.file.upload_stream(io.BytesIO(b"abcdefghij"), "slow.txt", 10)
+
+        # A pending 100 is still pending, and the waits keep growing to three seconds.
+        self.assertEqual(5, len(self.completions(service, "slow.txt")))
+        self.assertEqual([1.0, 2.0, 3.0, 3.0], waits)
+
+        waits.clear()
+        service.finish_replies.append(("pending", None))
+        client.file.upload_stream(io.BytesIO(b"abcdefghij"), "next.txt", 10)
+
+        # Another upload's completion starts again from one second.
+        self.assertEqual([1.0], waits)
+
+    def test_pending_answers_are_reported_as_finalizing_with_the_byte_counts_they_followed(
+        self,
+    ):
+        self.quickly()
+        data = b"abcdefghij"
+        uploads = {
+            "local file": lambda client, progress: client.file.upload_file(
+                self.local(data), "a.txt", progress=progress
+            ),
+            "stream of unknown size": lambda client, progress: client.file.upload_stream(
+                io.BytesIO(data), "a.txt", progress=progress
+            ),
+        }
+        for label, upload in uploads.items():
+            with self.subTest(label):
+                service = UploadService(
+                    self, part_size=4, grant={"parallel_parts": False}
+                )
+                service.finish_replies.extend(
+                    [("pending", None), ("pending", 42), ("pending", 100)]
+                )
+                reports = []
+
+                file = upload(self.client(service), reports.append)
+
+                self.assertEqual("a.txt", file.path)
+                self.assertEqual(4, len(service.finishes))
+                finalizing = [
+                    report for report in reports if report.finalizing
+                ]
+                self.assertEqual(
+                    [None, 42, 100],
+                    [report.finalization_progress for report in finalizing],
+                )
+                before = reports[: len(reports) - len(finalizing)]
+                self.assertEqual(finalizing, reports[len(before) :])
+                self.assertEqual(
+                    [(False, None)] * len(before),
+                    [
+                        (report.finalizing, report.finalization_progress)
+                        for report in before
+                    ],
+                )
+                last = before[-1]
+                self.assertEqual(
+                    (10, 10, 3),
+                    (
+                        last.bytes_committed,
+                        last.bytes_sent,
+                        last.parts_committed,
+                    ),
+                )
+                for report in finalizing:
+                    unchanged = dataclasses.replace(
+                        report,
+                        elapsed=last.elapsed,
+                        finalizing=False,
+                        finalization_progress=None,
+                    )
+                    self.assertEqual(last, unchanged)
+                    self.assertGreaterEqual(report.elapsed, last.elapsed)
+
+    def test_the_request_is_sent_again_a_second_after_each_pending_answer_exactly_as_first_sent(
+        self,
+    ):
+        service = UploadService(self, part_size=4)
+        service.finish_replies.append(("pending", 5))
+        arrived = []
+        service.on_finish = lambda path: arrived.append(time.monotonic())
+        client = self.client(
+            service,
+            workspace_id=7,
+            language="fr",
+            headers={"X-Caller": "kept"},
+        )
+
+        client.file.upload_file(self.local(b"abcdefghij"), "a.txt")
+
+        [(first_headers, first_body), (headers, body)] = (
+            service.finish_requests
+        )
+        self.assertEqual(first_body, body)
+        identity = (
+            "X-FilesAPI-Key",
+            "X-Files-Workspace-Id",
+            "Accept-Language",
+            "X-Caller",
+            "User-Agent",
+            "Content-Type",
+        )
+        self.assertEqual(
+            ["key", "7", "fr", "kept"],
+            [headers[name] for name in identity[:4]],
+        )
+        self.assertEqual(
+            [first_headers[name] for name in identity],
+            [headers[name] for name in identity],
+        )
+        self.assertGreaterEqual(arrived[1] - arrived[0], 0.95)
+
+    def test_progress_other_than_a_whole_percentage_from_0_to_100_is_left_out(
+        self,
+    ):
+        self.quickly()
+        service = UploadService(self, part_size=4)
+        ignored = ["42", 42.5, -1, 101, True, {"done": 42}]
+        service.finish_replies.extend(
+            ("pending", progress) for progress in ignored
+        )
+        reports = []
+
+        file = self.client(service).file.upload_file(
+            self.local(b"abc"), "a.txt", progress=reports.append
+        )
+
+        self.assertEqual("a.txt", file.path)
+        finalizing = [
+            report.finalization_progress
+            for report in reports
+            if report.finalizing
+        ]
+        self.assertEqual([None] * len(ignored), finalizing)
+
+    def test_an_answer_of_202_that_is_not_the_uploads_pending_status_leaves_it_possibly_complete(
+        self,
+    ):
+        self.quickly()
+        answers = {
+            "another status": {"status": "completed", "ref": "upload-1"},
+            "no ref": {"status": "pending"},
+            "another upload's ref": {"status": "pending", "ref": "upload-2"},
+            "a ref that is not text": {"status": "pending", "ref": 1},
+            "a list": [{"status": "pending", "ref": "upload-1"}],
+            "not JSON": b"pending",
+        }
+        for label, body in answers.items():
+            for after in ([], [("pending", 7)]):
+                with self.subTest(label, after_pending=bool(after)):
+                    service = UploadService(self, part_size=4)
+                    service.finish_replies.extend([*after, (202, body)])
+
+                    with self.assertRaises(
+                        files_sdk.error.APIConnectionError
+                    ) as caught:
+                        self.client(service).file.upload_file(
+                            self.local(b"abc"), "a.txt"
+                        )
+
+                    self.assertTrue(caught.exception.remote_outcome_unknown)
+                    self.assertEqual(len(after) + 1, len(service.finishes))
+
+    def test_an_error_answer_after_pending_is_how_the_upload_ended(self):
+        self.quickly()
+        refusals = {
+            422: {
+                "type": "processing-failure/remote-server-error",
+                "error": "The remote server refused the file",
+                "http-code": 422,
+            },
+            404: {"type": "not-found", "error": "Not Found", "http-code": 404},
+        }
+        for status, body in refusals.items():
+            with self.subTest(status=status):
+                service = UploadService(self, part_size=4)
+                service.finish_replies.extend(
+                    [("pending", 50), (status, body)]
+                )
+
+                with self.assertRaises(APIError) as caught:
+                    self.client(service).file.upload_file(
+                        self.local(b"abc"), "a.txt"
+                    )
+
+                self.assertEqual(
+                    (status, body["error"]),
+                    (caught.exception.http_status, caught.exception.error),
+                )
+                self.assertFalse(caught.exception.remote_outcome_unknown)
+                self.assertEqual(2, len(service.finishes))
+
+    def test_a_request_asked_again_is_retried_and_one_that_keeps_failing_leaves_the_upload_possibly_complete(
+        self,
+    ):
+        self.quickly()
+        service = UploadService(self, part_size=4)
+        busy = (
+            503,
+            {"type": "service-unavailable", "error": "busy", "http-code": 503},
+        )
+        # Within one request's three retries: a server error, a lost answer
+        # and a throttle, then the File.
+        service.finish_replies.extend(
+            [("pending", None), busy, "hang up", (429, {})]
+        )
+
+        file = self.client(service).file.upload_file(
+            self.local(b"abc"), "a.txt"
+        )
+
+        self.assertEqual(("a.txt", 5), (file.path, len(service.finishes)))
+        for failure, error in (
+            (busy, APIError),
+            ("hang up", files_sdk.error.APIConnectionError),
+        ):
+            with self.subTest(failure=failure):
+                service = UploadService(self, part_size=4)
+                service.finish_replies.extend([("pending", None), failure])
+
+                with self.assertRaises(error) as caught:
+                    self.client(
+                        service, max_network_retries=0
+                    ).file.upload_file(self.local(b"abc"), "a.txt")
+
+                self.assertTrue(caught.exception.remote_outcome_unknown)
+                self.assertIn(
+                    "may still complete it",
+                    "\n".join(caught.exception.__notes__),
+                )
+                self.assertEqual(2, len(service.finishes))
 
 
 class TestPlanning(unittest.TestCase):

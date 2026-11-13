@@ -30,7 +30,14 @@ Everything runs within the upload's operation (see files_sdk.lifetime):
 cancelling it, closing the client or reaching the deadline stops admitting
 parts, stops the requests in progress and waits for the workers before the
 upload raises. The request that completes the upload is sent once all
-parts have arrived, and is never sent again once it may have been received.
+parts have arrived, and is never sent again once it may have been received,
+unless Files.com answers that it is completing the upload in the
+background, as it can for a remote server mount or an Agent: the same
+request then asks again after each such answer (one, two, then three
+seconds after it), until Files.com
+answers with the File or the error that ended the upload (see
+_Session.finish). A stop while it waits ends the wait, not what Files.com
+is doing, so the upload may still complete.
 
 With a checkpoint (see files_sdk.checkpoint), an upload records its
 reference, every part it has placed and the ETags of those that arrived,
@@ -137,6 +144,26 @@ shows that; a local file's part is sent from the file."""
 # How often, at most, an upload reports its progress.
 _PROGRESS_INTERVAL = 0.25
 
+# Seconds between Files.com's answer that it is still completing an upload
+# in the background and the request that asks again (_Session.finish), as
+# migration.DEFAULT_INTERVAL waits between checks of a file migration.
+# Files.com itself holds each such request for a few seconds first.
+_FINALIZE_INTERVALS = (1.0, 2.0, 3.0)
+
+
+def _finalize_interval(pending_answers):
+    """The wait in seconds after the pending_answers-th answer that Files.com
+    is still completing an upload: one after the first, two after the
+    second and three after each later one, counted for each completion."""
+    return _FINALIZE_INTERVALS[
+        min(pending_answers, len(_FINALIZE_INTERVALS)) - 1
+    ]
+
+
+# The phase of an operation stopped while it waits for Files.com to
+# complete an upload in the background.
+_FINALIZING = "waiting for Files.com to complete the upload"
+
 # Streams are read in pieces this large, so that stopping an upload takes
 # effect between them.
 _READ_SIZE = MiB
@@ -163,7 +190,17 @@ _METHODS = frozenset({"PUT", "POST", "PATCH"})
 # Parameters the SDK sets itself. begin_upload accepts the others, and the
 # request that completes the upload also takes these.
 _OWN_PARAMS = frozenset(
-    {"ref", "part", "parts", "size", "restart", "action", "etags", "length"}
+    {
+        "ref",
+        "part",
+        "parts",
+        "size",
+        "restart",
+        "action",
+        "etags",
+        "length",
+        "async_finalize",
+    }
 )
 _FINISH_PARAMS = frozenset(
     {
@@ -426,6 +463,15 @@ class UploadProgress:
     again after a failure. bytes_per_second is the rate of committed bytes
     over the last few seconds. total_bytes is None when the size is not
     known in advance.
+
+    finalizing is True once Files.com has accepted the request that
+    completes the upload and is completing it in the background, as it can
+    for a remote server mount or an Agent; there is one such report for
+    each of its answers that the upload is still pending. Those reports keep
+    the byte counts and bytes_per_second of the last report before them.
+    finalization_progress is the percentage Files.com gave with that answer,
+    or None when it gave none. Even at 100 the upload is not complete until
+    the upload call returns its File.
     """
 
     path: str
@@ -435,6 +481,8 @@ class UploadProgress:
     parts_committed: int
     elapsed: float
     bytes_per_second: float
+    finalizing: bool = False
+    finalization_progress: int | None = None
 
 
 def _unexpected(problem):
@@ -1511,6 +1559,8 @@ class _Progress:
         )
         self._reported_at = 0.0
         self._reported = None
+        # The UploadProgress last given to the callback.
+        self._last: UploadProgress | None = None
         self.committed = 0
         self.sent = 0
         self.parts = 0
@@ -1554,15 +1604,31 @@ class _Progress:
             else 0.0
         )
         self._reported_at, self._reported = now, counts
+        self._last = UploadProgress(
+            path=self._path,
+            total_bytes=self._total,
+            bytes_committed=counts[0],
+            bytes_sent=counts[1],
+            parts_committed=counts[2],
+            elapsed=now - self._started,
+            bytes_per_second=rate,
+        )
+        self._callback(self._last)
+
+    def finalizing(self, percent):
+        """Call the callback for one answer of Files.com's that it is still
+        completing the upload, with percent, what that answer gave of its
+        progress (None for none), and the byte counts and rate of the last
+        report, which an upload always makes before it asks Files.com to
+        complete it: no part is sent after that."""
+        if self._callback is None or self._last is None:
+            return
         self._callback(
-            UploadProgress(
-                path=self._path,
-                total_bytes=self._total,
-                bytes_committed=counts[0],
-                bytes_sent=counts[1],
-                parts_committed=counts[2],
-                elapsed=now - self._started,
-                bytes_per_second=rate,
+            dataclasses.replace(
+                self._last,
+                elapsed=time.monotonic() - self._started,
+                finalizing=True,
+                finalization_progress=percent,
             )
         )
 
@@ -1864,13 +1930,40 @@ class _Session:
             if close is not None:
                 close()
 
-    def finish(self, size, etags, finish_params, completion=None) -> Any:
+    def finish(
+        self, size, etags, finish_params, completion=None, finalizing=None
+    ) -> Any:
         """Complete the upload within completion (this upload's operation's
-        completion(), by default): the request is not sent again once it
-        may have been received, and a lost answer raises."""
-        from files_sdk.models.file import FileResource
+        completion(), by default) and return the File it became: the
+        request is not sent again once it may have been received, and a
+        lost answer raises.
 
-        params = dict(finish_params)
+        The request asks Files.com to complete the upload in the background
+        (async_finalize) where its destination needs that, as a remote
+        server mount or an Agent can; elsewhere Files.com completes it in
+        the request, as before. In the background, Files.com answers 202,
+        that the upload ref is pending, and answers the same request, sent
+        again after each such answer (one, two, then three seconds after
+        it; _finalize_interval), with the
+        File, or the error that ended the upload, once there is one. That
+        request is sent exactly as the first was, within the same operation,
+        and is retried as one that only asks for something is: it can
+        complete nothing twice. finalizing, if given, is called with the
+        progress each pending answer gives (a percentage, or None).
+
+        Once Files.com has accepted the upload, only its own error answer
+        (a 4xx other than 429) says how it ended. Any other failure to hear
+        that, the operation stopping included, raises with
+        remote_outcome_unknown set: Files.com may still complete it."""
+        from files_sdk.api import copy_params, path_value
+        from files_sdk.models.file import File
+
+        if not isinstance(self.destination, str):
+            # As the generated File create refuses it.
+            raise InvalidParameterError("Bad parameter: path must be an str")
+        completion = completion or self.operation.completion()
+        ref = self.ref
+        params = copy_params(finish_params, {"path": self.destination})
         params.update(
             {
                 "action": "end",
@@ -1879,12 +1972,82 @@ class _Session:
                     for number, etag in sorted(etags.items())
                     if etag
                 ],
-                "ref": self.ref,
+                "ref": ref,
                 "size": size,
+                "async_finalize": True,
             }
         )
-        return FileResource(completion or self.operation.completion()).create(
-            self.destination, params
+        path = "/files/" + path_value(self.destination)
+        response = completion.request("POST", path, params)
+        if response.status_code != 202:
+            return completion.decode_model(response, File)
+        polls = completion.replay_safe()
+        lifetime = completion.lifetime
+        pending_answers = 0
+        while True:
+            pending_answers += 1
+            percent = self._pending(response, ref)
+            if finalizing is not None:
+                # The caller's own callback: what it raises is raised as it is.
+                finalizing(percent)
+            try:
+                lifetime.sleep(
+                    _finalize_interval(pending_answers), _FINALIZING
+                )
+                response = polls.request("POST", path, params)
+                if response.status_code != 202:
+                    return polls.decode_model(response, File)
+            except (OperationCancelledError, DeadlineExceededError):
+                raise lifetime.stopped_error(
+                    _FINALIZING,
+                    remote_outcome_unknown=True,
+                    outcome=self._still_completing(ref),
+                ) from None
+            except (APIError, APIConnectionError) as error:
+                status = getattr(error, "http_status", None)
+                if (
+                    isinstance(error, APIError)
+                    and isinstance(status, int)
+                    and 400 <= status < 500
+                    and status != 429
+                ):
+                    raise  # How the upload ended.
+                error.remote_outcome_unknown = True
+                error.add_note(self._still_completing(ref))
+                raise
+
+    def _pending(self, response, ref):
+        """The percentage an answer of 202 gives of Files.com's progress
+        completing the upload ref in the background, or None when it gives
+        no whole number from 0 to 100. An answer that is not Files.com's
+        pending status for ref raises, leaving the upload possibly
+        complete."""
+        body = response.data
+        if not (
+            isinstance(body, dict)
+            and body.get("status") == "pending"
+            and type(body.get("ref")) is str
+            and body["ref"] == ref
+        ):
+            error = unexpected_response_error(
+                response,
+                "an answer of 202 to the request that completes the upload was not its pending status",
+            )
+            error.remote_outcome_unknown = True
+            error.add_note(self._still_completing(ref))
+            raise error
+        progress = body.get("progress")
+        return (
+            progress
+            if type(progress) is int and 0 <= progress <= 100
+            else None
+        )
+
+    def _still_completing(self, ref):
+        return (
+            "Files.com accepted the request that completes the upload to {0} (upload reference {1}) "
+            "and may still complete it. Check whether {0} is there before uploading it "
+            "again.".format(self.destination, ref)
         )
 
 
@@ -1892,9 +2055,12 @@ def _not_completed(completion, error):
     """Whether error proves the request that completes an upload did not
     complete it: it was never handed to the network, the SDK knows it was
     not sent, or Files.com's answer shows it was not carried out (see
-    APIError.remote_outcome_unknown). Anything else once it may have been
-    sent, an error answer of any status included, leaves the upload possibly
-    complete."""
+    APIError.remote_outcome_unknown). That includes Files.com's error answer
+    to the request asked again while it completed the upload in the
+    background, which is how the upload ended (see _Session.finish); Files.com
+    answers that same request the same way however often it is sent.
+    Anything else once it may have been sent, an error answer to the first
+    request of any status included, leaves the upload possibly complete."""
     if not completion.dispatched:
         return True
     if isinstance(error, (APIConnectionError, OperationCancelledError)):
@@ -2122,7 +2288,11 @@ class _Upload:
         completion = self.operation.completion()
         try:
             file = self.session.finish(
-                self.source.size, self.etags, self._finish_params(), completion
+                self.source.size,
+                self.etags,
+                self._finish_params(),
+                completion,
+                self.progress.finalizing,
             )
         except BaseException as error:
             self.completion = (
@@ -3066,9 +3236,14 @@ class _SerialUpload:
         self.number += 1
         self.sent += len(data)
 
-    def finish(self, extra=None):
+    def finish(self, extra=None, progress=None):
+        """Complete the upload, telling progress (its _Progress), if given,
+        of each answer that Files.com is still completing it."""
         params = {**self.finish_params, **(extra or {})}
-        return self.session.finish(self.sent, self.etags, params)
+        finalizing = progress.finalizing if progress is not None else None
+        return self.session.finish(
+            self.sent, self.etags, params, finalizing=finalizing
+        )
 
 
 def _ignore(_count):
@@ -3610,7 +3785,7 @@ def _send_unknown(
     finally:
         source.discard()
     report.report(force=True)
-    return upload.finish()
+    return upload.finish(progress=report)
 
 
 def _upload_spooled(
