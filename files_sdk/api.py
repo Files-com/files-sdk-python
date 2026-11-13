@@ -12,6 +12,7 @@ from files_sdk.context import (
     check_retries,
     check_workspace,
     checked_base_url,
+    checked_download_modification_time,
     checked_options,
 )
 from files_sdk.error import InvalidParameterError
@@ -268,6 +269,10 @@ def legacy_context() -> Context:
         ),
         max_network_retries=_legacy_setting(
             "max_network_retries", check_retries
+        ),
+        check_download_modification_time=_legacy_setting(
+            "check_download_modification_time",
+            checked_download_modification_time,
         ),
         initial_network_retry_delay=_legacy_setting(
             "initial_network_retry_delay",

@@ -11,6 +11,7 @@ from files_sdk.context import (
     DEFAULT_BASE_URL,
     REGION_POLICIES,
     Context,
+    checked_download_modification_time,
     check_delay,
     check_duration,
     check_retries,
@@ -281,6 +282,7 @@ class Client:
         open_timeout: float = 30,
         read_timeout: float = 80,
         max_network_retries: int = 3,
+        check_download_modification_time: bool = True,
         initial_network_retry_delay: float = 0.1,
         max_network_retry_delay: float = 2,
         request_timeout: float | None = None,
@@ -370,6 +372,9 @@ class Client:
             open_timeout=check_duration("open_timeout", open_timeout),
             read_timeout=check_duration("read_timeout", read_timeout),
             max_network_retries=check_retries(max_network_retries),
+            check_download_modification_time=checked_download_modification_time(
+                check_download_modification_time
+            ),
             initial_network_retry_delay=check_delay(
                 "initial_network_retry_delay", initial_network_retry_delay
             ),

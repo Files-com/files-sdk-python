@@ -479,7 +479,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "2.0.41"
+version = "2.0.42"
 
 __version__ = version
 
@@ -488,6 +488,7 @@ max_network_retry_delay = 2
 open_timeout = 30
 read_timeout = 80
 max_network_retries = 3
+check_download_modification_time = True
 
 console_log_level = "none"
 

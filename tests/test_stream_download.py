@@ -28,6 +28,21 @@ class DownloadHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         chunk = b"\x00\xff" * 4096
         try:
+            if self.path.startswith("/date-retry/"):
+                seen = self.server.date_requests
+                seen.append(self.headers.get("If-Unmodified-Since"))
+                modified = (
+                    "Wed, 21 Oct 2015 07:28:01 GMT"
+                    if len(seen) > 1 and self.path.endswith("changed")
+                    else "Wed, 21 Oct 2015 07:28:00 GMT"
+                )
+                self.send_response(200)
+                self.send_header("Last-Modified", modified)
+                self.send_header("Content-Length", "10")
+                self.end_headers()
+                if len(seen) > 1:
+                    self.wfile.write(b"0123456789")
+                return
             if self.path in ENCODED_RESPONSES:
                 encoding, body = ENCODED_RESPONSES[self.path]
                 self.send_response(200)
@@ -73,6 +88,7 @@ class TestStreamDownload(unittest.TestCase):
     def setUp(self):
         self.server = ThreadingHTTPServer(("127.0.0.1", 0), DownloadHandler)
         self.server.release_response = threading.Event()
+        self.server.date_requests = []
         self.thread = threading.Thread(
             target=self.server.serve_forever, kwargs={"poll_interval": 0.005}
         )
@@ -95,6 +111,41 @@ class TestStreamDownload(unittest.TestCase):
             with self.subTest(path=path):
                 with self.assertRaises(files_sdk.error.APIConnectionError):
                     ApiClient().stream_download(self.url + path, io.BytesIO())
+
+    @patch.object(files_sdk, "max_network_retries", 1)
+    @patch.object(files_sdk, "initial_network_retry_delay", 0)
+    def test_direct_url_retries_keep_the_first_date_before_any_bytes_are_written(
+        self,
+    ):
+        for changed in (False, True):
+            with self.subTest(changed=changed):
+                self.server.date_requests.clear()
+                output = io.BytesIO()
+                url = self.url + (
+                    "/date-retry/changed" if changed else "/date-retry/stable"
+                )
+                if changed:
+                    with self.assertRaises(
+                        files_sdk.error.InvalidRequestError
+                    ):
+                        ApiClient().stream_download(url, output)
+                    self.assertEqual(output.getvalue(), b"")
+                else:
+                    ApiClient().stream_download(url, output)
+                    self.assertEqual(output.getvalue(), b"0123456789")
+                self.assertEqual(
+                    self.server.date_requests,
+                    [None, "Wed, 21 Oct 2015 07:28:00 GMT"],
+                )
+
+    @patch.object(files_sdk, "check_download_modification_time", False)
+    @patch.object(files_sdk, "max_network_retries", 1)
+    @patch.object(files_sdk, "initial_network_retry_delay", 0)
+    def test_the_direct_url_helper_can_disable_timestamp_checks(self):
+        output = io.BytesIO()
+        ApiClient().stream_download(self.url + "/date-retry/changed", output)
+        self.assertEqual(output.getvalue(), b"0123456789")
+        self.assertEqual(self.server.date_requests, [None, None])
 
     def test_download_preserves_binary_content(self):
         output = io.BytesIO()

@@ -24,6 +24,15 @@ if TYPE_CHECKING:
     from files_sdk.adaptive import UploadTuning
     from files_sdk.upload import TransferLimiter
 
+
+def checked_download_modification_time(value):
+    if not isinstance(value, bool):
+        raise InvalidParameterError(
+            "check_download_modification_time must be a boolean"
+        )
+    return value
+
+
 DEFAULT_BASE_URL = "https://app.files.com"
 DEFAULT_BASE_PATH = "api/rest/v1"
 
@@ -71,6 +80,7 @@ class RequestOptions(TypedDict, total=False):
     open_timeout: float
     read_timeout: float
     max_network_retries: int
+    check_download_modification_time: bool
     request_timeout: float
     deadline: float
     cancel_token: CancellationToken
@@ -279,6 +289,7 @@ class Context:
     open_timeout: float = 30
     read_timeout: float = 80
     max_network_retries: int = 3
+    check_download_modification_time: bool = True
     initial_network_retry_delay: float = 0.1
     max_network_retry_delay: float = 2
     request_timeout: float | None = None
@@ -368,6 +379,12 @@ class Context:
         for name in ("open_timeout", "read_timeout"):
             if name in options:
                 changes[name] = check_duration(name, options[name])
+        if "check_download_modification_time" in options:
+            changes["check_download_modification_time"] = (
+                checked_download_modification_time(
+                    options["check_download_modification_time"]
+                )
+            )
         if "max_network_retries" in options:
             changes["max_network_retries"] = check_retries(
                 options["max_network_retries"]

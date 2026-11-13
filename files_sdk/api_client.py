@@ -1,3 +1,4 @@
+import email.utils
 import logging
 import platform
 import re
@@ -557,9 +558,15 @@ class ApiClient:
         """Write the content at a signed download URL to io, as text if
         is_string_io, every byte exactly (see files_sdk.writing). A failure
         before io has taken anything is retried."""
+        from files_sdk.download import _last_modified
+
         operation = self._current()
         lifetime = operation.lifetime
         written = False
+        last_modified = None
+        check_modification_time = (
+            operation.context.check_download_modification_time
+        )
 
         def check():
             lifetime.check("download")
@@ -577,6 +584,7 @@ class ApiClient:
                 raise _CallerError(error) from None
 
         def consume(response):
+            nonlocal last_modified
             if response.status_code >= 400:
                 response.content  # The error, for handle_error_response.
                 return
@@ -588,6 +596,18 @@ class ApiClient:
                     "{}".format(response.status_code),
                     http_status=response.status_code,
                 )
+            modified = (
+                _last_modified(response.headers.get("Last-Modified"))
+                if check_modification_time
+                else None
+            )
+            if modified is not None:
+                if last_modified is not None and modified > last_modified:
+                    raise InvalidRequestError(
+                        "The file changed while it was being downloaded"
+                    )
+                if last_modified is None:
+                    last_modified = modified
             offset = 0
             for chunk in response.iter_content(
                 chunk_size=8192, decode_unicode=is_string_io
@@ -599,8 +619,17 @@ class ApiClient:
                 offset += len(chunk)
 
         def build():
+            headers = (
+                {}
+                if last_modified is None
+                else {
+                    "If-Unmodified-Since": email.utils.format_datetime(
+                        last_modified, usegmt=True
+                    )
+                }
+            )
             return requests.Request(
-                "GET", uri, headers=self._transfer_headers()
+                "GET", uri, headers=self._transfer_headers(headers)
             )
 
         try:

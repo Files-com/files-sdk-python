@@ -1593,6 +1593,27 @@ Other storage uses one unbound response. On eligible storage, an initial HTTP 20
 falls back to a whole response. A valid first range without a strong tag stays unbound: it can serve as the
 whole response if it already contains the entire small file; otherwise the SDK fetches the file whole.
 Malformed initial range encoding, byte coverage or length raises `APIConnectionError` instead of falling back.
+When storage supplies a valid `Last-Modified` response date, the SDK also keeps it for later content requests
+in the same attempt. Without a stronger download identity or `If-Match` condition, those requests send that date in
+`If-Unmodified-Since`, including after URL renewal. A newer source can then return HTTP 412 before sending
+contents, and the SDK follows the source-change handling described under [Failures](#failures).
+Missing or invalid dates leave the download compatible with storage that supplies no timestamp.
+
+Timestamp checks are enabled by default. Set `files_sdk.check_download_modification_time = False` for module-level
+calls, or use `files_sdk.Client(check_download_modification_time=False)` for a client. A download's request options
+can override the default:
+
+```python
+client.file.download_file("remote.bin", "local.bin", {"check_download_modification_time": False})
+```
+The effective value is fixed when the download or read handle starts. Disabling it leaves size and stronger version
+checks in place, but permits changes detectable only by modification time.
+
+Timestamp checks use one-second precision. They can miss edits within the same second, preserved or earlier modification
+times and edits during a response. An Agent file with a future modification time can be rejected even when its
+contents have not changed. A timestamp does not establish a version, enable parallel parts or authorize
+resuming a checkpoint.
+
 Unbound downloads keep no reusable checkpoint. After storage binding, a missing tag fails validation and a
 weak or different tag indicates a changed version, handled as described under Failures.
 

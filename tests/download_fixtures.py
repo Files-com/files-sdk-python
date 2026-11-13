@@ -32,6 +32,7 @@ too (request_id_on_errors) is a fault of the SDK's own, not the producer's.
 """
 
 import gzip
+import email.utils
 import hashlib
 import json
 import os
@@ -185,6 +186,10 @@ class DownloadService:
         self.tamper = (
             None  # function(identity dict, renewal) -> the identity sent
         )
+        self.last_modified = (
+            None  # HTTP date, or function of storage requests served.
+        )
+        self.ignore_if_unmodified_since = False
         self.etag_style = (
             "strong"  # the ETag storage sends: "strong", "weak" or None
         )
@@ -475,6 +480,25 @@ class DownloadService:
                             },
                         )
                     if_match = self.headers.get("If-Match")
+                    modified = (
+                        service.last_modified(service.served)
+                        if callable(service.last_modified)
+                        else service.last_modified
+                    )
+                    since = self.headers.get("If-Unmodified-Since")
+                    if (
+                        since
+                        and modified
+                        and if_match is None
+                        and not service.ignore_if_unmodified_since
+                    ):
+                        try:
+                            if email.utils.parsedate_to_datetime(
+                                modified
+                            ) > email.utils.parsedate_to_datetime(since):
+                                return self.answer(412, b"source changed")
+                        except (ValueError, TypeError):
+                            pass
                     if service.ignore_if_match:
                         if_match = None
                     if (
@@ -742,6 +766,17 @@ class DownloadService:
                 return self.answer(
                     status, body, {"Content-Type": content_type}
                 )
+
+            def send_response(self, code, message=None):
+                super().send_response(code, message)
+                if code in (200, 206) and self.path.startswith("/storage/"):
+                    modified = (
+                        service.last_modified(service.served)
+                        if callable(service.last_modified)
+                        else service.last_modified
+                    )
+                    if modified is not None:
+                        self.send_header("Last-Modified", modified)
 
             def answer(self, status, body, headers=None):
                 storage = self.path.startswith(

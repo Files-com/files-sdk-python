@@ -764,6 +764,133 @@ class TestDownloadIdentity(DownloadTestCase):
         self.assertEqual(self.stages(), [])
 
 
+class TestDownloadDates(DownloadTestCase):
+    BASELINE = "Wed, 21 Oct 2015 07:28:00 GMT"
+    NEWER = "Wed, 21 Oct 2015 07:28:01 GMT"
+
+    def test_client_and_local_options_disable_only_the_date_guard(self):
+        for client_check, local_check in (
+            (False, None),
+            (True, False),
+            (False, True),
+        ):
+            with self.subTest(client=client_check, local=local_check):
+                service = DownloadService(self, content(5000))
+                service.identity = "absent"
+                service.last_modified = lambda served: (
+                    self.BASELINE if served == 1 else self.NEWER
+                )
+                service.ignore_if_unmodified_since = True
+                service.whole_short_once = 1
+                path = self.scratch / "optout.bin"
+                options = (
+                    {}
+                    if local_check is None
+                    else {"check_download_modification_time": local_check}
+                )
+                self.client(
+                    service,
+                    check_download_modification_time=client_check,
+                    max_network_retries=1,
+                ).file.download_file("remote.bin", path, options)
+                self.assertEqual(path.read_bytes(), service.content)
+                guarded = client_check if local_check is None else local_check
+                requests = service.storage_requests()
+                self.assertEqual(
+                    requests[1]["headers"].get("If-Unmodified-Since"),
+                    self.BASELINE if guarded else None,
+                )
+                self.assertEqual(len(requests), 3 if guarded else 2)
+                self.assertFalse(
+                    any(
+                        "check_download_modification_time" in r["headers"]
+                        for r in requests
+                    )
+                )
+
+    def test_a_date_guards_a_whole_retry_without_authorizing_ranges(self):
+        for date in (self.BASELINE, "not an HTTP date", None):
+            with self.subTest(date=date):
+                service = DownloadService(self, content(5000))
+                service.identity = "absent"
+                service.last_modified = date
+                service.whole_short_once = 1
+                path = self.scratch / "whole.bin"
+                self.client(service, max_network_retries=1).file.download_file(
+                    "remote.bin", path
+                )
+                self.assertEqual(path.read_bytes(), service.content)
+                requests = service.storage_requests()
+                self.assertEqual([r["range"] for r in requests], [None, None])
+                self.assertNotIn("If-Unmodified-Since", requests[0]["headers"])
+                self.assertEqual(
+                    requests[1]["headers"].get("If-Unmodified-Since"),
+                    self.BASELINE if date == self.BASELINE else None,
+                )
+
+    def test_a_newer_date_after_renewal_discards_the_old_attempt(self):
+        for ignored in (False, True):
+            with self.subTest(ignored=ignored):
+                old, new = content(5000), content(5000, seed=2)
+                service = DownloadService(self, old)
+                service.identity = "absent"
+                service.last_modified = lambda served: (
+                    self.BASELINE if served == 1 else self.NEWER
+                )
+                service.ignore_if_unmodified_since = ignored
+                service.change_after = (1, new)
+                service.whole_short_once = 1
+                service.expire_first_url = 1
+                path = self.existing()
+                self.client(service, max_network_retries=2).file.download_file(
+                    "remote.bin", path
+                )
+                self.assertEqual(path.read_bytes(), new)
+                requests = service.storage_requests()
+                # Expiry and its renewal retain the original baseline; only the full restart releases it.
+                self.assertEqual(
+                    [
+                        r["headers"].get("If-Unmodified-Since")
+                        for r in requests[:4]
+                    ],
+                    [None, self.BASELINE, self.BASELINE, None],
+                )
+
+    def test_an_opaque_identity_keeps_its_parallel_ranges_without_a_date_condition(
+        self,
+    ):
+        service = DownloadService(self, content(5000))
+        service.identity = "proxy"
+        service.last_modified = lambda served: (
+            self.BASELINE if served == 1 else self.NEWER
+        )
+        service.delay = lambda _start: 0.04
+        path = self.scratch / "opaque.bin"
+        self.client(service).file.download_file("remote.bin", path)
+        requests = service.storage_requests()
+        self.assertEqual(path.read_bytes(), service.content)
+        self.assertTrue(
+            all("If-Unmodified-Since" not in r["headers"] for r in requests)
+        )
+        self.assertGreater(service.max_active, 1)
+
+    def test_if_match_takes_precedence_over_a_changing_date(self):
+        service = DownloadService(self, content(5000))
+        service.last_modified = lambda served: (
+            self.BASELINE if served == 1 else self.NEWER
+        )
+        path = self.scratch / "matched.bin"
+        self.client(service).file.download_file("remote.bin", path)
+        self.assertEqual(path.read_bytes(), service.content)
+        self.assertTrue(
+            all(
+                r["if_match"] == service.etag
+                and "If-Unmodified-Since" not in r["headers"]
+                for r in service.storage_requests()
+            )
+        )
+
+
 class TestDownloadFailures(DownloadTestCase):
     def test_the_web_app_answering_fails_before_anything_is_written(self):
         # A service for each download, so that whatever a service takes in,

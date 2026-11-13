@@ -127,6 +127,8 @@ import codecs
 import collections
 import concurrent.futures
 import dataclasses
+import datetime
+import email.utils
 import hashlib
 import io
 import logging
@@ -239,6 +241,33 @@ _PROGRESS_INTERVAL = 0.25
 # Renewals of an expired download URL, and restarts after the version went.
 _MAX_RENEWALS = 2
 _MAX_RESTARTS = 1
+
+# Accept the three HTTP-date forms, not arbitrary dates accepted by the mail parser.
+_HTTP_DATE = re.compile(
+    r"(?:[A-Za-z]{3}, [0-9]{2} [A-Za-z]{3} [0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2} GMT"
+    r"|[A-Za-z]+, [0-9]{2}-[A-Za-z]{3}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} GMT"
+    r"|[A-Za-z]{3} [A-Za-z]{3} [ 0-9][0-9] [0-9]{2}:[0-9]{2}:[0-9]{2} [0-9]{4})"
+)
+
+
+def _last_modified(value):
+    if not isinstance(value, str) or not _HTTP_DATE.fullmatch(value):
+        return None
+    try:
+        date = email.utils.parsedate_to_datetime(value)
+        date = (
+            date.replace(tzinfo=datetime.timezone.utc)
+            if date.tzinfo is None
+            else date.astimezone(datetime.timezone.utc)
+        )
+        return (
+            date
+            if value[:3] == email.utils.format_datetime(date, usegmt=True)[:3]
+            else None
+        )
+    except (ValueError, TypeError, OverflowError):
+        return None
+
 
 _CONTENT_RANGE = re.compile(r"bytes (\d+)-(\d+)/(\d+|\*)")
 
@@ -849,6 +878,9 @@ class _Download:
         from files_sdk.api import Operation
 
         self.operation = operation
+        self.check_modification_time = (
+            operation.context.check_download_modification_time
+        )
         self.file = file
         self.destination = destination
         # The caller's cap on the ranges in progress, or None; its tuning,
@@ -870,6 +902,7 @@ class _Download:
         # identity, or, without one, the version storage's first answer bound
         # it to (_StorageVersion); None while it is bound to none.
         self.identity: _Identity | _StorageVersion | None = None
+        self.last_modified = None  # Best-effort date guard, never a strong version or checkpoint identity.
         # The version a checkpoint recorded, renewed (an identity) or
         # confirmed by storage (a storage version) before anything else.
         self.expected: _Identity | _StorageVersion | None = None
@@ -1015,6 +1048,7 @@ class _Download:
         """Start again from nothing, with a new negotiation."""
         self.uri = None
         self.identity = None
+        self.last_modified = None
         self.expected = None
         self.done.clear()
         self.next_start = 0
@@ -1217,10 +1251,21 @@ class _Download:
                     raise _Unbound()
                 if attempts is not None:
                     attempts.start()
+                guarded = dict(sent)
+                if (
+                    self.check_modification_time
+                    and identity is None
+                    and self.last_modified is not None
+                ):
+                    guarded["If-Unmodified-Since"] = (
+                        email.utils.format_datetime(
+                            self.last_modified, usegmt=True
+                        )
+                    )
                 request = requests.Request(
                     "GET",
                     uri,
-                    headers=operation.api_client._transfer_headers(sent),
+                    headers=operation.api_client._transfer_headers(guarded),
                 )
                 if establishing or isinstance(identity, _StorageVersion):
                     request.files_no_redirect = True  # type: ignore[attr-defined]
@@ -1239,6 +1284,24 @@ class _Download:
             def answered(response, uri=uri, identity=identity, answer=answer):
                 answer["status"] = response.status_code
                 answer["request_id"] = download_status.request_id_of(response)
+                if (
+                    self.check_modification_time
+                    and response.status_code in (200, 206)
+                    and identity is None
+                ):
+                    modified = _last_modified(
+                        response.headers.get("Last-Modified")
+                    )
+                    if modified is not None:
+                        if (
+                            self.last_modified is not None
+                            and modified > self.last_modified
+                        ):
+                            raise _SourceChanged(
+                                "storage sent a newer Last-Modified date"
+                            )
+                        if self.last_modified is None:
+                            self.last_modified = modified
                 consume(response, uri, identity)
 
             hooks: dict[str, Any] = {}
@@ -1278,7 +1341,7 @@ class _Download:
                     attempts.release()
                 self._resolve(operation, issue)
             except APIError as error:
-                if error.http_status == 412 and identity is not None:
+                if error.http_status == 412:
                     raise _SourceChanged(
                         "storage refused the version being downloaded"
                     ) from None
