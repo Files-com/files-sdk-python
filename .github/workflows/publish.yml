@@ -1,0 +1,33 @@
+name: Publish Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: publish
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+
+      # The build output also holds its checksums and the wheel rebuilt from the sdist. dist/ gets the sdist and wheel.
+      - name: Build
+        run: |
+          python scripts/tasks.py build --outdir "$RUNNER_TEMP/build"
+          mkdir dist
+          cp "$RUNNER_TEMP"/build/*.tar.gz "$RUNNER_TEMP"/build/*.whl dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.14.3

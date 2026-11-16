@@ -16,7 +16,6 @@
     python scripts/tasks.py package   # build, inspect and test the artifacts
     python scripts/tasks.py audit     # audit every requirements/*.txt and
                                       # check each report covers its lock
-    python scripts/tasks.py twine ... # run the pinned twine
 
 Only format changes files. Every environment is built with the interpreter
 that runs this script, so "python3.11 scripts/tasks.py test --dependencies
@@ -916,12 +915,6 @@ def package(outdir):
     test_installed(sdist, "runtime.txt")
 
 
-def twine(arguments):
-    """Run the twine that requirements/package.txt pins, for example to upload
-    what build checked."""
-    run(environment("package", "package.txt"), "-m", "twine", *arguments)
-
-
 # Auditing
 
 
@@ -1187,8 +1180,6 @@ def main():
         default=TOOLS / "reports",
         help="a new or empty directory, or one only an earlier audit wrote to",
     )
-    twine_parser = tasks.add_parser("twine", help="run the pinned twine")
-    twine_parser.add_argument("arguments", nargs=argparse.REMAINDER)
     args = parser.parse_args()
 
     try:
@@ -1208,8 +1199,6 @@ def main():
             build(args.outdir)
         elif args.task == "package":
             package(args.outdir)
-        elif args.task == "twine":
-            twine(args.arguments)
         else:
             audit(args.outdir)
     except TaskFailed as failure:
