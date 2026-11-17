@@ -828,7 +828,6 @@ files_sdk.error.FolderAdminPermissionRequiredError -> files_sdk.error.NotAuthori
 |`RequestParamsRequiredError`|  `BadRequestError` |
 |`SearchAllOnChildPathError`|  `BadRequestError` |
 |`UnrecognizedSortIndexError`|  `BadRequestError` |
-|`UnsupportedCurrencyError`|  `BadRequestError` |
 |`UnsupportedHttpResponseFormatError`|  `BadRequestError` |
 |`UnsupportedMediaTypeError`|  `BadRequestError` |
 |`UserIdInvalidError`|  `BadRequestError` |
