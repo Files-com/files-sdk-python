@@ -2,6 +2,7 @@
 
     python scripts/tasks.py format    # rewrite the sources with pinned Black
     python scripts/tasks.py check     # formatting, lint, types, then test
+    python scripts/tasks.py lint      # lint and types, as check runs them
     python scripts/tasks.py types     # type check as every supported platform
                                       # and Python version would
     python scripts/tasks.py test [--dependencies minimum] [--artifact WHEEL]
@@ -25,10 +26,11 @@ requirements/ into .tools/ (or $FILES_SDK_TOOLS_DIR) and reused until those
 files change. Type checking needs Node.js and npm on PATH; it runs Pyright
 once for each platform (Linux, macOS, Windows) at each Python version that
 pyproject.toml's classifiers list, because os and other modules differ between
-them, and fails naming each that reported an error. This is static analysis,
-not a run on those platforms. check, test and package need the Files.com mock
-server that tests/base.py names; build and install-check do not, so a release
-can build and check its artifacts without it.
+them, as many at once as there are CPUs, and fails naming each that reported
+an error. This is static analysis, not a run on those platforms. check,
+test and package need the Files.com mock server that tests/base.py names;
+build and install-check do not, so a release can build and check its
+artifacts without it.
 
 test --artifact and install-check install a wheel or sdist, hash-checked,
 into a new environment holding exactly the locked runtime graph, run pip
@@ -57,6 +59,7 @@ replaces; audit refuses any other directory and deletes nothing in it.
 
 import argparse
 import base64
+import concurrent.futures
 import email.parser
 import hashlib
 import importlib.metadata
@@ -302,8 +305,7 @@ def format_sources():
     black("--quiet")
 
 
-def check():
-    black("--check", "--diff")
+def lint():
     run(
         environment("check", "check.txt"),
         "-m",
@@ -312,6 +314,11 @@ def check():
         cwd=PACKAGE,
     )
     type_check()
+
+
+def check():
+    black("--check", "--diff")
+    lint()
     test("current")
 
 
@@ -342,28 +349,58 @@ def supported_versions():
     return versions
 
 
+def available_cpus():
+    """How many CPUs this process may run on."""
+    if hasattr(os, "sched_getaffinity"):
+        return len(os.sched_getaffinity(0))
+    return os.cpu_count() or 1
+
+
 def type_check():
     """Run Pyright with the test environment's packages for every supported
-    platform and Python version, then fail naming each that reported an
+    platform and Python version, as many at once as there are CPUs, print
+    each one's output in that order, then fail naming each that reported an
     error. The versions are read first, before any tool is prepared."""
     versions = supported_versions()
     runtime = environment("test-current", "runtime.txt")
     command = [*pyright(), "--pythonpath", runtime]
+    modes = [
+        (platform, version)
+        for platform in TYPE_CHECK_PLATFORMS
+        for version in versions
+    ]
+
+    def check_as(mode):
+        platform, version = mode
+        arguments = [
+            str(part)
+            for part in (
+                *command,
+                "--pythonplatform",
+                platform,
+                "--pythonversion",
+                version,
+            )
+        ]
+        result = subprocess.run(
+            arguments,
+            cwd=PACKAGE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+        return arguments, result
+
+    workers = min(len(modes), available_cpus())
+    with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
+        results = list(pool.map(check_as, modes))
     failed = []
-    for platform in TYPE_CHECK_PLATFORMS:
-        for version in versions:
-            print(f"Pyright as {platform}, Python {version}", flush=True)
-            try:
-                run(
-                    *command,
-                    "--pythonplatform",
-                    platform,
-                    "--pythonversion",
-                    version,
-                    cwd=PACKAGE,
-                )
-            except TaskFailed:
-                failed.append(f"{platform} with Python {version}")
+    for (platform, version), (arguments, result) in zip(modes, results):
+        print(f"Pyright as {platform}, Python {version}", flush=True)
+        print("+", " ".join(arguments), flush=True)
+        sys.stdout.buffer.write(result.stdout)
+        sys.stdout.buffer.flush()
+        if result.returncode != 0:
+            failed.append(f"{platform} with Python {version}")
     if failed:
         raise TaskFailed("Pyright found errors for " + ", ".join(failed))
 
@@ -1133,6 +1170,7 @@ def main():
     tasks = parser.add_subparsers(dest="task", required=True)
     tasks.add_parser("format", help="rewrite the sources with pinned Black")
     tasks.add_parser("check", help="run every check without changing files")
+    tasks.add_parser("lint", help="run flake8 and the type checks")
     tasks.add_parser(
         "types", help="type check for every supported platform and Python"
     )
@@ -1187,6 +1225,8 @@ def main():
             format_sources()
         elif args.task == "check":
             check()
+        elif args.task == "lint":
+            lint()
         elif args.task == "types":
             type_check()
         elif args.task == "test":
