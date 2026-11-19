@@ -26,6 +26,6 @@ The API sends each `FormField` record as JSON, such as:
 * `required` (boolean): Is this a required field?
 * `help_text` (string): Help text to be displayed
 * `field_type` (string): Type of Field
-* `options_for_select` (array(string)): Options to display for radio and dropdown
-* `default_option` (string): Default option for radio and dropdown
+* `options_for_select` (array(string)): Options to display for radio, dropdown, and multi_select
+* `default_option` (string): Default option for radio, dropdown, and multi_select
 * `form_field_set_id` (int64): Form field set id
