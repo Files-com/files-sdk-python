@@ -212,7 +212,7 @@ class Site:
         username_display: string - How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
         welcome_custom_text: string - Custom text send in user welcome email
         email_footer_custom_text: string - Custom footer text for system-generated emails (as Markdown). Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
-        welcome_email_cc: email - Include this email in welcome emails if enabled
+        welcome_email_cc: email - Copy welcome emails to this address when the email contains neither a create-password link nor a password.
         welcome_email_subject: string - Include this email subject in welcome emails if enabled
         welcome_email_enabled: boolean - Will the welcome email be sent to new users?
         welcome_screen: string - Does the welcome screen appear?
@@ -410,7 +410,7 @@ class Site:
         "username_display": None,  # string - How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
         "welcome_custom_text": None,  # string - Custom text send in user welcome email
         "email_footer_custom_text": None,  # string - Custom footer text for system-generated emails (as Markdown). Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
-        "welcome_email_cc": None,  # email - Include this email in welcome emails if enabled
+        "welcome_email_cc": None,  # email - Copy welcome emails to this address when the email contains neither a create-password link nor a password.
         "welcome_email_subject": None,  # string - Include this email subject in welcome emails if enabled
         "welcome_email_enabled": None,  # boolean - Will the welcome email be sent to new users?
         "welcome_screen": None,  # string - Does the welcome screen appear?
@@ -732,7 +732,7 @@ class SiteResource:
         ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
         show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
         always_mkdir_parents - boolean - Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
-        welcome_email_cc - string - Include this email in welcome emails if enabled
+        welcome_email_cc - string - Copy welcome emails to this address when the email contains neither a create-password link nor a password.
         welcome_email_subject - string - Include this email subject in welcome emails if enabled
         welcome_custom_text - string - Custom text send in user welcome email
         language - string - Site default language
@@ -2088,7 +2088,7 @@ def update(
     ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
     show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
     always_mkdir_parents - boolean - Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
-    welcome_email_cc - string - Include this email in welcome emails if enabled
+    welcome_email_cc - string - Copy welcome emails to this address when the email contains neither a create-password link nor a password.
     welcome_email_subject - string - Include this email subject in welcome emails if enabled
     welcome_custom_text - string - Custom text send in user welcome email
     language - string - Site default language

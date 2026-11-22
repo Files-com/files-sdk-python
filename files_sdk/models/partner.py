@@ -29,7 +29,7 @@ class Partner:
         allow_credential_changes: boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
         allow_providing_gpg_keys: boolean - Allow Partner Admins to provide GPG keys.
         allow_user_creation: boolean - Allow Partner Admins to create users.
-        cc_emails_to_responsible_party: boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
+        cc_emails_to_responsible_party: boolean - When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
         connections: array(object) - Approved Connected Sites relationships for this Partner, in both directions. Empty when this Partner has no connections. Read-only.
         id: int64 - The unique ID of the Partner.
         ai_assistant_personality_id: int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
@@ -53,7 +53,7 @@ class Partner:
         "allow_credential_changes": None,  # boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
         "allow_providing_gpg_keys": None,  # boolean - Allow Partner Admins to provide GPG keys.
         "allow_user_creation": None,  # boolean - Allow Partner Admins to create users.
-        "cc_emails_to_responsible_party": None,  # boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
+        "cc_emails_to_responsible_party": None,  # boolean - When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
         "connections": None,  # array(object) - Approved Connected Sites relationships for this Partner, in both directions. Empty when this Partner has no connections. Read-only.
         "id": None,  # int64 - The unique ID of the Partner.
         "ai_assistant_personality_id": None,  # int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
@@ -137,7 +137,7 @@ class Partner:
           allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
           allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
           allow_user_creation - boolean - Allow Partner Admins to create users.
-          cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
+          cc_emails_to_responsible_party - boolean - When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
           notes - string - Notes about this Partner.
           partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
           responsible_group_id - int64 - ID of the Group responsible for this Partner.
@@ -389,7 +389,7 @@ class PartnerResource:
         allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
         allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
         allow_user_creation - boolean - Allow Partner Admins to create users.
-        cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
+        cc_emails_to_responsible_party - boolean - When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
         notes - string - Notes about this Partner.
         partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
         responsible_group_id - int64 - ID of the Group responsible for this Partner.
@@ -511,7 +511,7 @@ class PartnerResource:
         allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
         allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
         allow_user_creation - boolean - Allow Partner Admins to create users.
-        cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
+        cc_emails_to_responsible_party - boolean - When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
         notes - string - Notes about this Partner.
         partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
         responsible_group_id - int64 - ID of the Group responsible for this Partner.
@@ -733,7 +733,7 @@ def create(
     allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
     allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
     allow_user_creation - boolean - Allow Partner Admins to create users.
-    cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
+    cc_emails_to_responsible_party - boolean - When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
     notes - string - Notes about this Partner.
     partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
     responsible_group_id - int64 - ID of the Group responsible for this Partner.
@@ -759,7 +759,7 @@ def update(
     allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
     allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
     allow_user_creation - boolean - Allow Partner Admins to create users.
-    cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
+    cc_emails_to_responsible_party - boolean - When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
     notes - string - Notes about this Partner.
     partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
     responsible_group_id - int64 - ID of the Group responsible for this Partner.
