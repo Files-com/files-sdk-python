@@ -33,7 +33,7 @@ The API sends each `PublicKey` record as JSON, such as:
 * `fingerprint_sha256` (string): Public key fingerprint (SHA256)
 * `status` (string): Only returned when generating keys. Can be invalid, not_generated, generating, complete
 * `last_login_at` (date-time): Key's most recent login time via SFTP
-* `generated_private_key` (string): Only returned when generating keys. Private key generated for the user.
+* `generated_private_key` (string): Available for 60 minutes after key creation, only to the API key or login session that requested generation.
 * `generated_public_key` (string): Only returned when generating keys. Public key generated for the user.
 * `username` (string): Username of the user this public key is associated with
 * `user_id` (int64): User ID this public key is associated with
