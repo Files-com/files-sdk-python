@@ -52,6 +52,7 @@ from files_sdk.models.bundle_download import BundleDownloadResource
 from files_sdk.models.bundle_notification import BundleNotificationResource
 from files_sdk.models.bundle_recipient import BundleRecipientResource
 from files_sdk.models.bundle_registration import BundleRegistrationResource
+from files_sdk.models.certificate import CertificateResource
 from files_sdk.models.chat_session import ChatSessionResource
 from files_sdk.models.child_site_management_policy import (
     ChildSiteManagementPolicyResource,
@@ -549,6 +550,11 @@ class Client:
     def bundle_registration(self) -> BundleRegistrationResource:
         """BundleRegistration operations that use this client."""
         return BundleRegistrationResource(self)
+
+    @property
+    def certificate(self) -> CertificateResource:
+        """Certificate operations that use this client."""
+        return CertificateResource(self)
 
     @property
     def chat_session(self) -> ChatSessionResource:

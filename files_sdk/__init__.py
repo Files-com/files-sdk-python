@@ -45,6 +45,7 @@ from files_sdk.models import bundle_notification as bundle_notification
 from files_sdk.models import bundle_path as bundle_path
 from files_sdk.models import bundle_recipient as bundle_recipient
 from files_sdk.models import bundle_registration as bundle_registration
+from files_sdk.models import certificate as certificate
 from files_sdk.models import chat_message as chat_message
 from files_sdk.models import chat_session as chat_session
 from files_sdk.models import (
@@ -243,6 +244,7 @@ from files_sdk.models.bundle_recipient import (
 from files_sdk.models.bundle_registration import (
     BundleRegistration as BundleRegistration,
 )
+from files_sdk.models.certificate import Certificate as Certificate
 from files_sdk.models.chat_message import ChatMessage as ChatMessage
 from files_sdk.models.chat_session import ChatSession as ChatSession
 from files_sdk.models.child_site_management_policy import (
@@ -479,7 +481,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "2.0.51"
+version = "2.0.52"
 
 __version__ = version
 

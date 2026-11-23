@@ -106,6 +106,7 @@ class Site:
         file_activity_events_enabled: boolean - If true, file operations produce file_action.activity.v1 EventChannel events in all workspaces. Defaults to false; subscription filters and workspace access still control delivery.
         disable_password_reset: boolean - Is password reset disabled?
         domain: string - Custom domain
+        dangerously_use_custom_domain_for_transfer_urls: boolean - Allow eligible Remote Server Mount and Files.com Agent transfer URLs to use the Site's custom domain. Enabling can serve file content from the same hostname as the signed-in web app. Disabled by default.
         domain_hsts_header: boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
         domain_letsencrypt_chain: string - Letsencrypt chain to use when registering SSL Certificate for domain. No longer used as of 2026.
         email: email - Main email for this site
@@ -305,6 +306,7 @@ class Site:
         "file_activity_events_enabled": None,  # boolean - If true, file operations produce file_action.activity.v1 EventChannel events in all workspaces. Defaults to false; subscription filters and workspace access still control delivery.
         "disable_password_reset": None,  # boolean - Is password reset disabled?
         "domain": None,  # string - Custom domain
+        "dangerously_use_custom_domain_for_transfer_urls": None,  # boolean - Allow eligible Remote Server Mount and Files.com Agent transfer URLs to use the Site's custom domain. Enabling can serve file content from the same hostname as the signed-in web app. Disabled by default.
         "domain_hsts_header": None,  # boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
         "domain_letsencrypt_chain": None,  # string - Letsencrypt chain to use when registering SSL Certificate for domain. No longer used as of 2026.
         "email": None,  # email - Main email for this site
@@ -502,6 +504,7 @@ class Site:
     file_activity_events_enabled: bool | None
     disable_password_reset: bool | None
     domain: str | None
+    dangerously_use_custom_domain_for_transfer_urls: bool | None
     domain_hsts_header: bool | None
     domain_letsencrypt_chain: str | None
     email: str | None
@@ -732,6 +735,7 @@ class SiteResource:
         allow_bundle_names - boolean - Are manual Bundle names allowed?
         bundle_expiration - int64 - Site-wide Bundle expiration in days
         bundle_max_uses - int64 - Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
+        dangerously_use_custom_domain_for_transfer_urls - boolean - Allow eligible Remote Server Mount and Files.com Agent transfer URLs to use the Site's custom domain. Enabling can serve file content from the same hostname as the signed-in web app. Disabled by default.
         welcome_email_enabled - boolean - Will the welcome email be sent to new users?
         ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
         show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
@@ -954,6 +958,15 @@ class SiteResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: bundle_max_uses must be an int"
+            )
+        if (
+            "dangerously_use_custom_domain_for_transfer_urls" in params
+            and not isinstance(
+                params["dangerously_use_custom_domain_for_transfer_urls"], bool
+            )
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: dangerously_use_custom_domain_for_transfer_urls must be an bool"
             )
         if "welcome_email_enabled" in params and not isinstance(
             params["welcome_email_enabled"], bool
@@ -2096,6 +2109,7 @@ def update(
     allow_bundle_names - boolean - Are manual Bundle names allowed?
     bundle_expiration - int64 - Site-wide Bundle expiration in days
     bundle_max_uses - int64 - Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
+    dangerously_use_custom_domain_for_transfer_urls - boolean - Allow eligible Remote Server Mount and Files.com Agent transfer URLs to use the Site's custom domain. Enabling can serve file content from the same hostname as the signed-in web app. Disabled by default.
     welcome_email_enabled - boolean - Will the welcome email be sent to new users?
     ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
     show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
