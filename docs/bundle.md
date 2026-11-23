@@ -65,6 +65,7 @@ The API sends each `Bundle` record as JSON, such as:
   "dont_separate_submissions_by_folder": true,
   "effective_expires_at": "2000-01-01T01:00:00Z",
   "max_uses": 1,
+  "effective_max_uses": 1,
   "internal_name": "Quarterly reports",
   "note": "The internal note on the bundle.",
   "path_template": "{{name}}_{{ip}}",
@@ -134,7 +135,8 @@ The API sends each `Bundle` record as JSON, such as:
 * `deleted_at` (date-time): Bundle deleted at date/time
 * `dont_separate_submissions_by_folder` (boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `effective_expires_at` (date-time): Read-only expiration date/time, using the explicit expiration or the site-wide setting when applicable. Null when the Share Link does not expire.
-* `max_uses` (int64): Maximum number of times bundle can be accessed
+* `max_uses` (int64): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.
+* `effective_max_uses` (int64): Read-only visitor limit actually enforced for this Share Link. Uses the lower of the link limit and the Site-wide cap when both are set. Null means unlimited.
 * `internal_name` (string): Internal name for identifying this Share Link.
 * `note` (string): Bundle internal note
 * `path_template` (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
@@ -261,7 +263,7 @@ files_sdk.bundle.create({
 * `dont_separate_submissions_by_folder` (boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `expires_at` (string): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
 * `finalize_snapshot` (boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
-* `max_uses` (int64): Maximum number of times bundle can be accessed
+* `max_uses` (int64): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.
 * `group_id` (int64): Owning group ID. If set, members of this group can view, edit, and share this Share Link.
 * `internal_name` (string): Internal name for identifying this Share Link.
 * `description` (string): Public description
@@ -361,7 +363,7 @@ files_sdk.bundle.update(id, {
 * `expires_at` (string): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
 * `finalize_snapshot` (boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `inbox_id` (int64): ID of the associated inbox, if available.
-* `max_uses` (int64): Maximum number of times bundle can be accessed
+* `max_uses` (int64): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.
 * `group_id` (int64): Owning group ID. If set, members of this group can view, edit, and share this Share Link.
 * `internal_name` (string): Internal name for identifying this Share Link.
 * `note` (string): Bundle internal note
@@ -473,7 +475,7 @@ bundle.update({
 * `expires_at` (string): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
 * `finalize_snapshot` (boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `inbox_id` (int64): ID of the associated inbox, if available.
-* `max_uses` (int64): Maximum number of times bundle can be accessed
+* `max_uses` (int64): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.
 * `group_id` (int64): Owning group ID. If set, members of this group can view, edit, and share this Share Link.
 * `internal_name` (string): Internal name for identifying this Share Link.
 * `note` (string): Bundle internal note

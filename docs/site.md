@@ -42,6 +42,7 @@ The API sends each `Site` record as JSON, such as:
   "ask_about_overwrites": true,
   "bundle_activity_notifications": "never",
   "bundle_expiration": 1,
+  "bundle_max_uses": 1,
   "bundle_not_found_message": "example",
   "bundle_password_required": true,
   "bundles_default_owned_by_primary_group": true,
@@ -394,6 +395,7 @@ The API sends each `Site` record as JSON, such as:
 * `ask_about_overwrites` (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `bundle_activity_notifications` (string): Do Bundle owners receive activity notifications?
 * `bundle_expiration` (int64): Site-wide Bundle expiration in days
+* `bundle_max_uses` (int64): Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
 * `bundle_not_found_message` (string): Custom error message to show when bundle is not found.
 * `bundle_password_required` (boolean): Do Bundles require password protection?
 * `bundles_default_owned_by_primary_group` (boolean): If true, new Share Links created by a user with a primary group will default to that group as owner.
@@ -614,6 +616,7 @@ files_sdk.site.update({
   "reply_to_email": "jane.doe@files.com",
   "allow_bundle_names": False,
   "bundle_expiration": 1,
+  "bundle_max_uses": 1,
   "welcome_email_enabled": False,
   "ask_about_overwrites": False,
   "show_request_access_link": False,
@@ -793,6 +796,7 @@ files_sdk.site.update({
 * `reply_to_email` (string): Reply-to email for this site
 * `allow_bundle_names` (boolean): Are manual Bundle names allowed?
 * `bundle_expiration` (int64): Site-wide Bundle expiration in days
+* `bundle_max_uses` (int64): Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
 * `welcome_email_enabled` (boolean): Will the welcome email be sent to new users?
 * `ask_about_overwrites` (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `show_request_access_link` (boolean): Show request access link for users without access?  Currently unused.

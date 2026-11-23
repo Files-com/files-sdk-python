@@ -52,6 +52,7 @@ class Site:
         ask_about_overwrites: boolean - If false, rename conflicting files instead of asking for overwrite confirmation. Only applies to web interface.
         bundle_activity_notifications: string - Do Bundle owners receive activity notifications?
         bundle_expiration: int64 - Site-wide Bundle expiration in days
+        bundle_max_uses: int64 - Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
         bundle_not_found_message: string - Custom error message to show when bundle is not found.
         bundle_password_required: boolean - Do Bundles require password protection?
         bundles_default_owned_by_primary_group: boolean - If true, new Share Links created by a user with a primary group will default to that group as owner.
@@ -250,6 +251,7 @@ class Site:
         "ask_about_overwrites": None,  # boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
         "bundle_activity_notifications": None,  # string - Do Bundle owners receive activity notifications?
         "bundle_expiration": None,  # int64 - Site-wide Bundle expiration in days
+        "bundle_max_uses": None,  # int64 - Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
         "bundle_not_found_message": None,  # string - Custom error message to show when bundle is not found.
         "bundle_password_required": None,  # boolean - Do Bundles require password protection?
         "bundles_default_owned_by_primary_group": None,  # boolean - If true, new Share Links created by a user with a primary group will default to that group as owner.
@@ -446,6 +448,7 @@ class Site:
     ask_about_overwrites: bool | None
     bundle_activity_notifications: str | None
     bundle_expiration: int | None
+    bundle_max_uses: int | None
     bundle_not_found_message: str | None
     bundle_password_required: bool | None
     bundles_default_owned_by_primary_group: bool | None
@@ -728,6 +731,7 @@ class SiteResource:
         reply_to_email - string - Reply-to email for this site
         allow_bundle_names - boolean - Are manual Bundle names allowed?
         bundle_expiration - int64 - Site-wide Bundle expiration in days
+        bundle_max_uses - int64 - Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
         welcome_email_enabled - boolean - Will the welcome email be sent to new users?
         ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
         show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
@@ -943,6 +947,13 @@ class SiteResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: bundle_expiration must be an int"
+            )
+        if "bundle_max_uses" in params and (
+            not isinstance(params["bundle_max_uses"], int)
+            or isinstance(params["bundle_max_uses"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: bundle_max_uses must be an int"
             )
         if "welcome_email_enabled" in params and not isinstance(
             params["welcome_email_enabled"], bool
@@ -2084,6 +2095,7 @@ def update(
     reply_to_email - string - Reply-to email for this site
     allow_bundle_names - boolean - Are manual Bundle names allowed?
     bundle_expiration - int64 - Site-wide Bundle expiration in days
+    bundle_max_uses - int64 - Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
     welcome_email_enabled - boolean - Will the welcome email be sent to new users?
     ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
     show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
