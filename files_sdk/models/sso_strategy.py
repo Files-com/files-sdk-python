@@ -67,6 +67,8 @@ class SsoStrategy:
         ldap_base_dn: string - Base DN for looking up users in LDAP server
         ldap_domain: string - Domain name that will be appended to LDAP usernames
         display_on_login_page: boolean - Should this strategy be displayed on the login page?
+        public_sso_domain: string - Username domain that can publicly discover this SSO provider on this site. Set after saving the provider. Set to null to turn off discovery.
+        public_sso_domain_dns_value: string - This provider's DNS TXT value to publish at _files-sso.<domain> before enabling public SSO discovery for that domain.
         ldap_host: string - LDAP host
         ldap_host_2: string - LDAP backup host
         ldap_host_3: string - LDAP backup host
@@ -123,6 +125,8 @@ class SsoStrategy:
         "ldap_base_dn": None,  # string - Base DN for looking up users in LDAP server
         "ldap_domain": None,  # string - Domain name that will be appended to LDAP usernames
         "display_on_login_page": None,  # boolean - Should this strategy be displayed on the login page?
+        "public_sso_domain": None,  # string - Username domain that can publicly discover this SSO provider on this site. Set after saving the provider. Set to null to turn off discovery.
+        "public_sso_domain_dns_value": None,  # string - This provider's DNS TXT value to publish at _files-sso.<domain> before enabling public SSO discovery for that domain.
         "ldap_host": None,  # string - LDAP host
         "ldap_host_2": None,  # string - LDAP backup host
         "ldap_host_3": None,  # string - LDAP backup host
@@ -181,6 +185,8 @@ class SsoStrategy:
     ldap_base_dn: str | None
     ldap_domain: str | None
     display_on_login_page: bool | None
+    public_sso_domain: str | None
+    public_sso_domain_dns_value: str | None
     ldap_host: str | None
     ldap_host_2: str | None
     ldap_host_3: str | None
