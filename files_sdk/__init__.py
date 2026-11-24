@@ -36,6 +36,7 @@ from files_sdk.models import (
 )
 from files_sdk.models import automation_log as automation_log
 from files_sdk.models import automation_run as automation_run
+from files_sdk.models import automation_version as automation_version
 from files_sdk.models import bandwidth_snapshot as bandwidth_snapshot
 from files_sdk.models import behavior as behavior
 from files_sdk.models import bundle as bundle
@@ -227,6 +228,9 @@ from files_sdk.models.automation_execution_node import (
 )
 from files_sdk.models.automation_log import AutomationLog as AutomationLog
 from files_sdk.models.automation_run import AutomationRun as AutomationRun
+from files_sdk.models.automation_version import (
+    AutomationVersion as AutomationVersion,
+)
 from files_sdk.models.bandwidth_snapshot import (
     BandwidthSnapshot as BandwidthSnapshot,
 )
@@ -481,7 +485,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "2.0.55"
+version = "2.0.56"
 
 __version__ = version
 

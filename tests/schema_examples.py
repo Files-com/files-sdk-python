@@ -18,6 +18,7 @@ PLACEHOLDERS: dict[str, set[str]] = {
         "output_items",
     },
     "AutomationRun": {"definition", "node_states"},
+    "AutomationVersion": {"definition"},
     "Behavior": {"value"},
     "Bundle": {"requested_upload_slots"},
     "ChildSiteManagementPolicy": {"value"},

@@ -28,6 +28,7 @@ from files_sdk.models.automation_authoring_schema import (
 from files_sdk.models.automation_execution_node import AutomationExecutionNode
 from files_sdk.models.automation_log import AutomationLog
 from files_sdk.models.automation_run import AutomationRun
+from files_sdk.models.automation_version import AutomationVersion
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshot
 from files_sdk.models.behavior import Behavior
 from files_sdk.models.bundle import Bundle

@@ -44,6 +44,7 @@ from files_sdk.models.as2_station import As2StationResource
 from files_sdk.models.automation import AutomationResource
 from files_sdk.models.automation_log import AutomationLogResource
 from files_sdk.models.automation_run import AutomationRunResource
+from files_sdk.models.automation_version import AutomationVersionResource
 from files_sdk.models.bandwidth_snapshot import BandwidthSnapshotResource
 from files_sdk.models.behavior import BehaviorResource
 from files_sdk.models.bundle import BundleResource
@@ -510,6 +511,11 @@ class Client:
     def automation_run(self) -> AutomationRunResource:
         """AutomationRun operations that use this client."""
         return AutomationRunResource(self)
+
+    @property
+    def automation_version(self) -> AutomationVersionResource:
+        """AutomationVersion operations that use this client."""
+        return AutomationVersionResource(self)
 
     @property
     def bandwidth_snapshot(self) -> BandwidthSnapshotResource:

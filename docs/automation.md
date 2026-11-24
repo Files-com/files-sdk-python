@@ -174,7 +174,7 @@ The API sends each `Automation` record as JSON, such as:
 * `user_id` (int64): User ID of the Automation's creator.
 * `user_ids` (array(int64)): IDs of Users for the Automation (i.e. who to Request File from)
 * `value` (object): A Hash of attributes specific to the automation type.
-* `webhook_url` (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
+* `webhook_url` (string): If trigger is `webhook`, this is the URL to start the Automation. For a v2 webhook configured to upload a file, POST multipart form data with a single `file` part or send a raw body with the `X-Files-Filename` header. A JSON body is saved as `payload.json` when the header is omitted.
 * `holiday_region` (string): Skip the automation if there is a formal, observed holiday for this region.
 
 The functions below use the module's settings. Each is also a method of a client's
