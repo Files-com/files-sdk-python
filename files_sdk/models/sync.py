@@ -53,6 +53,7 @@ class Sync:
         recurring_days: array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
         schedule_id: int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
         schedule_days_of_week: array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+        schedule_interval_minutes: int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
         schedule_times_of_day: array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
         schedule_time_zone: string - Time zone for the schedule. If not set, times are interpreted as UTC.
         holiday_region: string - Skip the sync if there is a formal, observed holiday for this region.
@@ -89,6 +90,7 @@ class Sync:
         "recurring_days": None,  # array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
         "schedule_id": None,  # int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+        "schedule_interval_minutes": None,  # int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
         "schedule_times_of_day": None,  # array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
         "schedule_time_zone": None,  # string - Time zone for the schedule. If not set, times are interpreted as UTC.
         "holiday_region": None,  # string - Skip the sync if there is a formal, observed holiday for this region.
@@ -127,6 +129,7 @@ class Sync:
     recurring_days: builtins.list[int] | None
     schedule_id: int | None
     schedule_days_of_week: builtins.list[int] | None
+    schedule_interval_minutes: int | None
     schedule_times_of_day: builtins.list[str] | None
     schedule_time_zone: str | None
     holiday_region: str | None
@@ -216,6 +219,7 @@ class Sync:
           recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
           schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
           schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+          schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
           schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
           schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
           src_path - string - Absolute source path for the sync
@@ -318,6 +322,13 @@ class Sync:
         ):
             raise InvalidParameterError(
                 "Bad parameter: schedule_days_of_week must be an list"
+            )
+        if "schedule_interval_minutes" in params and (
+            not isinstance(params["schedule_interval_minutes"], int)
+            or isinstance(params["schedule_interval_minutes"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_interval_minutes must be an int"
             )
         if "schedule_time_zone" in params and not isinstance(
             params["schedule_time_zone"], str
@@ -513,6 +524,7 @@ class SyncResource:
         recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
         schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
         schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+        schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
         schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
         schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
         src_path - string - Absolute source path for the sync
@@ -606,6 +618,13 @@ class SyncResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: schedule_days_of_week must be an list"
+            )
+        if "schedule_interval_minutes" in params and (
+            not isinstance(params["schedule_interval_minutes"], int)
+            or isinstance(params["schedule_interval_minutes"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_interval_minutes must be an int"
             )
         if "schedule_time_zone" in params and not isinstance(
             params["schedule_time_zone"], str
@@ -742,6 +761,7 @@ class SyncResource:
         recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
         schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
         schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+        schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
         schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
         schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
         src_path - string - Absolute source path for the sync
@@ -846,6 +866,13 @@ class SyncResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: schedule_days_of_week must be an list"
+            )
+        if "schedule_interval_minutes" in params and (
+            not isinstance(params["schedule_interval_minutes"], int)
+            or isinstance(params["schedule_interval_minutes"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_interval_minutes must be an int"
             )
         if "schedule_time_zone" in params and not isinstance(
             params["schedule_time_zone"], str
@@ -1012,6 +1039,7 @@ def create(
     recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
     schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
     schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+    schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
     schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
     schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
     src_path - string - Absolute source path for the sync
@@ -1064,6 +1092,7 @@ def update(
     recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
     schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
     schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+    schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
     schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
     schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
     src_path - string - Absolute source path for the sync

@@ -37,6 +37,7 @@ class ScheduledExport:
         recurring_days: array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
         schedule_id: int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
         schedule_days_of_week: array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+        schedule_interval_minutes: int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
         schedule_times_of_day: array(string) - Times of day in HH:MM format for the scheduled export schedule.
         schedule_time_zone: string - Time zone used by the scheduled export schedule.
         holiday_region: string - Optional holiday region used by the scheduled export schedule.
@@ -62,6 +63,7 @@ class ScheduledExport:
         "recurring_days": None,  # array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
         "schedule_id": None,  # int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
         "schedule_days_of_week": None,  # array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+        "schedule_interval_minutes": None,  # int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
         "schedule_times_of_day": None,  # array(string) - Times of day in HH:MM format for the scheduled export schedule.
         "schedule_time_zone": None,  # string - Time zone used by the scheduled export schedule.
         "holiday_region": None,  # string - Optional holiday region used by the scheduled export schedule.
@@ -89,6 +91,7 @@ class ScheduledExport:
     recurring_days: builtins.list[int] | None
     schedule_id: int | None
     schedule_days_of_week: builtins.list[int] | None
+    schedule_interval_minutes: int | None
     schedule_times_of_day: builtins.list[str] | None
     schedule_time_zone: str | None
     holiday_region: str | None
@@ -148,6 +151,7 @@ class ScheduledExport:
           recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
           schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
           schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+          schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
           schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
           schedule_time_zone - string - Time zone used by the scheduled export schedule.
           holiday_region - string - Optional holiday region used by the scheduled export schedule.
@@ -215,6 +219,13 @@ class ScheduledExport:
         ):
             raise InvalidParameterError(
                 "Bad parameter: schedule_days_of_week must be an list"
+            )
+        if "schedule_interval_minutes" in params and (
+            not isinstance(params["schedule_interval_minutes"], int)
+            or isinstance(params["schedule_interval_minutes"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_interval_minutes must be an int"
             )
         if "schedule_times_of_day" in params and not isinstance(
             params["schedule_times_of_day"], builtins.list
@@ -389,6 +400,7 @@ class ScheduledExportResource:
         recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
         schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
         schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+        schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
         schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
         schedule_time_zone - string - Time zone used by the scheduled export schedule.
         holiday_region - string - Optional holiday region used by the scheduled export schedule.
@@ -453,6 +465,13 @@ class ScheduledExportResource:
             raise InvalidParameterError(
                 "Bad parameter: schedule_days_of_week must be an list"
             )
+        if "schedule_interval_minutes" in params and (
+            not isinstance(params["schedule_interval_minutes"], int)
+            or isinstance(params["schedule_interval_minutes"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_interval_minutes must be an int"
+            )
         if "schedule_times_of_day" in params and not isinstance(
             params["schedule_times_of_day"], builtins.list
         ):
@@ -497,6 +516,7 @@ class ScheduledExportResource:
         recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
         schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
         schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+        schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
         schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
         schedule_time_zone - string - Time zone used by the scheduled export schedule.
         holiday_region - string - Optional holiday region used by the scheduled export schedule.
@@ -572,6 +592,13 @@ class ScheduledExportResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: schedule_days_of_week must be an list"
+            )
+        if "schedule_interval_minutes" in params and (
+            not isinstance(params["schedule_interval_minutes"], int)
+            or isinstance(params["schedule_interval_minutes"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: schedule_interval_minutes must be an int"
             )
         if "schedule_times_of_day" in params and not isinstance(
             params["schedule_times_of_day"], builtins.list
@@ -707,6 +734,7 @@ def create(
     recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
     schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
     schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+    schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
     schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
     schedule_time_zone - string - Time zone used by the scheduled export schedule.
     holiday_region - string - Optional holiday region used by the scheduled export schedule.
@@ -731,6 +759,7 @@ def update(
     recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
     schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
     schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+    schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
     schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
     schedule_time_zone - string - Time zone used by the scheduled export schedule.
     holiday_region - string - Optional holiday region used by the scheduled export schedule.
