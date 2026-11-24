@@ -100,7 +100,7 @@ class User:
         workspace_admin: boolean - Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
         site_id: int64 - Site ID
         workspace_id: int64 - ID of the Workspace the user belongs to. 0 is the Default Workspace.
-        default_workspace_id: int64 - Workspace ID the user should land in by default when more than one Workspace is available.
+        preferred_workspace_id: int64 - Workspace ID the user should land in by default when more than one Workspace is available.
         skip_welcome_screen: boolean - Skip Welcome page in the UI?
         ftp_tls_session_reuse_required: string - FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
         ssl_required: string - SSL required setting
@@ -204,7 +204,7 @@ class User:
         "workspace_admin": None,  # boolean - Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
         "site_id": None,  # int64 - Site ID
         "workspace_id": None,  # int64 - ID of the Workspace the user belongs to. 0 is the Default Workspace.
-        "default_workspace_id": None,  # int64 - Workspace ID the user should land in by default when more than one Workspace is available.
+        "preferred_workspace_id": None,  # int64 - Workspace ID the user should land in by default when more than one Workspace is available.
         "skip_welcome_screen": None,  # boolean - Skip Welcome page in the UI?
         "ftp_tls_session_reuse_required": None,  # string - FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
         "ssl_required": None,  # string - SSL required setting
@@ -310,7 +310,7 @@ class User:
     workspace_admin: bool | None
     site_id: int | None
     workspace_id: int | None
-    default_workspace_id: int | None
+    preferred_workspace_id: int | None
     skip_welcome_screen: bool | None
     ftp_tls_session_reuse_required: str | None
     ssl_required: str | None
@@ -446,7 +446,7 @@ class User:
           bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
           dav_permission - boolean - Can the user connect with WebDAV?
           desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
-          default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
+          preferred_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
           disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
           filesystem_layout - string - File system layout
           ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -626,12 +626,12 @@ class User:
             raise InvalidParameterError(
                 "Bad parameter: desktop_configuration_profile_id must be an int"
             )
-        if "default_workspace_id" in params and (
-            not isinstance(params["default_workspace_id"], int)
-            or isinstance(params["default_workspace_id"], bool)
+        if "preferred_workspace_id" in params and (
+            not isinstance(params["preferred_workspace_id"], int)
+            or isinstance(params["preferred_workspace_id"], bool)
         ):
             raise InvalidParameterError(
-                "Bad parameter: default_workspace_id must be an int"
+                "Bad parameter: preferred_workspace_id must be an int"
             )
         if "disabled" in params and isinstance(
             params["disabled"], (builtins.list, tuple, dict)
@@ -1132,7 +1132,7 @@ class UserResource:
         bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
         dav_permission - boolean - Can the user connect with WebDAV?
         desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
-        default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
+        preferred_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
         disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
         filesystem_layout - string - File system layout
         ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -1302,12 +1302,12 @@ class UserResource:
             raise InvalidParameterError(
                 "Bad parameter: desktop_configuration_profile_id must be an int"
             )
-        if "default_workspace_id" in params and (
-            not isinstance(params["default_workspace_id"], int)
-            or isinstance(params["default_workspace_id"], bool)
+        if "preferred_workspace_id" in params and (
+            not isinstance(params["preferred_workspace_id"], int)
+            or isinstance(params["preferred_workspace_id"], bool)
         ):
             raise InvalidParameterError(
-                "Bad parameter: default_workspace_id must be an int"
+                "Bad parameter: preferred_workspace_id must be an int"
             )
         if "disabled" in params and not isinstance(params["disabled"], bool):
             raise InvalidParameterError(
@@ -1690,7 +1690,7 @@ class UserResource:
         bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
         dav_permission - boolean - Can the user connect with WebDAV?
         desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
-        default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
+        preferred_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
         disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
         filesystem_layout - string - File system layout
         ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -1874,12 +1874,12 @@ class UserResource:
             raise InvalidParameterError(
                 "Bad parameter: desktop_configuration_profile_id must be an int"
             )
-        if "default_workspace_id" in params and (
-            not isinstance(params["default_workspace_id"], int)
-            or isinstance(params["default_workspace_id"], bool)
+        if "preferred_workspace_id" in params and (
+            not isinstance(params["preferred_workspace_id"], int)
+            or isinstance(params["preferred_workspace_id"], bool)
         ):
             raise InvalidParameterError(
-                "Bad parameter: default_workspace_id must be an int"
+                "Bad parameter: preferred_workspace_id must be an int"
             )
         if "disabled" in params and not isinstance(params["disabled"], bool):
             raise InvalidParameterError(
@@ -2299,7 +2299,7 @@ def create(
     bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
     dav_permission - boolean - Can the user connect with WebDAV?
     desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
-    default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
+    preferred_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
     disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
     filesystem_layout - string - File system layout
     ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -2405,7 +2405,7 @@ def update(
     bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
     dav_permission - boolean - Can the user connect with WebDAV?
     desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
-    default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
+    preferred_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
     disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
     filesystem_layout - string - File system layout
     ftp_permission - boolean - Can the user access with FTP/FTPS?

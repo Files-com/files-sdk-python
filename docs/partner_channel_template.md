@@ -22,6 +22,12 @@ The API sends each `PartnerChannelTemplate` record as JSON, such as:
   "from_partner_managed_folder_paths": [
     "claims/received"
   ],
+  "from_partner_upload_forms": [
+    {
+      "path": "reports/monthly",
+      "form_field_set_id": 1
+    }
+  ],
   "effective_to_partner_folder_name": "outgoing",
   "effective_from_partner_folder_name": "incoming"
 }
@@ -39,6 +45,7 @@ The API sends each `PartnerChannelTemplate` record as JSON, such as:
 * `to_partner_route_path_pattern` (string): Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
 * `to_partner_managed_folder_paths` (array(string)): Managed folder paths inside the to-Partner folder.
 * `from_partner_managed_folder_paths` (array(string)): Managed folder paths inside the from-Partner folder.
+* `from_partner_upload_forms` (array(object)): Form Field Sets attached to From Partner upload destinations. Managed Partner Channels receive copies of these assignments.
 * `effective_to_partner_folder_name` (string): Resolved to-Partner subfolder name. Null when the direction is disabled or uses the Channel folder directly.
 * `effective_from_partner_folder_name` (string): Resolved from-Partner subfolder name. Null when the direction is disabled or uses the Channel folder directly.
 
@@ -87,6 +94,7 @@ files_sdk.partner_channel_template.create({
   "use_channel_root": False,
   "from_partner_folder_name": "incoming",
   "from_partner_managed_folder_paths": ["claims/received"],
+  "from_partner_upload_forms": [{"path": "reports/monthly", "form_field_set_id": 1}],
   "from_partner_route_path_pattern": "processing/{{partner_name}}/from-partner",
   "to_partner_folder_name": "outgoing",
   "to_partner_managed_folder_paths": ["reports/monthly"],
@@ -103,6 +111,7 @@ files_sdk.partner_channel_template.create({
 * `use_channel_root` (boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.
 * `from_partner_folder_name` (string): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (array(string)): Managed folder paths inside the from-Partner folder.
+* `from_partner_upload_forms` (array(object)): Form Field Sets for From Partner upload destinations, copied to managed Partner Channels. Each entry has a `path` relative to the From Partner folder and a `form_field_set_id`. Use an empty `path` when the Template has no managed folders. Providing this replaces all assignments, and an empty array removes them.
 * `from_partner_route_path_pattern` (string): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
 * `to_partner_folder_name` (string): Optional Channel-level to-Partner folder name override.
 * `to_partner_managed_folder_paths` (array(string)): Managed folder paths inside the to-Partner folder.
@@ -122,6 +131,7 @@ files_sdk.partner_channel_template.update(id, {
   "use_channel_root": False,
   "from_partner_folder_name": "incoming",
   "from_partner_managed_folder_paths": ["claims/received"],
+  "from_partner_upload_forms": [{"path": "reports/monthly", "form_field_set_id": 1}],
   "from_partner_route_path_pattern": "processing/{{partner_name}}/from-partner",
   "to_partner_folder_name": "outgoing",
   "to_partner_managed_folder_paths": ["reports/monthly"],
@@ -138,6 +148,7 @@ files_sdk.partner_channel_template.update(id, {
 * `use_channel_root` (boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.
 * `from_partner_folder_name` (string): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (array(string)): Managed folder paths inside the from-Partner folder.
+* `from_partner_upload_forms` (array(object)): Form Field Sets for From Partner upload destinations, copied to managed Partner Channels. Each entry has a `path` relative to the From Partner folder and a `form_field_set_id`. Use an empty `path` when the Template has no managed folders. Providing this replaces all assignments, and an empty array removes them.
 * `from_partner_route_path_pattern` (string): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
 * `to_partner_folder_name` (string): Optional Channel-level to-Partner folder name override.
 * `to_partner_managed_folder_paths` (array(string)): Managed folder paths inside the to-Partner folder.
@@ -170,6 +181,7 @@ partner_channel_template.update({
   "use_channel_root": False,
   "from_partner_folder_name": "incoming",
   "from_partner_managed_folder_paths": ["claims/received"],
+  "from_partner_upload_forms": [{"path": "reports/monthly", "form_field_set_id": 1}],
   "from_partner_route_path_pattern": "processing/{{partner_name}}/from-partner",
   "to_partner_folder_name": "outgoing",
   "to_partner_managed_folder_paths": ["reports/monthly"],
@@ -186,6 +198,7 @@ partner_channel_template.update({
 * `use_channel_root` (boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.
 * `from_partner_folder_name` (string): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (array(string)): Managed folder paths inside the from-Partner folder.
+* `from_partner_upload_forms` (array(object)): Form Field Sets for From Partner upload destinations, copied to managed Partner Channels. Each entry has a `path` relative to the From Partner folder and a `form_field_set_id`. Use an empty `path` when the Template has no managed folders. Providing this replaces all assignments, and an empty array removes them.
 * `from_partner_route_path_pattern` (string): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
 * `to_partner_folder_name` (string): Optional Channel-level to-Partner folder name override.
 * `to_partner_managed_folder_paths` (array(string)): Managed folder paths inside the to-Partner folder.

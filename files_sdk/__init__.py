@@ -114,6 +114,9 @@ from files_sdk.models import partner_channel as partner_channel
 from files_sdk.models import (
     partner_channel_template as partner_channel_template,
 )
+from files_sdk.models import (
+    partner_channel_upload_form as partner_channel_upload_form,
+)
 from files_sdk.models import partner_connection as partner_connection
 from files_sdk.models import partner_site as partner_site
 from files_sdk.models import partner_site_request as partner_site_request
@@ -346,6 +349,9 @@ from files_sdk.models.partner_channel import PartnerChannel as PartnerChannel
 from files_sdk.models.partner_channel_template import (
     PartnerChannelTemplate as PartnerChannelTemplate,
 )
+from files_sdk.models.partner_channel_upload_form import (
+    PartnerChannelUploadForm as PartnerChannelUploadForm,
+)
 from files_sdk.models.partner_connection import (
     PartnerConnection as PartnerConnection,
 )
@@ -485,7 +491,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "2.0.56"
+version = "2.0.57"
 
 __version__ = version
 
