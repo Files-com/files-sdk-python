@@ -50,7 +50,6 @@ The API sends each `SsoStrategy` record as JSON, such as:
   "ldap_domain": "mysite.com",
   "display_on_login_page": true,
   "public_sso_domain": "partner.example.com",
-  "public_sso_domain_dns_value": "files-sso=…",
   "ldap_host": "ldap.site.com",
   "ldap_host_2": "ldap2.site.com",
   "ldap_host_3": "ldap3.site.com",
@@ -107,8 +106,7 @@ The API sends each `SsoStrategy` record as JSON, such as:
 * `ldap_base_dn` (string): Base DN for looking up users in LDAP server
 * `ldap_domain` (string): Domain name that will be appended to LDAP usernames
 * `display_on_login_page` (boolean): Should this strategy be displayed on the login page?
-* `public_sso_domain` (string): Username domain that can publicly discover this SSO provider on this site. Set after saving the provider. Set to null to turn off discovery.
-* `public_sso_domain_dns_value` (string): This provider's DNS TXT value to publish at _files-sso.<domain> before enabling public SSO discovery for that domain.
+* `public_sso_domain` (string): Username domain that can publicly discover this SSO provider on this site. Set to null to turn off discovery.
 * `ldap_host` (string): LDAP host
 * `ldap_host_2` (string): LDAP backup host
 * `ldap_host_3` (string): LDAP backup host
