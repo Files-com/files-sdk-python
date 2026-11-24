@@ -12,7 +12,8 @@ The API sends each `Snapshot` record as JSON, such as:
   "name": "My Snapshot",
   "user_id": 1,
   "bundle_id": 1,
-  "workspace_id": 1
+  "workspace_id": 1,
+  "shared_workflow_id": 1
 }
 ```
 
@@ -23,6 +24,7 @@ The API sends each `Snapshot` record as JSON, such as:
 * `user_id` (int64): The user that created this snapshot, if applicable.
 * `bundle_id` (int64): The bundle using this snapshot, if applicable.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
+* `shared_workflow_id` (int64): Shared Workflow for which the Snapshot was created.
 * `paths` (array(string)): An array of paths to add to the snapshot.
 
 The functions below use the module's settings. Each is also a method of a client's
@@ -66,7 +68,8 @@ files_sdk.snapshot.find(id)
 files_sdk.snapshot.create({
   "expires_at": "2000-01-01T01:00:00Z",
   "name": "My Snapshot",
-  "workspace_id": 0
+  "workspace_id": 0,
+  "shared_workflow_id": 1
 })
 ```
 
@@ -76,6 +79,7 @@ files_sdk.snapshot.create({
 * `name` (string): A name for the snapshot.
 * `paths` (array(string)): An array of paths to add to the snapshot.
 * `workspace_id` (int64): Workspace ID. `0` means the default workspace.
+* `shared_workflow_id` (int64): Shared Workflow for which the Snapshot was created.
 
 
 ---

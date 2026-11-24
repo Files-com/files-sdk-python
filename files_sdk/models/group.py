@@ -39,6 +39,7 @@ class Group:
         s3_compatible_endpoint_permission: boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
         desktop_configuration_profile_id: int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
         integration_centric_profile_id: int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+        preferred_workspace_id: int64 - Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.
         site_id: int64 - Site ID
         workspace_id: int64 - Workspace ID
     """
@@ -59,6 +60,7 @@ class Group:
         "s3_compatible_endpoint_permission": None,  # boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
         "desktop_configuration_profile_id": None,  # int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
         "integration_centric_profile_id": None,  # int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+        "preferred_workspace_id": None,  # int64 - Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.
         "site_id": None,  # int64 - Site ID
         "workspace_id": None,  # int64 - Workspace ID
     }
@@ -81,6 +83,7 @@ class Group:
     s3_compatible_endpoint_permission: bool | None
     desktop_configuration_profile_id: int | None
     integration_centric_profile_id: int | None
+    preferred_workspace_id: int | None
     site_id: int | None
     workspace_id: int | None
 
@@ -132,6 +135,7 @@ class Group:
           integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
           allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
           name - string - Group name.
+          preferred_workspace_id - int64 - Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.
         """
         if not (hasattr(self, "id") and self.id):
             raise MissingParameterError("Current object doesn't have a id")
@@ -212,6 +216,13 @@ class Group:
             )
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
+        if "preferred_workspace_id" in params and (
+            not isinstance(params["preferred_workspace_id"], int)
+            or isinstance(params["preferred_workspace_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: preferred_workspace_id must be an int"
+            )
         operation = Operation.start(self._scope())
         response = operation.request(
             "PATCH", "/groups/" + path_value(params["id"]), params
@@ -489,6 +500,7 @@ class GroupResource:
         integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
         allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
         name - string - Group name.
+        preferred_workspace_id - int64 - Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.
         """
         return self.__update({"id": id}, params, options)
 
@@ -572,6 +584,13 @@ class GroupResource:
             )
         if "name" in params and not isinstance(params["name"], str):
             raise InvalidParameterError("Bad parameter: name must be an str")
+        if "preferred_workspace_id" in params and (
+            not isinstance(params["preferred_workspace_id"], int)
+            or isinstance(params["preferred_workspace_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: preferred_workspace_id must be an int"
+            )
         if "id" not in params:
             raise MissingParameterError("Parameter missing: id")
         operation = Operation.start(self._scope, options)
@@ -717,6 +736,7 @@ def update(
     integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
     allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
     name - string - Group name.
+    preferred_workspace_id - int64 - Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.
     """
     return _legacy_resource.update(id, params, options)
 

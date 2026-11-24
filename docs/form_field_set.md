@@ -41,7 +41,7 @@ The API sends each `FormFieldSet` record as JSON, such as:
 * `skip_name` (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
 * `skip_email` (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
 * `skip_company` (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
-* `in_use` (boolean): Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration / Partner Channel upload destination
+* `in_use` (boolean): Form Field Set is in use by an active Inbox, Share Link, Partner Channel upload destination, or Shared Trigger.
 * `user_id` (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `workspace_id` (int64): Workspace ID
 

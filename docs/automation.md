@@ -107,6 +107,15 @@ The API sends each `Automation` record as JSON, such as:
   ],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "source": "example",
+  "shared_trigger_user_ids": [
+    1
+  ],
+  "shared_trigger_group_ids": [
+    1
+  ],
+  "shared_trigger_partner_ids": [
+    1
+  ],
   "sync_ids": [
     1,
     2
@@ -168,6 +177,9 @@ The API sends each `Automation` record as JSON, such as:
 * `schedule_times_of_day` (array(string)): Times of day to run in HH:MM format (24-hour). For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 * `schedule_time_zone` (string): Time zone for the schedule. If not set, times are interpreted as UTC.
 * `source` (string): Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
+* `shared_trigger_user_ids` (array(int64)): Users who can start this Shared Workflow.
+* `shared_trigger_group_ids` (array(int64)): Groups whose members can start this Shared Workflow.
+* `shared_trigger_partner_ids` (array(int64)): Partners whose users can start this Shared Workflow.
 * `sync_ids` (array(int64)): IDs of Syncs to run by this Automation.
 * `trigger_actions` (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
 * `trigger` (string): How this automation is triggered to run.
@@ -238,6 +250,9 @@ files_sdk.automation.create({
   "interval": "year",
   "path": "example",
   "schedule_id": 1,
+  "shared_trigger_user_ids": [1],
+  "shared_trigger_group_ids": [1],
+  "shared_trigger_partner_ids": [1],
   "schedule_days_of_week": [0, 1, 3],
   "schedule_interval_minutes": 15,
   "schedule_times_of_day": ["7:30", "11:30"],
@@ -280,6 +295,9 @@ files_sdk.automation.create({
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
+* `shared_trigger_user_ids` (array(int64)): Users who can start this Shared Workflow.
+* `shared_trigger_group_ids` (array(int64)): Groups whose members can start this Shared Workflow.
+* `shared_trigger_partner_ids` (array(int64)): Partners whose users can start this Shared Workflow.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_interval_minutes` (int64): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.
 * `schedule_times_of_day` (array(string)): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.
@@ -351,6 +369,9 @@ files_sdk.automation.update(id, {
   "interval": "year",
   "path": "example",
   "schedule_id": 1,
+  "shared_trigger_user_ids": [1],
+  "shared_trigger_group_ids": [1],
+  "shared_trigger_partner_ids": [1],
   "schedule_days_of_week": [0, 1, 3],
   "schedule_interval_minutes": 15,
   "schedule_times_of_day": ["7:30", "11:30"],
@@ -393,6 +414,9 @@ files_sdk.automation.update(id, {
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
+* `shared_trigger_user_ids` (array(int64)): Users who can start this Shared Workflow.
+* `shared_trigger_group_ids` (array(int64)): Groups whose members can start this Shared Workflow.
+* `shared_trigger_partner_ids` (array(int64)): Partners whose users can start this Shared Workflow.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_interval_minutes` (int64): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.
 * `schedule_times_of_day` (array(string)): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.
@@ -479,6 +503,9 @@ automation.update({
   "interval": "year",
   "path": "example",
   "schedule_id": 1,
+  "shared_trigger_user_ids": [1],
+  "shared_trigger_group_ids": [1],
+  "shared_trigger_partner_ids": [1],
   "schedule_days_of_week": [0, 1, 3],
   "schedule_interval_minutes": 15,
   "schedule_times_of_day": ["7:30", "11:30"],
@@ -521,6 +548,9 @@ automation.update({
 * `user_ids` (string): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (string): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule_id` (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
+* `shared_trigger_user_ids` (array(int64)): Users who can start this Shared Workflow.
+* `shared_trigger_group_ids` (array(int64)): Groups whose members can start this Shared Workflow.
+* `shared_trigger_partner_ids` (array(int64)): Partners whose users can start this Shared Workflow.
 * `schedule_days_of_week` (array(int64)): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_interval_minutes` (int64): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.
 * `schedule_times_of_day` (array(string)): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.

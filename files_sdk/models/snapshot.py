@@ -31,6 +31,7 @@ class Snapshot:
         user_id: int64 - The user that created this snapshot, if applicable.
         bundle_id: int64 - The bundle using this snapshot, if applicable.
         workspace_id: int64 - Workspace ID. `0` means the default workspace.
+        shared_workflow_id: int64 - Shared Workflow for which the Snapshot was created.
         paths: array(string) - An array of paths to add to the snapshot.
     """
 
@@ -42,6 +43,7 @@ class Snapshot:
         "user_id": None,  # int64 - The user that created this snapshot, if applicable.
         "bundle_id": None,  # int64 - The bundle using this snapshot, if applicable.
         "workspace_id": None,  # int64 - Workspace ID. `0` means the default workspace.
+        "shared_workflow_id": None,  # int64 - Shared Workflow for which the Snapshot was created.
         "paths": None,  # array(string) - An array of paths to add to the snapshot.
     }
 
@@ -55,6 +57,7 @@ class Snapshot:
     user_id: int | None
     bundle_id: int | None
     workspace_id: int | None
+    shared_workflow_id: int | None
     paths: builtins.list[str] | None
 
     # The client and settings this object's operations use: those of the
@@ -264,6 +267,7 @@ class SnapshotResource:
         name - string - A name for the snapshot.
         paths - array(string) - An array of paths to add to the snapshot.
         workspace_id - int64 - Workspace ID. `0` means the default workspace.
+        shared_workflow_id - int64 - Shared Workflow for which the Snapshot was created.
         """
         params = copy_params(params)
         if "expires_at" in params and not isinstance(
@@ -284,6 +288,13 @@ class SnapshotResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: workspace_id must be an int"
+            )
+        if "shared_workflow_id" in params and (
+            not isinstance(params["shared_workflow_id"], int)
+            or isinstance(params["shared_workflow_id"], bool)
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: shared_workflow_id must be an int"
             )
         operation = Operation.start(self._scope, options)
         response = operation.request("POST", "/snapshots", params)
@@ -460,6 +471,7 @@ def create(
     name - string - A name for the snapshot.
     paths - array(string) - An array of paths to add to the snapshot.
     workspace_id - int64 - Workspace ID. `0` means the default workspace.
+    shared_workflow_id - int64 - Shared Workflow for which the Snapshot was created.
     """
     return _legacy_resource.create(params, options)
 

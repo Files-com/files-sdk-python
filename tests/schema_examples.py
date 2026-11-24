@@ -22,6 +22,7 @@ PLACEHOLDERS: dict[str, set[str]] = {
     "Behavior": {"value"},
     "Bundle": {"requested_upload_slots"},
     "ChildSiteManagementPolicy": {"value"},
+    "DatabaseDestination": {"config"},
     "EventRecord": {"human_fields", "actor", "resources", "payload"},
     "EventSubscription": {"delivery_policy"},
     "EventTarget": {"config", "delivery_policy"},

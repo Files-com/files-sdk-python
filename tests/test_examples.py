@@ -163,7 +163,9 @@ class TestResourceExamples(unittest.TestCase):
                     re.findall(r"^\* `(\w+)` \(([^)]*)\)", section, re.M)
                 )
                 values = {"path": "folder/a.txt"}
-                for name in ("id", "user_id"):
+                for name in {"id", "user_id"} | {
+                    name for name in types if name.endswith("_id")
+                }:
                     values[name] = "a1" if types.get(name) == "string" else 1
                 for code in re.findall(
                     r"^```python\n(.*?)^```$", section, re.M | re.S

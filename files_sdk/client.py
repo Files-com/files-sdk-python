@@ -60,6 +60,7 @@ from files_sdk.models.child_site_management_policy import (
 )
 from files_sdk.models.clickwrap import ClickwrapResource
 from files_sdk.models.custom_domain import CustomDomainResource
+from files_sdk.models.database_destination import DatabaseDestinationResource
 from files_sdk.models.desktop_configuration_profile import (
     DesktopConfigurationProfileResource,
 )
@@ -149,6 +150,7 @@ from files_sdk.models.settings_change import SettingsChangeResource
 from files_sdk.models.sftp_action_log import SftpActionLogResource
 from files_sdk.models.sftp_host_key import SftpHostKeyResource
 from files_sdk.models.share_group import ShareGroupResource
+from files_sdk.models.shared_workflow import SharedWorkflowResource
 from files_sdk.models.siem_http_destination import SiemHttpDestinationResource
 from files_sdk.models.siem_http_destination_event import (
     SiemHttpDestinationEventResource,
@@ -585,6 +587,11 @@ class Client:
         return CustomDomainResource(self)
 
     @property
+    def database_destination(self) -> DatabaseDestinationResource:
+        """DatabaseDestination operations that use this client."""
+        return DatabaseDestinationResource(self)
+
+    @property
     def desktop_configuration_profile(
         self,
     ) -> DesktopConfigurationProfileResource:
@@ -920,6 +927,11 @@ class Client:
     def share_group(self) -> ShareGroupResource:
         """ShareGroup operations that use this client."""
         return ShareGroupResource(self)
+
+    @property
+    def shared_workflow(self) -> SharedWorkflowResource:
+        """SharedWorkflow operations that use this client."""
+        return SharedWorkflowResource(self)
 
     @property
     def siem_http_destination(self) -> SiemHttpDestinationResource:

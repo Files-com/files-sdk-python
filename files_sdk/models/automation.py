@@ -67,6 +67,9 @@ class Automation:
         schedule_times_of_day: array(string) - Times of day to run in HH:MM format (24-hour). For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
         schedule_time_zone: string - Time zone for the schedule. If not set, times are interpreted as UTC.
         source: string - Source path/glob. See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
+        shared_trigger_user_ids: array(int64) - Users who can start this Shared Workflow.
+        shared_trigger_group_ids: array(int64) - Groups whose members can start this Shared Workflow.
+        shared_trigger_partner_ids: array(int64) - Partners whose users can start this Shared Workflow.
         sync_ids: array(int64) - IDs of Syncs to run by this Automation.
         trigger_actions: array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
         trigger: string - How this automation is triggered to run.
@@ -118,6 +121,9 @@ class Automation:
         "schedule_times_of_day": None,  # array(string) - Times of day to run in HH:MM format (24-hour). For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
         "schedule_time_zone": None,  # string - Time zone for the schedule. If not set, times are interpreted as UTC.
         "source": None,  # string - Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
+        "shared_trigger_user_ids": None,  # array(int64) - Users who can start this Shared Workflow.
+        "shared_trigger_group_ids": None,  # array(int64) - Groups whose members can start this Shared Workflow.
+        "shared_trigger_partner_ids": None,  # array(int64) - Partners whose users can start this Shared Workflow.
         "sync_ids": None,  # array(int64) - IDs of Syncs to run by this Automation.
         "trigger_actions": None,  # array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
         "trigger": None,  # string - How this automation is triggered to run.
@@ -171,6 +177,9 @@ class Automation:
     schedule_times_of_day: builtins.list[str] | None
     schedule_time_zone: str | None
     source: str | None
+    shared_trigger_user_ids: builtins.list[int] | None
+    shared_trigger_group_ids: builtins.list[int] | None
+    shared_trigger_partner_ids: builtins.list[int] | None
     sync_ids: builtins.list[int] | None
     trigger_actions: builtins.list[str] | None
     trigger: str | None
@@ -274,6 +283,9 @@ class Automation:
           user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
           group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
           schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
+          shared_trigger_user_ids - array(int64) - Users who can start this Shared Workflow.
+          shared_trigger_group_ids - array(int64) - Groups whose members can start this Shared Workflow.
+          shared_trigger_partner_ids - array(int64) - Partners whose users can start this Shared Workflow.
           schedule_days_of_week - array(int64) - If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
           schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.
           schedule_times_of_day - array(string) - Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.
@@ -354,6 +366,24 @@ class Automation:
         ):
             raise InvalidParameterError(
                 "Bad parameter: schedule_id must be an int"
+            )
+        if "shared_trigger_user_ids" in params and not isinstance(
+            params["shared_trigger_user_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: shared_trigger_user_ids must be an list"
+            )
+        if "shared_trigger_group_ids" in params and not isinstance(
+            params["shared_trigger_group_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: shared_trigger_group_ids must be an list"
+            )
+        if "shared_trigger_partner_ids" in params and not isinstance(
+            params["shared_trigger_partner_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: shared_trigger_partner_ids must be an list"
             )
         if "schedule_days_of_week" in params and not isinstance(
             params["schedule_days_of_week"], builtins.list
@@ -680,6 +710,9 @@ class AutomationResource:
         user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
         group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
         schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
+        shared_trigger_user_ids - array(int64) - Users who can start this Shared Workflow.
+        shared_trigger_group_ids - array(int64) - Groups whose members can start this Shared Workflow.
+        shared_trigger_partner_ids - array(int64) - Partners whose users can start this Shared Workflow.
         schedule_days_of_week - array(int64) - If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
         schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.
         schedule_times_of_day - array(string) - Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.
@@ -753,6 +786,24 @@ class AutomationResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: schedule_id must be an int"
+            )
+        if "shared_trigger_user_ids" in params and not isinstance(
+            params["shared_trigger_user_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: shared_trigger_user_ids must be an list"
+            )
+        if "shared_trigger_group_ids" in params and not isinstance(
+            params["shared_trigger_group_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: shared_trigger_group_ids must be an list"
+            )
+        if "shared_trigger_partner_ids" in params and not isinstance(
+            params["shared_trigger_partner_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: shared_trigger_partner_ids must be an list"
             )
         if "schedule_days_of_week" in params and not isinstance(
             params["schedule_days_of_week"], builtins.list
@@ -1002,6 +1053,9 @@ class AutomationResource:
         user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
         group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
         schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
+        shared_trigger_user_ids - array(int64) - Users who can start this Shared Workflow.
+        shared_trigger_group_ids - array(int64) - Groups whose members can start this Shared Workflow.
+        shared_trigger_partner_ids - array(int64) - Partners whose users can start this Shared Workflow.
         schedule_days_of_week - array(int64) - If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
         schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.
         schedule_times_of_day - array(string) - Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.
@@ -1086,6 +1140,24 @@ class AutomationResource:
         ):
             raise InvalidParameterError(
                 "Bad parameter: schedule_id must be an int"
+            )
+        if "shared_trigger_user_ids" in params and not isinstance(
+            params["shared_trigger_user_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: shared_trigger_user_ids must be an list"
+            )
+        if "shared_trigger_group_ids" in params and not isinstance(
+            params["shared_trigger_group_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: shared_trigger_group_ids must be an list"
+            )
+        if "shared_trigger_partner_ids" in params and not isinstance(
+            params["shared_trigger_partner_ids"], builtins.list
+        ):
+            raise InvalidParameterError(
+                "Bad parameter: shared_trigger_partner_ids must be an list"
             )
         if "schedule_days_of_week" in params and not isinstance(
             params["schedule_days_of_week"], builtins.list
@@ -1363,6 +1435,9 @@ def create(
     user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
+    shared_trigger_user_ids - array(int64) - Users who can start this Shared Workflow.
+    shared_trigger_group_ids - array(int64) - Groups whose members can start this Shared Workflow.
+    shared_trigger_partner_ids - array(int64) - Partners whose users can start this Shared Workflow.
     schedule_days_of_week - array(int64) - If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
     schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.
     schedule_times_of_day - array(string) - Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.
@@ -1432,6 +1507,9 @@ def update(
     user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
     schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
+    shared_trigger_user_ids - array(int64) - Users who can start this Shared Workflow.
+    shared_trigger_group_ids - array(int64) - Groups whose members can start this Shared Workflow.
+    shared_trigger_partner_ids - array(int64) - Partners whose users can start this Shared Workflow.
     schedule_days_of_week - array(int64) - If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
     schedule_interval_minutes - int64 - Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.
     schedule_times_of_day - array(string) - Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.

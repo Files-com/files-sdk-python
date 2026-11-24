@@ -46,6 +46,7 @@ from files_sdk.models.child_site_management_policy import (
 )
 from files_sdk.models.clickwrap import Clickwrap
 from files_sdk.models.custom_domain import CustomDomain
+from files_sdk.models.database_destination import DatabaseDestination
 from files_sdk.models.desktop_configuration_profile import (
     DesktopConfigurationProfile,
 )
@@ -135,6 +136,7 @@ from files_sdk.models.sftp_action_log import SftpActionLog
 from files_sdk.models.sftp_host_key import SftpHostKey
 from files_sdk.models.share_group import ShareGroup
 from files_sdk.models.share_group_member import ShareGroupMember
+from files_sdk.models.shared_workflow import SharedWorkflow
 from files_sdk.models.siem_http_destination import SiemHttpDestination
 from files_sdk.models.siem_http_destination_event import (
     SiemHttpDestinationEvent,

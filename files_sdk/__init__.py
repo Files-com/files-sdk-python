@@ -54,6 +54,7 @@ from files_sdk.models import (
 )
 from files_sdk.models import clickwrap as clickwrap
 from files_sdk.models import custom_domain as custom_domain
+from files_sdk.models import database_destination as database_destination
 from files_sdk.models import (
     desktop_configuration_profile as desktop_configuration_profile,
 )
@@ -153,6 +154,7 @@ from files_sdk.models import sftp_action_log as sftp_action_log
 from files_sdk.models import sftp_host_key as sftp_host_key
 from files_sdk.models import share_group as share_group
 from files_sdk.models import share_group_member as share_group_member
+from files_sdk.models import shared_workflow as shared_workflow
 from files_sdk.models import siem_http_destination as siem_http_destination
 from files_sdk.models import (
     siem_http_destination_event as siem_http_destination_event,
@@ -259,6 +261,9 @@ from files_sdk.models.child_site_management_policy import (
 )
 from files_sdk.models.clickwrap import Clickwrap as Clickwrap
 from files_sdk.models.custom_domain import CustomDomain as CustomDomain
+from files_sdk.models.database_destination import (
+    DatabaseDestination as DatabaseDestination,
+)
 from files_sdk.models.desktop_configuration_profile import (
     DesktopConfigurationProfile as DesktopConfigurationProfile,
 )
@@ -404,6 +409,7 @@ from files_sdk.models.share_group import ShareGroup as ShareGroup
 from files_sdk.models.share_group_member import (
     ShareGroupMember as ShareGroupMember,
 )
+from files_sdk.models.shared_workflow import SharedWorkflow as SharedWorkflow
 from files_sdk.models.siem_http_destination import (
     SiemHttpDestination as SiemHttpDestination,
 )
@@ -491,7 +497,7 @@ source_ip = None
 workspace_id = None
 base_url = "https://app.files.com"
 base_path = "api/rest/v1"
-version = "2.0.57"
+version = "2.0.58"
 
 __version__ = version
 

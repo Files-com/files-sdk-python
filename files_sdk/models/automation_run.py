@@ -26,13 +26,16 @@ class AutomationRun:
 
     Attributes:
         id: int64 - ID.
+        completed_at: date-time - Automation run completion/failure date/time.
+        created_at: date-time - Automation run start date/time.
+        status: string - The status of the AutomationRun. One of `queued`, `running`, `success`, `partial_failure`, `failure`, `skipped`, or `canceled`.
         automation_id: int64 - ID of the associated Automation.
         automation_version_id: int64 - ID of the immutable Automation version pinned by this run.
         version: int64 - Pinned Automation v2 definition version.
         workspace_id: int64 - Workspace ID.
+        initiating_user_id: int64 - User who initiated a Shared Workflow run.
+        initiating_interface: string - Interface from which the Shared Workflow was started.
         cancel_requested_at: date-time - Date/time at which cancellation was requested.
-        completed_at: date-time - Automation run completion/failure date/time.
-        created_at: date-time - Automation run start date/time.
         retry_at: date-time - If set, this automation will be retried at this date/time due to `failure` or `partial_failure`.
         retried_at: date-time - If set, this Automation run was retried due to `failure` or `partial_failure`.
         retried_in_run_id: int64 - ID of the run that is or will be retrying this run.
@@ -40,7 +43,6 @@ class AutomationRun:
         rerun_of_run_id: int64 - ID of the run whose persisted node outputs this run reused.
         rerun_from_node_id: string - Node at which this run resumed execution.
         runtime: double - Automation run runtime.
-        status: string - The status of the AutomationRun. One of `queued`, `running`, `success`, `partial_failure`, `failure`, `skipped`, or `canceled`.
         successful_operations: int64 - Count of successful operations.
         failed_operations: int64 - Count of failed operations.
         definition: object - Automation definition snapshot pinned by this run. For performance reasons, this is not provided when listing Automation runs.
@@ -52,13 +54,16 @@ class AutomationRun:
 
     default_attributes = {
         "id": None,  # int64 - ID.
+        "completed_at": None,  # date-time - Automation run completion/failure date/time.
+        "created_at": None,  # date-time - Automation run start date/time.
+        "status": None,  # string - The status of the AutomationRun. One of `queued`, `running`, `success`, `partial_failure`, `failure`, `skipped`, or `canceled`.
         "automation_id": None,  # int64 - ID of the associated Automation.
         "automation_version_id": None,  # int64 - ID of the immutable Automation version pinned by this run.
         "version": None,  # int64 - Pinned Automation v2 definition version.
         "workspace_id": None,  # int64 - Workspace ID.
+        "initiating_user_id": None,  # int64 - User who initiated a Shared Workflow run.
+        "initiating_interface": None,  # string - Interface from which the Shared Workflow was started.
         "cancel_requested_at": None,  # date-time - Date/time at which cancellation was requested.
-        "completed_at": None,  # date-time - Automation run completion/failure date/time.
-        "created_at": None,  # date-time - Automation run start date/time.
         "retry_at": None,  # date-time - If set, this automation will be retried at this date/time due to `failure` or `partial_failure`.
         "retried_at": None,  # date-time - If set, this Automation run was retried due to `failure` or `partial_failure`.
         "retried_in_run_id": None,  # int64 - ID of the run that is or will be retrying this run.
@@ -66,7 +71,6 @@ class AutomationRun:
         "rerun_of_run_id": None,  # int64 - ID of the run whose persisted node outputs this run reused.
         "rerun_from_node_id": None,  # string - Node at which this run resumed execution.
         "runtime": None,  # double - Automation run runtime.
-        "status": None,  # string - The status of the AutomationRun. One of `queued`, `running`, `success`, `partial_failure`, `failure`, `skipped`, or `canceled`.
         "successful_operations": None,  # int64 - Count of successful operations.
         "failed_operations": None,  # int64 - Count of failed operations.
         "definition": None,  # object - Automation definition snapshot pinned by this run. For performance reasons, this is not provided when listing Automation runs.
@@ -80,13 +84,16 @@ class AutomationRun:
     # attribute as, or None. set_attributes stores each value as given,
     # converting only decimals, so a value a caller sets can differ.
     id: int | None
+    completed_at: str | None
+    created_at: str | None
+    status: str | None
     automation_id: int | None
     automation_version_id: int | None
     version: int | None
     workspace_id: int | None
+    initiating_user_id: int | None
+    initiating_interface: str | None
     cancel_requested_at: str | None
-    completed_at: str | None
-    created_at: str | None
     retry_at: str | None
     retried_at: str | None
     retried_in_run_id: int | None
@@ -94,7 +101,6 @@ class AutomationRun:
     rerun_of_run_id: int | None
     rerun_from_node_id: str | None
     runtime: float | None
-    status: str | None
     successful_operations: int | None
     failed_operations: int | None
     definition: dict[str, Any] | None
