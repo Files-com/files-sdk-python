@@ -21,7 +21,13 @@ The API sends each `AutomationExecutionNode` record as JSON, such as:
   ],
   "outputs": "example",
   "input_items": "example",
-  "output_items": "example"
+  "output_items": "example",
+  "item_refs": [
+    "example"
+  ],
+  "item_values": [
+    "example"
+  ]
 }
 ```
 
@@ -37,5 +43,7 @@ The API sends each `AutomationExecutionNode` record as JSON, such as:
 * `duration_ms` (int64): Node runtime in milliseconds.
 * `inputs` (array(object)): Ordered inbound edge references.
 * `outputs` (object): Output counts, item kinds, and typed-error summaries by outlet.
-* `input_items` (object): Materialized input items currently available, grouped by inlet.
-* `output_items` (object): Materialized output items grouped by outlet.
+* `input_items` (object): Available input items grouped by inlet. Resolve large values with item_refs and item_values.
+* `output_items` (object): Output items grouped by outlet. Resolve large values with item_refs and item_values.
+* `item_refs` (array(object)): References with a path from the response root and a digest. Replace the null at each path with the value for that digest. Path segments are literal object keys or zero-based array indexes.
+* `item_values` (array(object)): Ordered entries with a digest, a value, and optional item_refs relative to that value. References inside entries point to earlier entries in this array.

@@ -133,7 +133,7 @@ The API sends each `Bundle` record as JSON, such as:
 * `created_at` (date-time): Bundle created at date/time
 * `deleted` (boolean): Indicates if the bundle has been deleted.
 * `deleted_at` (date-time): Bundle deleted at date/time
-* `dont_separate_submissions_by_folder` (boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
+* `dont_separate_submissions_by_folder` (boolean): Do not create subfolders for files uploaded to this share. Upload-only Share Links with non-recursive folder access require this to be true. If omitted on create, the API sets it to true for those links. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `effective_expires_at` (date-time): Read-only expiration date/time, using the explicit expiration or the site-wide setting when applicable. Null when the Share Link does not expire.
 * `max_uses` (int64): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.
 * `effective_max_uses` (int64): Read-only visitor limit actually enforced for this Share Link. Uses the lower of the link limit and the Site-wide cap when both are set. Null means unlimited.
@@ -260,7 +260,7 @@ files_sdk.bundle.create({
 * `bypasses_site_expiration_rules` (boolean): If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
 * `form_field_set_id` (int64): Id of Form Field Set to use with this bundle
 * `create_snapshot` (boolean): If true, create a snapshot of this bundle's contents.
-* `dont_separate_submissions_by_folder` (boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
+* `dont_separate_submissions_by_folder` (boolean): Do not create subfolders for files uploaded to this share. Upload-only Share Links with non-recursive folder access require this to be true. If omitted on create, the API sets it to true for those links. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `expires_at` (string): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
 * `finalize_snapshot` (boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `max_uses` (int64): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.
@@ -359,7 +359,7 @@ files_sdk.bundle.update(id, {
 * `code` (string): Bundle code.  This code forms the end part of the Public URL.
 * `create_snapshot` (boolean): If true, create a snapshot of this bundle's contents.
 * `description` (string): Public description
-* `dont_separate_submissions_by_folder` (boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
+* `dont_separate_submissions_by_folder` (boolean): Do not create subfolders for files uploaded to this share. Upload-only Share Links with non-recursive folder access require this to be true. If omitted on create, the API sets it to true for those links. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `expires_at` (string): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
 * `finalize_snapshot` (boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `inbox_id` (int64): ID of the associated inbox, if available.
@@ -471,7 +471,7 @@ bundle.update({
 * `code` (string): Bundle code.  This code forms the end part of the Public URL.
 * `create_snapshot` (boolean): If true, create a snapshot of this bundle's contents.
 * `description` (string): Public description
-* `dont_separate_submissions_by_folder` (boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
+* `dont_separate_submissions_by_folder` (boolean): Do not create subfolders for files uploaded to this share. Upload-only Share Links with non-recursive folder access require this to be true. If omitted on create, the API sets it to true for those links. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `expires_at` (string): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
 * `finalize_snapshot` (boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `inbox_id` (int64): ID of the associated inbox, if available.

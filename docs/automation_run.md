@@ -45,7 +45,13 @@ The API sends each `AutomationRun` record as JSON, such as:
       ],
       "outputs": "example",
       "input_items": "example",
-      "output_items": "example"
+      "output_items": "example",
+      "item_refs": [
+        "example"
+      ],
+      "item_values": [
+        "example"
+      ]
     }
   ],
   "journal_url": "example",

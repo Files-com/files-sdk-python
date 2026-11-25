@@ -16,6 +16,8 @@ PLACEHOLDERS: dict[str, set[str]] = {
         "outputs",
         "input_items",
         "output_items",
+        "item_refs",
+        "item_values",
     },
     "AutomationRun": {"definition", "node_states"},
     "AutomationVersion": {"definition"},
